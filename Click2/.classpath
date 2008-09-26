@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="tests"/>
+	<classpathentry kind="src" path="jetty"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-1.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.servlet-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.3-alpha-8.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-log4j12.jar"/>
+	<classpathentry kind="lib" path="lib/velocity-1.5.jar"/>
+	<classpathentry kind="lib" path="lib/junit-3.8.1.jar" sourcepath="lib/junit-3.8.1.zip"/>
+	<classpathentry kind="lib" path="lib/mvel-1.2.0-b19.jar" sourcepath="lib/mvel-1.2.0-b19.zip"/>
+	<classpathentry kind="lib" path="lib/jetty/jetty-6.1.6.jar" sourcepath="lib/jetty/jetty-6.1.6.zip"/>
+	<classpathentry kind="lib" path="lib/jetty/jetty-util-6.1.6.jar" sourcepath="lib/jetty/jetty-6.1.6.zip"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Utilities"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

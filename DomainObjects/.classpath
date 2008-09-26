@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.3.jar" sourcepath="lib/commons-lang-2.3.zip"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Utilities"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar" sourcepath="lib/commons-collections-3.2.zip"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,35 @@
+package features.domain;
+
+import features.domain.mappers.InheritanceASubTwoAlias;
+import org.exigencecorp.domainobjects.Shim;
+import org.exigencecorp.domainobjects.queries.Alias;
+
+public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
+
+    private String two = null;
+
+    public Alias<? extends InheritanceASubTwo> newAlias(String alias) {
+        return new InheritanceASubTwoAlias(alias);
+    }
+
+    public String getTwo() {
+        return this.two;
+    }
+
+    public void setTwo(String two) {
+        this.recordIfChanged("two", this.two, two);
+        this.two = two;
+    }
+
+    public static class Shims {
+        public static final Shim<InheritanceASubTwo, String> two = new Shim<InheritanceASubTwo, String>() {
+            public void set(InheritanceASubTwo instance, String two) {
+                ((InheritanceASubTwoCodegen) instance).two = two;
+            }
+            public String get(InheritanceASubTwo instance) {
+                return ((InheritanceASubTwoCodegen) instance).two;
+            }
+        };
+    }
+
+}
