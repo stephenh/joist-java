@@ -42,4 +42,25 @@ public class PrimitivesMapper {
         u.execute();
     }
 
+    public String findNameOnly(int id) {
+        PrimitivesAlias p = new PrimitivesAlias("p");
+        Select<Primitives> q = Select.from(p);
+        q.select(p.name.as("name"));
+        q.where(p.id.equals(id));
+        return q.unique(String.class);
+    }
+
+    public List<NameAndFlag> findNameAndFlagOnly() {
+        PrimitivesAlias p = new PrimitivesAlias("p");
+        Select<Primitives> q = Select.from(p);
+        q.select(p.name.as("name"), p.flag.as("flag"));
+        q.orderBy(p.id.asc());
+        return q.list(NameAndFlag.class);
+    }
+
+    public static class NameAndFlag {
+        public String name;
+        public Boolean flag;
+    }
+
 }
