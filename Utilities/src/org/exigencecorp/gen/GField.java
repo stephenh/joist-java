@@ -86,4 +86,8 @@ public class GField {
         return this;
     }
 
+    public String toString() {
+        return this.toCode();
+    }
+
 }

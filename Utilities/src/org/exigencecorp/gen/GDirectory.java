@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.exigencecorp.util.Log;
+
 public class GDirectory {
 
     private final File directory;
@@ -36,6 +38,7 @@ public class GDirectory {
             for (GClass gc : this.classes) {
                 File file = this.getFile(gc);
                 file.getParentFile().mkdirs();
+                Log.debug("Saving {}", file);
                 OutputStream out = new FileOutputStream(file);
                 out.write(gc.toCode().getBytes());
                 out.close();

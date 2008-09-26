@@ -24,7 +24,9 @@ public class GClass {
     private String baseClassName = null;
 
     public GClass(String fullClassName) {
-        if (fullClassName.indexOf('.') > -1) {
+        int firstPeriod = fullClassName.indexOf('.');
+        int firstBracket = fullClassName.indexOf('<');
+        if (firstPeriod != -1 && (firstPeriod <= firstBracket || firstBracket == -1)) {
             this.packageName = StringUtils.substringBeforeLast(fullClassName, ".");
             this.shortName = StringUtils.substringAfterLast(fullClassName, ".");
         } else {
@@ -34,7 +36,14 @@ public class GClass {
     }
 
     public String getFullClassName() {
+        if (this.packageName == null) {
+            return this.shortName;
+        }
         return this.packageName + "." + this.shortName;
+    }
+
+    public String getPackageName() {
+        return this.packageName;
     }
 
     public GClass getInnerClass(String name) {
@@ -198,6 +207,10 @@ public class GClass {
 
     public List<GMethod> getConstructors() {
         return this.constructors;
+    }
+
+    public String toString() {
+        return this.getFullClassName();
     }
 
 }

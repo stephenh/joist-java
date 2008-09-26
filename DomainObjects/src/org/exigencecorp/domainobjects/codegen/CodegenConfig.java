@@ -31,7 +31,7 @@ public abstract class CodegenConfig {
         this.setJavaType("bigint", "Long");
         this.setJavaType("boolean", "boolean");
         this.setJavaType("bytea", "byte[]");
-        this.setJavaType("date", "java.util.Date");
+        this.setJavaType("date", "java.sql.Date");
         this.setHibernateType("byte[]", "binary");
     }
 
