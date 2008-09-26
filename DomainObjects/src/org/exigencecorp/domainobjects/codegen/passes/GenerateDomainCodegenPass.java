@@ -1,5 +1,6 @@
 package org.exigencecorp.domainobjects.codegen.passes;
 
+import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
@@ -42,6 +43,10 @@ public class GenerateDomainCodegenPass implements Pass {
             GField field = domainCodegen.getField(p.getVariableName());
             field.type(p.getJavaType());
             field.initialValue(p.getDefaultJavaString());
+
+            if (p.getColumnName().equals("id")) {
+                domainCodegen.addImports(Id.class);
+            }
 
             GMethod getter = domainCodegen.getMethod("get" + p.getCapitalVariableName());
             getter.returnType(p.getJavaType());
@@ -106,7 +111,7 @@ public class GenerateDomainCodegenPass implements Pass {
             shimGetter.returnType("Integer");
             shimGetter.body.line(0, "{} instanceCodegen = instance;", entity.getCodegenClassName());
             shimGetter.body.line(0, "if (instanceCodegen.{} != null) {", mtop.getVariableName());
-            shimGetter.body.line(1, "return instanceCodegen.{}.getId();", mtop.getVariableName());
+            shimGetter.body.line(1, "return instanceCodegen.{}.getId().intValue();", mtop.getVariableName());
             shimGetter.body.line(0, "}", mtop.getVariableName());
             shimGetter.body.line(0, "return (({}) instance).{}Id;", entity.getCodegenClassName(), mtop.getVariableName());
 

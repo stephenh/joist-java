@@ -1,12 +1,11 @@
 package features.domain;
 
+import features.domain.mappers.ChildAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.uow.UoW;
-
-import features.domain.mappers.ChildAlias;
 
 public abstract class ChildCodegen extends AbstractDomainObject {
 
@@ -16,7 +15,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     private Parent parent = null;
     private Integer parentId = null;
 
-    public Alias<Child> newAlias(String alias) {
+    public Alias<? extends Child> newAlias(String alias) {
         return new ChildAlias(alias);
     }
 
@@ -58,7 +57,6 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             public void set(Child instance, Id<Child> id) {
                 ((ChildCodegen) instance).id = id;
             }
-
             public Id<Child> get(Child instance) {
                 return ((ChildCodegen) instance).id;
             }
@@ -67,7 +65,6 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             public void set(Child instance, String name) {
                 ((ChildCodegen) instance).name = name;
             }
-
             public String get(Child instance) {
                 return ((ChildCodegen) instance).name;
             }
@@ -76,7 +73,6 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             public void set(Child instance, Integer version) {
                 ((ChildCodegen) instance).version = version;
             }
-
             public Integer get(Child instance) {
                 return ((ChildCodegen) instance).version;
             }
@@ -85,7 +81,6 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             public void set(Child instance, Integer parentId) {
                 ((ChildCodegen) instance).parentId = parentId;
             }
-
             public Integer get(Child instance) {
                 ChildCodegen instanceCodegen = instance;
                 if (instanceCodegen.parent != null) {

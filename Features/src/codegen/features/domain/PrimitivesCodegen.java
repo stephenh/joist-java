@@ -1,11 +1,10 @@
 package features.domain;
 
+import features.domain.mappers.PrimitivesAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.queries.Alias;
-
-import features.domain.mappers.PrimitivesAlias;
 
 public abstract class PrimitivesCodegen extends AbstractDomainObject {
 
@@ -14,7 +13,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
 
-    public Alias<Primitives> newAlias(String alias) {
+    public Alias<? extends Primitives> newAlias(String alias) {
         return new PrimitivesAlias(alias);
     }
 
@@ -54,7 +53,6 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
             public void set(Primitives instance, Id<Primitives> id) {
                 ((PrimitivesCodegen) instance).id = id;
             }
-
             public Id<Primitives> get(Primitives instance) {
                 return ((PrimitivesCodegen) instance).id;
             }
@@ -63,7 +61,6 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
             public void set(Primitives instance, Boolean flag) {
                 ((PrimitivesCodegen) instance).flag = flag;
             }
-
             public Boolean get(Primitives instance) {
                 return ((PrimitivesCodegen) instance).flag;
             }
@@ -72,7 +69,6 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
             public void set(Primitives instance, String name) {
                 ((PrimitivesCodegen) instance).name = name;
             }
-
             public String get(Primitives instance) {
                 return ((PrimitivesCodegen) instance).name;
             }
@@ -81,7 +77,6 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
             public void set(Primitives instance, Integer version) {
                 ((PrimitivesCodegen) instance).version = version;
             }
-
             public Integer get(Primitives instance) {
                 return ((PrimitivesCodegen) instance).version;
             }

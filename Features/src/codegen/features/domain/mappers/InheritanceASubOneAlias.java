@@ -1,26 +1,22 @@
 package features.domain.mappers;
 
+import features.domain.InheritanceABase;
+import features.domain.InheritanceASubOne;
+import features.domain.InheritanceASubOneCodegen;
+import features.domain.mappers.InheritanceABaseAlias;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
 
-import features.domain.InheritanceABase;
-import features.domain.InheritanceASubOne;
-import features.domain.InheritanceASubOneCodegen;
-
 public class InheritanceASubOneAlias extends Alias<InheritanceASubOne> {
 
     private final List<AliasColumn<InheritanceASubOne, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceASubOne, ?, ?>>();
     private final IdAliasColumn<InheritanceASubOne> subClassId = new IdAliasColumn<InheritanceASubOne>(this, "id", null);
-    public final StringAliasColumn<InheritanceASubOne> one = new StringAliasColumn<InheritanceASubOne>(
-        this,
-        "one",
-        InheritanceASubOneCodegen.Shims.one);
+    public final StringAliasColumn<InheritanceASubOne> one = new StringAliasColumn<InheritanceASubOne>(this, "one", InheritanceASubOneCodegen.Shims.one);
     private final InheritanceABaseAlias baseAlias;
     public final IdAliasColumn<InheritanceABase> id;
     public final StringAliasColumn<InheritanceABase> name;

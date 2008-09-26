@@ -1,17 +1,15 @@
 package features.domain.mappers;
 
+import features.domain.Primitives;
+import features.domain.PrimitivesCodegen;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.BooleanAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
-
-import features.domain.Primitives;
-import features.domain.PrimitivesCodegen;
 
 public class PrimitivesAlias extends Alias<Primitives> {
 

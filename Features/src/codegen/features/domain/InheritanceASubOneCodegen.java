@@ -1,15 +1,14 @@
 package features.domain;
 
+import features.domain.mappers.InheritanceASubOneAlias;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.queries.Alias;
-
-import features.domain.mappers.InheritanceASubOneAlias;
 
 public abstract class InheritanceASubOneCodegen extends InheritanceABase {
 
     private String one = null;
 
-    public Alias<InheritanceASubOne> newAlias(String alias) {
+    public Alias<? extends InheritanceASubOne> newAlias(String alias) {
         return new InheritanceASubOneAlias(alias);
     }
 
@@ -27,7 +26,6 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
             public void set(InheritanceASubOne instance, String one) {
                 ((InheritanceASubOneCodegen) instance).one = one;
             }
-
             public String get(InheritanceASubOne instance) {
                 return ((InheritanceASubOneCodegen) instance).one;
             }

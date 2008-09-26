@@ -1,26 +1,22 @@
 package features.domain.mappers;
 
+import features.domain.InheritanceABase;
+import features.domain.InheritanceASubTwo;
+import features.domain.InheritanceASubTwoCodegen;
+import features.domain.mappers.InheritanceABaseAlias;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
 
-import features.domain.InheritanceABase;
-import features.domain.InheritanceASubTwo;
-import features.domain.InheritanceASubTwoCodegen;
-
 public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
 
     private final List<AliasColumn<InheritanceASubTwo, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceASubTwo, ?, ?>>();
     private final IdAliasColumn<InheritanceASubTwo> subClassId = new IdAliasColumn<InheritanceASubTwo>(this, "id", null);
-    public final StringAliasColumn<InheritanceASubTwo> two = new StringAliasColumn<InheritanceASubTwo>(
-        this,
-        "two",
-        InheritanceASubTwoCodegen.Shims.two);
+    public final StringAliasColumn<InheritanceASubTwo> two = new StringAliasColumn<InheritanceASubTwo>(this, "two", InheritanceASubTwoCodegen.Shims.two);
     private final InheritanceABaseAlias baseAlias;
     public final IdAliasColumn<InheritanceABase> id;
     public final StringAliasColumn<InheritanceABase> name;

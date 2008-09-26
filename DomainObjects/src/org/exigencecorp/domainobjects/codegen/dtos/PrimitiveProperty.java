@@ -8,6 +8,7 @@ import org.exigencecorp.domainobjects.codegen.CodegenConfig;
 import org.exigencecorp.domainobjects.codegen.InformationSchemaColumn;
 import org.exigencecorp.domainobjects.queries.columns.BooleanAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.DateAliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
 import org.exigencecorp.util.Inflector;
@@ -33,7 +34,9 @@ public class PrimitiveProperty implements Property {
     }
 
     public Class<?> getAliasColumnClass() {
-        if (this.dataType.equals("integer")) {
+        if (this.columnName.equals("id")) {
+            return IdAliasColumn.class;
+        } else if (this.dataType.equals("integer")) {
             return IntAliasColumn.class;
         } else if (this.dataType.equals("boolean")) {
             return BooleanAliasColumn.class;
@@ -60,6 +63,9 @@ public class PrimitiveProperty implements Property {
     }
 
     public String getJavaType() {
+        if (this.columnName.equals("id")) {
+            return "Id<" + this.entity.getClassName() + ">";
+        }
         return this.config.getJavaType(this.entity.getTableName(), this.getColumnName(), this.dataType);
     }
 

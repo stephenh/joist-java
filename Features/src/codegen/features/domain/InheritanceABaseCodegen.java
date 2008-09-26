@@ -1,11 +1,10 @@
 package features.domain;
 
+import features.domain.mappers.InheritanceABaseAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.queries.Alias;
-
-import features.domain.mappers.InheritanceABaseAlias;
 
 public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
 
@@ -44,7 +43,6 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
             public void set(InheritanceABase instance, Id<InheritanceABase> id) {
                 ((InheritanceABaseCodegen) instance).id = id;
             }
-
             public Id<InheritanceABase> get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).id;
             }
@@ -53,7 +51,6 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
             public void set(InheritanceABase instance, String name) {
                 ((InheritanceABaseCodegen) instance).name = name;
             }
-
             public String get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).name;
             }
@@ -62,7 +59,6 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
             public void set(InheritanceABase instance, Integer version) {
                 ((InheritanceABaseCodegen) instance).version = version;
             }
-
             public Integer get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).version;
             }

@@ -1,11 +1,10 @@
 package features.domain;
 
+import features.domain.mappers.ParentAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.queries.Alias;
-
-import features.domain.mappers.ParentAlias;
 
 public abstract class ParentCodegen extends AbstractDomainObject {
 
@@ -13,7 +12,7 @@ public abstract class ParentCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
 
-    public Alias<Parent> newAlias(String alias) {
+    public Alias<? extends Parent> newAlias(String alias) {
         return new ParentAlias(alias);
     }
 
@@ -44,7 +43,6 @@ public abstract class ParentCodegen extends AbstractDomainObject {
             public void set(Parent instance, Id<Parent> id) {
                 ((ParentCodegen) instance).id = id;
             }
-
             public Id<Parent> get(Parent instance) {
                 return ((ParentCodegen) instance).id;
             }
@@ -53,7 +51,6 @@ public abstract class ParentCodegen extends AbstractDomainObject {
             public void set(Parent instance, String name) {
                 ((ParentCodegen) instance).name = name;
             }
-
             public String get(Parent instance) {
                 return ((ParentCodegen) instance).name;
             }
@@ -62,7 +59,6 @@ public abstract class ParentCodegen extends AbstractDomainObject {
             public void set(Parent instance, Integer version) {
                 ((ParentCodegen) instance).version = version;
             }
-
             public Integer get(Parent instance) {
                 return ((ParentCodegen) instance).version;
             }
