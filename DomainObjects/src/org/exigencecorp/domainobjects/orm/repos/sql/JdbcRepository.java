@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.DomainObject;
+import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.orm.repos.Repository;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Insert;
@@ -136,6 +137,10 @@ public class JdbcRepository implements Repository {
 
     public <T extends DomainObject, R> List<R> select(Select<T> select, Class<R> instanceType) {
         return new Selecter<T>(this.connection, select).select(instanceType);
+    }
+
+    public <T extends DomainObject> Ids<T> selectIds(Select<T> select) {
+        return new Selecter<T>(this.connection, select).selectIds();
     }
 
 }

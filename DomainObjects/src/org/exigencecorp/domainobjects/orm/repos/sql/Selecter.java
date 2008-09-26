@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
+import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.JoinClause;
 import org.exigencecorp.domainobjects.queries.Select;
@@ -21,6 +22,12 @@ public class Selecter<T extends DomainObject> {
     public Selecter(Connection connection, Select<T> select) {
         this.connection = connection;
         this.select = select;
+    }
+
+    public Ids<T> selectIds() {
+        final Ids<T> ids = new Ids<T>(this.select.getFrom().getDomainClass());
+        Jdbc.query(this.connection, this.toSql(), this.getParameters(), new IdsMapper<T>(this.select.getFrom(), ids));
+        return ids;
     }
 
     public <R> List<R> select(final Class<R> rowType) {

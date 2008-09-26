@@ -17,6 +17,13 @@ public class PrimitivesMapper {
         return q.unique();
     }
 
+    public Ids<Primitives> findIdsWithNameLike(String name) {
+        PrimitivesAlias p = new PrimitivesAlias("p");
+        Select<Primitives> q = Select.from(p);
+        q.where(p.name.like(name));
+        return q.listIds();
+    }
+
     public long count() {
         return Select.from(new PrimitivesAlias("p")).count();
     }

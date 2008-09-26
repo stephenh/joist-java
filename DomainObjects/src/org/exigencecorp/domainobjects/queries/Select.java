@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
+import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.util.Copy;
@@ -87,6 +88,10 @@ public class Select<T extends DomainObject> {
             throw new RuntimeException("Too many");
         }
         return results.get(0);
+    }
+
+    public Ids<T> listIds() {
+        return UoW.getCurrent().getRepository().selectIds(this);
     }
 
     public long count() {

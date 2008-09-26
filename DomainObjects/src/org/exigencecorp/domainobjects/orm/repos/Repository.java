@@ -3,6 +3,7 @@ package org.exigencecorp.domainobjects.orm.repos;
 import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
+import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.queries.Insert;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.queries.Update;
@@ -26,5 +27,7 @@ public interface Repository {
     <T extends DomainObject> void update(Update<T> update);
 
     <T extends DomainObject, R> List<R> select(Select<T> select, Class<R> rowInstanceType);
+
+    <T extends DomainObject> Ids<T> selectIds(Select<T> select);
 
 }
