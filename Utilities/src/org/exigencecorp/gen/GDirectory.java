@@ -34,7 +34,9 @@ public class GDirectory {
     public void output() {
         try {
             for (GClass gc : this.classes) {
-                OutputStream out = new FileOutputStream(this.getFile(gc));
+                File file = this.getFile(gc);
+                file.getParentFile().mkdirs();
+                OutputStream out = new FileOutputStream(file);
                 out.write(gc.toCode().getBytes());
                 out.close();
             }

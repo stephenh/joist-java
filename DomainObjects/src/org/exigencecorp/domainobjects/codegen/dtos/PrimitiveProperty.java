@@ -7,6 +7,7 @@ import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.CodegenConfig;
 import org.exigencecorp.domainobjects.codegen.InformationSchemaColumn;
 import org.exigencecorp.domainobjects.queries.columns.BooleanAliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.DateAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
 import org.exigencecorp.util.Inflector;
@@ -38,8 +39,16 @@ public class PrimitiveProperty implements Property {
             return BooleanAliasColumn.class;
         } else if (this.dataType.equals("character varying")) {
             return StringAliasColumn.class;
+        } else if (this.dataType.equals("timestamp without time zone")) {
+            return DateAliasColumn.class;
+        } else if (this.dataType.equals("date")) {
+            return DateAliasColumn.class;
+        } else if (this.dataType.equals("text")) {
+            return StringAliasColumn.class;
+        } else if (this.dataType.equals("bytea")) {
+            return StringAliasColumn.class;
         }
-        return null;
+        throw new RuntimeException("Unknown alias class for " + this.dataType);
     }
 
     public String getCapitalVariableName() {
