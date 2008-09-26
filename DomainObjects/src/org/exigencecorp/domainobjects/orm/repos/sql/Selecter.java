@@ -1,18 +1,13 @@
 package org.exigencecorp.domainobjects.orm.repos.sql;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
-import org.exigencecorp.domainobjects.orm.ObjectCache;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.JoinClause;
 import org.exigencecorp.domainobjects.queries.Select;
-import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
-import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.jdbc.RowMapper;
 import org.exigencecorp.util.Join;
@@ -28,43 +23,23 @@ public class Selecter<T extends DomainObject> {
         this.select = select;
     }
 
-    public List<T> select(final Class<T> type) {
-        final List<T> results = new ArrayList<T>();
-        final Alias<T> from = this.select.getFrom();
-        final ObjectCache cache = UoW.getCurrent().getObjectCache();
-        Jdbc.query(this.connection, this.toSql(), this.getParameters(), new RowMapper() {
-            public void mapRow(ResultSet rs) throws SQLException {
-                try {
-                    Integer id = new Integer(rs.getInt(from.getIdColumn().getName()));
-                    T instance = (T) cache.findOrNull(from.getDomainBaseClass(), id);
-                    if (instance == null) {
-                        if (from.getSubClassAliases().size() > 0) {
-                            int offset = rs.getInt("_clazz");
-                            instance = (T) from.getSubClassAliases().get(offset).getDomainClass().newInstance();
-                        }
-                        if (instance == null) {
-                            instance = type.newInstance();
-                        }
+    public <R> List<R> select(final Class<R> rowType) {
+        final List<R> results = new ArrayList<R>();
 
-                        Alias<?> current = from;
-                        while (current != null) {
-                            for (AliasColumn<?, ?, ?> c : current.getColumns()) {
-                                Object jdbcValue = rs.getObject(c.getName());
-                                ((AliasColumn<T, ?, Object>) c).setJdbcValue(instance, jdbcValue);
-                            }
-                            current = current.getBaseClassAlias();
-                        }
+        RowMapper mapper = null;
+        if (this.isLoadingDomainObjects(this.select.getFrom(), rowType)) {
+            mapper = new DomainObjectMapper<T>(this.select.getFrom(), (List<T>) results);
+        } else {
+            mapper = new DataTransferObjectMapper<T, R>(this.select.getFrom(), rowType, results);
+        }
 
-                        cache.store(from.getDomainBaseClass(), instance);
-                    }
-                    results.add(instance);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+        Jdbc.query(this.connection, this.toSql(), this.getParameters(), mapper);
 
-            }
-        });
         return results;
+    }
+
+    private boolean isLoadingDomainObjects(Alias<?> alias, Class<?> type) {
+        return alias.getDomainBaseClass().isAssignableFrom(type);
     }
 
     public String toSql() {

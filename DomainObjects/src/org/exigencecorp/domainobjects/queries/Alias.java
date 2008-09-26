@@ -17,7 +17,7 @@ public abstract class Alias<T extends DomainObject> {
     private final Class<? super T> domainBaseClass;
     private final String tableName;
     private final String name;
-    private final List<Alias<?>> subClassAliases = new ArrayList<Alias<?>>();
+    private final List<Alias<? extends T>> subClassAliases = new ArrayList<Alias<? extends T>>();
 
     protected Alias(Class<T> domainClass, Class<? super T> domainBaseClass, String tableName, String name) {
         this.domainClass = domainClass;
@@ -46,11 +46,11 @@ public abstract class Alias<T extends DomainObject> {
         return this.domainClass;
     }
 
-    protected void addSubClassAlias(Alias<?> subClassAlias) {
+    protected void addSubClassAlias(Alias<? extends T> subClassAlias) {
         this.subClassAliases.add(subClassAlias);
     }
 
-    public List<Alias<?>> getSubClassAliases() {
+    public List<Alias<? extends T>> getSubClassAliases() {
         return this.subClassAliases;
     }
 

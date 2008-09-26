@@ -68,17 +68,34 @@ public class Select<T extends DomainObject> {
     }
 
     public List<T> list() {
-        return UoW.getCurrent().getRepository().select(this, this.from.getDomainClass());
+        return this.list(this.from.getDomainClass());
     }
 
     public T unique() {
-        List<T> results = this.list();
+        return this.unique(this.from.getDomainClass());
+    }
+
+    public <R> List<R> list(Class<R> rowType) {
+        return UoW.getCurrent().getRepository().select(this, rowType);
+    }
+
+    public <R> R unique(Class<R> rowType) {
+        List<R> results = this.list(rowType);
         if (results.size() == 0) {
             throw new RuntimeException("Not found");
         } else if (results.size() > 1) {
             throw new RuntimeException("Too many");
         }
         return results.get(0);
+    }
+
+    public long count() {
+        this.select(new SelectItem("count(distinct " + this.from.getIdColumn().getQualifiedName() + ") as count"));
+        return this.unique(Count.class).count;
+    }
+
+    public static class Count {
+        public Long count;
     }
 
     public Alias<T> getFrom() {

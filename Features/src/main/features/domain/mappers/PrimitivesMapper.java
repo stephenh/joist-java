@@ -16,6 +16,17 @@ public class PrimitivesMapper {
         return q.unique();
     }
 
+    public long count() {
+        return Select.from(new PrimitivesAlias("p")).count();
+    }
+
+    public long countWhereFlagIs(boolean flag) {
+        PrimitivesAlias p = new PrimitivesAlias("p");
+        Select<Primitives> q = Select.from(p);
+        q.where(p.flag.equals(flag));
+        return q.count();
+    }
+
     public Primitives find(int id) {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);

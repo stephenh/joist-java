@@ -25,6 +25,6 @@ public interface Repository {
 
     <T extends DomainObject> void update(Update<T> update);
 
-    <T extends DomainObject> List<T> select(Select<T> select, Class<T> instanceType);
+    <T extends DomainObject, R> List<R> select(Select<T> select, Class<R> rowInstanceType);
 
 }

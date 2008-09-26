@@ -134,7 +134,7 @@ public class JdbcRepository implements Repository {
         new Updater<T>(this.connection, update).update();
     }
 
-    public <T extends DomainObject> List<T> select(Select<T> select, Class<T> instanceType) {
+    public <T extends DomainObject, R> List<R> select(Select<T> select, Class<R> instanceType) {
         return new Selecter<T>(this.connection, select).select(instanceType);
     }
 
