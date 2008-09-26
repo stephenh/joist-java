@@ -1,13 +1,12 @@
 package features.domain;
 
-import junit.framework.TestCase;
-
+import org.exigencecorp.domainobjects.AbstractDomainObjectsTest;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.util.FlushDatabase;
 
 import features.Registry;
 
-public abstract class AbstractFeaturesTest extends TestCase {
+public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
 
     public void setUp() throws Exception {
         super.setUp();
@@ -16,25 +15,6 @@ public abstract class AbstractFeaturesTest extends TestCase {
         new FlushDatabase(Registry.getDataSource()).flush();
 
         UoW.open();
-    }
-
-    public void tearDown() throws Exception {
-        UoW.close();
-        super.tearDown();
-    }
-
-    protected void commitAndReOpen() {
-        UoW.commit();
-        UoW.close();
-        UoW.open();
-    }
-
-    protected void rollback() {
-        UoW.rollback();
-    }
-
-    protected void flush() {
-        UoW.flush();
     }
 
 }
