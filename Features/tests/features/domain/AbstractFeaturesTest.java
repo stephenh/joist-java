@@ -23,10 +23,6 @@ public abstract class AbstractFeaturesTest extends TestCase {
         super.tearDown();
     }
 
-    protected void commit() {
-        UoW.commit();
-    }
-
     protected void commitAndReOpen() {
         UoW.commit();
         UoW.close();

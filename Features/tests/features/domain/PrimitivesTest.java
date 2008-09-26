@@ -8,7 +8,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     public void testSave() {
         Primitives foo = new Primitives();
         foo.setName("testSave");
-        this.commit();
+        this.commitAndReOpen();
         Assert.assertEquals(2, foo.getId().intValue());
 
         Primitives reloaded = new PrimitivesMapper().find(2);
@@ -42,14 +42,14 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     public void testSaveTwoInSameUowGetDifferentIds() {
         new Primitives().setName("foo");
         new Primitives().setName("bar");
-        this.commit();
+        this.commitAndReOpen();
         Assert.assertEquals(2, new PrimitivesMapper().findByName("foo").getId().intValue());
         Assert.assertEquals(3, new PrimitivesMapper().findByName("bar").getId().intValue());
     }
 
     public void testLoadViaIdTwiceReturnsTheSameInstance() {
         new Primitives().setName("foo");
-        this.commit();
+        this.commitAndReOpen();
         Primitives twp1 = new PrimitivesMapper().find(2);
         Primitives twp2 = new PrimitivesMapper().find(2);
         Assert.assertTrue(twp1 == twp2);
@@ -57,7 +57,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
 
     public void testLoadViaIdThenNameReturnsTheSameInstance() {
         new Primitives().setName("foo");
-        this.commit();
+        this.commitAndReOpen();
         Primitives twp1 = new PrimitivesMapper().find(2);
         Primitives twp2 = new PrimitivesMapper().findByName("foo");
         Assert.assertTrue(twp1 == twp2);
@@ -65,12 +65,12 @@ public class PrimitivesTest extends AbstractFeaturesTest {
 
     public void testUpdateTicksVersion() {
         new Primitives().setName("foo");
-        this.commit();
+        this.commitAndReOpen();
 
         Primitives twp = new PrimitivesMapper().find(2);
         Assert.assertEquals(0, twp.getVersion().intValue());
         twp.setName("bar");
-        this.commit();
+        this.commitAndReOpen();
         // Should already see it tick
         Assert.assertEquals(1, twp.getVersion().intValue());
 

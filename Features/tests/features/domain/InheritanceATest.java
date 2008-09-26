@@ -13,7 +13,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
         InheritanceASubOne a = new InheritanceASubOne();
         a.setName("name");
         a.setOne("one");
-        this.commit();
+        this.commitAndReOpen();
         Assert.assertEquals(2, a.getId().intValue());
 
         a = new InheritanceASubOneMapper().find(2);
@@ -25,7 +25,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
         InheritanceASubTwo b = new InheritanceASubTwo();
         b.setName("name");
         b.setTwo("two");
-        this.commit();
+        this.commitAndReOpen();
         Assert.assertEquals(2, b.getId().intValue());
 
         b = new InheritanceASubTwoMapper().find(2);
@@ -37,13 +37,13 @@ public class InheritanceATest extends AbstractFeaturesTest {
         InheritanceASubTwo b = new InheritanceASubTwo();
         b.setName("name");
         b.setTwo("two");
-        this.commit();
+        this.commitAndReOpen();
         Assert.assertEquals(2, b.getId().intValue());
 
         b = new InheritanceASubTwoMapper().find(2);
         b.setName("name2");
         b.setTwo("twotwo");
-        this.commit();
+        this.commitAndReOpen();
 
         b = new InheritanceASubTwoMapper().find(2);
         Assert.assertEquals("name2", b.getName());
@@ -53,7 +53,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     public void testQueryOnBaseClassReturnsSubClasses() {
         new InheritanceASubOne("namea", "a");
         new InheritanceASubTwo("nameb", "b");
-        this.commit();
+        this.commitAndReOpen();
 
         List<InheritanceABase> l = new InheritanceABaseMapper().findAll();
         Assert.assertEquals(2, l.size());
@@ -67,7 +67,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     public void testQueryOnSubClassReturnsOnlyThatSubClass() {
         new InheritanceASubOne("namea", "a");
         new InheritanceASubTwo("nameb", "b");
-        this.commit();
+        this.commitAndReOpen();
 
         List<InheritanceASubOne> l = new InheritanceASubOneMapper().findAll();
         Assert.assertEquals(1, l.size());
@@ -83,7 +83,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     public void testQueryOnSubClassByBaseClassAttribute() {
         new InheritanceASubOne("namea", "a");
         new InheritanceASubTwo("nameb", "b");
-        this.commit();
+        this.commitAndReOpen();
 
         InheritanceASubOne a = new InheritanceASubOneMapper().findByName("namea");
         Assert.assertEquals("a", a.getOne());

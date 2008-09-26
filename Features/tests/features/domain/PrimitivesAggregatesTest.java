@@ -10,13 +10,13 @@ public class PrimitivesAggregatesTest extends AbstractFeaturesTest {
 
     public void testCount() {
         new Primitives("count");
-        this.commit();
+        this.commitAndReOpen();
         Assert.assertEquals(1, new PrimitivesMapper().count());
     }
 
     public void testCountWithConditions() {
         new Primitives("count");
-        this.commit();
+        this.commitAndReOpen();
 
         Assert.assertEquals(1, new PrimitivesMapper().countWhereFlagIs(false));
         Assert.assertEquals(0, new PrimitivesMapper().countWhereFlagIs(true));
@@ -24,14 +24,14 @@ public class PrimitivesAggregatesTest extends AbstractFeaturesTest {
 
     public void testNameOnly() {
         new Primitives("testNameOnly");
-        this.commit();
+        this.commitAndReOpen();
         Assert.assertEquals("testNameOnly", new PrimitivesMapper().findNameOnly(2));
     }
 
     public void testNameAndFlagOnly() {
         new Primitives("name1");
         new Primitives("name2");
-        this.commit();
+        this.commitAndReOpen();
 
         List<NameAndFlag> dtos = new PrimitivesMapper().findNameAndFlagOnly();
         Assert.assertEquals(2, dtos.size());

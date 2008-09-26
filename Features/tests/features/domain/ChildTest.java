@@ -13,12 +13,12 @@ public class ChildTest extends AbstractFeaturesTest {
     public void testSaveAndReloadChildInSeparateUoWThanParent() {
         Parent p = new Parent();
         p.setName("parent");
-        this.commit();
+        this.commitAndReOpen();
 
         Child c = new Child();
         c.setName("child");
         c.setParent(new ParentMapper().find(2));
-        this.commit();
+        this.commitAndReOpen();
 
         c = new ChildMapper().find(2);
         p = new ParentMapper().find(2);
@@ -32,7 +32,7 @@ public class ChildTest extends AbstractFeaturesTest {
         Child c = new Child();
         c.setName("child");
         c.setParent(p);
-        this.commit();
+        this.commitAndReOpen();
 
         c = new ChildMapper().find(2);
         p = new ParentMapper().find(2);
@@ -44,7 +44,7 @@ public class ChildTest extends AbstractFeaturesTest {
         p.setName("parent");
         new Child(p, "child1");
         new Child(p, "child2");
-        this.commit();
+        this.commitAndReOpen();
 
         List<Child> children = new ChildMapper().findForParentOfName("parent");
         Assert.assertEquals(2, children.size());

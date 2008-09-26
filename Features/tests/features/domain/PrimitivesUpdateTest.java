@@ -11,7 +11,7 @@ public class PrimitivesUpdateTest extends AbstractFeaturesTest {
 
     public void testChangeFlag() {
         new Primitives("testSave");
-        this.commit();
+        this.commitAndReOpen();
 
         Assert.assertEquals(false, new PrimitivesMapper().find(2).getFlag());
         Ids<Primitives> ids = new Ids<Primitives>(Primitives.class, Copy.list(2));
