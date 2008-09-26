@@ -5,6 +5,7 @@ import java.util.List;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.orm.repos.sql.Selecter;
 import org.exigencecorp.domainobjects.orm.repos.sql.Updater;
 import org.exigencecorp.domainobjects.queries.Select;
@@ -57,7 +58,7 @@ public class PrimitivesQueryTest extends TestCase {
     }
 
     public void testUpdateSql() {
-        List<Integer> ids = Copy.list(1, 2, 3);
+        Ids<Primitives> ids = new Ids<Primitives>(Primitives.class, Copy.list(1, 2, 3));
 
         PrimitivesAlias p = new PrimitivesAlias("p");
         Update<Primitives> q = Update.into(p);

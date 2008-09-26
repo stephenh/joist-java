@@ -1,15 +1,17 @@
 package org.exigencecorp.domainobjects.queries.columns;
 
-import java.util.List;
-
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.Id;
+import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.converters.Converter;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Where;
 import org.exigencecorp.util.Join;
 
+/**
+ * @param T should always be the root class--I think so
+ */
 public class IdAliasColumn<T extends DomainObject> extends AliasColumn<T, Id<T>, Integer> {
 
     public IdAliasColumn(final Alias<T> alias, String name, Shim<T, Id<T>> shim) {
@@ -46,8 +48,8 @@ public class IdAliasColumn<T extends DomainObject> extends AliasColumn<T, Id<T>,
         return new Where(this.getQualifiedName() + " < ?", value);
     }
 
-    public Where in(List<Integer> ids) {
-        return new Where(this.getQualifiedName() + " in (" + Join.comma(ids) + ")");
+    public Where in(Ids<T> ids) {
+        return new Where(this.getQualifiedName() + " in (" + Join.comma(ids.getIds()) + ")");
     }
 
 }

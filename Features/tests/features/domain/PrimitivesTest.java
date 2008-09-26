@@ -1,7 +1,6 @@
 package features.domain;
 
 import junit.framework.Assert;
-import features.domain.Primitives;
 import features.domain.mappers.PrimitivesMapper;
 
 public class PrimitivesTest extends AbstractFeaturesTest {

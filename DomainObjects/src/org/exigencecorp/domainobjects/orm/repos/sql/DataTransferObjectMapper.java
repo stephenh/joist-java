@@ -6,17 +6,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
-import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.jdbc.RowMapper;
 
 public class DataTransferObjectMapper<T extends DomainObject, R> implements RowMapper {
 
-    private final Alias<T> from;
     private final Class<R> rowType;
     private final List<R> results;
 
-    public DataTransferObjectMapper(Alias<T> from, Class<R> rowType, List<R> results) {
-        this.from = from;
+    public DataTransferObjectMapper(Class<R> rowType, List<R> results) {
         this.rowType = rowType;
         this.results = results;
     }

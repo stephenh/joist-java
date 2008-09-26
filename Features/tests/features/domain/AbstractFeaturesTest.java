@@ -27,6 +27,12 @@ public abstract class AbstractFeaturesTest extends TestCase {
         UoW.commit();
     }
 
+    protected void commitAndReOpen() {
+        UoW.commit();
+        UoW.close();
+        UoW.open();
+    }
+
     protected void rollback() {
         UoW.rollback();
     }
