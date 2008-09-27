@@ -7,10 +7,12 @@ An ORM with type-safe queries (no strings) and no runtime class generation.
 Examples
 ========
 
-See [tests][1] and [mappers][2] for examples of the syntax.
+See [tests][1] and [mappers][2] for examples of the syntax. [Base classes][3] and [aliases][4] are code generated.
 
-[1]: /stephenh/framework/tree/master/Features/tests/features/domain/
-[2]: /stephenh/framework/tree/master/Features/src/main/features/domain/
+[1]: ./Features/tests/features/domain/ChildTest.java
+[2]: ./Features/src/main/features/domain/mappers/ChildMapper.java
+[3]: ./Features/src/codegen/features/domain/ChildCodegen.java
+[4]: ./Features/src/codegen/features/domain/mappers/ChildAlias.java
 
 Todo
 ====
