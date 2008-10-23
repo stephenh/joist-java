@@ -1,12 +1,17 @@
 package org.exigencecorp.domainobjects.codegen.passes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
 import org.exigencecorp.domainobjects.codegen.dtos.ManyToOneProperty;
+import org.exigencecorp.domainobjects.codegen.dtos.OneToManyProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.PrimitiveProperty;
 import org.exigencecorp.domainobjects.queries.Alias;
+import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.gen.GClass;
 import org.exigencecorp.gen.GField;
@@ -27,6 +32,7 @@ public class GenerateDomainCodegenPass implements Pass {
             this.addAlias(domainCodegen, entity);
             this.primitiveProperties(domainCodegen, entity);
             this.manyToOneProperties(domainCodegen, entity);
+            this.oneToManyProperties(domainCodegen, entity);
         }
     }
 
@@ -116,6 +122,30 @@ public class GenerateDomainCodegenPass implements Pass {
             shimGetter.body.line(0, "return (({}) instance).{}Id;", entity.getCodegenClassName(), mtop.getVariableName());
 
             domainCodegen.addImports(Shim.class, UoW.class);
+        }
+    }
+
+    private void oneToManyProperties(GClass domainCodegen, Entity entity) {
+        for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
+            GField collectionField = domainCodegen.getField(otmp.getVariableName());
+            collectionField.type(otmp.getJavaType());
+            domainCodegen.addImports(List.class, ArrayList.class, UoW.class);
+
+            GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableName());
+            getter.returnType(otmp.getJavaType());
+            getter.body.line("if (this.{} == null) {", otmp.getVariableName());
+            getter.body.line("    if (UoW.isOpen() && this.getId() != null) {");
+            getter.body.line("        {}Alias a = new {}Alias('a');", otmp.getTargetJavaType(), otmp.getTargetJavaType());
+            getter.body.line("        Select<{}> q = Select.from(a);", otmp.getTargetJavaType());
+            getter.body.line("        q.where(a.{}.equals(this.getId().intValue()));", otmp.getKeyFieldName());
+            getter.body.line("        q.orderBy(a.id.asc());");
+            getter.body.line("        this.{} = q.list();", otmp.getVariableName());
+            getter.body.line("    } else {");
+            getter.body.line("        this.{} = {};", otmp.getVariableName(), otmp.getDefaultJavaString());
+            getter.body.line("    }");
+            getter.body.line("}");
+            getter.body.line("return this.{};", otmp.getVariableName());
+            domainCodegen.addImports(otmp.getOneSide().getFullAliasClassName(), Select.class.getName());
         }
     }
 

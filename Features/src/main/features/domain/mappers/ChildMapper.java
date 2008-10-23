@@ -5,7 +5,6 @@ import java.util.List;
 import org.exigencecorp.domainobjects.queries.Select;
 
 import features.domain.Child;
-import features.domain.Parent;
 
 public class ChildMapper {
 
@@ -17,14 +16,6 @@ public class ChildMapper {
         Select<Child> q = Select.from(c);
         q.where(c.id.equals(id));
         return q.unique();
-    }
-
-    public List<Child> findForParent(Parent parent) {
-        ChildAlias c = new ChildAlias("c");
-        Select<Child> q = Select.from(c);
-        q.where(c.parent.equals(parent.getId().intValue()));
-        q.orderBy(c.id.asc());
-        return q.list();
     }
 
     public List<Child> findForParentOfName(String name) {

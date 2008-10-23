@@ -25,7 +25,7 @@ public class OneToManyProperty implements Property {
         this.keyColumnName = oneSideColumn.name;
     }
 
-    private Entity getOneSide() {
+    public Entity getOneSide() {
         return this.getForeignKeyColumn().getOneSide();
     }
 
