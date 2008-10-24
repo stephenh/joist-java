@@ -11,11 +11,11 @@ public class GInnerClassTest extends TestCase {
         GClass gc = new GClass("Foo");
         GClass bar = gc.getInnerClass("Bar");
         bar.getField("id").type(Integer.class);
-        Assert.assertEquals(Join.lines(
+        Assert.assertEquals(Join.lines(//
             "public class Foo {",
             "",
             "    public static class Bar {",
-            "        private java.lang.Integer id;",
+            "        private Integer id;",
             "    }",
             "",
             "}",

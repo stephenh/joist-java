@@ -22,15 +22,8 @@ public class GFieldTest extends TestCase {
     public void testOneFieldWithDefaultValue() {
         GClass gc = new GClass("foo.bar.Foo");
         gc.getField("id").type(Integer.class).initialValue("null");
-        Assert.assertEquals(Join.lines(new Object[] {
-            "package foo.bar;",
-            "",
-            "public class Foo {",
-            "",
-            "    private java.lang.Integer id = null;",
-            "",
-            "}",
-            "" }), gc.toCode());
+        Assert.assertEquals(Join
+            .lines(new Object[] { "package foo.bar;", "", "public class Foo {", "", "    private Integer id = null;", "", "}", "" }), gc.toCode());
     }
 
     public void testOneFieldOneGetter() {
@@ -102,6 +95,24 @@ public class GFieldTest extends TestCase {
             "",
             "}",
             ""), gc.toCode());
+    }
+
+    public void testOneFieldWithGetter() {
+        GClass gc = new GClass("foo.bar.Foo");
+        gc.getField("id").type(Integer.class).initialValue("null").makeGetter();
+        Assert.assertEquals(Join.lines(new Object[] {
+            "package foo.bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    private Integer id = null;",
+            "",
+            "    public Integer getId() {",
+            "        return this.id;",
+            "    }",
+            "",
+            "}",
+            "" }), gc.toCode());
     }
 
 }

@@ -1,5 +1,7 @@
 package org.exigencecorp.gen;
 
+import java.util.List;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -9,12 +11,22 @@ public class GClassTest extends TestCase {
 
     public void testEmptyClass() {
         GClass gc = new GClass("Foo");
-        Assert.assertEquals(Join.lines("public class Foo {", "", "}", ""), gc.toCode());
+        Assert.assertEquals(Join.lines(//
+            "public class Foo {",
+            "",
+            "}",
+            ""), gc.toCode());
     }
 
     public void testEmptyClassWithPackage() {
         GClass gc = new GClass("foo.bar.Foo");
-        Assert.assertEquals(Join.lines("package foo.bar;", "", "public class Foo {", "", "}", ""), gc.toCode());
+        Assert.assertEquals(Join.lines(//
+            "package foo.bar;",
+            "",
+            "public class Foo {",
+            "",
+            "}",
+            ""), gc.toCode());
     }
 
     public void testOneMethod() {
@@ -130,6 +142,11 @@ public class GClassTest extends TestCase {
         GClass gc = new GClass("Foo<java.lang.Object>");
         Assert.assertEquals(null, gc.getPackageName());
         Assert.assertEquals("Foo<java.lang.Object>", gc.getFullClassName());
+    }
+
+    public void testImplements() {
+        GClass gc = new GClass("foo.bar.Foo").implementsInterface(List.class);
+        Assert.assertEquals(Join.lines("package foo.bar;", "", "public class Foo implements java.util.List {", "", "}", ""), gc.toCode());
     }
 
 }

@@ -1,5 +1,6 @@
 package org.exigencecorp.gen;
 
+import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.util.StringBuilderr;
 import org.exigencecorp.util.ToString;
 
@@ -51,10 +52,15 @@ public class GField {
 
     public GField type(String fullClassName, Object... args) {
         this.typeClassName = ToString.interpolate(fullClassName, args);
+        if (this.typeClassName.startsWith("java.lang.") && this.typeClassName.lastIndexOf('.') == 9) {
+
+            this.typeClassName = this.typeClassName.substring("java.lang.".length());
+        }
         return this;
     }
 
     public GField typeInPackage(String packageName, String simpleName, Object... args) {
+        this.type(simpleName, args);
         this.typeClassName = ToString.interpolate(simpleName, args);
         this.gclass.addImports(packageName + "." + this.typeClassName);
         return this;
@@ -88,6 +94,14 @@ public class GField {
 
     public String toString() {
         return this.toCode();
+    }
+
+    public GMethod makeGetter() {
+        GMethod getter = this.gclass.getMethod("get" + StringUtils.capitalize(this.name));
+        getter.returnType(this.typeClassName);
+        // getter.body.line("this.{} = {};", this.name, this.name);
+        getter.body.line("return this.{};", this.name);
+        return getter;
     }
 
 }

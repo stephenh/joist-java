@@ -9,11 +9,13 @@ import org.exigencecorp.util.ToString;
 
 public class GMethod {
 
+    public final StringBuilderr body = new StringBuilderr();
     private final String name;
     private final List<String> arguments = new ArrayList<String>();
-    public final StringBuilderr body = new StringBuilderr();
     private String returnClassName = "void";
     private String constructorFor = null;
+    private String access = "public ";
+    private boolean isStatic;
 
     public GMethod(GClass gclass, String methodName) {
         this.name = methodName;
@@ -25,6 +27,9 @@ public class GMethod {
 
     public GMethod returnType(String returnClassName, Object... args) {
         this.returnClassName = ToString.interpolate(returnClassName, args);
+        if (this.returnClassName.startsWith("java.lang.") && this.returnClassName.lastIndexOf('.') == 9) {
+            this.returnClassName = this.returnClassName.substring("java.lang.".length());
+        }
         return this;
     }
 
@@ -51,11 +56,17 @@ public class GMethod {
 
     public String toCode() {
         StringBuilderr sb = new StringBuilderr();
-        if (this.constructorFor != null) {
-            sb.line(0, "public {}({}) {", this.constructorFor, Join.commaSpace(this.arguments));
-        } else {
-            sb.line(0, "public {} {}({}) {", this.returnClassName, this.getName(), Join.commaSpace(this.arguments));
+
+        sb.append(this.access);
+        if (this.isStatic) {
+            sb.append("static ");
         }
+        if (this.constructorFor != null) {
+            sb.append(this.constructorFor);
+        } else {
+            sb.append("{} {}", this.returnClassName, this.getName());
+        }
+        sb.line("({}) {", Join.commaSpace(this.arguments));
         sb.append(1, this.body.toString());
         sb.lineIfNeeded(); // The body may or may not have a trailing new line on it
         sb.line(0, "}");
@@ -64,6 +75,16 @@ public class GMethod {
 
     public String getName() {
         return this.name;
+    }
+
+    public GMethod isPrivate() {
+        this.access = "private ";
+        return this;
+    }
+
+    public GMethod isStatic() {
+        this.isStatic = true;
+        return this;
     }
 
     public boolean hasSameArguments(String... typeAndNames) {

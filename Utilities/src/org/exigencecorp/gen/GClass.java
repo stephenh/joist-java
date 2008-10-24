@@ -1,11 +1,13 @@
 package org.exigencecorp.gen;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.exigencecorp.util.Join;
 import org.exigencecorp.util.StringBuilderr;
 import org.exigencecorp.util.ToString;
 
@@ -18,9 +20,12 @@ public class GClass {
     private final List<GClass> innerClasses = new ArrayList<GClass>();
     private final Set<String> imports = new TreeSet<String>();
     private final List<GMethod> constructors = new ArrayList<GMethod>();
+    private final List<String> enumValues = new ArrayList<String>();
+    private final List<String> implementsInterfaces = new ArrayList<String>();
     private boolean isAbstract = false;
     private boolean isStaticInnerClass = false;
     private boolean isAnonymous = false;
+    private boolean isEnum = false;
     private String baseClassName = null;
 
     public GClass(String fullClassName) {
@@ -33,6 +38,16 @@ public class GClass {
             this.packageName = null;
             this.shortName = fullClassName;
         }
+    }
+
+    public GClass isEnum() {
+        this.isEnum = true;
+        return this;
+    }
+
+    public GClass addEnumValue(String value, Object... args) {
+        this.enumValues.add(ToString.interpolate(value, args));
+        return this;
     }
 
     public String getFullClassName() {
@@ -70,16 +85,39 @@ public class GClass {
         return constructor;
     }
 
-    public GMethod getMethod(String name, Object... args) {
-        name = ToString.interpolate(name, args);
+    public boolean hasMethod(String name) {
         for (GMethod method : this.methods) {
             if (method.getName().equals(name)) {
-                return method;
+                return true;
             }
         }
-        GMethod method = new GMethod(this, name);
-        this.methods.add(method);
-        return method;
+        return false;
+    }
+
+    public GMethod getMethod(String name, Object... args) {
+        name = ToString.interpolate(name, args);
+        if (name.indexOf('(') == -1) {
+            for (GMethod method : this.methods) {
+                if (method.getName().equals(name)) {
+                    return method;
+                }
+            }
+            GMethod method = new GMethod(this, name);
+            this.methods.add(method);
+            return method;
+        } else {
+            String typesAndNames = name.substring(name.indexOf('(') + 1, name.length() - 1);
+            name = name.substring(0, name.indexOf('('));
+            for (GMethod method : this.methods) {
+                if (method.getName().equals(name) && method.hasSameArguments(typesAndNames)) {
+                    return method;
+                }
+            }
+            GMethod method = new GMethod(this, name);
+            method.arguments(typesAndNames);
+            this.methods.add(method);
+            return method;
+        }
     }
 
     public GField getField(String name, Object... args) {
@@ -118,11 +156,30 @@ public class GClass {
             if (this.isAbstract) {
                 sb.append("abstract ");
             }
-            sb.append("class {} ", this.shortName);
+            if (this.isEnum) {
+                sb.append("enum ");
+            } else {
+                sb.append("class ");
+            }
+            sb.append(this.shortName);
+            sb.append(" ");
             if (this.baseClassName != null) {
                 sb.append("extends {} ", this.baseClassName);
             }
+            if (this.implementsInterfaces.size() > 0) {
+                sb.append("implements {} ", Join.commaSpace(this.implementsInterfaces));
+            }
             sb.line("{");
+        }
+
+        if (this.isEnum && this.enumValues.size() > 0) {
+            boolean hasMore = this.fields.size() > 0 || this.methods.size() > 0 || this.constructors.size() > 0;
+            this.lineIfNotAnonymousOrInner(sb);
+            for (Iterator<String> i = this.enumValues.iterator(); i.hasNext();) {
+                sb.append(1, i.next());
+                sb.append(i.hasNext() ? "," : hasMore ? ";" : "");
+                sb.line();
+            }
         }
 
         if (this.fields.size() > 0) {
@@ -211,6 +268,11 @@ public class GClass {
 
     public String toString() {
         return this.getFullClassName();
+    }
+
+    public GClass implementsInterface(Class<?> interfaceClass) {
+        this.implementsInterfaces.add(interfaceClass.getName());
+        return this;
     }
 
 }
