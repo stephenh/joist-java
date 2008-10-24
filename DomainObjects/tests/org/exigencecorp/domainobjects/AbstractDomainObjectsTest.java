@@ -6,6 +6,11 @@ import org.exigencecorp.domainobjects.uow.UoW;
 
 public class AbstractDomainObjectsTest extends TestCase {
 
+    public void setUp() throws Exception {
+        super.setUp();
+        UoW.open();
+    }
+
     public void tearDown() throws Exception {
         UoW.close();
         super.tearDown();
