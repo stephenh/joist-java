@@ -1,10 +1,12 @@
 package features.domain;
 
 import features.domain.mappers.ChildAlias;
+import features.domain.mappers.ParentAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.queries.Alias;
+import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
 
 public abstract class ChildCodegen extends AbstractDomainObject {
@@ -43,7 +45,10 @@ public abstract class ChildCodegen extends AbstractDomainObject {
 
     public Parent getParent() {
         if (this.parent == null && this.parentId != null && UoW.isOpen()) {
-            this.parent = new features.domain.mappers.ParentMapper().find(this.parentId);
+            ParentAlias a = new ParentAlias("a");
+            Select<Parent> q = Select.from(a);
+            q.where(a.id.equals(this.parentId));
+            this.parent = q.unique();
         }
         return this.parent;
     }
