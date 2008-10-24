@@ -13,6 +13,7 @@ import org.exigencecorp.domainobjects.codegen.passes.FindManyToManyPropertiesPas
 import org.exigencecorp.domainobjects.codegen.passes.FindPrimitivePropertiesPass;
 import org.exigencecorp.domainobjects.codegen.passes.FindTablesPass;
 import org.exigencecorp.domainobjects.codegen.passes.GenerateAliasesPass;
+import org.exigencecorp.domainobjects.codegen.passes.GenerateCodesPass;
 import org.exigencecorp.domainobjects.codegen.passes.GenerateDomainClassIfNotExistsPass;
 import org.exigencecorp.domainobjects.codegen.passes.GenerateDomainCodegenPass;
 import org.exigencecorp.domainobjects.codegen.passes.OutputPass;
@@ -61,6 +62,7 @@ public class Codegen {
             new FindForeignKeysPass(),
             new FindCodeValuesPass(),
             new FindManyToManyPropertiesPass(),
+            new GenerateCodesPass(),
             new GenerateDomainClassIfNotExistsPass(),
             new GenerateDomainCodegenPass(),
             new GenerateAliasesPass(),

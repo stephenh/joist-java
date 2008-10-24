@@ -51,5 +51,4 @@ public class FlushDatabase {
             Jdbc.closeSafely(conn);
         }
     }
-
 }

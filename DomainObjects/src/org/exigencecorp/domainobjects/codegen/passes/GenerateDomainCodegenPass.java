@@ -93,11 +93,22 @@ public class GenerateDomainCodegenPass implements Pass {
 
             GMethod getter = domainCodegen.getMethod("get" + mtop.getCapitalVariableName());
             getter.returnType(mtop.getJavaType());
-            getter.body.line(0, "if (this.{} == null && this.{}Id != null && UoW.isOpen()) {", mtop.getVariableName(), mtop.getVariableName());
-            getter.body.line(1, "this.{} = new {}.{}Mapper().find(this.{}Id);", mtop.getVariableName(), entity.getConfig().getMapperPackage(), mtop
-                .getJavaType(), mtop.getVariableName());
-            getter.body.line(0, "}");
-            getter.body.line(0, "return this.{};", mtop.getVariableName());
+            if (mtop.getManySide().isEnum()) {
+                getter.body.line("if (this.{} == null && this.{}Id != null) {", mtop.getVariableName(), mtop.getVariableName());
+                getter.body.line("    this.{} = {}.fromId(this.{}Id);", mtop.getVariableName(), mtop.getJavaType(), mtop.getVariableName());
+                getter.body.line("}");
+                getter.body.line("return this.{};", mtop.getVariableName());
+            } else {
+                getter.body.line("if (this.{} == null && this.{}Id != null && UoW.isOpen()) {", mtop.getVariableName(), mtop.getVariableName());
+                getter.body.line("    {}Alias a = new {}Alias(\"a\");", mtop.getJavaType(), mtop.getJavaType());
+                getter.body.line("    Select<{}> q = Select.from(a);", mtop.getJavaType());
+                getter.body.line("    q.where(a.id.equals(this.{}Id));", mtop.getVariableName());
+                getter.body.line("    this.{} = q.unique();", mtop.getVariableName());
+                getter.body.line("}");
+                getter.body.line("return this.{};", mtop.getVariableName());
+                domainCodegen.addImports(UoW.class, Select.class);
+                domainCodegen.addImports(mtop.getManySide().getFullAliasClassName());
+            }
 
             GMethod setter = domainCodegen.getMethod("set" + mtop.getCapitalVariableName());
             setter.argument(mtop.getJavaType(), mtop.getVariableName());
@@ -121,7 +132,7 @@ public class GenerateDomainCodegenPass implements Pass {
             shimGetter.body.line(0, "}", mtop.getVariableName());
             shimGetter.body.line(0, "return (({}) instance).{}Id;", entity.getCodegenClassName(), mtop.getVariableName());
 
-            domainCodegen.addImports(Shim.class, UoW.class);
+            domainCodegen.addImports(Shim.class);
         }
     }
 

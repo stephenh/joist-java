@@ -11,6 +11,7 @@ import org.exigencecorp.domainobjects.codegen.dtos.PrimitiveProperty;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.JoinClause;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.CodeAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.ForeignKeyAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
@@ -121,7 +122,6 @@ public class GenerateAliasesPass implements Pass {
         // If a base class, we'll need another constructor for the bootstrap call we added above
         if (entity.getBaseEntity() != null) {
             Entity baseEntity = entity.getBaseEntity();
-
             constructor.body.line("this.baseAlias = new {}Alias(alias + '_b');", baseEntity.getClassName());
 
             GMethod otherConstructor = aliasClass.getConstructor(baseEntity.getClassName() + "Alias baseAlias", "String alias");
@@ -166,7 +166,7 @@ public class GenerateAliasesPass implements Pass {
 
     private void addManyToOneColumns(Codegen codegen, GClass aliasClass, Entity entity) {
         for (ManyToOneProperty p : entity.getManyToOneProperties()) {
-            Class<?> aliasColumnClass = ForeignKeyAliasColumn.class;
+            Class<?> aliasColumnClass = (p.getManySide().isEnum()) ? CodeAliasColumn.class : ForeignKeyAliasColumn.class;
             aliasClass.addImports(aliasColumnClass);
             aliasClass.addImports(p.getManySide().getFullClassName());
 
@@ -180,12 +180,16 @@ public class GenerateAliasesPass implements Pass {
                 entity.getCodegenClassName(),
                 p.getVariableName());
 
-            GClass otherAliasClass = codegen.getOutputCodegenDirectory().getClass(p.getManySide().getFullAliasClassName());
-            GMethod on = otherAliasClass.getMethod("on");
-            on.argument("ForeignKeyAliasColumn<? extends DomainObject, " + p.getJavaType() + ">", "on");
-            on.returnType("JoinClause");
-            on.body.line("return new JoinClause('INNER JOIN', this, on);");
-            otherAliasClass.addImports(ForeignKeyAliasColumn.class, JoinClause.class, DomainObject.class);
+            if (!p.getManySide().isEnum()) {
+                GClass otherAliasClass = codegen.getOutputCodegenDirectory().getClass(p.getManySide().getFullAliasClassName());
+                if (!otherAliasClass.hasMethod("on")) {
+                    GMethod on = otherAliasClass.getMethod("on");
+                    on.argument("ForeignKeyAliasColumn<? extends DomainObject, " + p.getJavaType() + ">", "on");
+                    on.returnType("JoinClause");
+                    on.body.line("return new JoinClause('INNER JOIN', this, on);");
+                    otherAliasClass.addImports(ForeignKeyAliasColumn.class, JoinClause.class, DomainObject.class);
+                }
+            }
 
             this.appendToConstructors(aliasClass, "this.columns.add(this.{});", p.getVariableName());
         }

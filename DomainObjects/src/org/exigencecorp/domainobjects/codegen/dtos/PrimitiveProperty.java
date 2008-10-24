@@ -38,6 +38,8 @@ public class PrimitiveProperty implements Property {
             return IdAliasColumn.class;
         } else if (this.dataType.equals("integer")) {
             return IntAliasColumn.class;
+        } else if (this.dataType.equals("bigint")) {
+            return IntAliasColumn.class;
         } else if (this.dataType.equals("boolean")) {
             return BooleanAliasColumn.class;
         } else if (this.dataType.equals("character varying")) {

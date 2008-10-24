@@ -2,7 +2,7 @@ package org.exigencecorp.domainobjects;
 
 public interface Code {
 
-    int toInt();
+    Integer getId();
 
     String getCode();
 
