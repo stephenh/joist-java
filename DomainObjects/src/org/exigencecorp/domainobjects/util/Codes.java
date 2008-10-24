@@ -1,9 +1,10 @@
-package org.exigencecorp.domainobjects;
+package org.exigencecorp.domainobjects.util;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.exigencecorp.domainobjects.Code;
 
 public class Codes {
 
@@ -32,7 +33,7 @@ public class Codes {
 
     public static <T extends Code> T fromInt(T[] codes, int i) {
         for (T code : codes) {
-            if (code.toInt() == i) {
+            if (code.getId().intValue() == i) {
                 return code;
             }
         }
