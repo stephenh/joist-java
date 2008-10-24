@@ -40,6 +40,30 @@ public class Keywords {
         Keywords.addForeignKey(name, "id", parentName, "id", Owner.IsThem, Nullable.No);
     }
 
+    public static void createCodeTable(String name) {
+        Keywords.createTable(name,//
+            Keywords.primaryKey("id", UseSequence.No),
+            Keywords.varchar("code", IsUnique.Yes),
+            Keywords.varchar("name", IsUnique.Yes),
+            Keywords.integer("version"));
+    }
+
+    public static void addCode(String tableName, String code, String description) {
+        int id = Keywords.getNextIdForCode(tableName);
+        Keywords.execute("INSERT INTO \"{}\" (id, code, name, version) VALUES ({}, '{}', '{}', 0)", tableName, id, code, description);
+    }
+
+    private static int getNextIdForCode(String tableName) {
+        int id = Jdbc.queryForInt(Updater.getConnection(), "select next_id from code_id where table_name = '{}'", tableName);
+        if (id == -1) {
+            Jdbc.executeUpdate(Updater.getConnection(), "insert into code_id (table_name, next_id) values ('{}', 2)", tableName);
+            id = 1;
+        } else {
+            Jdbc.executeUpdate(Updater.getConnection(), "update code_id set next_id = {} where table_name = '{}'", (id + 1), tableName);
+        }
+        return id;
+    }
+
     public static PrimaryKeyColumn primaryKey(String name) {
         return new PrimaryKeyColumn(name);
     }
