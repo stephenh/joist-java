@@ -50,10 +50,7 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
         if (this.parentBChildFoos == null) {
             if (UoW.isOpen() && this.getId() != null) {
                 ParentBChildFooAlias a = new ParentBChildFooAlias("a");
-                Select<ParentBChildFoo> q = Select.from(a);
-                q.where(a.parentBParent.equals(this.getId().intValue()));
-                q.orderBy(a.id.asc());
-                this.parentBChildFoos = q.list();
+                this.parentBChildFoos = Select.from(a).where(a.parentBParent.equals(this.getId())).orderBy(a.id.asc()).list();
             } else {
                 this.parentBChildFoos = new ArrayList<ParentBChildFoo>();
             }
@@ -65,10 +62,7 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
         if (this.parentBChildBars == null) {
             if (UoW.isOpen() && this.getId() != null) {
                 ParentBChildBarAlias a = new ParentBChildBarAlias("a");
-                Select<ParentBChildBar> q = Select.from(a);
-                q.where(a.parentBParent.equals(this.getId().intValue()));
-                q.orderBy(a.id.asc());
-                this.parentBChildBars = q.list();
+                this.parentBChildBars = Select.from(a).where(a.parentBParent.equals(this.getId())).orderBy(a.id.asc()).list();
             } else {
                 this.parentBChildBars = new ArrayList<ParentBChildBar>();
             }

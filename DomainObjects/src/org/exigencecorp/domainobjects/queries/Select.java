@@ -68,8 +68,9 @@ public class Select<T extends DomainObject> {
         return this;
     }
 
-    public void orderBy(Order... columns) {
+    public Select<T> orderBy(Order... columns) {
         this.orderBy = columns;
+        return this;
     }
 
     public List<T> list() {

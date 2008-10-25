@@ -1,8 +1,10 @@
 package org.exigencecorp.domainobjects.queries.columns;
 
 import org.exigencecorp.domainobjects.DomainObject;
+import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.queries.Alias;
+import org.exigencecorp.domainobjects.queries.Where;
 
 /**
  * @param T the domain object the column is within
@@ -12,6 +14,10 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
 
     public ForeignKeyAliasColumn(Alias<T> alias, String name, Shim<T, Integer> shim) {
         super(alias, name, shim);
+    }
+
+    public Where equals(Id<W> value) {
+        return new Where(this.getQualifiedName() + " = ?", value.intValue());
     }
 
 }

@@ -101,9 +101,9 @@ public class GenerateDomainCodegenPass implements Pass {
             } else {
                 getter.body.line("if (this.{} == null && this.{}Id != null && UoW.isOpen()) {", mtop.getVariableName(), mtop.getVariableName());
                 getter.body.line("    {}Alias a = new {}Alias(\"a\");", mtop.getJavaType(), mtop.getJavaType());
-                getter.body.line("    Select<{}> q = Select.from(a);", mtop.getJavaType());
-                getter.body.line("    q.where(a.id.equals(this.{}Id));", mtop.getVariableName());
-                getter.body.line("    this.{} = q.unique();", mtop.getVariableName());
+                getter.body.line("    this.{} = Select.from(a).where(a.id.equals(this.{}Id)).unique();",//
+                    mtop.getVariableName(),
+                    mtop.getVariableName());
                 getter.body.line("}");
                 getter.body.line("return this.{};", mtop.getVariableName());
                 domainCodegen.addImports(UoW.class, Select.class);
@@ -147,10 +147,10 @@ public class GenerateDomainCodegenPass implements Pass {
             getter.body.line("if (this.{} == null) {", otmp.getVariableName());
             getter.body.line("    if (UoW.isOpen() && this.getId() != null) {");
             getter.body.line("        {}Alias a = new {}Alias('a');", otmp.getTargetJavaType(), otmp.getTargetJavaType());
-            getter.body.line("        Select<{}> q = Select.from(a);", otmp.getTargetJavaType());
-            getter.body.line("        q.where(a.{}.equals(this.getId().intValue()));", otmp.getKeyFieldName());
-            getter.body.line("        q.orderBy(a.id.asc());");
-            getter.body.line("        this.{} = q.list();", otmp.getVariableName());
+            getter.body.line("        this.{} = Select.from(a).where(a.{}.equals(this.getId())).orderBy(a.id.asc()).list();",//
+                otmp.getVariableName(),
+                otmp.getKeyFieldName(),
+                otmp.getTargetJavaType());
             getter.body.line("    } else {");
             getter.body.line("        this.{} = {};", otmp.getVariableName(), otmp.getDefaultJavaString());
             getter.body.line("    }");
@@ -159,5 +159,4 @@ public class GenerateDomainCodegenPass implements Pass {
             domainCodegen.addImports(otmp.getOneSide().getFullAliasClassName(), Select.class.getName());
         }
     }
-
 }

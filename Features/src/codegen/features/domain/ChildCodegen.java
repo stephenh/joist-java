@@ -46,9 +46,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     public Parent getParent() {
         if (this.parent == null && this.parentId != null && UoW.isOpen()) {
             ParentAlias a = new ParentAlias("a");
-            Select<Parent> q = Select.from(a);
-            q.where(a.id.equals(this.parentId));
-            this.parent = q.unique();
+            this.parent = Select.from(a).where(a.id.equals(this.parentId)).unique();
         }
         return this.parent;
     }

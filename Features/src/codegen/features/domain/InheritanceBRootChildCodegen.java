@@ -46,9 +46,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
     public InheritanceBRoot getInheritanceBRoot() {
         if (this.inheritanceBRoot == null && this.inheritanceBRootId != null && UoW.isOpen()) {
             InheritanceBRootAlias a = new InheritanceBRootAlias("a");
-            Select<InheritanceBRoot> q = Select.from(a);
-            q.where(a.id.equals(this.inheritanceBRootId));
-            this.inheritanceBRoot = q.unique();
+            this.inheritanceBRoot = Select.from(a).where(a.id.equals(this.inheritanceBRootId)).unique();
         }
         return this.inheritanceBRoot;
     }

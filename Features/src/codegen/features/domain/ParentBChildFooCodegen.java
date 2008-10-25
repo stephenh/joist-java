@@ -46,9 +46,7 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
     public ParentBParent getParentBParent() {
         if (this.parentBParent == null && this.parentBParentId != null && UoW.isOpen()) {
             ParentBParentAlias a = new ParentBParentAlias("a");
-            Select<ParentBParent> q = Select.from(a);
-            q.where(a.id.equals(this.parentBParentId));
-            this.parentBParent = q.unique();
+            this.parentBParent = Select.from(a).where(a.id.equals(this.parentBParentId)).unique();
         }
         return this.parentBParent;
     }
