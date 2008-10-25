@@ -43,6 +43,10 @@ public class Entity {
         return this.config;
     }
 
+    public boolean isRoot() {
+        return this.baseEntity == null && !this.isEnum();
+    }
+
     public boolean isAbstract() {
         return this.hasSubclasses() && !this.config.isNotAbstractEvenThoughSubclassed(this.tableName);
     }

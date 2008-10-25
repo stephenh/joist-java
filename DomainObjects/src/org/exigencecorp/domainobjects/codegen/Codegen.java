@@ -16,6 +16,7 @@ import org.exigencecorp.domainobjects.codegen.passes.GenerateAliasesPass;
 import org.exigencecorp.domainobjects.codegen.passes.GenerateCodesPass;
 import org.exigencecorp.domainobjects.codegen.passes.GenerateDomainClassIfNotExistsPass;
 import org.exigencecorp.domainobjects.codegen.passes.GenerateDomainCodegenPass;
+import org.exigencecorp.domainobjects.codegen.passes.GenerateFlushFunction;
 import org.exigencecorp.domainobjects.codegen.passes.OutputPass;
 import org.exigencecorp.domainobjects.codegen.passes.Pass;
 import org.exigencecorp.gen.GDirectory;
@@ -66,6 +67,7 @@ public class Codegen {
             new GenerateDomainClassIfNotExistsPass(),
             new GenerateDomainCodegenPass(),
             new GenerateAliasesPass(),
+            new GenerateFlushFunction(),
             new OutputPass());
     }
 
