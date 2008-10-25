@@ -6,6 +6,7 @@ import java.util.List;
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Join;
@@ -42,12 +43,14 @@ public class Select<T extends DomainObject> {
             this.selectItems.add(new SelectItem("CASE " + Join.space(subClassCases) + " ELSE -1 END AS _clazz"));
         }
 
-        if (alias.getBaseClassAlias() != null) {
-            Alias<?> base = alias.getBaseClassAlias();
-            this.join(new JoinClause("INNER JOIN", base, base.getIdColumn(), alias.getSubClassIdColumn()));
+        Alias<?> base = alias.getBaseClassAlias();
+        while (base != null) {
+            IdAliasColumn<?> id = base.getSubClassIdColumn() == null ? base.getIdColumn() : base.getSubClassIdColumn();
+            this.join(new JoinClause("INNER JOIN", base, id, alias.getSubClassIdColumn()));
             for (AliasColumn<?, ?, ?> c : base.getColumns()) {
                 this.selectItems.add(new SelectItem(c));
             }
+            base = base.getBaseClassAlias();
         }
     }
 
@@ -60,8 +63,9 @@ public class Select<T extends DomainObject> {
         this.selectItems.addAll(Copy.list(selectItems));
     }
 
-    public void where(Where where) {
+    public Select<T> where(Where where) {
         this.where = where;
+        return this;
     }
 
     public void orderBy(Order... columns) {

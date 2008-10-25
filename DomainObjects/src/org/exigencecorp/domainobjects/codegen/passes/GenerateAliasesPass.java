@@ -46,13 +46,14 @@ public class GenerateAliasesPass implements Pass {
         boolean first = true;
         Entity baseEntity = entity.getBaseEntity();
         while (baseEntity != null) {
-            GField baseAliasField = aliasClass.getField("baseAlias").isFinal();
-            baseAliasField.typeInPackage(entity.getConfig().getMapperPackage(), "{}Alias", baseEntity.getClassName());
-
             if (first) {
+                GField baseAliasField = aliasClass.getField("baseAlias").isFinal();
+                baseAliasField.typeInPackage(entity.getConfig().getMapperPackage(), "{}Alias", baseEntity.getClassName());
+
                 GMethod baseClassAliasGetter = aliasClass.getMethod("getBaseClassAlias");
                 baseClassAliasGetter.returnType("Alias<{}>", baseEntity.getClassName());
                 baseClassAliasGetter.body.line("return this.baseAlias;");
+                first = false;
             }
 
             for (PrimitiveProperty p : baseEntity.getPrimitiveProperties()) {
@@ -81,7 +82,7 @@ public class GenerateAliasesPass implements Pass {
     }
 
     private void addIdAndVersionAndSubClassIdMethods(GClass aliasClass, Entity entity) {
-        Entity rootEntity = (entity.getBaseEntity() != null) ? entity.getBaseEntity() : entity;
+        Entity rootEntity = entity.getRootEntity();
         GMethod idColumnMethod = aliasClass.getMethod("getIdColumn");
         idColumnMethod.returnType("IdAliasColumn<{}>", rootEntity.getClassName());
         idColumnMethod.body.line("return this.id;");

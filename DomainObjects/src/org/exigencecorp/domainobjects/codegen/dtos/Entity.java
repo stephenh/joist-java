@@ -158,6 +158,14 @@ public class Entity {
         return this.baseEntity;
     }
 
+    public Entity getRootEntity() {
+        Entity current = this;
+        while (current.getBaseEntity() != null) {
+            current = current.getBaseEntity();
+        }
+        return current;
+    }
+
     public void setBaseEntity(Entity baseObject) {
         this.baseEntity = baseObject;
     }
