@@ -7,6 +7,7 @@ import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
+import org.exigencecorp.domainobjects.codegen.dtos.ManyToManyProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.ManyToOneProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.OneToManyProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.PrimitiveProperty;
@@ -33,6 +34,7 @@ public class GenerateDomainCodegenPass implements Pass {
             this.primitiveProperties(domainCodegen, entity);
             this.manyToOneProperties(domainCodegen, entity);
             this.oneToManyProperties(domainCodegen, entity);
+            this.manyToManyProperties(domainCodegen, entity);
         }
     }
 
@@ -138,8 +140,7 @@ public class GenerateDomainCodegenPass implements Pass {
 
     private void oneToManyProperties(GClass domainCodegen, Entity entity) {
         for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
-            GField collectionField = domainCodegen.getField(otmp.getVariableName());
-            collectionField.type(otmp.getJavaType());
+            GField collectionField = domainCodegen.getField(otmp.getVariableName()).type(otmp.getJavaType());
             domainCodegen.addImports(List.class, ArrayList.class, UoW.class);
 
             GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableName());
@@ -159,4 +160,12 @@ public class GenerateDomainCodegenPass implements Pass {
             domainCodegen.addImports(otmp.getOneSide().getFullAliasClassName(), Select.class.getName());
         }
     }
+
+    private void manyToManyProperties(GClass domainCodegen, Entity entity) {
+        for (ManyToManyProperty mtmp : entity.getManyToManyProperties()) {
+            GField collectionField = domainCodegen.getField(mtmp.getVariableName()).type(mtmp.getJavaType());
+            domainCodegen.addImports(List.class, ArrayList.class);
+        }
+    }
+
 }
