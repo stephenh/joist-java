@@ -48,6 +48,16 @@ public class Keywords {
             Keywords.integer("version"));
     }
 
+    public static void createJoinTable(String table1, String table2) {
+        String joinTableName = table1 + "_to_" + table2;
+        Keywords.execute("CREATE SEQUENCE " + joinTableName + "_id_seq");
+        Keywords.execute("CREATE TABLE {} ("
+            + " id int DEFAULT nextval('{}_id_seq'),"
+            + " {}_id int NOT NULL REFERENCES \"{}\" (id) DEFERRABLE,"
+            + " {}_id int NOT NULL REFERENCES \"{}\" (id) DEFERRABLE,"
+            + " PRIMARY KEY(id))", joinTableName, joinTableName, table1, table1, table2, table2);
+    }
+
     public static void addCode(String tableName, String code, String description) {
         int id = Keywords.getNextIdForCode(tableName);
         Keywords.execute("INSERT INTO \"{}\" (id, code, name, version) VALUES ({}, '{}', '{}', 0)", tableName, id, code, description);
