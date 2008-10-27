@@ -17,8 +17,4 @@ public class InformationSchemaColumn {
         return this.tableName + "." + this.name;
     }
 
-    public boolean isManyToManyTable() {
-        return this.tableName.indexOf("_to_") > -1;
-    }
-
 }

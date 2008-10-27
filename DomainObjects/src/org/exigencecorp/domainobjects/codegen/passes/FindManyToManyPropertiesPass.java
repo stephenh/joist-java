@@ -1,18 +1,15 @@
 package org.exigencecorp.domainobjects.codegen.passes;
 
-import java.util.List;
-
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.InformationSchemaColumn;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
 import org.exigencecorp.domainobjects.codegen.dtos.ManyToManyProperty;
-import org.exigencecorp.util.Copy;
 
 public class FindManyToManyPropertiesPass implements Pass {
 
     public void pass(Codegen codegen) {
         for (InformationSchemaColumn column : codegen.getColumns()) {
-            if (column.foreignKeyConstraintName == null || !column.isManyToManyTable()) {
+            if (column.foreignKeyConstraintName == null || !codegen.isManyToManyTable(column)) {
                 continue;
             }
 
@@ -21,15 +18,9 @@ public class FindManyToManyPropertiesPass implements Pass {
                 throw new RuntimeException("Could not find entity " + column.foreignKeyTableName);
             }
 
-            // Figure out if our hbm file gets inverse=true or not
-            // boolean isFirst = !(column.tableName.startsWith(sideA.getTableName()));
-
-            // Guess about the target table
-            List<String> names = Copy.list(column.tableName.split("_to_"));
-            names.remove(mySide.getTableName());
-            Entity otherSide = codegen.getEntity(names.get(0));
+            Entity otherSide = codegen.getEntity(this.findOtherColumnInTable(codegen, column).foreignKeyTableName);
             if (otherSide == null) {
-                throw new RuntimeException("Could not find entity " + names.get(0));
+                throw new RuntimeException("Could not find entity " + column.tableName);
             }
 
             ManyToManyProperty mtmp = new ManyToManyProperty(codegen, mySide, otherSide, column);
@@ -43,6 +34,17 @@ public class FindManyToManyPropertiesPass implements Pass {
                 }
             }
         }
+    }
+
+    private InformationSchemaColumn findOtherColumnInTable(Codegen codegen, InformationSchemaColumn column1) {
+        for (InformationSchemaColumn column2 : codegen.getColumns()) {
+            if (column2.foreignKeyConstraintName != null
+                && column2.tableName.equals(column1.tableName)
+                && !column2.foreignKeyTableName.equals(column1.foreignKeyTableName)) {
+                return column2;
+            }
+        }
+        throw new RuntimeException("Other column in many to many table " + column1.tableName + " not found");
     }
 
 }

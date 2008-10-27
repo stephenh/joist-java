@@ -47,6 +47,12 @@ public class InformationSchemaWrapper {
         return CollectionUtils.isEqualCollection(actualColumns, neededColumns);
     }
 
+    public boolean isManyToManyTable(String tableName) {
+        List<String> actualColumns = this.getColumnNames(tableName);
+        actualColumns.remove("id");
+        return actualColumns.size() == 2 && actualColumns.get(0).endsWith("_id") && actualColumns.get(1).endsWith("_id");
+    }
+
     private List<String> getColumnNames(String tableName) {
         List<String> columns = new ArrayList<String>();
         for (InformationSchemaColumn column : this.columns) {

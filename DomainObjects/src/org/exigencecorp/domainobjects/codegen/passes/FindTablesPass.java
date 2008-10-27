@@ -10,7 +10,7 @@ public class FindTablesPass implements Pass {
     // Use the primary key 'id' to find our entity tables--and watch for many to many join tables to skip
     public void pass(Codegen codegen) {
         for (InformationSchemaColumn column : codegen.getColumns()) {
-            if (!column.name.equals("id") || column.isManyToManyTable()) {
+            if (!column.name.equals("id") || codegen.isManyToManyTable(column)) {
                 continue;
             }
 
@@ -21,4 +21,5 @@ public class FindTablesPass implements Pass {
             }
         }
     }
+
 }

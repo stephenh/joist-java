@@ -31,6 +31,7 @@ public class Codegen {
     private final GDirectory outputCodegenDirectory;
     private final GDirectory outputSourceDirectory;
     private Set<String> codeTables = new HashSet<String>();
+    private Set<String> manyToManyTables = new HashSet<String>();
     private List<InformationSchemaColumn> columns;
 
     public Codegen(CodegenConfig config) {
@@ -50,8 +51,11 @@ public class Codegen {
     private void fillInRows() {
         this.columns = this.informationSchema.getColumnMetaData();
         for (InformationSchemaColumn column : this.columns) {
-            if (this.informationSchema.isCodeTable(column.tableName)) {
+            if ("id".equals(column.name) && this.informationSchema.isCodeTable(column.tableName)) {
                 this.codeTables.add(column.tableName);
+            }
+            if ("id".equals(column.name) && this.informationSchema.isManyToManyTable(column.tableName)) {
+                this.manyToManyTables.add(column.tableName);
             }
         }
     }
@@ -93,6 +97,10 @@ public class Codegen {
 
     public boolean isCodeTable(InformationSchemaColumn column) {
         return this.codeTables.contains(column.tableName);
+    }
+
+    public boolean isManyToManyTable(InformationSchemaColumn column) {
+        return this.manyToManyTables.contains(column.tableName);
     }
 
     public GDirectory getOutputCodegenDirectory() {
