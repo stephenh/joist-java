@@ -7,7 +7,6 @@ import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
-import org.exigencecorp.domainobjects.codegen.dtos.ManyToManyProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.ManyToOneProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.OneToManyProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.PrimitiveProperty;
@@ -114,6 +113,7 @@ public class GenerateDomainCodegenPass implements Pass {
 
             GMethod setter = domainCodegen.getMethod("set" + mtop.getCapitalVariableName());
             setter.argument(mtop.getJavaType(), mtop.getVariableName());
+            setter.body.line("this.recordIfChanged(\"{}\", this.{}, {});", mtop.getVariableName(), mtop.getVariableName(), mtop.getVariableName());
             setter.body.line("this.{} = {};", mtop.getVariableName(), mtop.getVariableName());
 
             GClass shims = domainCodegen.getInnerClass("Shims");
@@ -140,11 +140,10 @@ public class GenerateDomainCodegenPass implements Pass {
 
     private void oneToManyProperties(GClass domainCodegen, Entity entity) {
         for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
-            GField collectionField = domainCodegen.getField(otmp.getVariableName()).type(otmp.getJavaType());
+            domainCodegen.getField(otmp.getVariableName()).type(otmp.getJavaType());
             domainCodegen.addImports(List.class, ArrayList.class, UoW.class);
 
-            GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableName());
-            getter.returnType(otmp.getJavaType());
+            GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableName()).returnType(otmp.getJavaType());
             getter.body.line("if (this.{} == null) {", otmp.getVariableName());
             getter.body.line("    if (UoW.isOpen() && this.getId() != null) {");
             getter.body.line("        {}Alias a = new {}Alias('a');", otmp.getTargetJavaType(), otmp.getTargetJavaType());
@@ -162,10 +161,27 @@ public class GenerateDomainCodegenPass implements Pass {
     }
 
     private void manyToManyProperties(GClass domainCodegen, Entity entity) {
+        /*
         for (ManyToManyProperty mtmp : entity.getManyToManyProperties()) {
-            GField collectionField = domainCodegen.getField(mtmp.getVariableName()).type(mtmp.getJavaType());
-            domainCodegen.addImports(List.class, ArrayList.class);
-        }
-    }
+            // Collection field
+            domainCodegen.getField(mtmp.getVariableName()).type(mtmp.getJavaType());
+            domainCodegen.addImports(List.class, ArrayList.class, UoW.class);
 
+            GMethod getter = domainCodegen.getMethod("get" + mtmp.getCapitalVariableName()).returnType(mtmp.getJavaType());
+            getter.body.line("if (this.{} == null) {", mtmp.getVariableName());
+            getter.body.line("    if (UoW.isOpen() && this.getId() != null) {");
+            getter.body.line("        {}Alias a = new {}Alias('a');", mtmp.getTargetJavaType(), mtmp.getTargetJavaType());
+            getter.body.line("        this.{} = Select.from(a).where(a.{}.equals(this.getId())).orderBy(a.id.asc()).list();",//
+                mtmp.getVariableName(),
+                mtmp.getMyKeyColumnName(),
+                mtmp.getTargetJavaType());
+            getter.body.line("    } else {");
+            getter.body.line("        this.{} = {};", mtmp.getVariableName(), mtmp.getDefaultJavaString());
+            getter.body.line("    }");
+            getter.body.line("}");
+            getter.body.line("return this.{};", mtmp.getVariableName());
+            domainCodegen.addImports(mtmp.getTargetTable().getFullAliasClassName(), Select.class.getName());
+        }
+        */
+    }
 }

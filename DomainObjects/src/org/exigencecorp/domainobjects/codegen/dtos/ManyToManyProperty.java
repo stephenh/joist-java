@@ -78,6 +78,10 @@ public class ManyToManyProperty implements Property {
         return this.targetTable.getTableName() + "_id";
     }
 
+    public Entity getTargetTable() {
+        return this.targetTable;
+    }
+
     public String getTargetTableName() {
         return this.targetTable.getTableName();
     }
