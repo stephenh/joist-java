@@ -3,8 +3,6 @@ package features.domain;
 import java.util.List;
 
 import junit.framework.Assert;
-import features.domain.Child;
-import features.domain.Parent;
 import features.domain.mappers.ChildMapper;
 import features.domain.mappers.ParentMapper;
 
@@ -50,6 +48,20 @@ public class ChildTest extends AbstractFeaturesTest {
         Assert.assertEquals(2, children.size());
         Assert.assertEquals("child1", children.get(0).getName());
         Assert.assertEquals("child2", children.get(1).getName());
+    }
+
+    public void testChangeOfParentIsSaved() {
+        Parent p1 = new Parent("p1");
+        new Child(p1, "child");
+        this.commitAndReOpen();
+
+        Child c = new ChildMapper().find(2);
+        c.setParent(new Parent("p2"));
+        Assert.assertEquals("parent", c.getChangedProperties().get(0));
+        this.commitAndReOpen();
+
+        c = new ChildMapper().find(2);
+        Assert.assertEquals("p2", c.getParent().getName());
     }
 
 }

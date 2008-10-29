@@ -4,8 +4,11 @@ import features.domain.ManyToManyAFoo;
 import features.domain.ManyToManyAFooCodegen;
 import java.util.ArrayList;
 import java.util.List;
+import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.queries.Alias;
+import org.exigencecorp.domainobjects.queries.JoinClause;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.ForeignKeyAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
@@ -38,6 +41,10 @@ public class ManyToManyAFooAlias extends Alias<ManyToManyAFoo> {
 
     public IdAliasColumn<ManyToManyAFoo> getSubClassIdColumn() {
         return null;
+    }
+
+    public JoinClause on(ForeignKeyAliasColumn<? extends DomainObject, ManyToManyAFoo> on) {
+        return new JoinClause("INNER JOIN", this, on);
     }
 
 }

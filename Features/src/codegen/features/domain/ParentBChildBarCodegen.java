@@ -52,6 +52,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     }
 
     public void setParentBParent(ParentBParent parentBParent) {
+        this.recordIfChanged("parentBParent", this.parentBParent, parentBParent);
         this.parentBParent = parentBParent;
     }
 

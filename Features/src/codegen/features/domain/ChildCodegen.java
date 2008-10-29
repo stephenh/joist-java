@@ -52,6 +52,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     }
 
     public void setParent(Parent parent) {
+        this.recordIfChanged("parent", this.parent, parent);
         this.parent = parent;
     }
 

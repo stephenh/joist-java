@@ -25,7 +25,7 @@ public class Update0007 extends Update {
             varchar("name"),
             integer("version"));
 
-        createJoinTable("many_to_many_a_foo", "many_to_many_a_bar");
+        createJoinTable("many_to_many_a_foo_to_bar", "many_to_many_a_foo", "many_to_many_a_bar");
     }
 
 }

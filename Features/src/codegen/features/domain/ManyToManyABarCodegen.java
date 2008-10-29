@@ -1,19 +1,22 @@
 package features.domain;
 
 import features.domain.mappers.ManyToManyABarAlias;
+import features.domain.mappers.ManyToManyAFooToBarAlias;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.queries.Alias;
+import org.exigencecorp.domainobjects.queries.Select;
+import org.exigencecorp.domainobjects.uow.UoW;
 
 public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
 
     private Id<ManyToManyABar> id = null;
     private String name = null;
     private Integer version = null;
-    private List<ManyToManyAFoo> manyToManyAFoos;
+    private List<ManyToManyAFooToBar> manyToManyAFooToBars;
 
     public Alias<? extends ManyToManyABar> newAlias(String alias) {
         return new ManyToManyABarAlias(alias);
@@ -39,6 +42,18 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
 
     public Integer getVersion() {
         return this.version;
+    }
+
+    public List<ManyToManyAFooToBar> getManyToManyAFooToBars() {
+        if (this.manyToManyAFooToBars == null) {
+            if (UoW.isOpen() && this.getId() != null) {
+                ManyToManyAFooToBarAlias a = new ManyToManyAFooToBarAlias("a");
+                this.manyToManyAFooToBars = Select.from(a).where(a.manyToManyABar.equals(this.getId())).orderBy(a.id.asc()).list();
+            } else {
+                this.manyToManyAFooToBars = new ArrayList<ManyToManyAFooToBar>();
+            }
+        }
+        return this.manyToManyAFooToBars;
     }
 
     public static class Shims {

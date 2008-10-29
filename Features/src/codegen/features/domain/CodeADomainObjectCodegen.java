@@ -50,6 +50,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public void setCodeASize(CodeASize codeASize) {
+        this.recordIfChanged("codeASize", this.codeASize, codeASize);
         this.codeASize = codeASize;
     }
 
@@ -61,6 +62,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public void setCodeAColor(CodeAColor codeAColor) {
+        this.recordIfChanged("codeAColor", this.codeAColor, codeAColor);
         this.codeAColor = codeAColor;
     }
 
