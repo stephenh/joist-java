@@ -49,13 +49,15 @@ public class Keywords {
     }
 
     public static void createJoinTable(String table1, String table2) {
-        String joinTableName = table1 + "_to_" + table2;
-        Keywords.execute("CREATE SEQUENCE " + joinTableName + "_id_seq");
-        Keywords.execute("CREATE TABLE {} ("
-            + " id int DEFAULT nextval('{}_id_seq'),"
-            + " {}_id int NOT NULL REFERENCES \"{}\" (id) DEFERRABLE,"
-            + " {}_id int NOT NULL REFERENCES \"{}\" (id) DEFERRABLE,"
-            + " PRIMARY KEY(id))", joinTableName, joinTableName, table1, table1, table2, table2);
+        Keywords.createJoinTable(table1 + "_to_" + table2, table1, table2);
+    }
+
+    public static void createJoinTable(String joinTableName, String table1, String table2) {
+        Keywords.createTable(joinTableName,//
+            Keywords.primaryKey("id"),
+            Keywords.foreignKey(table1, Owner.IsNeither),
+            Keywords.foreignKey(table2, Owner.IsNeither),
+            Keywords.integer("version"));
     }
 
     public static void addCode(String tableName, String code, String description) {
