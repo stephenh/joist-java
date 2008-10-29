@@ -1,5 +1,7 @@
 package org.exigencecorp.updater.columns;
 
+import org.exigencecorp.jdbc.Jdbc;
+import org.exigencecorp.updater.Updater;
 import org.exigencecorp.util.StringBuilderr;
 
 public class ForeignKeyColumn extends AbstractColumn {
@@ -38,8 +40,10 @@ public class ForeignKeyColumn extends AbstractColumn {
     public void postInjectCommands(StringBuilderr sb) {
         super.postInjectCommands(sb);
 
-        // this.getConstraintNameStrategy().getNextConstraintName(this.owner);
-        String constraintName = this.getTableName() + "_" + this.getName() + "_owner_" + this.owner.toString().toLowerCase() + "_fk";
+        int constraintNumber = (Updater.getConnection() == null) ? 1 : Jdbc.queryForInt(
+            Updater.getConnection(),
+            "select nextval('constraint_name_seq')");
+        String constraintName = "constraint_" + constraintNumber + "_owner_" + this.owner.toString().toLowerCase() + "_fk";
         String indexName = this.getTableName() + "_" + this.getName() + "_idx";
 
         sb.append(

@@ -46,7 +46,7 @@ public class CreateTableTest extends TestCase {
                         "    gender_id int",
                         ");",
                         "ALTER TABLE 'demographic' ALTER COLUMN 'gender_id' SET NOT NULL;",
-                        "ALTER TABLE 'demographic' ADD CONSTRAINT 'demographic_gender_id_owner_isneither_fk' FOREIGN KEY (gender_id) REFERENCES 'gender' ('id') DEFERRABLE;",
+                        "ALTER TABLE 'demographic' ADD CONSTRAINT 'constraint_1_owner_isneither_fk' FOREIGN KEY (gender_id) REFERENCES 'gender' ('id') DEFERRABLE;",
                         "CREATE INDEX 'demographic_gender_id_idx' ON 'demographic' USING btree (gender_id);"),
                 t.toSql());
     }
