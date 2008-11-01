@@ -111,12 +111,7 @@ public class JdbcRepository implements Repository {
     public <T extends DomainObject> void assignId(T instance) {
         Alias<T> t = (Alias<T>) instance.newAlias("t");
 
-        Alias<? super T> base = t;
-        while (base.getBaseClassAlias() != null) {
-            base = base.getBaseClassAlias();
-        }
-
-        String sql = "select nextval('" + base.getTableName() + "_id_seq')";
+        String sql = "select nextval('" + t.getRootClassAlias().getTableName() + "_id_seq')";
         int id = Jdbc.queryForInt(this.connection, sql);
         t.getIdColumn().setJdbcValue(instance, id);
         t.getVersionColumn().setJdbcValue(instance, 0);
