@@ -11,18 +11,18 @@ import org.exigencecorp.util.Inflector;
 public class ManyToManyProperty implements Property {
 
     private CodegenConfig config;
-    private String joinTableName;
     private String myKeyColumnName;
+    private Entity joinTable;
     private Entity mySide;
     private Entity targetTable;
     private boolean inverse;
     private ManyToManyProperty other;
 
-    public ManyToManyProperty(Codegen codegen, Entity mySide, Entity otherSide, InformationSchemaColumn column) {
+    public ManyToManyProperty(Codegen codegen, Entity joinTable, Entity mySide, Entity otherSide, InformationSchemaColumn column) {
         this.config = codegen.getConfig();
+        this.joinTable = joinTable;
         this.mySide = mySide;
         this.targetTable = otherSide;
-        this.joinTableName = column.tableName;
         this.myKeyColumnName = column.name;
         this.inverse = column.tableName.startsWith(mySide.getTableName());
     }
@@ -67,7 +67,7 @@ public class ManyToManyProperty implements Property {
     }
 
     public String getJoinTableName() {
-        return this.joinTableName;
+        return this.joinTable.getTableName();
     }
 
     public String getMyKeyColumnName() {
@@ -87,7 +87,7 @@ public class ManyToManyProperty implements Property {
     }
 
     public String getSequenceName() {
-        return this.joinTableName + "_id_seq";
+        return this.getJoinTableName() + "_id_seq";
     }
 
     public boolean isInverse() {
@@ -120,6 +120,10 @@ public class ManyToManyProperty implements Property {
 
     public boolean isCode() {
         return this.targetTable.isEnum();
+    }
+
+    public Entity getJoinTable() {
+        return this.joinTable;
     }
 
 }

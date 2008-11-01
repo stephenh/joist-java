@@ -7,6 +7,7 @@ import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
+import org.exigencecorp.domainobjects.codegen.dtos.ManyToManyProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.ManyToOneProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.OneToManyProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.PrimitiveProperty;
@@ -161,27 +162,20 @@ public class GenerateDomainCodegenPass implements Pass {
     }
 
     private void manyToManyProperties(GClass domainCodegen, Entity entity) {
-        /*
         for (ManyToManyProperty mtmp : entity.getManyToManyProperties()) {
-            // Collection field
-            domainCodegen.getField(mtmp.getVariableName()).type(mtmp.getJavaType());
-            domainCodegen.addImports(List.class, ArrayList.class, UoW.class);
-
             GMethod getter = domainCodegen.getMethod("get" + mtmp.getCapitalVariableName()).returnType(mtmp.getJavaType());
-            getter.body.line("if (this.{} == null) {", mtmp.getVariableName());
-            getter.body.line("    if (UoW.isOpen() && this.getId() != null) {");
-            getter.body.line("        {}Alias a = new {}Alias('a');", mtmp.getTargetJavaType(), mtmp.getTargetJavaType());
-            getter.body.line("        this.{} = Select.from(a).where(a.{}.equals(this.getId())).orderBy(a.id.asc()).list();",//
-                mtmp.getVariableName(),
-                mtmp.getMyKeyColumnName(),
-                mtmp.getTargetJavaType());
-            getter.body.line("    } else {");
-            getter.body.line("        this.{} = {};", mtmp.getVariableName(), mtmp.getDefaultJavaString());
-            getter.body.line("    }");
+            getter.body.line("{} l = {};", mtmp.getJavaType(), mtmp.getDefaultJavaString());
+            getter.body.line("for ({} o : this.get{}s()) {", mtmp.getJoinTable().getClassName(), mtmp.getJoinTable().getClassName());
+            getter.body.line("    l.add(o.get{}());", mtmp.getCapitalVariableNameSingular());
             getter.body.line("}");
-            getter.body.line("return this.{};", mtmp.getVariableName());
-            domainCodegen.addImports(mtmp.getTargetTable().getFullAliasClassName(), Select.class.getName());
+            getter.body.line("return l;");
+
+            GMethod adder = domainCodegen.getMethod("add{}", mtmp.getCapitalVariableNameSingular());
+            adder.argument(mtmp.getTargetTable().getClassName(), "o");
+            adder.body.line("{} a = new {}();", mtmp.getJoinTable().getClassName(), mtmp.getJoinTable().getClassName());
+            adder.body.line("a.set{}(({}) this);", entity.getClassName(), entity.getClassName());
+            adder.body.line("a.set{}(o);", mtmp.getTargetTable().getClassName());
         }
-        */
     }
+
 }

@@ -13,6 +13,8 @@ public class FindManyToManyPropertiesPass implements Pass {
                 continue;
             }
 
+            Entity joinTable = codegen.getEntity(column.tableName);
+
             Entity mySide = codegen.getEntity(column.foreignKeyTableName);
             if (mySide == null) {
                 throw new RuntimeException("Could not find entity " + column.foreignKeyTableName);
@@ -23,7 +25,7 @@ public class FindManyToManyPropertiesPass implements Pass {
                 throw new RuntimeException("Could not find entity " + column.tableName);
             }
 
-            ManyToManyProperty mtmp = new ManyToManyProperty(codegen, mySide, otherSide, column);
+            ManyToManyProperty mtmp = new ManyToManyProperty(codegen, joinTable, mySide, otherSide, column);
             mySide.getManyToManyProperties().add(mtmp);
 
             // Go find our corresponding property--if it is there yet (of 2, last one adds both)

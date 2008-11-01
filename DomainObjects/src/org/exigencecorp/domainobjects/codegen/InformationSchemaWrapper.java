@@ -50,6 +50,7 @@ public class InformationSchemaWrapper {
     public boolean isManyToManyTable(String tableName) {
         List<String> actualColumns = this.getColumnNames(tableName);
         actualColumns.remove("id");
+        actualColumns.remove("version");
         return actualColumns.size() == 2 && actualColumns.get(0).endsWith("_id") && actualColumns.get(1).endsWith("_id");
     }
 

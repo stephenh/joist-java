@@ -5,7 +5,7 @@ import features.domain.mappers.ManyToManyAFooMapper;
 
 public class ManyToManyATest extends AbstractFeaturesTest {
 
-    public void testTwo() {
+    public void testViaExplicitFooToBar() {
         ManyToManyAFoo foo = new ManyToManyAFoo();
         foo.setName("foo");
         ManyToManyABar bar = new ManyToManyABar();
@@ -14,6 +14,19 @@ public class ManyToManyATest extends AbstractFeaturesTest {
         ManyToManyAFooToBar join = new ManyToManyAFooToBar();
         join.setManyToManyAFoo(foo);
         join.setManyToManyABar(bar);
+        this.commitAndReOpen();
+
+        foo = new ManyToManyAFooMapper().find(foo.getId());
+        Assert.assertEquals("bar", foo.getManyToManyAFooToBars().get(0).getManyToManyABar().getName());
+    }
+
+    public void testViaImplicitFooToBar() {
+        ManyToManyAFoo foo = new ManyToManyAFoo();
+        foo.setName("foo");
+        ManyToManyABar bar = new ManyToManyABar();
+        bar.setName("bar");
+
+        foo.addManyToManyABar(bar);
         this.commitAndReOpen();
 
         foo = new ManyToManyAFooMapper().find(foo.getId());
