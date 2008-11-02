@@ -12,6 +12,7 @@ import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.orm.repos.Repository;
 import org.exigencecorp.domainobjects.queries.Alias;
+import org.exigencecorp.domainobjects.queries.Delete;
 import org.exigencecorp.domainobjects.queries.Insert;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.queries.Update;
@@ -24,6 +25,16 @@ public class JdbcRepository implements Repository {
 
     public static DataSource THIS_IS_DUMB = null;
     private Connection connection;
+
+    public <T extends DomainObject> void delete(T instance) {
+        Alias<? super T> current = (Alias<T>) instance.newAlias("t");
+        while (current != null) {
+            Delete<? super T> delete = Delete.from(current);
+            delete.where(current.getIdColumn().equalsRuntimeChecked(instance.getId()));
+            this.delete(delete);
+            current = current.getBaseClassAlias();
+        }
+    }
 
     public <T extends DomainObject> void store(T instance) {
         if (instance.isNew()) {
@@ -128,6 +139,10 @@ public class JdbcRepository implements Repository {
 
     public <T extends DomainObject> void update(Update<T> update) {
         new Updater<T>(this.connection, update).update();
+    }
+
+    public <T extends DomainObject> void delete(Delete<T> delete) {
+        new Deleter<T>(this.connection, delete).delete();
     }
 
     public <T extends DomainObject, R> List<R> select(Select<T> select, Class<R> instanceType) {

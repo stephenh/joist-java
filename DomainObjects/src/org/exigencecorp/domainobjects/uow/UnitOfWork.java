@@ -35,6 +35,10 @@ public class UnitOfWork {
         this.validator.resetQueueAndChangedProperties();
     }
 
+    public void delete(DomainObject instance) {
+        this.repository.delete(instance);
+    }
+
     public void commit() {
         this.flush();
         this.repository.commit();

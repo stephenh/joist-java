@@ -116,6 +116,9 @@ public class GenerateDomainCodegenPass implements Pass {
             setter.argument(mtop.getJavaType(), mtop.getVariableName());
             setter.body.line("this.recordIfChanged(\"{}\", this.{}, {});", mtop.getVariableName(), mtop.getVariableName(), mtop.getVariableName());
             setter.body.line("this.{} = {};", mtop.getVariableName(), mtop.getVariableName());
+            setter.body.line("if ({} == null) {", mtop.getVariableName());
+            setter.body.line("    this.{}Id = null;", mtop.getVariableName());
+            setter.body.line("}");
 
             GClass shims = domainCodegen.getInnerClass("Shims");
             GField shimField = shims.getField(mtop.getVariableName() + "Id").isPublic().isStatic().isFinal();

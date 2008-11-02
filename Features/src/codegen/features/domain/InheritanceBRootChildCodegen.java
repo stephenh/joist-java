@@ -54,6 +54,9 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
     public void setInheritanceBRoot(InheritanceBRoot inheritanceBRoot) {
         this.recordIfChanged("inheritanceBRoot", this.inheritanceBRoot, inheritanceBRoot);
         this.inheritanceBRoot = inheritanceBRoot;
+        if (inheritanceBRoot == null) {
+            this.inheritanceBRootId = null;
+        }
     }
 
     public static class Shims {

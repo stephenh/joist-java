@@ -47,6 +47,9 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     public void setManyToManyAFoo(ManyToManyAFoo manyToManyAFoo) {
         this.recordIfChanged("manyToManyAFoo", this.manyToManyAFoo, manyToManyAFoo);
         this.manyToManyAFoo = manyToManyAFoo;
+        if (manyToManyAFoo == null) {
+            this.manyToManyAFooId = null;
+        }
     }
 
     public ManyToManyABar getManyToManyABar() {
@@ -60,6 +63,9 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     public void setManyToManyABar(ManyToManyABar manyToManyABar) {
         this.recordIfChanged("manyToManyABar", this.manyToManyABar, manyToManyABar);
         this.manyToManyABar = manyToManyABar;
+        if (manyToManyABar == null) {
+            this.manyToManyABarId = null;
+        }
     }
 
     public static class Shims {

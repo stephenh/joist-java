@@ -1,6 +1,7 @@
 package features.domain;
 
 import junit.framework.Assert;
+import features.domain.mappers.ManyToManyABarMapper;
 import features.domain.mappers.ManyToManyAFooMapper;
 
 public class ManyToManyATest extends AbstractFeaturesTest {
@@ -31,6 +32,14 @@ public class ManyToManyATest extends AbstractFeaturesTest {
 
         foo = new ManyToManyAFooMapper().find(foo.getId());
         Assert.assertEquals("bar", foo.getManyToManyAFooToBars().get(0).getManyToManyABar().getName());
+
+        bar = new ManyToManyABarMapper().find(bar.getId());
+        foo.removeManyToManyABar(bar);
+        // Assert.assertEquals(0, foo.getManyToManyAFooToBars().size());
+        this.commitAndReOpen();
+
+        foo = new ManyToManyAFooMapper().find(foo.getId());
+        Assert.assertEquals(0, foo.getManyToManyAFooToBars().size());
     }
 
 }

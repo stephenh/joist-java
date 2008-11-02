@@ -54,6 +54,9 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
     public void setParentBParent(ParentBParent parentBParent) {
         this.recordIfChanged("parentBParent", this.parentBParent, parentBParent);
         this.parentBParent = parentBParent;
+        if (parentBParent == null) {
+            this.parentBParentId = null;
+        }
     }
 
     public static class Shims {

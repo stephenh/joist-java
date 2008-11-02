@@ -30,4 +30,6 @@ public interface Repository {
 
     <T extends DomainObject> Ids<T> selectIds(Select<T> select);
 
+    <T extends DomainObject> void delete(T instance);
+
 }
