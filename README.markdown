@@ -38,6 +38,7 @@ Todo
 
 * Percolation
 * Validation rules
+* Differentiate mappers/finders, Finder registry/something
 
 Acknowledgements
 ================
