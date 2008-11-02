@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
-import org.exigencecorp.domainobjects.orm.ObjectCache;
+import org.exigencecorp.domainobjects.orm.IdentityMap;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
 import org.exigencecorp.domainobjects.uow.UoW;
@@ -14,7 +14,7 @@ import org.exigencecorp.jdbc.RowMapper;
 public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
     private final Alias<T> from;
     private final List<T> results;
-    private final ObjectCache cache = UoW.getCurrent().getObjectCache();
+    private final IdentityMap cache = UoW.getCurrent().getObjectCache();
 
     public DomainObjectMapper(Alias<T> from, List<T> results) {
         this.from = from;

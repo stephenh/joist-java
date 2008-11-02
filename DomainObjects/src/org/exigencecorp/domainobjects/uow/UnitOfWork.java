@@ -1,7 +1,7 @@
 package org.exigencecorp.domainobjects.uow;
 
 import org.exigencecorp.domainobjects.DomainObject;
-import org.exigencecorp.domainobjects.orm.ObjectCache;
+import org.exigencecorp.domainobjects.orm.IdentityMap;
 import org.exigencecorp.domainobjects.orm.repos.Repository;
 import org.exigencecorp.domainobjects.orm.repos.sql.JdbcRepository;
 import org.exigencecorp.domainobjects.validation.Validator;
@@ -11,7 +11,7 @@ import org.exigencecorp.util.Log;
 public class UnitOfWork {
 
     private final Validator validator = new Validator();
-    private final ObjectCache objectCache = new ObjectCache();
+    private final IdentityMap objectCache = new IdentityMap();
     private final Repository repository = new JdbcRepository();
 
     public void open() {
@@ -48,7 +48,7 @@ public class UnitOfWork {
         this.repository.rollback();
     }
 
-    public ObjectCache getObjectCache() {
+    public IdentityMap getObjectCache() {
         return this.objectCache;
     }
 
