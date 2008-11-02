@@ -178,6 +178,16 @@ public class GenerateDomainCodegenPass implements Pass {
             adder.body.line("{} a = new {}();", mtmp.getJoinTable().getClassName(), mtmp.getJoinTable().getClassName());
             adder.body.line("a.set{}(({}) this);", entity.getClassName(), entity.getClassName());
             adder.body.line("a.set{}(o);", mtmp.getTargetTable().getClassName());
+
+            GMethod remover = domainCodegen.getMethod("remove{}", mtmp.getCapitalVariableNameSingular());
+            remover.argument(mtmp.getTargetTable().getClassName(), "o");
+            remover.body.line("for ({} a : this.get{}s()) {", mtmp.getJoinTable().getClassName(), mtmp.getJoinTable().getClassName());
+            remover.body.line("    if (a.get{}().equals(o)) {", mtmp.getCapitalVariableNameSingular());
+            remover.body.line("        a.set{}(null);", mtmp.getCapitalVariableNameSingular());
+            remover.body.line("        a.set{}(null);", mtmp.getOther().getCapitalVariableNameSingular());
+            remover.body.line("        UoW.getCurrent().delete(a);");
+            remover.body.line("    }");
+            remover.body.line("}");
         }
     }
 

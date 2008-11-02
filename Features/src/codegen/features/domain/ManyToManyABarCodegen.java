@@ -70,6 +70,16 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
         a.setManyToManyAFoo(o);
     }
 
+    public void removeManyToManyAFoo(ManyToManyAFoo o) {
+        for (ManyToManyAFooToBar a : this.getManyToManyAFooToBars()) {
+            if (a.getManyToManyAFoo().equals(o)) {
+                a.setManyToManyAFoo(null);
+                a.setManyToManyABar(null);
+                UoW.getCurrent().delete(a);
+            }
+        }
+    }
+
     public static class Shims {
         public static final Shim<ManyToManyABar, Id<ManyToManyABar>> id = new Shim<ManyToManyABar, Id<ManyToManyABar>>() {
             public void set(ManyToManyABar instance, Id<ManyToManyABar> id) {
