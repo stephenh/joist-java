@@ -8,7 +8,7 @@ import org.exigencecorp.util.Join;
 public class GEnumClassTest extends TestCase {
 
     public void testEmptyEnum() {
-        GClass gc = new GClass("foo.bar.Foo").isEnum();
+        GClass gc = new GClass("foo.bar.Foo").setEnum();
         Assert.assertEquals(Join.lines(//
             "package foo.bar;",
             "",
@@ -19,7 +19,7 @@ public class GEnumClassTest extends TestCase {
     }
 
     public void testOneValue() {
-        GClass gc = new GClass("foo.bar.Foo").isEnum();
+        GClass gc = new GClass("foo.bar.Foo").setEnum();
         gc.addEnumValue("FOO");
         Assert.assertEquals(Join.lines(//
             "package foo.bar;",
@@ -33,7 +33,7 @@ public class GEnumClassTest extends TestCase {
     }
 
     public void testTwoValues() {
-        GClass gc = new GClass("foo.bar.Foo").isEnum();
+        GClass gc = new GClass("foo.bar.Foo").setEnum();
         gc.addEnumValue("FOO");
         gc.addEnumValue("BAR");
         Assert.assertEquals(Join.lines(//
@@ -49,7 +49,7 @@ public class GEnumClassTest extends TestCase {
     }
 
     public void testPrivateFields() {
-        GClass gc = new GClass("foo.bar.Foo").isEnum();
+        GClass gc = new GClass("foo.bar.Foo").setEnum();
         gc.getField("i").type("Integer").makeGetter();
         gc.getField("j").type("String").makeGetter();
         gc.addEnumValue("FOO(0, \"foo\")");

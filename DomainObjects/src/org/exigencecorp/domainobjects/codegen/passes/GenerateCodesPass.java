@@ -17,7 +17,7 @@ public class GenerateCodesPass implements Pass {
             }
 
             GClass code = codegen.getOutputCodegenDirectory().getClass(entity.getFullClassName());
-            code.isEnum().implementsInterface(Code.class);
+            code.setEnum().implementsInterface(Code.class);
             this.addFieldsAndConstructor(code);
             this.addValues((EnumEntity) entity, code);
             this.addFromId((EnumEntity) entity, code);

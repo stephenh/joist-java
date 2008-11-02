@@ -15,7 +15,7 @@ public class GFieldTest extends TestCase {
 
     public void testOnePublicField() {
         GClass gc = new GClass("foo.bar.Foo");
-        gc.getField("id").type(int.class).isPublic();
+        gc.getField("id").type(int.class).setPublic();
         Assert.assertEquals(Join.lines("package foo.bar;", "", "public class Foo {", "", "    public int id;", "", "}", ""), gc.toCode());
     }
 
@@ -47,7 +47,7 @@ public class GFieldTest extends TestCase {
 
     public void testOneFieldAssignedToAnonymousInnerClass() {
         GClass gc = new GClass("foo.bar.Foo");
-        GField foo = gc.getField("foo").type("Shim<Foo>").isStatic().isFinal();
+        GField foo = gc.getField("foo").type("Shim<Foo>").setStatic().setFinal();
 
         GClass fooc = foo.initialAnonymousClass();
         fooc.getMethod("getFoo").returnType("Foo").body.append("return null;");
@@ -69,11 +69,11 @@ public class GFieldTest extends TestCase {
 
     public void testTwoFieldsAssignedToAnonymousInnerClass() {
         GClass gc = new GClass("foo.bar.Foo");
-        GField foo = gc.getField("foo").type("Shim<Foo>").isStatic().isFinal();
+        GField foo = gc.getField("foo").type("Shim<Foo>").setStatic().setFinal();
         GClass fooc = foo.initialAnonymousClass();
         fooc.getMethod("getFoo").returnType("Foo").body.append("return null;");
 
-        GField bar = gc.getField("bar").type("Shim<Bar>").isStatic().isFinal();
+        GField bar = gc.getField("bar").type("Shim<Bar>").setStatic().setFinal();
         GClass barc = bar.initialAnonymousClass();
         barc.getMethod("getBar").returnType("Bar").body.append("return null;");
 

@@ -72,22 +72,22 @@ public class GField {
     }
 
     public GClass initialAnonymousClass() {
-        GClass gc = new GClass(this.typeClassName).isAnonymous();
+        GClass gc = new GClass(this.typeClassName).setAnonymous();
         this.initialAnonymousClass = gc;
         return gc;
     }
 
-    public GField isStatic() {
+    public GField setStatic() {
         this.isStatic = true;
         return this;
     }
 
-    public GField isFinal() {
+    public GField setFinal() {
         this.isFinal = true;
         return this;
     }
 
-    public GField isPublic() {
+    public GField setPublic() {
         this.access = "public";
         return this;
     }

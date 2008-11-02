@@ -27,7 +27,7 @@ public class GenerateDomainCodegenPass implements Pass {
             }
 
             GClass domainCodegen = codegen.getOutputCodegenDirectory().getClass(entity.getFullCodegenClassName());
-            domainCodegen.isAbstract();
+            domainCodegen.setAbstract();
             domainCodegen.baseClassName(entity.getParentClassName());
 
             this.addAlias(domainCodegen, entity);
@@ -51,14 +51,7 @@ public class GenerateDomainCodegenPass implements Pass {
             GField field = domainCodegen.getField(p.getVariableName());
             field.type(p.getJavaType());
             field.initialValue(p.getDefaultJavaString());
-
-            if (p.getColumnName().equals("id")) {
-                domainCodegen.addImports(Id.class);
-            }
-
-            GMethod getter = domainCodegen.getMethod("get" + p.getCapitalVariableName());
-            getter.returnType(p.getJavaType());
-            getter.body.append("return this.{};", p.getVariableName());
+            field.makeGetter();
 
             if (!"version".equals(p.getColumnName())) {
                 GMethod setter = domainCodegen.getMethod("set" + p.getCapitalVariableName());
@@ -68,7 +61,7 @@ public class GenerateDomainCodegenPass implements Pass {
             }
 
             GClass shims = domainCodegen.getInnerClass("Shims");
-            GField shimField = shims.getField(p.getVariableName()).isPublic().isStatic().isFinal();
+            GField shimField = shims.getField(p.getVariableName()).setPublic().setStatic().setFinal();
             shimField.type("Shim<" + entity.getClassName() + ", " + p.getJavaTypeNonPrimitive() + ">");
             GClass shimClass = shimField.initialAnonymousClass();
 
@@ -81,6 +74,9 @@ public class GenerateDomainCodegenPass implements Pass {
             shimGetter.returnType(p.getJavaTypeNonPrimitive());
             shimGetter.body.line("return (({}) instance).{};", entity.getCodegenClassName(), p.getVariableName());
 
+            if (p.getColumnName().equals("id")) {
+                domainCodegen.addImports(Id.class);
+            }
             domainCodegen.addImports(Shim.class);
         }
     }
@@ -121,7 +117,7 @@ public class GenerateDomainCodegenPass implements Pass {
             setter.body.line("}");
 
             GClass shims = domainCodegen.getInnerClass("Shims");
-            GField shimField = shims.getField(mtop.getVariableName() + "Id").isPublic().isStatic().isFinal();
+            GField shimField = shims.getField(mtop.getVariableName() + "Id").setPublic().setStatic().setFinal();
             shimField.type("Shim<" + entity.getClassName() + ", Integer>");
             GClass shimClass = shimField.initialAnonymousClass();
 

@@ -47,7 +47,7 @@ public class GenerateAliasesPass implements Pass {
         Entity baseEntity = entity.getBaseEntity();
         while (baseEntity != null) {
             if (first) {
-                GField baseAliasField = aliasClass.getField("baseAlias").isFinal();
+                GField baseAliasField = aliasClass.getField("baseAlias").setFinal();
                 baseAliasField.typeInPackage(entity.getConfig().getMapperPackage(), "{}Alias", baseEntity.getClassName());
 
                 GMethod baseClassAliasGetter = aliasClass.getMethod("getBaseClassAlias");
@@ -60,7 +60,7 @@ public class GenerateAliasesPass implements Pass {
                 Class<?> aliasColumnClass = p.getAliasColumnClass();
                 aliasClass.addImports(aliasColumnClass);
 
-                GField field = aliasClass.getField(p.getVariableName()).isPublic().isFinal();
+                GField field = aliasClass.getField(p.getVariableName()).setPublic().setFinal();
                 field.type("{}<{}>", aliasColumnClass.getSimpleName(), baseEntity.getClassName());
 
                 this.appendToConstructors(aliasClass, "this.{} = this.baseAlias.{};", p.getVariableName(), p.getVariableName());
@@ -72,7 +72,7 @@ public class GenerateAliasesPass implements Pass {
     }
 
     private void addColumnsFieldAndGetter(GClass aliasClass, Entity entity) {
-        GField columns = aliasClass.getField("columns").isFinal();
+        GField columns = aliasClass.getField("columns").setFinal();
         columns.type("List<AliasColumn<{}, ?, ?>>", entity.getClassName());
         columns.initialValue("new ArrayList<AliasColumn<{}, ?, ?>>()", entity.getClassName());
 
@@ -100,7 +100,7 @@ public class GenerateAliasesPass implements Pass {
             subclassIdColumnMethod.returnType("IdAliasColumn<{}>", entity.getClassName());
             subclassIdColumnMethod.body.line("return this.subClassId;");
 
-            GField subClassIdField = aliasClass.getField("subClassId").isFinal();
+            GField subClassIdField = aliasClass.getField("subClassId").setFinal();
             subClassIdField.type("IdAliasColumn<{}>", entity.getClassName());
             subClassIdField.initialValue("new IdAliasColumn<{}>(this, \"id\", null)", entity.getClassName());
         }
@@ -150,7 +150,7 @@ public class GenerateAliasesPass implements Pass {
             Class<?> aliasColumnClass = p.getAliasColumnClass();
             aliasClass.addImports(aliasColumnClass);
 
-            GField field = aliasClass.getField(p.getVariableName()).isPublic().isFinal();
+            GField field = aliasClass.getField(p.getVariableName()).setPublic().setFinal();
             field.type("{}<{}>", aliasColumnClass.getSimpleName(), entity.getClassName());
             field.initialValue("new {}<{}>(this, \"{}\", {}.Shims.{})",//
                 aliasColumnClass.getSimpleName(),
@@ -171,7 +171,7 @@ public class GenerateAliasesPass implements Pass {
             aliasClass.addImports(aliasColumnClass);
             aliasClass.addImports(p.getManySide().getFullClassName());
 
-            GField field = aliasClass.getField(p.getVariableName()).isPublic().isFinal();
+            GField field = aliasClass.getField(p.getVariableName()).setPublic().setFinal();
             field.type("{}<{}, {}>", aliasColumnClass.getSimpleName(), entity.getClassName(), p.getJavaType());
             field.initialValue("new {}<{}, {}>(this, \"{}\", {}.Shims.{}Id)",//
                 aliasColumnClass.getSimpleName(),

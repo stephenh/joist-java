@@ -40,7 +40,7 @@ public class GClass {
         }
     }
 
-    public GClass isEnum() {
+    public GClass setEnum() {
         this.isEnum = true;
         return this;
     }
@@ -213,12 +213,12 @@ public class GClass {
         return sb.toString();
     }
 
-    public GClass isAbstract() {
+    public GClass setAbstract() {
         this.isAbstract = true;
         return this;
     }
 
-    public GClass isAnonymous() {
+    public GClass setAnonymous() {
         this.isAnonymous = true;
         return this;
     }
