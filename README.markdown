@@ -11,6 +11,16 @@ For example:
         return Select.from(c).where(c.id.equals(id)).unique();
     }
 
+Examples
+========
+
+See [tests][1] and [mappers][2] for examples of the syntax. [Base classes][3] and [aliases][4] are code generated.
+
+[1]: master/Features/tests/features/domain/ChildTest.java
+[2]: master/Features/src/main/features/domain/mappers/ChildMapper.java
+[3]: master/Features/src/codegen/features/domain/ChildCodegen.java
+[4]: master/Features/src/codegen/features/domain/mappers/ChildAlias.java
+
 Patterns
 ========
 
@@ -22,16 +32,6 @@ Patterns
 * Lazy Load (with lazy initialization, e.g. no virtual proxies)
 * Class Table Inheritance (no Single Table Inheritance or Concrete Table Inheritance)
 * Optimistic Offline Lock (every object as a "version" column)
-
-Examples
-========
-
-See [tests][1] and [mappers][2] for examples of the syntax. [Base classes][3] and [aliases][4] are code generated.
-
-[1]: master/Features/tests/features/domain/ChildTest.java
-[2]: master/Features/src/main/features/domain/mappers/ChildMapper.java
-[3]: master/Features/src/codegen/features/domain/ChildCodegen.java
-[4]: master/Features/src/codegen/features/domain/mappers/ChildAlias.java
 
 Todo
 ====
