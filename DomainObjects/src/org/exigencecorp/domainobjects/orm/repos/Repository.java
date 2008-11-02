@@ -18,9 +18,15 @@ public interface Repository {
 
     void close();
 
+    /* Instance-level methods. */
+
     <T extends DomainObject> void assignId(T instance);
 
     <T extends DomainObject> void store(T instance);
+
+    <T extends DomainObject> void delete(T instance);
+
+    /* Table-level methods. */
 
     <T extends DomainObject> void insert(Insert<T> insert);
 
@@ -29,7 +35,5 @@ public interface Repository {
     <T extends DomainObject, R> List<R> select(Select<T> select, Class<R> rowInstanceType);
 
     <T extends DomainObject> Ids<T> selectIds(Select<T> select);
-
-    <T extends DomainObject> void delete(T instance);
 
 }
