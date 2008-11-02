@@ -14,9 +14,14 @@ For example:
 Patterns
 ========
 
+* Registry (needs work on application/infrastructure integration)
 * Unit of Work
-* Data Mapper and Metadata Mapping
-* Foreign Key Mapping with back pointer
+* Identity Map
+* Data Mapper (with Metadata Mapping)
+* Foreign Key Mapping (with back pointer)
+* Lazy Load (with lazy initialization, e.g. no virtual proxies)
+* Class Table Inheritance (no Single Table Inheritance or Concrete Table Inheritance)
+* Optimistic Offline Lock (every object as a "version" column)
 
 Examples
 ========
