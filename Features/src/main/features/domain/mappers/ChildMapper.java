@@ -13,15 +13,14 @@ public class ChildMapper {
 
     public Child find(int id) {
         ChildAlias c = new ChildAlias("c");
-        Select<Child> q = Select.from(c);
-        q.where(c.id.equals(id));
-        return q.unique();
+        return Select.from(c).where(c.id.equals(id)).unique();
     }
 
     public List<Child> findForParentOfName(String name) {
         // SELECT * FROM child c
         // INNER JOIN parent p ON p.id = c.parent_id
         // WHERE p.name = :name
+        // ORDER BY c.name
 
         ChildAlias c = new ChildAlias("c");
         ParentAlias p = new ParentAlias("p");
