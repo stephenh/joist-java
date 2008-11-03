@@ -20,6 +20,8 @@ public interface Repository {
 
     /* Instance-level methods. */
 
+    <T extends DomainObject> T load(Class<T> type, Integer id);
+
     <T extends DomainObject> void assignId(T instance);
 
     <T extends DomainObject> void store(T instance);

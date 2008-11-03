@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.Ids;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.repos.Repository;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Delete;
@@ -18,6 +19,7 @@ import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.queries.Update;
 import org.exigencecorp.domainobjects.queries.Where;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
+import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.util.Copy;
 
@@ -25,6 +27,15 @@ public class JdbcRepository implements Repository {
 
     public static DataSource THIS_IS_DUMB = null;
     private Connection connection;
+
+    public <T extends DomainObject> T load(Class<T> type, Integer id) {
+        T instance = (T) UoW.getCurrent().getObjectCache().findOrNull(type, id);
+        if (instance == null) {
+            Alias<T> a = AliasRegistry.get(type);
+            instance = Select.from(a).where(a.getIdColumn().equals(id)).unique();
+        }
+        return instance;
+    }
 
     public <T extends DomainObject> void delete(T instance) {
         Alias<? super T> current = (Alias<T>) instance.newAlias("t");
