@@ -98,10 +98,6 @@ public class ManyToOneProperty implements Property {
         return this.getManySide().hasSubclasses();
     }
 
-    public boolean isToEnum() {
-        return this.getManySide().isCodeEntity();
-    }
-
     public boolean isTargetGenerated() {
         return !this.getOneToManyProperty().isCollectionSkipped();
     }

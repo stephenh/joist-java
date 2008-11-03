@@ -1,21 +1,23 @@
 package features.domain;
 
-import features.domain.mappers.InheritanceBRootAlias;
 import features.domain.mappers.InheritanceBRootChildAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
+import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
 import org.exigencecorp.domainobjects.queries.Alias;
-import org.exigencecorp.domainobjects.queries.Select;
-import org.exigencecorp.domainobjects.uow.UoW;
 
 public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
+
+    static {
+        AliasRegistry.register(InheritanceBRootChild.class, new InheritanceBRootChildAlias("a"));
+    }
 
     private Id<InheritanceBRootChild> id = null;
     private String name = null;
     private Integer version = null;
-    private InheritanceBRoot inheritanceBRoot = null;
-    private Integer inheritanceBRootId = null;
+    private ForeignKeyHolder<InheritanceBRoot> inheritanceBRoot = new ForeignKeyHolder<InheritanceBRoot>(InheritanceBRoot.class);
 
     public Alias<? extends InheritanceBRootChild> newAlias(String alias) {
         return new InheritanceBRootChildAlias(alias);
@@ -44,19 +46,12 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
     }
 
     public InheritanceBRoot getInheritanceBRoot() {
-        if (this.inheritanceBRoot == null && this.inheritanceBRootId != null && UoW.isOpen()) {
-            InheritanceBRootAlias a = new InheritanceBRootAlias("a");
-            this.inheritanceBRoot = Select.from(a).where(a.id.equals(this.inheritanceBRootId)).unique();
-        }
-        return this.inheritanceBRoot;
+        return this.inheritanceBRoot.get();
     }
 
     public void setInheritanceBRoot(InheritanceBRoot inheritanceBRoot) {
         this.recordIfChanged("inheritanceBRoot", this.inheritanceBRoot, inheritanceBRoot);
-        this.inheritanceBRoot = inheritanceBRoot;
-        if (inheritanceBRoot == null) {
-            this.inheritanceBRootId = null;
-        }
+        this.inheritanceBRoot.set(inheritanceBRoot);
     }
 
     public static class Shims {
@@ -86,14 +81,10 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
         };
         public static final Shim<InheritanceBRootChild, Integer> inheritanceBRootId = new Shim<InheritanceBRootChild, Integer>() {
             public void set(InheritanceBRootChild instance, Integer inheritanceBRootId) {
-                ((InheritanceBRootChildCodegen) instance).inheritanceBRootId = inheritanceBRootId;
+                ((InheritanceBRootChildCodegen) instance).inheritanceBRoot.setId(inheritanceBRootId);
             }
             public Integer get(InheritanceBRootChild instance) {
-                InheritanceBRootChildCodegen instanceCodegen = instance;
-                if (instanceCodegen.inheritanceBRoot != null) {
-                    return instanceCodegen.inheritanceBRoot.getId().intValue();
-                }
-                return ((InheritanceBRootChildCodegen) instance).inheritanceBRootId;
+                return ((InheritanceBRootChildCodegen) instance).inheritanceBRoot.getId();
             }
         };
     }

@@ -1,5 +1,6 @@
 package features.domain;
 
+import features.domain.mappers.ChildAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
@@ -7,20 +8,16 @@ import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
 import org.exigencecorp.domainobjects.queries.Alias;
 
-import features.domain.mappers.ChildAlias;
-import features.domain.mappers.ParentAlias;
-
 public abstract class ChildCodegen extends AbstractDomainObject {
+
+    static {
+        AliasRegistry.register(Child.class, new ChildAlias("a"));
+    }
 
     private Id<Child> id = null;
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<Parent> parent = new ForeignKeyHolder<Parent>(Parent.class);
-
-    static {
-        AliasRegistry.register(Parent.class, new ParentAlias("a"));
-        AliasRegistry.register(Child.class, new ChildAlias("a"));
-    }
 
     public Alias<? extends Child> newAlias(String alias) {
         return new ChildAlias(alias);
@@ -62,7 +59,6 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             public void set(Child instance, Id<Child> id) {
                 ((ChildCodegen) instance).id = id;
             }
-
             public Id<Child> get(Child instance) {
                 return ((ChildCodegen) instance).id;
             }
@@ -71,7 +67,6 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             public void set(Child instance, String name) {
                 ((ChildCodegen) instance).name = name;
             }
-
             public String get(Child instance) {
                 return ((ChildCodegen) instance).name;
             }
@@ -80,7 +75,6 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             public void set(Child instance, Integer version) {
                 ((ChildCodegen) instance).version = version;
             }
-
             public Integer get(Child instance) {
                 return ((ChildCodegen) instance).version;
             }
@@ -89,7 +83,6 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             public void set(Child instance, Integer parentId) {
                 ((ChildCodegen) instance).parent.setId(parentId);
             }
-
             public Integer get(Child instance) {
                 return ((ChildCodegen) instance).parent.getId();
             }

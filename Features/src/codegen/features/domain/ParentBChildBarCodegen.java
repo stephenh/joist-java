@@ -1,21 +1,23 @@
 package features.domain;
 
 import features.domain.mappers.ParentBChildBarAlias;
-import features.domain.mappers.ParentBParentAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
+import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
 import org.exigencecorp.domainobjects.queries.Alias;
-import org.exigencecorp.domainobjects.queries.Select;
-import org.exigencecorp.domainobjects.uow.UoW;
 
 public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
+
+    static {
+        AliasRegistry.register(ParentBChildBar.class, new ParentBChildBarAlias("a"));
+    }
 
     private Id<ParentBChildBar> id = null;
     private String name = null;
     private Integer version = null;
-    private ParentBParent parentBParent = null;
-    private Integer parentBParentId = null;
+    private ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
 
     public Alias<? extends ParentBChildBar> newAlias(String alias) {
         return new ParentBChildBarAlias(alias);
@@ -44,19 +46,12 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     }
 
     public ParentBParent getParentBParent() {
-        if (this.parentBParent == null && this.parentBParentId != null && UoW.isOpen()) {
-            ParentBParentAlias a = new ParentBParentAlias("a");
-            this.parentBParent = Select.from(a).where(a.id.equals(this.parentBParentId)).unique();
-        }
-        return this.parentBParent;
+        return this.parentBParent.get();
     }
 
     public void setParentBParent(ParentBParent parentBParent) {
         this.recordIfChanged("parentBParent", this.parentBParent, parentBParent);
-        this.parentBParent = parentBParent;
-        if (parentBParent == null) {
-            this.parentBParentId = null;
-        }
+        this.parentBParent.set(parentBParent);
     }
 
     public static class Shims {
@@ -86,14 +81,10 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         };
         public static final Shim<ParentBChildBar, Integer> parentBParentId = new Shim<ParentBChildBar, Integer>() {
             public void set(ParentBChildBar instance, Integer parentBParentId) {
-                ((ParentBChildBarCodegen) instance).parentBParentId = parentBParentId;
+                ((ParentBChildBarCodegen) instance).parentBParent.setId(parentBParentId);
             }
             public Integer get(ParentBChildBar instance) {
-                ParentBChildBarCodegen instanceCodegen = instance;
-                if (instanceCodegen.parentBParent != null) {
-                    return instanceCodegen.parentBParent.getId().intValue();
-                }
-                return ((ParentBChildBarCodegen) instance).parentBParentId;
+                return ((ParentBChildBarCodegen) instance).parentBParent.getId();
             }
         };
     }

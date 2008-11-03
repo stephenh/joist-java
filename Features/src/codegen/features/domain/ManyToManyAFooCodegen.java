@@ -7,11 +7,16 @@ import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
 
 public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
+
+    static {
+        AliasRegistry.register(ManyToManyAFoo.class, new ManyToManyAFooAlias("a"));
+    }
 
     private Id<ManyToManyAFoo> id = null;
     private String name = null;

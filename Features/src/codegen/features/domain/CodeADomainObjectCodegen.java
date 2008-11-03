@@ -4,17 +4,21 @@ import features.domain.mappers.CodeADomainObjectAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
+import org.exigencecorp.domainobjects.orm.ForeignKeyCodeHolder;
 import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
 
+    static {
+        AliasRegistry.register(CodeADomainObject.class, new CodeADomainObjectAlias("a"));
+    }
+
     private Id<CodeADomainObject> id = null;
     private String name = null;
     private Integer version = null;
-    private CodeASize codeASize = null;
-    private Integer codeASizeId = null;
-    private CodeAColor codeAColor = null;
-    private Integer codeAColorId = null;
+    private ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
+    private ForeignKeyCodeHolder<CodeAColor> codeAColor = new ForeignKeyCodeHolder<CodeAColor>(CodeAColor.class);
 
     public Alias<? extends CodeADomainObject> newAlias(String alias) {
         return new CodeADomainObjectAlias(alias);
@@ -43,33 +47,21 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public CodeASize getCodeASize() {
-        if (this.codeASize == null && this.codeASizeId != null) {
-            this.codeASize = CodeASize.fromId(this.codeASizeId);
-        }
-        return this.codeASize;
+        return this.codeASize.get();
     }
 
     public void setCodeASize(CodeASize codeASize) {
         this.recordIfChanged("codeASize", this.codeASize, codeASize);
-        this.codeASize = codeASize;
-        if (codeASize == null) {
-            this.codeASizeId = null;
-        }
+        this.codeASize.set(codeASize);
     }
 
     public CodeAColor getCodeAColor() {
-        if (this.codeAColor == null && this.codeAColorId != null) {
-            this.codeAColor = CodeAColor.fromId(this.codeAColorId);
-        }
-        return this.codeAColor;
+        return this.codeAColor.get();
     }
 
     public void setCodeAColor(CodeAColor codeAColor) {
         this.recordIfChanged("codeAColor", this.codeAColor, codeAColor);
-        this.codeAColor = codeAColor;
-        if (codeAColor == null) {
-            this.codeAColorId = null;
-        }
+        this.codeAColor.set(codeAColor);
     }
 
     public static class Shims {
@@ -99,26 +91,18 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         };
         public static final Shim<CodeADomainObject, Integer> codeASizeId = new Shim<CodeADomainObject, Integer>() {
             public void set(CodeADomainObject instance, Integer codeASizeId) {
-                ((CodeADomainObjectCodegen) instance).codeASizeId = codeASizeId;
+                ((CodeADomainObjectCodegen) instance).codeASize.setId(codeASizeId);
             }
             public Integer get(CodeADomainObject instance) {
-                CodeADomainObjectCodegen instanceCodegen = instance;
-                if (instanceCodegen.codeASize != null) {
-                    return instanceCodegen.codeASize.getId().intValue();
-                }
-                return ((CodeADomainObjectCodegen) instance).codeASizeId;
+                return ((CodeADomainObjectCodegen) instance).codeASize.getId();
             }
         };
         public static final Shim<CodeADomainObject, Integer> codeAColorId = new Shim<CodeADomainObject, Integer>() {
             public void set(CodeADomainObject instance, Integer codeAColorId) {
-                ((CodeADomainObjectCodegen) instance).codeAColorId = codeAColorId;
+                ((CodeADomainObjectCodegen) instance).codeAColor.setId(codeAColorId);
             }
             public Integer get(CodeADomainObject instance) {
-                CodeADomainObjectCodegen instanceCodegen = instance;
-                if (instanceCodegen.codeAColor != null) {
-                    return instanceCodegen.codeAColor.getId().intValue();
-                }
-                return ((CodeADomainObjectCodegen) instance).codeAColorId;
+                return ((CodeADomainObjectCodegen) instance).codeAColor.getId();
             }
         };
     }

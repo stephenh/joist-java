@@ -1,5 +1,6 @@
 package org.exigencecorp.domainobjects.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -29,6 +30,23 @@ public class Codes {
             }
         });
         return copy;
+    }
+
+    public static <T extends Code> T fromInt(Class<T> codeClass, int i) {
+        try {
+            for (T code : (T[]) codeClass.getMethod("values").invoke(null)) {
+                if (code.getId().intValue() == i) {
+                    return code;
+                }
+            }
+        } catch (NoSuchMethodException nsme) {
+            throw new RuntimeException("Invalid id " + i, nsme);
+        } catch (InvocationTargetException ite) {
+            throw new RuntimeException("Invalid id " + i, ite);
+        } catch (IllegalAccessException iae) {
+            throw new RuntimeException("Invalid id " + i, iae);
+        }
+        return null;
     }
 
     public static <T extends Code> T fromInt(T[] codes, int i) {

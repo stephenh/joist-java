@@ -11,6 +11,9 @@ import org.exigencecorp.domainobjects.codegen.dtos.ManyToManyProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.ManyToOneProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.OneToManyProperty;
 import org.exigencecorp.domainobjects.codegen.dtos.PrimitiveProperty;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
+import org.exigencecorp.domainobjects.orm.ForeignKeyCodeHolder;
+import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
@@ -39,10 +42,16 @@ public class GenerateDomainCodegenPass implements Pass {
     }
 
     private void addAlias(GClass domainCodegen, Entity entity) {
+        if (!entity.isCodeEntity()) {
+            domainCodegen.staticInitializer.line("AliasRegistry.register({}.class, new {}Alias(\"a\"));",//
+                entity.getClassName(),
+                entity.getClassName());
+        }
+
         GMethod m = domainCodegen.getMethod("newAlias");
         m.returnType("Alias<? extends {}>", entity.getClassName()).arguments("String alias");
         m.body.line("return new {}Alias(alias);", entity.getClassName());
-        domainCodegen.addImports(Alias.class);
+        domainCodegen.addImports(Alias.class, AliasRegistry.class);
         domainCodegen.addImports(entity.getConfig().getMapperPackage() + "." + entity.getClassName() + "Alias");
     }
 
@@ -83,38 +92,25 @@ public class GenerateDomainCodegenPass implements Pass {
 
     private void manyToOneProperties(GClass domainCodegen, Entity entity) {
         for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
-            GField objectField = domainCodegen.getField(mtop.getVariableName());
-            objectField.type(mtop.getJavaType()).initialValue(mtop.getDefaultJavaString());
-
-            GField idField = domainCodegen.getField(mtop.getVariableName() + "Id");
-            idField.type("Integer").initialValue("null");
+            GField field = domainCodegen.getField(mtop.getVariableName());
+            if (mtop.getManySide().isCodeEntity()) {
+                field.type("ForeignKeyCodeHolder<" + mtop.getJavaType() + ">");
+                field.initialValue("new ForeignKeyCodeHolder<" + mtop.getJavaType() + ">(" + mtop.getJavaType() + ".class)");
+                domainCodegen.addImports(ForeignKeyCodeHolder.class);
+            } else {
+                field.type("ForeignKeyHolder<" + mtop.getJavaType() + ">");
+                field.initialValue("new ForeignKeyHolder<" + mtop.getJavaType() + ">(" + mtop.getJavaType() + ".class)");
+                domainCodegen.addImports(ForeignKeyHolder.class);
+            }
 
             GMethod getter = domainCodegen.getMethod("get" + mtop.getCapitalVariableName());
             getter.returnType(mtop.getJavaType());
-            if (mtop.getManySide().isCodeEntity()) {
-                getter.body.line("if (this.{} == null && this.{}Id != null) {", mtop.getVariableName(), mtop.getVariableName());
-                getter.body.line("    this.{} = {}.fromId(this.{}Id);", mtop.getVariableName(), mtop.getJavaType(), mtop.getVariableName());
-                getter.body.line("}");
-                getter.body.line("return this.{};", mtop.getVariableName());
-            } else {
-                getter.body.line("if (this.{} == null && this.{}Id != null && UoW.isOpen()) {", mtop.getVariableName(), mtop.getVariableName());
-                getter.body.line("    {}Alias a = new {}Alias(\"a\");", mtop.getJavaType(), mtop.getJavaType());
-                getter.body.line("    this.{} = Select.from(a).where(a.id.equals(this.{}Id)).unique();",//
-                    mtop.getVariableName(),
-                    mtop.getVariableName());
-                getter.body.line("}");
-                getter.body.line("return this.{};", mtop.getVariableName());
-                domainCodegen.addImports(UoW.class, Select.class);
-                domainCodegen.addImports(mtop.getManySide().getFullAliasClassName());
-            }
+            getter.body.line("return this.{}.get();", mtop.getVariableName());
 
             GMethod setter = domainCodegen.getMethod("set" + mtop.getCapitalVariableName());
             setter.argument(mtop.getJavaType(), mtop.getVariableName());
             setter.body.line("this.recordIfChanged(\"{}\", this.{}, {});", mtop.getVariableName(), mtop.getVariableName(), mtop.getVariableName());
-            setter.body.line("this.{} = {};", mtop.getVariableName(), mtop.getVariableName());
-            setter.body.line("if ({} == null) {", mtop.getVariableName());
-            setter.body.line("    this.{}Id = null;", mtop.getVariableName());
-            setter.body.line("}");
+            setter.body.line("this.{}.set({});", mtop.getVariableName(), mtop.getVariableName());
 
             GClass shims = domainCodegen.getInnerClass("Shims");
             GField shimField = shims.getField(mtop.getVariableName() + "Id").setPublic().setStatic().setFinal();
@@ -123,16 +119,12 @@ public class GenerateDomainCodegenPass implements Pass {
 
             GMethod shimSetter = shimClass.getMethod("set");
             shimSetter.argument(entity.getClassName(), "instance").argument("Integer", mtop.getVariableName() + "Id");
-            shimSetter.body.line("(({}) instance).{}Id = {}Id;", entity.getCodegenClassName(), mtop.getVariableName(), mtop.getVariableName());
+            shimSetter.body.line("(({}) instance).{}.setId({}Id);", entity.getCodegenClassName(), mtop.getVariableName(), mtop.getVariableName());
 
             GMethod shimGetter = shimClass.getMethod("get");
             shimGetter.argument(entity.getClassName(), "instance");
             shimGetter.returnType("Integer");
-            shimGetter.body.line(0, "{} instanceCodegen = instance;", entity.getCodegenClassName());
-            shimGetter.body.line(0, "if (instanceCodegen.{} != null) {", mtop.getVariableName());
-            shimGetter.body.line(1, "return instanceCodegen.{}.getId().intValue();", mtop.getVariableName());
-            shimGetter.body.line(0, "}", mtop.getVariableName());
-            shimGetter.body.line(0, "return (({}) instance).{}Id;", entity.getCodegenClassName(), mtop.getVariableName());
+            shimGetter.body.line(0, "return (({}) instance).{}.getId();", entity.getCodegenClassName(), mtop.getVariableName());
 
             domainCodegen.addImports(Shim.class);
         }

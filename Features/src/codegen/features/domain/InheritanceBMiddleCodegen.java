@@ -2,9 +2,14 @@ package features.domain;
 
 import features.domain.mappers.InheritanceBMiddleAlias;
 import org.exigencecorp.domainobjects.Shim;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
+
+    static {
+        AliasRegistry.register(InheritanceBMiddle.class, new InheritanceBMiddleAlias("a"));
+    }
 
     private String middleName = null;
 

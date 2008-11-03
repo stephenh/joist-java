@@ -1,23 +1,23 @@
 package features.domain;
 
-import features.domain.mappers.ManyToManyABarAlias;
-import features.domain.mappers.ManyToManyAFooAlias;
 import features.domain.mappers.ManyToManyAFooToBarAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
+import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
 import org.exigencecorp.domainobjects.queries.Alias;
-import org.exigencecorp.domainobjects.queries.Select;
-import org.exigencecorp.domainobjects.uow.UoW;
 
 public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
 
+    static {
+        AliasRegistry.register(ManyToManyAFooToBar.class, new ManyToManyAFooToBarAlias("a"));
+    }
+
     private Id<ManyToManyAFooToBar> id = null;
     private Integer version = null;
-    private ManyToManyAFoo manyToManyAFoo = null;
-    private Integer manyToManyAFooId = null;
-    private ManyToManyABar manyToManyABar = null;
-    private Integer manyToManyABarId = null;
+    private ForeignKeyHolder<ManyToManyAFoo> manyToManyAFoo = new ForeignKeyHolder<ManyToManyAFoo>(ManyToManyAFoo.class);
+    private ForeignKeyHolder<ManyToManyABar> manyToManyABar = new ForeignKeyHolder<ManyToManyABar>(ManyToManyABar.class);
 
     public Alias<? extends ManyToManyAFooToBar> newAlias(String alias) {
         return new ManyToManyAFooToBarAlias(alias);
@@ -37,35 +37,21 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     }
 
     public ManyToManyAFoo getManyToManyAFoo() {
-        if (this.manyToManyAFoo == null && this.manyToManyAFooId != null && UoW.isOpen()) {
-            ManyToManyAFooAlias a = new ManyToManyAFooAlias("a");
-            this.manyToManyAFoo = Select.from(a).where(a.id.equals(this.manyToManyAFooId)).unique();
-        }
-        return this.manyToManyAFoo;
+        return this.manyToManyAFoo.get();
     }
 
     public void setManyToManyAFoo(ManyToManyAFoo manyToManyAFoo) {
         this.recordIfChanged("manyToManyAFoo", this.manyToManyAFoo, manyToManyAFoo);
-        this.manyToManyAFoo = manyToManyAFoo;
-        if (manyToManyAFoo == null) {
-            this.manyToManyAFooId = null;
-        }
+        this.manyToManyAFoo.set(manyToManyAFoo);
     }
 
     public ManyToManyABar getManyToManyABar() {
-        if (this.manyToManyABar == null && this.manyToManyABarId != null && UoW.isOpen()) {
-            ManyToManyABarAlias a = new ManyToManyABarAlias("a");
-            this.manyToManyABar = Select.from(a).where(a.id.equals(this.manyToManyABarId)).unique();
-        }
-        return this.manyToManyABar;
+        return this.manyToManyABar.get();
     }
 
     public void setManyToManyABar(ManyToManyABar manyToManyABar) {
         this.recordIfChanged("manyToManyABar", this.manyToManyABar, manyToManyABar);
-        this.manyToManyABar = manyToManyABar;
-        if (manyToManyABar == null) {
-            this.manyToManyABarId = null;
-        }
+        this.manyToManyABar.set(manyToManyABar);
     }
 
     public static class Shims {
@@ -87,26 +73,18 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
         };
         public static final Shim<ManyToManyAFooToBar, Integer> manyToManyAFooId = new Shim<ManyToManyAFooToBar, Integer>() {
             public void set(ManyToManyAFooToBar instance, Integer manyToManyAFooId) {
-                ((ManyToManyAFooToBarCodegen) instance).manyToManyAFooId = manyToManyAFooId;
+                ((ManyToManyAFooToBarCodegen) instance).manyToManyAFoo.setId(manyToManyAFooId);
             }
             public Integer get(ManyToManyAFooToBar instance) {
-                ManyToManyAFooToBarCodegen instanceCodegen = instance;
-                if (instanceCodegen.manyToManyAFoo != null) {
-                    return instanceCodegen.manyToManyAFoo.getId().intValue();
-                }
-                return ((ManyToManyAFooToBarCodegen) instance).manyToManyAFooId;
+                return ((ManyToManyAFooToBarCodegen) instance).manyToManyAFoo.getId();
             }
         };
         public static final Shim<ManyToManyAFooToBar, Integer> manyToManyABarId = new Shim<ManyToManyAFooToBar, Integer>() {
             public void set(ManyToManyAFooToBar instance, Integer manyToManyABarId) {
-                ((ManyToManyAFooToBarCodegen) instance).manyToManyABarId = manyToManyABarId;
+                ((ManyToManyAFooToBarCodegen) instance).manyToManyABar.setId(manyToManyABarId);
             }
             public Integer get(ManyToManyAFooToBar instance) {
-                ManyToManyAFooToBarCodegen instanceCodegen = instance;
-                if (instanceCodegen.manyToManyABar != null) {
-                    return instanceCodegen.manyToManyABar.getId().intValue();
-                }
-                return ((ManyToManyAFooToBarCodegen) instance).manyToManyABarId;
+                return ((ManyToManyAFooToBarCodegen) instance).manyToManyABar.getId();
             }
         };
     }

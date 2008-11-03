@@ -4,9 +4,14 @@ import features.domain.mappers.InheritanceABaseAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
+
+    static {
+        AliasRegistry.register(InheritanceABase.class, new InheritanceABaseAlias("a"));
+    }
 
     private Id<InheritanceABase> id = null;
     private String name = null;

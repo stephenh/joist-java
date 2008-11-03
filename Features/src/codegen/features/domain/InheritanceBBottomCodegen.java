@@ -2,9 +2,14 @@ package features.domain;
 
 import features.domain.mappers.InheritanceBBottomAlias;
 import org.exigencecorp.domainobjects.Shim;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
+
+    static {
+        AliasRegistry.register(InheritanceBBottom.class, new InheritanceBBottomAlias("a"));
+    }
 
     private String bottomName = null;
 

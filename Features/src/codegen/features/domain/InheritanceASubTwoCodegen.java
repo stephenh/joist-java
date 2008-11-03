@@ -2,9 +2,14 @@ package features.domain;
 
 import features.domain.mappers.InheritanceASubTwoAlias;
 import org.exigencecorp.domainobjects.Shim;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
+
+    static {
+        AliasRegistry.register(InheritanceASubTwo.class, new InheritanceASubTwoAlias("a"));
+    }
 
     private String two = null;
 

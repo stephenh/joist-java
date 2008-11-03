@@ -13,6 +13,7 @@ import org.exigencecorp.util.ToString;
 
 public class GClass {
 
+    public final StringBuilderr staticInitializer = new StringBuilderr();
     private final String packageName;
     private final String shortName;
     private final List<GField> fields = new ArrayList<GField>();
@@ -170,6 +171,14 @@ public class GClass {
                 sb.append("implements {} ", Join.commaSpace(this.implementsInterfaces));
             }
             sb.line("{");
+        }
+
+        if (this.staticInitializer.toString().length() > 0) {
+            sb.line();
+            sb.line(1, "static {");
+            sb.append(2, this.staticInitializer.toString());
+            sb.lineIfNeeded();
+            sb.line(1, "}");
         }
 
         if (this.isEnum && this.enumValues.size() > 0) {

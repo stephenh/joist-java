@@ -1,6 +1,5 @@
 package org.exigencecorp.util;
 
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -46,10 +45,6 @@ public class Reflection {
 
     public static Object newInstance(String className) {
         return Reflection.newInstance(Reflection.forName(className));
-    }
-
-    public static Object newInstanceOrNull(String className) {
-        return Reflection.newInstanceOrNull(Reflection.forNameOrNull(className));
     }
 
     public static <T> T newInstance(Class<T> type) {

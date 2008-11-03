@@ -4,9 +4,14 @@ import features.domain.mappers.PrimitivesAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class PrimitivesCodegen extends AbstractDomainObject {
+
+    static {
+        AliasRegistry.register(Primitives.class, new PrimitivesAlias("a"));
+    }
 
     private Id<Primitives> id = null;
     private boolean flag = false;
