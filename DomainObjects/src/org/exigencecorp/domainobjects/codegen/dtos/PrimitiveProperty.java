@@ -118,8 +118,4 @@ public class PrimitiveProperty implements Property {
         return this.config.getSetterAccess(this.entity.getTableName(), this.columnName);
     }
 
-    public boolean isCode() {
-        return false;
-    }
-
 }

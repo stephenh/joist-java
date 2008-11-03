@@ -15,7 +15,6 @@ public class ManyToManyProperty implements Property {
     private Entity joinTable;
     private Entity mySide;
     private Entity targetTable;
-    private boolean inverse;
     private ManyToManyProperty other;
 
     public ManyToManyProperty(Codegen codegen, Entity joinTable, Entity mySide, Entity otherSide, InformationSchemaColumn column) {
@@ -24,12 +23,10 @@ public class ManyToManyProperty implements Property {
         this.mySide = mySide;
         this.targetTable = otherSide;
         this.myKeyColumnName = column.name;
-        this.inverse = column.tableName.startsWith(mySide.getTableName());
     }
 
     public String getCapitalVariableNameSingular() {
-        // rolled_id -> Rolled
-        return Inflector.camelize(this.getOtherKeyColumnName().replaceAll("_id", ""));
+        return Inflector.camelize(this.getOtherKeyColumnName().replaceAll("_id", "")); // rolled_id -> Rolled
     }
 
     public String getCapitalVariableName() {
@@ -61,11 +58,6 @@ public class ManyToManyProperty implements Property {
         return false;
     }
 
-    /** Doesn't really apply to us as our column is defined in another table. */
-    public int getMaxCharacterLength() {
-        return 0;
-    }
-
     public String getJoinTableName() {
         return this.joinTable.getTableName();
     }
@@ -90,10 +82,6 @@ public class ManyToManyProperty implements Property {
         return this.getJoinTableName() + "_id_seq";
     }
 
-    public boolean isInverse() {
-        return this.inverse;
-    }
-
     public String getSortBy() {
         return this.targetTable.getSortBy();
     }
@@ -110,16 +98,8 @@ public class ManyToManyProperty implements Property {
         return this.other.getMyKeyColumnName();
     }
 
-    public boolean isNotGenerated() {
-        return false;
-    }
-
     public boolean getNoTicking() {
         return this.config.isDoNotIncrementParentsOpLock(this.mySide.getClassName(), this.getVariableName());
-    }
-
-    public boolean isCode() {
-        return this.targetTable.isCodeEntity();
     }
 
     public Entity getJoinTable() {

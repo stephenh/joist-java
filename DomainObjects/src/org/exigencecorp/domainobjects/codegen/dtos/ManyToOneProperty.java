@@ -103,16 +103,11 @@ public class ManyToOneProperty implements Property {
     }
 
     public boolean isTargetGenerated() {
-        return !this.getOneToManyProperty().isNotGenerated();
+        return !this.getOneToManyProperty().isCollectionSkipped();
     }
 
     public boolean isNotNull() {
         return this.isNotNull;
-    }
-
-    /** Doesn't really deal with us as we're not varchars. */
-    public int getMaxCharacterLength() {
-        return 0;
     }
 
     private void assertValidConstraintName() {
@@ -123,10 +118,6 @@ public class ManyToOneProperty implements Property {
         if (!ownerOkay || !suffixOkay) {
             throw new RuntimeException("Invalid constraint name " + this.constraintName);
         }
-    }
-
-    public boolean isNotGenerated() {
-        return false;
     }
 
     public OneToManyProperty getOneToManyProperty() {
@@ -143,15 +134,6 @@ public class ManyToOneProperty implements Property {
 
     public String getSetterAccessLevel() {
         return this.config.getSetterAccess(this.oneSide.getTableName(), this.columnName);
-    }
-
-    public boolean isNotPercolated() {
-        // Hack
-        return "claim.claim_source_id".equals(this.oneSide.getTableName() + "." + this.columnName);
-    }
-
-    public boolean isCode() {
-        return this.getOneSide().isCodeEntity();
     }
 
 }

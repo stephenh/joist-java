@@ -117,12 +117,7 @@ public class OneToManyProperty implements Property {
         return this.getOneSide().getSortBy();
     }
 
-    /** Doesn't really apply to us as our column is defined in another table. */
-    public int getMaxCharacterLength() {
-        return 0;
-    }
-
-    public boolean isNotGenerated() {
+    public boolean isCollectionSkipped() {
         return this.config.isCollectionSkipped(this.manySide.getClassName(), this.getVariableName());
     }
 
@@ -132,10 +127,6 @@ public class OneToManyProperty implements Property {
 
     public void setForeignKeyColumn(ManyToOneProperty foreignKeyColumn) {
         this.foreignKeyColumn = foreignKeyColumn;
-    }
-
-    public boolean isCode() {
-        return this.getOneSide().isCodeEntity();
     }
 
 }

@@ -14,12 +14,6 @@ public interface Property {
 
     boolean isNotNull();
 
-    int getMaxCharacterLength();
-
-    boolean isNotGenerated();
-
     List<String> getCustomRules();
-
-    boolean isCode();
 
 }
