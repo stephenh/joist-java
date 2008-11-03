@@ -29,7 +29,7 @@ Patterns
 * Identity Map
 * Data Mapper (with Metadata Mapping)
 * Foreign Key Mapping (with back pointer)
-* Lazy Load (with lazy initialization, e.g. no virtual proxies)
+* Lazy Load (with value holder, e.g. no virtual proxies)
 * Class Table Inheritance (no Single Table Inheritance or Concrete Table Inheritance)
 * Optimistic Offline Lock (every object as a "version" column)
 
