@@ -135,7 +135,7 @@ public class OneToManyProperty implements Property {
     }
 
     public boolean isCode() {
-        return this.getOneSide().isEnum();
+        return this.getOneSide().isCodeEntity();
     }
 
 }

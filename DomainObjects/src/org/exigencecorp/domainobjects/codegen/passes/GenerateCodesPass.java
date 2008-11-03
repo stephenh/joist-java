@@ -3,8 +3,8 @@ package org.exigencecorp.domainobjects.codegen.passes;
 import org.exigencecorp.domainobjects.Code;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
-import org.exigencecorp.domainobjects.codegen.dtos.EnumCode;
-import org.exigencecorp.domainobjects.codegen.dtos.EnumEntity;
+import org.exigencecorp.domainobjects.codegen.dtos.CodeValue;
+import org.exigencecorp.domainobjects.codegen.dtos.CodeEntity;
 import org.exigencecorp.gen.GClass;
 import org.exigencecorp.gen.GMethod;
 
@@ -12,15 +12,15 @@ public class GenerateCodesPass implements Pass {
 
     public void pass(Codegen codegen) {
         for (Entity entity : codegen.getEntities().values()) {
-            if (!entity.isEnum()) {
+            if (!entity.isCodeEntity()) {
                 continue;
             }
 
             GClass code = codegen.getOutputCodegenDirectory().getClass(entity.getFullClassName());
             code.setEnum().implementsInterface(Code.class);
             this.addFieldsAndConstructor(code);
-            this.addValues((EnumEntity) entity, code);
-            this.addFromId((EnumEntity) entity, code);
+            this.addValues((CodeEntity) entity, code);
+            this.addFromId((CodeEntity) entity, code);
         }
     }
 
@@ -35,13 +35,13 @@ public class GenerateCodesPass implements Pass {
         c.body.line("this.name = name;");
     }
 
-    private void addValues(EnumEntity entity, GClass code) {
-        for (EnumCode value : entity.getCodes()) {
+    private void addValues(CodeEntity entity, GClass code) {
+        for (CodeValue value : entity.getCodes()) {
             code.addEnumValue("{}({}, \"{}\", \"{}\")", value.getEnumName(), value.id, value.code, value.name);
         }
     }
 
-    private void addFromId(EnumEntity entity, GClass code) {
+    private void addFromId(CodeEntity entity, GClass code) {
         GMethod from = code.getMethod("fromId").returnType(entity.getClassName()).arguments("Integer id").isStatic();
         from.body.line("return org.exigencecorp.domainobjects.util.Codes.fromInt({}.values(), id);", entity.getClassName());
     }

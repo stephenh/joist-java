@@ -3,7 +3,7 @@ package org.exigencecorp.domainobjects.codegen.passes;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.InformationSchemaColumn;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
-import org.exigencecorp.domainobjects.codegen.dtos.EnumEntity;
+import org.exigencecorp.domainobjects.codegen.dtos.CodeEntity;
 
 public class FindTablesPass implements Pass {
 
@@ -15,7 +15,7 @@ public class FindTablesPass implements Pass {
             }
 
             if (codegen.isCodeTable(column)) {
-                codegen.getEntities().put(column.tableName, new EnumEntity(codegen, column.tableName));
+                codegen.getEntities().put(column.tableName, new CodeEntity(codegen, column.tableName));
             } else {
                 codegen.getEntities().put(column.tableName, new Entity(codegen, column.tableName));
             }

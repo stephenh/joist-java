@@ -119,7 +119,7 @@ public class ManyToManyProperty implements Property {
     }
 
     public boolean isCode() {
-        return this.targetTable.isEnum();
+        return this.targetTable.isCodeEntity();
     }
 
     public Entity getJoinTable() {

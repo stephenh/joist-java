@@ -24,7 +24,7 @@ public class GenerateAliasesPass implements Pass {
 
     public void pass(Codegen codegen) {
         for (Entity entity : codegen.getEntities().values()) {
-            if (entity.isEnum()) {
+            if (entity.isCodeEntity()) {
                 continue;
             }
 
@@ -167,7 +167,7 @@ public class GenerateAliasesPass implements Pass {
 
     private void addManyToOneColumns(Codegen codegen, GClass aliasClass, Entity entity) {
         for (ManyToOneProperty p : entity.getManyToOneProperties()) {
-            Class<?> aliasColumnClass = (p.getManySide().isEnum()) ? CodeAliasColumn.class : ForeignKeyAliasColumn.class;
+            Class<?> aliasColumnClass = (p.getManySide().isCodeEntity()) ? CodeAliasColumn.class : ForeignKeyAliasColumn.class;
             aliasClass.addImports(aliasColumnClass);
             aliasClass.addImports(p.getManySide().getFullClassName());
 
@@ -181,7 +181,7 @@ public class GenerateAliasesPass implements Pass {
                 entity.getCodegenClassName(),
                 p.getVariableName());
 
-            if (!p.getManySide().isEnum()) {
+            if (!p.getManySide().isCodeEntity()) {
                 GClass otherAliasClass = codegen.getOutputCodegenDirectory().getClass(p.getManySide().getFullAliasClassName());
                 if (!otherAliasClass.hasMethod("on")) {
                     GMethod on = otherAliasClass.getMethod("on");

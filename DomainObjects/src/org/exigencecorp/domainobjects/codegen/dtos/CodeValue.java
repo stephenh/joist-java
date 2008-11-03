@@ -1,12 +1,12 @@
 package org.exigencecorp.domainobjects.codegen.dtos;
 
-public class EnumCode {
+public class CodeValue {
 
     public String id;
     public String code;
     public String name;
 
-    public EnumCode(String id, String code, String name) {
+    public CodeValue(String id, String code, String name) {
         this.id = id;
         this.code = code;
         this.name = name;

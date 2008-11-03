@@ -22,7 +22,7 @@ public class GenerateDomainCodegenPass implements Pass {
 
     public void pass(Codegen codegen) {
         for (Entity entity : codegen.getEntities().values()) {
-            if (entity.isEnum()) {
+            if (entity.isCodeEntity()) {
                 continue;
             }
 
@@ -91,7 +91,7 @@ public class GenerateDomainCodegenPass implements Pass {
 
             GMethod getter = domainCodegen.getMethod("get" + mtop.getCapitalVariableName());
             getter.returnType(mtop.getJavaType());
-            if (mtop.getManySide().isEnum()) {
+            if (mtop.getManySide().isCodeEntity()) {
                 getter.body.line("if (this.{} == null && this.{}Id != null) {", mtop.getVariableName(), mtop.getVariableName());
                 getter.body.line("    this.{} = {}.fromId(this.{}Id);", mtop.getVariableName(), mtop.getJavaType(), mtop.getVariableName());
                 getter.body.line("}");

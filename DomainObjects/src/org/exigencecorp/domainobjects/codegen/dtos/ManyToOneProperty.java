@@ -99,7 +99,7 @@ public class ManyToOneProperty implements Property {
     }
 
     public boolean isToEnum() {
-        return this.getManySide().isEnum();
+        return this.getManySide().isCodeEntity();
     }
 
     public boolean isTargetGenerated() {
@@ -151,7 +151,7 @@ public class ManyToOneProperty implements Property {
     }
 
     public boolean isCode() {
-        return this.getOneSide().isEnum();
+        return this.getOneSide().isCodeEntity();
     }
 
 }

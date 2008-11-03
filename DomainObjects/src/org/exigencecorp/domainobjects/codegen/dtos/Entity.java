@@ -10,17 +10,18 @@ import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.CodegenConfig;
 import org.exigencecorp.util.Inflector;
 
+/** Represents a domain object we will generate code for. */
 public class Entity {
 
     protected CodegenConfig config;
     private String tableName;
+    private Entity baseEntity;
+    private List<Entity> subEntities = new ArrayList<Entity>();
     private List<PrimitiveProperty> primitiveProperties = new ArrayList<PrimitiveProperty>();
     private List<ManyToOneProperty> manyToOneProperties = new ArrayList<ManyToOneProperty>();
     private List<OneToManyProperty> oneToManyProperties = new ArrayList<OneToManyProperty>();
     private List<ManyToManyProperty> manyToManyProperties = new ArrayList<ManyToManyProperty>();
     private Set<String> imports = new TreeSet<String>();
-    private Entity baseEntity;
-    private List<Entity> subEntities = new ArrayList<Entity>();
 
     public Entity(Codegen codegen, String tableName) {
         this.config = codegen.getConfig();
@@ -44,7 +45,7 @@ public class Entity {
     }
 
     public boolean isRoot() {
-        return this.baseEntity == null && !this.isEnum();
+        return this.baseEntity == null && !this.isCodeEntity();
     }
 
     public boolean isAbstract() {
@@ -59,7 +60,7 @@ public class Entity {
         return this.getBaseEntity() != null;
     }
 
-    public boolean isEnum() {
+    public boolean isCodeEntity() {
         return false;
     }
 
@@ -95,12 +96,12 @@ public class Entity {
         return this.config.getMapperPackage() + "." + this.getMapperClassName();
     }
 
-    public String getIdSequence() {
-        return this.tableName + "_id_seq";
-    }
-
     public String getSortBy() {
         return this.config.getOrder(this.tableName);
+    }
+
+    public List<PrimitiveProperty> getPrimitiveProperties() {
+        return this.primitiveProperties;
     }
 
     public List<ManyToOneProperty> getManyToOneProperties() {
@@ -111,43 +112,8 @@ public class Entity {
         return this.oneToManyProperties;
     }
 
-    public List<OneToManyProperty> getGeneratedIncomingForeignKeyProperties() {
-        List<OneToManyProperty> properties = new ArrayList<OneToManyProperty>();
-        for (OneToManyProperty fk : this.getOneToManyProperties()) {
-            if (!fk.isNotGenerated()) {
-                properties.add(fk);
-            }
-        }
-        return properties;
-    }
-
     public List<ManyToManyProperty> getManyToManyProperties() {
         return this.manyToManyProperties;
-    }
-
-    public List<PrimitiveProperty> getPrimitiveProperties() {
-        return this.primitiveProperties;
-    }
-
-    public List<Property> getAllGeneratedProperties() {
-        List<Property> all = new ArrayList<Property>();
-        all.addAll(this.getPrimitiveProperties());
-        all.addAll(this.getManyToOneProperties());
-        all.addAll(this.getOneToManyProperties());
-        all.addAll(this.getManyToManyProperties());
-        for (Iterator<Property> i = all.iterator(); i.hasNext();) {
-            if (i.next().isNotGenerated()) {
-                i.remove();
-            }
-        }
-        return all;
-    }
-
-    public List<Property> getIncomingProperties() {
-        List<Property> incoming = new ArrayList<Property>();
-        incoming.addAll(this.getOneToManyProperties());
-        incoming.addAll(this.getManyToManyProperties());
-        return incoming;
     }
 
     public String getTableName() {
@@ -172,18 +138,16 @@ public class Entity {
 
     public void setBaseEntity(Entity baseObject) {
         this.baseEntity = baseObject;
-    }
-
-    public void addSubEntity(Entity subEntity) {
-        this.subEntities.add(subEntity);
-    }
-
-    public void removeIdColumn() {
+        // In Class Table Inheritance, the id column overlaps in each table, but we only want it in the root class
         for (Iterator<PrimitiveProperty> i = this.getPrimitiveProperties().iterator(); i.hasNext();) {
             if (i.next().getColumnName().equals("id")) {
                 i.remove();
             }
         }
+    }
+
+    public void addSubEntity(Entity subEntity) {
+        this.subEntities.add(subEntity);
     }
 
     public List<Entity> getSubEntities() {

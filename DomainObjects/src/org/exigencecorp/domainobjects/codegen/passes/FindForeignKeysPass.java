@@ -27,7 +27,6 @@ public class FindForeignKeysPass implements Pass {
             if ("id".equals(column.name)) {
                 // A foreign key on an "id" column means subclass!
                 oneSide.setBaseEntity(manySide);
-                oneSide.removeIdColumn();
                 manySide.addSubEntity(oneSide);
                 continue;
             }

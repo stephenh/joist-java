@@ -8,7 +8,7 @@ public class GenerateDomainClassIfNotExistsPass implements Pass {
 
     public void pass(Codegen codegen) {
         for (Entity entity : codegen.getEntities().values()) {
-            if (entity.isEnum()) {
+            if (entity.isCodeEntity()) {
                 continue;
             }
 
