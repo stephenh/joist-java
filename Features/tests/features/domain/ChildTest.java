@@ -57,7 +57,7 @@ public class ChildTest extends AbstractFeaturesTest {
 
         Child c = new ChildMapper().find(2);
         c.setParent(new Parent("p2"));
-        Assert.assertEquals("parent", c.getChangedProperties().get(0));
+        Assert.assertTrue(c.getChangedProperties().contains("parent"));
         this.commitAndReOpen();
 
         c = new ChildMapper().find(2);
