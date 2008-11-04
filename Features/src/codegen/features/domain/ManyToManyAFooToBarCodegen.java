@@ -41,6 +41,16 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     }
 
     public void setManyToManyAFoo(ManyToManyAFoo manyToManyAFoo) {
+        if (this.manyToManyAFoo.get() != null) {
+           this.manyToManyAFoo.get().removeManyToManyAFooToBarWithoutPercolation((ManyToManyAFooToBar) this);
+        }
+        this.setManyToManyAFooWithoutPercolation(manyToManyAFoo);
+        if (this.manyToManyAFoo.get() != null) {
+           this.manyToManyAFoo.get().addManyToManyAFooToBarWithoutPercolation((ManyToManyAFooToBar) this);
+        }
+    }
+
+    public void setManyToManyAFooWithoutPercolation(ManyToManyAFoo manyToManyAFoo) {
         this.recordIfChanged("manyToManyAFoo", this.manyToManyAFoo, manyToManyAFoo);
         this.manyToManyAFoo.set(manyToManyAFoo);
     }
@@ -50,6 +60,16 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     }
 
     public void setManyToManyABar(ManyToManyABar manyToManyABar) {
+        if (this.manyToManyABar.get() != null) {
+           this.manyToManyABar.get().removeManyToManyAFooToBarWithoutPercolation((ManyToManyAFooToBar) this);
+        }
+        this.setManyToManyABarWithoutPercolation(manyToManyABar);
+        if (this.manyToManyABar.get() != null) {
+           this.manyToManyABar.get().addManyToManyAFooToBarWithoutPercolation((ManyToManyAFooToBar) this);
+        }
+    }
+
+    public void setManyToManyABarWithoutPercolation(ManyToManyABar manyToManyABar) {
         this.recordIfChanged("manyToManyABar", this.manyToManyABar, manyToManyABar);
         this.manyToManyABar.set(manyToManyABar);
     }

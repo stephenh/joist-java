@@ -50,6 +50,16 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     }
 
     public void setParent(Parent parent) {
+        if (this.parent.get() != null) {
+           this.parent.get().removeChildWithoutPercolation((Child) this);
+        }
+        this.setParentWithoutPercolation(parent);
+        if (this.parent.get() != null) {
+           this.parent.get().addChildWithoutPercolation((Child) this);
+        }
+    }
+
+    public void setParentWithoutPercolation(Parent parent) {
         this.recordIfChanged("parent", this.parent, parent);
         this.parent.set(parent);
     }

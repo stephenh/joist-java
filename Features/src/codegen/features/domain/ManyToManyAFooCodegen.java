@@ -11,6 +11,7 @@ import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
+import org.exigencecorp.util.Copy;
 
 public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
 
@@ -61,6 +62,28 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
         return this.manyToManyAFooToBars;
     }
 
+    public void addManyToManyAFooToBar(ManyToManyAFooToBar o) {
+        o.setManyToManyAFooWithoutPercolation((ManyToManyAFoo) this);
+        this.addManyToManyAFooToBarWithoutPercolation(o);
+    }
+
+    public void addManyToManyAFooToBarWithoutPercolation(ManyToManyAFooToBar o) {
+        this.getManyToManyAFooToBars(); // hack
+        this.recordIfChanged("manyToManyAFooToBars");
+        this.manyToManyAFooToBars.add(o);
+    }
+
+    public void removeManyToManyAFooToBar(ManyToManyAFooToBar o) {
+        o.setManyToManyAFooWithoutPercolation(null);
+        this.removeManyToManyAFooToBarWithoutPercolation(o);
+    }
+
+    public void removeManyToManyAFooToBarWithoutPercolation(ManyToManyAFooToBar o) {
+        this.getManyToManyAFooToBars(); // hack
+        this.recordIfChanged("manyToManyAFooToBars");
+        this.manyToManyAFooToBars.remove(o);
+    }
+
     public List<ManyToManyABar> getManyToManyABars() {
         List<ManyToManyABar> l = new ArrayList<ManyToManyABar>();
         for (ManyToManyAFooToBar o : this.getManyToManyAFooToBars()) {
@@ -76,7 +99,7 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     }
 
     public void removeManyToManyABar(ManyToManyABar o) {
-        for (ManyToManyAFooToBar a : this.getManyToManyAFooToBars()) {
+        for (ManyToManyAFooToBar a : Copy.shallow(this.getManyToManyAFooToBars())) {
             if (a.getManyToManyABar().equals(o)) {
                 a.setManyToManyABar(null);
                 a.setManyToManyAFoo(null);

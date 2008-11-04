@@ -63,6 +63,28 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
         return this.parentBChildFoos;
     }
 
+    public void addParentBChildFoo(ParentBChildFoo o) {
+        o.setParentBParentWithoutPercolation((ParentBParent) this);
+        this.addParentBChildFooWithoutPercolation(o);
+    }
+
+    public void addParentBChildFooWithoutPercolation(ParentBChildFoo o) {
+        this.getParentBChildFoos(); // hack
+        this.recordIfChanged("parentBChildFoos");
+        this.parentBChildFoos.add(o);
+    }
+
+    public void removeParentBChildFoo(ParentBChildFoo o) {
+        o.setParentBParentWithoutPercolation(null);
+        this.removeParentBChildFooWithoutPercolation(o);
+    }
+
+    public void removeParentBChildFooWithoutPercolation(ParentBChildFoo o) {
+        this.getParentBChildFoos(); // hack
+        this.recordIfChanged("parentBChildFoos");
+        this.parentBChildFoos.remove(o);
+    }
+
     public List<ParentBChildBar> getParentBChildBars() {
         if (this.parentBChildBars == null) {
             if (UoW.isOpen() && this.getId() != null) {
@@ -73,6 +95,28 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
             }
         }
         return this.parentBChildBars;
+    }
+
+    public void addParentBChildBar(ParentBChildBar o) {
+        o.setParentBParentWithoutPercolation((ParentBParent) this);
+        this.addParentBChildBarWithoutPercolation(o);
+    }
+
+    public void addParentBChildBarWithoutPercolation(ParentBChildBar o) {
+        this.getParentBChildBars(); // hack
+        this.recordIfChanged("parentBChildBars");
+        this.parentBChildBars.add(o);
+    }
+
+    public void removeParentBChildBar(ParentBChildBar o) {
+        o.setParentBParentWithoutPercolation(null);
+        this.removeParentBChildBarWithoutPercolation(o);
+    }
+
+    public void removeParentBChildBarWithoutPercolation(ParentBChildBar o) {
+        this.getParentBChildBars(); // hack
+        this.recordIfChanged("parentBChildBars");
+        this.parentBChildBars.remove(o);
     }
 
     public static class Shims {

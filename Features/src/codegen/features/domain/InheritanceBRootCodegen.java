@@ -61,6 +61,28 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         return this.inheritanceBRootChilds;
     }
 
+    public void addInheritanceBRootChild(InheritanceBRootChild o) {
+        o.setInheritanceBRootWithoutPercolation((InheritanceBRoot) this);
+        this.addInheritanceBRootChildWithoutPercolation(o);
+    }
+
+    public void addInheritanceBRootChildWithoutPercolation(InheritanceBRootChild o) {
+        this.getInheritanceBRootChilds(); // hack
+        this.recordIfChanged("inheritanceBRootChilds");
+        this.inheritanceBRootChilds.add(o);
+    }
+
+    public void removeInheritanceBRootChild(InheritanceBRootChild o) {
+        o.setInheritanceBRootWithoutPercolation(null);
+        this.removeInheritanceBRootChildWithoutPercolation(o);
+    }
+
+    public void removeInheritanceBRootChildWithoutPercolation(InheritanceBRootChild o) {
+        this.getInheritanceBRootChilds(); // hack
+        this.recordIfChanged("inheritanceBRootChilds");
+        this.inheritanceBRootChilds.remove(o);
+    }
+
     public static class Shims {
         public static final Shim<InheritanceBRoot, Id<InheritanceBRoot>> id = new Shim<InheritanceBRoot, Id<InheritanceBRoot>>() {
             public void set(InheritanceBRoot instance, Id<InheritanceBRoot> id) {

@@ -32,12 +32,10 @@ public abstract class AbstractDomainObject implements DomainObject {
     }
 
     /** Used for determining whether we are dirty based on primitives we cause to change in other people's primitives. */
-    protected final void recordIfChanged(String property, boolean otherChanged) {
-        if (otherChanged) {
-            this.changedProperties.add(property);
-            if (UoW.isOpen()) {
-                UoW.getCurrent().getValidator().enqueue(this);
-            }
+    protected final void recordIfChanged(String property) {
+        this.changedProperties.add(property);
+        if (UoW.isOpen()) {
+            UoW.getCurrent().getValidator().enqueue(this);
         }
     }
 

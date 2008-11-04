@@ -61,6 +61,28 @@ public abstract class ParentCodegen extends AbstractDomainObject {
         return this.childs;
     }
 
+    public void addChild(Child o) {
+        o.setParentWithoutPercolation((Parent) this);
+        this.addChildWithoutPercolation(o);
+    }
+
+    public void addChildWithoutPercolation(Child o) {
+        this.getChilds(); // hack
+        this.recordIfChanged("childs");
+        this.childs.add(o);
+    }
+
+    public void removeChild(Child o) {
+        o.setParentWithoutPercolation(null);
+        this.removeChildWithoutPercolation(o);
+    }
+
+    public void removeChildWithoutPercolation(Child o) {
+        this.getChilds(); // hack
+        this.recordIfChanged("childs");
+        this.childs.remove(o);
+    }
+
     public static class Shims {
         public static final Shim<Parent, Id<Parent>> id = new Shim<Parent, Id<Parent>>() {
             public void set(Parent instance, Id<Parent> id) {

@@ -51,6 +51,10 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public void setCodeASize(CodeASize codeASize) {
+        this.setCodeASizeWithoutPercolation(codeASize);
+    }
+
+    public void setCodeASizeWithoutPercolation(CodeASize codeASize) {
         this.recordIfChanged("codeASize", this.codeASize, codeASize);
         this.codeASize.set(codeASize);
     }
@@ -60,6 +64,10 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public void setCodeAColor(CodeAColor codeAColor) {
+        this.setCodeAColorWithoutPercolation(codeAColor);
+    }
+
+    public void setCodeAColorWithoutPercolation(CodeAColor codeAColor) {
         this.recordIfChanged("codeAColor", this.codeAColor, codeAColor);
         this.codeAColor.set(codeAColor);
     }
