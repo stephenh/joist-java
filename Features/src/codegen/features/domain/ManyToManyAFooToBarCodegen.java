@@ -6,7 +6,6 @@ import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
-import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
 
@@ -18,10 +17,6 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     private Integer version = null;
     private ForeignKeyHolder<ManyToManyAFoo> manyToManyAFoo = new ForeignKeyHolder<ManyToManyAFoo>(ManyToManyAFoo.class);
     private ForeignKeyHolder<ManyToManyABar> manyToManyABar = new ForeignKeyHolder<ManyToManyABar>(ManyToManyABar.class);
-
-    public Alias<? extends ManyToManyAFooToBar> newAlias(String alias) {
-        return new ManyToManyAFooToBarAlias(alias);
-    }
 
     public Id<ManyToManyAFooToBar> getId() {
         return this.id;

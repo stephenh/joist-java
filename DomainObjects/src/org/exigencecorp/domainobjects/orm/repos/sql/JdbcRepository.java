@@ -38,7 +38,7 @@ public class JdbcRepository implements Repository {
     }
 
     public <T extends DomainObject> void delete(T instance) {
-        Alias<? super T> current = (Alias<T>) instance.newAlias("t");
+        Alias<? super T> current = AliasRegistry.get(instance);
         while (current != null) {
             Delete<? super T> delete = Delete.from(current);
             delete.where(current.getIdColumn().equalsRuntimeChecked(instance.getId()));
@@ -51,7 +51,7 @@ public class JdbcRepository implements Repository {
         if (instance.isNew()) {
             List<Insert<? super T>> inserts = new ArrayList<Insert<? super T>>();
 
-            Alias<? super T> current = (Alias<T>) instance.newAlias("t");
+            Alias<? super T> current = AliasRegistry.get(instance);
             while (current != null) {
                 Insert<? super T> q = Insert.into((Alias<T>) current);
                 for (AliasColumn<? super T, ?, ?> c : current.getColumns()) {
@@ -70,7 +70,7 @@ public class JdbcRepository implements Repository {
         } else {
             Integer oldVersion = instance.getVersion();
 
-            Alias<? super T> current = (Alias<T>) instance.newAlias("t");
+            Alias<? super T> current = AliasRegistry.get(instance);
             while (current != null) {
                 Update<? super T> q = Update.into((Alias<T>) current);
                 for (AliasColumn<? super T, ?, ?> c : current.getColumns()) {
@@ -131,7 +131,7 @@ public class JdbcRepository implements Repository {
     }
 
     public <T extends DomainObject> void assignId(T instance) {
-        Alias<T> t = (Alias<T>) instance.newAlias("t");
+        Alias<T> t = AliasRegistry.get(instance);
 
         String sql = "select nextval('" + t.getRootClassAlias().getTableName() + "_id_seq')";
         int id = Jdbc.queryForInt(this.connection, sql);

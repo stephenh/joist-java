@@ -2,7 +2,6 @@ package org.exigencecorp.domainobjects;
 
 import java.util.List;
 
-import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.validation.errors.ValidationError;
 
 public interface DomainObject {
@@ -20,7 +19,5 @@ public interface DomainObject {
     void updateDerivedValues();
 
     List<ValidationError> validate();
-
-    Alias<? extends DomainObject> newAlias(String alias);
 
 }

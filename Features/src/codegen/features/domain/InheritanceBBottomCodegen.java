@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.mappers.InheritanceBBottomAlias;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
 
@@ -12,10 +11,6 @@ public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
     }
 
     private String bottomName = null;
-
-    public Alias<? extends InheritanceBBottom> newAlias(String alias) {
-        return new InheritanceBBottomAlias(alias);
-    }
 
     public String getBottomName() {
         return this.bottomName;

@@ -8,7 +8,6 @@ import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
 
@@ -22,10 +21,6 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private List<InheritanceBRootChild> inheritanceBRootChilds;
-
-    public Alias<? extends InheritanceBRoot> newAlias(String alias) {
-        return new InheritanceBRootAlias(alias);
-    }
 
     public Id<InheritanceBRoot> getId() {
         return this.id;

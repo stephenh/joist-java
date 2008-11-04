@@ -18,4 +18,8 @@ public class AliasRegistry {
         return (Alias<T>) AliasRegistry.aliases.get(domainClass);
     }
 
+    public static <T extends DomainObject> Alias<T> get(T domainClass) {
+        return (Alias<T>) AliasRegistry.aliases.get(domainClass.getClass());
+    }
+
 }

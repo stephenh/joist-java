@@ -8,7 +8,6 @@ import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.util.Copy;
@@ -23,10 +22,6 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private List<ManyToManyAFooToBar> manyToManyAFooToBars;
-
-    public Alias<? extends ManyToManyABar> newAlias(String alias) {
-        return new ManyToManyABarAlias(alias);
-    }
 
     public Id<ManyToManyABar> getId() {
         return this.id;

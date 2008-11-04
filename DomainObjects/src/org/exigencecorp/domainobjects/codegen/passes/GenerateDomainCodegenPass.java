@@ -14,7 +14,6 @@ import org.exigencecorp.domainobjects.codegen.dtos.PrimitiveProperty;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyCodeHolder;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
-import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.gen.GClass;
@@ -47,13 +46,9 @@ public class GenerateDomainCodegenPass implements Pass {
             domainCodegen.staticInitializer.line("AliasRegistry.register({}.class, new {}Alias(\"a\"));",//
                 entity.getClassName(),
                 entity.getClassName());
+            domainCodegen.addImports(AliasRegistry.class);
+            domainCodegen.addImports(entity.getConfig().getMapperPackage() + "." + entity.getClassName() + "Alias");
         }
-
-        GMethod m = domainCodegen.getMethod("newAlias");
-        m.returnType("Alias<? extends {}>", entity.getClassName()).arguments("String alias");
-        m.body.line("return new {}Alias(alias);", entity.getClassName());
-        domainCodegen.addImports(Alias.class, AliasRegistry.class);
-        domainCodegen.addImports(entity.getConfig().getMapperPackage() + "." + entity.getClassName() + "Alias");
     }
 
     private void primitiveProperties(GClass domainCodegen, Entity entity) {

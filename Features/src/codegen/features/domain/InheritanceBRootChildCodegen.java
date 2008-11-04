@@ -6,7 +6,6 @@ import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
-import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
 
@@ -18,10 +17,6 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<InheritanceBRoot> inheritanceBRoot = new ForeignKeyHolder<InheritanceBRoot>(InheritanceBRoot.class);
-
-    public Alias<? extends InheritanceBRootChild> newAlias(String alias) {
-        return new InheritanceBRootChildAlias(alias);
-    }
 
     public Id<InheritanceBRootChild> getId() {
         return this.id;

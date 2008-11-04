@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.mappers.InheritanceASubOneAlias;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class InheritanceASubOneCodegen extends InheritanceABase {
 
@@ -12,10 +11,6 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
     }
 
     private String one = null;
-
-    public Alias<? extends InheritanceASubOne> newAlias(String alias) {
-        return new InheritanceASubOneAlias(alias);
-    }
 
     public String getOne() {
         return this.one;

@@ -6,7 +6,6 @@ import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyCodeHolder;
-import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
 
@@ -19,10 +18,6 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     private Integer version = null;
     private ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
     private ForeignKeyCodeHolder<CodeAColor> codeAColor = new ForeignKeyCodeHolder<CodeAColor>(CodeAColor.class);
-
-    public Alias<? extends CodeADomainObject> newAlias(String alias) {
-        return new CodeADomainObjectAlias(alias);
-    }
 
     public Id<CodeADomainObject> getId() {
         return this.id;

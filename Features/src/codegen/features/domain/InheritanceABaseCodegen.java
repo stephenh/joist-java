@@ -5,7 +5,6 @@ import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.queries.Alias;
 
 public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
 
@@ -16,10 +15,6 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     private Id<InheritanceABase> id = null;
     private String name = null;
     private Integer version = null;
-
-    public Alias<? extends InheritanceABase> newAlias(String alias) {
-        return new InheritanceABaseAlias(alias);
-    }
 
     public Id<InheritanceABase> getId() {
         return this.id;
