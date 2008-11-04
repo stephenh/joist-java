@@ -138,10 +138,7 @@ public class JdbcRepository implements Repository {
         t.getIdColumn().setJdbcValue(instance, id);
         t.getVersionColumn().setJdbcValue(instance, 0);
 
-        // ((IdAliasColumn<T>) t.getIdColumn()).set(instance, new Id<T>((Class<T>) instance.getClass(), new Integer(id)));
-        // t.getVersionColumn().set(instance, new Integer(0));
-
-        ((AbstractDomainObject) instance).getChangedProperties().add("id"); // Hack
+        ((AbstractDomainObject) instance).getChangedProperties().add("id"); // Hack so isNew() still returns true
     }
 
     public <T extends DomainObject> void insert(Insert<T> insert) {
