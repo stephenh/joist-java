@@ -21,7 +21,7 @@ public class SetItem {
     }
 
     public String toString() {
-        return this.column.getQualifiedName() + " = " + this.value;
+        return this.column.getQualifiedName();
     }
 
 }

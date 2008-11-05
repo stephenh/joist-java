@@ -2,12 +2,23 @@ package org.exigencecorp.domainobjects.queries;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.util.Copy;
 
 public class Where {
 
-    private final String sql;
-    private final List<Object> parameters;
+    private String sql;
+    private List<Object> parameters;
+
+    public static Where and(Where... clauses) {
+        String sql = clauses[0].sql;
+        List<Object> parameters = Copy.list(clauses[0].parameters);
+        for (int i = 1; i < clauses.length; i++) {
+            sql += "\n AND " + clauses[i].sql;
+            parameters.addAll(clauses[i].parameters);
+        }
+        return new Where(sql, parameters);
+    }
 
     public Where(String sql, Object... parameters) {
         this.sql = sql;
@@ -19,15 +30,8 @@ public class Where {
         this.parameters = parameters;
     }
 
-    public static Where and(Where... clauses) {
-        String sql = clauses[0].sql;
-        List<Object> parameters = Copy.list(clauses[0].parameters);
-        for (int i = 1; i < clauses.length; i++) {
-            sql += "\n AND " + clauses[i].sql;
-            parameters.addAll(clauses[i].parameters);
-        }
-        return new Where(sql, parameters);
-
+    public void stripLeadingAliasForUpdates(String aliasName) {
+        this.sql = StringUtils.replace(this.sql, aliasName + ".", "");
     }
 
     public String toString() {
@@ -36,6 +40,10 @@ public class Where {
 
     public List<Object> getParameters() {
         return this.parameters;
+    }
+
+    public String getSql() {
+        return this.sql;
     }
 
 }

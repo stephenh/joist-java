@@ -16,7 +16,6 @@ public class IdAliasColumn<T extends DomainObject> extends AliasColumn<T, Id<T>,
 
     public IdAliasColumn(final Alias<T> alias, String name, Shim<T, Id<T>> shim) {
         super(alias, name, shim);
-
         this.converter = new Converter<Id<T>, Integer>() {
             public Integer toJdbc(Id<T> value) {
                 return value.intValue();

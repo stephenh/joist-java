@@ -17,7 +17,7 @@ public class InheritanceABaseMapper {
 
     public List<InheritanceABase> findAll() {
         InheritanceABaseAlias b = new InheritanceABaseAlias("b");
-        return Select.from(b).list();
+        return Select.from(b).orderBy(b.id.asc()).list();
     }
 
 }

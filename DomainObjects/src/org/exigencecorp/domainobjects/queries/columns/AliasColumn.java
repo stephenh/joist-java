@@ -1,6 +1,5 @@
 package org.exigencecorp.domainobjects.queries.columns;
 
-import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.converters.Converter;
@@ -29,35 +28,32 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
         this.converter = null;
     }
 
-    public void setJdbcValue(T instance, V jdbcValue) {
-        // this.converter.toDomain(jdbcValue);
-        U domainValue = (this.converter != null) ? this.converter.toDomain(jdbcValue) : (U) jdbcValue;
-        this.shim.set(instance, domainValue);
+    public U getDomainValue(T instance) {
+        return this.shim.get(instance);
+    }
+
+    public U getDomainValue(V jdbcValue) {
+        return (this.converter != null) ? this.converter.toDomain(jdbcValue) : (U) jdbcValue;
     }
 
     public V getJdbcValue(T instance) {
-        Object value = this.shim.get(instance);
-        if (value instanceof AbstractDomainObject) {
-            value = ((AbstractDomainObject) value).getId();
-        }
-        return (V) value;
+        return this.getJdbcValue(this.getDomainValue(instance));
     }
 
-    // public void toSetItem(T instance, U value) {
-    //    this.shim.set(instance, value);
-    //}
+    public V getJdbcValue(U domainValue) {
+        return (this.converter != null) ? this.converter.toJdbc(domainValue) : (V) domainValue;
+    }
+
+    public void setJdbcValue(T instance, V jdbcValue) {
+        this.shim.set(instance, this.getDomainValue(jdbcValue));
+    }
 
     public SetItem toSetItem(T instance) {
         return this.toSetItem(this.getDomainValue(instance));
     }
 
     public SetItem toSetItem(U domainValue) {
-        V jdbcValue = (this.converter != null) ? this.converter.toJdbc(domainValue) : (V) domainValue;
-        return new SetItem(this, jdbcValue);
-    }
-
-    public U getDomainValue(T instance) {
-        return this.shim.get(instance);
+        return new SetItem(this, this.getJdbcValue(domainValue));
     }
 
     public Order asc() {

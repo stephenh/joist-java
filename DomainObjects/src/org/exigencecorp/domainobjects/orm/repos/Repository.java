@@ -1,6 +1,7 @@
 package org.exigencecorp.domainobjects.orm.repos;
 
 import java.util.List;
+import java.util.Set;
 
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.Ids;
@@ -22,9 +23,7 @@ public interface Repository {
 
     <T extends DomainObject> T load(Class<T> type, Integer id);
 
-    <T extends DomainObject> void assignId(T instance);
-
-    <T extends DomainObject> void store(T instance);
+    <T extends DomainObject> void store(Set<T> instances);
 
     <T extends DomainObject> void delete(T instance);
 

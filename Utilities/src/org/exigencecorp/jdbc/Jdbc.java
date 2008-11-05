@@ -168,6 +168,25 @@ public class Jdbc {
         }
     }
 
+    public static void updateAll(Connection connection, String sql, List<List<Object>> allParameters) {
+        PreparedStatement ps = null;
+        try {
+            Log.trace("sql = {}", sql);
+            ps = connection.prepareStatement(sql);
+            for (List<Object> parameters : allParameters) {
+                Log.trace("parameters = {}", parameters);
+                for (int i = 0; i < parameters.size(); i++) {
+                    ps.setObject(i + 1, parameters.get(i));
+                }
+                ps.executeUpdate();
+            }
+        } catch (SQLException se) {
+            throw new RuntimeException(se);
+        } finally {
+            Jdbc.closeSafely(ps);
+        }
+    }
+
     public static void closeSafely(Object... objects) {
         for (Object o : objects) {
             if (o == null) {

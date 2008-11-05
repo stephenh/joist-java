@@ -7,7 +7,6 @@ import junit.framework.TestCase;
 
 import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.orm.repos.sql.Selecter;
-import org.exigencecorp.domainobjects.orm.repos.sql.Updater;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.queries.Update;
 import org.exigencecorp.domainobjects.queries.Where;
@@ -64,7 +63,7 @@ public class PrimitivesQueryTest extends TestCase {
         Update<Primitives> q = Update.into(p);
         q.set(p.flag.to(true));
         q.where(p.id.in(ids));
-        Assert.assertEquals("UPDATE primitives SET\n flag = ? WHERE id in (1,2,3)", this.toSql(q));
+        Assert.assertEquals("UPDATE primitives\n SET flag = ?\n WHERE id in (1,2,3)", q.toSql());
         Assert.assertEquals(Copy.list(Boolean.TRUE), this.toParameters(q));
     }
 
@@ -76,12 +75,8 @@ public class PrimitivesQueryTest extends TestCase {
         return new Selecter<Primitives>(null, q).getParameters();
     }
 
-    private String toSql(Update<Primitives> q) {
-        return new Updater<Primitives>(null, q).toSql();
-    }
-
     private List<Object> toParameters(Update<Primitives> q) {
-        return new Updater<Primitives>(null, q).getParameters();
+        return q.getAllParameters().get(0);
     }
 
 }

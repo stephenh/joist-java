@@ -12,17 +12,17 @@ public class IdentityMap {
 
     public void store(Class<?> type, DomainObject o) {
         Integer id = o.getId().intValue();
-        Log.debug("Storing {}#{} in identity map", type, id);
+        Log.trace("Storing {}#{} in identity map", type, id);
         this.objects.put(type + "#" + id, o);
     }
 
     public Object findOrNull(Class<?> type, Integer id) {
         Object o = this.objects.get(type + "#" + id);
         if (o != null) {
-            Log.debug("Found {}#{} in identity map", type, id);
+            Log.trace("Found {}#{} in identity map", type, id);
             return o;
         }
-        Log.debug("Missed {}#{} in identity map", type, id);
+        Log.trace("Missed {}#{} in identity map", type, id);
         return null;
     }
 

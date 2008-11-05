@@ -32,16 +32,13 @@ public class Selecter<T extends DomainObject> {
 
     public <R> List<R> select(final Class<R> rowType) {
         final List<R> results = new ArrayList<R>();
-
         RowMapper mapper = null;
         if (this.isLoadingDomainObjects(this.select.getFrom(), rowType)) {
             mapper = new DomainObjectMapper<T>(this.select.getFrom(), (List<T>) results);
         } else {
             mapper = new DataTransferObjectMapper<T, R>(rowType, results);
         }
-
         Jdbc.query(this.connection, this.toSql(), this.getParameters(), mapper);
-
         return results;
     }
 

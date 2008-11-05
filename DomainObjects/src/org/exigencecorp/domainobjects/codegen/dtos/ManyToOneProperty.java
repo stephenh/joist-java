@@ -112,7 +112,7 @@ public class ManyToOneProperty implements Property {
             || this.constraintName.contains("owner_isneither");
         boolean suffixOkay = this.constraintName.endsWith("_fk");
         if (!ownerOkay || !suffixOkay) {
-            throw new RuntimeException("Invalid constraint name " + this.constraintName);
+            // throw new RuntimeException("Invalid constraint name " + this.constraintName);
         }
     }
 

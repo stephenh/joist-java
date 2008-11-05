@@ -82,4 +82,8 @@ public abstract class Alias<T extends DomainObject> {
         return current;
     }
 
+    public boolean isRootClass() {
+        return this.getBaseClassAlias() == null;
+    }
+
 }

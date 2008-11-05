@@ -25,33 +25,11 @@ public class Select<T extends DomainObject> {
 
     private Select(Alias<T> alias) {
         this.from = alias;
-
         for (AliasColumn<T, ?, ?> c : alias.getColumns()) {
             this.selectItems.add(new SelectItem(c));
         }
-
-        int i = 0;
-        List<String> subClassCases = new ArrayList<String>();
-        for (Alias<?> sub : alias.getSubClassAliases()) {
-            this.join(new JoinClause("LEFT OUTER JOIN", sub, sub.getSubClassIdColumn(), alias.getIdColumn()));
-            for (AliasColumn<?, ?, ?> c : sub.getColumns()) {
-                this.selectItems.add(new SelectItem(c));
-            }
-            subClassCases.add("WHEN " + sub.getSubClassIdColumn().getQualifiedName() + " IS NOT NULL THEN " + (i++));
-        }
-        if (i > 0) {
-            this.selectItems.add(new SelectItem("CASE " + Join.space(subClassCases) + " ELSE -1 END AS _clazz"));
-        }
-
-        Alias<?> base = alias.getBaseClassAlias();
-        while (base != null) {
-            IdAliasColumn<?> id = base.getSubClassIdColumn() == null ? base.getIdColumn() : base.getSubClassIdColumn();
-            this.join(new JoinClause("INNER JOIN", base, id, alias.getSubClassIdColumn()));
-            for (AliasColumn<?, ?, ?> c : base.getColumns()) {
-                this.selectItems.add(new SelectItem(c));
-            }
-            base = base.getBaseClassAlias();
-        }
+        this.addInnerJoinsForBaseClasses();
+        this.addOuterJoinsForSubClasses();
     }
 
     public void join(JoinClause join) {
@@ -126,6 +104,33 @@ public class Select<T extends DomainObject> {
 
     public Order[] getOrderBy() {
         return this.orderBy;
+    }
+
+    private void addOuterJoinsForSubClasses() {
+        int i = 0;
+        List<String> subClassCases = new ArrayList<String>();
+        for (Alias<?> sub : this.from.getSubClassAliases()) {
+            this.join(new JoinClause("LEFT OUTER JOIN", sub, sub.getSubClassIdColumn(), this.from.getIdColumn()));
+            for (AliasColumn<?, ?, ?> c : sub.getColumns()) {
+                this.selectItems.add(new SelectItem(c));
+            }
+            subClassCases.add("WHEN " + sub.getSubClassIdColumn().getQualifiedName() + " IS NOT NULL THEN " + (i++));
+        }
+        if (i > 0) {
+            this.selectItems.add(new SelectItem("CASE " + Join.space(subClassCases) + " ELSE -1 END AS _clazz"));
+        }
+    }
+
+    private void addInnerJoinsForBaseClasses() {
+        Alias<?> base = this.from.getBaseClassAlias();
+        while (base != null) {
+            IdAliasColumn<?> id = base.getSubClassIdColumn() == null ? base.getIdColumn() : base.getSubClassIdColumn();
+            this.join(new JoinClause("INNER JOIN", base, id, this.from.getSubClassIdColumn()));
+            for (AliasColumn<?, ?, ?> c : base.getColumns()) {
+                this.selectItems.add(new SelectItem(c));
+            }
+            base = base.getBaseClassAlias();
+        }
     }
 
 }
