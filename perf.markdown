@@ -2,6 +2,27 @@
 ParentsLotsTest
 ===============
 
+The unit test:
+
+    public void testLotsOfUpdateInOne() {
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 5000; i++) {
+            Parent p = new Parent();
+            p.setName("foo");
+        }
+        this.commitAndReOpen();
+        long mid = System.currentTimeMillis();
+        Log.debug("Took {}ms", (mid - start));
+        for (int i = 0; i < 5000; i++) {
+            Parent p = UoW.getCurrent().getRepository().load(Parent.class, 2 + i);
+            p.setName("foo" + i);
+        }
+        this.commitAndReOpen();
+        long end = System.currentTimeMillis();
+        Log.debug("Took {}ms", (end - mid));
+        Log.debug("Took {}ms", (end - start));
+    }
+
 Hibernate
 ---------
 
@@ -53,8 +74,8 @@ Corporate enterprise project, ~450 tables, running 1 JUnit test to save a simple
   * ORM: 0.8 seconds (unplugged)
   * ORM: 0.4 seconds (plugged in)
 * sh7: Thinkpad T61p, 2.5Ghz, 4GB RAM, Windows Vista 64bit
-  * Hibernate: 8.7 seconds (plugged in)
   * Hibernate: 13.3 seconds (unplugged)
-  * ORM: 0.35 seconds (plugged in)
+  * Hibernate: 8.7 seconds (plugged in)
   * ORM: 0.52 seconds (unplugged)
+  * ORM: 0.35 seconds (plugged in)
 
