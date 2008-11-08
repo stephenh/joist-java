@@ -1,6 +1,7 @@
 package org.exigencecorp.domainobjects.orm.repos.sql;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
@@ -22,6 +24,7 @@ import org.exigencecorp.domainobjects.queries.Where;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.jdbc.Jdbc;
+import org.exigencecorp.jdbc.RowMapper;
 import org.exigencecorp.util.MapToList;
 
 public class JdbcRepository implements Repository {
@@ -49,16 +52,14 @@ public class JdbcRepository implements Repository {
     public <T extends DomainObject> void store(Set<T> instances) {
         MapToList<Class<T>, T> byClassInserts = new MapToList<Class<T>, T>();
         MapToList<Class<T>, T> byClassUpdates = new MapToList<Class<T>, T>();
-        List<T> assignIds = new ArrayList<T>();
         for (T instance : instances) {
             if (instance.isNew()) {
-                assignIds.add(instance);
                 byClassInserts.add(instance.getClass(), instance);
             } else {
                 byClassUpdates.add(instance.getClass(), instance);
             }
         }
-        this.assignIds(assignIds);
+        this.assignIds(byClassInserts);
         for (Entry<Class<T>, List<T>> entry : byClassInserts.entrySet()) {
             this.batchInserts(entry.getKey(), entry.getValue());
         }
@@ -167,15 +168,35 @@ public class JdbcRepository implements Repository {
         }
     }
 
-    private <T extends DomainObject> void assignIds(List<T> instances) {
-        for (T instance : instances) {
-            Alias<T> t = AliasRegistry.get(instance);
-            String sql = "select nextval('" + t.getRootClassAlias().getTableName() + "_id_seq')";
-            int id = Jdbc.queryForInt(this.connection, sql);
-            t.getIdColumn().setJdbcValue(instance, id);
-            t.getVersionColumn().setJdbcValue(instance, 0);
-            ((AbstractDomainObject) instance).getChangedProperties().add("id"); // Hack so isNew() still returns true
+    private <T extends DomainObject> void assignIds(MapToList<Class<T>, T> byClassInserts) {
+        if (byClassInserts.size() == 0) {
+            return;
+        }
+
+        List<String> allSql = new ArrayList<String>();
+        for (Entry<Class<T>, List<T>> entry : byClassInserts.entrySet()) {
+            String sql = "select nextval('" + AliasRegistry.get(entry.getKey()).getRootClassAlias().getTableName() + "_id_seq')";
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                allSql.add(sql);
+            }
+        }
+
+        final List<Integer> ids = new ArrayList<Integer>();
+        Jdbc.query(this.connection, StringUtils.join(allSql, " UNION ALL "), new RowMapper() {
+            public void mapRow(ResultSet rs) throws SQLException {
+                ids.add(rs.getInt(1));
+            }
+        });
+
+        int i = 0;
+        for (Entry<Class<T>, List<T>> entry : byClassInserts.entrySet()) {
+            Alias<T> t = AliasRegistry.get(entry.getKey());
+            for (T instance : entry.getValue()) {
+                int id = ids.get(i++);
+                t.getIdColumn().setJdbcValue(instance, id);
+                t.getVersionColumn().setJdbcValue(instance, 0);
+                ((AbstractDomainObject) instance).getChangedProperties().add("id"); // Hack so isNew() still returns true
+            }
         }
     }
-
 }
