@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.jdbc.RowMapper;
 import org.exigencecorp.util.Copy;
@@ -43,8 +42,11 @@ public class InformationSchemaWrapper {
 
     public boolean isCodeTable(String tableName) {
         List<String> actualColumns = this.getColumnNames(tableName);
-        List<String> neededColumns = Copy.list("id", "code", "name", "version");
-        return CollectionUtils.isEqualCollection(actualColumns, neededColumns);
+        if (actualColumns.size() != 4) {
+            return false;
+        }
+        actualColumns.removeAll(Copy.list("id", "code", "name", "version"));
+        return actualColumns.size() == 0;
     }
 
     public boolean isManyToManyTable(String tableName) {
@@ -52,12 +54,12 @@ public class InformationSchemaWrapper {
             return false;
         }
         List<String> actualColumns = this.getColumnNames(tableName);
-        if (actualColumns.size() == 3) {
-            actualColumns.remove("id");
-            // actualColumns.remove("version");
-            return actualColumns.size() == 2 && actualColumns.get(0).endsWith("_id") && actualColumns.get(1).endsWith("_id");
+        if (actualColumns.size() != 4) {
+            return false;
         }
-        return false;
+        actualColumns.remove("id");
+        actualColumns.remove("version");
+        return actualColumns.size() == 2 && actualColumns.get(0).endsWith("_id") && actualColumns.get(1).endsWith("_id");
     }
 
     private List<String> getColumnNames(String tableName) {
