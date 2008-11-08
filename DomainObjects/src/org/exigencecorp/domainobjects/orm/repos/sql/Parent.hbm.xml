@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="features.domain">
+	<class name="Parent" table="`parent`">
+		<id name="id" type="integer" access="field">
+			<generator class="sequence">
+				<param name="sequence">parent_id_seq</param>
+			</generator>
+		</id>
+		<version name="version" column="version" type="integer"
+			access="field" />
+		<property name="name" column="`name`" type="string" access="field" />
+	</class>
+</hibernate-mapping>

@@ -11,7 +11,7 @@ public class LogConfiguration {
         LogManager.getRootLogger().addAppender(LogAppenderFactory.newConsoleAppender());
         LogManager.getLogger("features").setLevel(Level.DEBUG);
         LogManager.getLogger("org.exigencecorp").setLevel(Level.DEBUG);
-        LogManager.getLogger("org.exigencecorp.jdbc").setLevel(Level.TRACE);
+        // LogManager.getLogger("org.exigencecorp.jdbc").setLevel(Level.TRACE);
         Log.debug("Configuration reset, ConsoleAppender added");
     }
 

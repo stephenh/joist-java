@@ -32,12 +32,16 @@ public class ParentsLotsTest extends AbstractFeaturesTest {
             p.setName("foo");
         }
         this.commitAndReOpen();
+        long mid = System.currentTimeMillis();
+        Log.debug("Took {}ms", (mid - start));
         for (int i = 0; i < 5000; i++) {
             Parent p = UoW.getCurrent().getRepository().load(Parent.class, 2 + i);
             p.setName("foo" + i);
         }
         this.commitAndReOpen();
-        Log.debug("Took {}ms", (System.currentTimeMillis() - start));
+        long end = System.currentTimeMillis();
+        Log.debug("Took {}ms", (end - mid));
+        Log.debug("Took {}ms", (end - start));
     }
 
 }

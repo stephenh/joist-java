@@ -11,7 +11,7 @@ public class UnitOfWork {
 
     private final Validator validator = new Validator();
     private final IdentityMap identityMap = new IdentityMap();
-    private final Repository repository = new JdbcRepository();
+    private final Repository repository = new JdbcRepository(); // HibernateRepository();
 
     public void open() {
         this.repository.open();
