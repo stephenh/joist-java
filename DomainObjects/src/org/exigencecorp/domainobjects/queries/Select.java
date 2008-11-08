@@ -5,11 +5,17 @@ import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.Ids;
+import org.exigencecorp.domainobjects.orm.repos.sql.DataTransferObjectMapper;
+import org.exigencecorp.domainobjects.orm.repos.sql.DomainObjectMapper;
+import org.exigencecorp.domainobjects.orm.repos.sql.IdsMapper;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.uow.UoW;
+import org.exigencecorp.jdbc.Jdbc;
+import org.exigencecorp.jdbc.RowMapper;
 import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Join;
+import org.exigencecorp.util.StringBuilderr;
 
 public class Select<T extends DomainObject> {
 
@@ -60,7 +66,15 @@ public class Select<T extends DomainObject> {
     }
 
     public <R> List<R> list(Class<R> rowType) {
-        return UoW.getCurrent().getRepository().select(this, rowType);
+        final List<R> results = new ArrayList<R>();
+        RowMapper mapper = null;
+        if (this.isLoadingDomainObjects(rowType)) {
+            mapper = new DomainObjectMapper<T>(this.from, (List<T>) results);
+        } else {
+            mapper = new DataTransferObjectMapper<T, R>(rowType, results);
+        }
+        Jdbc.query(UoW.getCurrent().getRepository().getConnection(), this.toSql(), this.getParameters(), mapper);
+        return results;
     }
 
     public <R> R unique(Class<R> rowType) {
@@ -74,7 +88,9 @@ public class Select<T extends DomainObject> {
     }
 
     public Ids<T> listIds() {
-        return UoW.getCurrent().getRepository().selectIds(this);
+        final Ids<T> ids = new Ids<T>(this.from.getDomainClass());
+        Jdbc.query(UoW.getCurrent().getRepository().getConnection(), this.toSql(), this.getParameters(), new IdsMapper<T>(this.from, ids));
+        return ids;
     }
 
     public long count() {
@@ -86,24 +102,35 @@ public class Select<T extends DomainObject> {
         public Long count;
     }
 
-    public Alias<T> getFrom() {
-        return this.from;
-    }
-
-    public List<JoinClause> getJoins() {
-        return this.joins;
-    }
-
-    public List<SelectItem> getSelectItems() {
-        return this.selectItems;
-    }
-
     public Where getWhere() {
         return this.where;
     }
 
     public Order[] getOrderBy() {
         return this.orderBy;
+    }
+
+    public String toSql() {
+        StringBuilderr s = new StringBuilderr();
+        s.line("SELECT {}", Join.commaSpace(this.selectItems));
+        s.line(" FROM {} {}", this.from.getTableName(), this.from.getName());
+        for (JoinClause join : this.joins) {
+            s.line(" {}", join);
+        }
+        if (this.getWhere() != null) {
+            s.line(" WHERE {}", this.getWhere());
+        }
+        if (this.getOrderBy() != null) {
+            s.line(" ORDER BY {}", Join.commaSpace(this.getOrderBy()));
+        }
+        return s.stripTrailingNewLine().toString();
+    }
+
+    public List<Object> getParameters() {
+        if (this.getWhere() != null) {
+            return this.getWhere().getParameters();
+        }
+        return new ArrayList<Object>();
     }
 
     private void addOuterJoinsForSubClasses() {
@@ -131,6 +158,10 @@ public class Select<T extends DomainObject> {
             }
             base = base.getBaseClassAlias();
         }
+    }
+
+    private boolean isLoadingDomainObjects(Class<?> type) {
+        return this.from.getDomainBaseClass().isAssignableFrom(type);
     }
 
 }

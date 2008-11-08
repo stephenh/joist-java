@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.uow.UoW;
+import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.util.StringBuilderr;
 
 public class Update<T extends DomainObject> {
@@ -34,7 +35,7 @@ public class Update<T extends DomainObject> {
     }
 
     public void execute() {
-        UoW.getCurrent().getRepository().update(this);
+        Jdbc.updateAll(UoW.getCurrent().getRepository().getConnection(), this.toSql(), this.getAllParameters());
     }
 
     public void set(SetItem setItem) {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
+import org.exigencecorp.domainobjects.uow.UoW;
+import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.util.StringBuilderr;
 
 public class Delete<T extends DomainObject> {
@@ -19,6 +21,10 @@ public class Delete<T extends DomainObject> {
     private Delete(Alias<T> alias) {
         this.alias = alias;
         this.allParameters.add(new ArrayList<Object>());
+    }
+
+    public void execute() {
+        Jdbc.updateAll(UoW.getCurrent().getRepository().getConnection(), this.toSql(), this.getAllParameters());
     }
 
     public Alias<T> getAlias() {

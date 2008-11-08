@@ -3,7 +3,6 @@ package features.domain.mappers;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.exigencecorp.domainobjects.orm.repos.sql.Selecter;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Join;
@@ -31,7 +30,7 @@ public class ChildQueryTest extends TestCase {
             " FROM child c",
             " INNER JOIN parent p ON c.parent_id = p.id",
             " WHERE p.name = ?",
-            " ORDER BY p.name, c.name"), new Selecter<Child>(null, q).toSql());
+            " ORDER BY p.name, c.name"), q.toSql());
         Assert.assertEquals(Copy.list("bob"), q.getWhere().getParameters());
     }
 

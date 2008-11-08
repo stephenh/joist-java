@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.DomainObject;
-import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.repos.Repository;
 import org.exigencecorp.domainobjects.queries.Alias;
@@ -40,7 +39,7 @@ public class JdbcNonBatchingRepository implements Repository {
         while (current != null) {
             Delete<? super T> delete = Delete.from(current);
             delete.where(current.getIdColumn().equalsRuntimeChecked(instance.getId()));
-            this.delete(delete);
+            delete.execute();
             current = current.getBaseClassAlias();
         }
     }
@@ -89,26 +88,6 @@ public class JdbcNonBatchingRepository implements Repository {
         }
     }
 
-    public <T extends DomainObject> void insert(Insert<T> insert) {
-        Jdbc.updateAll(this.connection, insert.toSql(), insert.getAllParameters());
-    }
-
-    public <T extends DomainObject> void update(Update<T> update) {
-        Jdbc.updateAll(this.connection, update.toSql(), update.getAllParameters());
-    }
-
-    public <T extends DomainObject> void delete(Delete<T> delete) {
-        Jdbc.updateAll(this.connection, delete.toSql(), delete.getAllParameters());
-    }
-
-    public <T extends DomainObject, R> List<R> select(Select<T> select, Class<R> instanceType) {
-        return new Selecter<T>(this.connection, select).select(instanceType);
-    }
-
-    public <T extends DomainObject> Ids<T> selectIds(Select<T> select) {
-        return new Selecter<T>(this.connection, select).selectIds();
-    }
-
     private <T extends DomainObject> void assignId(T instance) {
         Alias<T> t = AliasRegistry.get(instance);
 
@@ -135,7 +114,7 @@ public class JdbcNonBatchingRepository implements Repository {
             current = current.getBaseClassAlias();
         }
         for (Insert<? super T> q : Copy.reverse(inserts)) {
-            this.insert(q);
+            q.execute();
         }
     }
 
@@ -155,12 +134,16 @@ public class JdbcNonBatchingRepository implements Repository {
             } else {
                 q.where(current.getSubClassIdColumn().equalsRuntimeChecked(instance.getId()));
             }
-            this.update(q);
+            q.execute();
             if (current.getBaseClassAlias() == null) {
                 current.getVersionColumn().setJdbcValue(instance, oldVersion + 1);
             }
             current = current.getBaseClassAlias();
         }
+    }
+
+    public Connection getConnection() {
+        return this.connection;
     }
 
 }

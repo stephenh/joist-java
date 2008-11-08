@@ -11,7 +11,6 @@ import javax.sql.DataSource;
 
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.DomainObject;
-import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.repos.Repository;
 import org.exigencecorp.domainobjects.queries.Alias;
@@ -42,7 +41,7 @@ public class JdbcRepository implements Repository {
     public <T extends DomainObject> void delete(T instance) {
         Alias<? super T> current = AliasRegistry.get(instance);
         while (current != null) {
-            this.delete(Delete.from(current).where(current.getIdColumn().equalsRuntimeChecked(instance.getId())));
+            Delete.from(current).where(current.getIdColumn().equalsRuntimeChecked(instance.getId())).execute();
             current = current.getBaseClassAlias();
         }
     }
@@ -102,24 +101,8 @@ public class JdbcRepository implements Repository {
         }
     }
 
-    public <T extends DomainObject> void insert(Insert<T> insert) {
-        Jdbc.updateAll(this.connection, insert.toSql(), insert.getAllParameters());
-    }
-
-    public <T extends DomainObject> void update(Update<T> update) {
-        Jdbc.updateAll(this.connection, update.toSql(), update.getAllParameters());
-    }
-
-    public <T extends DomainObject> void delete(Delete<T> delete) {
-        Jdbc.updateAll(this.connection, delete.toSql(), delete.getAllParameters());
-    }
-
-    public <T extends DomainObject, R> List<R> select(Select<T> select, Class<R> instanceType) {
-        return new Selecter<T>(this.connection, select).select(instanceType);
-    }
-
-    public <T extends DomainObject> Ids<T> selectIds(Select<T> select) {
-        return new Selecter<T>(this.connection, select).selectIds();
+    public Connection getConnection() {
+        return this.connection;
     }
 
     private <T extends DomainObject> void batchInserts(Class<T> domainClass, List<T> instances) {
@@ -142,7 +125,7 @@ public class JdbcRepository implements Repository {
                 }
                 q.addMoreParameters(parameters);
             }
-            this.insert(q);
+            q.execute();
             current = current.getBaseClassAlias();
         }
     }
@@ -179,7 +162,7 @@ public class JdbcRepository implements Repository {
                 }
                 q.addMoreParameters(parameters);
             }
-            this.update(q);
+            q.execute();
             current = current.getBaseClassAlias();
         }
     }

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.DomainObject;
+import org.exigencecorp.domainobjects.uow.UoW;
+import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.util.Join;
 import org.exigencecorp.util.StringBuilderr;
 
@@ -29,6 +31,10 @@ public class Insert<T extends DomainObject> {
         if (!this.isTemplate) {
             this.allParameters.add(new ArrayList<Object>());
         }
+    }
+
+    public void execute() {
+        Jdbc.updateAll(UoW.getCurrent().getRepository().getConnection(), this.toSql(), this.getAllParameters());
     }
 
     public void set(SetItem setItem) {

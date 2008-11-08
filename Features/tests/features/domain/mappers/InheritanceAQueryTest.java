@@ -3,7 +3,6 @@ package features.domain.mappers;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.exigencecorp.domainobjects.orm.repos.sql.Selecter;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Join;
@@ -41,7 +40,7 @@ public class InheritanceAQueryTest extends TestCase {
             " FROM inheritance_a_base b",
             " LEFT OUTER JOIN inheritance_a_sub_one b_0 ON b.id = b_0.id",
             " LEFT OUTER JOIN inheritance_a_sub_two b_1 ON b.id = b_1.id",
-            " WHERE b.name = ?"), new Selecter<InheritanceABase>(null, q).toSql());
+            " WHERE b.name = ?"), q.toSql());
         Assert.assertEquals(Copy.list("b"), q.getWhere().getParameters());
     }
 
@@ -54,7 +53,7 @@ public class InheritanceAQueryTest extends TestCase {
             "SELECT sa.one, sa_b.id, sa_b.name, sa_b.version",
             " FROM inheritance_a_sub_one sa",
             " INNER JOIN inheritance_a_base sa_b ON sa.id = sa_b.id",
-            " WHERE sa.one = ?"), new Selecter<InheritanceASubOne>(null, q).toSql());
+            " WHERE sa.one = ?"), q.toSql());
         Assert.assertEquals(Copy.list("one"), q.getWhere().getParameters());
     }
 }
