@@ -36,6 +36,8 @@ Patterns
 Todo
 ====
 
+* User types (CalendarDate, TimePoint, etc.)
+* Op lock detection
 * Validation rules
 * Differentiate mappers/finders, Finder registry/something
 
