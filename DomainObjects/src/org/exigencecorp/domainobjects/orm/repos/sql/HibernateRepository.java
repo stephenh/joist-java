@@ -91,4 +91,8 @@ public class HibernateRepository implements Repository {
         return this.connection;
     }
 
+    public Session getSession() {
+        return this.session;
+    }
+
 }

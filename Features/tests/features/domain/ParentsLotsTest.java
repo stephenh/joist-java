@@ -1,7 +1,10 @@
 package features.domain;
 
-import org.exigencecorp.domainobjects.uow.UoW;
+import org.exigencecorp.domainobjects.orm.AliasRegistry;
+import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.util.Log;
+
+import features.domain.mappers.ParentAlias;
 
 public class ParentsLotsTest extends AbstractFeaturesTest {
 
@@ -29,18 +32,27 @@ public class ParentsLotsTest extends AbstractFeaturesTest {
         long start = System.currentTimeMillis();
         for (int i = 0; i < 5000; i++) {
             Parent p = new Parent();
-            p.setName("foo");
-        }
-        this.commitAndReOpen();
-        long mid = System.currentTimeMillis();
-        Log.debug("Took {}ms", (mid - start));
-        for (int i = 0; i < 5000; i++) {
-            Parent p = UoW.getCurrent().getRepository().load(Parent.class, 2 + i);
             p.setName("foo" + i);
         }
         this.commitAndReOpen();
+        long mid = System.currentTimeMillis();
+        Log.debug("Insert took {}ms", (mid - start));
+        // for (int i = 0; i < 5000; i++) {
+        // Parent p = UoW.getCurrent().getRepository().load(Parent.class, 2 + i);
+        // p.setName("foo" + i);
+        // }
+        this.commitAndReOpen();
+        long mid2 = System.currentTimeMillis();
+        Log.debug("Update took {}ms", (mid2 - mid));
+        for (int i = 0; i < 5000; i++) {
+            // Query q = UoW.getCurrent().getRepository().getSession().createQuery("from Parent where name = :name");
+            // q.setParameter("name", "foo" + i);
+            // Parent p = (Parent) q.uniqueResult();
+            ParentAlias a = (ParentAlias) AliasRegistry.get(Parent.class); // new ParentAlias("a");
+            Parent p = Select.from(a).where(a.name.equals("foo" + i)).unique();
+        }
         long end = System.currentTimeMillis();
-        Log.debug("Took {}ms", (end - mid));
+        Log.debug("Query took {}ms", (end - mid2));
         Log.debug("Took {}ms", (end - start));
     }
 
