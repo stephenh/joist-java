@@ -2,6 +2,7 @@ package features.domain;
 
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Select;
+import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.util.Log;
 
 import features.domain.mappers.ParentAlias;
@@ -35,15 +36,15 @@ public class ParentsLotsTest extends AbstractFeaturesTest {
         long start = System.currentTimeMillis();
         for (int i = 0; i < 5000; i++) {
             Parent p = new Parent();
-            p.setName("foo" + i);
+            p.setName("foo");
         }
         this.commitAndReOpen();
         long mid = System.currentTimeMillis();
         Log.debug("Insert took {}ms", (mid - start));
-        // for (int i = 0; i < 5000; i++) {
-        // Parent p = UoW.getCurrent().getRepository().load(Parent.class, 2 + i);
-        // p.setName("foo" + i);
-        // }
+        for (int i = 0; i < 5000; i++) {
+            Parent p = UoW.getCurrent().getRepository().load(Parent.class, 2 + i);
+            p.setName("foo" + i);
+        }
         this.commitAndReOpen();
         long mid2 = System.currentTimeMillis();
         Log.debug("Update took {}ms", (mid2 - mid));

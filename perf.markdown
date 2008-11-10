@@ -59,11 +59,11 @@ With batching plus ids-at-once:
     2008-11-08 00:26:08,005 [main]  DEBUG features.domain.ParentsLotsTest - Took 3901ms
     4.1 seconds total
 
-    2008-11-08 21:19:31,604 [main]  DEBUG features.domain.ParentsLotsTest - Insert took 1279ms
-    2008-11-08 21:19:34,257 [main]  DEBUG features.domain.ParentsLotsTest - Update took 2653ms
-    2008-11-08 21:19:40,217 [main]  DEBUG features.domain.ParentsLotsTest - Query took 5960ms
-    2008-11-08 21:19:40,217 [main]  DEBUG features.domain.ParentsLotsTest - Took 9892ms
-    10.2 seconds total
+    2008-11-10 15:36:37,448 [main]  DEBUG features.domain.ParentsLotsTest - Insert took 1310ms
+    2008-11-10 15:36:40,039 [main]  DEBUG features.domain.ParentsLotsTest - Update took 2591ms
+    2008-11-10 15:36:45,594 [main]  DEBUG features.domain.ParentsLotsTest - Query took 5555ms
+    2008-11-10 15:36:45,594 [main]  DEBUG features.domain.ParentsLotsTest - Took 9456ms
+    9.8 seconds total
 
 CBAS
 ====
