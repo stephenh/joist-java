@@ -5,7 +5,6 @@
 	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DomainObjects"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Updater"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Utilities"/>
 	<classpathentry kind="lib" path="lib/c3p0-0.9.1.2.jar" sourcepath="lib/c3p0-0.9.1.2.zip"/>
 	<classpathentry kind="lib" path="lib/postgresql-8.3-603.jdbc3.jar" sourcepath="lib/postgresql-8.3-603.jdbc3.zip"/>

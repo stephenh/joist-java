@@ -2,8 +2,8 @@ package features.cli;
 
 import javax.sql.DataSource;
 
-import org.exigencecorp.updater.Resetter;
-import org.exigencecorp.updater.ResetterConfig;
+import org.exigencecorp.domainobjects.updater.Resetter;
+import org.exigencecorp.domainobjects.updater.ResetterConfig;
 
 import features.Registry;
 

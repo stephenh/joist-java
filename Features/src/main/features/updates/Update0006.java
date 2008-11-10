@@ -1,14 +1,14 @@
 package features.updates;
 
-import static org.exigencecorp.updater.Keywords.createTable;
-import static org.exigencecorp.updater.Keywords.createTableSubclass;
-import static org.exigencecorp.updater.Keywords.foreignKey;
-import static org.exigencecorp.updater.Keywords.integer;
-import static org.exigencecorp.updater.Keywords.primaryKey;
-import static org.exigencecorp.updater.Keywords.varchar;
+import static org.exigencecorp.domainobjects.updater.Keywords.createTable;
+import static org.exigencecorp.domainobjects.updater.Keywords.createTableSubclass;
+import static org.exigencecorp.domainobjects.updater.Keywords.foreignKey;
+import static org.exigencecorp.domainobjects.updater.Keywords.integer;
+import static org.exigencecorp.domainobjects.updater.Keywords.primaryKey;
+import static org.exigencecorp.domainobjects.updater.Keywords.theyOwnMe;
+import static org.exigencecorp.domainobjects.updater.Keywords.varchar;
 
-import org.exigencecorp.updater.Update;
-import org.exigencecorp.updater.columns.ForeignKeyColumn.Owner;
+import org.exigencecorp.domainobjects.updater.Update;
 
 public class Update0006 extends Update {
 
@@ -24,7 +24,7 @@ public class Update0006 extends Update {
 
         createTable("inheritance_b_root_child",//
             primaryKey("id"),
-            foreignKey("inheritance_b_root", Owner.IsThem),
+            foreignKey("inheritance_b_root", theyOwnMe),
             varchar("name"),
             integer("version"));
 

@@ -1,15 +1,15 @@
 package features.updates;
 
-import static org.exigencecorp.updater.Keywords.addCode;
-import static org.exigencecorp.updater.Keywords.createCodeTable;
-import static org.exigencecorp.updater.Keywords.createTable;
-import static org.exigencecorp.updater.Keywords.foreignKey;
-import static org.exigencecorp.updater.Keywords.integer;
-import static org.exigencecorp.updater.Keywords.primaryKey;
-import static org.exigencecorp.updater.Keywords.varchar;
+import static org.exigencecorp.domainobjects.updater.Keywords.addCode;
+import static org.exigencecorp.domainobjects.updater.Keywords.createCodeTable;
+import static org.exigencecorp.domainobjects.updater.Keywords.createTable;
+import static org.exigencecorp.domainobjects.updater.Keywords.foreignKey;
+import static org.exigencecorp.domainobjects.updater.Keywords.integer;
+import static org.exigencecorp.domainobjects.updater.Keywords.neitherOwns;
+import static org.exigencecorp.domainobjects.updater.Keywords.primaryKey;
+import static org.exigencecorp.domainobjects.updater.Keywords.varchar;
 
-import org.exigencecorp.updater.Update;
-import org.exigencecorp.updater.columns.ForeignKeyColumn.Owner;
+import org.exigencecorp.domainobjects.updater.Update;
 
 public class Update0004 extends Update {
 
@@ -29,8 +29,8 @@ public class Update0004 extends Update {
         createTable(
             "code_a_domain_object",
             primaryKey("id"),
-            foreignKey("code_a_size", Owner.IsNeither),
-            foreignKey("code_a_color", Owner.IsNeither),
+            foreignKey("code_a_size", neitherOwns),
+            foreignKey("code_a_color", neitherOwns),
             varchar("name"),
             integer("version"));
     }

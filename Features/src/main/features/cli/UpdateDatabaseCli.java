@@ -2,8 +2,8 @@ package features.cli;
 
 import javax.sql.DataSource;
 
-import org.exigencecorp.updater.Updater;
-import org.exigencecorp.updater.UpdaterConfig;
+import org.exigencecorp.domainobjects.updater.Updater;
+import org.exigencecorp.domainobjects.updater.UpdaterConfig;
 
 import features.Registry;
 

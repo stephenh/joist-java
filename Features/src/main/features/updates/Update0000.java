@@ -1,12 +1,12 @@
 package features.updates;
 
-import static org.exigencecorp.updater.Keywords.createTable;
-import static org.exigencecorp.updater.Keywords.execute;
-import static org.exigencecorp.updater.Keywords.integer;
-import static org.exigencecorp.updater.Keywords.isUnique;
-import static org.exigencecorp.updater.Keywords.varchar;
+import static org.exigencecorp.domainobjects.updater.Keywords.createTable;
+import static org.exigencecorp.domainobjects.updater.Keywords.execute;
+import static org.exigencecorp.domainobjects.updater.Keywords.integer;
+import static org.exigencecorp.domainobjects.updater.Keywords.isUnique;
+import static org.exigencecorp.domainobjects.updater.Keywords.varchar;
 
-import org.exigencecorp.updater.Update;
+import org.exigencecorp.domainobjects.updater.Update;
 
 public class Update0000 extends Update {
 
