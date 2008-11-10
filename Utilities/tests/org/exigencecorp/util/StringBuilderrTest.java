@@ -21,14 +21,4 @@ public class StringBuilderrTest extends TestCase {
         Assert.assertEquals("\"asdf\"", this.sb.toString());
     }
 
-    public void testAppendDoesNotTickToQuoteIfTurnedOff() {
-        this.sb.tickToQuote(false);
-        this.sb.append("'asdf'");
-        Assert.assertEquals("'asdf'", this.sb.toString());
-
-        this.sb.tickToQuote(true);
-        this.sb.append("'asdf'");
-        Assert.assertEquals("'asdf'\"asdf\"", this.sb.toString());
-    }
-
 }

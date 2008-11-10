@@ -6,7 +6,6 @@ import org.apache.commons.lang.StringUtils;
 public class StringBuilderr {
 
     private StringBuilder sb = new StringBuilder();
-    private boolean tickToQuote = true;
 
     public void line(String line, Object... args) {
         this.line(0, line, args);
@@ -40,18 +39,10 @@ public class StringBuilderr {
      * @param args objects to replace <code>{}</code>
      */
     public void append(String pattern, Object... args) {
-        if (this.tickToQuote) {
-            pattern = ToString.tickToQuote(pattern);
-        }
         for (Object arg : args) {
             pattern = StringUtils.replaceOnce(pattern, "{}", ObjectUtils.toString(arg));
         }
         this.sb.append(pattern);
-    }
-
-    public StringBuilderr tickToQuote(boolean tickToQuote) {
-        this.tickToQuote = tickToQuote;
-        return this;
     }
 
     public void stripLastCharacterOnPreviousLine() {

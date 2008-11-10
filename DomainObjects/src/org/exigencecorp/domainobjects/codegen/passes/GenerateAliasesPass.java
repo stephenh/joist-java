@@ -108,7 +108,7 @@ public class GenerateAliasesPass implements Pass {
 
     private void addConstructors(GClass aliasClass, Entity entity) {
         GMethod constructor = aliasClass.getConstructor("String alias");
-        constructor.body.line("super({}.class, {}.class, '{}', alias);",//
+        constructor.body.line("super({}.class, {}.class, \"{}\", alias);",//
             entity.getClassName(),
             this.getBaseOrCurrentClassName(entity),
             entity.getTableName());
@@ -116,17 +116,17 @@ public class GenerateAliasesPass implements Pass {
         // If any sub-classes, we want to know about their sub-aliases to instantiate during SELECTs
         int i = 0;
         for (Entity subEntity : entity.getSubEntities()) {
-            constructor.body.line("this.addSubClassAlias(new {}Alias(this, alias + '_{}'));", subEntity.getClassName(), i++);
+            constructor.body.line("this.addSubClassAlias(new {}Alias(this, alias + \"_{}\"));", subEntity.getClassName(), i++);
             aliasClass.addImports(entity.getConfig().getMapperPackage() + "." + subEntity.getClassName() + "Alias");
         }
 
         // If a base class, we'll need another constructor for the bootstrap call we added above
         if (entity.getBaseEntity() != null) {
             Entity baseEntity = entity.getBaseEntity();
-            constructor.body.line("this.baseAlias = new {}Alias(alias + '_b');", baseEntity.getClassName());
+            constructor.body.line("this.baseAlias = new {}Alias(alias + \"_b\");", baseEntity.getClassName());
 
             GMethod otherConstructor = aliasClass.getConstructor(baseEntity.getClassName() + "Alias baseAlias", "String alias");
-            otherConstructor.body.line("super({}.class, {}.class, '{}', alias);",//
+            otherConstructor.body.line("super({}.class, {}.class, \"{}\", alias);",//
                 entity.getClassName(),
                 baseEntity.getClassName(),
                 entity.getTableName());
@@ -187,7 +187,7 @@ public class GenerateAliasesPass implements Pass {
                     GMethod on = otherAliasClass.getMethod("on");
                     on.argument("ForeignKeyAliasColumn<? extends DomainObject, " + p.getJavaType() + ">", "on");
                     on.returnType("JoinClause");
-                    on.body.line("return new JoinClause('INNER JOIN', this, on);");
+                    on.body.line("return new JoinClause(\"INNER JOIN\", this, on);");
                     otherAliasClass.addImports(ForeignKeyAliasColumn.class, JoinClause.class, DomainObject.class);
                 }
             }

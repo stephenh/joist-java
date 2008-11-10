@@ -42,7 +42,7 @@ public abstract class AbstractColumn implements Column {
 
     public void postInjectCommands(StringBuilderr sb) {
         if (this.isNull == Nullable.No) {
-            sb.line("ALTER TABLE '{}' ALTER COLUMN '{}' SET NOT NULL;", this.tableName, this.name);
+            sb.line("ALTER TABLE \"{}\" ALTER COLUMN \"{}\" SET NOT NULL;", this.tableName, this.name);
         }
     }
 

@@ -21,12 +21,10 @@ public class CreateTable {
             column.preInjectCommands(sb);
         }
 
-        sb.line("CREATE TABLE '{}' (", this.name);
-        sb.tickToQuote(false);
+        sb.line("CREATE TABLE \"{}\" (", this.name);
         for (Column column : this.columns) {
             sb.line(1, column.toSql());
         }
-        sb.tickToQuote(true);
         sb.stripLastCharacterOnPreviousLine(); // Remove the last ,
         sb.line(");");
 

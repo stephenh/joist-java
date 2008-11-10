@@ -47,7 +47,7 @@ public class ForeignKeyColumn extends AbstractColumn {
         String indexName = this.getTableName() + "_" + this.getName() + "_idx";
 
         sb.append(
-            "ALTER TABLE '{}' ADD CONSTRAINT '{}' FOREIGN KEY ({}) REFERENCES '{}' ('{}')",
+            "ALTER TABLE \"{}\" ADD CONSTRAINT \"{}\" FOREIGN KEY (\"{}\") REFERENCES \"{}\" (\"{}\")",
             this.getTableName(),
             constraintName,
             this.getName(),
@@ -57,6 +57,7 @@ public class ForeignKeyColumn extends AbstractColumn {
             sb.append(" ON DELETE CASCADE");
         }
         sb.line(" DEFERRABLE;");
-        sb.line("CREATE INDEX '{}' ON '{}' USING btree ({});", indexName, this.getTableName(), this.getName());
+        sb.line("CREATE INDEX \"{}\" ON \"{}\" USING btree ({});", indexName, this.getTableName(), this.getName());
     }
+
 }

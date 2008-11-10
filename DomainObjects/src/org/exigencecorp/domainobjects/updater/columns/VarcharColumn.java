@@ -37,7 +37,7 @@ public class VarcharColumn extends AbstractColumn {
         super.postInjectCommands(sb);
         if (this.isUnique == IsUnique.Yes) {
             String constraintName = this.getTableName() + "_" + this.getName() + "_key";
-            sb.line("ALTER TABLE '{}' ADD CONSTRAINT {} UNIQUE ({});", this.getTableName(), constraintName, this.getName());
+            sb.line("ALTER TABLE \"{}\" ADD CONSTRAINT \"{}\" UNIQUE (\"{}\");", this.getTableName(), constraintName, this.getName());
         }
     }
 
