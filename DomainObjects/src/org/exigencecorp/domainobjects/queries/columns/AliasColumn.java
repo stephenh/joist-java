@@ -32,20 +32,20 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
         return this.shim.get(instance);
     }
 
-    public U getDomainValue(V jdbcValue) {
+    public V getJdbcValue(T instance) {
+        return this.toJdbcValue(this.getDomainValue(instance));
+    }
+
+    public U toDomainValue(V jdbcValue) {
         return (this.converter != null) ? this.converter.toDomain(jdbcValue) : (U) jdbcValue;
     }
 
-    public V getJdbcValue(T instance) {
-        return this.getJdbcValue(this.getDomainValue(instance));
-    }
-
-    public V getJdbcValue(U domainValue) {
+    public V toJdbcValue(U domainValue) {
         return (this.converter != null) ? this.converter.toJdbc(domainValue) : (V) domainValue;
     }
 
     public void setJdbcValue(T instance, V jdbcValue) {
-        this.shim.set(instance, this.getDomainValue(jdbcValue));
+        this.shim.set(instance, this.toDomainValue(jdbcValue));
     }
 
     public SetItem toSetItem(T instance) {
@@ -53,7 +53,7 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
     }
 
     public SetItem toSetItem(U domainValue) {
-        return new SetItem(this, this.getJdbcValue(domainValue));
+        return new SetItem(this, this.toJdbcValue(domainValue));
     }
 
     public Order asc() {
