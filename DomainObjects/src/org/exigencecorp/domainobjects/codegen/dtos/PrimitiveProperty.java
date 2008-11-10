@@ -6,11 +6,6 @@ import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.CodegenConfig;
 import org.exigencecorp.domainobjects.codegen.InformationSchemaColumn;
-import org.exigencecorp.domainobjects.queries.columns.BooleanAliasColumn;
-import org.exigencecorp.domainobjects.queries.columns.DateAliasColumn;
-import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
-import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
-import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
 import org.exigencecorp.util.Inflector;
 
 public class PrimitiveProperty implements Property {
@@ -34,26 +29,7 @@ public class PrimitiveProperty implements Property {
     }
 
     public Class<?> getAliasColumnClass() {
-        if (this.columnName.equals("id")) {
-            return IdAliasColumn.class;
-        } else if (this.dataType.equals("integer")) {
-            return IntAliasColumn.class;
-        } else if (this.dataType.equals("bigint")) {
-            return IntAliasColumn.class;
-        } else if (this.dataType.equals("boolean")) {
-            return BooleanAliasColumn.class;
-        } else if (this.dataType.equals("character varying")) {
-            return StringAliasColumn.class;
-        } else if (this.dataType.equals("timestamp without time zone")) {
-            return DateAliasColumn.class;
-        } else if (this.dataType.equals("date")) {
-            return DateAliasColumn.class;
-        } else if (this.dataType.equals("text")) {
-            return StringAliasColumn.class;
-        } else if (this.dataType.equals("bytea")) {
-            return StringAliasColumn.class;
-        }
-        throw new RuntimeException("Unknown alias class for " + this.dataType);
+        return this.config.getAliasType(this.entity.getTableName(), this.columnName, this.dataType);
     }
 
     public String getCapitalVariableName() {

@@ -16,14 +16,14 @@ public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
         return this.bottomName;
     }
 
-    public void setBottomName(String bottomName) {
+    public void setBottomName(java.lang.String bottomName) {
         this.recordIfChanged("bottomName", this.bottomName, bottomName);
         this.bottomName = bottomName;
     }
 
     public static class Shims {
-        public static final Shim<InheritanceBBottom, String> bottomName = new Shim<InheritanceBBottom, String>() {
-            public void set(InheritanceBBottom instance, String bottomName) {
+        public static final Shim<InheritanceBBottom, java.lang.String> bottomName = new Shim<InheritanceBBottom, java.lang.String>() {
+            public void set(InheritanceBBottom instance, java.lang.String bottomName) {
                 ((InheritanceBBottomCodegen) instance).bottomName = bottomName;
             }
             public String get(InheritanceBBottom instance) {

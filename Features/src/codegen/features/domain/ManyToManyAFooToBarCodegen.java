@@ -78,8 +78,8 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
                 return ((ManyToManyAFooToBarCodegen) instance).id;
             }
         };
-        public static final Shim<ManyToManyAFooToBar, Integer> version = new Shim<ManyToManyAFooToBar, Integer>() {
-            public void set(ManyToManyAFooToBar instance, Integer version) {
+        public static final Shim<ManyToManyAFooToBar, java.lang.Integer> version = new Shim<ManyToManyAFooToBar, java.lang.Integer>() {
+            public void set(ManyToManyAFooToBar instance, java.lang.Integer version) {
                 ((ManyToManyAFooToBarCodegen) instance).version = version;
             }
             public Integer get(ManyToManyAFooToBar instance) {

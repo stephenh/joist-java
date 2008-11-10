@@ -35,7 +35,7 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(java.lang.String name) {
         this.recordIfChanged("name", this.name, name);
         this.name = name;
     }
@@ -87,16 +87,16 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
                 return ((InheritanceBRootCodegen) instance).id;
             }
         };
-        public static final Shim<InheritanceBRoot, String> name = new Shim<InheritanceBRoot, String>() {
-            public void set(InheritanceBRoot instance, String name) {
+        public static final Shim<InheritanceBRoot, java.lang.String> name = new Shim<InheritanceBRoot, java.lang.String>() {
+            public void set(InheritanceBRoot instance, java.lang.String name) {
                 ((InheritanceBRootCodegen) instance).name = name;
             }
             public String get(InheritanceBRoot instance) {
                 return ((InheritanceBRootCodegen) instance).name;
             }
         };
-        public static final Shim<InheritanceBRoot, Integer> version = new Shim<InheritanceBRoot, Integer>() {
-            public void set(InheritanceBRoot instance, Integer version) {
+        public static final Shim<InheritanceBRoot, java.lang.Integer> version = new Shim<InheritanceBRoot, java.lang.Integer>() {
+            public void set(InheritanceBRoot instance, java.lang.Integer version) {
                 ((InheritanceBRootCodegen) instance).version = version;
             }
             public Integer get(InheritanceBRoot instance) {

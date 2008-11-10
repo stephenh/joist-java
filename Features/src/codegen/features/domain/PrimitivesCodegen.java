@@ -39,7 +39,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(java.lang.String name) {
         this.recordIfChanged("name", this.name, name);
         this.name = name;
     }
@@ -65,16 +65,16 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
                 return ((PrimitivesCodegen) instance).flag;
             }
         };
-        public static final Shim<Primitives, String> name = new Shim<Primitives, String>() {
-            public void set(Primitives instance, String name) {
+        public static final Shim<Primitives, java.lang.String> name = new Shim<Primitives, java.lang.String>() {
+            public void set(Primitives instance, java.lang.String name) {
                 ((PrimitivesCodegen) instance).name = name;
             }
             public String get(Primitives instance) {
                 return ((PrimitivesCodegen) instance).name;
             }
         };
-        public static final Shim<Primitives, Integer> version = new Shim<Primitives, Integer>() {
-            public void set(Primitives instance, Integer version) {
+        public static final Shim<Primitives, java.lang.Integer> version = new Shim<Primitives, java.lang.Integer>() {
+            public void set(Primitives instance, java.lang.Integer version) {
                 ((PrimitivesCodegen) instance).version = version;
             }
             public Integer get(Primitives instance) {

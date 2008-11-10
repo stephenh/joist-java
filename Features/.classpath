@@ -8,5 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Utilities"/>
 	<classpathentry kind="lib" path="lib/c3p0-0.9.1.2.jar" sourcepath="lib/c3p0-0.9.1.2.zip"/>
 	<classpathentry kind="lib" path="lib/postgresql-8.3-603.jdbc3.jar" sourcepath="lib/postgresql-8.3-603.jdbc3.zip"/>
+	<classpathentry kind="lib" path="lib/timeandmoney-0.5.1.jar" sourcepath="lib/timeandmoney-0.5.1.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

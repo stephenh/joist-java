@@ -29,7 +29,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(java.lang.String name) {
         this.recordIfChanged("name", this.name, name);
         this.name = name;
     }
@@ -47,16 +47,16 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
                 return ((InheritanceABaseCodegen) instance).id;
             }
         };
-        public static final Shim<InheritanceABase, String> name = new Shim<InheritanceABase, String>() {
-            public void set(InheritanceABase instance, String name) {
+        public static final Shim<InheritanceABase, java.lang.String> name = new Shim<InheritanceABase, java.lang.String>() {
+            public void set(InheritanceABase instance, java.lang.String name) {
                 ((InheritanceABaseCodegen) instance).name = name;
             }
             public String get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).name;
             }
         };
-        public static final Shim<InheritanceABase, Integer> version = new Shim<InheritanceABase, Integer>() {
-            public void set(InheritanceABase instance, Integer version) {
+        public static final Shim<InheritanceABase, java.lang.Integer> version = new Shim<InheritanceABase, java.lang.Integer>() {
+            public void set(InheritanceABase instance, java.lang.Integer version) {
                 ((InheritanceABaseCodegen) instance).version = version;
             }
             public Integer get(InheritanceABase instance) {

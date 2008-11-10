@@ -31,7 +31,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(java.lang.String name) {
         this.recordIfChanged("name", this.name, name);
         this.name = name;
     }
@@ -68,16 +68,16 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
                 return ((ParentBChildBarCodegen) instance).id;
             }
         };
-        public static final Shim<ParentBChildBar, String> name = new Shim<ParentBChildBar, String>() {
-            public void set(ParentBChildBar instance, String name) {
+        public static final Shim<ParentBChildBar, java.lang.String> name = new Shim<ParentBChildBar, java.lang.String>() {
+            public void set(ParentBChildBar instance, java.lang.String name) {
                 ((ParentBChildBarCodegen) instance).name = name;
             }
             public String get(ParentBChildBar instance) {
                 return ((ParentBChildBarCodegen) instance).name;
             }
         };
-        public static final Shim<ParentBChildBar, Integer> version = new Shim<ParentBChildBar, Integer>() {
-            public void set(ParentBChildBar instance, Integer version) {
+        public static final Shim<ParentBChildBar, java.lang.Integer> version = new Shim<ParentBChildBar, java.lang.Integer>() {
+            public void set(ParentBChildBar instance, java.lang.Integer version) {
                 ((ParentBChildBarCodegen) instance).version = version;
             }
             public Integer get(ParentBChildBar instance) {

@@ -37,7 +37,7 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(java.lang.String name) {
         this.recordIfChanged("name", this.name, name);
         this.name = name;
     }
@@ -123,16 +123,16 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
                 return ((ParentBParentCodegen) instance).id;
             }
         };
-        public static final Shim<ParentBParent, String> name = new Shim<ParentBParent, String>() {
-            public void set(ParentBParent instance, String name) {
+        public static final Shim<ParentBParent, java.lang.String> name = new Shim<ParentBParent, java.lang.String>() {
+            public void set(ParentBParent instance, java.lang.String name) {
                 ((ParentBParentCodegen) instance).name = name;
             }
             public String get(ParentBParent instance) {
                 return ((ParentBParentCodegen) instance).name;
             }
         };
-        public static final Shim<ParentBParent, Integer> version = new Shim<ParentBParent, Integer>() {
-            public void set(ParentBParent instance, Integer version) {
+        public static final Shim<ParentBParent, java.lang.Integer> version = new Shim<ParentBParent, java.lang.Integer>() {
+            public void set(ParentBParent instance, java.lang.Integer version) {
                 ((ParentBParentCodegen) instance).version = version;
             }
             public Integer get(ParentBParent instance) {

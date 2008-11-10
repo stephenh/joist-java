@@ -32,7 +32,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(java.lang.String name) {
         this.recordIfChanged("name", this.name, name);
         this.name = name;
     }
@@ -76,16 +76,16 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
                 return ((CodeADomainObjectCodegen) instance).id;
             }
         };
-        public static final Shim<CodeADomainObject, String> name = new Shim<CodeADomainObject, String>() {
-            public void set(CodeADomainObject instance, String name) {
+        public static final Shim<CodeADomainObject, java.lang.String> name = new Shim<CodeADomainObject, java.lang.String>() {
+            public void set(CodeADomainObject instance, java.lang.String name) {
                 ((CodeADomainObjectCodegen) instance).name = name;
             }
             public String get(CodeADomainObject instance) {
                 return ((CodeADomainObjectCodegen) instance).name;
             }
         };
-        public static final Shim<CodeADomainObject, Integer> version = new Shim<CodeADomainObject, Integer>() {
-            public void set(CodeADomainObject instance, Integer version) {
+        public static final Shim<CodeADomainObject, java.lang.Integer> version = new Shim<CodeADomainObject, java.lang.Integer>() {
+            public void set(CodeADomainObject instance, java.lang.Integer version) {
                 ((CodeADomainObjectCodegen) instance).version = version;
             }
             public Integer get(CodeADomainObject instance) {

@@ -1,5 +1,6 @@
 package org.exigencecorp.domainobjects.codegen;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,10 +8,16 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.exigencecorp.domainobjects.queries.columns.BooleanAliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.DateAliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
+
 public abstract class CodegenConfig {
 
-    private Map<String, String> javaTypeByDataType = new HashMap<String, String>();
-    private Map<String, String> javaTypeByTableAndColumn = new HashMap<String, String>();
+    private Map<String, Class<?>> javaTypeByDataType = new HashMap<String, Class<?>>();
+    private Map<String, Class<?>> aliasTypeByDataType = new HashMap<String, Class<?>>();
     private Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
     private Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
     private List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
@@ -20,15 +27,15 @@ public abstract class CodegenConfig {
     private String projectNameForDefaults = "project";
 
     protected CodegenConfig() {
-        this.setJavaType("integer", "Integer");
-        this.setJavaType("character", "String");
-        this.setJavaType("character varying", "String");
-        this.setJavaType("text", "String");
-        this.setJavaType("smallint", "Short");
-        this.setJavaType("bigint", "Long");
-        this.setJavaType("boolean", "boolean");
-        this.setJavaType("bytea", "byte[]");
-        this.setJavaType("date", "java.sql.Date");
+        this.setJavaType("integer", Integer.class, IntAliasColumn.class);
+        this.setJavaType("character", String.class, StringAliasColumn.class);
+        this.setJavaType("character varying", String.class, StringAliasColumn.class);
+        this.setJavaType("text", String.class, StringAliasColumn.class);
+        this.setJavaType("smallint", Short.class, null);
+        this.setJavaType("bigint", Long.class, null);
+        this.setJavaType("boolean", boolean.class, BooleanAliasColumn.class);
+        this.setJavaType("bytea", byte[].class, null);
+        this.setJavaType("date", Date.class, DateAliasColumn.class);
     }
 
     protected CodegenConfig(String projectNameForDefaults) {
@@ -83,21 +90,24 @@ public abstract class CodegenConfig {
         return "org.exigencecorp.domainobjects.AbstractDomainObject";
     }
 
-    public void setJavaType(String dataType, String javaType) {
-        this.javaTypeByDataType.put(dataType, javaType);
-    }
-
-    public void setJavaType(String tableName, String columnName, String javaType) {
-        this.javaTypeByTableAndColumn.put(tableName + "." + columnName, javaType);
+    public void setJavaType(String jdbcDataType, Class<?> javaType, Class<?> aliasColumnType) {
+        this.javaTypeByDataType.put(jdbcDataType, javaType);
+        this.aliasTypeByDataType.put(jdbcDataType, aliasColumnType);
     }
 
     public String getJavaType(String tableName, String columnName, String dataType) {
-        String key = tableName + "." + columnName;
-        if (this.javaTypeByTableAndColumn.containsKey(key)) {
-            return this.javaTypeByTableAndColumn.get(key);
-        }
         if (this.javaTypeByDataType.containsKey(dataType)) {
-            return this.javaTypeByDataType.get(dataType);
+            return this.javaTypeByDataType.get(dataType).getName();
+        }
+        throw new RuntimeException("Unmatched data type: " + dataType);
+    }
+
+    public Class<?> getAliasType(String tableName, String columnName, String dataType) {
+        if ("id".equals(columnName)) {
+            return IdAliasColumn.class;
+        }
+        if (this.aliasTypeByDataType.containsKey(dataType)) {
+            return this.aliasTypeByDataType.get(dataType);
         }
         throw new RuntimeException("Unmatched data type: " + dataType);
     }

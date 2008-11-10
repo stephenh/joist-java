@@ -31,7 +31,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(java.lang.String name) {
         this.recordIfChanged("name", this.name, name);
         this.name = name;
     }
@@ -68,16 +68,16 @@ public abstract class ChildCodegen extends AbstractDomainObject {
                 return ((ChildCodegen) instance).id;
             }
         };
-        public static final Shim<Child, String> name = new Shim<Child, String>() {
-            public void set(Child instance, String name) {
+        public static final Shim<Child, java.lang.String> name = new Shim<Child, java.lang.String>() {
+            public void set(Child instance, java.lang.String name) {
                 ((ChildCodegen) instance).name = name;
             }
             public String get(Child instance) {
                 return ((ChildCodegen) instance).name;
             }
         };
-        public static final Shim<Child, Integer> version = new Shim<Child, Integer>() {
-            public void set(Child instance, Integer version) {
+        public static final Shim<Child, java.lang.Integer> version = new Shim<Child, java.lang.Integer>() {
+            public void set(Child instance, java.lang.Integer version) {
                 ((ChildCodegen) instance).version = version;
             }
             public Integer get(Child instance) {

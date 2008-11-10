@@ -36,7 +36,7 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(java.lang.String name) {
         this.recordIfChanged("name", this.name, name);
         this.name = name;
     }
@@ -112,16 +112,16 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
                 return ((ManyToManyABarCodegen) instance).id;
             }
         };
-        public static final Shim<ManyToManyABar, String> name = new Shim<ManyToManyABar, String>() {
-            public void set(ManyToManyABar instance, String name) {
+        public static final Shim<ManyToManyABar, java.lang.String> name = new Shim<ManyToManyABar, java.lang.String>() {
+            public void set(ManyToManyABar instance, java.lang.String name) {
                 ((ManyToManyABarCodegen) instance).name = name;
             }
             public String get(ManyToManyABar instance) {
                 return ((ManyToManyABarCodegen) instance).name;
             }
         };
-        public static final Shim<ManyToManyABar, Integer> version = new Shim<ManyToManyABar, Integer>() {
-            public void set(ManyToManyABar instance, Integer version) {
+        public static final Shim<ManyToManyABar, java.lang.Integer> version = new Shim<ManyToManyABar, java.lang.Integer>() {
+            public void set(ManyToManyABar instance, java.lang.Integer version) {
                 ((ManyToManyABarCodegen) instance).version = version;
             }
             public Integer get(ManyToManyABar instance) {

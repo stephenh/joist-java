@@ -16,14 +16,14 @@ public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
         return this.two;
     }
 
-    public void setTwo(String two) {
+    public void setTwo(java.lang.String two) {
         this.recordIfChanged("two", this.two, two);
         this.two = two;
     }
 
     public static class Shims {
-        public static final Shim<InheritanceASubTwo, String> two = new Shim<InheritanceASubTwo, String>() {
-            public void set(InheritanceASubTwo instance, String two) {
+        public static final Shim<InheritanceASubTwo, java.lang.String> two = new Shim<InheritanceASubTwo, java.lang.String>() {
+            public void set(InheritanceASubTwo instance, java.lang.String two) {
                 ((InheritanceASubTwoCodegen) instance).two = two;
             }
             public String get(InheritanceASubTwo instance) {
