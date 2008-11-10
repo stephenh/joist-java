@@ -36,7 +36,6 @@ Patterns
 Todo
 ====
 
-* Op lock detection
 * Validation rules
 * Differentiate mappers/finders, Finder registry/something
 

@@ -163,7 +163,12 @@ public class JdbcRepository implements Repository {
                 }
                 q.addMoreParameters(parameters);
             }
-            q.execute();
+            List<Integer> changed = q.execute();
+            for (int i = 0; i < changed.size(); i++) {
+                if (changed.get(i).intValue() != 1) {
+                    throw new RuntimeException("Op lock failed for " + instances.get(i));
+                }
+            }
             current = current.getBaseClassAlias();
         }
     }

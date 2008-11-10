@@ -33,8 +33,8 @@ public class Insert<T extends DomainObject> {
         }
     }
 
-    public void execute() {
-        Jdbc.updateAll(UoW.getCurrent().getRepository().getConnection(), this.toSql(), this.getAllParameters());
+    public List<Integer> execute() {
+        return Jdbc.updateAll(UoW.getCurrent().getRepository().getConnection(), this.toSql(), this.getAllParameters());
     }
 
     public void set(SetItem setItem) {

@@ -27,6 +27,7 @@ public class UnitOfWork {
     }
 
     public void delete(DomainObject instance) {
+        this.validator.dequeue(instance);
         this.repository.delete(instance);
     }
 

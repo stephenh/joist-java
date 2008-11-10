@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -168,7 +169,8 @@ public class Jdbc {
         }
     }
 
-    public static void updateAll(Connection connection, String sql, List<List<Object>> allParameters) {
+    public static List<Integer> updateAll(Connection connection, String sql, List<List<Object>> allParameters) {
+        List<Integer> changed = new ArrayList<Integer>();
         PreparedStatement ps = null;
         try {
             Log.trace("sql = {}", sql);
@@ -178,8 +180,9 @@ public class Jdbc {
                 for (int i = 0; i < parameters.size(); i++) {
                     ps.setObject(i + 1, parameters.get(i));
                 }
-                ps.executeUpdate();
+                changed.add(ps.executeUpdate());
             }
+            return changed;
         } catch (SQLException se) {
             throw new RuntimeException(se);
         } finally {
