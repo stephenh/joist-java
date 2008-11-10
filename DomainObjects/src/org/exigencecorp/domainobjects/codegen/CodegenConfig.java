@@ -14,8 +14,6 @@ public abstract class CodegenConfig {
     private Map<String, String> hibernateTypeByJavaType = new HashMap<String, String>();
     private Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
     private Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
-    private Map<String, String> orderByTable = new HashMap<String, String>();
-    private Map<String, String> foreignKeyPropertyByTableAndColumn = new HashMap<String, String>();
     private List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
     private List<String> skipCollection = new ArrayList<String>();
     private List<String> notAbstractEvenThoughSubclassed = new ArrayList<String>();
@@ -144,14 +142,6 @@ public abstract class CodegenConfig {
         }
     }
 
-    public void setOrder(String tableName, String columnName) {
-        this.orderByTable.put(tableName, columnName);
-    }
-
-    public String getOrder(String tableName) {
-        return this.orderByTable.get(tableName);
-    }
-
     public void setNotAbstractEvenThoughSubclassed(String tableName) {
         this.notAbstractEvenThoughSubclassed.add(tableName);
     }
@@ -166,14 +156,6 @@ public abstract class CodegenConfig {
 
     public boolean isCollectionSkipped(String objectName, String variableName) {
         return this.skipCollection.contains(objectName + "." + variableName);
-    }
-
-    public String getForeignKeyProperty(String tableName, String columnName) {
-        return this.foreignKeyPropertyByTableAndColumn.get(tableName + "." + columnName);
-    }
-
-    public void setForeignKeyProperty(String tableName, String columnName, String propertyName) {
-        this.foreignKeyPropertyByTableAndColumn.put(tableName + "." + columnName, propertyName);
     }
 
     public void setDoNotIncrementParentsOpLock(String objectName, String variableName) {

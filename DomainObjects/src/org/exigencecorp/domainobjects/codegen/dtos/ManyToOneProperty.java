@@ -23,7 +23,6 @@ public class ManyToOneProperty implements Property {
     private Entity oneSide;
     private String constraintName;
     private String columnName;
-    private boolean isNotNull;
     private OneToManyProperty oneToManyProperty;
 
     public ManyToOneProperty(Entity oneSide, InformationSchemaColumn column) {
@@ -31,7 +30,6 @@ public class ManyToOneProperty implements Property {
         this.oneSide = oneSide;
         this.columnName = column.name;
         this.constraintName = column.foreignKeyConstraintName;
-        this.isNotNull = !column.nullable;
         this.assertValidConstraintName();
     }
 
@@ -55,30 +53,12 @@ public class ManyToOneProperty implements Property {
         return StringUtils.uncapitalize(this.getCapitalVariableName());
     }
 
-    public String getTheOtherSide() {
-        String overrideName = this.config.getForeignKeyProperty(this.getManySide().getTableName(), this.columnName);
-        if (overrideName != null) {
-            // Boundary case, we have an explicit override
-            return StringUtils.capitalize(overrideName) + this.getJavaType();
-        } else if (this.getCapitalVariableName().equals(this.getManySide().getClassName())) {
-            // Default case, return our class name
-            return this.oneSide.getClassName();
-        } else {
-            // Boundary case, non-class name column name, so use column name + class name
-            return this.getCapitalVariableName() + this.oneSide.getClassName();
-        }
-    }
-
     public String getJavaType() {
         return this.getManySide().getClassName();
     }
 
     public List<String> getCustomRules() {
         return this.config.getCustomRules(this.getOneSide().getClassName(), this.getJavaType(), this.getVariableName());
-    }
-
-    public String getDefaultJavaString() {
-        return "null";
     }
 
     public boolean isOwnerMe() {
@@ -93,26 +73,12 @@ public class ManyToOneProperty implements Property {
         return !this.isOwnerMe() && !this.isOwnerThem();
     }
 
-    /** See http://www.jroller.com/page/dgolla?entry=hibernate--kinda of, doing lazy=false meant defuckProxy isn't needed anymore. */
-    public boolean isNotLazy() {
-        return this.getManySide().hasSubclasses();
-    }
-
-    public boolean isTargetGenerated() {
-        return !this.getOneToManyProperty().isCollectionSkipped();
-    }
-
-    public boolean isNotNull() {
-        return this.isNotNull;
-    }
-
     private void assertValidConstraintName() {
         boolean ownerOkay = this.constraintName.contains("owner_isme")
             || this.constraintName.contains("owner_isthem")
             || this.constraintName.contains("owner_isneither");
-        boolean suffixOkay = this.constraintName.endsWith("_fk");
-        if (!ownerOkay || !suffixOkay) {
-            // throw new RuntimeException("Invalid constraint name " + this.constraintName);
+        if (!ownerOkay) {
+            throw new RuntimeException("Invalid constraint name " + this.constraintName);
         }
     }
 

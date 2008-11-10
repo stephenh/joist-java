@@ -72,10 +72,6 @@ public class Entity {
         return this.getClassName() + "Mapper";
     }
 
-    public String getMapperCodegenClassName() {
-        return this.getClassName() + "MapperCodegen";
-    }
-
     public String getCodegenClassName() {
         return this.getClassName() + "Codegen";
     }
@@ -94,10 +90,6 @@ public class Entity {
 
     public String getFullMapperClassName() {
         return this.config.getMapperPackage() + "." + this.getMapperClassName();
-    }
-
-    public String getSortBy() {
-        return this.config.getOrder(this.tableName);
     }
 
     public List<PrimitiveProperty> getPrimitiveProperties() {

@@ -53,11 +53,6 @@ public class ManyToManyProperty implements Property {
         return StringUtils.uncapitalize(this.getCapitalVariableName());
     }
 
-    /** Doesn't really apply to us as our column is defined in another table. */
-    public boolean isNotNull() {
-        return false;
-    }
-
     public String getJoinTableName() {
         return this.joinTable.getTableName();
     }
@@ -66,24 +61,8 @@ public class ManyToManyProperty implements Property {
         return this.myKeyColumnName;
     }
 
-    public String getTargetKeyColumnName() {
-        return this.targetTable.getTableName() + "_id";
-    }
-
     public Entity getTargetTable() {
         return this.targetTable;
-    }
-
-    public String getTargetTableName() {
-        return this.targetTable.getTableName();
-    }
-
-    public String getSequenceName() {
-        return this.getJoinTableName() + "_id_seq";
-    }
-
-    public String getSortBy() {
-        return this.targetTable.getSortBy();
     }
 
     public ManyToManyProperty getOther() {

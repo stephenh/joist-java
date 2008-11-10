@@ -35,17 +35,11 @@ public class OneToManyProperty implements Property {
 
     public String getCapitalVariableNameSingular() {
         if (this.capitalVariableNameSingular == null) {
-            String overrideName = this.config.getForeignKeyProperty(this.getOneSide().getTableName(), this.keyColumnName);
-            if (overrideName != null) {
-                // Boudnary case of an explicit override
-                this.capitalVariableNameSingular = StringUtils.capitalize(overrideName) + this.getTargetJavaType();
-            } else if (Inflector.camelize(this.keyColumnName.replaceAll("_id$", "")).equals(this.manySide.getClassName())) {
-                // Regular many-to-one relationship of only 1 column in the target table pointing to us,
-                // so name our side based on the type
-                this.capitalVariableNameSingular = Inflector.camelize(this.getOneSide().getTableName());
+            if (this.getKeyPropertyName().equals(this.manySide.getClassName())) {
+                // Regular many-to-one relationship of only 1 column in the target table pointing to us, so name our side based on the type
+                this.capitalVariableNameSingular = this.getTargetJavaType();
             } else {
-                // Boundary case of 2 columns in the target table pointing to us,
-                // so name our side based on their individual column name instead of their type
+                // Boundary case of n columns in the target table pointing to us, so name our side based on their individual column names
                 this.capitalVariableNameSingular = this.getKeyPropertyName() + this.getTargetJavaType();
             }
         }
@@ -68,10 +62,6 @@ public class OneToManyProperty implements Property {
         return this.config.getCustomRules(this.getOneSide().getClassName(), this.getJavaType(), this.getVariableName());
     }
 
-    public String getKeyColumnName() {
-        return this.keyColumnName;
-    }
-
     public String getKeyPropertyName() {
         return Inflector.camelize(this.keyColumnName.replaceAll("_id$", ""));
     }
@@ -86,35 +76,19 @@ public class OneToManyProperty implements Property {
     }
 
     public String getTargetJavaType() {
-        return Inflector.camelize(this.getOneSide().getTableName());
+        return this.getOneSide().getClassName();
     }
 
     public boolean isOwnerMe() {
-        // Since we're incoming, "them" means us
-        return this.constraintName.contains("owner_isthem");
+        return this.constraintName.contains("owner_isthem"); // Since we're incoming, "them" means us
     }
 
     public boolean isOwnerThem() {
-        // Since we're incoming, "me" means them
-        return this.constraintName.contains("owner_isme");
-    }
-
-    /** Doesn't really apply to us as our column is defined in another table. */
-    public boolean isNotNull() {
-        return false;
-    }
-
-    /** Doesn't really apply to us, but use it so we can look like IncomingJoinTableProperty */
-    public boolean isInverse() {
-        return false;
+        return this.constraintName.contains("owner_isme"); // Since we're incoming, "me" means them
     }
 
     public boolean getNoTicking() {
         return this.config.isDoNotIncrementParentsOpLock(this.manySide.getClassName(), this.getVariableName());
-    }
-
-    public String getSortBy() {
-        return this.getOneSide().getSortBy();
     }
 
     public boolean isCollectionSkipped() {
