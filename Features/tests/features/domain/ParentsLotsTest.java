@@ -8,6 +8,9 @@ import features.domain.mappers.ParentAlias;
 
 public class ParentsLotsTest extends AbstractFeaturesTest {
 
+    public void testNoOp() {
+    }
+
     public void estLotsInLots() {
         long start = System.currentTimeMillis();
         for (int i = 0; i < 5000; i++) {
@@ -49,7 +52,7 @@ public class ParentsLotsTest extends AbstractFeaturesTest {
             // q.setParameter("name", "foo" + i);
             // Parent p = (Parent) q.uniqueResult();
             ParentAlias a = (ParentAlias) AliasRegistry.get(Parent.class); // new ParentAlias("a");
-            Parent p = Select.from(a).where(a.name.equals("foo" + i)).unique();
+            Select.from(a).where(a.name.equals("foo" + i)).unique();
         }
         long end = System.currentTimeMillis();
         Log.debug("Query took {}ms", (end - mid2));
