@@ -11,7 +11,6 @@ public abstract class CodegenConfig {
 
     private Map<String, String> javaTypeByDataType = new HashMap<String, String>();
     private Map<String, String> javaTypeByTableAndColumn = new HashMap<String, String>();
-    private Map<String, String> hibernateTypeByJavaType = new HashMap<String, String>();
     private Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
     private Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
     private List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
@@ -30,7 +29,6 @@ public abstract class CodegenConfig {
         this.setJavaType("boolean", "boolean");
         this.setJavaType("bytea", "byte[]");
         this.setJavaType("date", "java.sql.Date");
-        this.setHibernateType("byte[]", "binary");
     }
 
     protected CodegenConfig(String projectNameForDefaults) {
@@ -102,18 +100,6 @@ public abstract class CodegenConfig {
             return this.javaTypeByDataType.get(dataType);
         }
         throw new RuntimeException("Unmatched data type: " + dataType);
-    }
-
-    public void setHibernateType(String javaType, String hibernateType) {
-        this.hibernateTypeByJavaType.put(javaType, hibernateType);
-    }
-
-    public String getHibernateType(String javaType) {
-        if (this.hibernateTypeByJavaType.containsKey(javaType)) {
-            return this.hibernateTypeByJavaType.get(javaType);
-        } else {
-            return javaType.toLowerCase();
-        }
     }
 
     public void setGetterAccess(String tableName, String columnName, String access) {

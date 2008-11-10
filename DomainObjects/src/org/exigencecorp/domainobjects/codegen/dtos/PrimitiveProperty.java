@@ -86,10 +86,6 @@ public class PrimitiveProperty implements Property {
         return "null";
     }
 
-    public String getHibernateType() {
-        return this.config.getHibernateType(this.getJavaType());
-    }
-
     public List<String> getCustomRules() {
         return this.config.getCustomRules(this.entity.getClassName(), this.getJavaType(), this.getVariableName());
     }
