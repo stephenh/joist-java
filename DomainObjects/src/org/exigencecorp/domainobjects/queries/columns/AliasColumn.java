@@ -6,7 +6,6 @@ import org.exigencecorp.domainobjects.orm.converters.Converter;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Order;
 import org.exigencecorp.domainobjects.queries.SelectItem;
-import org.exigencecorp.domainobjects.queries.SetItem;
 import org.exigencecorp.domainobjects.queries.Where;
 
 /**
@@ -46,14 +45,6 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
 
     public V toJdbcValue(U domainValue) {
         return (this.converter != null) ? this.converter.toJdbc(domainValue) : (V) domainValue;
-    }
-
-    public SetItem toSetItem(T instance) {
-        return this.toSetItem(this.getDomainValue(instance));
-    }
-
-    public SetItem toSetItem(U domainValue) {
-        return new SetItem(this, this.toJdbcValue(domainValue));
     }
 
     public Order asc() {
