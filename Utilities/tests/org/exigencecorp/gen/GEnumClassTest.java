@@ -55,7 +55,7 @@ public class GEnumClassTest extends TestCase {
         gc.addEnumValue("FOO(0, \"foo\")");
         gc.addEnumValue("BAR(1, \"bar\")");
 
-        GMethod c = gc.getConstructor("Integer i", "String j").isPrivate();
+        GMethod c = gc.getConstructor("Integer i", "String j").setPrivate();
         c.body.line("this.i = i;");
         c.body.line("this.j = j;");
         Assert.assertEquals(Join.linesWithTickToQuote(

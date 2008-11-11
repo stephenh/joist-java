@@ -16,6 +16,8 @@ import org.exigencecorp.domainobjects.orm.ForeignKeyCodeHolder;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 import org.exigencecorp.gen.GClass;
 import org.exigencecorp.gen.GField;
 import org.exigencecorp.gen.GMethod;
@@ -32,6 +34,9 @@ public class GenerateDomainCodegenPass implements Pass {
             GClass domainCodegen = codegen.getOutputCodegenDirectory().getClass(entity.getFullCodegenClassName());
             domainCodegen.setAbstract();
             domainCodegen.baseClassName(entity.getParentClassName());
+
+            domainCodegen.getConstructor().setProtected().body.line("this.addExtraRules();");
+            domainCodegen.getMethod("addExtraRules").setPrivate();
 
             this.addAlias(domainCodegen, entity);
             this.primitiveProperties(domainCodegen, entity);
@@ -78,6 +83,23 @@ public class GenerateDomainCodegenPass implements Pass {
             shimGetter.argument(entity.getClassName(), "instance");
             shimGetter.returnType(p.getJavaTypeNonPrimitive());
             shimGetter.body.line("return (({}) instance).{};", entity.getCodegenClassName(), p.getVariableName());
+
+            if (p.shouldHaveNotNullRule()) {
+                domainCodegen.getMethod("addExtraRules").body.line("this.addRule(new NotNull<{}>(\"{}\", Shims.{}));",//
+                    entity.getClassName(),
+                    p.getVariableName(),
+                    p.getVariableName());
+                domainCodegen.addImports(NotNull.class);
+            }
+
+            if (p.getMaxCharacterLength() != 0) {
+                domainCodegen.getMethod("addExtraRules").body.line("this.addRule(new MaxLength<{}>(\"{}\", {}, Shims.{}));",//
+                    entity.getClassName(),
+                    p.getVariableName(),
+                    p.getMaxCharacterLength(),
+                    p.getVariableName());
+                domainCodegen.addImports(MaxLength.class);
+            }
 
             if (p.getColumnName().equals("id")) {
                 domainCodegen.addImports(Id.class);

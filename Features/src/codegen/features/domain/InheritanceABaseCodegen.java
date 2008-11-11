@@ -5,6 +5,8 @@ import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
 public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
 
@@ -15,6 +17,15 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     private Id<InheritanceABase> id = null;
     private String name = null;
     private Integer version = null;
+
+    protected InheritanceABaseCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+        this.addRule(new NotNull<InheritanceABase>("name", Shims.name));
+        this.addRule(new MaxLength<InheritanceABase>("name", 100, Shims.name));
+    }
 
     public Id<InheritanceABase> getId() {
         return this.id;

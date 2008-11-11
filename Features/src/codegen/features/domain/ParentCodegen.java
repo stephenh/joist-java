@@ -10,6 +10,8 @@ import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
 public abstract class ParentCodegen extends AbstractDomainObject {
 
@@ -21,6 +23,15 @@ public abstract class ParentCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private List<Child> childs;
+
+    protected ParentCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+        this.addRule(new NotNull<Parent>("name", Shims.name));
+        this.addRule(new MaxLength<Parent>("name", 100, Shims.name));
+    }
 
     public Id<Parent> getId() {
         return this.id;

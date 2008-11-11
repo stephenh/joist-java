@@ -10,6 +10,8 @@ import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 import org.exigencecorp.util.Copy;
 
 public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
@@ -22,6 +24,15 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private List<ManyToManyAFooToBar> manyToManyAFooToBars;
+
+    protected ManyToManyAFooCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+        this.addRule(new NotNull<ManyToManyAFoo>("name", Shims.name));
+        this.addRule(new MaxLength<ManyToManyAFoo>("name", 100, Shims.name));
+    }
 
     public Id<ManyToManyAFoo> getId() {
         return this.id;

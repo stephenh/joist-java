@@ -6,6 +6,8 @@ import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
 public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
 
@@ -17,6 +19,15 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
+
+    protected ParentBChildBarCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+        this.addRule(new NotNull<ParentBChildBar>("name", Shims.name));
+        this.addRule(new MaxLength<ParentBChildBar>("name", 100, Shims.name));
+    }
 
     public Id<ParentBChildBar> getId() {
         return this.id;

@@ -70,16 +70,12 @@ public class PrimitiveProperty implements Property {
         return this.columnName;
     }
 
-    public boolean isNotNull() {
-        return this.isNotNull;
+    public boolean shouldHaveNotNullRule() {
+        return this.isNotNull && !"id".equals(this.columnName) && !"version".equals(this.columnName);
     }
 
     public int getMaxCharacterLength() {
         return this.maxCharacterLength;
-    }
-
-    public boolean isNotGenerated() {
-        return false;
     }
 
     public String getGetterAccessLevel() {

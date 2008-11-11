@@ -16,16 +16,11 @@ public class Validator {
     private HashSet<DomainObject> queue = new LinkedHashSet<DomainObject>();
     /** Note: Keep dequeue separate so we can avoid re-enqueue's undoing a dequeue. */
     private HashSet<DomainObject> dequeue = new LinkedHashSet<DomainObject>();
+
     /** All errors we've come across so far in this UoW. */
-    private List<ValidationError> errors = new ArrayList<ValidationError>();
 
     /** @throws ValidationException if validation errors occur */
     public void validate() {
-        // If they have outstanding validation errors, don't even try to flush
-        if (this.errors.size() > 0) {
-            throw new ValidationException("Oustanding validation errors", this.errors);
-        }
-
         // Do updateDerivedValues first
         for (int updatedThrough = 0; updatedThrough < this.queue.size();) {
             DomainObject[] queueSnapshot = this.queue.toArray(new DomainObject[0]);
@@ -35,13 +30,14 @@ public class Validator {
         }
 
         // Now go call validation
+        List<ValidationError> errors = new ArrayList<ValidationError>();
         for (DomainObject ado : this.queue) {
-            this.errors.addAll(ado.validate());
+            errors.addAll(ado.validate());
         }
 
         // If we have errors, don't continue
-        if (this.errors.size() > 0) {
-            throw new ValidationException("New validation errors", this.errors);
+        if (errors.size() > 0) {
+            throw new ValidationException("New validation errors", errors);
         }
     }
 
@@ -62,14 +58,6 @@ public class Validator {
     public void dequeue(DomainObject ado) {
         this.queue.remove(ado);
         this.dequeue.add(ado);
-    }
-
-    public List<ValidationError> getErrors() {
-        return this.errors;
-    }
-
-    public int getQueueSize() {
-        return this.queue.size();
     }
 
     public Set<DomainObject> getQueue() {

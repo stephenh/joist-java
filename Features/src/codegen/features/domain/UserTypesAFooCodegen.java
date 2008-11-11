@@ -5,6 +5,8 @@ import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
 public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
 
@@ -16,6 +18,16 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     private String name = null;
     private com.domainlanguage.time.CalendarDate created = null;
     private Integer version = null;
+
+    protected UserTypesAFooCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+        this.addRule(new NotNull<UserTypesAFoo>("name", Shims.name));
+        this.addRule(new MaxLength<UserTypesAFoo>("name", 100, Shims.name));
+        this.addRule(new NotNull<UserTypesAFoo>("created", Shims.created));
+    }
 
     public Id<UserTypesAFoo> getId() {
         return this.id;

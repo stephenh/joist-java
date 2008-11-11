@@ -18,6 +18,13 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     private ForeignKeyHolder<ManyToManyAFoo> manyToManyAFoo = new ForeignKeyHolder<ManyToManyAFoo>(ManyToManyAFoo.class);
     private ForeignKeyHolder<ManyToManyABar> manyToManyABar = new ForeignKeyHolder<ManyToManyABar>(ManyToManyABar.class);
 
+    protected ManyToManyAFooToBarCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+    }
+
     public Id<ManyToManyAFooToBar> getId() {
         return this.id;
     }

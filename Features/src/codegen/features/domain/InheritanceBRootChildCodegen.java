@@ -6,6 +6,8 @@ import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
 public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
 
@@ -17,6 +19,15 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<InheritanceBRoot> inheritanceBRoot = new ForeignKeyHolder<InheritanceBRoot>(InheritanceBRoot.class);
+
+    protected InheritanceBRootChildCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+        this.addRule(new NotNull<InheritanceBRootChild>("name", Shims.name));
+        this.addRule(new MaxLength<InheritanceBRootChild>("name", 100, Shims.name));
+    }
 
     public Id<InheritanceBRootChild> getId() {
         return this.id;

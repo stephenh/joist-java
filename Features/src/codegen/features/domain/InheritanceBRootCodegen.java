@@ -10,6 +10,8 @@ import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
 public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
 
@@ -21,6 +23,15 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private List<InheritanceBRootChild> inheritanceBRootChilds;
+
+    protected InheritanceBRootCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+        this.addRule(new NotNull<InheritanceBRoot>("name", Shims.name));
+        this.addRule(new MaxLength<InheritanceBRoot>("name", 100, Shims.name));
+    }
 
     public Id<InheritanceBRoot> getId() {
         return this.id;

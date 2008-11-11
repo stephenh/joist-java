@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.ValidationErrors;
 import org.exigencecorp.domainobjects.validation.errors.ValidationError;
@@ -27,7 +26,7 @@ public abstract class AbstractDomainObject implements DomainObject {
         }
     }
 
-    /** Used for determining whether we are dirty based on primitives we cause to change in other people's primitives. */
+    /** Used for determining whether we are dirty based on changes in our collections. */
     protected final void recordIfChanged(String property) {
         this.changedProperties.add(property);
         if (UoW.isOpen()) {
@@ -43,12 +42,8 @@ public abstract class AbstractDomainObject implements DomainObject {
         return errors.getErrors();
     }
 
-    public String toTypeName() {
+    public String toFriendlyTypeName() {
         return Inflector.humanize(this.getClass().getSimpleName());
-    }
-
-    public String toFriendlyStringWithTypeNamePrefixed() {
-        return StringUtils.trim(this.toTypeName() + " " + this.toFriendlyString());
     }
 
     public String toFriendlyString() {
@@ -76,7 +71,7 @@ public abstract class AbstractDomainObject implements DomainObject {
         this.changedProperties.clear();
     }
 
-    /** Placeholder for subclasses to override to update derived values as part of the UoW.flush() process. */
+    /** Stub for subclasses to override to update derived values as part of the UoW.flush() process. */
     public void updateDerivedValues() {
     }
 

@@ -77,12 +77,17 @@ public class GMethod {
         return this.name;
     }
 
-    public GMethod isPrivate() {
+    public GMethod setPrivate() {
         this.access = "private ";
         return this;
     }
 
-    public GMethod isStatic() {
+    public GMethod setProtected() {
+        this.access = "protected ";
+        return this;
+    }
+
+    public GMethod setStatic() {
         this.isStatic = true;
         return this;
     }

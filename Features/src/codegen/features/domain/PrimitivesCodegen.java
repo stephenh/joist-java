@@ -5,6 +5,8 @@ import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
 public abstract class PrimitivesCodegen extends AbstractDomainObject {
 
@@ -16,6 +18,16 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
     private boolean flag = false;
     private String name = null;
     private Integer version = null;
+
+    protected PrimitivesCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+        this.addRule(new NotNull<Primitives>("flag", Shims.flag));
+        this.addRule(new NotNull<Primitives>("name", Shims.name));
+        this.addRule(new MaxLength<Primitives>("name", 100, Shims.name));
+    }
 
     public Id<Primitives> getId() {
         return this.id;

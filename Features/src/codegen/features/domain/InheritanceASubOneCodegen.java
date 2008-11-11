@@ -3,6 +3,8 @@ package features.domain;
 import features.domain.mappers.InheritanceASubOneAlias;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
 public abstract class InheritanceASubOneCodegen extends InheritanceABase {
 
@@ -11,6 +13,15 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
     }
 
     private String one = null;
+
+    protected InheritanceASubOneCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+        this.addRule(new NotNull<InheritanceASubOne>("one", Shims.one));
+        this.addRule(new MaxLength<InheritanceASubOne>("one", 100, Shims.one));
+    }
 
     public String getOne() {
         return this.one;

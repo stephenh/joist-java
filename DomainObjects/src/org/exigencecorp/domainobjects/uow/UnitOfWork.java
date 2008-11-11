@@ -22,6 +22,7 @@ public class UnitOfWork {
     }
 
     public void flush() {
+        this.validator.validate();
         this.repository.store(this.validator.getQueue());
         this.validator.resetQueueAndChangedProperties();
     }

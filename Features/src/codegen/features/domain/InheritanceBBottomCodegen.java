@@ -3,6 +3,8 @@ package features.domain;
 import features.domain.mappers.InheritanceBBottomAlias;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
 public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
 
@@ -11,6 +13,15 @@ public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
     }
 
     private String bottomName = null;
+
+    protected InheritanceBBottomCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+        this.addRule(new NotNull<InheritanceBBottom>("bottomName", Shims.bottomName));
+        this.addRule(new MaxLength<InheritanceBBottom>("bottomName", 100, Shims.bottomName));
+    }
 
     public String getBottomName() {
         return this.bottomName;

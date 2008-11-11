@@ -256,13 +256,20 @@ public class GClass {
     }
 
     public GClass baseClassName(String baseClassName, Object... args) {
-        baseClassName = ToString.interpolate(baseClassName, args);
-        if (baseClassName.indexOf(".") > -1) {
-            this.addImports(baseClassName);
-            baseClassName = StringUtils.substringAfterLast(baseClassName, ".");
-        }
-        this.baseClassName = baseClassName;
+        this.baseClassName = this.importAndStripPackage(ToString.interpolate(baseClassName, args));
         return this;
+    }
+
+    private String importAndStripPackage(String fullClassName) {
+        if (fullClassName.indexOf(".") > -1) {
+            String simpleClassName = StringUtils.substringAfterLast(fullClassName, ".");
+            String packageName = StringUtils.remove(fullClassName, "." + simpleClassName);
+            if (!packageName.equals(this.getPackageName())) {
+                this.addImports(fullClassName);
+            }
+            return simpleClassName;
+        }
+        return fullClassName;
     }
 
     private void lineIfNotAnonymousOrInner(StringBuilderr sb) {

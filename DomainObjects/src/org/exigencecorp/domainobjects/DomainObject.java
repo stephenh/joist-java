@@ -20,4 +20,8 @@ public interface DomainObject {
 
     List<ValidationError> validate();
 
+    String toFriendlyTypeName();
+
+    String toFriendlyString();
+
 }

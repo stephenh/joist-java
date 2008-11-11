@@ -29,7 +29,7 @@ public class GenerateCodesPass implements Pass {
         code.getField("code").type(String.class).makeGetter();
         code.getField("name").type(String.class).makeGetter();
 
-        GMethod c = code.getConstructor("Integer id", "String code", "String name").isPrivate();
+        GMethod c = code.getConstructor("Integer id", "String code", "String name").setPrivate();
         c.body.line("this.id = id;");
         c.body.line("this.code = code;");
         c.body.line("this.name = name;");
@@ -42,7 +42,7 @@ public class GenerateCodesPass implements Pass {
     }
 
     private void addFromId(CodeEntity entity, GClass code) {
-        GMethod from = code.getMethod("fromId").returnType(entity.getClassName()).arguments("Integer id").isStatic();
+        GMethod from = code.getMethod("fromId").returnType(entity.getClassName()).arguments("Integer id").setStatic();
         from.body.line("return org.exigencecorp.domainobjects.util.Codes.fromInt({}.values(), id);", entity.getClassName());
     }
 

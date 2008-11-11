@@ -1,6 +1,6 @@
 package org.exigencecorp.domainobjects.validation.errors;
 
-import org.exigencecorp.util.FriendlyString;
+import org.exigencecorp.domainobjects.util.FriendlyString;
 import org.exigencecorp.util.Inflector;
 
 /** An error that applies to just a property. */
@@ -25,7 +25,7 @@ public class PropertyError implements ValidationError {
     }
 
     public String toString() {
-        return FriendlyString.withoutTypeNames(this, "{} (on {} {})", "message", this.parent.toString(), "parent");
+        return FriendlyString.interpolate("{} (on {} {})", this.getMessage(), this.parent.toString(), this.parent);
     }
 
 }

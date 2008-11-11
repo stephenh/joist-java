@@ -6,6 +6,8 @@ import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyCodeHolder;
+import org.exigencecorp.domainobjects.validation.rules.MaxLength;
+import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
 public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
 
@@ -18,6 +20,15 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     private Integer version = null;
     private ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
     private ForeignKeyCodeHolder<CodeAColor> codeAColor = new ForeignKeyCodeHolder<CodeAColor>(CodeAColor.class);
+
+    protected CodeADomainObjectCodegen() {
+        this.addExtraRules();
+    }
+
+    private void addExtraRules() {
+        this.addRule(new NotNull<CodeADomainObject>("name", Shims.name));
+        this.addRule(new MaxLength<CodeADomainObject>("name", 100, Shims.name));
+    }
 
     public Id<CodeADomainObject> getId() {
         return this.id;
