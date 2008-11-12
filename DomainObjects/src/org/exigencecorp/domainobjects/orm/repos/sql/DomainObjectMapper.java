@@ -24,12 +24,12 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
 
     public void mapRow(ResultSet rs) throws SQLException {
         Integer id = new Integer(rs.getInt(this.from.getIdColumn().getName()));
-        T instance = (T) this.cache.findOrNull(this.from.getDomainBaseClass(), id);
+        T instance = (T) this.cache.findOrNull(this.from.getDomainRootClass(), id);
 
         if (instance == null) {
             instance = this.newInstance(rs);
             this.hydrate(instance, rs);
-            this.cache.store(this.from.getDomainBaseClass(), instance);
+            this.cache.store(this.from.getDomainRootClass(), instance);
         }
 
         this.results.add(instance);

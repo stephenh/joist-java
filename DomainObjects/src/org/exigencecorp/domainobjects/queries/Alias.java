@@ -58,12 +58,16 @@ public abstract class Alias<T extends DomainObject> {
         return this.domainClass;
     }
 
-    /** @return the immediate super domain class--could be null
+    /** @return the root domain class--never null
      *
-     * In a 3-level inheritance hierarchy, this would be the 2nd level.
+     * In a 3-level inheritance hierarchy, this would be the 1st level.
      */
-    public Class<? super T> getDomainBaseClass() {
-        return this.domainBaseClass;
+    public Class<? super T> getDomainRootClass() {
+        Alias<? super T> current = this;
+        while (current.getBaseClassAlias() != null) {
+            current = current.getBaseClassAlias();
+        }
+        return current.getDomainClass();
     }
 
     /** @return the immediate super domain alias--could be null

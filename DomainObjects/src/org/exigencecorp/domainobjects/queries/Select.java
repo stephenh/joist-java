@@ -161,7 +161,7 @@ public class Select<T extends DomainObject> {
     }
 
     private boolean isLoadingDomainObjects(Class<?> type) {
-        return this.from.getDomainBaseClass().isAssignableFrom(type);
+        return this.from.getDomainClass().isAssignableFrom(type);
     }
 
 }
