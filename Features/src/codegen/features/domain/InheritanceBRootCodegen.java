@@ -1,7 +1,7 @@
 package features.domain;
 
-import features.domain.mappers.InheritanceBRootAlias;
-import features.domain.mappers.InheritanceBRootChildAlias;
+import features.domain.queries.InheritanceBRootAlias;
+import features.domain.queries.InheritanceBRootChildAlias;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;

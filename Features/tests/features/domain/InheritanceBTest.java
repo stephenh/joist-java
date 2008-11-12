@@ -1,7 +1,7 @@
 package features.domain;
 
 import junit.framework.Assert;
-import features.domain.mappers.InheritanceBBottomMapper;
+import features.domain.queries.Query;
 
 public class InheritanceBTest extends AbstractFeaturesTest {
 
@@ -12,7 +12,7 @@ public class InheritanceBTest extends AbstractFeaturesTest {
         b.setBottomName("3");
         this.commitAndReOpen();
 
-        b = new InheritanceBBottomMapper().find(b.getId().intValue());
+        b = Query.inheritanceBBottom.find(b.getId().intValue());
         Assert.assertEquals("1", b.getName());
         Assert.assertEquals("2", b.getMiddleName());
         Assert.assertEquals("3", b.getBottomName());

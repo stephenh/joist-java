@@ -48,7 +48,7 @@ public class GenerateAliasesPass implements Pass {
         while (baseEntity != null) {
             if (first) {
                 GField baseAliasField = aliasClass.getField("baseAlias").setFinal();
-                baseAliasField.typeInPackage(entity.getConfig().getMapperPackage(), "{}Alias", baseEntity.getClassName());
+                baseAliasField.type(baseEntity.getFullAliasClassName());
 
                 GMethod baseClassAliasGetter = aliasClass.getMethod("getBaseClassAlias");
                 baseClassAliasGetter.returnType("Alias<{}>", baseEntity.getClassName());
@@ -117,7 +117,7 @@ public class GenerateAliasesPass implements Pass {
         int i = 0;
         for (Entity subEntity : entity.getSubEntities()) {
             constructor.body.line("this.addSubClassAlias(new {}Alias(this, alias + \"_{}\"));", subEntity.getClassName(), i++);
-            aliasClass.addImports(entity.getConfig().getMapperPackage() + "." + subEntity.getClassName() + "Alias");
+            aliasClass.addImports(subEntity.getFullAliasClassName());
         }
 
         // If a base class, we'll need another constructor for the bootstrap call we added above

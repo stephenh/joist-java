@@ -3,8 +3,7 @@ package features.domain;
 import java.util.List;
 
 import junit.framework.Assert;
-import features.domain.mappers.ChildMapper;
-import features.domain.mappers.ParentMapper;
+import features.domain.queries.Query;
 
 public class ChildTest extends AbstractFeaturesTest {
 
@@ -15,11 +14,11 @@ public class ChildTest extends AbstractFeaturesTest {
 
         Child c = new Child();
         c.setName("child");
-        c.setParent(new ParentMapper().find(2));
+        c.setParent(this.reload(p));
         this.commitAndReOpen();
 
-        c = new ChildMapper().find(2);
-        p = new ParentMapper().find(2);
+        c = this.reload(c);
+        p = this.reload(p);
         Assert.assertTrue(p == c.getParent());
     }
 
@@ -32,8 +31,8 @@ public class ChildTest extends AbstractFeaturesTest {
         c.setParent(p);
         this.commitAndReOpen();
 
-        c = new ChildMapper().find(2);
-        p = new ParentMapper().find(2);
+        c = this.reload(c);
+        p = this.reload(p);
         Assert.assertTrue(p == c.getParent());
     }
 
@@ -44,7 +43,7 @@ public class ChildTest extends AbstractFeaturesTest {
         new Child(p, "child2");
         this.commitAndReOpen();
 
-        List<Child> children = new ChildMapper().findForParentOfName("parent");
+        List<Child> children = Query.child.findForParentOfName("parent");
         Assert.assertEquals(2, children.size());
         Assert.assertEquals("child1", children.get(0).getName());
         Assert.assertEquals("child2", children.get(1).getName());
@@ -55,12 +54,12 @@ public class ChildTest extends AbstractFeaturesTest {
         new Child(p1, "child");
         this.commitAndReOpen();
 
-        Child c = new ChildMapper().find(2);
+        Child c = Query.child.find(2);
         c.setParent(new Parent("p2"));
         Assert.assertTrue(c.getChangedProperties().contains("parent"));
         this.commitAndReOpen();
 
-        c = new ChildMapper().find(2);
+        c = this.reload(c);
         Assert.assertEquals("p2", c.getParent().getName());
     }
 

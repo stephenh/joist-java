@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.mappers.InheritanceBMiddleAlias;
+import features.domain.queries.InheritanceBMiddleAlias;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;

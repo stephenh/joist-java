@@ -1,7 +1,7 @@
 package features.domain;
 
-import features.domain.mappers.ManyToManyABarAlias;
-import features.domain.mappers.ManyToManyAFooToBarAlias;
+import features.domain.queries.ManyToManyABarAlias;
+import features.domain.queries.ManyToManyAFooToBarAlias;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;

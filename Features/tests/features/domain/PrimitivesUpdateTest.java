@@ -5,7 +5,7 @@ import junit.framework.Assert;
 import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.util.Copy;
 
-import features.domain.mappers.PrimitivesMapper;
+import features.domain.queries.Query;
 
 public class PrimitivesUpdateTest extends AbstractFeaturesTest {
 
@@ -13,12 +13,12 @@ public class PrimitivesUpdateTest extends AbstractFeaturesTest {
         new Primitives("testSave");
         this.commitAndReOpen();
 
-        Assert.assertEquals(false, new PrimitivesMapper().find(2).getFlag());
+        Assert.assertEquals(false, Query.primitives.find(2).getFlag());
         Ids<Primitives> ids = new Ids<Primitives>(Primitives.class, Copy.list(2));
-        new PrimitivesMapper().setFlag(ids, true);
+        Query.primitives.setFlag(ids, true);
         this.commitAndReOpen();
 
-        Assert.assertEquals(true, new PrimitivesMapper().find(2).getFlag());
+        Assert.assertEquals(true, Query.primitives.find(2).getFlag());
     }
 
     public void testChangeFlagWithDynamicList() {
@@ -27,18 +27,18 @@ public class PrimitivesUpdateTest extends AbstractFeaturesTest {
         new Primitives("bar");
         this.commitAndReOpen();
 
-        Ids<Primitives> ids = new PrimitivesMapper().findIdsWithNameLike("foo%");
+        Ids<Primitives> ids = Query.primitives.findIdsWithNameLike("foo%");
         Assert.assertEquals(2, ids.size());
-        Assert.assertEquals(false, new PrimitivesMapper().find(2).getFlag());
-        Assert.assertEquals(false, new PrimitivesMapper().find(3).getFlag());
-        Assert.assertEquals(false, new PrimitivesMapper().find(4).getFlag());
+        Assert.assertEquals(false, Query.primitives.find(2).getFlag());
+        Assert.assertEquals(false, Query.primitives.find(3).getFlag());
+        Assert.assertEquals(false, Query.primitives.find(4).getFlag());
 
-        new PrimitivesMapper().setFlag(ids, true);
+        Query.primitives.setFlag(ids, true);
         this.commitAndReOpen();
 
-        Assert.assertEquals(true, new PrimitivesMapper().find(2).getFlag());
-        Assert.assertEquals(true, new PrimitivesMapper().find(3).getFlag());
-        Assert.assertEquals(false, new PrimitivesMapper().find(4).getFlag());
+        Assert.assertEquals(true, Query.primitives.find(2).getFlag());
+        Assert.assertEquals(true, Query.primitives.find(3).getFlag());
+        Assert.assertEquals(false, Query.primitives.find(4).getFlag());
     }
 
 }

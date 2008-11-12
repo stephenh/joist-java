@@ -1,7 +1,10 @@
 package features.domain;
 
 import junit.framework.Assert;
-import features.domain.mappers.CodeADomainObjectMapper;
+
+import org.exigencecorp.util.Log;
+
+import features.domain.queries.Query;
 
 public class CodeTests extends AbstractFeaturesTest {
 
@@ -12,7 +15,8 @@ public class CodeTests extends AbstractFeaturesTest {
         d.setName("foo");
         this.commitAndReOpen();
 
-        d = new CodeADomainObjectMapper().find(2);
+        Log.debug("Doing find");
+        d = Query.codeADomainObject.find(2);
         Assert.assertEquals(CodeAColor.BLUE, d.getCodeAColor());
         Assert.assertEquals(CodeASize.ONE, d.getCodeASize());
     }

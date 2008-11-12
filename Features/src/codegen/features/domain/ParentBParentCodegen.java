@@ -1,8 +1,8 @@
 package features.domain;
 
-import features.domain.mappers.ParentBChildBarAlias;
-import features.domain.mappers.ParentBChildFooAlias;
-import features.domain.mappers.ParentBParentAlias;
+import features.domain.queries.ParentBChildBarAlias;
+import features.domain.queries.ParentBChildFooAlias;
+import features.domain.queries.ParentBParentAlias;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;

@@ -5,7 +5,7 @@ import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.util.Log;
 
-import features.domain.mappers.ParentAlias;
+import features.domain.queries.ParentAlias;
 
 public class ParentsLotsTest extends AbstractFeaturesTest {
 

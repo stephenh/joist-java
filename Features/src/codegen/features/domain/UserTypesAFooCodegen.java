@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.mappers.UserTypesAFooAlias;
+import features.domain.queries.UserTypesAFooAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;

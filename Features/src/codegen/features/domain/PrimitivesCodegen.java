@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.mappers.PrimitivesAlias;
+import features.domain.queries.PrimitivesAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;

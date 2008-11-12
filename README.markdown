@@ -14,12 +14,12 @@ For example:
 Examples
 ========
 
-See [tests][1] and [mappers][2] for examples of the syntax. [Base classes][3] and [aliases][4] are code generated.
+See [tests][1] and [queries][2] for examples of the syntax. [Base classes][3] and [aliases][4] are code generated.
 
 [1]: master/Features/tests/features/domain/ChildTest.java
-[2]: master/Features/src/main/features/domain/mappers/ChildMapper.java
+[2]: master/Features/src/main/features/domain/queries/ChildQueries.java
 [3]: master/Features/src/codegen/features/domain/ChildCodegen.java
-[4]: master/Features/src/codegen/features/domain/mappers/ChildAlias.java
+[4]: master/Features/src/codegen/features/domain/queries/ChildAlias.java
 
 Patterns
 ========
@@ -32,11 +32,12 @@ Patterns
 * Lazy Load (with value holder, e.g. no virtual proxies)
 * Class Table Inheritance (no Single Table Inheritance or Concrete Table Inheritance)
 * Optimistic Offline Lock (every object as a "version" column)
+* Finders (though called [queries][2] as they can bulk update/delete as well)
 
 Todo
 ====
 
-* Differentiate mappers/finders, Finder registry/something
+* Throw out Id in favor of simple Integers?
 
 Acknowledgements
 ================

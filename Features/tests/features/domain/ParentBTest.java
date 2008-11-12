@@ -3,7 +3,7 @@ package features.domain;
 import java.util.List;
 
 import junit.framework.Assert;
-import features.domain.mappers.ParentBChildFooMapper;
+import features.domain.queries.Query;
 
 public class ParentBTest extends AbstractFeaturesTest {
 
@@ -20,7 +20,7 @@ public class ParentBTest extends AbstractFeaturesTest {
         b.setParentBParent(p);
         this.commitAndReOpen();
 
-        List<ParentBChildFoo> foos = new ParentBChildFooMapper().findByParentName("parent");
+        List<ParentBChildFoo> foos = Query.parentBChildFoo.findByParentName("parent");
         Assert.assertEquals("foo", foos.get(0).getName());
     }
 

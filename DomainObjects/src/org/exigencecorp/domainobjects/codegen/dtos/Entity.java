@@ -68,10 +68,6 @@ public class Entity {
         return Inflector.camelize(this.getTableName());
     }
 
-    public String getMapperClassName() {
-        return this.getClassName() + "Mapper";
-    }
-
     public String getCodegenClassName() {
         return this.getClassName() + "Codegen";
     }
@@ -81,15 +77,15 @@ public class Entity {
     }
 
     public String getFullAliasClassName() {
-        return this.config.getMapperPackage() + "." + this.getClassName() + "Alias";
+        return this.config.getQueriesPackage() + "." + this.getClassName() + "Alias";
     }
 
     public String getFullClassName() {
         return this.config.getDomainObjectPackage() + "." + this.getClassName();
     }
 
-    public String getFullMapperClassName() {
-        return this.config.getMapperPackage() + "." + this.getMapperClassName();
+    public String getFullQueriesClassName() {
+        return this.config.getQueriesPackage() + "." + this.getClassName() + "Queries";
     }
 
     public List<PrimitiveProperty> getPrimitiveProperties() {

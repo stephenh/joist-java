@@ -10,6 +10,8 @@ import org.exigencecorp.util.Join;
 import features.domain.InheritanceABase;
 import features.domain.InheritanceABaseCodegen;
 import features.domain.InheritanceASubOne;
+import features.domain.queries.InheritanceABaseAlias;
+import features.domain.queries.InheritanceASubOneAlias;
 
 public class InheritanceAQueryTest extends TestCase {
 

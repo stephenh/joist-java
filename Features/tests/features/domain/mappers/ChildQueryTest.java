@@ -8,6 +8,8 @@ import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Join;
 
 import features.domain.Child;
+import features.domain.queries.ChildAlias;
+import features.domain.queries.ParentAlias;
 
 public class ChildQueryTest extends TestCase {
 

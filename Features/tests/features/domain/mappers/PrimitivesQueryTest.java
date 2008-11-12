@@ -12,6 +12,7 @@ import org.exigencecorp.domainobjects.queries.Where;
 import org.exigencecorp.util.Copy;
 
 import features.domain.Primitives;
+import features.domain.queries.PrimitivesAlias;
 
 public class PrimitivesQueryTest extends TestCase {
 

@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.mappers.ValidationAFooAlias;
+import features.domain.queries.ValidationAFooAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;

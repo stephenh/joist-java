@@ -52,7 +52,7 @@ public class GenerateDomainCodegenPass implements Pass {
                 entity.getClassName(),
                 entity.getClassName());
             domainCodegen.addImports(AliasRegistry.class);
-            domainCodegen.addImports(entity.getConfig().getMapperPackage() + "." + entity.getClassName() + "Alias");
+            domainCodegen.addImports(entity.getFullAliasClassName());
         }
     }
 

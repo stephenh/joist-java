@@ -241,7 +241,7 @@ public class GClass {
 
     public GClass addImports(String... importClassNames) {
         for (String importClassName : importClassNames) {
-            this.imports.add(importClassName);
+            this.imports.add(importClassName.replaceAll("<.+>", "")); // prune generics
         }
         return this;
     }

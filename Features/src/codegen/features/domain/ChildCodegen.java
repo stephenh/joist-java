@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.mappers.ChildAlias;
+import features.domain.queries.ChildAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;

@@ -78,16 +78,20 @@ public abstract class CodegenConfig {
     }
 
     /**
-     * The package name of your mapper objects.
+     * The package name of your query objects.
      *
-     * @return E.g. <code>cbas.domain.mappers</code>
+     * @return E.g. <code>cbas.domain.queries</code>
      */
-    public String getMapperPackage() {
-        return this.projectNameForDefaults + ".domain.mappers";
+    public String getQueriesPackage() {
+        return this.projectNameForDefaults + ".domain.queries";
     }
 
     public String getDomainObjectBaseClass() {
         return "org.exigencecorp.domainobjects.AbstractDomainObject";
+    }
+
+    public String getQueriesBaseClass() {
+        return "org.exigencecorp.domainobjects.AbstractQueries<{}>";
     }
 
     public void setJavaType(String jdbcDataType, Class<?> javaType, Class<?> aliasColumnType) {

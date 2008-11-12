@@ -3,9 +3,7 @@ package features.domain;
 import java.util.List;
 
 import junit.framework.Assert;
-import features.domain.mappers.InheritanceABaseMapper;
-import features.domain.mappers.InheritanceASubOneMapper;
-import features.domain.mappers.InheritanceASubTwoMapper;
+import features.domain.queries.Query;
 
 public class InheritanceATest extends AbstractFeaturesTest {
 
@@ -16,7 +14,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
         this.commitAndReOpen();
         Assert.assertEquals(2, a.getId().intValue());
 
-        a = new InheritanceASubOneMapper().find(2);
+        a = this.reload(a);
         Assert.assertEquals("name", a.getName());
         Assert.assertEquals("one", a.getOne());
     }
@@ -28,7 +26,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
         this.commitAndReOpen();
         Assert.assertEquals(2, b.getId().intValue());
 
-        b = new InheritanceASubTwoMapper().find(2);
+        b = this.reload(b);
         Assert.assertEquals("name", b.getName());
         Assert.assertEquals("two", b.getTwo());
     }
@@ -40,12 +38,12 @@ public class InheritanceATest extends AbstractFeaturesTest {
         this.commitAndReOpen();
         Assert.assertEquals(2, b.getId().intValue());
 
-        b = new InheritanceASubTwoMapper().find(2);
+        b = this.reload(b);
         b.setName("name2");
         b.setTwo("twotwo");
         this.commitAndReOpen();
 
-        b = new InheritanceASubTwoMapper().find(2);
+        b = this.reload(b);
         Assert.assertEquals("name2", b.getName());
         Assert.assertEquals("twotwo", b.getTwo());
     }
@@ -55,12 +53,12 @@ public class InheritanceATest extends AbstractFeaturesTest {
         new InheritanceASubTwo("nameb", "b");
         this.commitAndReOpen();
 
-        List<InheritanceABase> l = new InheritanceABaseMapper().findAll();
+        List<InheritanceABase> l = Query.inheritanceABase.findAll();
         Assert.assertEquals(2, l.size());
         Assert.assertEquals(InheritanceASubOne.class, l.get(0).getClass());
         Assert.assertEquals(InheritanceASubTwo.class, l.get(1).getClass());
 
-        InheritanceASubOne otherA = new InheritanceASubOneMapper().find(2);
+        InheritanceASubOne otherA = Query.inheritanceASubOne.find(2);
         Assert.assertTrue(otherA == l.get(0));
     }
 
@@ -69,14 +67,14 @@ public class InheritanceATest extends AbstractFeaturesTest {
         new InheritanceASubTwo("nameb", "b");
         this.commitAndReOpen();
 
-        List<InheritanceASubOne> l = new InheritanceASubOneMapper().findAll();
+        List<InheritanceASubOne> l = Query.inheritanceASubOne.findAll();
         Assert.assertEquals(1, l.size());
         Assert.assertEquals(InheritanceASubOne.class, l.get(0).getClass());
 
-        InheritanceASubOne otherA = new InheritanceASubOneMapper().find(2);
+        InheritanceASubOne otherA = Query.inheritanceASubOne.find(2);
         Assert.assertTrue(otherA == l.get(0));
 
-        InheritanceABase baseA = new InheritanceABaseMapper().find(2);
+        InheritanceABase baseA = Query.inheritanceABase.find(2);
         Assert.assertTrue(otherA == baseA);
     }
 
@@ -85,10 +83,10 @@ public class InheritanceATest extends AbstractFeaturesTest {
         new InheritanceASubTwo("nameb", "b");
         this.commitAndReOpen();
 
-        InheritanceASubOne a = new InheritanceASubOneMapper().findByName("namea");
+        InheritanceASubOne a = Query.inheritanceASubOne.findByName("namea");
         Assert.assertEquals("a", a.getOne());
 
-        InheritanceASubOne otherA = new InheritanceASubOneMapper().find(2);
+        InheritanceASubOne otherA = Query.inheritanceASubOne.find(2);
         Assert.assertTrue(otherA == a);
     }
 

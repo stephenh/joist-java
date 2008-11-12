@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.mappers.ManyToManyAFooToBarAlias;
+import features.domain.queries.ManyToManyAFooToBarAlias;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
