@@ -2,6 +2,7 @@ package features.domain.queries;
 
 import features.domain.InheritanceBRoot;
 import features.domain.InheritanceBRootCodegen;
+import features.domain.queries.InheritanceBBottomAlias;
 import features.domain.queries.InheritanceBMiddleAlias;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class InheritanceBRootAlias extends Alias<InheritanceBRoot> {
     public InheritanceBRootAlias(String alias) {
         super(InheritanceBRoot.class, InheritanceBRoot.class, "inheritance_b_root", alias);
         this.addSubClassAlias(new InheritanceBMiddleAlias(this, alias + "_0"));
+        this.addSubClassAlias(new InheritanceBBottomAlias(this, alias + "_1"));
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

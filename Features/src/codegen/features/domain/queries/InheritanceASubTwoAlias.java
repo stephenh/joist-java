@@ -25,18 +25,18 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
         super(InheritanceASubTwo.class, InheritanceABase.class, "inheritance_a_sub_two", alias);
         this.baseAlias = new InheritanceABaseAlias(alias + "_b");
         this.columns.add(this.two);
-        this.id = this.baseAlias.id;
-        this.name = this.baseAlias.name;
-        this.version = this.baseAlias.version;
+        this.id = (this.baseAlias == null) ? null : this.baseAlias.id;
+        this.name = (this.baseAlias == null) ? null : this.baseAlias.name;
+        this.version = (this.baseAlias == null) ? null : this.baseAlias.version;
     }
 
-    public InheritanceASubTwoAlias(InheritanceABaseAlias baseAlias, String alias) {
-        super(InheritanceASubTwo.class, InheritanceABase.class, "inheritance_a_sub_two", alias);
-        this.baseAlias = baseAlias;
+    public InheritanceASubTwoAlias(Alias<?> rootAlias, String alias) {
+        super(InheritanceASubTwo.class, null, "inheritance_a_sub_two", alias);
+        this.baseAlias = null;
         this.columns.add(this.two);
-        this.id = this.baseAlias.id;
-        this.name = this.baseAlias.name;
-        this.version = this.baseAlias.version;
+        this.id = (this.baseAlias == null) ? null : this.baseAlias.id;
+        this.name = (this.baseAlias == null) ? null : this.baseAlias.name;
+        this.version = (this.baseAlias == null) ? null : this.baseAlias.version;
     }
 
     public List<AliasColumn<InheritanceASubTwo, ?, ?>> getColumns() {

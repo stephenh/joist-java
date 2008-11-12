@@ -18,6 +18,7 @@ import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
 import org.exigencecorp.gen.GClass;
 import org.exigencecorp.gen.GField;
 import org.exigencecorp.gen.GMethod;
+import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.ToString;
 
 public class GenerateAliasesPass implements Pass {
@@ -63,7 +64,9 @@ public class GenerateAliasesPass implements Pass {
                 GField field = aliasClass.getField(p.getVariableName()).setPublic().setFinal();
                 field.type("{}<{}>", aliasColumnClass.getSimpleName(), baseEntity.getClassName());
 
-                this.appendToConstructors(aliasClass, "this.{} = this.baseAlias.{};", p.getVariableName(), p.getVariableName());
+                this.appendToConstructors(aliasClass, "this.{} = (this.baseAlias == null) ? null : this.baseAlias.{};",//
+                    p.getVariableName(),
+                    p.getVariableName());
             }
 
             aliasClass.addImports(entity.getConfig().getDomainObjectPackage() + "." + baseEntity.getClassName());
@@ -115,9 +118,12 @@ public class GenerateAliasesPass implements Pass {
 
         // If any sub-classes, we want to know about their sub-aliases to instantiate during SELECTs
         int i = 0;
-        for (Entity subEntity : entity.getSubEntities()) {
+        List<Entity> subEntities = Copy.list(entity.getSubEntities());
+        while (subEntities.size() != 0) {
+            Entity subEntity = subEntities.remove(0);
             constructor.body.line("this.addSubClassAlias(new {}Alias(this, alias + \"_{}\"));", subEntity.getClassName(), i++);
             aliasClass.addImports(subEntity.getFullAliasClassName());
+            subEntities.addAll(subEntity.getSubEntities());
         }
 
         // If a base class, we'll need another constructor for the bootstrap call we added above
@@ -125,12 +131,11 @@ public class GenerateAliasesPass implements Pass {
             Entity baseEntity = entity.getBaseEntity();
             constructor.body.line("this.baseAlias = new {}Alias(alias + \"_b\");", baseEntity.getClassName());
 
-            GMethod otherConstructor = aliasClass.getConstructor(baseEntity.getClassName() + "Alias baseAlias", "String alias");
-            otherConstructor.body.line("super({}.class, {}.class, \"{}\", alias);",//
+            GMethod otherConstructor = aliasClass.getConstructor("Alias<?> rootAlias", "String alias");
+            otherConstructor.body.line("super({}.class, null, \"{}\", alias);",//
                 entity.getClassName(),
-                baseEntity.getClassName(),
                 entity.getTableName());
-            otherConstructor.body.line("this.baseAlias = baseAlias;");
+            otherConstructor.body.line("this.baseAlias = null;");
         }
 
         aliasClass.addImports(ArrayList.class, List.class, Alias.class, AliasColumn.class, IdAliasColumn.class, IntAliasColumn.class);

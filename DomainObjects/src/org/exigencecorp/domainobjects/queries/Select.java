@@ -141,7 +141,7 @@ public class Select<T extends DomainObject> {
             for (AliasColumn<?, ?, ?> c : sub.getColumns()) {
                 this.selectItems.add(new SelectItem(c));
             }
-            subClassCases.add("WHEN " + sub.getSubClassIdColumn().getQualifiedName() + " IS NOT NULL THEN " + (i++));
+            subClassCases.add(0, "WHEN " + sub.getSubClassIdColumn().getQualifiedName() + " IS NOT NULL THEN " + (i++));
         }
         if (i > 0) {
             this.selectItems.add(new SelectItem("CASE " + Join.space(subClassCases) + " ELSE -1 END AS _clazz"));

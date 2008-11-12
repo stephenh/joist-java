@@ -27,18 +27,18 @@ public class InheritanceBMiddleAlias extends Alias<InheritanceBMiddle> {
         this.addSubClassAlias(new InheritanceBBottomAlias(this, alias + "_0"));
         this.baseAlias = new InheritanceBRootAlias(alias + "_b");
         this.columns.add(this.middleName);
-        this.id = this.baseAlias.id;
-        this.name = this.baseAlias.name;
-        this.version = this.baseAlias.version;
+        this.id = (this.baseAlias == null) ? null : this.baseAlias.id;
+        this.name = (this.baseAlias == null) ? null : this.baseAlias.name;
+        this.version = (this.baseAlias == null) ? null : this.baseAlias.version;
     }
 
-    public InheritanceBMiddleAlias(InheritanceBRootAlias baseAlias, String alias) {
-        super(InheritanceBMiddle.class, InheritanceBRoot.class, "inheritance_b_middle", alias);
-        this.baseAlias = baseAlias;
+    public InheritanceBMiddleAlias(Alias<?> rootAlias, String alias) {
+        super(InheritanceBMiddle.class, null, "inheritance_b_middle", alias);
+        this.baseAlias = null;
         this.columns.add(this.middleName);
-        this.id = this.baseAlias.id;
-        this.name = this.baseAlias.name;
-        this.version = this.baseAlias.version;
+        this.id = (this.baseAlias == null) ? null : this.baseAlias.id;
+        this.name = (this.baseAlias == null) ? null : this.baseAlias.name;
+        this.version = (this.baseAlias == null) ? null : this.baseAlias.version;
     }
 
     public List<AliasColumn<InheritanceBMiddle, ?, ?>> getColumns() {
