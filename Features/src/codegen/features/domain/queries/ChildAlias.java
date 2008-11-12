@@ -21,7 +21,7 @@ public class ChildAlias extends Alias<Child> {
     public final ForeignKeyAliasColumn<Child, Parent> parent = new ForeignKeyAliasColumn<Child, Parent>(this, "parent_id", ChildCodegen.Shims.parentId);
 
     public ChildAlias(String alias) {
-        super(Child.class, Child.class, "child", alias);
+        super(Child.class, "child", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

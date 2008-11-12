@@ -22,7 +22,7 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
     public final IntAliasColumn<InheritanceABase> version;
 
     public InheritanceASubTwoAlias(String alias) {
-        super(InheritanceASubTwo.class, InheritanceABase.class, "inheritance_a_sub_two", alias);
+        super(InheritanceASubTwo.class, "inheritance_a_sub_two", alias);
         this.baseAlias = new InheritanceABaseAlias(alias + "_b");
         this.columns.add(this.two);
         this.id = (this.baseAlias == null) ? null : this.baseAlias.id;
@@ -31,7 +31,7 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
     }
 
     public InheritanceASubTwoAlias(Alias<?> rootAlias, String alias) {
-        super(InheritanceASubTwo.class, null, "inheritance_a_sub_two", alias);
+        super(InheritanceASubTwo.class, "inheritance_a_sub_two", alias);
         this.baseAlias = null;
         this.columns.add(this.two);
         this.id = (this.baseAlias == null) ? null : this.baseAlias.id;

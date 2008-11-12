@@ -21,7 +21,7 @@ public class ParentBChildBarAlias extends Alias<ParentBChildBar> {
     public final ForeignKeyAliasColumn<ParentBChildBar, ParentBParent> parentBParent = new ForeignKeyAliasColumn<ParentBChildBar, ParentBParent>(this, "parent_b_parent_id", ParentBChildBarCodegen.Shims.parentBParentId);
 
     public ParentBChildBarAlias(String alias) {
-        super(ParentBChildBar.class, ParentBChildBar.class, "parent_b_child_bar", alias);
+        super(ParentBChildBar.class, "parent_b_child_bar", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

@@ -14,14 +14,12 @@ import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
 public abstract class Alias<T extends DomainObject> {
 
     private final Class<T> domainClass;
-    private final Class<? super T> domainBaseClass;
     private final String tableName;
     private final String name;
     private final List<Alias<? extends T>> subClassAliases = new ArrayList<Alias<? extends T>>();
 
-    protected Alias(Class<T> domainClass, Class<? super T> domainBaseClass, String tableName, String name) {
+    protected Alias(Class<T> domainClass, String tableName, String name) {
         this.domainClass = domainClass;
-        this.domainBaseClass = domainBaseClass;
         this.tableName = tableName;
         this.name = name;
     }

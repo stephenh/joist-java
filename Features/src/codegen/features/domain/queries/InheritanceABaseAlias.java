@@ -20,7 +20,7 @@ public class InheritanceABaseAlias extends Alias<InheritanceABase> {
     public final IntAliasColumn<InheritanceABase> version = new IntAliasColumn<InheritanceABase>(this, "version", InheritanceABaseCodegen.Shims.version);
 
     public InheritanceABaseAlias(String alias) {
-        super(InheritanceABase.class, InheritanceABase.class, "inheritance_a_base", alias);
+        super(InheritanceABase.class, "inheritance_a_base", alias);
         this.addSubClassAlias(new InheritanceASubOneAlias(this, alias + "_0"));
         this.addSubClassAlias(new InheritanceASubTwoAlias(this, alias + "_1"));
         this.columns.add(this.id);

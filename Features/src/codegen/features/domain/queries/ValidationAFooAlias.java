@@ -18,7 +18,7 @@ public class ValidationAFooAlias extends Alias<ValidationAFoo> {
     public final IntAliasColumn<ValidationAFoo> version = new IntAliasColumn<ValidationAFoo>(this, "version", ValidationAFooCodegen.Shims.version);
 
     public ValidationAFooAlias(String alias) {
-        super(ValidationAFoo.class, ValidationAFoo.class, "validation_a_foo", alias);
+        super(ValidationAFoo.class, "validation_a_foo", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

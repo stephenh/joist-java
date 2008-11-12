@@ -23,7 +23,7 @@ public class CodeADomainObjectAlias extends Alias<CodeADomainObject> {
     public final CodeAliasColumn<CodeADomainObject, CodeAColor> codeAColor = new CodeAliasColumn<CodeADomainObject, CodeAColor>(this, "code_a_color_id", CodeADomainObjectCodegen.Shims.codeAColorId);
 
     public CodeADomainObjectAlias(String alias) {
-        super(CodeADomainObject.class, CodeADomainObject.class, "code_a_domain_object", alias);
+        super(CodeADomainObject.class, "code_a_domain_object", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

@@ -21,7 +21,7 @@ public class ManyToManyABarAlias extends Alias<ManyToManyABar> {
     public final IntAliasColumn<ManyToManyABar> version = new IntAliasColumn<ManyToManyABar>(this, "version", ManyToManyABarCodegen.Shims.version);
 
     public ManyToManyABarAlias(String alias) {
-        super(ManyToManyABar.class, ManyToManyABar.class, "many_to_many_a_bar", alias);
+        super(ManyToManyABar.class, "many_to_many_a_bar", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

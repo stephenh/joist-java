@@ -20,7 +20,7 @@ public class PrimitivesAlias extends Alias<Primitives> {
     public final IntAliasColumn<Primitives> version = new IntAliasColumn<Primitives>(this, "version", PrimitivesCodegen.Shims.version);
 
     public PrimitivesAlias(String alias) {
-        super(Primitives.class, Primitives.class, "primitives", alias);
+        super(Primitives.class, "primitives", alias);
         this.columns.add(this.id);
         this.columns.add(this.flag);
         this.columns.add(this.name);

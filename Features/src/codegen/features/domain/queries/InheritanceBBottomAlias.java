@@ -24,7 +24,7 @@ public class InheritanceBBottomAlias extends Alias<InheritanceBBottom> {
     public final IntAliasColumn<InheritanceBRoot> version;
 
     public InheritanceBBottomAlias(String alias) {
-        super(InheritanceBBottom.class, InheritanceBMiddle.class, "inheritance_b_bottom", alias);
+        super(InheritanceBBottom.class, "inheritance_b_bottom", alias);
         this.baseAlias = new InheritanceBMiddleAlias(alias + "_b");
         this.columns.add(this.bottomName);
         this.middleName = (this.baseAlias == null) ? null : this.baseAlias.middleName;
@@ -34,7 +34,7 @@ public class InheritanceBBottomAlias extends Alias<InheritanceBBottom> {
     }
 
     public InheritanceBBottomAlias(Alias<?> rootAlias, String alias) {
-        super(InheritanceBBottom.class, null, "inheritance_b_bottom", alias);
+        super(InheritanceBBottom.class, "inheritance_b_bottom", alias);
         this.baseAlias = null;
         this.columns.add(this.bottomName);
         this.middleName = (this.baseAlias == null) ? null : this.baseAlias.middleName;

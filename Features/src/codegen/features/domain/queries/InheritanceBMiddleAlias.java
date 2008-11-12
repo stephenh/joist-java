@@ -23,7 +23,7 @@ public class InheritanceBMiddleAlias extends Alias<InheritanceBMiddle> {
     public final IntAliasColumn<InheritanceBRoot> version;
 
     public InheritanceBMiddleAlias(String alias) {
-        super(InheritanceBMiddle.class, InheritanceBRoot.class, "inheritance_b_middle", alias);
+        super(InheritanceBMiddle.class, "inheritance_b_middle", alias);
         this.addSubClassAlias(new InheritanceBBottomAlias(this, alias + "_0"));
         this.baseAlias = new InheritanceBRootAlias(alias + "_b");
         this.columns.add(this.middleName);
@@ -33,7 +33,7 @@ public class InheritanceBMiddleAlias extends Alias<InheritanceBMiddle> {
     }
 
     public InheritanceBMiddleAlias(Alias<?> rootAlias, String alias) {
-        super(InheritanceBMiddle.class, null, "inheritance_b_middle", alias);
+        super(InheritanceBMiddle.class, "inheritance_b_middle", alias);
         this.baseAlias = null;
         this.columns.add(this.middleName);
         this.id = (this.baseAlias == null) ? null : this.baseAlias.id;

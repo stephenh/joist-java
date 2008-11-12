@@ -23,7 +23,7 @@ public class InheritanceBRootAlias extends Alias<InheritanceBRoot> {
     public final IntAliasColumn<InheritanceBRoot> version = new IntAliasColumn<InheritanceBRoot>(this, "version", InheritanceBRootCodegen.Shims.version);
 
     public InheritanceBRootAlias(String alias) {
-        super(InheritanceBRoot.class, InheritanceBRoot.class, "inheritance_b_root", alias);
+        super(InheritanceBRoot.class, "inheritance_b_root", alias);
         this.addSubClassAlias(new InheritanceBMiddleAlias(this, alias + "_0"));
         this.addSubClassAlias(new InheritanceBBottomAlias(this, alias + "_1"));
         this.columns.add(this.id);

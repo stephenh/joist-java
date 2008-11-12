@@ -21,7 +21,7 @@ public class InheritanceBRootChildAlias extends Alias<InheritanceBRootChild> {
     public final ForeignKeyAliasColumn<InheritanceBRootChild, InheritanceBRoot> inheritanceBRoot = new ForeignKeyAliasColumn<InheritanceBRootChild, InheritanceBRoot>(this, "inheritance_b_root_id", InheritanceBRootChildCodegen.Shims.inheritanceBRootId);
 
     public InheritanceBRootChildAlias(String alias) {
-        super(InheritanceBRootChild.class, InheritanceBRootChild.class, "inheritance_b_root_child", alias);
+        super(InheritanceBRootChild.class, "inheritance_b_root_child", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

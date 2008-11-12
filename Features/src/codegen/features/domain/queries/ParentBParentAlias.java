@@ -21,7 +21,7 @@ public class ParentBParentAlias extends Alias<ParentBParent> {
     public final IntAliasColumn<ParentBParent> version = new IntAliasColumn<ParentBParent>(this, "version", ParentBParentCodegen.Shims.version);
 
     public ParentBParentAlias(String alias) {
-        super(ParentBParent.class, ParentBParent.class, "parent_b_parent", alias);
+        super(ParentBParent.class, "parent_b_parent", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

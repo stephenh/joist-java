@@ -20,7 +20,7 @@ public class UserTypesAFooAlias extends Alias<UserTypesAFoo> {
     public final IntAliasColumn<UserTypesAFoo> version = new IntAliasColumn<UserTypesAFoo>(this, "version", UserTypesAFooCodegen.Shims.version);
 
     public UserTypesAFooAlias(String alias) {
-        super(UserTypesAFoo.class, UserTypesAFoo.class, "user_types_a_foo", alias);
+        super(UserTypesAFoo.class, "user_types_a_foo", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.created);

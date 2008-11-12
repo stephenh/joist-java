@@ -21,7 +21,7 @@ public class ParentBChildFooAlias extends Alias<ParentBChildFoo> {
     public final ForeignKeyAliasColumn<ParentBChildFoo, ParentBParent> parentBParent = new ForeignKeyAliasColumn<ParentBChildFoo, ParentBParent>(this, "parent_b_parent_id", ParentBChildFooCodegen.Shims.parentBParentId);
 
     public ParentBChildFooAlias(String alias) {
-        super(ParentBChildFoo.class, ParentBChildFoo.class, "parent_b_child_foo", alias);
+        super(ParentBChildFoo.class, "parent_b_child_foo", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

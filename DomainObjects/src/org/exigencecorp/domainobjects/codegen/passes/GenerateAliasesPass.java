@@ -111,10 +111,7 @@ public class GenerateAliasesPass implements Pass {
 
     private void addConstructors(GClass aliasClass, Entity entity) {
         GMethod constructor = aliasClass.getConstructor("String alias");
-        constructor.body.line("super({}.class, {}.class, \"{}\", alias);",//
-            entity.getClassName(),
-            this.getBaseOrCurrentClassName(entity),
-            entity.getTableName());
+        constructor.body.line("super({}.class, \"{}\", alias);", entity.getClassName(), entity.getTableName());
 
         // If any sub-classes, we want to know about their sub-aliases to instantiate during SELECTs
         int i = 0;
@@ -132,22 +129,12 @@ public class GenerateAliasesPass implements Pass {
             constructor.body.line("this.baseAlias = new {}Alias(alias + \"_b\");", baseEntity.getClassName());
 
             GMethod otherConstructor = aliasClass.getConstructor("Alias<?> rootAlias", "String alias");
-            otherConstructor.body.line("super({}.class, null, \"{}\", alias);",//
-                entity.getClassName(),
-                entity.getTableName());
+            otherConstructor.body.line("super({}.class, \"{}\", alias);", entity.getClassName(), entity.getTableName());
             otherConstructor.body.line("this.baseAlias = null;");
         }
 
         aliasClass.addImports(ArrayList.class, List.class, Alias.class, AliasColumn.class, IdAliasColumn.class, IntAliasColumn.class);
         aliasClass.addImports(entity.getFullClassName());
-    }
-
-    private String getBaseOrCurrentClassName(Entity entity) {
-        if (entity.getBaseEntity() != null) {
-            return entity.getBaseEntity().getClassName();
-        } else {
-            return entity.getClassName();
-        }
     }
 
     private void addPrimitiveColumns(GClass aliasClass, Entity entity) {
