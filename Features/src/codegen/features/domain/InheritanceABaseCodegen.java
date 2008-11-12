@@ -36,7 +36,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
-            UoW.getCurrent().getIdentityMap().store(InheritanceABase.class, this);
+            UoW.getCurrent().getIdentityMap().store(this);
         }
     }
 

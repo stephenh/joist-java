@@ -39,7 +39,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
-            UoW.getCurrent().getIdentityMap().store(CodeADomainObject.class, this);
+            UoW.getCurrent().getIdentityMap().store(this);
         }
     }
 

@@ -70,7 +70,7 @@ public class GenerateDomainCodegenPass implements Pass {
                 setter.body.line("this.{} = {};", p.getVariableName(), p.getVariableName());
                 if ("id".equals(p.getColumnName())) {
                     setter.body.line("if (UoW.isOpen()) {");
-                    setter.body.line("    UoW.getCurrent().getIdentityMap().store({}.class, this);", entity.getRootEntity().getClassName());
+                    setter.body.line("    UoW.getCurrent().getIdentityMap().store(this);");
                     setter.body.line("}");
                     domainCodegen.addImports(UoW.class);
                 }

@@ -38,7 +38,7 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
-            UoW.getCurrent().getIdentityMap().store(ParentBChildFoo.class, this);
+            UoW.getCurrent().getIdentityMap().store(this);
         }
     }
 

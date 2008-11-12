@@ -38,7 +38,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
-            UoW.getCurrent().getIdentityMap().store(Child.class, this);
+            UoW.getCurrent().getIdentityMap().store(this);
         }
     }
 

@@ -29,7 +29,7 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
         if (instance == null) {
             instance = this.newInstance(rs);
             this.hydrate(instance, rs);
-            this.cache.store(this.from.getDomainRootClass(), instance);
+            this.cache.store(instance);
         }
 
         this.results.add(instance);

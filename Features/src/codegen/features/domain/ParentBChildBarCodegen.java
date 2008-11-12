@@ -38,7 +38,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
-            UoW.getCurrent().getIdentityMap().store(ParentBChildBar.class, this);
+            UoW.getCurrent().getIdentityMap().store(this);
         }
     }
 

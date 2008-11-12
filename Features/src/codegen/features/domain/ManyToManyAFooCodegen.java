@@ -42,7 +42,7 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
-            UoW.getCurrent().getIdentityMap().store(ManyToManyAFoo.class, this);
+            UoW.getCurrent().getIdentityMap().store(this);
         }
     }
 
