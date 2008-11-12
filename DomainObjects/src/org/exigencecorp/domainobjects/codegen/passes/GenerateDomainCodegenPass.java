@@ -68,6 +68,12 @@ public class GenerateDomainCodegenPass implements Pass {
                 setter.argument(p.getJavaType(), p.getVariableName());
                 setter.body.line("this.recordIfChanged(\"{}\", this.{}, {});", p.getVariableName(), p.getVariableName(), p.getVariableName());
                 setter.body.line("this.{} = {};", p.getVariableName(), p.getVariableName());
+                if ("id".equals(p.getColumnName())) {
+                    setter.body.line("if (UoW.isOpen()) {");
+                    setter.body.line("    UoW.getCurrent().getIdentityMap().store({}.class, this);", entity.getRootEntity().getClassName());
+                    setter.body.line("}");
+                    domainCodegen.addImports(UoW.class);
+                }
             }
 
             GClass shims = domainCodegen.getInnerClass("Shims");

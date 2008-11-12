@@ -174,16 +174,20 @@ public class JdbcRepository implements Repository {
     }
 
     private <T extends DomainObject> void assignIds(MapToList<Class<T>, T> byClassInserts) {
-        if (byClassInserts.size() == 0) {
-            return;
-        }
-
         List<String> allSql = new ArrayList<String>();
         for (Entry<Class<T>, List<T>> entry : byClassInserts.entrySet()) {
             String sql = "select nextval('" + AliasRegistry.get(entry.getKey()).getRootClassAlias().getTableName() + "_id_seq')";
             for (int i = 0; i < entry.getValue().size(); i++) {
+                if (entry.getValue().get(i).getId() != null) {
+                    AliasRegistry.get(entry.getKey()).getVersionColumn().setJdbcValue(entry.getValue().get(i), 0);
+                    continue; // skip new objects that got manually assigned an id
+                }
                 allSql.add(sql);
             }
+        }
+
+        if (allSql.size() == 0) {
+            return;
         }
 
         final List<Integer> ids = new ArrayList<Integer>();
@@ -201,6 +205,7 @@ public class JdbcRepository implements Repository {
                 t.getIdColumn().setJdbcValue(instance, id);
                 t.getVersionColumn().setJdbcValue(instance, 0);
                 ((AbstractDomainObject) instance).getChangedProperties().add("id"); // Hack so isNew() still returns true
+                UoW.getCurrent().getIdentityMap().store(t.getDomainBaseClass(), instance);
             }
         }
     }

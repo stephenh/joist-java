@@ -40,6 +40,9 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     public void setId(Id<InheritanceBRoot> id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
+        if (UoW.isOpen()) {
+            UoW.getCurrent().getIdentityMap().store(InheritanceBRoot.class, this);
+        }
     }
 
     public String getName() {

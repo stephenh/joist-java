@@ -12,6 +12,7 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.jdbc.RowMapper;
 
 public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
+
     private final Alias<T> from;
     private final List<T> results;
     private final IdentityMap cache = UoW.getCurrent().getIdentityMap();

@@ -6,6 +6,7 @@ import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
+import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
@@ -36,6 +37,9 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     public void setId(Id<ParentBChildBar> id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
+        if (UoW.isOpen()) {
+            UoW.getCurrent().getIdentityMap().store(ParentBChildBar.class, this);
+        }
     }
 
     public String getName() {

@@ -13,7 +13,9 @@ public class IdentityMap {
     public void store(Class<?> type, DomainObject o) {
         Integer id = o.getId().intValue();
         Log.trace("Storing {}#{} in identity map", type, id);
-        this.objects.put(type + "#" + id, o);
+        if (this.objects.put(type + "#" + id, o) != null) {
+            throw new RuntimeException("Domain object conflicts with an existing id " + o);
+        }
     }
 
     public Object findOrNull(Class<?> type, Integer id) {

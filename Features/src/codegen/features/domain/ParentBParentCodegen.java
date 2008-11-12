@@ -42,6 +42,9 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
     public void setId(Id<ParentBParent> id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
+        if (UoW.isOpen()) {
+            UoW.getCurrent().getIdentityMap().store(ParentBParent.class, this);
+        }
     }
 
     public String getName() {

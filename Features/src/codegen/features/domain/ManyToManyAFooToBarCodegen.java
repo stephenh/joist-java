@@ -6,6 +6,7 @@ import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
+import org.exigencecorp.domainobjects.uow.UoW;
 
 public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
 
@@ -32,6 +33,9 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     public void setId(Id<ManyToManyAFooToBar> id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
+        if (UoW.isOpen()) {
+            UoW.getCurrent().getIdentityMap().store(ManyToManyAFooToBar.class, this);
+        }
     }
 
     public Integer getVersion() {
