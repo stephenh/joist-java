@@ -2,6 +2,8 @@ package features.domain;
 
 import junit.framework.Assert;
 
+import org.exigencecorp.domainobjects.Ids;
+
 public class PrimitivesTest extends AbstractFeaturesTest {
 
     public void testSave() {
@@ -55,7 +57,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     }
 
     public void testLoadViaIdThenNameReturnsTheSameInstance() {
-        new Primitives().setName("foo");
+        new Primitives("foo");
         this.commitAndReOpen();
         Primitives twp1 = Primitives.queries.find(2);
         Primitives twp2 = Primitives.queries.findByName("foo");
@@ -76,6 +78,16 @@ public class PrimitivesTest extends AbstractFeaturesTest {
         // And after reloading
         twp = this.reload(twp);
         Assert.assertEquals(1, twp.getVersion().intValue());
+    }
+
+    public void testFindAllIds() {
+        new Primitives("foo1");
+        new Primitives("foo2");
+        this.commitAndReOpen();
+        Ids<Primitives> ids = Primitives.queries.findAllIds();
+        Assert.assertEquals(2, ids.getIds().size());
+        Assert.assertEquals(2, ids.getIds().get(0).intValue());
+        Assert.assertEquals(3, ids.getIds().get(1).intValue());
     }
 
 }

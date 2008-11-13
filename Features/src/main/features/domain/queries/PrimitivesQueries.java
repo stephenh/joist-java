@@ -30,10 +30,6 @@ public class PrimitivesQueries extends AbstractQueries<Primitives> {
         return q.listIds();
     }
 
-    public long count() {
-        return Select.from(new PrimitivesAlias("p")).count();
-    }
-
     public long countWhereFlagIs(boolean flag) {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
