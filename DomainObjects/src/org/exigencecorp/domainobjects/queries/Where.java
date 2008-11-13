@@ -10,7 +10,7 @@ public class Where {
     private String sql;
     private List<Object> parameters;
 
-    public static Where and(Where... clauses) {
+    private static Where makeAnd(Where... clauses) {
         String sql = clauses[0].sql;
         List<Object> parameters = Copy.list(clauses[0].parameters);
         for (int i = 1; i < clauses.length; i++) {
@@ -28,6 +28,10 @@ public class Where {
     public Where(String sql, List<Object> parameters) {
         this.sql = sql;
         this.parameters = parameters;
+    }
+
+    public Where and(Where other) {
+        return Where.makeAnd(this, other);
     }
 
     public void stripLeadingAliasForUpdates(String aliasName) {

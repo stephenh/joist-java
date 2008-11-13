@@ -8,7 +8,6 @@ import junit.framework.TestCase;
 import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.queries.Update;
-import org.exigencecorp.domainobjects.queries.Where;
 import org.exigencecorp.util.Copy;
 
 import features.domain.Primitives;
@@ -44,7 +43,7 @@ public class PrimitivesQueryTest extends TestCase {
     public void testFindForIdLessThanMoreThanSql() {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
-        q.where(Where.and(p.id.lessThan(10), p.id.moreThan(1)));
+        q.where(p.id.lessThan(10).and(p.id.moreThan(1)));
         Assert.assertEquals("SELECT p.id, p.flag, p.name, p.version\n FROM primitives p\n WHERE p.id < ?\n AND p.id > ?", q.toSql());
         Assert.assertEquals(Copy.list(10, 1), q.getParameters());
     }

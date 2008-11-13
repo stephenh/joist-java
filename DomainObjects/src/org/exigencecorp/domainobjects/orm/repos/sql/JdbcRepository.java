@@ -20,7 +20,6 @@ import org.exigencecorp.domainobjects.queries.Delete;
 import org.exigencecorp.domainobjects.queries.Insert;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.queries.Update;
-import org.exigencecorp.domainobjects.queries.Where;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.jdbc.Jdbc;
@@ -142,7 +141,7 @@ public class JdbcRepository implements Repository {
             }
             if (current.isRootClass()) {
                 q.addColumnName(current.getVersionColumn().getName());
-                q.where(Where.and(current.getIdColumn().equals(0), current.getVersionColumn().equals(0)));
+                q.where(current.getIdColumn().equals(0).and(current.getVersionColumn().equals(0)));
             } else {
                 q.where(current.getSubClassIdColumn().equals(0));
             }
