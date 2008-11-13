@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.ManyToManyAFooAlias;
+import features.domain.queries.ManyToManyAFooQueries;
 import features.domain.queries.ManyToManyAFooToBarAlias;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
         AliasRegistry.register(ManyToManyAFoo.class, new ManyToManyAFooAlias("a"));
     }
 
+    public static final ManyToManyAFooQueries queries = new ManyToManyAFooQueries();
     private Id<ManyToManyAFoo> id = null;
     private String name = null;
     private Integer version = null;

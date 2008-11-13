@@ -2,6 +2,7 @@ package features.domain;
 
 import features.domain.queries.InheritanceBRootAlias;
 import features.domain.queries.InheritanceBRootChildAlias;
+import features.domain.queries.InheritanceBRootQueries;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
@@ -19,6 +20,7 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         AliasRegistry.register(InheritanceBRoot.class, new InheritanceBRootAlias("a"));
     }
 
+    public static final InheritanceBRootQueries queries = new InheritanceBRootQueries();
     private Id<InheritanceBRoot> id = null;
     private String name = null;
     private Integer version = null;

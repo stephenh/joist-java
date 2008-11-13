@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.InheritanceBRootChildAlias;
+import features.domain.queries.InheritanceBRootChildQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
@@ -16,6 +17,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
         AliasRegistry.register(InheritanceBRootChild.class, new InheritanceBRootChildAlias("a"));
     }
 
+    public static final InheritanceBRootChildQueries queries = new InheritanceBRootChildQueries();
     private Id<InheritanceBRootChild> id = null;
     private String name = null;
     private Integer version = null;

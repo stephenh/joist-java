@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.InheritanceBBottomAlias;
+import features.domain.queries.InheritanceBBottomQueries;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
@@ -12,6 +13,7 @@ public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
         AliasRegistry.register(InheritanceBBottom.class, new InheritanceBBottomAlias("a"));
     }
 
+    public static final @SuppressWarnings("hiding") InheritanceBBottomQueries queries = new InheritanceBBottomQueries();
     private String bottomName = null;
 
     protected InheritanceBBottomCodegen() {

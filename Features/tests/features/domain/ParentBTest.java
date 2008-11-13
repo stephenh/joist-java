@@ -3,7 +3,6 @@ package features.domain;
 import java.util.List;
 
 import junit.framework.Assert;
-import features.domain.queries.Query;
 
 public class ParentBTest extends AbstractFeaturesTest {
 
@@ -20,7 +19,7 @@ public class ParentBTest extends AbstractFeaturesTest {
         b.setParentBParent(p);
         this.commitAndReOpen();
 
-        List<ParentBChildFoo> foos = Query.parentBChildFoo.findByParentName("parent");
+        List<ParentBChildFoo> foos = ParentBChildFoo.queries.findByParentName("parent");
         Assert.assertEquals("foo", foos.get(0).getName());
     }
 

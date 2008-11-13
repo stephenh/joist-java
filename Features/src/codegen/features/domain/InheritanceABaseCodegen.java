@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.InheritanceABaseAlias;
+import features.domain.queries.InheritanceABaseQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
@@ -15,6 +16,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         AliasRegistry.register(InheritanceABase.class, new InheritanceABaseAlias("a"));
     }
 
+    public static final InheritanceABaseQueries queries = new InheritanceABaseQueries();
     private Id<InheritanceABase> id = null;
     private String name = null;
     private Integer version = null;

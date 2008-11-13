@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.ParentBChildBarAlias;
+import features.domain.queries.ParentBChildBarQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
@@ -16,6 +17,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         AliasRegistry.register(ParentBChildBar.class, new ParentBChildBarAlias("a"));
     }
 
+    public static final ParentBChildBarQueries queries = new ParentBChildBarQueries();
     private Id<ParentBChildBar> id = null;
     private String name = null;
     private Integer version = null;

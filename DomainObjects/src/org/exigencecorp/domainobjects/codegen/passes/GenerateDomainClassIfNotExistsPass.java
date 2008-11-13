@@ -1,6 +1,5 @@
 package org.exigencecorp.domainobjects.codegen.passes;
 
-import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
 import org.exigencecorp.gen.GClass;
@@ -26,11 +25,25 @@ public class GenerateDomainClassIfNotExistsPass implements Pass {
                 queries.addImports(entity.getFullClassName());
             }
 
-            GClass allQueries = codegen.getOutputCodegenDirectory().getClass(codegen.getConfig().getQueriesPackage() + ".Query");
-            GField queryField = allQueries.getField(StringUtils.uncapitalize(entity.getClassName()));
-            queryField.setPublic().setStatic().setFinal();
-            queryField.type(entity.getFullQueriesClassName());
-            queryField.initialValue("new {}Queries()", entity.getClassName());
+            // GClass allQueries = codegen.getOutputCodegenDirectory().getClass(codegen.getConfig().getQueriesPackage() + ".Query");
+            // GMethod queryMethod = allQueries.getMethod(StringUtils.uncapitalize(entity.getClassName()));
+            // queryMethod.setStatic();
+            // queryMethod.returnType(entity.getFullQueriesClassName());
+            // queryMethod.body.line("return new {}Queries();", entity.getClassName());
+            // GField queryField = allQueries.getField(StringUtils.uncapitalize(entity.getClassName()));
+            // queryField.setPublic().setStatic().setFinal();
+            // queryField.type(entity.getFullQueriesClassName());
+            // queryField.initialValue("new {}Queries()", entity.getClassName());
+
+            GClass domainCodegen = codegen.getOutputCodegenDirectory().getClass(entity.getFullCodegenClassName());
+            GField query = domainCodegen.getField("queries").setPublic().setStatic().setFinal();
+            if (entity.isRoot()) {
+                query.type("{}Queries", entity.getClassName());
+            } else {
+                query.type("@SuppressWarnings(\"hiding\") {}Queries", entity.getClassName());
+            }
+            query.initialValue("new {}Queries()", entity.getClassName());
+            domainCodegen.addImports(entity.getFullQueriesClassName());
         }
     }
 }

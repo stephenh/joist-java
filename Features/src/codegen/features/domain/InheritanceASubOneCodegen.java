@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.InheritanceASubOneAlias;
+import features.domain.queries.InheritanceASubOneQueries;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
@@ -12,6 +13,7 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
         AliasRegistry.register(InheritanceASubOne.class, new InheritanceASubOneAlias("a"));
     }
 
+    public static final @SuppressWarnings("hiding") InheritanceASubOneQueries queries = new InheritanceASubOneQueries();
     private String one = null;
 
     protected InheritanceASubOneCodegen() {

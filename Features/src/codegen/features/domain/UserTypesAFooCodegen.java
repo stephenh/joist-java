@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.UserTypesAFooAlias;
+import features.domain.queries.UserTypesAFooQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
@@ -15,6 +16,7 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         AliasRegistry.register(UserTypesAFoo.class, new UserTypesAFooAlias("a"));
     }
 
+    public static final UserTypesAFooQueries queries = new UserTypesAFooQueries();
     private Id<UserTypesAFoo> id = null;
     private String name = null;
     private com.domainlanguage.time.CalendarDate created = null;

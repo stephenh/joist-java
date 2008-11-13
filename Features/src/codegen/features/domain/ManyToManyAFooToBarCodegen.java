@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.ManyToManyAFooToBarAlias;
+import features.domain.queries.ManyToManyAFooToBarQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
@@ -14,6 +15,7 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
         AliasRegistry.register(ManyToManyAFooToBar.class, new ManyToManyAFooToBarAlias("a"));
     }
 
+    public static final ManyToManyAFooToBarQueries queries = new ManyToManyAFooToBarQueries();
     private Id<ManyToManyAFooToBar> id = null;
     private Integer version = null;
     private ForeignKeyHolder<ManyToManyAFoo> manyToManyAFoo = new ForeignKeyHolder<ManyToManyAFoo>(ManyToManyAFoo.class);

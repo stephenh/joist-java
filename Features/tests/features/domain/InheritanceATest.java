@@ -3,7 +3,6 @@ package features.domain;
 import java.util.List;
 
 import junit.framework.Assert;
-import features.domain.queries.Query;
 
 public class InheritanceATest extends AbstractFeaturesTest {
 
@@ -53,12 +52,12 @@ public class InheritanceATest extends AbstractFeaturesTest {
         new InheritanceASubTwo("nameb", "b");
         this.commitAndReOpen();
 
-        List<InheritanceABase> l = Query.inheritanceABase.findAll();
+        List<InheritanceABase> l = InheritanceABase.queries.findAll();
         Assert.assertEquals(2, l.size());
         Assert.assertEquals(InheritanceASubOne.class, l.get(0).getClass());
         Assert.assertEquals(InheritanceASubTwo.class, l.get(1).getClass());
 
-        InheritanceASubOne otherA = Query.inheritanceASubOne.find(2);
+        InheritanceASubOne otherA = InheritanceASubOne.queries.find(2);
         Assert.assertTrue(otherA == l.get(0));
     }
 
@@ -67,14 +66,14 @@ public class InheritanceATest extends AbstractFeaturesTest {
         new InheritanceASubTwo("nameb", "b");
         this.commitAndReOpen();
 
-        List<InheritanceASubOne> l = Query.inheritanceASubOne.findAll();
+        List<InheritanceASubOne> l = InheritanceASubOne.queries.findAll();
         Assert.assertEquals(1, l.size());
         Assert.assertEquals(InheritanceASubOne.class, l.get(0).getClass());
 
-        InheritanceASubOne otherA = Query.inheritanceASubOne.find(2);
+        InheritanceASubOne otherA = InheritanceASubOne.queries.find(2);
         Assert.assertTrue(otherA == l.get(0));
 
-        InheritanceABase baseA = Query.inheritanceABase.find(2);
+        InheritanceABase baseA = InheritanceABase.queries.find(2);
         Assert.assertTrue(otherA == baseA);
     }
 
@@ -83,10 +82,10 @@ public class InheritanceATest extends AbstractFeaturesTest {
         new InheritanceASubTwo("nameb", "b");
         this.commitAndReOpen();
 
-        InheritanceASubOne a = Query.inheritanceASubOne.findByName("namea");
+        InheritanceASubOne a = InheritanceASubOne.queries.findByName("namea");
         Assert.assertEquals("a", a.getOne());
 
-        InheritanceASubOne otherA = Query.inheritanceASubOne.find(2);
+        InheritanceASubOne otherA = InheritanceASubOne.queries.find(2);
         Assert.assertTrue(otherA == a);
     }
 

@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.ValidationAFooAlias;
+import features.domain.queries.ValidationAFooQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
@@ -15,6 +16,7 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
         AliasRegistry.register(ValidationAFoo.class, new ValidationAFooAlias("a"));
     }
 
+    public static final ValidationAFooQueries queries = new ValidationAFooQueries();
     private Id<ValidationAFoo> id = null;
     private String name = null;
     private Integer version = null;

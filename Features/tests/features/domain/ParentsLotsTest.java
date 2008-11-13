@@ -5,7 +5,6 @@ import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.util.Log;
 
 import features.domain.queries.ParentAlias;
-import features.domain.queries.Query;
 
 public class ParentsLotsTest extends AbstractFeaturesTest {
 
@@ -42,7 +41,7 @@ public class ParentsLotsTest extends AbstractFeaturesTest {
         long mid = System.currentTimeMillis();
         Log.debug("Insert took {}ms", (mid - start));
         for (int i = 0; i < 5000; i++) {
-            Parent p = Query.parent.find(2 + i);
+            Parent p = Parent.queries.find(2 + i);
             p.setName("foo" + i);
         }
         this.commitAndReOpen();

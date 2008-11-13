@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.InheritanceASubTwoAlias;
+import features.domain.queries.InheritanceASubTwoQueries;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
@@ -12,6 +13,7 @@ public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
         AliasRegistry.register(InheritanceASubTwo.class, new InheritanceASubTwoAlias("a"));
     }
 
+    public static final @SuppressWarnings("hiding") InheritanceASubTwoQueries queries = new InheritanceASubTwoQueries();
     private String two = null;
 
     protected InheritanceASubTwoCodegen() {

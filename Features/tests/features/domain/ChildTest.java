@@ -3,7 +3,6 @@ package features.domain;
 import java.util.List;
 
 import junit.framework.Assert;
-import features.domain.queries.Query;
 
 public class ChildTest extends AbstractFeaturesTest {
 
@@ -43,7 +42,7 @@ public class ChildTest extends AbstractFeaturesTest {
         new Child(p, "child2");
         this.commitAndReOpen();
 
-        List<Child> children = Query.child.findForParentOfName("parent");
+        List<Child> children = Child.queries.findForParentOfName("parent");
         Assert.assertEquals(2, children.size());
         Assert.assertEquals("child1", children.get(0).getName());
         Assert.assertEquals("child2", children.get(1).getName());
@@ -54,7 +53,7 @@ public class ChildTest extends AbstractFeaturesTest {
         new Child(p1, "child");
         this.commitAndReOpen();
 
-        Child c = Query.child.find(2);
+        Child c = Child.queries.find(2);
         c.setParent(new Parent("p2"));
         Assert.assertTrue(c.getChangedProperties().contains("parent"));
         this.commitAndReOpen();

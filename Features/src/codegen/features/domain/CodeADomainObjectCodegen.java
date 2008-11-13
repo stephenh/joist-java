@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.CodeADomainObjectAlias;
+import features.domain.queries.CodeADomainObjectQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
@@ -16,6 +17,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         AliasRegistry.register(CodeADomainObject.class, new CodeADomainObjectAlias("a"));
     }
 
+    public static final CodeADomainObjectQueries queries = new CodeADomainObjectQueries();
     private Id<CodeADomainObject> id = null;
     private String name = null;
     private Integer version = null;

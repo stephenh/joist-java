@@ -3,6 +3,7 @@ package features.domain;
 import features.domain.queries.ParentBChildBarAlias;
 import features.domain.queries.ParentBChildFooAlias;
 import features.domain.queries.ParentBParentAlias;
+import features.domain.queries.ParentBParentQueries;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
@@ -20,6 +21,7 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
         AliasRegistry.register(ParentBParent.class, new ParentBParentAlias("a"));
     }
 
+    public static final ParentBParentQueries queries = new ParentBParentQueries();
     private Id<ParentBParent> id = null;
     private String name = null;
     private Integer version = null;

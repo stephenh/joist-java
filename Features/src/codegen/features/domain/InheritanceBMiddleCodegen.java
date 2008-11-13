@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.InheritanceBMiddleAlias;
+import features.domain.queries.InheritanceBMiddleQueries;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
@@ -12,6 +13,7 @@ public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
         AliasRegistry.register(InheritanceBMiddle.class, new InheritanceBMiddleAlias("a"));
     }
 
+    public static final @SuppressWarnings("hiding") InheritanceBMiddleQueries queries = new InheritanceBMiddleQueries();
     private String middleName = null;
 
     protected InheritanceBMiddleCodegen() {

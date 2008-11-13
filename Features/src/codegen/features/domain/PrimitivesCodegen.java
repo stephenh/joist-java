@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.PrimitivesAlias;
+import features.domain.queries.PrimitivesQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
@@ -15,6 +16,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
         AliasRegistry.register(Primitives.class, new PrimitivesAlias("a"));
     }
 
+    public static final PrimitivesQueries queries = new PrimitivesQueries();
     private Id<Primitives> id = null;
     private boolean flag = false;
     private String name = null;

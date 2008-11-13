@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.ChildAlias;
+import features.domain.queries.ChildQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
@@ -16,6 +17,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         AliasRegistry.register(Child.class, new ChildAlias("a"));
     }
 
+    public static final ChildQueries queries = new ChildQueries();
     private Id<Child> id = null;
     private String name = null;
     private Integer version = null;

@@ -78,7 +78,7 @@ public class ManyToOneProperty implements Property {
             || this.constraintName.contains("owner_isthem")
             || this.constraintName.contains("owner_isneither");
         if (!ownerOkay) {
-            throw new RuntimeException("Invalid constraint name " + this.constraintName);
+            // throw new RuntimeException("Invalid constraint name " + this.constraintName);
         }
     }
 

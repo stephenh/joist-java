@@ -5,8 +5,6 @@ import junit.framework.Assert;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.uow.UoW;
 
-import features.domain.queries.Query;
-
 public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
 
     public void testInsertsGoIntoTheIdentityMap() {
@@ -20,7 +18,7 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
         p.setId(new Id<Parent>(Parent.class, 10));
         this.commitAndReOpen();
 
-        p = Query.parent.find(10);
+        p = Parent.queries.find(10);
         Assert.assertEquals("p", p.getName());
     }
 
