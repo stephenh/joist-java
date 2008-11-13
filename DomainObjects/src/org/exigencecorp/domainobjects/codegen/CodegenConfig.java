@@ -34,7 +34,7 @@ public abstract class CodegenConfig {
         this.setJavaType("smallint", Short.class, null);
         this.setJavaType("bigint", Long.class, null);
         this.setJavaType("boolean", boolean.class, BooleanAliasColumn.class);
-        this.setJavaType("bytea", byte[].class, null);
+        this.setJavaType("bytea", String.class, StringAliasColumn.class);
         this.setJavaType("date", Date.class, DateAliasColumn.class);
     }
 
