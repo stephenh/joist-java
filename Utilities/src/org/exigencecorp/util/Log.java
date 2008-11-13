@@ -9,7 +9,7 @@ public class Log {
     static {
         try {
             Object config = Class.forName("LogConfiguration").newInstance();
-            config.getClass().getMethod("setup").invoke(config);
+            config.getClass().getMethod("setup").invoke(null);
         } catch (Exception e) {
             System.err.println("Failed looking for a LogConfiguration: " + e.getMessage());
         }
