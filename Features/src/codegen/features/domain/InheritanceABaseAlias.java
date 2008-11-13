@@ -1,9 +1,9 @@
-package features.domain.queries;
+package features.domain;
 
 import features.domain.InheritanceABase;
 import features.domain.InheritanceABaseCodegen;
-import features.domain.queries.InheritanceASubOneAlias;
-import features.domain.queries.InheritanceASubTwoAlias;
+import features.domain.InheritanceASubOneAlias;
+import features.domain.InheritanceASubTwoAlias;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.queries.Alias;

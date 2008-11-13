@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.queries.UserTypesAFooAlias;
+import features.domain.UserTypesAFooAlias;
 import features.domain.queries.UserTypesAFooQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
@@ -10,7 +10,7 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
+abstract class UserTypesAFooCodegen extends AbstractDomainObject {
 
     static {
         AliasRegistry.register(UserTypesAFoo.class, new UserTypesAFooAlias("a"));

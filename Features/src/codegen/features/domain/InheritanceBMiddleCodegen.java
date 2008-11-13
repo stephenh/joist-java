@@ -1,13 +1,13 @@
 package features.domain;
 
-import features.domain.queries.InheritanceBMiddleAlias;
+import features.domain.InheritanceBMiddleAlias;
 import features.domain.queries.InheritanceBMiddleQueries;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
+abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
 
     static {
         AliasRegistry.register(InheritanceBMiddle.class, new InheritanceBMiddleAlias("a"));

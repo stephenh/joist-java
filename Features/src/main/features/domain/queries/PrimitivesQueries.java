@@ -8,6 +8,7 @@ import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.queries.Update;
 
 import features.domain.Primitives;
+import features.domain.PrimitivesAlias;
 
 public class PrimitivesQueries extends AbstractQueries<Primitives> {
 

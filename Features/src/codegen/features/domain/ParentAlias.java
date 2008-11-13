@@ -1,4 +1,4 @@
-package features.domain.queries;
+package features.domain;
 
 import features.domain.Parent;
 import features.domain.ParentCodegen;

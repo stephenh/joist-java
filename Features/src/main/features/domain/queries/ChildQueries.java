@@ -6,6 +6,8 @@ import org.exigencecorp.domainobjects.AbstractQueries;
 import org.exigencecorp.domainobjects.queries.Select;
 
 import features.domain.Child;
+import features.domain.ChildAlias;
+import features.domain.ParentAlias;
 
 public class ChildQueries extends AbstractQueries<Child> {
 

@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.queries.ValidationAFooAlias;
+import features.domain.ValidationAFooAlias;
 import features.domain.queries.ValidationAFooQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
@@ -10,7 +10,7 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class ValidationAFooCodegen extends AbstractDomainObject {
+abstract class ValidationAFooCodegen extends AbstractDomainObject {
 
     static {
         AliasRegistry.register(ValidationAFoo.class, new ValidationAFooAlias("a"));

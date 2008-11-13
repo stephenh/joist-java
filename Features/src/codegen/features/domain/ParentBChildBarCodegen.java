@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.queries.ParentBChildBarAlias;
+import features.domain.ParentBChildBarAlias;
 import features.domain.queries.ParentBChildBarQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
@@ -11,7 +11,7 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
+abstract class ParentBChildBarCodegen extends AbstractDomainObject {
 
     static {
         AliasRegistry.register(ParentBChildBar.class, new ParentBChildBarAlias("a"));

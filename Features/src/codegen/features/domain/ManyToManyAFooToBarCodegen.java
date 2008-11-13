@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.queries.ManyToManyAFooToBarAlias;
+import features.domain.ManyToManyAFooToBarAlias;
 import features.domain.queries.ManyToManyAFooToBarQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
@@ -9,7 +9,7 @@ import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
 import org.exigencecorp.domainobjects.uow.UoW;
 
-public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
+abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
 
     static {
         AliasRegistry.register(ManyToManyAFooToBar.class, new ManyToManyAFooToBarAlias("a"));

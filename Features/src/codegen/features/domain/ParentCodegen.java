@@ -1,7 +1,7 @@
 package features.domain;
 
-import features.domain.queries.ChildAlias;
-import features.domain.queries.ParentAlias;
+import features.domain.ChildAlias;
+import features.domain.ParentAlias;
 import features.domain.queries.ParentQueries;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class ParentCodegen extends AbstractDomainObject {
+abstract class ParentCodegen extends AbstractDomainObject {
 
     static {
         AliasRegistry.register(Parent.class, new ParentAlias("a"));

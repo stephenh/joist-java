@@ -23,6 +23,7 @@ public class GClass {
     private final List<GMethod> constructors = new ArrayList<GMethod>();
     private final List<String> enumValues = new ArrayList<String>();
     private final List<String> implementsInterfaces = new ArrayList<String>();
+    private String access = "public ";
     private boolean isAbstract = false;
     private boolean isStaticInnerClass = false;
     private boolean isAnonymous = false;
@@ -150,7 +151,7 @@ public class GClass {
                 sb.line();
             }
 
-            sb.append("public ");
+            sb.append(this.access);
             if (this.isStaticInnerClass) {
                 sb.append("static ");
             }
@@ -224,6 +225,11 @@ public class GClass {
 
     public GClass setAbstract() {
         this.isAbstract = true;
+        return this;
+    }
+
+    public GClass setPackagePrivate() {
+        this.access = "";
         return this;
     }
 

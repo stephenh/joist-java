@@ -6,6 +6,7 @@ import org.exigencecorp.domainobjects.AbstractQueries;
 import org.exigencecorp.domainobjects.queries.Select;
 
 import features.domain.InheritanceASubOne;
+import features.domain.InheritanceASubOneAlias;
 
 public class InheritanceASubOneQueries extends AbstractQueries<InheritanceASubOne> {
 

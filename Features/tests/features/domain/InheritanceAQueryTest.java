@@ -1,4 +1,4 @@
-package features.domain.mappers;
+package features.domain;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -8,10 +8,9 @@ import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Join;
 
 import features.domain.InheritanceABase;
-import features.domain.InheritanceABaseCodegen;
+import features.domain.InheritanceABaseAlias;
 import features.domain.InheritanceASubOne;
-import features.domain.queries.InheritanceABaseAlias;
-import features.domain.queries.InheritanceASubOneAlias;
+import features.domain.InheritanceASubOneAlias;
 
 public class InheritanceAQueryTest extends TestCase {
 

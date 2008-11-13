@@ -97,7 +97,7 @@ public class GClassTest extends TestCase {
         GMethod hello = gc.getMethod("hello").returnType("int");
         hello.arguments("String foo");
         hello.body.line(0, "int i = 0;");
-        hello.body.line(0, "if (foo.equals('foo')) {");
+        hello.body.line(0, "if (foo.equals(\"foo\")) {");
         hello.body.line(1, "i = 1;");
         hello.body.line(0, "}");
         hello.body.line(0, "return i;");

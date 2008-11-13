@@ -1,8 +1,8 @@
-package features.domain.queries;
+package features.domain;
 
 import features.domain.InheritanceABase;
-import features.domain.InheritanceASubTwo;
-import features.domain.InheritanceASubTwoCodegen;
+import features.domain.InheritanceASubOne;
+import features.domain.InheritanceASubOneCodegen;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.queries.Alias;
@@ -11,35 +11,35 @@ import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
 
-public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
+public class InheritanceASubOneAlias extends Alias<InheritanceASubOne> {
 
-    private final List<AliasColumn<InheritanceASubTwo, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceASubTwo, ?, ?>>();
-    private final IdAliasColumn<InheritanceASubTwo> subClassId = new IdAliasColumn<InheritanceASubTwo>(this, "id", null);
-    public final StringAliasColumn<InheritanceASubTwo> two = new StringAliasColumn<InheritanceASubTwo>(this, "two", InheritanceASubTwoCodegen.Shims.two);
-    private final features.domain.queries.InheritanceABaseAlias baseAlias;
+    private final List<AliasColumn<InheritanceASubOne, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceASubOne, ?, ?>>();
+    private final IdAliasColumn<InheritanceASubOne> subClassId = new IdAliasColumn<InheritanceASubOne>(this, "id", null);
+    public final StringAliasColumn<InheritanceASubOne> one = new StringAliasColumn<InheritanceASubOne>(this, "one", InheritanceASubOneCodegen.Shims.one);
+    private final features.domain.InheritanceABaseAlias baseAlias;
     public final IdAliasColumn<InheritanceABase> id;
     public final StringAliasColumn<InheritanceABase> name;
     public final IntAliasColumn<InheritanceABase> version;
 
-    public InheritanceASubTwoAlias(String alias) {
-        super(InheritanceASubTwo.class, "inheritance_a_sub_two", alias);
+    public InheritanceASubOneAlias(String alias) {
+        super(InheritanceASubOne.class, "inheritance_a_sub_one", alias);
         this.baseAlias = new InheritanceABaseAlias(alias + "_b");
-        this.columns.add(this.two);
+        this.columns.add(this.one);
         this.id = (this.baseAlias == null) ? null : this.baseAlias.id;
         this.name = (this.baseAlias == null) ? null : this.baseAlias.name;
         this.version = (this.baseAlias == null) ? null : this.baseAlias.version;
     }
 
-    public InheritanceASubTwoAlias(Alias<?> rootAlias, String alias) {
-        super(InheritanceASubTwo.class, "inheritance_a_sub_two", alias);
+    public InheritanceASubOneAlias(Alias<?> rootAlias, String alias) {
+        super(InheritanceASubOne.class, "inheritance_a_sub_one", alias);
         this.baseAlias = null;
-        this.columns.add(this.two);
+        this.columns.add(this.one);
         this.id = (this.baseAlias == null) ? null : this.baseAlias.id;
         this.name = (this.baseAlias == null) ? null : this.baseAlias.name;
         this.version = (this.baseAlias == null) ? null : this.baseAlias.version;
     }
 
-    public List<AliasColumn<InheritanceASubTwo, ?, ?>> getColumns() {
+    public List<AliasColumn<InheritanceASubOne, ?, ?>> getColumns() {
         return this.columns;
     }
 
@@ -51,7 +51,7 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
         return this.version;
     }
 
-    public IdAliasColumn<InheritanceASubTwo> getSubClassIdColumn() {
+    public IdAliasColumn<InheritanceASubOne> getSubClassIdColumn() {
         return this.subClassId;
     }
 

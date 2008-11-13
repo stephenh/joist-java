@@ -11,14 +11,14 @@ public class StringBuilderrTest extends TestCase {
         this.sb = new StringBuilderr();
     }
 
-    public void testAppendDoesTickToQuoteIfNoArguments() {
+    public void testAppendDoesNotTickToQuoteIfNoArguments() {
         this.sb.append("'asdf'");
-        Assert.assertEquals("\"asdf\"", this.sb.toString());
+        Assert.assertEquals("'asdf'", this.sb.toString());
     }
 
-    public void testAppendDoesTickToQuote() {
-        this.sb.append("'asdf'", "arg");
-        Assert.assertEquals("\"asdf\"", this.sb.toString());
+    public void testAppendDoesNotTickToQuote() {
+        this.sb.append("'asdf' {}", "arg");
+        Assert.assertEquals("'asdf' arg", this.sb.toString());
     }
 
 }

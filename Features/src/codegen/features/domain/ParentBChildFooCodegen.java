@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.queries.ParentBChildFooAlias;
+import features.domain.ParentBChildFooAlias;
 import features.domain.queries.ParentBChildFooQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
@@ -11,7 +11,7 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
+abstract class ParentBChildFooCodegen extends AbstractDomainObject {
 
     static {
         AliasRegistry.register(ParentBChildFoo.class, new ParentBChildFooAlias("a"));

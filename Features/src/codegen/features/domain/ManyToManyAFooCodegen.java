@@ -1,8 +1,8 @@
 package features.domain;
 
-import features.domain.queries.ManyToManyAFooAlias;
+import features.domain.ManyToManyAFooAlias;
+import features.domain.ManyToManyAFooToBarAlias;
 import features.domain.queries.ManyToManyAFooQueries;
-import features.domain.queries.ManyToManyAFooToBarAlias;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
@@ -15,7 +15,7 @@ import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 import org.exigencecorp.util.Copy;
 
-public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
+abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
 
     static {
         AliasRegistry.register(ManyToManyAFoo.class, new ManyToManyAFooAlias("a"));

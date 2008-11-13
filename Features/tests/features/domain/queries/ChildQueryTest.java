@@ -1,4 +1,4 @@
-package features.domain.mappers;
+package features.domain.queries;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -8,8 +8,8 @@ import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Join;
 
 import features.domain.Child;
-import features.domain.queries.ChildAlias;
-import features.domain.queries.ParentAlias;
+import features.domain.ChildAlias;
+import features.domain.ParentAlias;
 
 public class ChildQueryTest extends TestCase {
 

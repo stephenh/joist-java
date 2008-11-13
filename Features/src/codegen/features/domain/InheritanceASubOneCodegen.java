@@ -1,13 +1,13 @@
 package features.domain;
 
-import features.domain.queries.InheritanceASubOneAlias;
+import features.domain.InheritanceASubOneAlias;
 import features.domain.queries.InheritanceASubOneQueries;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class InheritanceASubOneCodegen extends InheritanceABase {
+abstract class InheritanceASubOneCodegen extends InheritanceABase {
 
     static {
         AliasRegistry.register(InheritanceASubOne.class, new InheritanceASubOneAlias("a"));

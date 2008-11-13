@@ -1,13 +1,13 @@
 package features.domain;
 
-import features.domain.queries.InheritanceASubTwoAlias;
+import features.domain.InheritanceASubTwoAlias;
 import features.domain.queries.InheritanceASubTwoQueries;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
+abstract class InheritanceASubTwoCodegen extends InheritanceABase {
 
     static {
         AliasRegistry.register(InheritanceASubTwo.class, new InheritanceASubTwoAlias("a"));

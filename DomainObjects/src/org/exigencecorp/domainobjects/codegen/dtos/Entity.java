@@ -77,7 +77,7 @@ public class Entity {
     }
 
     public String getFullAliasClassName() {
-        return this.config.getQueriesPackage() + "." + this.getClassName() + "Alias";
+        return this.config.getDomainObjectPackage() + "." + this.getClassName() + "Alias";
     }
 
     public String getFullClassName() {

@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.queries.InheritanceABaseAlias;
+import features.domain.InheritanceABaseAlias;
 import features.domain.queries.InheritanceABaseQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
@@ -10,7 +10,7 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
+abstract class InheritanceABaseCodegen extends AbstractDomainObject {
 
     static {
         AliasRegistry.register(InheritanceABase.class, new InheritanceABaseAlias("a"));

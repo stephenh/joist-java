@@ -1,4 +1,4 @@
-package features.domain.mappers;
+package features.domain.queries;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import org.exigencecorp.domainobjects.queries.Update;
 import org.exigencecorp.util.Copy;
 
 import features.domain.Primitives;
-import features.domain.queries.PrimitivesAlias;
+import features.domain.PrimitivesAlias;
 
 public class PrimitivesQueryTest extends TestCase {
 

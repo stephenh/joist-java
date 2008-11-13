@@ -4,8 +4,6 @@ import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.util.Log;
 
-import features.domain.queries.ParentAlias;
-
 public class ParentsLotsTest extends AbstractFeaturesTest {
 
     public void testNoOp() {

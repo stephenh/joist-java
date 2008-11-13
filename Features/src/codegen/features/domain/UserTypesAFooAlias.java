@@ -1,4 +1,4 @@
-package features.domain.queries;
+package features.domain;
 
 import features.domain.UserTypesAFoo;
 import features.domain.UserTypesAFooCodegen;

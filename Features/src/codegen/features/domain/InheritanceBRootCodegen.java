@@ -1,7 +1,7 @@
 package features.domain;
 
-import features.domain.queries.InheritanceBRootAlias;
-import features.domain.queries.InheritanceBRootChildAlias;
+import features.domain.InheritanceBRootAlias;
+import features.domain.InheritanceBRootChildAlias;
 import features.domain.queries.InheritanceBRootQueries;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
+abstract class InheritanceBRootCodegen extends AbstractDomainObject {
 
     static {
         AliasRegistry.register(InheritanceBRoot.class, new InheritanceBRootAlias("a"));

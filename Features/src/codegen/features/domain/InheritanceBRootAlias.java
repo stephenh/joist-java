@@ -1,9 +1,9 @@
-package features.domain.queries;
+package features.domain;
 
+import features.domain.InheritanceBBottomAlias;
+import features.domain.InheritanceBMiddleAlias;
 import features.domain.InheritanceBRoot;
 import features.domain.InheritanceBRootCodegen;
-import features.domain.queries.InheritanceBBottomAlias;
-import features.domain.queries.InheritanceBMiddleAlias;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.DomainObject;

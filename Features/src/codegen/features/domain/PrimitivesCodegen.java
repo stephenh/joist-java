@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.queries.PrimitivesAlias;
+import features.domain.PrimitivesAlias;
 import features.domain.queries.PrimitivesQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
@@ -10,7 +10,7 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class PrimitivesCodegen extends AbstractDomainObject {
+abstract class PrimitivesCodegen extends AbstractDomainObject {
 
     static {
         AliasRegistry.register(Primitives.class, new PrimitivesAlias("a"));

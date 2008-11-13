@@ -1,13 +1,13 @@
 package features.domain;
 
-import features.domain.queries.InheritanceBBottomAlias;
+import features.domain.InheritanceBBottomAlias;
 import features.domain.queries.InheritanceBBottomQueries;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
+abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
 
     static {
         AliasRegistry.register(InheritanceBBottom.class, new InheritanceBBottomAlias("a"));

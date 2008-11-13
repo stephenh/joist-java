@@ -6,6 +6,8 @@ import org.exigencecorp.domainobjects.AbstractQueries;
 import org.exigencecorp.domainobjects.queries.Select;
 
 import features.domain.ParentBChildFoo;
+import features.domain.ParentBChildFooAlias;
+import features.domain.ParentBParentAlias;
 
 public class ParentBChildFooQueries extends AbstractQueries<ParentBChildFoo> {
 

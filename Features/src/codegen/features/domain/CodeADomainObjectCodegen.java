@@ -1,6 +1,6 @@
 package features.domain;
 
-import features.domain.queries.CodeADomainObjectAlias;
+import features.domain.CodeADomainObjectAlias;
 import features.domain.queries.CodeADomainObjectQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
@@ -11,7 +11,7 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
+abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
 
     static {
         AliasRegistry.register(CodeADomainObject.class, new CodeADomainObjectAlias("a"));
