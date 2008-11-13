@@ -1,4 +1,4 @@
-package org.exigencecorp.domainobjects.orm.repos.sql;
+package org.exigencecorp.domainobjects.orm.mappers;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;

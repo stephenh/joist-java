@@ -1,4 +1,4 @@
-package org.exigencecorp.domainobjects.orm.repos.sql;
+package org.exigencecorp.domainobjects.orm;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,8 +13,6 @@ import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.DomainObject;
-import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.orm.repos.Repository;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Delete;
 import org.exigencecorp.domainobjects.queries.Insert;
@@ -26,7 +24,7 @@ import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.jdbc.RowMapper;
 import org.exigencecorp.util.MapToList;
 
-public class JdbcRepository implements Repository {
+public class Repository {
 
     public static DataSource THIS_IS_DUMB = null;
     private Connection connection;
@@ -69,7 +67,7 @@ public class JdbcRepository implements Repository {
 
     public void open() {
         try {
-            this.connection = JdbcRepository.THIS_IS_DUMB.getConnection();
+            this.connection = Repository.THIS_IS_DUMB.getConnection();
             this.connection.setAutoCommit(false);
             Jdbc.executeUpdate(this.connection, "SET CONSTRAINTS ALL DEFERRED;");
         } catch (SQLException se) {

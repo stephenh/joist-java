@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.Ids;
-import org.exigencecorp.domainobjects.orm.repos.sql.DataTransferObjectMapper;
-import org.exigencecorp.domainobjects.orm.repos.sql.DomainObjectMapper;
-import org.exigencecorp.domainobjects.orm.repos.sql.IdsMapper;
+import org.exigencecorp.domainobjects.orm.mappers.DataTransferObjectMapper;
+import org.exigencecorp.domainobjects.orm.mappers.DomainObjectMapper;
+import org.exigencecorp.domainobjects.orm.mappers.IdsMapper;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.uow.UoW;

@@ -1,4 +1,4 @@
-package org.exigencecorp.domainobjects.orm.repos.sql;
+package org.exigencecorp.domainobjects.orm.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

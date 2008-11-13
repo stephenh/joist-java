@@ -2,8 +2,7 @@ package org.exigencecorp.domainobjects.uow;
 
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.orm.IdentityMap;
-import org.exigencecorp.domainobjects.orm.repos.Repository;
-import org.exigencecorp.domainobjects.orm.repos.sql.JdbcRepository;
+import org.exigencecorp.domainobjects.orm.Repository;
 import org.exigencecorp.domainobjects.validation.Validator;
 
 /** Coordinates validation, object identity, and storing/retrieving domain objects. */
@@ -11,7 +10,7 @@ public class UnitOfWork {
 
     private final Validator validator = new Validator();
     private final IdentityMap identityMap = new IdentityMap();
-    private final Repository repository = new JdbcRepository(); // HibernateRepository();
+    private final Repository repository = new Repository();
 
     public void open() {
         this.repository.open();
