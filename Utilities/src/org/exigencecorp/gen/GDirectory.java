@@ -7,12 +7,14 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Log;
 
 public class GDirectory {
 
     private final File directory;
     private final List<GClass> classes = new ArrayList<GClass>();
+    private final List<File> touched = new ArrayList<File>();
 
     public GDirectory(String directory) {
         this.directory = new File(directory);
@@ -42,9 +44,25 @@ public class GDirectory {
                 OutputStream out = new FileOutputStream(file);
                 out.write(gc.toCode().getBytes());
                 out.close();
+                this.touched.add(file);
             }
         } catch (IOException io) {
             throw new RuntimeException(io);
+        }
+    }
+
+    public void pruneIfNotTouched() {
+        List<File> directoriesToCheck = Copy.list(this.directory);
+        while (directoriesToCheck.size() != 0) {
+            File dir = directoriesToCheck.remove(0);
+            for (File file : dir.listFiles()) {
+                if (file.isDirectory()) {
+                    directoriesToCheck.add(file);
+                } else if (!this.touched.contains(file)) {
+                    Log.warn("Removing old file {}", file);
+                    file.delete();
+                }
+            }
         }
     }
 
