@@ -88,6 +88,10 @@ public class Keywords {
         return new ForeignKeyColumn(otherTable, owner);
     }
 
+    public static ForeignKeyColumn foreignKey(String columnName, String otherTable, Owner owner) {
+        return new ForeignKeyColumn(columnName, otherTable, owner);
+    }
+
     public static DateColumn date(String name) {
         return new DateColumn(name);
     }

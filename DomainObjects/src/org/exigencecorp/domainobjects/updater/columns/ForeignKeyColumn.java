@@ -22,6 +22,10 @@ public class ForeignKeyColumn extends AbstractColumn {
         this(otherTable + "_id", otherTable, "id", isNull, owner);
     }
 
+    public ForeignKeyColumn(String name, String otherTable, Owner owner) {
+        this(name, otherTable, "id", Nullable.No, owner);
+    }
+
     public ForeignKeyColumn(String name, String otherTable, String otherTableColumn, Nullable isNull, Owner owner) {
         super(name, isNull);
         if (!name.endsWith("id")) {
