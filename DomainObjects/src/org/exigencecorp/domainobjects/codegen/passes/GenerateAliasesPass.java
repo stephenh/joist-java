@@ -153,8 +153,6 @@ public class GenerateAliasesPass implements Pass {
 
             this.appendToConstructors(aliasClass, "this.columns.add(this.{});", p.getVariableName());
         }
-
-        aliasClass.addImports(entity.getFullCodegenClassName());
     }
 
     private void addManyToOneColumns(Codegen codegen, GClass aliasClass, Entity entity) {

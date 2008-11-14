@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.ManyToManyBBar;
 import features.domain.ManyToManyBFoo;
 import features.domain.ManyToManyBFooToBar;
-import features.domain.ManyToManyBFooToBarCodegen;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.queries.Alias;

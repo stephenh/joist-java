@@ -1,7 +1,6 @@
 package features.domain;
 
 import features.domain.ParentBChildBar;
-import features.domain.ParentBChildBarCodegen;
 import features.domain.ParentBParent;
 import java.util.ArrayList;
 import java.util.List;

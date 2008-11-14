@@ -1,7 +1,6 @@
 package features.domain;
 
 import features.domain.InheritanceBBottom;
-import features.domain.InheritanceBBottomCodegen;
 import features.domain.InheritanceBMiddle;
 import features.domain.InheritanceBRoot;
 import java.util.ArrayList;

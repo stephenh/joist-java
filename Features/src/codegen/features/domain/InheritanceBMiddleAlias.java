@@ -2,7 +2,6 @@ package features.domain;
 
 import features.domain.InheritanceBBottomAlias;
 import features.domain.InheritanceBMiddle;
-import features.domain.InheritanceBMiddleCodegen;
 import features.domain.InheritanceBRoot;
 import java.util.ArrayList;
 import java.util.List;

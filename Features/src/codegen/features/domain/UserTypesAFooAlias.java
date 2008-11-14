@@ -1,7 +1,6 @@
 package features.domain;
 
 import features.domain.UserTypesAFoo;
-import features.domain.UserTypesAFooCodegen;
 import features.domain.orm.CalendarDateAliasColumn;
 import java.util.ArrayList;
 import java.util.List;

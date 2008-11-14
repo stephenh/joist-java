@@ -1,7 +1,6 @@
 package features.domain;
 
 import features.domain.InheritanceABase;
-import features.domain.InheritanceABaseCodegen;
 import features.domain.InheritanceASubOneAlias;
 import features.domain.InheritanceASubTwoAlias;
 import java.util.ArrayList;

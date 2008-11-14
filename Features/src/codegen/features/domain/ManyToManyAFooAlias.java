@@ -1,7 +1,6 @@
 package features.domain;
 
 import features.domain.ManyToManyAFoo;
-import features.domain.ManyToManyAFooCodegen;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.DomainObject;
