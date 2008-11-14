@@ -64,4 +64,14 @@ public class ChildLazyListTest extends AbstractFeaturesTest {
         Assert.assertEquals(2, p.getChilds().size());
     }
 
+    public void testListIsReadOnly() {
+        Parent p = new Parent("parent");
+        try {
+            p.getChilds().add(new Child());
+            Assert.fail();
+        } catch (UnsupportedOperationException uoe) {
+            // pass
+        }
+    }
+
 }
