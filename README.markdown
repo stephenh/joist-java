@@ -28,11 +28,13 @@ Patterns
 * Unit of Work
 * Identity Map
 * Data Mapper (with Metadata Mapping)
-* Foreign Key Mapping (with back pointer)
+* Foreign Key Mapping (with automatically-maintained back pointer)
 * Lazy Load (with value holder, e.g. no virtual proxies)
 * Class Table Inheritance (no Single Table Inheritance or Concrete Table Inheritance)
 * Optimistic Offline Lock (every object as a "version" column)
-* Finders (though called [queries][2] as they can bulk update/delete as well)
+* Finders (though called [queries][2] as they can also do bulk updates/deletes)
+* Transformer Generation (input model of database schema is transformed into a Java model)
+* Generation Gap (generated code is kept separate from user-modified subclasses)
 
 Todo
 ====
