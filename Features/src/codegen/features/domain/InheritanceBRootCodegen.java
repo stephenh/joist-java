@@ -3,13 +3,12 @@ package features.domain;
 import features.domain.InheritanceBRootAlias;
 import features.domain.InheritanceBRootChildAlias;
 import features.domain.queries.InheritanceBRootQueries;
-import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.queries.Select;
+import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
@@ -24,7 +23,8 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     private Id<InheritanceBRoot> id = null;
     private String name = null;
     private Integer version = null;
-    private List<InheritanceBRootChild> inheritanceBRootChilds;
+    private static final InheritanceBRootChildAlias inheritanceBRootChildsAlias = new InheritanceBRootChildAlias("a");
+    private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, inheritanceBRootChildsAlias, inheritanceBRootChildsAlias.inheritanceBRoot);
 
     protected InheritanceBRootCodegen() {
         this.addExtraRules();
@@ -61,15 +61,7 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     public List<InheritanceBRootChild> getInheritanceBRootChilds() {
-        if (this.inheritanceBRootChilds == null) {
-            if (UoW.isOpen() && this.getId() != null) {
-                InheritanceBRootChildAlias a = new InheritanceBRootChildAlias("a");
-                this.inheritanceBRootChilds = Select.from(a).where(a.inheritanceBRoot.equals(this.getId())).orderBy(a.id.asc()).list();
-            } else {
-                this.inheritanceBRootChilds = new ArrayList<InheritanceBRootChild>();
-            }
-        }
-        return this.inheritanceBRootChilds;
+        return this.inheritanceBRootChilds.get();
     }
 
     public void addInheritanceBRootChild(InheritanceBRootChild o) {
@@ -78,7 +70,6 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     public void addInheritanceBRootChildWithoutPercolation(InheritanceBRootChild o) {
-        this.getInheritanceBRootChilds(); // hack
         this.recordIfChanged("inheritanceBRootChilds");
         this.inheritanceBRootChilds.add(o);
     }
@@ -89,7 +80,6 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     public void removeInheritanceBRootChildWithoutPercolation(InheritanceBRootChild o) {
-        this.getInheritanceBRootChilds(); // hack
         this.recordIfChanged("inheritanceBRootChilds");
         this.inheritanceBRootChilds.remove(o);
     }

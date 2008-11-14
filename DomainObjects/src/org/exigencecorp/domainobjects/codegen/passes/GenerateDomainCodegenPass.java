@@ -14,7 +14,7 @@ import org.exigencecorp.domainobjects.codegen.dtos.PrimitiveProperty;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyCodeHolder;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
-import org.exigencecorp.domainobjects.queries.Select;
+import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
@@ -176,22 +176,23 @@ public class GenerateDomainCodegenPass implements Pass {
 
     private void oneToManyProperties(GClass domainCodegen, Entity entity) {
         for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
-            domainCodegen.getField(otmp.getVariableName()).type(otmp.getJavaType());
-            domainCodegen.addImports(List.class, ArrayList.class, UoW.class);
+            GField collectionAlias = domainCodegen.getField("{}Alias", otmp.getVariableName()).setStatic().setFinal();
+            collectionAlias.type("{}Alias", otmp.getTargetJavaType());
+            collectionAlias.initialValue("new {}Alias(\"a\")", otmp.getTargetJavaType());
+
+            GField collection = domainCodegen.getField(otmp.getVariableName());
+            collection.type("ForeignKeyListHolder<{}, {}>", entity.getClassName(), otmp.getTargetJavaType());
+            collection.initialValue("new ForeignKeyListHolder<{}, {}>(({}) this, {}Alias, {}Alias.{})",//
+                entity.getClassName(),
+                otmp.getTargetJavaType(),
+                entity.getClassName(),
+                otmp.getVariableName(),
+                otmp.getVariableName(),
+                otmp.getKeyFieldName());
+            domainCodegen.addImports(List.class, ForeignKeyListHolder.class);
 
             GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableName()).returnType(otmp.getJavaType());
-            getter.body.line("if (this.{} == null) {", otmp.getVariableName());
-            getter.body.line("    if (UoW.isOpen() && this.getId() != null) {");
-            getter.body.line("        {}Alias a = new {}Alias(\"a\");", otmp.getTargetJavaType(), otmp.getTargetJavaType());
-            getter.body.line("        this.{} = Select.from(a).where(a.{}.equals(this.getId())).orderBy(a.id.asc()).list();",//
-                otmp.getVariableName(),
-                otmp.getKeyFieldName(),
-                otmp.getTargetJavaType());
-            getter.body.line("    } else {");
-            getter.body.line("        this.{} = {};", otmp.getVariableName(), otmp.getDefaultJavaString());
-            getter.body.line("    }");
-            getter.body.line("}");
-            getter.body.line("return this.{};", otmp.getVariableName());
+            getter.body.line("return this.{}.get();", otmp.getVariableName());
 
             GMethod adder = domainCodegen.getMethod("add{}", otmp.getCapitalVariableNameSingular());
             adder.argument(otmp.getTargetJavaType(), "o");
@@ -200,7 +201,6 @@ public class GenerateDomainCodegenPass implements Pass {
 
             GMethod adder2 = domainCodegen.getMethod("add{}WithoutPercolation", otmp.getCapitalVariableNameSingular());
             adder2.argument(otmp.getTargetJavaType(), "o");
-            adder2.body.line("this.get{}(); // hack", otmp.getCapitalVariableName());
             adder2.body.line("this.recordIfChanged(\"{}\");", otmp.getVariableName());
             adder2.body.line("this.{}.add(o);", otmp.getVariableName());
 
@@ -211,11 +211,10 @@ public class GenerateDomainCodegenPass implements Pass {
 
             GMethod remover2 = domainCodegen.getMethod("remove{}WithoutPercolation", otmp.getCapitalVariableNameSingular());
             remover2.argument(otmp.getTargetJavaType(), "o");
-            remover2.body.line("this.get{}(); // hack", otmp.getCapitalVariableName());
             remover2.body.line("this.recordIfChanged(\"{}\");", otmp.getVariableName());
             remover2.body.line("this.{}.remove(o);", otmp.getVariableName());
 
-            domainCodegen.addImports(otmp.getOneSide().getFullAliasClassName(), Select.class.getName());
+            domainCodegen.addImports(otmp.getOneSide().getFullAliasClassName());
         }
     }
 
@@ -244,7 +243,7 @@ public class GenerateDomainCodegenPass implements Pass {
             remover.body.line("    }");
             remover.body.line("}");
 
-            domainCodegen.addImports(Copy.class);
+            domainCodegen.addImports(Copy.class, ArrayList.class);
         }
     }
 

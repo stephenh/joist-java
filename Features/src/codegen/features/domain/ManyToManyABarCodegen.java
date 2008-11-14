@@ -9,7 +9,7 @@ import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.queries.Select;
+import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
@@ -25,7 +25,8 @@ abstract class ManyToManyABarCodegen extends AbstractDomainObject {
     private Id<ManyToManyABar> id = null;
     private String name = null;
     private Integer version = null;
-    private List<ManyToManyAFooToBar> manyToManyAFooToBars;
+    private static final ManyToManyAFooToBarAlias manyToManyAFooToBarsAlias = new ManyToManyAFooToBarAlias("a");
+    private ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar>((ManyToManyABar) this, manyToManyAFooToBarsAlias, manyToManyAFooToBarsAlias.manyToManyABar);
 
     protected ManyToManyABarCodegen() {
         this.addExtraRules();
@@ -62,15 +63,7 @@ abstract class ManyToManyABarCodegen extends AbstractDomainObject {
     }
 
     public List<ManyToManyAFooToBar> getManyToManyAFooToBars() {
-        if (this.manyToManyAFooToBars == null) {
-            if (UoW.isOpen() && this.getId() != null) {
-                ManyToManyAFooToBarAlias a = new ManyToManyAFooToBarAlias("a");
-                this.manyToManyAFooToBars = Select.from(a).where(a.manyToManyABar.equals(this.getId())).orderBy(a.id.asc()).list();
-            } else {
-                this.manyToManyAFooToBars = new ArrayList<ManyToManyAFooToBar>();
-            }
-        }
-        return this.manyToManyAFooToBars;
+        return this.manyToManyAFooToBars.get();
     }
 
     public void addManyToManyAFooToBar(ManyToManyAFooToBar o) {
@@ -79,7 +72,6 @@ abstract class ManyToManyABarCodegen extends AbstractDomainObject {
     }
 
     public void addManyToManyAFooToBarWithoutPercolation(ManyToManyAFooToBar o) {
-        this.getManyToManyAFooToBars(); // hack
         this.recordIfChanged("manyToManyAFooToBars");
         this.manyToManyAFooToBars.add(o);
     }
@@ -90,7 +82,6 @@ abstract class ManyToManyABarCodegen extends AbstractDomainObject {
     }
 
     public void removeManyToManyAFooToBarWithoutPercolation(ManyToManyAFooToBar o) {
-        this.getManyToManyAFooToBars(); // hack
         this.recordIfChanged("manyToManyAFooToBars");
         this.manyToManyAFooToBars.remove(o);
     }

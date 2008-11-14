@@ -4,13 +4,12 @@ import features.domain.ParentBChildBarAlias;
 import features.domain.ParentBChildFooAlias;
 import features.domain.ParentBParentAlias;
 import features.domain.queries.ParentBParentQueries;
-import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.queries.Select;
+import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
@@ -25,8 +24,10 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     private Id<ParentBParent> id = null;
     private String name = null;
     private Integer version = null;
-    private List<ParentBChildFoo> parentBChildFoos;
-    private List<ParentBChildBar> parentBChildBars;
+    private static final ParentBChildFooAlias parentBChildFoosAlias = new ParentBChildFooAlias("a");
+    private ForeignKeyListHolder<ParentBParent, ParentBChildFoo> parentBChildFoos = new ForeignKeyListHolder<ParentBParent, ParentBChildFoo>((ParentBParent) this, parentBChildFoosAlias, parentBChildFoosAlias.parentBParent);
+    private static final ParentBChildBarAlias parentBChildBarsAlias = new ParentBChildBarAlias("a");
+    private ForeignKeyListHolder<ParentBParent, ParentBChildBar> parentBChildBars = new ForeignKeyListHolder<ParentBParent, ParentBChildBar>((ParentBParent) this, parentBChildBarsAlias, parentBChildBarsAlias.parentBParent);
 
     protected ParentBParentCodegen() {
         this.addExtraRules();
@@ -63,15 +64,7 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     public List<ParentBChildFoo> getParentBChildFoos() {
-        if (this.parentBChildFoos == null) {
-            if (UoW.isOpen() && this.getId() != null) {
-                ParentBChildFooAlias a = new ParentBChildFooAlias("a");
-                this.parentBChildFoos = Select.from(a).where(a.parentBParent.equals(this.getId())).orderBy(a.id.asc()).list();
-            } else {
-                this.parentBChildFoos = new ArrayList<ParentBChildFoo>();
-            }
-        }
-        return this.parentBChildFoos;
+        return this.parentBChildFoos.get();
     }
 
     public void addParentBChildFoo(ParentBChildFoo o) {
@@ -80,7 +73,6 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     public void addParentBChildFooWithoutPercolation(ParentBChildFoo o) {
-        this.getParentBChildFoos(); // hack
         this.recordIfChanged("parentBChildFoos");
         this.parentBChildFoos.add(o);
     }
@@ -91,21 +83,12 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     public void removeParentBChildFooWithoutPercolation(ParentBChildFoo o) {
-        this.getParentBChildFoos(); // hack
         this.recordIfChanged("parentBChildFoos");
         this.parentBChildFoos.remove(o);
     }
 
     public List<ParentBChildBar> getParentBChildBars() {
-        if (this.parentBChildBars == null) {
-            if (UoW.isOpen() && this.getId() != null) {
-                ParentBChildBarAlias a = new ParentBChildBarAlias("a");
-                this.parentBChildBars = Select.from(a).where(a.parentBParent.equals(this.getId())).orderBy(a.id.asc()).list();
-            } else {
-                this.parentBChildBars = new ArrayList<ParentBChildBar>();
-            }
-        }
-        return this.parentBChildBars;
+        return this.parentBChildBars.get();
     }
 
     public void addParentBChildBar(ParentBChildBar o) {
@@ -114,7 +97,6 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     public void addParentBChildBarWithoutPercolation(ParentBChildBar o) {
-        this.getParentBChildBars(); // hack
         this.recordIfChanged("parentBChildBars");
         this.parentBChildBars.add(o);
     }
@@ -125,7 +107,6 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     public void removeParentBChildBarWithoutPercolation(ParentBChildBar o) {
-        this.getParentBChildBars(); // hack
         this.recordIfChanged("parentBChildBars");
         this.parentBChildBars.remove(o);
     }

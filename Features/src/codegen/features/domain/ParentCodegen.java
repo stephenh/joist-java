@@ -1,7 +1,9 @@
 package features.domain;
 
+import features.domain.ChildAlias;
+import features.domain.ParentAlias;
+import features.domain.queries.ParentQueries;
 import java.util.List;
-
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
@@ -11,8 +13,6 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-import features.domain.queries.ParentQueries;
-
 abstract class ParentCodegen extends AbstractDomainObject {
 
     static {
@@ -20,11 +20,11 @@ abstract class ParentCodegen extends AbstractDomainObject {
     }
 
     public static final ParentQueries queries = new ParentQueries();
-    private static final ChildAlias childAlias = new ChildAlias("c");
     private Id<Parent> id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<Parent, Child> childs = new ForeignKeyListHolder<Parent, Child>((Parent) this, childAlias, childAlias.parent);
+    private static final ChildAlias childsAlias = new ChildAlias("a");
+    private ForeignKeyListHolder<Parent, Child> childs = new ForeignKeyListHolder<Parent, Child>((Parent) this, childsAlias, childsAlias.parent);
 
     protected ParentCodegen() {
         this.addExtraRules();
@@ -89,7 +89,6 @@ abstract class ParentCodegen extends AbstractDomainObject {
             public void set(Parent instance, Id<Parent> id) {
                 ((ParentCodegen) instance).id = id;
             }
-
             public Id<Parent> get(Parent instance) {
                 return ((ParentCodegen) instance).id;
             }
@@ -98,7 +97,6 @@ abstract class ParentCodegen extends AbstractDomainObject {
             public void set(Parent instance, java.lang.String name) {
                 ((ParentCodegen) instance).name = name;
             }
-
             public String get(Parent instance) {
                 return ((ParentCodegen) instance).name;
             }
@@ -107,7 +105,6 @@ abstract class ParentCodegen extends AbstractDomainObject {
             public void set(Parent instance, java.lang.Integer version) {
                 ((ParentCodegen) instance).version = version;
             }
-
             public Integer get(Parent instance) {
                 return ((ParentCodegen) instance).version;
             }
