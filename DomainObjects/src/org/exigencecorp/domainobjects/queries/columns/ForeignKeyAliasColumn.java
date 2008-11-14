@@ -16,6 +16,10 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
         super(alias, name, shim);
     }
 
+    public Where equals(W value) {
+        return new Where(this.getQualifiedName() + " = ?", value.getId().intValue());
+    }
+
     public Where equals(Id<? super W> value) {
         return new Where(this.getQualifiedName() + " = ?", value.intValue());
     }

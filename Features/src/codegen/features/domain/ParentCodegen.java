@@ -1,18 +1,17 @@
 package features.domain;
 
-import features.domain.ChildAlias;
-import features.domain.ParentAlias;
-import features.domain.queries.ParentQueries;
-import java.util.ArrayList;
 import java.util.List;
+
 import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.queries.Select;
+import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
+
+import features.domain.queries.ParentQueries;
 
 abstract class ParentCodegen extends AbstractDomainObject {
 
@@ -21,10 +20,11 @@ abstract class ParentCodegen extends AbstractDomainObject {
     }
 
     public static final ParentQueries queries = new ParentQueries();
+    private static final ChildAlias childAlias = new ChildAlias("c");
     private Id<Parent> id = null;
     private String name = null;
     private Integer version = null;
-    private List<Child> childs;
+    private ForeignKeyListHolder<Parent, Child> childs = new ForeignKeyListHolder<Parent, Child>((Parent) this, childAlias, childAlias.parent);
 
     protected ParentCodegen() {
         this.addExtraRules();
@@ -61,15 +61,7 @@ abstract class ParentCodegen extends AbstractDomainObject {
     }
 
     public List<Child> getChilds() {
-        if (this.childs == null) {
-            if (UoW.isOpen() && this.getId() != null) {
-                ChildAlias a = new ChildAlias("a");
-                this.childs = Select.from(a).where(a.parent.equals(this.getId())).orderBy(a.id.asc()).list();
-            } else {
-                this.childs = new ArrayList<Child>();
-            }
-        }
-        return this.childs;
+        return this.childs.get();
     }
 
     public void addChild(Child o) {
@@ -78,7 +70,6 @@ abstract class ParentCodegen extends AbstractDomainObject {
     }
 
     public void addChildWithoutPercolation(Child o) {
-        this.getChilds(); // hack
         this.recordIfChanged("childs");
         this.childs.add(o);
     }
@@ -89,7 +80,6 @@ abstract class ParentCodegen extends AbstractDomainObject {
     }
 
     public void removeChildWithoutPercolation(Child o) {
-        this.getChilds(); // hack
         this.recordIfChanged("childs");
         this.childs.remove(o);
     }
@@ -99,6 +89,7 @@ abstract class ParentCodegen extends AbstractDomainObject {
             public void set(Parent instance, Id<Parent> id) {
                 ((ParentCodegen) instance).id = id;
             }
+
             public Id<Parent> get(Parent instance) {
                 return ((ParentCodegen) instance).id;
             }
@@ -107,6 +98,7 @@ abstract class ParentCodegen extends AbstractDomainObject {
             public void set(Parent instance, java.lang.String name) {
                 ((ParentCodegen) instance).name = name;
             }
+
             public String get(Parent instance) {
                 return ((ParentCodegen) instance).name;
             }
@@ -115,6 +107,7 @@ abstract class ParentCodegen extends AbstractDomainObject {
             public void set(Parent instance, java.lang.Integer version) {
                 ((ParentCodegen) instance).version = version;
             }
+
             public Integer get(Parent instance) {
                 return ((ParentCodegen) instance).version;
             }
