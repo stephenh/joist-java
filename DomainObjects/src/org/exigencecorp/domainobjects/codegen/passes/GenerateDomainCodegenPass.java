@@ -243,7 +243,7 @@ public class GenerateDomainCodegenPass implements Pass {
             remover.body.line("    }");
             remover.body.line("}");
 
-            domainCodegen.addImports(Copy.class, ArrayList.class);
+            domainCodegen.addImports(Copy.class, ArrayList.class, UoW.class);
         }
     }
 
