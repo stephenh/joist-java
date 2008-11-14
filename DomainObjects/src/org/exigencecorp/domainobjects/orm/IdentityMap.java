@@ -30,7 +30,7 @@ public class IdentityMap {
         return null;
     }
 
-    public int getSize() {
+    public int size() {
         return this.objects.size();
     }
 

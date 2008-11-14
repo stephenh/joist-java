@@ -15,7 +15,7 @@ public class ChildLazyListTest extends AbstractFeaturesTest {
         p = this.reload(p);
         new Child(p, "child3");
         // Should only have the parent so far
-        Assert.assertEquals(1, UoW.getIdentityMap().getSize());
+        Assert.assertEquals(1, UoW.getIdentityMap().size());
         // Now hit the db for the other 2
         Assert.assertEquals(3, p.getChilds().size());
     }
@@ -29,7 +29,7 @@ public class ChildLazyListTest extends AbstractFeaturesTest {
         p = this.reload(p);
         p.removeChild(this.reload(c1));
         // Should only have 2 objects
-        Assert.assertEquals(2, UoW.getIdentityMap().getSize());
+        Assert.assertEquals(2, UoW.getIdentityMap().size());
         // Now hit the db for the remaining object
         Assert.assertEquals(1, p.getChilds().size());
     }
@@ -44,7 +44,7 @@ public class ChildLazyListTest extends AbstractFeaturesTest {
         p.removeChild(this.reload(c1));
         p.addChild(this.reload(c1));
         // Should only have 2 objects
-        Assert.assertEquals(2, UoW.getIdentityMap().getSize());
+        Assert.assertEquals(2, UoW.getIdentityMap().size());
         // Now hit the db for the remaining object and don't dup c1
         Assert.assertEquals(2, p.getChilds().size());
     }
@@ -59,7 +59,7 @@ public class ChildLazyListTest extends AbstractFeaturesTest {
         Child c3 = new Child(p, "child3");
         p.removeChild(c3);
         // Should only have the parent so far
-        Assert.assertEquals(1, UoW.getIdentityMap().getSize());
+        Assert.assertEquals(1, UoW.getIdentityMap().size());
         // Now hit the db for the remaining object
         Assert.assertEquals(2, p.getChilds().size());
     }
