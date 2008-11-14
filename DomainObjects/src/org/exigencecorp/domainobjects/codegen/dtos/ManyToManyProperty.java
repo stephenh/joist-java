@@ -26,7 +26,7 @@ public class ManyToManyProperty implements Property {
     }
 
     public String getCapitalVariableNameSingular() {
-        return Inflector.camelize(this.getOtherKeyColumnName().replaceAll("_id", "")); // rolled_id -> Rolled
+        return Inflector.camelize(this.other.myKeyColumnName.replaceAll("_id", "")); // rolled_id -> Rolled
     }
 
     public String getCapitalVariableName() {
@@ -53,14 +53,6 @@ public class ManyToManyProperty implements Property {
         return StringUtils.uncapitalize(this.getCapitalVariableName());
     }
 
-    public String getJoinTableName() {
-        return this.joinTable.getTableName();
-    }
-
-    public String getMyKeyColumnName() {
-        return this.myKeyColumnName;
-    }
-
     public Entity getTargetTable() {
         return this.targetTable;
     }
@@ -73,8 +65,13 @@ public class ManyToManyProperty implements Property {
         this.other = other;
     }
 
-    public String getOtherKeyColumnName() {
-        return this.other.getMyKeyColumnName();
+    public ManyToOneProperty getMySideManyToOne() {
+        for (ManyToOneProperty mtop : this.joinTable.getManyToOneProperties()) {
+            if (mtop.getColumnName().equals(this.myKeyColumnName)) {
+                return mtop;
+            }
+        }
+        throw new RuntimeException("No ManyToOne found for " + this.myKeyColumnName);
     }
 
     public boolean getNoTicking() {

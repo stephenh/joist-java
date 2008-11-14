@@ -222,7 +222,9 @@ public class GenerateDomainCodegenPass implements Pass {
         for (ManyToManyProperty mtmp : entity.getManyToManyProperties()) {
             GMethod getter = domainCodegen.getMethod("get" + mtmp.getCapitalVariableName()).returnType(mtmp.getJavaType());
             getter.body.line("{} l = {};", mtmp.getJavaType(), mtmp.getDefaultJavaString());
-            getter.body.line("for ({} o : this.get{}s()) {", mtmp.getJoinTable().getClassName(), mtmp.getJoinTable().getClassName());
+            getter.body.line("for ({} o : this.get{}()) {",//
+                mtmp.getJoinTable().getClassName(),
+                mtmp.getMySideManyToOne().getOneToManyProperty().getCapitalVariableName());
             getter.body.line("    l.add(o.get{}());", mtmp.getCapitalVariableNameSingular());
             getter.body.line("}");
             getter.body.line("return l;");
@@ -230,12 +232,14 @@ public class GenerateDomainCodegenPass implements Pass {
             GMethod adder = domainCodegen.getMethod("add{}", mtmp.getCapitalVariableNameSingular());
             adder.argument(mtmp.getTargetTable().getClassName(), "o");
             adder.body.line("{} a = new {}();", mtmp.getJoinTable().getClassName(), mtmp.getJoinTable().getClassName());
-            adder.body.line("a.set{}(({}) this);", entity.getClassName(), entity.getClassName());
-            adder.body.line("a.set{}(o);", mtmp.getTargetTable().getClassName());
+            adder.body.line("a.set{}(({}) this);", mtmp.getMySideManyToOne().getCapitalVariableName(), entity.getClassName());
+            adder.body.line("a.set{}(o);", mtmp.getOther().getMySideManyToOne().getCapitalVariableName(), mtmp.getTargetTable().getClassName());
 
             GMethod remover = domainCodegen.getMethod("remove{}", mtmp.getCapitalVariableNameSingular());
             remover.argument(mtmp.getTargetTable().getClassName(), "o");
-            remover.body.line("for ({} a : Copy.shallow(this.get{}s())) {", mtmp.getJoinTable().getClassName(), mtmp.getJoinTable().getClassName());
+            remover.body.line("for ({} a : Copy.shallow(this.get{}())) {",//
+                mtmp.getJoinTable().getClassName(),
+                mtmp.getMySideManyToOne().getOneToManyProperty().getCapitalVariableName());
             remover.body.line("    if (a.get{}().equals(o)) {", mtmp.getCapitalVariableNameSingular());
             remover.body.line("        a.set{}(null);", mtmp.getCapitalVariableNameSingular());
             remover.body.line("        a.set{}(null);", mtmp.getOther().getCapitalVariableNameSingular());

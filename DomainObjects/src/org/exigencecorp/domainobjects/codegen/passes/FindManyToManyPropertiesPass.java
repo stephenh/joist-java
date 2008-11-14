@@ -30,7 +30,7 @@ public class FindManyToManyPropertiesPass implements Pass {
 
             // Go find our corresponding property--if it is there yet (of 2, last one adds both)
             for (ManyToManyProperty other : otherSide.getManyToManyProperties()) {
-                if (other.getJoinTableName().equals(mtmp.getJoinTableName())) {
+                if (other.getJoinTable().getTableName().equals(mtmp.getJoinTable().getTableName())) {
                     other.setOther(mtmp);
                     mtmp.setOther(other);
                 }
