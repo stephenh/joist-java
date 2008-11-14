@@ -30,7 +30,7 @@ public abstract class AbstractDomainObject implements DomainObject {
     protected final void recordIfChanged(String property) {
         this.changedProperties.add(property);
         if (UoW.isOpen()) {
-            UoW.getCurrent().getValidator().enqueue(this);
+            UoW.enqueue(this);
         }
     }
 

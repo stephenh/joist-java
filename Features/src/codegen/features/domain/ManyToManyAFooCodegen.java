@@ -45,7 +45,7 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
-            UoW.getCurrent().getIdentityMap().store(this);
+            UoW.getIdentityMap().store(this);
         }
     }
 
@@ -105,7 +105,7 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
             if (a.getManyToManyABar().equals(o)) {
                 a.setManyToManyABar(null);
                 a.setManyToManyAFoo(null);
-                UoW.getCurrent().delete(a);
+                UoW.delete(a);
             }
         }
     }

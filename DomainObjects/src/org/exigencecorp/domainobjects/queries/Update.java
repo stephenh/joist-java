@@ -35,7 +35,7 @@ public class Update<T extends DomainObject> {
     }
 
     public List<Integer> execute() {
-        return Jdbc.updateAll(UoW.getCurrent().getRepository().getConnection(), this.toSql(), this.getAllParameters());
+        return Jdbc.updateAll(UoW.getConnection(), this.toSql(), this.getAllParameters());
     }
 
     public void set(SetItem setItem) {

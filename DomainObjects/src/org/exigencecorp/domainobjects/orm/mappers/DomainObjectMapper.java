@@ -15,7 +15,7 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
 
     private final Alias<T> from;
     private final List<T> results;
-    private final IdentityMap cache = UoW.getCurrent().getIdentityMap();
+    private final IdentityMap cache = UoW.getIdentityMap();
 
     public DomainObjectMapper(Alias<T> from, List<T> results) {
         this.from = from;

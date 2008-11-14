@@ -1,5 +1,10 @@
 package org.exigencecorp.domainobjects.uow;
 
+import java.sql.Connection;
+
+import org.exigencecorp.domainobjects.DomainObject;
+import org.exigencecorp.domainobjects.orm.IdentityMap;
+
 public class UoW {
 
     private static final ThreadLocal<UnitOfWork> uowForThread = new ThreadLocal<UnitOfWork>();
@@ -41,7 +46,27 @@ public class UoW {
         UoW.getCurrent().rollback();
     }
 
-    public static UnitOfWork getCurrent() {
+    public static <T extends DomainObject> void enqueue(T instance) {
+        UoW.getCurrent().getValidator().enqueue(instance);
+    }
+
+    public static <T extends DomainObject> void delete(T instance) {
+        UoW.getCurrent().delete(instance);
+    }
+
+    public static <T extends DomainObject> T load(Class<T> type, Integer id) {
+        return UoW.getCurrent().getRepository().load(type, id);
+    }
+
+    public static IdentityMap getIdentityMap() {
+        return UoW.getCurrent().getIdentityMap();
+    }
+
+    public static Connection getConnection() {
+        return UoW.getCurrent().getRepository().getConnection();
+    }
+
+    private static UnitOfWork getCurrent() {
         UoW.assertOpen();
         return UoW.uowForThread.get();
     }

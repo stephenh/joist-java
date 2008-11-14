@@ -19,7 +19,7 @@ public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
     }
 
     public <T extends DomainObject> T reload(T instance) {
-        return (T) UoW.getCurrent().getRepository().load(instance.getClass(), instance.getId().intValue());
+        return (T) UoW.load(instance.getClass(), instance.getId().intValue());
     }
 
 }

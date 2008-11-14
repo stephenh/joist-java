@@ -10,7 +10,7 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
     public void testInsertsGoIntoTheIdentityMap() {
         new Parent("p");
         this.flush();
-        Assert.assertTrue(UoW.getCurrent().getIdentityMap().findOrNull(Parent.class, 2) != null);
+        Assert.assertTrue(UoW.getIdentityMap().findOrNull(Parent.class, 2) != null);
     }
 
     public void testExplicitlySettingTheIdOfANewObject() {

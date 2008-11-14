@@ -73,7 +73,7 @@ public class Select<T extends DomainObject> {
         } else {
             mapper = new DataTransferObjectMapper<T, R>(rowType, results);
         }
-        Jdbc.query(UoW.getCurrent().getRepository().getConnection(), this.toSql(), this.getParameters(), mapper);
+        Jdbc.query(UoW.getConnection(), this.toSql(), this.getParameters(), mapper);
         return results;
     }
 
@@ -89,7 +89,7 @@ public class Select<T extends DomainObject> {
 
     public Ids<T> listIds() {
         final Ids<T> ids = new Ids<T>(this.from.getDomainClass());
-        Jdbc.query(UoW.getCurrent().getRepository().getConnection(), this.toSql(), this.getParameters(), new IdsMapper<T>(this.from, ids));
+        Jdbc.query(UoW.getConnection(), this.toSql(), this.getParameters(), new IdsMapper<T>(this.from, ids));
         return ids;
     }
 

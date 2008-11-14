@@ -30,7 +30,7 @@ public class Repository {
     private Connection connection;
 
     public <T extends DomainObject> T load(Class<T> type, Integer id) {
-        T instance = (T) UoW.getCurrent().getIdentityMap().findOrNull(type, id);
+        T instance = (T) UoW.getIdentityMap().findOrNull(type, id);
         if (instance == null) {
             Alias<T> a = AliasRegistry.get(type);
             instance = Select.from(a).where(a.getIdColumn().equals(id)).unique();
@@ -202,7 +202,7 @@ public class Repository {
                 t.getIdColumn().setJdbcValue(instance, id);
                 t.getVersionColumn().setJdbcValue(instance, 0);
                 ((AbstractDomainObject) instance).getChangedProperties().add("id"); // Hack so isNew() still returns true
-                UoW.getCurrent().getIdentityMap().store(instance);
+                UoW.getIdentityMap().store(instance);
             }
         }
     }

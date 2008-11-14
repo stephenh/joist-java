@@ -17,7 +17,7 @@ public abstract class AbstractQueries<T extends DomainObject> {
 
     public T find(Integer id) {
         // Use load as it hits the IdentityMap and could avoid an unneeded query
-        return UoW.getCurrent().getRepository().load(this.domainType, id);
+        return UoW.load(this.domainType, id);
     }
 
     public long count() {

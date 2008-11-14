@@ -24,7 +24,7 @@ public class Delete<T extends DomainObject> {
     }
 
     public void execute() {
-        Jdbc.updateAll(UoW.getCurrent().getRepository().getConnection(), this.toSql(), this.getAllParameters());
+        Jdbc.updateAll(UoW.getConnection(), this.toSql(), this.getAllParameters());
     }
 
     public Alias<T> getAlias() {

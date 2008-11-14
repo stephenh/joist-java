@@ -70,7 +70,7 @@ public class GenerateDomainCodegenPass implements Pass {
                 setter.body.line("this.{} = {};", p.getVariableName(), p.getVariableName());
                 if ("id".equals(p.getColumnName())) {
                     setter.body.line("if (UoW.isOpen()) {");
-                    setter.body.line("    UoW.getCurrent().getIdentityMap().store(this);");
+                    setter.body.line("    UoW.getIdentityMap().store(this);");
                     setter.body.line("}");
                     domainCodegen.addImports(UoW.class);
                 }
@@ -239,7 +239,7 @@ public class GenerateDomainCodegenPass implements Pass {
             remover.body.line("    if (a.get{}().equals(o)) {", mtmp.getCapitalVariableNameSingular());
             remover.body.line("        a.set{}(null);", mtmp.getCapitalVariableNameSingular());
             remover.body.line("        a.set{}(null);", mtmp.getOther().getCapitalVariableNameSingular());
-            remover.body.line("        UoW.getCurrent().delete(a);");
+            remover.body.line("        UoW.delete(a);");
             remover.body.line("    }");
             remover.body.line("}");
 

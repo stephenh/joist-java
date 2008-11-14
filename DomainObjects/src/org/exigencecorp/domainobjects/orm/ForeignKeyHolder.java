@@ -16,7 +16,7 @@ public class ForeignKeyHolder<T extends DomainObject> {
 
     public T get() {
         if (this.instance == null && this.id != null && UoW.isOpen()) {
-            this.instance = UoW.getCurrent().getRepository().load(this.domainClass, this.id);
+            this.instance = UoW.load(this.domainClass, this.id);
         }
         return this.instance;
     }

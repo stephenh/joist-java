@@ -43,7 +43,7 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
-            UoW.getCurrent().getIdentityMap().store(this);
+            UoW.getIdentityMap().store(this);
         }
     }
 
