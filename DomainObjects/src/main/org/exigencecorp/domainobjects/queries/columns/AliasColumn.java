@@ -2,7 +2,6 @@ package org.exigencecorp.domainobjects.queries.columns;
 
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.Shim;
-import org.exigencecorp.domainobjects.orm.converters.Converter;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Order;
 import org.exigencecorp.domainobjects.queries.SelectItem;
@@ -18,13 +17,11 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
     private final Alias<T> alias;
     private final String name;
     private final Shim<T, U> shim;
-    protected Converter<U, V> converter;
 
     protected AliasColumn(Alias<T> alias, String name, Shim<T, U> shim) {
         this.alias = alias;
         this.name = name;
         this.shim = shim;
-        this.converter = null;
     }
 
     public U getDomainValue(T instance) {
@@ -40,11 +37,11 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
     }
 
     public U toDomainValue(V jdbcValue) {
-        return (this.converter != null) ? this.converter.toDomain(jdbcValue) : (U) jdbcValue;
+        return (U) jdbcValue;
     }
 
     public V toJdbcValue(U domainValue) {
-        return (this.converter != null) ? this.converter.toJdbc(domainValue) : (V) domainValue;
+        return (V) domainValue;
     }
 
     public Order asc() {
