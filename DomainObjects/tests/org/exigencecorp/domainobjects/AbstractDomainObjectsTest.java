@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.exigencecorp.domainobjects.uow.UoW;
 
-public class AbstractDomainObjectsTest extends TestCase {
+public abstract class AbstractDomainObjectsTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
