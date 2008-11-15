@@ -3,7 +3,6 @@ package features.domain.queries;
 import java.util.List;
 
 import org.exigencecorp.domainobjects.AbstractQueries;
-import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.domainobjects.queries.Update;
 
@@ -23,7 +22,7 @@ public class PrimitivesQueries extends AbstractQueries<Primitives> {
         return q.unique();
     }
 
-    public Ids<Primitives> findIdsWithNameLike(String name) {
+    public List<Integer> findIdsWithNameLike(String name) {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
         q.where(p.name.like(name));
@@ -44,7 +43,7 @@ public class PrimitivesQueries extends AbstractQueries<Primitives> {
         return q.unique();
     }
 
-    public void setFlag(Ids<Primitives> ids, boolean value) {
+    public void setFlag(List<Integer> ids, boolean value) {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Update<Primitives> u = Update.into(p);
         u.set(p.flag.to(true));

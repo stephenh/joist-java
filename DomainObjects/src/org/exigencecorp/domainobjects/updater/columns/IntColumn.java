@@ -1,13 +1,9 @@
 package org.exigencecorp.domainobjects.updater.columns;
 
-public class IntColumn extends AbstractColumn {
+public class IntColumn extends AbstractColumn<IntColumn> {
 
     public IntColumn(String name) {
-        this(name, Nullable.No);
-    }
-
-    public IntColumn(String name, Nullable isNull) {
-        super(name, isNull);
+        super(name);
     }
 
     public String toSql() {

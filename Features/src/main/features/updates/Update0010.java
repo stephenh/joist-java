@@ -4,7 +4,6 @@ import static org.exigencecorp.domainobjects.updater.Keywords.createTable;
 import static org.exigencecorp.domainobjects.updater.Keywords.foreignKey;
 import static org.exigencecorp.domainobjects.updater.Keywords.integer;
 import static org.exigencecorp.domainobjects.updater.Keywords.primaryKey;
-import static org.exigencecorp.domainobjects.updater.Keywords.theyOwnMe;
 import static org.exigencecorp.domainobjects.updater.Keywords.varchar;
 
 import org.exigencecorp.domainobjects.updater.Update;
@@ -20,8 +19,8 @@ public class Update0010 extends Update {
         createTable("parent_c_bar",//
             primaryKey("id"),
             varchar("name"),
-            foreignKey("first_parent_id", "parent_c_foo", theyOwnMe),
-            foreignKey("second_parent_id", "parent_c_foo", theyOwnMe),
+            foreignKey("first_parent_id", "parent_c_foo"),
+            foreignKey("second_parent_id", "parent_c_foo"),
             integer("version"));
     }
 

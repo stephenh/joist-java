@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.ParentBChildFooAlias;
 import features.domain.queries.ParentBChildFooQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
@@ -18,7 +17,7 @@ abstract class ParentBChildFooCodegen extends AbstractDomainObject {
     }
 
     public static final ParentBChildFooQueries queries = new ParentBChildFooQueries();
-    private Id<ParentBChildFoo> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
@@ -32,11 +31,11 @@ abstract class ParentBChildFooCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<ParentBChildFoo>("name", 100, Shims.name));
     }
 
-    public Id<ParentBChildFoo> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<ParentBChildFoo> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -77,11 +76,11 @@ abstract class ParentBChildFooCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ParentBChildFoo, Id<ParentBChildFoo>> id = new Shim<ParentBChildFoo, Id<ParentBChildFoo>>() {
-            public void set(ParentBChildFoo instance, Id<ParentBChildFoo> id) {
+        public static final Shim<ParentBChildFoo, java.lang.Integer> id = new Shim<ParentBChildFoo, java.lang.Integer>() {
+            public void set(ParentBChildFoo instance, java.lang.Integer id) {
                 ((ParentBChildFooCodegen) instance).id = id;
             }
-            public Id<ParentBChildFoo> get(ParentBChildFoo instance) {
+            public Integer get(ParentBChildFoo instance) {
                 return ((ParentBChildFooCodegen) instance).id;
             }
         };

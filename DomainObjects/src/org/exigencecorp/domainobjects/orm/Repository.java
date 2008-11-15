@@ -41,7 +41,7 @@ public class Repository {
     public <T extends DomainObject> void delete(T instance) {
         Alias<? super T> current = AliasRegistry.get(instance);
         while (current != null) {
-            Delete.from(current).where(current.getIdColumn().equalsRuntimeChecked(instance.getId())).execute();
+            Delete.from(current).where(current.getIdColumn().equals(instance)).execute();
             current = current.getBaseClassAlias();
         }
     }

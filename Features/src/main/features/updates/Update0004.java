@@ -5,7 +5,6 @@ import static org.exigencecorp.domainobjects.updater.Keywords.createCodeTable;
 import static org.exigencecorp.domainobjects.updater.Keywords.createTable;
 import static org.exigencecorp.domainobjects.updater.Keywords.foreignKey;
 import static org.exigencecorp.domainobjects.updater.Keywords.integer;
-import static org.exigencecorp.domainobjects.updater.Keywords.neitherOwns;
 import static org.exigencecorp.domainobjects.updater.Keywords.primaryKey;
 import static org.exigencecorp.domainobjects.updater.Keywords.varchar;
 
@@ -29,8 +28,8 @@ public class Update0004 extends Update {
         createTable(
             "code_a_domain_object",
             primaryKey("id"),
-            foreignKey("code_a_size", neitherOwns),
-            foreignKey("code_a_color", neitherOwns),
+            foreignKey("code_a_size").ownerIsNeither(),
+            foreignKey("code_a_color").ownerIsNeither(),
             varchar("name"),
             integer("version"));
     }

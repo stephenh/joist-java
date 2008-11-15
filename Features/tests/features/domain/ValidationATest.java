@@ -3,7 +3,6 @@ package features.domain;
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.validation.ValidationException;
 import org.exigencecorp.domainobjects.validation.errors.PropertyError;
 
@@ -11,7 +10,7 @@ public class ValidationATest extends AbstractFeaturesTest {
 
     public void testNotNull() {
         ValidationAFoo foo = new ValidationAFoo();
-        foo.setId(new Id<ValidationAFoo>(ValidationAFoo.class, 1));
+        foo.setId(1);
         try {
             this.commitAndReOpen();
             Assert.fail();

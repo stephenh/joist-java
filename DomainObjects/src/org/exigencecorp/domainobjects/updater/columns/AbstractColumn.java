@@ -1,18 +1,26 @@
 package org.exigencecorp.domainobjects.updater.columns;
 
-import java.sql.SQLException;
-
 import org.exigencecorp.util.StringBuilderr;
 
-public abstract class AbstractColumn implements Column {
+public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Column {
 
-    private String name;
+    private final String name;
     private String tableName;
-    protected Nullable isNull;
+    private Nullable isNull = Nullable.No;
+    private IsUnique isUnique;
 
-    protected AbstractColumn(String name, Nullable isNull) {
+    protected AbstractColumn(String name) {
         this.name = name;
-        this.isNull = isNull;
+    }
+
+    public T nullable() {
+        this.isNull = Nullable.Yes;
+        return (T) this;
+    }
+
+    public T unique() {
+        this.isUnique = IsUnique.Yes;
+        return (T) this;
     }
 
     public String getName() {
@@ -31,19 +39,25 @@ public abstract class AbstractColumn implements Column {
         throw new IllegalStateException("The concrete column class must override us");
     }
 
-    public String toSqlWithoutTrailingComma() throws SQLException {
-        String s = this.toSql();
-        s = s.substring(0, s.length() - 1);
-        return s;
-    }
-
     public void preInjectCommands(StringBuilderr sb) {
     }
 
     public void postInjectCommands(StringBuilderr sb) {
-        if (this.isNull == Nullable.No) {
+        if (!this.isNullable()) {
             sb.line("ALTER TABLE \"{}\" ALTER COLUMN \"{}\" SET NOT NULL;", this.tableName, this.name);
         }
+        if (this.isUnique()) {
+            String constraintName = this.getTableName() + "_" + this.getName() + "_key";
+            sb.line("ALTER TABLE \"{}\" ADD CONSTRAINT \"{}\" UNIQUE (\"{}\");", this.getTableName(), constraintName, this.getName());
+        }
+    }
+
+    private boolean isNullable() {
+        return this.isNull == Nullable.Yes;
+    }
+
+    private boolean isUnique() {
+        return this.isUnique == IsUnique.Yes;
     }
 
 }

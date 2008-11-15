@@ -6,7 +6,6 @@ import features.domain.ParentBParentAlias;
 import features.domain.queries.ParentBParentQueries;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
@@ -21,7 +20,7 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     public static final ParentBParentQueries queries = new ParentBParentQueries();
-    private Id<ParentBParent> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
     private static final ParentBChildFooAlias parentBChildFoosAlias = new ParentBChildFooAlias("a");
@@ -38,11 +37,11 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<ParentBParent>("name", 100, Shims.name));
     }
 
-    public Id<ParentBParent> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<ParentBParent> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -112,11 +111,11 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ParentBParent, Id<ParentBParent>> id = new Shim<ParentBParent, Id<ParentBParent>>() {
-            public void set(ParentBParent instance, Id<ParentBParent> id) {
+        public static final Shim<ParentBParent, java.lang.Integer> id = new Shim<ParentBParent, java.lang.Integer>() {
+            public void set(ParentBParent instance, java.lang.Integer id) {
                 ((ParentBParentCodegen) instance).id = id;
             }
-            public Id<ParentBParent> get(ParentBParent instance) {
+            public Integer get(ParentBParent instance) {
                 return ((ParentBParentCodegen) instance).id;
             }
         };

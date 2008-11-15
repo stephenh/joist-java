@@ -6,7 +6,6 @@ import features.domain.queries.ManyToManyBFooQueries;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
@@ -22,7 +21,7 @@ abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
     }
 
     public static final ManyToManyBFooQueries queries = new ManyToManyBFooQueries();
-    private Id<ManyToManyBFoo> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
     private static final ManyToManyBFooToBarAlias blueManyToManyBFooToBarsAlias = new ManyToManyBFooToBarAlias("a");
@@ -37,11 +36,11 @@ abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<ManyToManyBFoo>("name", 100, Shims.name));
     }
 
-    public Id<ManyToManyBFoo> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<ManyToManyBFoo> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -111,11 +110,11 @@ abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ManyToManyBFoo, Id<ManyToManyBFoo>> id = new Shim<ManyToManyBFoo, Id<ManyToManyBFoo>>() {
-            public void set(ManyToManyBFoo instance, Id<ManyToManyBFoo> id) {
+        public static final Shim<ManyToManyBFoo, java.lang.Integer> id = new Shim<ManyToManyBFoo, java.lang.Integer>() {
+            public void set(ManyToManyBFoo instance, java.lang.Integer id) {
                 ((ManyToManyBFooCodegen) instance).id = id;
             }
-            public Id<ManyToManyBFoo> get(ManyToManyBFoo instance) {
+            public Integer get(ManyToManyBFoo instance) {
                 return ((ManyToManyBFooCodegen) instance).id;
             }
         };

@@ -6,7 +6,6 @@ import features.domain.queries.ManyToManyAFooQueries;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
@@ -22,7 +21,7 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     }
 
     public static final ManyToManyAFooQueries queries = new ManyToManyAFooQueries();
-    private Id<ManyToManyAFoo> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
     private static final ManyToManyAFooToBarAlias manyToManyAFooToBarsAlias = new ManyToManyAFooToBarAlias("a");
@@ -37,11 +36,11 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<ManyToManyAFoo>("name", 100, Shims.name));
     }
 
-    public Id<ManyToManyAFoo> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<ManyToManyAFoo> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -111,11 +110,11 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ManyToManyAFoo, Id<ManyToManyAFoo>> id = new Shim<ManyToManyAFoo, Id<ManyToManyAFoo>>() {
-            public void set(ManyToManyAFoo instance, Id<ManyToManyAFoo> id) {
+        public static final Shim<ManyToManyAFoo, java.lang.Integer> id = new Shim<ManyToManyAFoo, java.lang.Integer>() {
+            public void set(ManyToManyAFoo instance, java.lang.Integer id) {
                 ((ManyToManyAFooCodegen) instance).id = id;
             }
-            public Id<ManyToManyAFoo> get(ManyToManyAFoo instance) {
+            public Integer get(ManyToManyAFoo instance) {
                 return ((ManyToManyAFooCodegen) instance).id;
             }
         };

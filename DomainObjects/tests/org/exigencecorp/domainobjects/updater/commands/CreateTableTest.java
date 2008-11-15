@@ -4,10 +4,8 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.exigencecorp.domainobjects.updater.columns.ForeignKeyColumn;
-import org.exigencecorp.domainobjects.updater.columns.IsUnique;
 import org.exigencecorp.domainobjects.updater.columns.PrimaryKeyColumn;
 import org.exigencecorp.domainobjects.updater.columns.VarcharColumn;
-import org.exigencecorp.domainobjects.updater.columns.ForeignKeyColumn.Owner;
 import org.exigencecorp.util.Join;
 
 public class CreateTableTest extends TestCase {
@@ -26,7 +24,7 @@ public class CreateTableTest extends TestCase {
     }
 
     public void testVarcharUnique() throws Exception {
-        CreateTable t = new CreateTable("gender", new VarcharColumn("name", IsUnique.Yes));
+        CreateTable t = new CreateTable("gender", new VarcharColumn("name").unique());
 
         Assert.assertEquals(Join.linesWithTickToQuote(
             "CREATE TABLE 'gender' (",
@@ -37,7 +35,7 @@ public class CreateTableTest extends TestCase {
     }
 
     public void testForeignKey() throws Exception {
-        CreateTable t = new CreateTable("demographic", new ForeignKeyColumn("gender", Owner.IsNeither));
+        CreateTable t = new CreateTable("demographic", new ForeignKeyColumn("gender").ownerIsNeither());
         Assert
             .assertEquals(
                 Join

@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.PrimitivesAlias;
 import features.domain.queries.PrimitivesQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.uow.UoW;
@@ -17,7 +16,7 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
     }
 
     public static final PrimitivesQueries queries = new PrimitivesQueries();
-    private Id<Primitives> id = null;
+    private Integer id = null;
     private boolean flag = false;
     private String name = null;
     private Integer version = null;
@@ -32,11 +31,11 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<Primitives>("name", 100, Shims.name));
     }
 
-    public Id<Primitives> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<Primitives> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -67,11 +66,11 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<Primitives, Id<Primitives>> id = new Shim<Primitives, Id<Primitives>>() {
-            public void set(Primitives instance, Id<Primitives> id) {
+        public static final Shim<Primitives, java.lang.Integer> id = new Shim<Primitives, java.lang.Integer>() {
+            public void set(Primitives instance, java.lang.Integer id) {
                 ((PrimitivesCodegen) instance).id = id;
             }
-            public Id<Primitives> get(Primitives instance) {
+            public Integer get(Primitives instance) {
                 return ((PrimitivesCodegen) instance).id;
             }
         };

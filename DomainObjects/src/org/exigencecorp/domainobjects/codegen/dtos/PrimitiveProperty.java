@@ -41,9 +41,6 @@ public class PrimitiveProperty implements Property {
     }
 
     public String getJavaType() {
-        if (this.columnName.equals("id")) {
-            return "Id<" + this.entity.getClassName() + ">";
-        }
         return this.config.getJavaType(this.entity.getTableName(), this.getColumnName(), this.dataType);
     }
 

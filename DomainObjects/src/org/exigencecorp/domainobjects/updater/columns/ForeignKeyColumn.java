@@ -4,36 +4,41 @@ import org.exigencecorp.domainobjects.updater.Updater;
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.util.StringBuilderr;
 
-public class ForeignKeyColumn extends AbstractColumn {
+public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
 
     private String otherTable;
     private String otherTableColumn;
     private Owner owner;
 
-    public enum Owner {
+    private enum Owner {
         IsMe, IsThem, IsNeither
     };
 
-    public ForeignKeyColumn(String otherTable, Owner owner) {
-        this(otherTable + "_id", otherTable, "id", Nullable.No, owner);
+    public ForeignKeyColumn(String otherTable) {
+        super(otherTable + "_id");
+        this.otherTable = otherTable;
+        this.otherTableColumn = "id";
+        this.owner = Owner.IsThem;
     }
 
-    public ForeignKeyColumn(String otherTable, Owner owner, Nullable isNull) {
-        this(otherTable + "_id", otherTable, "id", isNull, owner);
-    }
-
-    public ForeignKeyColumn(String name, String otherTable, Owner owner) {
-        this(name, otherTable, "id", Nullable.No, owner);
-    }
-
-    public ForeignKeyColumn(String name, String otherTable, String otherTableColumn, Nullable isNull, Owner owner) {
-        super(name, isNull);
-        if (!name.endsWith("id")) {
+    public ForeignKeyColumn(String columnName, String otherTable, String otherTableColumn) {
+        super(columnName);
+        if (!columnName.endsWith("id")) {
             throw new RuntimeException("names of fk columns should end with id");
         }
         this.otherTable = otherTable;
         this.otherTableColumn = otherTableColumn;
-        this.owner = owner;
+        this.owner = Owner.IsThem;
+    }
+
+    public ForeignKeyColumn ownerIsMe() {
+        this.owner = Owner.IsMe;
+        return this;
+    }
+
+    public ForeignKeyColumn ownerIsNeither() {
+        this.owner = Owner.IsNeither;
+        return this;
     }
 
     public String toSql() {

@@ -1,8 +1,8 @@
 package features.domain;
 
-import junit.framework.Assert;
+import java.util.List;
 
-import org.exigencecorp.domainobjects.Ids;
+import junit.framework.Assert;
 
 public class PrimitivesTest extends AbstractFeaturesTest {
 
@@ -84,10 +84,10 @@ public class PrimitivesTest extends AbstractFeaturesTest {
         new Primitives("foo1");
         new Primitives("foo2");
         this.commitAndReOpen();
-        Ids<Primitives> ids = Primitives.queries.findAllIds();
-        Assert.assertEquals(2, ids.getIds().size());
-        Assert.assertEquals(2, ids.getIds().get(0).intValue());
-        Assert.assertEquals(3, ids.getIds().get(1).intValue());
+        List<Integer> ids = Primitives.queries.findAllIds();
+        Assert.assertEquals(2, ids.size());
+        Assert.assertEquals(2, ids.get(0).intValue());
+        Assert.assertEquals(3, ids.get(1).intValue());
     }
 
 }

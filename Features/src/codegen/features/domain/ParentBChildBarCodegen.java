@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.ParentBChildBarAlias;
 import features.domain.queries.ParentBChildBarQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
@@ -18,7 +17,7 @@ abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     }
 
     public static final ParentBChildBarQueries queries = new ParentBChildBarQueries();
-    private Id<ParentBChildBar> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
@@ -32,11 +31,11 @@ abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<ParentBChildBar>("name", 100, Shims.name));
     }
 
-    public Id<ParentBChildBar> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<ParentBChildBar> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -77,11 +76,11 @@ abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ParentBChildBar, Id<ParentBChildBar>> id = new Shim<ParentBChildBar, Id<ParentBChildBar>>() {
-            public void set(ParentBChildBar instance, Id<ParentBChildBar> id) {
+        public static final Shim<ParentBChildBar, java.lang.Integer> id = new Shim<ParentBChildBar, java.lang.Integer>() {
+            public void set(ParentBChildBar instance, java.lang.Integer id) {
                 ((ParentBChildBarCodegen) instance).id = id;
             }
-            public Id<ParentBChildBar> get(ParentBChildBar instance) {
+            public Integer get(ParentBChildBar instance) {
                 return ((ParentBChildBarCodegen) instance).id;
             }
         };

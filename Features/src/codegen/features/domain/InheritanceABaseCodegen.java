@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.InheritanceABaseAlias;
 import features.domain.queries.InheritanceABaseQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.uow.UoW;
@@ -17,7 +16,7 @@ abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     }
 
     public static final InheritanceABaseQueries queries = new InheritanceABaseQueries();
-    private Id<InheritanceABase> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
 
@@ -30,11 +29,11 @@ abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<InheritanceABase>("name", 100, Shims.name));
     }
 
-    public Id<InheritanceABase> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<InheritanceABase> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -56,11 +55,11 @@ abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<InheritanceABase, Id<InheritanceABase>> id = new Shim<InheritanceABase, Id<InheritanceABase>>() {
-            public void set(InheritanceABase instance, Id<InheritanceABase> id) {
+        public static final Shim<InheritanceABase, java.lang.Integer> id = new Shim<InheritanceABase, java.lang.Integer>() {
+            public void set(InheritanceABase instance, java.lang.Integer id) {
                 ((InheritanceABaseCodegen) instance).id = id;
             }
-            public Id<InheritanceABase> get(InheritanceABase instance) {
+            public Integer get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).id;
             }
         };

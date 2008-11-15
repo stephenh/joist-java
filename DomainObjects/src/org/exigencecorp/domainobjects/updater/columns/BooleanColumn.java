@@ -1,37 +1,30 @@
 package org.exigencecorp.domainobjects.updater.columns;
 
-public class BooleanColumn extends AbstractColumn {
+public class BooleanColumn extends AbstractColumn<BooleanColumn> {
 
-    private Boolean defaultValue;
+    private Boolean defaultValue = null;
 
     public BooleanColumn(String name) {
-        this(name, Nullable.No);
+        super(name);
     }
 
-    public BooleanColumn(String name, Nullable isNull) {
-        super(name, isNull);
+    public BooleanColumn defaultTrue() {
+        this.defaultValue = Boolean.TRUE;
+        return this;
     }
 
-    public BooleanColumn(String name, Nullable isNull, boolean defaultValue) {
-        super(name, isNull);
-        this.defaultValue = defaultValue;
+    public BooleanColumn defaultFalse() {
+        this.defaultValue = Boolean.FALSE;
+        return this;
     }
 
     public String toSql() {
         String sql = this.getName() + " boolean";
-
-        if (this.isNull == Nullable.No) {
-            sql += " NOT NULL";
-        }
-
         if (this.defaultValue != null) {
             sql += " DEFAULT " + this.defaultValue.toString().toUpperCase() + ",";
-        } else if (this.isNull == Nullable.Yes) {
-            sql += " DEFAULT NULL,";
         } else {
             sql += ",";
         }
-
         return sql;
     }
 

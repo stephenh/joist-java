@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.ManyToManyAFooToBarAlias;
 import features.domain.queries.ManyToManyAFooToBarQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
@@ -16,7 +15,7 @@ abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     }
 
     public static final ManyToManyAFooToBarQueries queries = new ManyToManyAFooToBarQueries();
-    private Id<ManyToManyAFooToBar> id = null;
+    private Integer id = null;
     private Integer version = null;
     private ForeignKeyHolder<ManyToManyAFoo> manyToManyAFoo = new ForeignKeyHolder<ManyToManyAFoo>(ManyToManyAFoo.class);
     private ForeignKeyHolder<ManyToManyABar> manyToManyABar = new ForeignKeyHolder<ManyToManyABar>(ManyToManyABar.class);
@@ -28,11 +27,11 @@ abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     private void addExtraRules() {
     }
 
-    public Id<ManyToManyAFooToBar> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<ManyToManyAFooToBar> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -83,11 +82,11 @@ abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ManyToManyAFooToBar, Id<ManyToManyAFooToBar>> id = new Shim<ManyToManyAFooToBar, Id<ManyToManyAFooToBar>>() {
-            public void set(ManyToManyAFooToBar instance, Id<ManyToManyAFooToBar> id) {
+        public static final Shim<ManyToManyAFooToBar, java.lang.Integer> id = new Shim<ManyToManyAFooToBar, java.lang.Integer>() {
+            public void set(ManyToManyAFooToBar instance, java.lang.Integer id) {
                 ((ManyToManyAFooToBarCodegen) instance).id = id;
             }
-            public Id<ManyToManyAFooToBar> get(ManyToManyAFooToBar instance) {
+            public Integer get(ManyToManyAFooToBar instance) {
                 return ((ManyToManyAFooToBarCodegen) instance).id;
             }
         };

@@ -1,11 +1,11 @@
 package org.exigencecorp.domainobjects.updater.columns;
 
-public class CharColumn extends AbstractColumn {
+public class CharColumn extends AbstractColumn<CharColumn> {
 
     private Integer length;
 
-    public CharColumn(String name, Integer length, Nullable isNull) {
-        super(name, isNull);
+    public CharColumn(String name, Integer length) {
+        super(name);
         this.length = length;
     }
 

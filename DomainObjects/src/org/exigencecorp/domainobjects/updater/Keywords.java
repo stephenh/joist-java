@@ -5,12 +5,8 @@ import org.exigencecorp.domainobjects.updater.columns.Column;
 import org.exigencecorp.domainobjects.updater.columns.DateColumn;
 import org.exigencecorp.domainobjects.updater.columns.ForeignKeyColumn;
 import org.exigencecorp.domainobjects.updater.columns.IntColumn;
-import org.exigencecorp.domainobjects.updater.columns.IsUnique;
-import org.exigencecorp.domainobjects.updater.columns.Nullable;
 import org.exigencecorp.domainobjects.updater.columns.PrimaryKeyColumn;
 import org.exigencecorp.domainobjects.updater.columns.VarcharColumn;
-import org.exigencecorp.domainobjects.updater.columns.ForeignKeyColumn.Owner;
-import org.exigencecorp.domainobjects.updater.columns.PrimaryKeyColumn.UseSequence;
 import org.exigencecorp.domainobjects.updater.commands.CreateTable;
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.util.StringBuilderr;
@@ -21,30 +17,22 @@ public class Keywords {
         Jdbc.executeUpdate(Updater.getConnection(), sql, args);
     }
 
-    public static Owner theyOwnMe = Owner.IsThem;
-
-    public static Owner iOwnThem = Owner.IsMe;
-
-    public static Owner neitherOwns = Owner.IsNeither;
-
-    public static IsUnique isUnique = IsUnique.Yes;
-
     public static void createTable(String name, Column... columns) {
         Keywords.execute(new CreateTable(name, columns).toSql());
     }
 
     public static void createTableSubclass(String parentName, String name, Column... columns) {
         CreateTable t = new CreateTable(name, columns);
-        ((PrimaryKeyColumn) t.getColumns()[0]).setUseSequence(UseSequence.No);
+        ((PrimaryKeyColumn) t.getColumns()[0]).noSequence();
         Keywords.execute(t.toSql());
-        Keywords.addForeignKey(name, "id", parentName, "id", Owner.IsThem, Nullable.No);
+        Keywords.addForeignKeyConstraint(name, Keywords.foreignKey("id", parentName, "id"));
     }
 
     public static void createCodeTable(String name) {
         Keywords.createTable(name,//
-            Keywords.primaryKey("id", UseSequence.No),
-            Keywords.varchar("code", IsUnique.Yes),
-            Keywords.varchar("name", IsUnique.Yes),
+            Keywords.primaryKey("id").noSequence(),
+            Keywords.varchar("code").unique(),
+            Keywords.varchar("name").unique(),
             Keywords.integer("version"));
     }
 
@@ -55,8 +43,8 @@ public class Keywords {
     public static void createJoinTable(String joinTableName, String table1, String table2) {
         Keywords.createTable(joinTableName,//
             Keywords.primaryKey("id"),
-            Keywords.foreignKey(table1, Owner.IsNeither),
-            Keywords.foreignKey(table2, Owner.IsNeither),
+            Keywords.foreignKey(table1).ownerIsNeither(),
+            Keywords.foreignKey(table2).ownerIsNeither(),
             Keywords.integer("version"));
     }
 
@@ -80,16 +68,16 @@ public class Keywords {
         return new PrimaryKeyColumn(name);
     }
 
-    public static PrimaryKeyColumn primaryKey(String name, UseSequence useSequence) {
-        return new PrimaryKeyColumn(name, useSequence);
+    public static ForeignKeyColumn foreignKey(String tableName) {
+        return new ForeignKeyColumn(tableName);
     }
 
-    public static ForeignKeyColumn foreignKey(String otherTable, Owner owner) {
-        return new ForeignKeyColumn(otherTable, owner);
+    public static ForeignKeyColumn foreignKey(String columnName, String otherTable) {
+        return new ForeignKeyColumn(columnName, otherTable, "id");
     }
 
-    public static ForeignKeyColumn foreignKey(String columnName, String otherTable, Owner owner) {
-        return new ForeignKeyColumn(columnName, otherTable, owner);
+    public static ForeignKeyColumn foreignKey(String columnName, String otherTable, String otherTableColumn) {
+        return new ForeignKeyColumn(columnName, otherTable, otherTableColumn);
     }
 
     public static DateColumn date(String name) {
@@ -104,19 +92,14 @@ public class Keywords {
         return new VarcharColumn(name);
     }
 
-    public static VarcharColumn varchar(String name, IsUnique isUnique) {
-        return new VarcharColumn(name, isUnique);
-    }
-
     public static BooleanColumn bool(String name) {
         return new BooleanColumn(name);
     }
 
-    public static void addForeignKey(String table, String column, String otherTable, String otherColumn, Owner owner, Nullable nullable) {
+    public static void addForeignKeyConstraint(String table, ForeignKeyColumn column) {
         StringBuilderr sql = new StringBuilderr();
-        ForeignKeyColumn fk = new ForeignKeyColumn(column, otherTable, otherColumn, nullable, owner);
-        fk.setTableName(table);
-        fk.postInjectCommands(sql);
+        column.setTableName(table);
+        column.postInjectCommands(sql);
         Keywords.execute(sql.toString());
     }
 

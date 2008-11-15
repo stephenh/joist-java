@@ -6,7 +6,6 @@ import features.domain.queries.ManyToManyBBarQueries;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
@@ -22,7 +21,7 @@ abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
     }
 
     public static final ManyToManyBBarQueries queries = new ManyToManyBBarQueries();
-    private Id<ManyToManyBBar> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
     private static final ManyToManyBFooToBarAlias greenManyToManyBFooToBarsAlias = new ManyToManyBFooToBarAlias("a");
@@ -37,11 +36,11 @@ abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<ManyToManyBBar>("name", 100, Shims.name));
     }
 
-    public Id<ManyToManyBBar> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<ManyToManyBBar> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -111,11 +110,11 @@ abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ManyToManyBBar, Id<ManyToManyBBar>> id = new Shim<ManyToManyBBar, Id<ManyToManyBBar>>() {
-            public void set(ManyToManyBBar instance, Id<ManyToManyBBar> id) {
+        public static final Shim<ManyToManyBBar, java.lang.Integer> id = new Shim<ManyToManyBBar, java.lang.Integer>() {
+            public void set(ManyToManyBBar instance, java.lang.Integer id) {
                 ((ManyToManyBBarCodegen) instance).id = id;
             }
-            public Id<ManyToManyBBar> get(ManyToManyBBar instance) {
+            public Integer get(ManyToManyBBar instance) {
                 return ((ManyToManyBBarCodegen) instance).id;
             }
         };

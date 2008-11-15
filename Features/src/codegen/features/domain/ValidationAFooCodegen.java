@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.ValidationAFooAlias;
 import features.domain.queries.ValidationAFooQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.uow.UoW;
@@ -17,7 +16,7 @@ abstract class ValidationAFooCodegen extends AbstractDomainObject {
     }
 
     public static final ValidationAFooQueries queries = new ValidationAFooQueries();
-    private Id<ValidationAFoo> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
 
@@ -30,11 +29,11 @@ abstract class ValidationAFooCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<ValidationAFoo>("name", 100, Shims.name));
     }
 
-    public Id<ValidationAFoo> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<ValidationAFoo> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -56,11 +55,11 @@ abstract class ValidationAFooCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ValidationAFoo, Id<ValidationAFoo>> id = new Shim<ValidationAFoo, Id<ValidationAFoo>>() {
-            public void set(ValidationAFoo instance, Id<ValidationAFoo> id) {
+        public static final Shim<ValidationAFoo, java.lang.Integer> id = new Shim<ValidationAFoo, java.lang.Integer>() {
+            public void set(ValidationAFoo instance, java.lang.Integer id) {
                 ((ValidationAFooCodegen) instance).id = id;
             }
-            public Id<ValidationAFoo> get(ValidationAFoo instance) {
+            public Integer get(ValidationAFoo instance) {
                 return ((ValidationAFooCodegen) instance).id;
             }
         };

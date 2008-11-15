@@ -1,17 +1,13 @@
 package org.exigencecorp.domainobjects.updater.columns;
 
-public class BigIntColumn extends AbstractColumn {
+public class BigIntColumn extends AbstractColumn<BigIntColumn> {
 
     public BigIntColumn(String name) {
-        this(name, Nullable.No);
-    }
-
-    public BigIntColumn(String name, Nullable isNull) {
-        super(name, isNull);
+        super(name);
     }
 
     public String toSql() {
-        return this.getName() + " BIGINT,";
+        return this.getName() + " bigint,";
     }
 
 }

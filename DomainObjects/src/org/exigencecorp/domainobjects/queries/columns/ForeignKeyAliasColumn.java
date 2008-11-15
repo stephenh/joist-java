@@ -1,7 +1,6 @@
 package org.exigencecorp.domainobjects.queries.columns;
 
 import org.exigencecorp.domainobjects.DomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Where;
@@ -17,11 +16,11 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
     }
 
     public Where equals(W value) {
-        return new Where(this.getQualifiedName() + " = ?", value.getId().intValue());
+        return new Where(this.getQualifiedName() + " = ?", value.getId());
     }
 
-    public Where equals(Id<? super W> value) {
-        return new Where(this.getQualifiedName() + " = ?", value.intValue());
+    public Where equals(Integer value) {
+        return new Where(this.getQualifiedName() + " = ?", value);
     }
 
 }

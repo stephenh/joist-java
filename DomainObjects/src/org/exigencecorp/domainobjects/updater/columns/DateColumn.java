@@ -1,14 +1,10 @@
 package org.exigencecorp.domainobjects.updater.columns;
 
 /** Store YYYY-MM-DD. */
-public class DateColumn extends AbstractColumn {
+public class DateColumn extends AbstractColumn<DateColumn> {
 
     public DateColumn(String name) {
-        this(name, Nullable.No);
-    }
-
-    public DateColumn(String name, Nullable isNull) {
-        super(name, isNull);
+        super(name);
     }
 
     public String toSql() {

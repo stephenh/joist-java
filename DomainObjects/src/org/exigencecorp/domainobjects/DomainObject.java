@@ -7,7 +7,7 @@ import org.exigencecorp.domainobjects.validation.errors.ValidationError;
 public interface DomainObject {
 
     /** @return the instance/row id */
-    Id<? extends DomainObject> getId();
+    Integer getId();
 
     /** @return the version for the optimistic lock */
     Integer getVersion();

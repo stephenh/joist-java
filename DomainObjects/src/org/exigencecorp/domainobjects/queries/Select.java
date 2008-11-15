@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
-import org.exigencecorp.domainobjects.Ids;
 import org.exigencecorp.domainobjects.orm.mappers.DataTransferObjectMapper;
 import org.exigencecorp.domainobjects.orm.mappers.DomainObjectMapper;
 import org.exigencecorp.domainobjects.orm.mappers.IdsMapper;
@@ -87,8 +86,8 @@ public class Select<T extends DomainObject> {
         return results.get(0);
     }
 
-    public Ids<T> listIds() {
-        final Ids<T> ids = new Ids<T>(this.from.getDomainClass());
+    public List<Integer> listIds() {
+        List<Integer> ids = new ArrayList<Integer>();
         Jdbc.query(UoW.getConnection(), this.toSql(), this.getParameters(), new IdsMapper<T>(this.from, ids));
         return ids;
     }

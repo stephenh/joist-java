@@ -2,31 +2,18 @@ package org.exigencecorp.domainobjects.updater.columns;
 
 import org.exigencecorp.util.StringBuilderr;
 
-public class VarcharColumn extends AbstractColumn {
+public class VarcharColumn extends AbstractColumn<VarcharColumn> {
 
     private int length;
-    private IsUnique isUnique;
 
     public VarcharColumn(String name) {
-        this(name, 100, Nullable.No, IsUnique.No);
+        super(name);
+        this.length = 100;
     }
 
-    public VarcharColumn(String name, int length) {
-        this(name, length, Nullable.No, IsUnique.No);
-    }
-
-    public VarcharColumn(String name, IsUnique isUnique) {
-        this(name, 100, Nullable.No, isUnique);
-    }
-
-    public VarcharColumn(String name, Nullable isNull) {
-        this(name, 100, isNull, IsUnique.No);
-    }
-
-    public VarcharColumn(String name, int length, Nullable isNull, IsUnique isUnique) {
-        super(name, isNull);
+    public VarcharColumn length(int length) {
         this.length = length;
-        this.isUnique = isUnique;
+        return this;
     }
 
     public String toSql() {
@@ -35,10 +22,6 @@ public class VarcharColumn extends AbstractColumn {
 
     public void postInjectCommands(StringBuilderr sb) {
         super.postInjectCommands(sb);
-        if (this.isUnique == IsUnique.Yes) {
-            String constraintName = this.getTableName() + "_" + this.getName() + "_key";
-            sb.line("ALTER TABLE \"{}\" ADD CONSTRAINT \"{}\" UNIQUE (\"{}\");", this.getTableName(), constraintName, this.getName());
-        }
     }
 
 }

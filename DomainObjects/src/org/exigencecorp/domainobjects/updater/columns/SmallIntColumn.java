@@ -1,13 +1,13 @@
 package org.exigencecorp.domainobjects.updater.columns;
 
-public class SmallIntColumn extends AbstractColumn {
+public class SmallIntColumn extends AbstractColumn<SmallIntColumn> {
 
-    public SmallIntColumn(String name, Nullable isNull) {
-        super(name, isNull);
+    public SmallIntColumn(String name) {
+        super(name);
     }
 
     public String toSql() {
-        return this.getName() + " SMALLINT,";
+        return this.getName() + " smallint,";
     }
 
 }

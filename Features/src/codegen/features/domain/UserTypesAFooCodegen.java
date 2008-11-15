@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.UserTypesAFooAlias;
 import features.domain.queries.UserTypesAFooQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.uow.UoW;
@@ -17,7 +16,7 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     }
 
     public static final UserTypesAFooQueries queries = new UserTypesAFooQueries();
-    private Id<UserTypesAFoo> id = null;
+    private Integer id = null;
     private String name = null;
     private com.domainlanguage.time.CalendarDate created = null;
     private Integer version = null;
@@ -32,11 +31,11 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         this.addRule(new NotNull<UserTypesAFoo>("created", Shims.created));
     }
 
-    public Id<UserTypesAFoo> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<UserTypesAFoo> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -67,11 +66,11 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<UserTypesAFoo, Id<UserTypesAFoo>> id = new Shim<UserTypesAFoo, Id<UserTypesAFoo>>() {
-            public void set(UserTypesAFoo instance, Id<UserTypesAFoo> id) {
+        public static final Shim<UserTypesAFoo, java.lang.Integer> id = new Shim<UserTypesAFoo, java.lang.Integer>() {
+            public void set(UserTypesAFoo instance, java.lang.Integer id) {
                 ((UserTypesAFooCodegen) instance).id = id;
             }
-            public Id<UserTypesAFoo> get(UserTypesAFoo instance) {
+            public Integer get(UserTypesAFoo instance) {
                 return ((UserTypesAFooCodegen) instance).id;
             }
         };

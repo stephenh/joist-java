@@ -5,7 +5,6 @@ import features.domain.InheritanceBRootChildAlias;
 import features.domain.queries.InheritanceBRootQueries;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
@@ -20,7 +19,7 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     public static final InheritanceBRootQueries queries = new InheritanceBRootQueries();
-    private Id<InheritanceBRoot> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
     private static final InheritanceBRootChildAlias inheritanceBRootChildsAlias = new InheritanceBRootChildAlias("a");
@@ -35,11 +34,11 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<InheritanceBRoot>("name", 100, Shims.name));
     }
 
-    public Id<InheritanceBRoot> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<InheritanceBRoot> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -85,11 +84,11 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<InheritanceBRoot, Id<InheritanceBRoot>> id = new Shim<InheritanceBRoot, Id<InheritanceBRoot>>() {
-            public void set(InheritanceBRoot instance, Id<InheritanceBRoot> id) {
+        public static final Shim<InheritanceBRoot, java.lang.Integer> id = new Shim<InheritanceBRoot, java.lang.Integer>() {
+            public void set(InheritanceBRoot instance, java.lang.Integer id) {
                 ((InheritanceBRootCodegen) instance).id = id;
             }
-            public Id<InheritanceBRoot> get(InheritanceBRoot instance) {
+            public Integer get(InheritanceBRoot instance) {
                 return ((InheritanceBRootCodegen) instance).id;
             }
         };

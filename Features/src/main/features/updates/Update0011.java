@@ -3,7 +3,6 @@ package features.updates;
 import static org.exigencecorp.domainobjects.updater.Keywords.createTable;
 import static org.exigencecorp.domainobjects.updater.Keywords.foreignKey;
 import static org.exigencecorp.domainobjects.updater.Keywords.integer;
-import static org.exigencecorp.domainobjects.updater.Keywords.neitherOwns;
 import static org.exigencecorp.domainobjects.updater.Keywords.primaryKey;
 import static org.exigencecorp.domainobjects.updater.Keywords.varchar;
 
@@ -28,8 +27,8 @@ public class Update0011 extends Update {
 
         createTable("many_to_many_b_foo_to_bar",//
             primaryKey("id"),
-            foreignKey("blue_id", "many_to_many_b_foo", neitherOwns),
-            foreignKey("green_id", "many_to_many_b_bar", neitherOwns),
+            foreignKey("blue_id", "many_to_many_b_foo").ownerIsNeither(),
+            foreignKey("green_id", "many_to_many_b_bar").ownerIsNeither(),
             integer("version"));
     }
 

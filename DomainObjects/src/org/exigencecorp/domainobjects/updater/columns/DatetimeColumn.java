@@ -1,13 +1,9 @@
 package org.exigencecorp.domainobjects.updater.columns;
 
-public class DatetimeColumn extends AbstractColumn {
+public class DatetimeColumn extends AbstractColumn<DatetimeColumn> {
 
     public DatetimeColumn(String name) {
-        this(name, Nullable.No);
-    }
-
-    public DatetimeColumn(String name, Nullable isNull) {
-        super(name, isNull);
+        super(name);
     }
 
     public String toSql() {

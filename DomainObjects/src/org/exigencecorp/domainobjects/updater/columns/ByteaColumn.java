@@ -1,13 +1,9 @@
 package org.exigencecorp.domainobjects.updater.columns;
 
-public class ByteaColumn extends AbstractColumn {
+public class ByteaColumn extends AbstractColumn<ByteaColumn> {
 
     public ByteaColumn(String name) {
-        this(name, Nullable.Yes);
-    }
-
-    public ByteaColumn(String name, Nullable isNull) {
-        super(name, isNull);
+        super(name);
     }
 
     public String toSql() {

@@ -2,7 +2,6 @@ package features.domain;
 
 import junit.framework.Assert;
 
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.uow.UoW;
 
 public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
@@ -15,7 +14,7 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
 
     public void testExplicitlySettingTheIdOfANewObject() {
         Parent p = new Parent("p");
-        p.setId(new Id<Parent>(Parent.class, 10));
+        p.setId(10);
         this.commitAndReOpen();
 
         p = Parent.queries.find(10);
@@ -29,7 +28,7 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
         p2 = this.reload(p2);
         Parent pFake = new Parent("pFake");
         try {
-            pFake.setId(new Id<Parent>(Parent.class, 2));
+            pFake.setId(2);
             Assert.fail();
         } catch (RuntimeException re) {
             Assert.assertEquals("Domain object conflicts with an existing id Parent[2]", re.getMessage());
@@ -42,7 +41,7 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
 
         // p2 = this.reload(p2);
         Parent pFake = new Parent("pFake");
-        pFake.setId(new Id<Parent>(Parent.class, 2));
+        pFake.setId(2);
         p2 = this.reload(p2);
         Assert.assertSame(pFake, p2);
 

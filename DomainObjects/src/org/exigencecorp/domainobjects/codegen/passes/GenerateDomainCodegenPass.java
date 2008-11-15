@@ -3,7 +3,6 @@ package org.exigencecorp.domainobjects.codegen.passes;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
@@ -107,9 +106,6 @@ public class GenerateDomainCodegenPass implements Pass {
                 domainCodegen.addImports(MaxLength.class);
             }
 
-            if (p.getColumnName().equals("id")) {
-                domainCodegen.addImports(Id.class);
-            }
             domainCodegen.addImports(Shim.class);
         }
     }

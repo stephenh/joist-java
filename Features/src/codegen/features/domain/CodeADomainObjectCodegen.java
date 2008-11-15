@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.CodeADomainObjectAlias;
 import features.domain.queries.CodeADomainObjectQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyCodeHolder;
@@ -18,7 +17,7 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public static final CodeADomainObjectQueries queries = new CodeADomainObjectQueries();
-    private Id<CodeADomainObject> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
     private ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
@@ -33,11 +32,11 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<CodeADomainObject>("name", 100, Shims.name));
     }
 
-    public Id<CodeADomainObject> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<CodeADomainObject> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -85,11 +84,11 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<CodeADomainObject, Id<CodeADomainObject>> id = new Shim<CodeADomainObject, Id<CodeADomainObject>>() {
-            public void set(CodeADomainObject instance, Id<CodeADomainObject> id) {
+        public static final Shim<CodeADomainObject, java.lang.Integer> id = new Shim<CodeADomainObject, java.lang.Integer>() {
+            public void set(CodeADomainObject instance, java.lang.Integer id) {
                 ((CodeADomainObjectCodegen) instance).id = id;
             }
-            public Id<CodeADomainObject> get(CodeADomainObject instance) {
+            public Integer get(CodeADomainObject instance) {
                 return ((CodeADomainObjectCodegen) instance).id;
             }
         };

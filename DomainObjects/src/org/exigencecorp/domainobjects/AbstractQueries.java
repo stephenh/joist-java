@@ -1,5 +1,7 @@
 package org.exigencecorp.domainobjects;
 
+import java.util.List;
+
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Select;
@@ -24,7 +26,7 @@ public abstract class AbstractQueries<T extends DomainObject> {
         return Select.from(this.aliasType).count();
     }
 
-    public Ids<T> findAllIds() {
+    public List<Integer> findAllIds() {
         return Select.from(this.aliasType).listIds();
     }
 

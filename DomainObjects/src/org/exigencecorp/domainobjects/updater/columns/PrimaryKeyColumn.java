@@ -2,29 +2,18 @@ package org.exigencecorp.domainobjects.updater.columns;
 
 import org.exigencecorp.util.StringBuilderr;
 
-public class PrimaryKeyColumn extends AbstractColumn {
+public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
 
     public enum UseSequence {
         Yes, No
     };
 
-    private UseSequence useSequence;
+    private UseSequence useSequence = PrimaryKeyColumn.UseSequence.Yes;
     private String primaryKeySet = null;
     private String sequenceName = null;
 
     public PrimaryKeyColumn(String name) {
-        this(name, PrimaryKeyColumn.UseSequence.Yes);
-    }
-
-    public PrimaryKeyColumn(String name, UseSequence useSequence, String sequenceName, String primaryKeySet) {
-        this(name, useSequence);
-        this.primaryKeySet = primaryKeySet;
-        this.sequenceName = sequenceName;
-    }
-
-    public PrimaryKeyColumn(String name, UseSequence useSequence) {
-        super(name, Nullable.No);
-        this.useSequence = useSequence;
+        super(name);
     }
 
     public String toSql() {
@@ -52,12 +41,9 @@ public class PrimaryKeyColumn extends AbstractColumn {
         }
     }
 
-    public UseSequence getUseSequence() {
-        return this.useSequence;
-    }
-
-    public void setUseSequence(UseSequence useSequence) {
-        this.useSequence = useSequence;
+    public PrimaryKeyColumn noSequence() {
+        this.useSequence = UseSequence.No;
+        return this;
     }
 
 }

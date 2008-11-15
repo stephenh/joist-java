@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.ParentCBarAlias;
 import features.domain.queries.ParentCBarQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
@@ -18,7 +17,7 @@ abstract class ParentCBarCodegen extends AbstractDomainObject {
     }
 
     public static final ParentCBarQueries queries = new ParentCBarQueries();
-    private Id<ParentCBar> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<ParentCFoo> firstParent = new ForeignKeyHolder<ParentCFoo>(ParentCFoo.class);
@@ -33,11 +32,11 @@ abstract class ParentCBarCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<ParentCBar>("name", 100, Shims.name));
     }
 
-    public Id<ParentCBar> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<ParentCBar> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -97,11 +96,11 @@ abstract class ParentCBarCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ParentCBar, Id<ParentCBar>> id = new Shim<ParentCBar, Id<ParentCBar>>() {
-            public void set(ParentCBar instance, Id<ParentCBar> id) {
+        public static final Shim<ParentCBar, java.lang.Integer> id = new Shim<ParentCBar, java.lang.Integer>() {
+            public void set(ParentCBar instance, java.lang.Integer id) {
                 ((ParentCBarCodegen) instance).id = id;
             }
-            public Id<ParentCBar> get(ParentCBar instance) {
+            public Integer get(ParentCBar instance) {
                 return ((ParentCBarCodegen) instance).id;
             }
         };

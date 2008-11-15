@@ -3,7 +3,6 @@ package features.domain;
 import features.domain.ChildAlias;
 import features.domain.queries.ChildQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Id;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
@@ -18,7 +17,7 @@ abstract class ChildCodegen extends AbstractDomainObject {
     }
 
     public static final ChildQueries queries = new ChildQueries();
-    private Id<Child> id = null;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<Parent> parent = new ForeignKeyHolder<Parent>(Parent.class);
@@ -32,11 +31,11 @@ abstract class ChildCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<Child>("name", 100, Shims.name));
     }
 
-    public Id<Child> getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Id<Child> id) {
+    public void setId(java.lang.Integer id) {
         this.recordIfChanged("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -77,11 +76,11 @@ abstract class ChildCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<Child, Id<Child>> id = new Shim<Child, Id<Child>>() {
-            public void set(Child instance, Id<Child> id) {
+        public static final Shim<Child, java.lang.Integer> id = new Shim<Child, java.lang.Integer>() {
+            public void set(Child instance, java.lang.Integer id) {
                 ((ChildCodegen) instance).id = id;
             }
-            public Id<Child> get(Child instance) {
+            public Integer get(Child instance) {
                 return ((ChildCodegen) instance).id;
             }
         };

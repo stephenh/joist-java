@@ -1,13 +1,9 @@
 package org.exigencecorp.domainobjects.updater.columns;
 
-public class MoneyColumn extends AbstractColumn {
+public class MoneyColumn extends AbstractColumn<MoneyColumn> {
 
     public MoneyColumn(String name) {
-        this(name, Nullable.No);
-    }
-
-    public MoneyColumn(String name, Nullable isNull) {
-        super(name, isNull);
+        super(name);
     }
 
     public String toSql() {
