@@ -11,7 +11,7 @@ import org.exigencecorp.domainobjects.migrations.AbstractMigration;
 public class m0010 extends AbstractMigration {
 
     public m0010() {
-        super("ParentC.");
+        super("ParentC with two non-default foreign key names.");
     }
 
     public void apply() {

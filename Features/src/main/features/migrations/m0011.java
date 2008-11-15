@@ -11,7 +11,7 @@ import org.exigencecorp.domainobjects.migrations.AbstractMigration;
 public class m0011 extends AbstractMigration {
 
     public m0011() {
-        super("ManyToManyB.");
+        super("ManyToManyB with non-default foreign key column names.");
     }
 
     public void apply() {
