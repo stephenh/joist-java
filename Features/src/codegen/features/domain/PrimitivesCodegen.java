@@ -17,7 +17,7 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
 
     public static final PrimitivesQueries queries = new PrimitivesQueries();
     private Integer id = null;
-    private boolean flag = false;
+    private Boolean flag = false;
     private String name = null;
     private Integer version = null;
 
@@ -43,11 +43,11 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
         }
     }
 
-    public boolean getFlag() {
+    public Boolean getFlag() {
         return this.flag;
     }
 
-    public void setFlag(boolean flag) {
+    public void setFlag(java.lang.Boolean flag) {
         this.recordIfChanged("flag", this.flag, flag);
         this.flag = flag;
     }
@@ -74,8 +74,8 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
                 return ((PrimitivesCodegen) instance).id;
             }
         };
-        public static final Shim<Primitives, Boolean> flag = new Shim<Primitives, Boolean>() {
-            public void set(Primitives instance, Boolean flag) {
+        public static final Shim<Primitives, java.lang.Boolean> flag = new Shim<Primitives, java.lang.Boolean>() {
+            public void set(Primitives instance, java.lang.Boolean flag) {
                 ((PrimitivesCodegen) instance).flag = flag;
             }
             public Boolean get(Primitives instance) {

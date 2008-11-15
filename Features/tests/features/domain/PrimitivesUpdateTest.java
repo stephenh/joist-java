@@ -12,12 +12,12 @@ public class PrimitivesUpdateTest extends AbstractFeaturesTest {
         new Primitives("testSave");
         this.commitAndReOpen();
 
-        Assert.assertEquals(false, Primitives.queries.find(2).getFlag());
+        Assert.assertFalse(Primitives.queries.find(2).getFlag());
         List<Integer> ids = Copy.list(2);
         Primitives.queries.setFlag(ids, true);
         this.commitAndReOpen();
 
-        Assert.assertEquals(true, Primitives.queries.find(2).getFlag());
+        Assert.assertTrue(Primitives.queries.find(2).getFlag());
     }
 
     public void testChangeFlagWithDynamicList() {
@@ -28,16 +28,16 @@ public class PrimitivesUpdateTest extends AbstractFeaturesTest {
 
         List<Integer> ids = Primitives.queries.findIdsWithNameLike("foo%");
         Assert.assertEquals(2, ids.size());
-        Assert.assertEquals(false, Primitives.queries.find(2).getFlag());
-        Assert.assertEquals(false, Primitives.queries.find(3).getFlag());
-        Assert.assertEquals(false, Primitives.queries.find(4).getFlag());
+        Assert.assertFalse(Primitives.queries.find(2).getFlag());
+        Assert.assertFalse(Primitives.queries.find(3).getFlag());
+        Assert.assertFalse(Primitives.queries.find(4).getFlag());
 
         Primitives.queries.setFlag(ids, true);
         this.commitAndReOpen();
 
-        Assert.assertEquals(true, Primitives.queries.find(2).getFlag());
-        Assert.assertEquals(true, Primitives.queries.find(3).getFlag());
-        Assert.assertEquals(false, Primitives.queries.find(4).getFlag());
+        Assert.assertTrue(Primitives.queries.find(2).getFlag());
+        Assert.assertTrue(Primitives.queries.find(3).getFlag());
+        Assert.assertFalse(Primitives.queries.find(4).getFlag());
     }
 
 }

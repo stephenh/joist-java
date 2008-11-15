@@ -41,15 +41,7 @@ public class PrimitiveProperty implements Property {
     }
 
     public String getJavaType() {
-        return this.config.getJavaType(this.entity.getTableName(), this.getColumnName(), this.dataType);
-    }
-
-    public String getJavaTypeNonPrimitive() {
-        String javaType = this.getJavaType();
-        if ("boolean".equals(javaType)) {
-            return "Boolean";
-        }
-        return javaType;
+        return this.config.getJavaType(this.entity.getTableName(), this.getColumnName(), this.dataType).getName();
     }
 
     public String getDefaultJavaString() {

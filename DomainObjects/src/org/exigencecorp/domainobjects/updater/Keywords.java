@@ -1,11 +1,13 @@
 package org.exigencecorp.domainobjects.updater;
 
+import org.exigencecorp.domainobjects.updater.columns.BigIntColumn;
 import org.exigencecorp.domainobjects.updater.columns.BooleanColumn;
 import org.exigencecorp.domainobjects.updater.columns.Column;
 import org.exigencecorp.domainobjects.updater.columns.DateColumn;
 import org.exigencecorp.domainobjects.updater.columns.ForeignKeyColumn;
 import org.exigencecorp.domainobjects.updater.columns.IntColumn;
 import org.exigencecorp.domainobjects.updater.columns.PrimaryKeyColumn;
+import org.exigencecorp.domainobjects.updater.columns.SmallIntColumn;
 import org.exigencecorp.domainobjects.updater.columns.VarcharColumn;
 import org.exigencecorp.domainobjects.updater.commands.CreateTable;
 import org.exigencecorp.jdbc.Jdbc;
@@ -86,6 +88,14 @@ public class Keywords {
 
     public static IntColumn integer(String name) {
         return new IntColumn(name);
+    }
+
+    public static SmallIntColumn smallint(String name) {
+        return new SmallIntColumn(name);
+    }
+
+    public static BigIntColumn bigint(String name) {
+        return new BigIntColumn(name);
     }
 
     public static VarcharColumn varchar(String name) {

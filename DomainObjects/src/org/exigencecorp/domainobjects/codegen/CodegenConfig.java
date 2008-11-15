@@ -12,6 +12,8 @@ import org.exigencecorp.domainobjects.queries.columns.BooleanAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.DateAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.LongAliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.ShortAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
 
 public abstract class CodegenConfig {
@@ -31,9 +33,9 @@ public abstract class CodegenConfig {
         this.setJavaType("character", String.class, StringAliasColumn.class);
         this.setJavaType("character varying", String.class, StringAliasColumn.class);
         this.setJavaType("text", String.class, StringAliasColumn.class);
-        this.setJavaType("smallint", Short.class, null);
-        this.setJavaType("bigint", Long.class, null);
-        this.setJavaType("boolean", boolean.class, BooleanAliasColumn.class);
+        this.setJavaType("smallint", Short.class, ShortAliasColumn.class);
+        this.setJavaType("bigint", Long.class, LongAliasColumn.class);
+        this.setJavaType("boolean", Boolean.class, BooleanAliasColumn.class);
         this.setJavaType("bytea", String.class, StringAliasColumn.class);
         this.setJavaType("date", Date.class, DateAliasColumn.class);
     }
@@ -99,9 +101,9 @@ public abstract class CodegenConfig {
         this.aliasTypeByDataType.put(jdbcDataType, aliasColumnType);
     }
 
-    public String getJavaType(String tableName, String columnName, String dataType) {
+    public Class<?> getJavaType(String tableName, String columnName, String dataType) {
         if (this.javaTypeByDataType.containsKey(dataType)) {
-            return this.javaTypeByDataType.get(dataType).getName();
+            return this.javaTypeByDataType.get(dataType);
         }
         throw new RuntimeException("Unmatched data type: " + dataType);
     }
