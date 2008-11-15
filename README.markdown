@@ -39,8 +39,9 @@ Patterns
 Todo
 ====
 
-* Throw out Id in favor of simple Integers?
 * Builders
+* Schema check
+* Project dependencies
 
 Acknowledgements
 ================
