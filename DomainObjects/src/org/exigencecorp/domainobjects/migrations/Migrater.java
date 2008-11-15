@@ -11,7 +11,7 @@ public class Migrater {
     private static ThreadLocal<Connection> current = new ThreadLocal<Connection>();
     private MigraterConfig config;
     private SchemaVersionTable schemaInfoTable;
-    private MigrationClasses migrationClasses;
+    private MigrationLoader migrationClasses;
 
     public static Connection getConnection() {
         return Migrater.current.get();
@@ -20,7 +20,7 @@ public class Migrater {
     public Migrater(MigraterConfig config) {
         this.config = config;
         this.schemaInfoTable = new SchemaVersionTable(this.config.getDataSource());
-        this.migrationClasses = new MigrationClasses(this.config.getPackageNamesContainingMigrations());
+        this.migrationClasses = new MigrationLoader(this.config.getPackageNamesContainingMigrations());
     }
 
     public void performMigrations() {

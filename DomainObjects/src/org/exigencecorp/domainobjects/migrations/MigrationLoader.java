@@ -6,11 +6,11 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.util.Reflection;
 
-public class MigrationClasses {
+public class MigrationLoader {
 
     private String[] packagesContainingMigrations;
 
-    public MigrationClasses(String[] packagesContainingMigrations) {
+    public MigrationLoader(String[] packagesContainingMigrations) {
         this.packagesContainingMigrations = packagesContainingMigrations;
     }
 
