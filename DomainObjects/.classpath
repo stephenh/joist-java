@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-  <classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/build"/>
+	<classpathentry kind="src" path="src/main"/>
 	<classpathentry kind="src" path="tests"/>
+	<classpathentry kind="src" path="src/build-tasks"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.3.jar" sourcepath="lib/commons-lang-2.3.zip"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Utilities"/>

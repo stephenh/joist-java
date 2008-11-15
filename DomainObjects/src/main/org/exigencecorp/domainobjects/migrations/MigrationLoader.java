@@ -8,9 +8,9 @@ import org.exigencecorp.util.Reflection;
 
 public class MigrationLoader {
 
-    private String[] packagesContainingMigrations;
+    private List<String> packagesContainingMigrations;
 
-    public MigrationLoader(String[] packagesContainingMigrations) {
+    public MigrationLoader(List<String> packagesContainingMigrations) {
         this.packagesContainingMigrations = packagesContainingMigrations;
     }
 

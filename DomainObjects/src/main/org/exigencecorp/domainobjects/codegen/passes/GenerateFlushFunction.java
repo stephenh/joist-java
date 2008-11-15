@@ -34,7 +34,7 @@ public class GenerateFlushFunction implements Pass {
         sql.line("  COST 100;");
         // sql.line("ALTER FUNCTION flush_test_database() OWNER TO sa;");
 
-        Jdbc.executeUpdate(codegen.getConfig().getDataSource(), sql.toString());
+        Jdbc.executeUpdate(codegen.getDataSource(), sql.toString());
     }
 
 }

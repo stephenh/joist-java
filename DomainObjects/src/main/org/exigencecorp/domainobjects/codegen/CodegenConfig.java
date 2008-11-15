@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
 import org.exigencecorp.domainobjects.queries.columns.BooleanAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.DateAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
@@ -16,8 +14,27 @@ import org.exigencecorp.domainobjects.queries.columns.LongAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.ShortAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
 
-public abstract class CodegenConfig {
+public class CodegenConfig {
 
+    /** Where the generated-once subclasses (e.g. Employee) that you add business logic go. @return E.g. <code>src/main</code> */
+    public String outputSourceDirectory = "./src/main";
+
+    /** Where the re-generated base classes (e.g. EmployeeCodegen) that you do not edit go. @return E.g. <code>src/codegen</code> */
+    public String outputCodegenDirectory = "./src/codegen";
+
+    /** The package name of your domain objects. @return E.g. <code>cbas.domain</code> */
+    public String domainObjectPackage = "project.domain";
+
+    /** The package name of your query objects. @return E.g. <code>cbas.domain.queries</code> */
+    public String queriesPackage = "project.domain.queries";
+
+    /** The base class for all the generated base classes (e.g. EmployeeCodegen). @return E.g. <code>YourAbstractDomainObject</code> */
+    public String domainObjectBaseClass = "org.exigencecorp.domainobjects.AbstractDomainObject";
+
+    /** The base class for the once-touched queries objects. */
+    public String queriesBaseClass = "org.exigencecorp.domainobjects.AbstractQueries<{}>";
+
+    // Private structures
     private Map<String, Class<?>> javaTypeByDataType = new HashMap<String, Class<?>>();
     private Map<String, Class<?>> aliasTypeByDataType = new HashMap<String, Class<?>>();
     private Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
@@ -26,9 +43,8 @@ public abstract class CodegenConfig {
     private List<String> skipCollection = new ArrayList<String>();
     private List<String> notAbstractEvenThoughSubclassed = new ArrayList<String>();
     private Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
-    private String projectNameForDefaults = "project";
 
-    protected CodegenConfig() {
+    public CodegenConfig() {
         this.setJavaType("integer", Integer.class, IntAliasColumn.class);
         this.setJavaType("character", String.class, StringAliasColumn.class);
         this.setJavaType("character varying", String.class, StringAliasColumn.class);
@@ -40,60 +56,9 @@ public abstract class CodegenConfig {
         this.setJavaType("date", Date.class, DateAliasColumn.class);
     }
 
-    protected CodegenConfig(String projectNameForDefaults) {
-        this();
-        this.projectNameForDefaults = projectNameForDefaults;
-    }
-
-    /**
-     * A connection to your database.
-     */
-    public abstract DataSource getDataSource();
-
-    /**
-     * Where the generated-once subclasses (e.g. Employee/EmployeeMapper)
-     * that you add business logic go.
-     * 
-     * @return E.g. <code>src/main</code>
-     */
-    public String getOutputSourceDirectory() {
-        return "./src/main";
-    }
-
-    /**
-     * Where the re-generated base classes (e.g. EmployeeCodegen) that
-     * you do not edit go.
-     * 
-     * @return E.g. <code>src/codegen</code>
-     */
-    public String getOutputCodegenDirectory() {
-        return "./src/codegen";
-    }
-
-    /**
-     * The package name of your domain objects.
-     *
-     * @return E.g. <code>cbas.domain</code>
-     */
-    public String getDomainObjectPackage() {
-        return this.projectNameForDefaults + ".domain";
-    }
-
-    /**
-     * The package name of your query objects.
-     *
-     * @return E.g. <code>cbas.domain.queries</code>
-     */
-    public String getQueriesPackage() {
-        return this.projectNameForDefaults + ".domain.queries";
-    }
-
-    public String getDomainObjectBaseClass() {
-        return "org.exigencecorp.domainobjects.AbstractDomainObject";
-    }
-
-    public String getQueriesBaseClass() {
-        return "org.exigencecorp.domainobjects.AbstractQueries<{}>";
+    public void setProjectNameForDefaults(String projectName) {
+        this.domainObjectPackage = projectName + ".domain";
+        this.queriesPackage = projectName + ".domain.queries";
     }
 
     public void setJavaType(String jdbcDataType, Class<?> javaType, Class<?> aliasColumnType) {
@@ -190,6 +155,30 @@ public abstract class CodegenConfig {
             rendered.add(rule.replaceAll("\\$variableName", variableName).replaceAll("\\$entityType", entityType));
         }
         return rendered;
+    }
+
+    public String getDomainObjectPackage() {
+        return this.domainObjectPackage;
+    }
+
+    public String getQueriesPackage() {
+        return this.queriesPackage;
+    }
+
+    public String getDomainObjectBaseClass() {
+        return this.domainObjectBaseClass;
+    }
+
+    public String getQueriesBaseClass() {
+        return this.queriesBaseClass;
+    }
+
+    public String getOutputSourceDirectory() {
+        return this.outputSourceDirectory;
+    }
+
+    public String getOutputCodegenDirectory() {
+        return this.outputCodegenDirectory;
     }
 
 }

@@ -7,35 +7,36 @@ import org.exigencecorp.util.Log;
 
 public class Resetter {
 
-    private ResetterConfig config;
+    private final DataSource systemDataSource;
+    private final String databaseName;
+    private final String username;
+    private final String password;
 
-    public Resetter(ResetterConfig config) {
-        this.config = config;
+    public Resetter(DataSource systemDataSource, String appDatabaseName, String appUsername, String appPassword) {
+        this.systemDataSource = systemDataSource;
+        this.databaseName = appDatabaseName;
+        this.username = appUsername;
+        this.password = appPassword;
     }
 
     public void reset() {
-        DataSource ds = this.config.getDataSource();
-        String databaseName = this.config.getDatabaseName();
-        String username = this.config.getUsername();
-        String password = this.config.getPassword();
-
-        int i = Jdbc.queryForInt(ds, "select count(*) from pg_catalog.pg_database where datname = '{}'", databaseName);
+        int i = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_database where datname = '{}'", this.databaseName);
         if (i != 0) {
-            Log.debug("Dropping {}", databaseName);
-            Jdbc.executeUpdate(ds, "drop database {};", databaseName);
+            Log.debug("Dropping {}", this.databaseName);
+            Jdbc.executeUpdate(this.systemDataSource, "drop database {};", this.databaseName);
         }
 
-        int j = Jdbc.queryForInt(ds, "select count(*) from pg_catalog.pg_user where usename = '{}'", username);
+        int j = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_user where usename = '{}'", this.username);
         if (j != 0) {
-            Log.debug("Dropping {}", username);
-            Jdbc.executeUpdate(ds, "drop user {};", username);
+            Log.debug("Dropping {}", this.username);
+            Jdbc.executeUpdate(this.systemDataSource, "drop user {};", this.username);
         }
 
-        Log.debug("Creating {}", databaseName);
-        Jdbc.executeUpdate(ds, "create database {};", databaseName);
+        Log.debug("Creating {}", this.databaseName);
+        Jdbc.executeUpdate(this.systemDataSource, "create database {};", this.databaseName);
 
-        Log.debug("Creating {}", username);
-        Jdbc.executeUpdate(ds, "create user {} password '{}';", username, password);
+        Log.debug("Creating {}", this.username);
+        Jdbc.executeUpdate(this.systemDataSource, "create user {} password '{}';", this.username, this.password);
     }
 
 }

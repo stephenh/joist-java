@@ -3,24 +3,28 @@ package org.exigencecorp.domainobjects.migrations;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.util.Log;
 
 public class Migrater {
 
     private static ThreadLocal<Connection> current = new ThreadLocal<Connection>();
-    private MigraterConfig config;
-    private SchemaVersionTable schemaInfoTable;
-    private MigrationLoader migrationClasses;
+    private final MigraterConfig config;
+    private final DataSource dataSource;
+    private final SchemaVersionTable schemaInfoTable;
+    private final MigrationLoader migrationClasses;
 
     public static Connection getConnection() {
         return Migrater.current.get();
     }
 
-    public Migrater(MigraterConfig config) {
+    public Migrater(MigraterConfig config, DataSource saDataSource) {
         this.config = config;
-        this.schemaInfoTable = new SchemaVersionTable(this.config.getDataSource());
-        this.migrationClasses = new MigrationLoader(this.config.getPackageNamesContainingMigrations());
+        this.dataSource = saDataSource;
+        this.schemaInfoTable = new SchemaVersionTable(saDataSource);
+        this.migrationClasses = new MigrationLoader(this.config.packageNamesContainingMigrations);
     }
 
     public void performMigrations() {
@@ -46,7 +50,7 @@ public class Migrater {
     private boolean performNextMigrationIfAvailable() {
         Connection connection = null;
         try {
-            connection = this.config.getDataSource().getConnection();
+            connection = this.dataSource.getConnection();
             connection.setAutoCommit(false);
 
             int nextVersion = this.schemaInfoTable.nextVersionNumber(connection);

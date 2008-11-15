@@ -6,7 +6,6 @@ import org.exigencecorp.registry.ResourceBag;
 
 import features.resources.ApplicationInstance;
 import features.resources.FeaturesDataSourceFactory;
-import features.resources.FeaturesSaDataSourceFactory;
 
 public class Registry {
 
@@ -18,10 +17,6 @@ public class Registry {
 
     public static ApplicationInstance getApplicationInstance() {
         return Registry.RESOURCES.getResourceForInstanceClass(ApplicationInstance.class);
-    }
-
-    public static DataSource getSaDataSource() {
-        return Registry.RESOURCES.getResourceForFactoryClass(FeaturesSaDataSourceFactory.class);
     }
 
 }

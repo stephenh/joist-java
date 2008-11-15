@@ -11,6 +11,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.3.jar" sourcepath="lib/commons-lang-2.3.zip"/>
-	<classpathentry kind="lib" path="lib/c3p0-0.9.1.2.jar" sourcepath="lib/c3p0-0.9.1.2.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/c3p0-0.9.1.2.jar" sourcepath="lib/c3p0-0.9.1.2.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

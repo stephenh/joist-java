@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.sql.DataSource;
+
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
 import org.exigencecorp.domainobjects.codegen.passes.FindCodeValuesPass;
 import org.exigencecorp.domainobjects.codegen.passes.FindForeignKeysPass;
@@ -26,6 +28,7 @@ import org.exigencecorp.util.Copy;
 public class Codegen {
 
     private final CodegenConfig config;
+    private final DataSource dataSource;
     private final InformationSchemaWrapper informationSchema;
     private final Map<String, Entity> entities = new LinkedHashMap<String, Entity>();
     private final GDirectory outputCodegenDirectory;
@@ -34,11 +37,12 @@ public class Codegen {
     private Set<String> manyToManyTables = new HashSet<String>();
     private List<InformationSchemaColumn> columns;
 
-    public Codegen(CodegenConfig config) {
+    public Codegen(CodegenConfig config, DataSource dataSource) {
         this.config = config;
+        this.dataSource = dataSource;
         this.outputCodegenDirectory = new GDirectory(config.getOutputCodegenDirectory());
         this.outputSourceDirectory = new GDirectory(config.getOutputSourceDirectory());
-        this.informationSchema = new InformationSchemaWrapper(this.config.getDataSource());
+        this.informationSchema = new InformationSchemaWrapper(dataSource);
     }
 
     public void generate() {
@@ -109,6 +113,10 @@ public class Codegen {
 
     public GDirectory getOutputSourceDirectory() {
         return this.outputSourceDirectory;
+    }
+
+    public DataSource getDataSource() {
+        return this.dataSource;
     }
 
 }

@@ -1,15 +1,18 @@
 package org.exigencecorp.domainobjects.migrations;
 
-import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class MigraterConfig {
+public class MigraterConfig {
 
-    public abstract DataSource getDataSource();
-
-    public abstract String[] getPackageNamesContainingMigrations();
+    public List<String> packageNamesContainingMigrations = new ArrayList<String>();
 
     public String getInitialConnectionSetupCommand() {
         return "SET CONSTRAINTS ALL DEFERRED; SET CLIENT_ENCODING TO 'UNICODE';";
+    }
+
+    public void setProjectNameForDefaults(String projectName) {
+        this.packageNamesContainingMigrations.add(projectName + ".migrations");
     }
 
 }
