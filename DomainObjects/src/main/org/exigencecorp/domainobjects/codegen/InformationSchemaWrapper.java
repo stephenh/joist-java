@@ -49,6 +49,16 @@ public class InformationSchemaWrapper {
         return actualColumns.size() == 0;
     }
 
+    public List<String> getCodeTables() {
+        List<String> codeTables = new ArrayList<String>();
+        for (InformationSchemaColumn column : this.columns) {
+            if (!codeTables.contains(column.tableName) && this.isCodeTable(column.tableName)) {
+                codeTables.add(column.tableName);
+            }
+        }
+        return codeTables;
+    }
+
     public boolean isManyToManyTable(String tableName) {
         if (!tableName.contains("_to_")) {
             return false;
