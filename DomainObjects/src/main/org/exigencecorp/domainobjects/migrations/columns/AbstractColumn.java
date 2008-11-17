@@ -6,20 +6,20 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
 
     private final String name;
     private String tableName;
-    private Nullable isNull = Nullable.No;
-    private IsUnique isUnique;
+    private boolean nullable = false;
+    private boolean unique = false;
 
     protected AbstractColumn(String name) {
         this.name = name;
     }
 
     public T nullable() {
-        this.isNull = Nullable.Yes;
+        this.nullable = true;
         return (T) this;
     }
 
     public T unique() {
-        this.isUnique = IsUnique.Yes;
+        this.unique = true;
         return (T) this;
     }
 
@@ -53,11 +53,11 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
     }
 
     private boolean isNullable() {
-        return this.isNull == Nullable.Yes;
+        return this.nullable;
     }
 
     private boolean isUnique() {
-        return this.isUnique == IsUnique.Yes;
+        return this.unique;
     }
 
 }
