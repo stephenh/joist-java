@@ -70,17 +70,17 @@ abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
         this.addGreenManyToManyBFooToBarWithoutPercolation(o);
     }
 
-    public void addGreenManyToManyBFooToBarWithoutPercolation(ManyToManyBFooToBar o) {
-        this.recordIfChanged("greenManyToManyBFooToBars");
-        this.greenManyToManyBFooToBars.add(o);
-    }
-
     public void removeGreenManyToManyBFooToBar(ManyToManyBFooToBar o) {
         o.setGreenWithoutPercolation(null);
         this.removeGreenManyToManyBFooToBarWithoutPercolation(o);
     }
 
-    public void removeGreenManyToManyBFooToBarWithoutPercolation(ManyToManyBFooToBar o) {
+    protected void addGreenManyToManyBFooToBarWithoutPercolation(ManyToManyBFooToBar o) {
+        this.recordIfChanged("greenManyToManyBFooToBars");
+        this.greenManyToManyBFooToBars.add(o);
+    }
+
+    protected void removeGreenManyToManyBFooToBarWithoutPercolation(ManyToManyBFooToBar o) {
         this.recordIfChanged("greenManyToManyBFooToBars");
         this.greenManyToManyBFooToBars.remove(o);
     }

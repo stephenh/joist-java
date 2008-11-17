@@ -31,14 +31,16 @@ public class FindForeignKeysPass implements Pass {
                 continue;
             }
 
-            ManyToOneProperty fkp = new ManyToOneProperty(oneSide, column);
+            ManyToOneProperty mtop = new ManyToOneProperty(oneSide, column);
             OneToManyProperty otmp = new OneToManyProperty(manySide, column);
 
-            oneSide.getManyToOneProperties().add(fkp);
-            fkp.setOneToManyProperty(otmp);
+            oneSide.getManyToOneProperties().add(mtop);
+            mtop.setOneToManyProperty(otmp);
 
             manySide.getOneToManyProperties().add(otmp);
-            otmp.setForeignKeyColumn(fkp);
+            otmp.setForeignKeyColumn(mtop);
+
+            otmp.setOneToOne(column.unique);
         }
     }
 }

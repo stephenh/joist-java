@@ -70,17 +70,17 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
         this.addFirstParentParentCBarWithoutPercolation(o);
     }
 
-    public void addFirstParentParentCBarWithoutPercolation(ParentCBar o) {
-        this.recordIfChanged("firstParentParentCBars");
-        this.firstParentParentCBars.add(o);
-    }
-
     public void removeFirstParentParentCBar(ParentCBar o) {
         o.setFirstParentWithoutPercolation(null);
         this.removeFirstParentParentCBarWithoutPercolation(o);
     }
 
-    public void removeFirstParentParentCBarWithoutPercolation(ParentCBar o) {
+    protected void addFirstParentParentCBarWithoutPercolation(ParentCBar o) {
+        this.recordIfChanged("firstParentParentCBars");
+        this.firstParentParentCBars.add(o);
+    }
+
+    protected void removeFirstParentParentCBarWithoutPercolation(ParentCBar o) {
         this.recordIfChanged("firstParentParentCBars");
         this.firstParentParentCBars.remove(o);
     }
@@ -94,17 +94,17 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
         this.addSecondParentParentCBarWithoutPercolation(o);
     }
 
-    public void addSecondParentParentCBarWithoutPercolation(ParentCBar o) {
-        this.recordIfChanged("secondParentParentCBars");
-        this.secondParentParentCBars.add(o);
-    }
-
     public void removeSecondParentParentCBar(ParentCBar o) {
         o.setSecondParentWithoutPercolation(null);
         this.removeSecondParentParentCBarWithoutPercolation(o);
     }
 
-    public void removeSecondParentParentCBarWithoutPercolation(ParentCBar o) {
+    protected void addSecondParentParentCBarWithoutPercolation(ParentCBar o) {
+        this.recordIfChanged("secondParentParentCBars");
+        this.secondParentParentCBars.add(o);
+    }
+
+    protected void removeSecondParentParentCBarWithoutPercolation(ParentCBar o) {
         this.recordIfChanged("secondParentParentCBars");
         this.secondParentParentCBars.remove(o);
     }

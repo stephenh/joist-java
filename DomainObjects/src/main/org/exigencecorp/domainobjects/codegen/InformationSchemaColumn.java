@@ -9,6 +9,7 @@ public class InformationSchemaColumn implements Comparable<InformationSchemaColu
     public boolean nullable;
     public String defaultValue;
     public boolean primaryKey;
+    public boolean unique;
     public String foreignKeyConstraintName;
     public String foreignKeyTableName;
     public String foreignKeyColumnName;

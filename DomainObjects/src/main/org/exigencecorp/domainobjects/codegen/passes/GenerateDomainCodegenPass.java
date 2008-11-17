@@ -185,28 +185,44 @@ public class GenerateDomainCodegenPass implements Pass {
                 otmp.getVariableName(),
                 otmp.getVariableName(),
                 otmp.getKeyFieldName());
-            domainCodegen.addImports(List.class, ForeignKeyListHolder.class);
+            domainCodegen.addImports(ForeignKeyListHolder.class);
 
-            GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableName()).returnType(otmp.getJavaType());
-            getter.body.line("return this.{}.get();", otmp.getVariableName());
+            if (!otmp.isOneToOne()) {
+                GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableName()).returnType(otmp.getJavaType());
+                getter.body.line("return this.{}.get();", otmp.getVariableName());
 
-            GMethod adder = domainCodegen.getMethod("add{}", otmp.getCapitalVariableNameSingular());
-            adder.argument(otmp.getTargetJavaType(), "o");
-            adder.body.line("o.set{}WithoutPercolation(({}) this);", otmp.getForeignKeyColumn().getCapitalVariableName(), entity.getClassName());
-            adder.body.line("this.add{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
+                GMethod adder = domainCodegen.getMethod("add{}", otmp.getCapitalVariableNameSingular());
+                adder.argument(otmp.getTargetJavaType(), "o");
+                adder.body.line("o.set{}WithoutPercolation(({}) this);", otmp.getForeignKeyColumn().getCapitalVariableName(), entity.getClassName());
+                adder.body.line("this.add{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
+
+                GMethod remover = domainCodegen.getMethod("remove{}", otmp.getCapitalVariableNameSingular());
+                remover.argument(otmp.getTargetJavaType(), "o");
+                remover.body.line("o.set{}WithoutPercolation(null);", otmp.getForeignKeyColumn().getCapitalVariableName(), entity.getClassName());
+                remover.body.line("this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
+                domainCodegen.addImports(List.class);
+            } else {
+                GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableNameSingular()).returnType(otmp.getTargetJavaType());
+                getter.body.line("return (this.{}.get().size() == 0) ? null : this.{}.get().get(0);", otmp.getVariableName(), otmp.getVariableName());
+
+                GMethod setter = domainCodegen.getMethod("set" + otmp.getCapitalVariableNameSingular());
+                setter.argument(otmp.getTargetJavaType(), "n");
+                setter.body.line("{} o = this.get{}();", otmp.getTargetJavaType(), otmp.getCapitalVariableNameSingular());
+                setter.body.line("if (o != null) {", otmp.getVariableName());
+                setter.body.line("    o.set{}WithoutPercolation(null);", otmp.getForeignKeyColumn().getCapitalVariableName(), entity.getClassName());
+                setter.body.line("    this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
+                setter.body.line("}");
+                setter.body.line("n.set{}WithoutPercolation(({}) this);", otmp.getForeignKeyColumn().getCapitalVariableName(), entity.getClassName());
+                setter.body.line("this.add{}WithoutPercolation(n);", otmp.getCapitalVariableNameSingular());
+            }
 
             GMethod adder2 = domainCodegen.getMethod("add{}WithoutPercolation", otmp.getCapitalVariableNameSingular());
-            adder2.argument(otmp.getTargetJavaType(), "o");
+            adder2.argument(otmp.getTargetJavaType(), "o").setProtected();
             adder2.body.line("this.recordIfChanged(\"{}\");", otmp.getVariableName());
             adder2.body.line("this.{}.add(o);", otmp.getVariableName());
 
-            GMethod remover = domainCodegen.getMethod("remove{}", otmp.getCapitalVariableNameSingular());
-            remover.argument(otmp.getTargetJavaType(), "o");
-            remover.body.line("o.set{}WithoutPercolation(null);", otmp.getForeignKeyColumn().getCapitalVariableName(), entity.getClassName());
-            remover.body.line("this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
-
             GMethod remover2 = domainCodegen.getMethod("remove{}WithoutPercolation", otmp.getCapitalVariableNameSingular());
-            remover2.argument(otmp.getTargetJavaType(), "o");
+            remover2.argument(otmp.getTargetJavaType(), "o").setProtected();
             remover2.body.line("this.recordIfChanged(\"{}\");", otmp.getVariableName());
             remover2.body.line("this.{}.remove(o);", otmp.getVariableName());
 

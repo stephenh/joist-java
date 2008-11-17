@@ -71,17 +71,17 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
         this.addParentBChildBarWithoutPercolation(o);
     }
 
-    public void addParentBChildBarWithoutPercolation(ParentBChildBar o) {
-        this.recordIfChanged("parentBChildBars");
-        this.parentBChildBars.add(o);
-    }
-
     public void removeParentBChildBar(ParentBChildBar o) {
         o.setParentBParentWithoutPercolation(null);
         this.removeParentBChildBarWithoutPercolation(o);
     }
 
-    public void removeParentBChildBarWithoutPercolation(ParentBChildBar o) {
+    protected void addParentBChildBarWithoutPercolation(ParentBChildBar o) {
+        this.recordIfChanged("parentBChildBars");
+        this.parentBChildBars.add(o);
+    }
+
+    protected void removeParentBChildBarWithoutPercolation(ParentBChildBar o) {
         this.recordIfChanged("parentBChildBars");
         this.parentBChildBars.remove(o);
     }
@@ -95,17 +95,17 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
         this.addParentBChildFooWithoutPercolation(o);
     }
 
-    public void addParentBChildFooWithoutPercolation(ParentBChildFoo o) {
-        this.recordIfChanged("parentBChildFoos");
-        this.parentBChildFoos.add(o);
-    }
-
     public void removeParentBChildFoo(ParentBChildFoo o) {
         o.setParentBParentWithoutPercolation(null);
         this.removeParentBChildFooWithoutPercolation(o);
     }
 
-    public void removeParentBChildFooWithoutPercolation(ParentBChildFoo o) {
+    protected void addParentBChildFooWithoutPercolation(ParentBChildFoo o) {
+        this.recordIfChanged("parentBChildFoos");
+        this.parentBChildFoos.add(o);
+    }
+
+    protected void removeParentBChildFooWithoutPercolation(ParentBChildFoo o) {
         this.recordIfChanged("parentBChildFoos");
         this.parentBChildFoos.remove(o);
     }

@@ -148,11 +148,12 @@ public class InformationSchemaWrapper {
                     column.foreignKeyTableName = rs.getString("ref_table_name");
                     column.foreignKeyColumnName = rs.getString("ref_column_name");
                 } else if ("UNIQUE".equals(constraintType)) {
-                    // pass
+                    column.unique = true;
                 } else {
                     throw new RuntimeException("Unknown constraint type " + constraintType);
                 }
             }
         });
     }
+
 }

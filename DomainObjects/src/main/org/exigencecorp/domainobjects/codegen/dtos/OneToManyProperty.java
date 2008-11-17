@@ -16,6 +16,7 @@ public class OneToManyProperty {
     private String keyColumnName;
     private String capitalVariableNameSingular;
     private ManyToOneProperty foreignKeyColumn;
+    private boolean oneToOne = false;
 
     /** Parent (oneSide) -> child (manySide) */
     public OneToManyProperty(Entity manySide, InformationSchemaColumn oneSideColumn) {
@@ -101,6 +102,14 @@ public class OneToManyProperty {
 
     public void setForeignKeyColumn(ManyToOneProperty foreignKeyColumn) {
         this.foreignKeyColumn = foreignKeyColumn;
+    }
+
+    public boolean isOneToOne() {
+        return this.oneToOne;
+    }
+
+    public void setOneToOne(boolean oneToOne) {
+        this.oneToOne = oneToOne;
     }
 
 }
