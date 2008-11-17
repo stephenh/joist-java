@@ -8,7 +8,7 @@ import org.exigencecorp.domainobjects.codegen.CodegenConfig;
 import org.exigencecorp.domainobjects.codegen.InformationSchemaColumn;
 import org.exigencecorp.util.Inflector;
 
-public class PrimitiveProperty implements Property {
+public class PrimitiveProperty {
 
     private CodegenConfig config;
     private Entity entity;

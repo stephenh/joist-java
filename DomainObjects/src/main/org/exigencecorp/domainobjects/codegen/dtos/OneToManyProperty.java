@@ -8,7 +8,7 @@ import org.exigencecorp.domainobjects.codegen.InformationSchemaColumn;
 import org.exigencecorp.util.Inflector;
 
 /** For entities that are the target of a many-to-one. */
-public class OneToManyProperty implements Property {
+public class OneToManyProperty {
 
     private CodegenConfig config;
     private Entity manySide;

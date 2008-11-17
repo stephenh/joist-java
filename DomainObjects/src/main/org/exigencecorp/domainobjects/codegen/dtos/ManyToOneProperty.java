@@ -17,7 +17,7 @@ import org.exigencecorp.util.Inflector;
  *     <-- one to many <--/
  * </code>
  */
-public class ManyToOneProperty implements Property {
+public class ManyToOneProperty {
 
     private CodegenConfig config;
     private Entity oneSide;

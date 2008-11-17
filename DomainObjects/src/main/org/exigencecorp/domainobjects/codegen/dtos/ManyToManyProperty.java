@@ -8,7 +8,7 @@ import org.exigencecorp.domainobjects.codegen.CodegenConfig;
 import org.exigencecorp.domainobjects.codegen.InformationSchemaColumn;
 import org.exigencecorp.util.Inflector;
 
-public class ManyToManyProperty implements Property {
+public class ManyToManyProperty {
 
     private CodegenConfig config;
     private String myKeyColumnName;
