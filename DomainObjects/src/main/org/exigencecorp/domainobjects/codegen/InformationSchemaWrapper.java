@@ -4,7 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -20,13 +22,15 @@ public class InformationSchemaWrapper {
         + " INNER JOIN information_schema.tables t on c.table_name = t.table_name"
         + " WHERE t.table_schema = 'public'";
     private static final String constraintSql = "SELECT"
-        + " tc.constraint_type, kcu.table_name, kcu.column_name, kcu.constraint_name, ccu.table_name AS ref_table_name, ccu.column_name AS ref_column_name"
+        + " kcu.table_name, kcu.column_name, kcu.constraint_name, ccu.table_name AS ref_table_name, ccu.column_name AS ref_column_name"
         + " FROM information_schema.key_column_usage kcu"
-        + " INNER JOIN information_schema.tables t ON kcu.table_name = t.table_name"
         + " INNER JOIN information_schema.constraint_column_usage ccu ON kcu.constraint_name = ccu.constraint_name"
-        + " INNER JOIN information_schema.table_constraints tc ON kcu.constraint_name = tc.constraint_name"
-        + " WHERE t.table_schema = 'public'"
-        + " AND tc.constraint_type != 'UNIQUE'";
+        + " WHERE kcu.table_schema = 'public'";
+    // For some reason pg is a dog if we join table_constraints into the above query, so do it separately
+    // Ugly but SchemaCheckTest went from 5.5s to 1.6s with aoviding this join
+    private static final String constraintTypeSql = "SELECT"
+        + " tc.constraint_name, tc.constraint_type"
+        + " FROM information_schema.table_constraints tc";
 
     private final DataSource dataSource;
     private final List<InformationSchemaColumn> columns = new ArrayList<InformationSchemaColumn>();
@@ -127,16 +131,25 @@ public class InformationSchemaWrapper {
     }
 
     private void findConstraints() {
+        final Map<String, String> constraintNameToType = new HashMap<String, String>();
+        Jdbc.query(this.dataSource, InformationSchemaWrapper.constraintTypeSql, new RowMapper() {
+            public void mapRow(ResultSet rs) throws SQLException {
+                constraintNameToType.put(rs.getString(1), rs.getString(2));
+            }
+        });
+
         Jdbc.query(this.dataSource, InformationSchemaWrapper.constraintSql, new RowMapper() {
             public void mapRow(ResultSet rs) throws SQLException {
                 InformationSchemaColumn column = InformationSchemaWrapper.this.getColumn(rs.getString("table_name"), rs.getString("column_name"));
-                String constraintType = rs.getString("constraint_type");
+                String constraintType = constraintNameToType.get(rs.getString("constraint_name"));
                 if ("PRIMARY KEY".equals(constraintType)) {
                     column.primaryKey = true;
                 } else if ("FOREIGN KEY".equals(constraintType)) {
                     column.foreignKeyConstraintName = rs.getString("constraint_name");
                     column.foreignKeyTableName = rs.getString("ref_table_name");
                     column.foreignKeyColumnName = rs.getString("ref_column_name");
+                } else if ("UNIQUE".equals(constraintType)) {
+                    // pass
                 } else {
                     throw new RuntimeException("Unknown constraint type " + constraintType);
                 }
