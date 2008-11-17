@@ -29,6 +29,12 @@ public class SchemaCheck {
         this.wrapper = new InformationSchemaWrapper(dataSource);
     }
 
+    public void checkStructureMatch(int code) {
+        if (code != this.wrapper.getSchemaHashCode()) {
+            throw new RuntimeException("Database hash did not match the codebase's generated hash");
+        }
+    }
+
     public void checkCodesMatch() {
         for (final String tableName : this.wrapper.getCodeTables()) {
             int maxId = -1;

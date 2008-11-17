@@ -9,6 +9,7 @@ import org.exigencecorp.jdbc.Jdbc;
 
 import features.Registry;
 import features.domain.AbstractFeaturesTest;
+import features.domain.SchemaHash;
 
 public class SchemaCheckTest extends AbstractFeaturesTest {
 
@@ -66,6 +67,22 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
             Assert.assertEquals("Code code_a_color has a max id of 2 but the last assigned was 1", re.getMessage());
         } finally {
             Jdbc.executeUpdate(this.ds, "update code_id set next_id = 3 where table_name = 'code_a_color'");
+        }
+    }
+
+    public void testExtraStructurePasses() {
+        new SchemaCheck("features.domain", this.ds).checkStructureMatch(SchemaHash.hashCode);
+    }
+
+    public void testExtraColumn() {
+        Jdbc.executeUpdate(this.ds, "alter table code_a_color add column foo int");
+        try {
+            new SchemaCheck("features.domain", this.ds).checkStructureMatch(SchemaHash.hashCode);
+            Assert.fail();
+        } catch (RuntimeException re) {
+            Assert.assertEquals("Database hash did not match the codebase's generated hash", re.getMessage());
+        } finally {
+            Jdbc.executeUpdate(this.ds, "alter table code_a_color drop column foo");
         }
     }
 
