@@ -1,5 +1,6 @@
 package org.exigencecorp.domainobjects.migrations;
 
+import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.migrations.columns.BigIntColumn;
 import org.exigencecorp.domainobjects.migrations.columns.BooleanColumn;
 import org.exigencecorp.domainobjects.migrations.columns.Column;
@@ -12,6 +13,7 @@ import org.exigencecorp.domainobjects.migrations.columns.VarcharColumn;
 import org.exigencecorp.domainobjects.migrations.commands.CreateTable;
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.util.StringBuilderr;
+import org.exigencecorp.util.Wrap;
 
 public class MigrationKeywords {
 
@@ -111,6 +113,12 @@ public class MigrationKeywords {
         column.setTableName(table);
         column.postInjectCommands(sql);
         MigrationKeywords.execute(sql.toString());
+    }
+
+    public static void createUniqueConstraint(String table, String... columnNames) {
+        String constraintName = StringUtils.join(columnNames, "_") + "_un";
+        String constraintList = StringUtils.join(Wrap.quotes(columnNames), ", ");
+        MigrationKeywords.execute("ALTER TABLE \"{}\" ADD CONSTRAINT {} UNIQUE ({})", table, constraintName, constraintList);
     }
 
 }

@@ -2,6 +2,6 @@ package features.domain;
 
 public class SchemaHash {
 
-    public static final int hashCode = 1301245460;
+    public static final int hashCode = 1966064568;
 
 }

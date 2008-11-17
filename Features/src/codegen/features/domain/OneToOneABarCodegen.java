@@ -64,6 +64,7 @@ abstract class OneToOneABarCodegen extends AbstractDomainObject {
         if (this.oneToOneAFoo.get() != null) {
            this.oneToOneAFoo.get().removeOneToOneABarWithoutPercolation((OneToOneABar) this);
         }
+        oneToOneAFoo.setOneToOneABar(null);
         this.setOneToOneAFooWithoutPercolation(oneToOneAFoo);
         if (this.oneToOneAFoo.get() != null) {
            this.oneToOneAFoo.get().addOneToOneABarWithoutPercolation((OneToOneABar) this);

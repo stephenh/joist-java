@@ -7,12 +7,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.jdbc.RowMapper;
 import org.exigencecorp.util.Copy;
+import org.exigencecorp.util.MapToList;
 
 public class InformationSchemaWrapper {
 
@@ -137,6 +139,7 @@ public class InformationSchemaWrapper {
                 constraintNameToType.put(rs.getString(1), rs.getString(2));
             }
         });
+        final MapToList<String, String> uniqueToTableColumn = new MapToList<String, String>();
         Jdbc.query(this.dataSource, InformationSchemaWrapper.constraintSql, new RowMapper() {
             public void mapRow(ResultSet rs) throws SQLException {
                 InformationSchemaColumn column = InformationSchemaWrapper.this.getColumn(rs.getString("table_name"), rs.getString("column_name"));
@@ -148,12 +151,18 @@ public class InformationSchemaWrapper {
                     column.foreignKeyTableName = rs.getString("ref_table_name");
                     column.foreignKeyColumnName = rs.getString("ref_column_name");
                 } else if ("UNIQUE".equals(constraintType)) {
-                    column.unique = true;
+                    uniqueToTableColumn.add(rs.getString("constraint_name"), rs.getString("table_name") + "." + rs.getString("column_name"));
                 } else {
                     throw new RuntimeException("Unknown constraint type " + constraintType);
                 }
             }
         });
+        for (Entry<String, List<String>> entry : uniqueToTableColumn.entrySet()) {
+            if (entry.getValue().size() == 1) {
+                String[] parts = entry.getValue().get(0).split("\\.");
+                this.getColumn(parts[0], parts[1]).unique = true;
+            }
+        }
     }
 
 }
