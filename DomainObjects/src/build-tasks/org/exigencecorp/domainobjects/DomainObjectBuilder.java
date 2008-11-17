@@ -6,6 +6,7 @@ import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.CodegenConfig;
 import org.exigencecorp.domainobjects.migrations.Migrater;
 import org.exigencecorp.domainobjects.migrations.MigraterConfig;
+import org.exigencecorp.domainobjects.migrations.PermissionFixer;
 import org.exigencecorp.domainobjects.migrations.Resetter;
 import org.exigencecorp.util.Reflection;
 
@@ -39,6 +40,14 @@ public class DomainObjectBuilder {
 
     public void migrateDatabase() {
         new Migrater(this.getDataSourceForAppTableAsSaUser(), this.migraterConfig).migrate();
+    }
+
+    public void fixPermissions() {
+        PermissionFixer pf = new PermissionFixer(this.getDataSourceForAppTableAsSaUser());
+        pf.setOwnerOfAllTablesTo(this.databaseSaUsername);
+        pf.setOwnerOfAllSequencesTo(this.databaseAppUsername);
+        pf.grantAllOnAllTablesTo(this.databaseAppUsername);
+        pf.grantAllOnAllSequencesTo(this.databaseAppUsername);
     }
 
     public void codegen() {
