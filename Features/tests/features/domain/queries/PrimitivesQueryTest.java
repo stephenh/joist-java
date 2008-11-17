@@ -18,7 +18,7 @@ public class PrimitivesQueryTest extends TestCase {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
         q.where(p.id.equals(1));
-        Assert.assertEquals("SELECT p.id, p.flag, p.name, p.version\n FROM primitives p\n WHERE p.id = ?", q.toSql());
+        Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM primitives p\n WHERE p.id = ?", q.toSql());
         Assert.assertEquals(Copy.list(1), q.getParameters());
     }
 
@@ -26,7 +26,7 @@ public class PrimitivesQueryTest extends TestCase {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
         q.where(p.name.equals("bob"));
-        Assert.assertEquals("SELECT p.id, p.flag, p.name, p.version\n FROM primitives p\n WHERE p.name = ?", q.toSql());
+        Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM primitives p\n WHERE p.name = ?", q.toSql());
         Assert.assertEquals(Copy.list("bob"), q.getParameters());
     }
 
@@ -35,7 +35,7 @@ public class PrimitivesQueryTest extends TestCase {
         Select<Primitives> q = Select.from(p);
         q.where(p.name.equals("bob"));
         q.orderBy(p.name.asc());
-        Assert.assertEquals("SELECT p.id, p.flag, p.name, p.version\n FROM primitives p\n WHERE p.name = ?\n ORDER BY p.name", q.toSql());
+        Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM primitives p\n WHERE p.name = ?\n ORDER BY p.name", q.toSql());
         Assert.assertEquals(Copy.list("bob"), q.getParameters());
     }
 
@@ -43,7 +43,7 @@ public class PrimitivesQueryTest extends TestCase {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
         q.where(p.id.lessThan(10).and(p.id.moreThan(1)));
-        Assert.assertEquals("SELECT p.id, p.flag, p.name, p.version\n FROM primitives p\n WHERE p.id < ?\n AND p.id > ?", q.toSql());
+        Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM primitives p\n WHERE p.id < ?\n AND p.id > ?", q.toSql());
         Assert.assertEquals(Copy.list(10, 1), q.getParameters());
     }
 
