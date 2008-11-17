@@ -20,14 +20,14 @@ public class Migrater {
         return Migrater.current.get();
     }
 
-    public Migrater(MigraterConfig config, DataSource saDataSource) {
+    public Migrater(DataSource saDataSource, MigraterConfig config) {
         this.config = config;
         this.dataSource = saDataSource;
         this.schemaInfoTable = new SchemaVersionTable(saDataSource);
         this.migrationClasses = new MigrationLoader(this.config.packageNamesContainingMigrations);
     }
 
-    public void performMigrations() {
+    public void migrate() {
         boolean locked = this.schemaInfoTable.tryToLock();
         if (!locked) {
             throw new RuntimeException("schema_info was already locked");

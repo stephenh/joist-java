@@ -137,7 +137,6 @@ public class InformationSchemaWrapper {
                 constraintNameToType.put(rs.getString(1), rs.getString(2));
             }
         });
-
         Jdbc.query(this.dataSource, InformationSchemaWrapper.constraintSql, new RowMapper() {
             public void mapRow(ResultSet rs) throws SQLException {
                 InformationSchemaColumn column = InformationSchemaWrapper.this.getColumn(rs.getString("table_name"), rs.getString("column_name"));

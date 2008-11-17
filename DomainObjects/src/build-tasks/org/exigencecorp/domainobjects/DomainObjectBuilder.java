@@ -20,8 +20,8 @@ public class DomainObjectBuilder {
     public String databaseSaPassword;
     public CodegenConfig codegenConfig = new CodegenConfig();
     public MigraterConfig migraterConfig = new MigraterConfig();
-    public DataSource appDataSource = null;
-    public DataSource systemDataSource = null;
+    private DataSource appTableAsSaUser;
+    private DataSource systemTableAsSaUser;
 
     public DomainObjectBuilder(String projectName) {
         this.databaseName = projectName;
@@ -34,43 +34,40 @@ public class DomainObjectBuilder {
     }
 
     public void createDatabase() {
-        new Resetter(this.getSystemDatasource(), this.databaseName, this.databaseAppUsername, this.databaseAppPassword).reset();
+        new Resetter(this.getDataSourceForSystemTableAsSaUser(), this.databaseName, this.databaseAppUsername, this.databaseAppPassword).reset();
     }
 
     public void migrateDatabase() {
-        new Migrater(this.migraterConfig, this.getAppDatasource()).performMigrations();
+        new Migrater(this.getDataSourceForAppTableAsSaUser(), this.migraterConfig).migrate();
     }
 
     public void codegen() {
-        new Codegen(this.codegenConfig, this.getAppDatasource()).generate();
+        new Codegen(this.getDataSourceForAppTableAsSaUser(), this.codegenConfig).generate();
     }
 
-    public DataSource getSystemDatasource() {
-        if (this.systemDataSource == null) {
-            Reflection.forName("org.postgresql.Driver");
-            ComboPooledDataSource ds = new ComboPooledDataSource();
-            ds.setJdbcUrl("jdbc:postgresql://localhost/postgres");
-            ds.setUser(this.databaseSaUsername);
-            ds.setPassword(this.databaseSaPassword);
-            ds.setMaxPoolSize(3);
-            ds.setInitialPoolSize(1);
-            this.systemDataSource = ds;
+    private DataSource getDataSourceForAppTableAsSaUser() {
+        if (this.appTableAsSaUser == null) {
+            this.appTableAsSaUser = this.makeDataSource(this.databaseName, this.databaseSaUsername, this.databaseSaPassword);
         }
-        return this.systemDataSource;
+        return this.appTableAsSaUser;
     }
 
-    public DataSource getAppDatasource() {
-        if (this.appDataSource == null) {
-            Reflection.forName("org.postgresql.Driver");
-            ComboPooledDataSource ds = new ComboPooledDataSource();
-            ds.setJdbcUrl("jdbc:postgresql://localhost/" + this.databaseName);
-            ds.setUser(this.databaseAppUsername);
-            ds.setPassword(this.databaseAppPassword);
-            ds.setMaxPoolSize(3);
-            ds.setInitialPoolSize(1);
-            this.appDataSource = ds;
+    private DataSource getDataSourceForSystemTableAsSaUser() {
+        if (this.systemTableAsSaUser == null) {
+            this.systemTableAsSaUser = this.makeDataSource("postgres", this.databaseSaUsername, this.databaseSaPassword);
         }
-        return this.appDataSource;
+        return this.systemTableAsSaUser;
+    }
+
+    private DataSource makeDataSource(String databaseName, String username, String password) {
+        Reflection.forName("org.postgresql.Driver");
+        ComboPooledDataSource ds = new ComboPooledDataSource();
+        ds.setJdbcUrl("jdbc:postgresql://localhost/" + databaseName);
+        ds.setUser(username);
+        ds.setPassword(password);
+        ds.setMaxPoolSize(3);
+        ds.setInitialPoolSize(1);
+        return ds;
     }
 
 }

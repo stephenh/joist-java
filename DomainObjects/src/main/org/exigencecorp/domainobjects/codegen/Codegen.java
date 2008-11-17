@@ -35,12 +35,13 @@ public class Codegen {
     private final List<String> codeTables;
     private final List<String> manyToManyTables;
 
-    public Codegen(CodegenConfig config, DataSource dataSource) {
+    /** @param saDataSource should be sa so we can see the information schema stuff */
+    public Codegen(DataSource saDataSource, CodegenConfig config) {
         this.config = config;
-        this.dataSource = dataSource;
+        this.dataSource = saDataSource;
         this.outputCodegenDirectory = new GDirectory(config.getOutputCodegenDirectory());
         this.outputSourceDirectory = new GDirectory(config.getOutputSourceDirectory());
-        this.informationSchema = new InformationSchemaWrapper(dataSource);
+        this.informationSchema = new InformationSchemaWrapper(saDataSource);
         this.codeTables = this.informationSchema.getCodeTables();
         this.manyToManyTables = this.informationSchema.getManyToManyTables();
     }
