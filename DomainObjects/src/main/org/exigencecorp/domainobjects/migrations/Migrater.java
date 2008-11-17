@@ -32,15 +32,12 @@ public class Migrater {
         if (!locked) {
             throw new RuntimeException("schema_info was already locked");
         }
-
         try {
             boolean tryNextMigration = true;
             while (tryNextMigration) {
                 tryNextMigration = this.performNextMigrationIfAvailable();
             }
             this.schemaInfoTable.vacuumIfAppropriate();
-            // Flush the schema cache so PermissionFixer/FlushTestDatabase see newly-created tables
-            // Schema.reload();
         } finally {
             this.schemaInfoTable.unlock();
         }
