@@ -16,8 +16,8 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
     }
 
     public static final PrimitivesQueries queries = new PrimitivesQueries();
-    private Integer id = null;
     private Boolean flag = false;
+    private Integer id = null;
     private String name = null;
     private Integer version = null;
 
@@ -31,6 +31,15 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<Primitives>("name", 100, Shims.name));
     }
 
+    public Boolean getFlag() {
+        return this.flag;
+    }
+
+    public void setFlag(java.lang.Boolean flag) {
+        this.recordIfChanged("flag", this.flag, flag);
+        this.flag = flag;
+    }
+
     public Integer getId() {
         return this.id;
     }
@@ -41,15 +50,6 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
         }
-    }
-
-    public Boolean getFlag() {
-        return this.flag;
-    }
-
-    public void setFlag(java.lang.Boolean flag) {
-        this.recordIfChanged("flag", this.flag, flag);
-        this.flag = flag;
     }
 
     public String getName() {
@@ -66,20 +66,20 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<Primitives, java.lang.Integer> id = new Shim<Primitives, java.lang.Integer>() {
-            public void set(Primitives instance, java.lang.Integer id) {
-                ((PrimitivesCodegen) instance).id = id;
-            }
-            public Integer get(Primitives instance) {
-                return ((PrimitivesCodegen) instance).id;
-            }
-        };
         public static final Shim<Primitives, java.lang.Boolean> flag = new Shim<Primitives, java.lang.Boolean>() {
             public void set(Primitives instance, java.lang.Boolean flag) {
                 ((PrimitivesCodegen) instance).flag = flag;
             }
             public Boolean get(Primitives instance) {
                 return ((PrimitivesCodegen) instance).flag;
+            }
+        };
+        public static final Shim<Primitives, java.lang.Integer> id = new Shim<Primitives, java.lang.Integer>() {
+            public void set(Primitives instance, java.lang.Integer id) {
+                ((PrimitivesCodegen) instance).id = id;
+            }
+            public Integer get(Primitives instance) {
+                return ((PrimitivesCodegen) instance).id;
             }
         };
         public static final Shim<Primitives, java.lang.String> name = new Shim<Primitives, java.lang.String>() {

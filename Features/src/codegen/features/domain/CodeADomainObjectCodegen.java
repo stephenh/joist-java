@@ -20,8 +20,8 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
     private ForeignKeyCodeHolder<CodeAColor> codeAColor = new ForeignKeyCodeHolder<CodeAColor>(CodeAColor.class);
+    private ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
 
     protected CodeADomainObjectCodegen() {
         this.addExtraRules();
@@ -57,19 +57,6 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         return this.version;
     }
 
-    public CodeASize getCodeASize() {
-        return this.codeASize.get();
-    }
-
-    public void setCodeASize(CodeASize codeASize) {
-        this.setCodeASizeWithoutPercolation(codeASize);
-    }
-
-    public void setCodeASizeWithoutPercolation(CodeASize codeASize) {
-        this.recordIfChanged("codeASize", this.codeASize, codeASize);
-        this.codeASize.set(codeASize);
-    }
-
     public CodeAColor getCodeAColor() {
         return this.codeAColor.get();
     }
@@ -81,6 +68,19 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     public void setCodeAColorWithoutPercolation(CodeAColor codeAColor) {
         this.recordIfChanged("codeAColor", this.codeAColor, codeAColor);
         this.codeAColor.set(codeAColor);
+    }
+
+    public CodeASize getCodeASize() {
+        return this.codeASize.get();
+    }
+
+    public void setCodeASize(CodeASize codeASize) {
+        this.setCodeASizeWithoutPercolation(codeASize);
+    }
+
+    public void setCodeASizeWithoutPercolation(CodeASize codeASize) {
+        this.recordIfChanged("codeASize", this.codeASize, codeASize);
+        this.codeASize.set(codeASize);
     }
 
     public static class Shims {
@@ -108,20 +108,20 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
                 return ((CodeADomainObjectCodegen) instance).version;
             }
         };
-        public static final Shim<CodeADomainObject, Integer> codeASizeId = new Shim<CodeADomainObject, Integer>() {
-            public void set(CodeADomainObject instance, Integer codeASizeId) {
-                ((CodeADomainObjectCodegen) instance).codeASize.setId(codeASizeId);
-            }
-            public Integer get(CodeADomainObject instance) {
-                return ((CodeADomainObjectCodegen) instance).codeASize.getId();
-            }
-        };
         public static final Shim<CodeADomainObject, Integer> codeAColorId = new Shim<CodeADomainObject, Integer>() {
             public void set(CodeADomainObject instance, Integer codeAColorId) {
                 ((CodeADomainObjectCodegen) instance).codeAColor.setId(codeAColorId);
             }
             public Integer get(CodeADomainObject instance) {
                 return ((CodeADomainObjectCodegen) instance).codeAColor.getId();
+            }
+        };
+        public static final Shim<CodeADomainObject, Integer> codeASizeId = new Shim<CodeADomainObject, Integer>() {
+            public void set(CodeADomainObject instance, Integer codeASizeId) {
+                ((CodeADomainObjectCodegen) instance).codeASize.setId(codeASizeId);
+            }
+            public Integer get(CodeADomainObject instance) {
+                return ((CodeADomainObjectCodegen) instance).codeASize.getId();
             }
         };
     }

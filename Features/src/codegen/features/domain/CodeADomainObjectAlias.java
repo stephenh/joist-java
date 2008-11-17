@@ -18,16 +18,16 @@ public class CodeADomainObjectAlias extends Alias<CodeADomainObject> {
     public final IdAliasColumn<CodeADomainObject> id = new IdAliasColumn<CodeADomainObject>(this, "id", CodeADomainObjectCodegen.Shims.id);
     public final StringAliasColumn<CodeADomainObject> name = new StringAliasColumn<CodeADomainObject>(this, "name", CodeADomainObjectCodegen.Shims.name);
     public final IntAliasColumn<CodeADomainObject> version = new IntAliasColumn<CodeADomainObject>(this, "version", CodeADomainObjectCodegen.Shims.version);
-    public final CodeAliasColumn<CodeADomainObject, CodeASize> codeASize = new CodeAliasColumn<CodeADomainObject, CodeASize>(this, "code_a_size_id", CodeADomainObjectCodegen.Shims.codeASizeId);
     public final CodeAliasColumn<CodeADomainObject, CodeAColor> codeAColor = new CodeAliasColumn<CodeADomainObject, CodeAColor>(this, "code_a_color_id", CodeADomainObjectCodegen.Shims.codeAColorId);
+    public final CodeAliasColumn<CodeADomainObject, CodeASize> codeASize = new CodeAliasColumn<CodeADomainObject, CodeASize>(this, "code_a_size_id", CodeADomainObjectCodegen.Shims.codeASizeId);
 
     public CodeADomainObjectAlias(String alias) {
         super(CodeADomainObject.class, "code_a_domain_object", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);
-        this.columns.add(this.codeASize);
         this.columns.add(this.codeAColor);
+        this.columns.add(this.codeASize);
     }
 
     public List<AliasColumn<CodeADomainObject, ?, ?>> getColumns() {

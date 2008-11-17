@@ -1,10 +1,8 @@
 package org.exigencecorp.domainobjects.codegen;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -19,6 +17,7 @@ import org.exigencecorp.domainobjects.codegen.passes.GenerateCodesPass;
 import org.exigencecorp.domainobjects.codegen.passes.GenerateDomainClassIfNotExistsPass;
 import org.exigencecorp.domainobjects.codegen.passes.GenerateDomainCodegenPass;
 import org.exigencecorp.domainobjects.codegen.passes.GenerateFlushFunction;
+import org.exigencecorp.domainobjects.codegen.passes.GenerateSchemaHash;
 import org.exigencecorp.domainobjects.codegen.passes.OutputPass;
 import org.exigencecorp.domainobjects.codegen.passes.Pass;
 import org.exigencecorp.gen.GDirectory;
@@ -33,9 +32,8 @@ public class Codegen {
     private final Map<String, Entity> entities = new LinkedHashMap<String, Entity>();
     private final GDirectory outputCodegenDirectory;
     private final GDirectory outputSourceDirectory;
-    private Set<String> codeTables = new HashSet<String>();
-    private Set<String> manyToManyTables = new HashSet<String>();
-    private List<InformationSchemaColumn> columns;
+    private final List<String> codeTables;
+    private final List<String> manyToManyTables;
 
     public Codegen(CodegenConfig config, DataSource dataSource) {
         this.config = config;
@@ -43,24 +41,13 @@ public class Codegen {
         this.outputCodegenDirectory = new GDirectory(config.getOutputCodegenDirectory());
         this.outputSourceDirectory = new GDirectory(config.getOutputSourceDirectory());
         this.informationSchema = new InformationSchemaWrapper(dataSource);
+        this.codeTables = this.informationSchema.getCodeTables();
+        this.manyToManyTables = this.informationSchema.getManyToManyTables();
     }
 
     public void generate() {
-        this.fillInRows();
         for (Pass pass : this.getPasses()) {
             pass.pass(this);
-        }
-    }
-
-    private void fillInRows() {
-        this.columns = this.informationSchema.getColumnMetaData();
-        for (InformationSchemaColumn column : this.columns) {
-            if ("id".equals(column.name) && this.informationSchema.isCodeTable(column.tableName)) {
-                this.codeTables.add(column.tableName);
-            }
-            if ("id".equals(column.name) && this.informationSchema.isManyToManyTable(column.tableName)) {
-                this.manyToManyTables.add(column.tableName);
-            }
         }
     }
 
@@ -76,6 +63,7 @@ public class Codegen {
             new GenerateDomainCodegenPass(),
             new GenerateAliasesPass(),
             new GenerateFlushFunction(),
+            new GenerateSchemaHash(),
             new OutputPass());
     }
 
@@ -84,7 +72,11 @@ public class Codegen {
     }
 
     public List<InformationSchemaColumn> getColumns() {
-        return this.columns;
+        return this.informationSchema.getColumns();
+    }
+
+    public int getSchemaHashCode() {
+        return this.informationSchema.getSchemaHashCode();
     }
 
     public CodegenConfig getConfig() {

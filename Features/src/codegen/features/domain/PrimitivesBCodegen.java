@@ -15,15 +15,15 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     public static final PrimitivesBQueries queries = new PrimitivesBQueries();
-    private Integer id = null;
+    private Long big1 = null;
+    private Long big2 = null;
     private Boolean bool1 = false;
     private Boolean bool2 = false;
+    private Integer id = null;
     private Integer int1 = null;
     private Integer int2 = null;
     private Short small1 = null;
     private Short small2 = null;
-    private Long big1 = null;
-    private Long big2 = null;
     private Integer version = null;
 
     protected PrimitivesBCodegen() {
@@ -31,22 +31,28 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
+        this.addRule(new NotNull<PrimitivesB>("big2", Shims.big2));
         this.addRule(new NotNull<PrimitivesB>("bool2", Shims.bool2));
         this.addRule(new NotNull<PrimitivesB>("int2", Shims.int2));
         this.addRule(new NotNull<PrimitivesB>("small2", Shims.small2));
-        this.addRule(new NotNull<PrimitivesB>("big2", Shims.big2));
     }
 
-    public Integer getId() {
-        return this.id;
+    public Long getBig1() {
+        return this.big1;
     }
 
-    public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
-        this.id = id;
-        if (UoW.isOpen()) {
-            UoW.getIdentityMap().store(this);
-        }
+    public void setBig1(java.lang.Long big1) {
+        this.recordIfChanged("big1", this.big1, big1);
+        this.big1 = big1;
+    }
+
+    public Long getBig2() {
+        return this.big2;
+    }
+
+    public void setBig2(java.lang.Long big2) {
+        this.recordIfChanged("big2", this.big2, big2);
+        this.big2 = big2;
     }
 
     public Boolean getBool1() {
@@ -65,6 +71,18 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     public void setBool2(java.lang.Boolean bool2) {
         this.recordIfChanged("bool2", this.bool2, bool2);
         this.bool2 = bool2;
+    }
+
+    public Integer getId() {
+        return this.id;
+    }
+
+    public void setId(java.lang.Integer id) {
+        this.recordIfChanged("id", this.id, id);
+        this.id = id;
+        if (UoW.isOpen()) {
+            UoW.getIdentityMap().store(this);
+        }
     }
 
     public Integer getInt1() {
@@ -103,35 +121,25 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
         this.small2 = small2;
     }
 
-    public Long getBig1() {
-        return this.big1;
-    }
-
-    public void setBig1(java.lang.Long big1) {
-        this.recordIfChanged("big1", this.big1, big1);
-        this.big1 = big1;
-    }
-
-    public Long getBig2() {
-        return this.big2;
-    }
-
-    public void setBig2(java.lang.Long big2) {
-        this.recordIfChanged("big2", this.big2, big2);
-        this.big2 = big2;
-    }
-
     public Integer getVersion() {
         return this.version;
     }
 
     public static class Shims {
-        public static final Shim<PrimitivesB, java.lang.Integer> id = new Shim<PrimitivesB, java.lang.Integer>() {
-            public void set(PrimitivesB instance, java.lang.Integer id) {
-                ((PrimitivesBCodegen) instance).id = id;
+        public static final Shim<PrimitivesB, java.lang.Long> big1 = new Shim<PrimitivesB, java.lang.Long>() {
+            public void set(PrimitivesB instance, java.lang.Long big1) {
+                ((PrimitivesBCodegen) instance).big1 = big1;
             }
-            public Integer get(PrimitivesB instance) {
-                return ((PrimitivesBCodegen) instance).id;
+            public Long get(PrimitivesB instance) {
+                return ((PrimitivesBCodegen) instance).big1;
+            }
+        };
+        public static final Shim<PrimitivesB, java.lang.Long> big2 = new Shim<PrimitivesB, java.lang.Long>() {
+            public void set(PrimitivesB instance, java.lang.Long big2) {
+                ((PrimitivesBCodegen) instance).big2 = big2;
+            }
+            public Long get(PrimitivesB instance) {
+                return ((PrimitivesBCodegen) instance).big2;
             }
         };
         public static final Shim<PrimitivesB, java.lang.Boolean> bool1 = new Shim<PrimitivesB, java.lang.Boolean>() {
@@ -148,6 +156,14 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
             }
             public Boolean get(PrimitivesB instance) {
                 return ((PrimitivesBCodegen) instance).bool2;
+            }
+        };
+        public static final Shim<PrimitivesB, java.lang.Integer> id = new Shim<PrimitivesB, java.lang.Integer>() {
+            public void set(PrimitivesB instance, java.lang.Integer id) {
+                ((PrimitivesBCodegen) instance).id = id;
+            }
+            public Integer get(PrimitivesB instance) {
+                return ((PrimitivesBCodegen) instance).id;
             }
         };
         public static final Shim<PrimitivesB, java.lang.Integer> int1 = new Shim<PrimitivesB, java.lang.Integer>() {
@@ -180,22 +196,6 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
             }
             public Short get(PrimitivesB instance) {
                 return ((PrimitivesBCodegen) instance).small2;
-            }
-        };
-        public static final Shim<PrimitivesB, java.lang.Long> big1 = new Shim<PrimitivesB, java.lang.Long>() {
-            public void set(PrimitivesB instance, java.lang.Long big1) {
-                ((PrimitivesBCodegen) instance).big1 = big1;
-            }
-            public Long get(PrimitivesB instance) {
-                return ((PrimitivesBCodegen) instance).big1;
-            }
-        };
-        public static final Shim<PrimitivesB, java.lang.Long> big2 = new Shim<PrimitivesB, java.lang.Long>() {
-            public void set(PrimitivesB instance, java.lang.Long big2) {
-                ((PrimitivesBCodegen) instance).big2 = big2;
-            }
-            public Long get(PrimitivesB instance) {
-                return ((PrimitivesBCodegen) instance).big2;
             }
         };
         public static final Shim<PrimitivesB, java.lang.Integer> version = new Shim<PrimitivesB, java.lang.Integer>() {

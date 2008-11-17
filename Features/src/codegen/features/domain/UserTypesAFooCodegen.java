@@ -16,9 +16,9 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     }
 
     public static final UserTypesAFooQueries queries = new UserTypesAFooQueries();
+    private com.domainlanguage.time.CalendarDate created = null;
     private Integer id = null;
     private String name = null;
-    private com.domainlanguage.time.CalendarDate created = null;
     private Integer version = null;
 
     protected UserTypesAFooCodegen() {
@@ -26,9 +26,18 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
+        this.addRule(new NotNull<UserTypesAFoo>("created", Shims.created));
         this.addRule(new NotNull<UserTypesAFoo>("name", Shims.name));
         this.addRule(new MaxLength<UserTypesAFoo>("name", 100, Shims.name));
-        this.addRule(new NotNull<UserTypesAFoo>("created", Shims.created));
+    }
+
+    public com.domainlanguage.time.CalendarDate getCreated() {
+        return this.created;
+    }
+
+    public void setCreated(com.domainlanguage.time.CalendarDate created) {
+        this.recordIfChanged("created", this.created, created);
+        this.created = created;
     }
 
     public Integer getId() {
@@ -52,20 +61,19 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public com.domainlanguage.time.CalendarDate getCreated() {
-        return this.created;
-    }
-
-    public void setCreated(com.domainlanguage.time.CalendarDate created) {
-        this.recordIfChanged("created", this.created, created);
-        this.created = created;
-    }
-
     public Integer getVersion() {
         return this.version;
     }
 
     public static class Shims {
+        public static final Shim<UserTypesAFoo, com.domainlanguage.time.CalendarDate> created = new Shim<UserTypesAFoo, com.domainlanguage.time.CalendarDate>() {
+            public void set(UserTypesAFoo instance, com.domainlanguage.time.CalendarDate created) {
+                ((UserTypesAFooCodegen) instance).created = created;
+            }
+            public com.domainlanguage.time.CalendarDate get(UserTypesAFoo instance) {
+                return ((UserTypesAFooCodegen) instance).created;
+            }
+        };
         public static final Shim<UserTypesAFoo, java.lang.Integer> id = new Shim<UserTypesAFoo, java.lang.Integer>() {
             public void set(UserTypesAFoo instance, java.lang.Integer id) {
                 ((UserTypesAFooCodegen) instance).id = id;
@@ -80,14 +88,6 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
             }
             public String get(UserTypesAFoo instance) {
                 return ((UserTypesAFooCodegen) instance).name;
-            }
-        };
-        public static final Shim<UserTypesAFoo, com.domainlanguage.time.CalendarDate> created = new Shim<UserTypesAFoo, com.domainlanguage.time.CalendarDate>() {
-            public void set(UserTypesAFoo instance, com.domainlanguage.time.CalendarDate created) {
-                ((UserTypesAFooCodegen) instance).created = created;
-            }
-            public com.domainlanguage.time.CalendarDate get(UserTypesAFoo instance) {
-                return ((UserTypesAFooCodegen) instance).created;
             }
         };
         public static final Shim<UserTypesAFoo, java.lang.Integer> version = new Shim<UserTypesAFoo, java.lang.Integer>() {

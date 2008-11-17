@@ -23,10 +23,10 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private static final ParentBChildFooAlias parentBChildFoosAlias = new ParentBChildFooAlias("a");
-    private ForeignKeyListHolder<ParentBParent, ParentBChildFoo> parentBChildFoos = new ForeignKeyListHolder<ParentBParent, ParentBChildFoo>((ParentBParent) this, parentBChildFoosAlias, parentBChildFoosAlias.parentBParent);
     private static final ParentBChildBarAlias parentBChildBarsAlias = new ParentBChildBarAlias("a");
     private ForeignKeyListHolder<ParentBParent, ParentBChildBar> parentBChildBars = new ForeignKeyListHolder<ParentBParent, ParentBChildBar>((ParentBParent) this, parentBChildBarsAlias, parentBChildBarsAlias.parentBParent);
+    private static final ParentBChildFooAlias parentBChildFoosAlias = new ParentBChildFooAlias("a");
+    private ForeignKeyListHolder<ParentBParent, ParentBChildFoo> parentBChildFoos = new ForeignKeyListHolder<ParentBParent, ParentBChildFoo>((ParentBParent) this, parentBChildFoosAlias, parentBChildFoosAlias.parentBParent);
 
     protected ParentBParentCodegen() {
         this.addExtraRules();
@@ -62,30 +62,6 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
         return this.version;
     }
 
-    public List<ParentBChildFoo> getParentBChildFoos() {
-        return this.parentBChildFoos.get();
-    }
-
-    public void addParentBChildFoo(ParentBChildFoo o) {
-        o.setParentBParentWithoutPercolation((ParentBParent) this);
-        this.addParentBChildFooWithoutPercolation(o);
-    }
-
-    public void addParentBChildFooWithoutPercolation(ParentBChildFoo o) {
-        this.recordIfChanged("parentBChildFoos");
-        this.parentBChildFoos.add(o);
-    }
-
-    public void removeParentBChildFoo(ParentBChildFoo o) {
-        o.setParentBParentWithoutPercolation(null);
-        this.removeParentBChildFooWithoutPercolation(o);
-    }
-
-    public void removeParentBChildFooWithoutPercolation(ParentBChildFoo o) {
-        this.recordIfChanged("parentBChildFoos");
-        this.parentBChildFoos.remove(o);
-    }
-
     public List<ParentBChildBar> getParentBChildBars() {
         return this.parentBChildBars.get();
     }
@@ -108,6 +84,30 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     public void removeParentBChildBarWithoutPercolation(ParentBChildBar o) {
         this.recordIfChanged("parentBChildBars");
         this.parentBChildBars.remove(o);
+    }
+
+    public List<ParentBChildFoo> getParentBChildFoos() {
+        return this.parentBChildFoos.get();
+    }
+
+    public void addParentBChildFoo(ParentBChildFoo o) {
+        o.setParentBParentWithoutPercolation((ParentBParent) this);
+        this.addParentBChildFooWithoutPercolation(o);
+    }
+
+    public void addParentBChildFooWithoutPercolation(ParentBChildFoo o) {
+        this.recordIfChanged("parentBChildFoos");
+        this.parentBChildFoos.add(o);
+    }
+
+    public void removeParentBChildFoo(ParentBChildFoo o) {
+        o.setParentBParentWithoutPercolation(null);
+        this.removeParentBChildFooWithoutPercolation(o);
+    }
+
+    public void removeParentBChildFooWithoutPercolation(ParentBChildFoo o) {
+        this.recordIfChanged("parentBChildFoos");
+        this.parentBChildFoos.remove(o);
     }
 
     public static class Shims {

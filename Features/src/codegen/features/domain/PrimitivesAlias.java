@@ -13,15 +13,15 @@ import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
 public class PrimitivesAlias extends Alias<Primitives> {
 
     private final List<AliasColumn<Primitives, ?, ?>> columns = new ArrayList<AliasColumn<Primitives, ?, ?>>();
-    public final IdAliasColumn<Primitives> id = new IdAliasColumn<Primitives>(this, "id", PrimitivesCodegen.Shims.id);
     public final BooleanAliasColumn<Primitives> flag = new BooleanAliasColumn<Primitives>(this, "flag", PrimitivesCodegen.Shims.flag);
+    public final IdAliasColumn<Primitives> id = new IdAliasColumn<Primitives>(this, "id", PrimitivesCodegen.Shims.id);
     public final StringAliasColumn<Primitives> name = new StringAliasColumn<Primitives>(this, "name", PrimitivesCodegen.Shims.name);
     public final IntAliasColumn<Primitives> version = new IntAliasColumn<Primitives>(this, "version", PrimitivesCodegen.Shims.version);
 
     public PrimitivesAlias(String alias) {
         super(Primitives.class, "primitives", alias);
-        this.columns.add(this.id);
         this.columns.add(this.flag);
+        this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);
     }

@@ -1,6 +1,6 @@
 package org.exigencecorp.domainobjects.codegen;
 
-public class InformationSchemaColumn {
+public class InformationSchemaColumn implements Comparable<InformationSchemaColumn> {
 
     public String name;
     public String tableName;
@@ -12,6 +12,10 @@ public class InformationSchemaColumn {
     public String foreignKeyConstraintName;
     public String foreignKeyTableName;
     public String foreignKeyColumnName;
+
+    public int compareTo(InformationSchemaColumn other) {
+        return this.toString().compareTo(other.toString());
+    }
 
     public String toString() {
         return this.tableName + "." + this.name;

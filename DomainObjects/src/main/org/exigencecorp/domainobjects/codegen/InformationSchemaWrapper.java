@@ -3,6 +3,7 @@ package org.exigencecorp.domainobjects.codegen;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -36,11 +37,39 @@ public class InformationSchemaWrapper {
         this.findConstraints();
     }
 
-    public List<InformationSchemaColumn> getColumnMetaData() {
+    public List<InformationSchemaColumn> getColumns() {
         return this.columns;
     }
 
-    public boolean isCodeTable(String tableName) {
+    public List<String> getCodeTables() {
+        List<String> tables = new ArrayList<String>();
+        for (InformationSchemaColumn column : this.columns) {
+            if (!tables.contains(column.tableName) && this.isCodeTable(column.tableName)) {
+                tables.add(column.tableName);
+            }
+        }
+        return tables;
+    }
+
+    public List<String> getManyToManyTables() {
+        List<String> tables = new ArrayList<String>();
+        for (InformationSchemaColumn column : this.columns) {
+            if (!tables.contains(column.tableName) && this.isManyToManyTable(column.tableName)) {
+                tables.add(column.tableName);
+            }
+        }
+        return tables;
+    }
+
+    public int getSchemaHashCode() {
+        StringBuilder sb = new StringBuilder();
+        for (InformationSchemaColumn column : this.columns) {
+            sb.append(column.toString());
+        }
+        return sb.toString().hashCode();
+    }
+
+    private boolean isCodeTable(String tableName) {
         List<String> actualColumns = this.getColumnNames(tableName);
         if (actualColumns.size() != 4) {
             return false;
@@ -49,17 +78,7 @@ public class InformationSchemaWrapper {
         return actualColumns.size() == 0;
     }
 
-    public List<String> getCodeTables() {
-        List<String> codeTables = new ArrayList<String>();
-        for (InformationSchemaColumn column : this.columns) {
-            if (!codeTables.contains(column.tableName) && this.isCodeTable(column.tableName)) {
-                codeTables.add(column.tableName);
-            }
-        }
-        return codeTables;
-    }
-
-    public boolean isManyToManyTable(String tableName) {
+    private boolean isManyToManyTable(String tableName) {
         if (!tableName.contains("_to_")) {
             return false;
         }
@@ -104,6 +123,7 @@ public class InformationSchemaWrapper {
                 InformationSchemaWrapper.this.columns.add(column);
             }
         });
+        Collections.sort(this.columns);
     }
 
     private void findConstraints() {
