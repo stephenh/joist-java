@@ -54,6 +54,7 @@ public class CodegenConfig {
         this.setJavaType("boolean", Boolean.class, BooleanAliasColumn.class);
         this.setJavaType("bytea", String.class, StringAliasColumn.class);
         this.setJavaType("date", Date.class, DateAliasColumn.class);
+        this.setJavaType("timestamp without time zone", Date.class, DateAliasColumn.class);
     }
 
     public void setProjectNameForDefaults(String projectName) {
