@@ -1,4 +1,4 @@
-package org.exigencecorp.registry.resources;
+package org.exigencecorp.domainobjects.util;
 
 import java.sql.SQLException;
 
@@ -11,7 +11,7 @@ import org.exigencecorp.util.Reflection;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;
 
-public abstract class AbstractPostgresWithc3p0DataSourceFactory implements ResourceFactory<DataSource> {
+public abstract class AbstractPgWithc3p0DataSourceFactory implements ResourceFactory<DataSource> {
 
     static {
         // Save 50-100ms because we don't care about JMX/whatever
@@ -22,7 +22,7 @@ public abstract class AbstractPostgresWithc3p0DataSourceFactory implements Resou
 
     private final String databaseName;
 
-    protected AbstractPostgresWithc3p0DataSourceFactory(String databaseName) {
+    protected AbstractPgWithc3p0DataSourceFactory(String databaseName) {
         this.databaseName = databaseName;
     }
 
