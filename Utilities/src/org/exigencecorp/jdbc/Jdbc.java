@@ -10,8 +10,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.exigencecorp.util.Interpolate;
 import org.exigencecorp.util.Log;
-import org.exigencecorp.util.ToString;
 
 public class Jdbc {
 
@@ -23,7 +23,7 @@ public class Jdbc {
         Statement stmt = null;
         ResultSet rs = null;
         try {
-            sql = ToString.interpolate(sql, args);
+            sql = Interpolate.string(sql, args);
             Log.trace("sql = {}", sql);
             stmt = connection.createStatement();
             rs = stmt.executeQuery(sql);
@@ -53,7 +53,7 @@ public class Jdbc {
     public static int update(Connection connection, String sql, Object... args) {
         Statement stmt = null;
         try {
-            sql = ToString.interpolate(sql, args);
+            sql = Interpolate.string(sql, args);
             Log.trace("sql = {}", sql);
             stmt = connection.createStatement();
             return stmt.executeUpdate(sql);

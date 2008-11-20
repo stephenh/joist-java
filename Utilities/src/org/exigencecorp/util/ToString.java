@@ -25,12 +25,4 @@ public class ToString {
         return object.getClass().getSimpleName() + "[" + StringUtils.join(transformed, ",") + "]";
     }
 
-    /** @return message with each "{}" replaced with the corresponding arg */
-    public static String interpolate(String message, Object... args) {
-        for (Object arg : args) {
-            message = StringUtils.replaceOnce(message, "{}", String.valueOf(arg));
-        }
-        return message;
-    }
-
 }

@@ -7,9 +7,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.exigencecorp.util.Interpolate;
 import org.exigencecorp.util.Join;
 import org.exigencecorp.util.StringBuilderr;
-import org.exigencecorp.util.ToString;
 
 public class GClass {
 
@@ -48,7 +48,7 @@ public class GClass {
     }
 
     public GClass addEnumValue(String value, Object... args) {
-        this.enumValues.add(ToString.interpolate(value, args));
+        this.enumValues.add(Interpolate.string(value, args));
         return this;
     }
 
@@ -97,7 +97,7 @@ public class GClass {
     }
 
     public GMethod getMethod(String name, Object... args) {
-        name = ToString.interpolate(name, args);
+        name = Interpolate.string(name, args);
         if (name.indexOf('(') == -1) {
             for (GMethod method : this.methods) {
                 if (method.getName().equals(name)) {
@@ -123,7 +123,7 @@ public class GClass {
     }
 
     public GField getField(String name, Object... args) {
-        name = ToString.interpolate(name, args);
+        name = Interpolate.string(name, args);
         for (GField field : this.fields) {
             if (field.getName().equals(name)) {
                 return field;
@@ -262,7 +262,7 @@ public class GClass {
     }
 
     public GClass baseClassName(String baseClassName, Object... args) {
-        this.baseClassName = this.importAndStripPackage(ToString.interpolate(baseClassName, args));
+        this.baseClassName = this.importAndStripPackage(Interpolate.string(baseClassName, args));
         return this;
     }
 

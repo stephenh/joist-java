@@ -1,8 +1,8 @@
 package org.exigencecorp.gen;
 
 import org.apache.commons.lang.StringUtils;
+import org.exigencecorp.util.Interpolate;
 import org.exigencecorp.util.StringBuilderr;
-import org.exigencecorp.util.ToString;
 
 public class GField {
 
@@ -51,7 +51,7 @@ public class GField {
     }
 
     public GField type(String fullClassName, Object... args) {
-        this.typeClassName = ToString.interpolate(fullClassName, args);
+        this.typeClassName = Interpolate.string(fullClassName, args);
         if (this.typeClassName.startsWith("java.lang.") && this.typeClassName.lastIndexOf('.') == 9) {
 
             this.typeClassName = this.typeClassName.substring("java.lang.".length());
@@ -61,13 +61,13 @@ public class GField {
 
     public GField typeInPackage(String packageName, String simpleName, Object... args) {
         this.type(simpleName, args);
-        this.typeClassName = ToString.interpolate(simpleName, args);
+        this.typeClassName = Interpolate.string(simpleName, args);
         this.gclass.addImports(packageName + "." + this.typeClassName);
         return this;
     }
 
     public GField initialValue(String initialValue, Object... args) {
-        this.initialValue = ToString.interpolate(initialValue, args);
+        this.initialValue = Interpolate.string(initialValue, args);
         return this;
     }
 

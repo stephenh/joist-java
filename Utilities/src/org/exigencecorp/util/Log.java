@@ -51,9 +51,9 @@ public class Log {
         if (args.length > 0 && args[0] instanceof Throwable) {
             Throwable t = (Throwable) args[0];
             args = ArrayUtils.subarray(args, 1, args.length);
-            logger.log(level, ToString.interpolate(message, args), t);
+            logger.log(level, Interpolate.string(message, args), t);
         } else {
-            logger.log(level, ToString.interpolate(message, args));
+            logger.log(level, Interpolate.string(message, args));
         }
     }
 

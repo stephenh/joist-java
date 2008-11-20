@@ -3,9 +3,9 @@ package org.exigencecorp.gen;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.exigencecorp.util.Interpolate;
 import org.exigencecorp.util.Join;
 import org.exigencecorp.util.StringBuilderr;
-import org.exigencecorp.util.ToString;
 
 public class GMethod {
 
@@ -26,7 +26,7 @@ public class GMethod {
     }
 
     public GMethod returnType(String returnClassName, Object... args) {
-        this.returnClassName = ToString.interpolate(returnClassName, args);
+        this.returnClassName = Interpolate.string(returnClassName, args);
         if (this.returnClassName.startsWith("java.lang.") && this.returnClassName.lastIndexOf('.') == 9) {
             this.returnClassName = this.returnClassName.substring("java.lang.".length());
         }

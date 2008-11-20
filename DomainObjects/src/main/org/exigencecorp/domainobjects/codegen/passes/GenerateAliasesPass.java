@@ -19,7 +19,7 @@ import org.exigencecorp.gen.GClass;
 import org.exigencecorp.gen.GField;
 import org.exigencecorp.gen.GMethod;
 import org.exigencecorp.util.Copy;
-import org.exigencecorp.util.ToString;
+import org.exigencecorp.util.Interpolate;
 
 public class GenerateAliasesPass implements Pass {
 
@@ -187,7 +187,7 @@ public class GenerateAliasesPass implements Pass {
     }
 
     private void appendToConstructors(GClass aliasClass, String line, Object... args) {
-        line = ToString.interpolate(line, args);
+        line = Interpolate.string(line, args);
         for (GMethod constructor : aliasClass.getConstructors()) {
             constructor.body.line(line);
         }

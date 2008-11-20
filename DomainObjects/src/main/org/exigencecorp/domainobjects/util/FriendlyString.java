@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.exigencecorp.domainobjects.Code;
 import org.exigencecorp.domainobjects.DomainObject;
+import org.exigencecorp.util.Interpolate;
 import org.exigencecorp.util.Join;
-import org.exigencecorp.util.ToString;
 
 /**
  * Describes domain objects in a (basically) human readable fashion.
@@ -77,7 +77,7 @@ public class FriendlyString {
         for (int i = 0; i < args.length; i++) {
             args[i] = FriendlyString.join(args[i]);
         }
-        return ToString.interpolate(message, args);
+        return Interpolate.string(message, args);
     }
 
 }
