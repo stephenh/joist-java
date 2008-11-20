@@ -5,50 +5,54 @@ import org.exigencecorp.domainobjects.orm.IdentityMap;
 import org.exigencecorp.domainobjects.orm.Repository;
 import org.exigencecorp.domainobjects.validation.Validator;
 
-/** Coordinates validation, object identity, and storing/retrieving domain objects. */
+/** Coordinates validation, object identity, and storing/retrieving domain objects.
+ *
+ * All of these methods are package private so that the UoW facade class has to
+ * be used. I'm not entirely sure this is a good idea.
+ */
 public class UnitOfWork {
 
     private final Validator validator = new Validator();
     private final IdentityMap identityMap = new IdentityMap();
     private final Repository repository = new Repository();
 
-    public void open() {
+    void open() {
         this.repository.open();
     }
 
-    public void close() {
+    void close() {
         this.repository.close();
     }
 
-    public void flush() {
+    void flush() {
         this.validator.validate();
         this.repository.store(this.validator.getQueue());
         this.validator.resetQueueAndChangedProperties();
     }
 
-    public void delete(DomainObject instance) {
+    void delete(DomainObject instance) {
         this.validator.dequeue(instance);
         this.repository.delete(instance);
     }
 
-    public void commit() {
+    void commit() {
         this.flush();
         this.repository.commit();
     }
 
-    public void rollback() {
+    void rollback() {
         this.repository.rollback();
     }
 
-    public IdentityMap getIdentityMap() {
+    IdentityMap getIdentityMap() {
         return this.identityMap;
     }
 
-    public Validator getValidator() {
+    Validator getValidator() {
         return this.validator;
     }
 
-    public Repository getRepository() {
+    Repository getRepository() {
         return this.repository;
     }
 
