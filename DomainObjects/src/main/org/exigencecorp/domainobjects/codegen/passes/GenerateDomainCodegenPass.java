@@ -139,9 +139,9 @@ public class GenerateDomainCodegenPass implements Pass {
                     mtop.getOneToManyProperty().getCapitalVariableNameSingular(),
                     entity.getClassName());
                 setter.body.line("}");
-            }
-            if (mtop.getOneToManyProperty().isOneToOne()) {
-                setter.body.line("{}.set{}(null);", mtop.getVariableName(), mtop.getOneToManyProperty().getCapitalVariableNameSingular());
+                if (mtop.getOneToManyProperty().isOneToOne()) {
+                    setter.body.line("{}.set{}(null);", mtop.getVariableName(), mtop.getOneToManyProperty().getCapitalVariableNameSingular());
+                }
             }
             setter.body.line("this.set{}WithoutPercolation({});", mtop.getCapitalVariableName(), mtop.getVariableName());
             if (!mtop.getManySide().isCodeEntity()) {
