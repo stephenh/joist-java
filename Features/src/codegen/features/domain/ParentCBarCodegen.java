@@ -22,6 +22,7 @@ abstract class ParentCBarCodegen extends AbstractDomainObject {
     private Integer version = null;
     private ForeignKeyHolder<ParentCFoo> firstParent = new ForeignKeyHolder<ParentCFoo>(ParentCFoo.class);
     private ForeignKeyHolder<ParentCFoo> secondParent = new ForeignKeyHolder<ParentCFoo>(ParentCFoo.class);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected ParentCBarCodegen() {
         this.addExtraRules();
@@ -37,7 +38,7 @@ abstract class ParentCBarCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -49,7 +50,7 @@ abstract class ParentCBarCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -72,7 +73,7 @@ abstract class ParentCBarCodegen extends AbstractDomainObject {
     }
 
     public void setFirstParentWithoutPercolation(ParentCFoo firstParent) {
-        this.recordIfChanged("firstParent", this.firstParent, firstParent);
+        this.getChanged().record("firstParent", this.firstParent, firstParent);
         this.firstParent.set(firstParent);
     }
 
@@ -91,8 +92,15 @@ abstract class ParentCBarCodegen extends AbstractDomainObject {
     }
 
     public void setSecondParentWithoutPercolation(ParentCFoo secondParent) {
-        this.recordIfChanged("secondParent", this.secondParent, secondParent);
+        this.getChanged().record("secondParent", this.secondParent, secondParent);
         this.secondParent.set(secondParent);
+    }
+
+    public ParentCBarChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new ParentCBarChanged((ParentCBar) this);
+        }
+        return (ParentCBarChanged) this.changed;
     }
 
     public static class Shims {
@@ -136,6 +144,12 @@ abstract class ParentCBarCodegen extends AbstractDomainObject {
                 return ((ParentCBarCodegen) instance).secondParent.getId();
             }
         };
+    }
+
+    public static class ParentCBarChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public ParentCBarChanged(ParentCBar instance) {
+            super(instance);
+        }
     }
 
 }

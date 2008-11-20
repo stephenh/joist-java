@@ -23,6 +23,7 @@ abstract class OneToOneAFooCodegen extends AbstractDomainObject {
     private Integer version = null;
     private static final OneToOneABarAlias oneToOneABarsAlias = new OneToOneABarAlias("a");
     private ForeignKeyListHolder<OneToOneAFoo, OneToOneABar> oneToOneABars = new ForeignKeyListHolder<OneToOneAFoo, OneToOneABar>((OneToOneAFoo) this, oneToOneABarsAlias, oneToOneABarsAlias.oneToOneAFoo);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected OneToOneAFooCodegen() {
         this.addExtraRules();
@@ -38,7 +39,7 @@ abstract class OneToOneAFooCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -50,7 +51,7 @@ abstract class OneToOneAFooCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -75,13 +76,20 @@ abstract class OneToOneAFooCodegen extends AbstractDomainObject {
     }
 
     protected void addOneToOneABarWithoutPercolation(OneToOneABar o) {
-        this.recordIfChanged("oneToOneABars");
+        this.getChanged().record("oneToOneABars");
         this.oneToOneABars.add(o);
     }
 
     protected void removeOneToOneABarWithoutPercolation(OneToOneABar o) {
-        this.recordIfChanged("oneToOneABars");
+        this.getChanged().record("oneToOneABars");
         this.oneToOneABars.remove(o);
+    }
+
+    public OneToOneAFooChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new OneToOneAFooChanged((OneToOneAFoo) this);
+        }
+        return (OneToOneAFooChanged) this.changed;
     }
 
     public static class Shims {
@@ -109,6 +117,12 @@ abstract class OneToOneAFooCodegen extends AbstractDomainObject {
                 return ((OneToOneAFooCodegen) instance).version;
             }
         };
+    }
+
+    public static class OneToOneAFooChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public OneToOneAFooChanged(OneToOneAFoo instance) {
+            super(instance);
+        }
     }
 
 }

@@ -30,8 +30,15 @@ abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
     }
 
     public void setMiddleName(java.lang.String middleName) {
-        this.recordIfChanged("middleName", this.middleName, middleName);
+        this.getChanged().record("middleName", this.middleName, middleName);
         this.middleName = middleName;
+    }
+
+    public InheritanceBMiddleChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new InheritanceBMiddleChanged((InheritanceBMiddle) this);
+        }
+        return (InheritanceBMiddleChanged) this.changed;
     }
 
     public static class Shims {
@@ -43,6 +50,12 @@ abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
                 return ((InheritanceBMiddleCodegen) instance).middleName;
             }
         };
+    }
+
+    public static class InheritanceBMiddleChanged extends InheritanceBRootChanged {
+        public InheritanceBMiddleChanged(InheritanceBMiddle instance) {
+            super(instance);
+        }
     }
 
 }

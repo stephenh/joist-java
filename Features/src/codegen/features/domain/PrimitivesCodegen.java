@@ -20,6 +20,7 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected PrimitivesCodegen() {
         this.addExtraRules();
@@ -36,7 +37,7 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
     }
 
     public void setFlag(java.lang.Boolean flag) {
-        this.recordIfChanged("flag", this.flag, flag);
+        this.getChanged().record("flag", this.flag, flag);
         this.flag = flag;
     }
 
@@ -45,7 +46,7 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -57,12 +58,19 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
     public Integer getVersion() {
         return this.version;
+    }
+
+    public PrimitivesChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new PrimitivesChanged((Primitives) this);
+        }
+        return (PrimitivesChanged) this.changed;
     }
 
     public static class Shims {
@@ -98,6 +106,12 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
                 return ((PrimitivesCodegen) instance).version;
             }
         };
+    }
+
+    public static class PrimitivesChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public PrimitivesChanged(Primitives instance) {
+            super(instance);
+        }
     }
 
 }

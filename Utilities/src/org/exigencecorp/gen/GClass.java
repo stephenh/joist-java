@@ -63,7 +63,8 @@ public class GClass {
         return this.packageName;
     }
 
-    public GClass getInnerClass(String name) {
+    public GClass getInnerClass(String name, Object... args) {
+        name = Interpolate.string(name, args);
         for (GClass gc : this.innerClasses) {
             if (gc.shortName.equals(name)) {
                 return gc;
@@ -72,6 +73,12 @@ public class GClass {
         GClass gc = new GClass(name);
         gc.isStaticInnerClass = true;
         this.innerClasses.add(gc);
+        return gc;
+    }
+
+    public GClass getNonStaticInnerClass(String name, Object... args) {
+        GClass gc = this.getInnerClass(name, args);
+        gc.isStaticInnerClass = false;
         return gc;
     }
 

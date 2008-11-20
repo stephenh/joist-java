@@ -19,6 +19,7 @@ abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
     private Integer version = null;
     private ForeignKeyHolder<ManyToManyBFoo> blue = new ForeignKeyHolder<ManyToManyBFoo>(ManyToManyBFoo.class);
     private ForeignKeyHolder<ManyToManyBBar> green = new ForeignKeyHolder<ManyToManyBBar>(ManyToManyBBar.class);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected ManyToManyBFooToBarCodegen() {
         this.addExtraRules();
@@ -32,7 +33,7 @@ abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -58,7 +59,7 @@ abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
     }
 
     public void setBlueWithoutPercolation(ManyToManyBFoo blue) {
-        this.recordIfChanged("blue", this.blue, blue);
+        this.getChanged().record("blue", this.blue, blue);
         this.blue.set(blue);
     }
 
@@ -77,8 +78,15 @@ abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
     }
 
     public void setGreenWithoutPercolation(ManyToManyBBar green) {
-        this.recordIfChanged("green", this.green, green);
+        this.getChanged().record("green", this.green, green);
         this.green.set(green);
+    }
+
+    public ManyToManyBFooToBarChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new ManyToManyBFooToBarChanged((ManyToManyBFooToBar) this);
+        }
+        return (ManyToManyBFooToBarChanged) this.changed;
     }
 
     public static class Shims {
@@ -114,6 +122,12 @@ abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
                 return ((ManyToManyBFooToBarCodegen) instance).green.getId();
             }
         };
+    }
+
+    public static class ManyToManyBFooToBarChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public ManyToManyBFooToBarChanged(ManyToManyBFooToBar instance) {
+            super(instance);
+        }
     }
 
 }

@@ -26,6 +26,7 @@ abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
     private Integer version = null;
     private static final ManyToManyBFooToBarAlias blueManyToManyBFooToBarsAlias = new ManyToManyBFooToBarAlias("a");
     private ForeignKeyListHolder<ManyToManyBFoo, ManyToManyBFooToBar> blueManyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBFoo, ManyToManyBFooToBar>((ManyToManyBFoo) this, blueManyToManyBFooToBarsAlias, blueManyToManyBFooToBarsAlias.blue);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected ManyToManyBFooCodegen() {
         this.addExtraRules();
@@ -41,7 +42,7 @@ abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -53,7 +54,7 @@ abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -76,12 +77,12 @@ abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
     }
 
     protected void addBlueManyToManyBFooToBarWithoutPercolation(ManyToManyBFooToBar o) {
-        this.recordIfChanged("blueManyToManyBFooToBars");
+        this.getChanged().record("blueManyToManyBFooToBars");
         this.blueManyToManyBFooToBars.add(o);
     }
 
     protected void removeBlueManyToManyBFooToBarWithoutPercolation(ManyToManyBFooToBar o) {
-        this.recordIfChanged("blueManyToManyBFooToBars");
+        this.getChanged().record("blueManyToManyBFooToBars");
         this.blueManyToManyBFooToBars.remove(o);
     }
 
@@ -109,6 +110,13 @@ abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
         }
     }
 
+    public ManyToManyBFooChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new ManyToManyBFooChanged((ManyToManyBFoo) this);
+        }
+        return (ManyToManyBFooChanged) this.changed;
+    }
+
     public static class Shims {
         public static final Shim<ManyToManyBFoo, java.lang.Integer> id = new Shim<ManyToManyBFoo, java.lang.Integer>() {
             public void set(ManyToManyBFoo instance, java.lang.Integer id) {
@@ -134,6 +142,12 @@ abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
                 return ((ManyToManyBFooCodegen) instance).version;
             }
         };
+    }
+
+    public static class ManyToManyBFooChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public ManyToManyBFooChanged(ManyToManyBFoo instance) {
+            super(instance);
+        }
     }
 
 }

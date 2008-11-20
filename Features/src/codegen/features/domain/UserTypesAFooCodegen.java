@@ -20,6 +20,7 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected UserTypesAFooCodegen() {
         this.addExtraRules();
@@ -36,7 +37,7 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     }
 
     public void setCreated(com.domainlanguage.time.CalendarDate created) {
-        this.recordIfChanged("created", this.created, created);
+        this.getChanged().record("created", this.created, created);
         this.created = created;
     }
 
@@ -45,7 +46,7 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -57,12 +58,19 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
     public Integer getVersion() {
         return this.version;
+    }
+
+    public UserTypesAFooChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new UserTypesAFooChanged((UserTypesAFoo) this);
+        }
+        return (UserTypesAFooChanged) this.changed;
     }
 
     public static class Shims {
@@ -98,6 +106,12 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
                 return ((UserTypesAFooCodegen) instance).version;
             }
         };
+    }
+
+    public static class UserTypesAFooChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public UserTypesAFooChanged(UserTypesAFoo instance) {
+            super(instance);
+        }
     }
 
 }

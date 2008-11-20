@@ -21,6 +21,7 @@ abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected ParentBChildBarCodegen() {
         this.addExtraRules();
@@ -36,7 +37,7 @@ abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -48,7 +49,7 @@ abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -71,8 +72,15 @@ abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     }
 
     public void setParentBParentWithoutPercolation(ParentBParent parentBParent) {
-        this.recordIfChanged("parentBParent", this.parentBParent, parentBParent);
+        this.getChanged().record("parentBParent", this.parentBParent, parentBParent);
         this.parentBParent.set(parentBParent);
+    }
+
+    public ParentBChildBarChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new ParentBChildBarChanged((ParentBChildBar) this);
+        }
+        return (ParentBChildBarChanged) this.changed;
     }
 
     public static class Shims {
@@ -108,6 +116,12 @@ abstract class ParentBChildBarCodegen extends AbstractDomainObject {
                 return ((ParentBChildBarCodegen) instance).parentBParent.getId();
             }
         };
+    }
+
+    public static class ParentBChildBarChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public ParentBChildBarChanged(ParentBChildBar instance) {
+            super(instance);
+        }
     }
 
 }

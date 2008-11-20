@@ -26,6 +26,7 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
     private ForeignKeyListHolder<ParentCFoo, ParentCBar> firstParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, firstParentParentCBarsAlias, firstParentParentCBarsAlias.firstParent);
     private static final ParentCBarAlias secondParentParentCBarsAlias = new ParentCBarAlias("a");
     private ForeignKeyListHolder<ParentCFoo, ParentCBar> secondParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, secondParentParentCBarsAlias, secondParentParentCBarsAlias.secondParent);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected ParentCFooCodegen() {
         this.addExtraRules();
@@ -41,7 +42,7 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -53,7 +54,7 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -76,12 +77,12 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
     }
 
     protected void addFirstParentParentCBarWithoutPercolation(ParentCBar o) {
-        this.recordIfChanged("firstParentParentCBars");
+        this.getChanged().record("firstParentParentCBars");
         this.firstParentParentCBars.add(o);
     }
 
     protected void removeFirstParentParentCBarWithoutPercolation(ParentCBar o) {
-        this.recordIfChanged("firstParentParentCBars");
+        this.getChanged().record("firstParentParentCBars");
         this.firstParentParentCBars.remove(o);
     }
 
@@ -100,13 +101,20 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
     }
 
     protected void addSecondParentParentCBarWithoutPercolation(ParentCBar o) {
-        this.recordIfChanged("secondParentParentCBars");
+        this.getChanged().record("secondParentParentCBars");
         this.secondParentParentCBars.add(o);
     }
 
     protected void removeSecondParentParentCBarWithoutPercolation(ParentCBar o) {
-        this.recordIfChanged("secondParentParentCBars");
+        this.getChanged().record("secondParentParentCBars");
         this.secondParentParentCBars.remove(o);
+    }
+
+    public ParentCFooChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new ParentCFooChanged((ParentCFoo) this);
+        }
+        return (ParentCFooChanged) this.changed;
     }
 
     public static class Shims {
@@ -134,6 +142,12 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
                 return ((ParentCFooCodegen) instance).version;
             }
         };
+    }
+
+    public static class ParentCFooChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public ParentCFooChanged(ParentCFoo instance) {
+            super(instance);
+        }
     }
 
 }

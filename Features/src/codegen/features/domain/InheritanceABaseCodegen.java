@@ -19,6 +19,7 @@ abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected InheritanceABaseCodegen() {
         this.addExtraRules();
@@ -34,7 +35,7 @@ abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -46,12 +47,19 @@ abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
     public Integer getVersion() {
         return this.version;
+    }
+
+    public InheritanceABaseChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new InheritanceABaseChanged((InheritanceABase) this);
+        }
+        return (InheritanceABaseChanged) this.changed;
     }
 
     public static class Shims {
@@ -79,6 +87,12 @@ abstract class InheritanceABaseCodegen extends AbstractDomainObject {
                 return ((InheritanceABaseCodegen) instance).version;
             }
         };
+    }
+
+    public static class InheritanceABaseChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public InheritanceABaseChanged(InheritanceABase instance) {
+            super(instance);
+        }
     }
 
 }

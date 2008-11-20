@@ -21,6 +21,7 @@ abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<InheritanceBRoot> inheritanceBRoot = new ForeignKeyHolder<InheritanceBRoot>(InheritanceBRoot.class);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected InheritanceBRootChildCodegen() {
         this.addExtraRules();
@@ -36,7 +37,7 @@ abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -48,7 +49,7 @@ abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -71,8 +72,15 @@ abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
     }
 
     public void setInheritanceBRootWithoutPercolation(InheritanceBRoot inheritanceBRoot) {
-        this.recordIfChanged("inheritanceBRoot", this.inheritanceBRoot, inheritanceBRoot);
+        this.getChanged().record("inheritanceBRoot", this.inheritanceBRoot, inheritanceBRoot);
         this.inheritanceBRoot.set(inheritanceBRoot);
+    }
+
+    public InheritanceBRootChildChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new InheritanceBRootChildChanged((InheritanceBRootChild) this);
+        }
+        return (InheritanceBRootChildChanged) this.changed;
     }
 
     public static class Shims {
@@ -108,6 +116,12 @@ abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
                 return ((InheritanceBRootChildCodegen) instance).inheritanceBRoot.getId();
             }
         };
+    }
+
+    public static class InheritanceBRootChildChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public InheritanceBRootChildChanged(InheritanceBRootChild instance) {
+            super(instance);
+        }
     }
 
 }

@@ -21,6 +21,7 @@ abstract class ChildCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<Parent> parent = new ForeignKeyHolder<Parent>(Parent.class);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected ChildCodegen() {
         this.addExtraRules();
@@ -36,7 +37,7 @@ abstract class ChildCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -48,7 +49,7 @@ abstract class ChildCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -71,8 +72,15 @@ abstract class ChildCodegen extends AbstractDomainObject {
     }
 
     public void setParentWithoutPercolation(Parent parent) {
-        this.recordIfChanged("parent", this.parent, parent);
+        this.getChanged().record("parent", this.parent, parent);
         this.parent.set(parent);
+    }
+
+    public ChildChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new ChildChanged((Child) this);
+        }
+        return (ChildChanged) this.changed;
     }
 
     public static class Shims {
@@ -108,6 +116,12 @@ abstract class ChildCodegen extends AbstractDomainObject {
                 return ((ChildCodegen) instance).parent.getId();
             }
         };
+    }
+
+    public static class ChildChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public ChildChanged(Child instance) {
+            super(instance);
+        }
     }
 
 }

@@ -25,6 +25,7 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     private Short small1 = null;
     private Short small2 = null;
     private Integer version = null;
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected PrimitivesBCodegen() {
         this.addExtraRules();
@@ -42,7 +43,7 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     public void setBig1(java.lang.Long big1) {
-        this.recordIfChanged("big1", this.big1, big1);
+        this.getChanged().record("big1", this.big1, big1);
         this.big1 = big1;
     }
 
@@ -51,7 +52,7 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     public void setBig2(java.lang.Long big2) {
-        this.recordIfChanged("big2", this.big2, big2);
+        this.getChanged().record("big2", this.big2, big2);
         this.big2 = big2;
     }
 
@@ -60,7 +61,7 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     public void setBool1(java.lang.Boolean bool1) {
-        this.recordIfChanged("bool1", this.bool1, bool1);
+        this.getChanged().record("bool1", this.bool1, bool1);
         this.bool1 = bool1;
     }
 
@@ -69,7 +70,7 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     public void setBool2(java.lang.Boolean bool2) {
-        this.recordIfChanged("bool2", this.bool2, bool2);
+        this.getChanged().record("bool2", this.bool2, bool2);
         this.bool2 = bool2;
     }
 
@@ -78,7 +79,7 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -90,7 +91,7 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     public void setInt1(java.lang.Integer int1) {
-        this.recordIfChanged("int1", this.int1, int1);
+        this.getChanged().record("int1", this.int1, int1);
         this.int1 = int1;
     }
 
@@ -99,7 +100,7 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     public void setInt2(java.lang.Integer int2) {
-        this.recordIfChanged("int2", this.int2, int2);
+        this.getChanged().record("int2", this.int2, int2);
         this.int2 = int2;
     }
 
@@ -108,7 +109,7 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     public void setSmall1(java.lang.Short small1) {
-        this.recordIfChanged("small1", this.small1, small1);
+        this.getChanged().record("small1", this.small1, small1);
         this.small1 = small1;
     }
 
@@ -117,12 +118,19 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     public void setSmall2(java.lang.Short small2) {
-        this.recordIfChanged("small2", this.small2, small2);
+        this.getChanged().record("small2", this.small2, small2);
         this.small2 = small2;
     }
 
     public Integer getVersion() {
         return this.version;
+    }
+
+    public PrimitivesBChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new PrimitivesBChanged((PrimitivesB) this);
+        }
+        return (PrimitivesBChanged) this.changed;
     }
 
     public static class Shims {
@@ -206,6 +214,12 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return ((PrimitivesBCodegen) instance).version;
             }
         };
+    }
+
+    public static class PrimitivesBChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public PrimitivesBChanged(PrimitivesB instance) {
+            super(instance);
+        }
     }
 
 }

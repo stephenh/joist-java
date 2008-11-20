@@ -30,8 +30,15 @@ abstract class InheritanceASubOneCodegen extends InheritanceABase {
     }
 
     public void setOne(java.lang.String one) {
-        this.recordIfChanged("one", this.one, one);
+        this.getChanged().record("one", this.one, one);
         this.one = one;
+    }
+
+    public InheritanceASubOneChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new InheritanceASubOneChanged((InheritanceASubOne) this);
+        }
+        return (InheritanceASubOneChanged) this.changed;
     }
 
     public static class Shims {
@@ -43,6 +50,12 @@ abstract class InheritanceASubOneCodegen extends InheritanceABase {
                 return ((InheritanceASubOneCodegen) instance).one;
             }
         };
+    }
+
+    public static class InheritanceASubOneChanged extends InheritanceABaseChanged {
+        public InheritanceASubOneChanged(InheritanceASubOne instance) {
+            super(instance);
+        }
     }
 
 }

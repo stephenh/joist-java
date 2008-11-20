@@ -3,6 +3,8 @@ package org.exigencecorp.domainobjects.codegen.passes;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.exigencecorp.domainobjects.AbstractChanged;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
@@ -42,6 +44,7 @@ public class GenerateDomainCodegenPass implements Pass {
             this.manyToOneProperties(domainCodegen, entity);
             this.oneToManyProperties(domainCodegen, entity);
             this.manyToManyProperties(domainCodegen, entity);
+            this.changed(domainCodegen, entity);
         }
     }
 
@@ -65,7 +68,7 @@ public class GenerateDomainCodegenPass implements Pass {
             if (!"version".equals(p.getColumnName())) {
                 GMethod setter = domainCodegen.getMethod("set" + p.getCapitalVariableName());
                 setter.argument(p.getJavaType(), p.getVariableName());
-                setter.body.line("this.recordIfChanged(\"{}\", this.{}, {});", p.getVariableName(), p.getVariableName(), p.getVariableName());
+                setter.body.line("this.getChanged().record(\"{}\", this.{}, {});", p.getVariableName(), p.getVariableName(), p.getVariableName());
                 setter.body.line("this.{} = {};", p.getVariableName(), p.getVariableName());
                 if ("id".equals(p.getColumnName())) {
                     setter.body.line("if (UoW.isOpen()) {");
@@ -152,7 +155,8 @@ public class GenerateDomainCodegenPass implements Pass {
 
             GMethod setter2 = domainCodegen.getMethod("set{}WithoutPercolation", mtop.getCapitalVariableName());
             setter2.argument(mtop.getJavaType(), mtop.getVariableName());
-            setter2.body.line("this.recordIfChanged(\"{}\", this.{}, {});", mtop.getVariableName(), mtop.getVariableName(), mtop.getVariableName());
+            setter2.body.line("this.getChanged().record(\"{}\", this.{}, {});", mtop.getVariableName(), mtop.getVariableName(), mtop
+                .getVariableName());
             setter2.body.line("this.{}.set({});", mtop.getVariableName(), mtop.getVariableName());
 
             GClass shims = domainCodegen.getInnerClass("Shims");
@@ -225,12 +229,12 @@ public class GenerateDomainCodegenPass implements Pass {
 
             GMethod adder2 = domainCodegen.getMethod("add{}WithoutPercolation", otmp.getCapitalVariableNameSingular());
             adder2.argument(otmp.getTargetJavaType(), "o").setProtected();
-            adder2.body.line("this.recordIfChanged(\"{}\");", otmp.getVariableName());
+            adder2.body.line("this.getChanged().record(\"{}\");", otmp.getVariableName());
             adder2.body.line("this.{}.add(o);", otmp.getVariableName());
 
             GMethod remover2 = domainCodegen.getMethod("remove{}WithoutPercolation", otmp.getCapitalVariableNameSingular());
             remover2.argument(otmp.getTargetJavaType(), "o").setProtected();
-            remover2.body.line("this.recordIfChanged(\"{}\");", otmp.getVariableName());
+            remover2.body.line("this.getChanged().record(\"{}\");", otmp.getVariableName());
             remover2.body.line("this.{}.remove(o);", otmp.getVariableName());
 
             domainCodegen.addImports(otmp.getOneSide().getFullAliasClassName());
@@ -268,6 +272,26 @@ public class GenerateDomainCodegenPass implements Pass {
 
             domainCodegen.addImports(Copy.class, ArrayList.class, UoW.class);
         }
+    }
+
+    private void changed(GClass domainCodegen, Entity entity) {
+        if (entity.isRoot()) {
+            domainCodegen.getField("changed").type(Changed.class).setProtected();
+        }
+
+        GMethod getter = domainCodegen.getMethod("getChanged").returnType("{}Changed", entity.getClassName());
+        getter.body.line("if (this.changed == null) {");
+        getter.body.line("    this.changed = new {}Changed(({}) this);", entity.getClassName(), entity.getClassName());
+        getter.body.line("}");
+        getter.body.line("return ({}Changed) this.changed;", entity.getClassName());
+
+        GClass changedClass = domainCodegen.getInnerClass("{}Changed", entity.getClassName());
+        if (entity.isRoot()) {
+            changedClass.baseClass(AbstractChanged.class);
+        } else {
+            changedClass.baseClassName("{}Changed", entity.getBaseEntity().getClassName());
+        }
+        changedClass.getConstructor(entity.getClassName() + " instance").body.line("super(instance);", entity.getClassName());
     }
 
 }

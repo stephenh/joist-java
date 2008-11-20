@@ -27,6 +27,7 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     private ForeignKeyListHolder<ParentBParent, ParentBChildBar> parentBChildBars = new ForeignKeyListHolder<ParentBParent, ParentBChildBar>((ParentBParent) this, parentBChildBarsAlias, parentBChildBarsAlias.parentBParent);
     private static final ParentBChildFooAlias parentBChildFoosAlias = new ParentBChildFooAlias("a");
     private ForeignKeyListHolder<ParentBParent, ParentBChildFoo> parentBChildFoos = new ForeignKeyListHolder<ParentBParent, ParentBChildFoo>((ParentBParent) this, parentBChildFoosAlias, parentBChildFoosAlias.parentBParent);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected ParentBParentCodegen() {
         this.addExtraRules();
@@ -42,7 +43,7 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -54,7 +55,7 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -77,12 +78,12 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     protected void addParentBChildBarWithoutPercolation(ParentBChildBar o) {
-        this.recordIfChanged("parentBChildBars");
+        this.getChanged().record("parentBChildBars");
         this.parentBChildBars.add(o);
     }
 
     protected void removeParentBChildBarWithoutPercolation(ParentBChildBar o) {
-        this.recordIfChanged("parentBChildBars");
+        this.getChanged().record("parentBChildBars");
         this.parentBChildBars.remove(o);
     }
 
@@ -101,13 +102,20 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     protected void addParentBChildFooWithoutPercolation(ParentBChildFoo o) {
-        this.recordIfChanged("parentBChildFoos");
+        this.getChanged().record("parentBChildFoos");
         this.parentBChildFoos.add(o);
     }
 
     protected void removeParentBChildFooWithoutPercolation(ParentBChildFoo o) {
-        this.recordIfChanged("parentBChildFoos");
+        this.getChanged().record("parentBChildFoos");
         this.parentBChildFoos.remove(o);
+    }
+
+    public ParentBParentChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new ParentBParentChanged((ParentBParent) this);
+        }
+        return (ParentBParentChanged) this.changed;
     }
 
     public static class Shims {
@@ -135,6 +143,12 @@ abstract class ParentBParentCodegen extends AbstractDomainObject {
                 return ((ParentBParentCodegen) instance).version;
             }
         };
+    }
+
+    public static class ParentBParentChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public ParentBParentChanged(ParentBParent instance) {
+            super(instance);
+        }
     }
 
 }

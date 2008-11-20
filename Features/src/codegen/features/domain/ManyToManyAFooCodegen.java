@@ -26,6 +26,7 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     private Integer version = null;
     private static final ManyToManyAFooToBarAlias manyToManyAFooToBarsAlias = new ManyToManyAFooToBarAlias("a");
     private ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar>((ManyToManyAFoo) this, manyToManyAFooToBarsAlias, manyToManyAFooToBarsAlias.manyToManyAFoo);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected ManyToManyAFooCodegen() {
         this.addExtraRules();
@@ -41,7 +42,7 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -53,7 +54,7 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -76,12 +77,12 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     }
 
     protected void addManyToManyAFooToBarWithoutPercolation(ManyToManyAFooToBar o) {
-        this.recordIfChanged("manyToManyAFooToBars");
+        this.getChanged().record("manyToManyAFooToBars");
         this.manyToManyAFooToBars.add(o);
     }
 
     protected void removeManyToManyAFooToBarWithoutPercolation(ManyToManyAFooToBar o) {
-        this.recordIfChanged("manyToManyAFooToBars");
+        this.getChanged().record("manyToManyAFooToBars");
         this.manyToManyAFooToBars.remove(o);
     }
 
@@ -109,6 +110,13 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
         }
     }
 
+    public ManyToManyAFooChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new ManyToManyAFooChanged((ManyToManyAFoo) this);
+        }
+        return (ManyToManyAFooChanged) this.changed;
+    }
+
     public static class Shims {
         public static final Shim<ManyToManyAFoo, java.lang.Integer> id = new Shim<ManyToManyAFoo, java.lang.Integer>() {
             public void set(ManyToManyAFoo instance, java.lang.Integer id) {
@@ -134,6 +142,12 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
                 return ((ManyToManyAFooCodegen) instance).version;
             }
         };
+    }
+
+    public static class ManyToManyAFooChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public ManyToManyAFooChanged(ManyToManyAFoo instance) {
+            super(instance);
+        }
     }
 
 }

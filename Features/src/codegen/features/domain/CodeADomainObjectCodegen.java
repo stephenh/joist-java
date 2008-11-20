@@ -22,6 +22,7 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     private Integer version = null;
     private ForeignKeyCodeHolder<CodeAColor> codeAColor = new ForeignKeyCodeHolder<CodeAColor>(CodeAColor.class);
     private ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected CodeADomainObjectCodegen() {
         this.addExtraRules();
@@ -37,7 +38,7 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -49,7 +50,7 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -66,7 +67,7 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public void setCodeAColorWithoutPercolation(CodeAColor codeAColor) {
-        this.recordIfChanged("codeAColor", this.codeAColor, codeAColor);
+        this.getChanged().record("codeAColor", this.codeAColor, codeAColor);
         this.codeAColor.set(codeAColor);
     }
 
@@ -79,8 +80,15 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public void setCodeASizeWithoutPercolation(CodeASize codeASize) {
-        this.recordIfChanged("codeASize", this.codeASize, codeASize);
+        this.getChanged().record("codeASize", this.codeASize, codeASize);
         this.codeASize.set(codeASize);
+    }
+
+    public CodeADomainObjectChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new CodeADomainObjectChanged((CodeADomainObject) this);
+        }
+        return (CodeADomainObjectChanged) this.changed;
     }
 
     public static class Shims {
@@ -124,6 +132,12 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
                 return ((CodeADomainObjectCodegen) instance).codeASize.getId();
             }
         };
+    }
+
+    public static class CodeADomainObjectChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public CodeADomainObjectChanged(CodeADomainObject instance) {
+            super(instance);
+        }
     }
 
 }

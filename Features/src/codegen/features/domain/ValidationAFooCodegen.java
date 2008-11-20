@@ -19,6 +19,7 @@ abstract class ValidationAFooCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected ValidationAFooCodegen() {
         this.addExtraRules();
@@ -34,7 +35,7 @@ abstract class ValidationAFooCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -46,12 +47,19 @@ abstract class ValidationAFooCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
     public Integer getVersion() {
         return this.version;
+    }
+
+    public ValidationAFooChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new ValidationAFooChanged((ValidationAFoo) this);
+        }
+        return (ValidationAFooChanged) this.changed;
     }
 
     public static class Shims {
@@ -79,6 +87,12 @@ abstract class ValidationAFooCodegen extends AbstractDomainObject {
                 return ((ValidationAFooCodegen) instance).version;
             }
         };
+    }
+
+    public static class ValidationAFooChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public ValidationAFooChanged(ValidationAFoo instance) {
+            super(instance);
+        }
     }
 
 }

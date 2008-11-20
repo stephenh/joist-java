@@ -19,6 +19,7 @@ abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     private Integer version = null;
     private ForeignKeyHolder<ManyToManyABar> manyToManyABar = new ForeignKeyHolder<ManyToManyABar>(ManyToManyABar.class);
     private ForeignKeyHolder<ManyToManyAFoo> manyToManyAFoo = new ForeignKeyHolder<ManyToManyAFoo>(ManyToManyAFoo.class);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected ManyToManyAFooToBarCodegen() {
         this.addExtraRules();
@@ -32,7 +33,7 @@ abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -58,7 +59,7 @@ abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     }
 
     public void setManyToManyABarWithoutPercolation(ManyToManyABar manyToManyABar) {
-        this.recordIfChanged("manyToManyABar", this.manyToManyABar, manyToManyABar);
+        this.getChanged().record("manyToManyABar", this.manyToManyABar, manyToManyABar);
         this.manyToManyABar.set(manyToManyABar);
     }
 
@@ -77,8 +78,15 @@ abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     }
 
     public void setManyToManyAFooWithoutPercolation(ManyToManyAFoo manyToManyAFoo) {
-        this.recordIfChanged("manyToManyAFoo", this.manyToManyAFoo, manyToManyAFoo);
+        this.getChanged().record("manyToManyAFoo", this.manyToManyAFoo, manyToManyAFoo);
         this.manyToManyAFoo.set(manyToManyAFoo);
+    }
+
+    public ManyToManyAFooToBarChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new ManyToManyAFooToBarChanged((ManyToManyAFooToBar) this);
+        }
+        return (ManyToManyAFooToBarChanged) this.changed;
     }
 
     public static class Shims {
@@ -114,6 +122,12 @@ abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
                 return ((ManyToManyAFooToBarCodegen) instance).manyToManyAFoo.getId();
             }
         };
+    }
+
+    public static class ManyToManyAFooToBarChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public ManyToManyAFooToBarChanged(ManyToManyAFooToBar instance) {
+            super(instance);
+        }
     }
 
 }

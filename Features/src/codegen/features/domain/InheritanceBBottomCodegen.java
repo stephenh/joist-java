@@ -30,8 +30,15 @@ abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
     }
 
     public void setBottomName(java.lang.String bottomName) {
-        this.recordIfChanged("bottomName", this.bottomName, bottomName);
+        this.getChanged().record("bottomName", this.bottomName, bottomName);
         this.bottomName = bottomName;
+    }
+
+    public InheritanceBBottomChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new InheritanceBBottomChanged((InheritanceBBottom) this);
+        }
+        return (InheritanceBBottomChanged) this.changed;
     }
 
     public static class Shims {
@@ -43,6 +50,12 @@ abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
                 return ((InheritanceBBottomCodegen) instance).bottomName;
             }
         };
+    }
+
+    public static class InheritanceBBottomChanged extends InheritanceBMiddleChanged {
+        public InheritanceBBottomChanged(InheritanceBBottom instance) {
+            super(instance);
+        }
     }
 
 }

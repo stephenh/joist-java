@@ -24,6 +24,7 @@ abstract class ParentCodegen extends AbstractDomainObject {
     private Integer version = null;
     private static final ChildAlias childsAlias = new ChildAlias("a");
     private ForeignKeyListHolder<Parent, Child> childs = new ForeignKeyListHolder<Parent, Child>((Parent) this, childsAlias, childsAlias.parent);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected ParentCodegen() {
         this.addExtraRules();
@@ -39,7 +40,7 @@ abstract class ParentCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -51,7 +52,7 @@ abstract class ParentCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -74,13 +75,20 @@ abstract class ParentCodegen extends AbstractDomainObject {
     }
 
     protected void addChildWithoutPercolation(Child o) {
-        this.recordIfChanged("childs");
+        this.getChanged().record("childs");
         this.childs.add(o);
     }
 
     protected void removeChildWithoutPercolation(Child o) {
-        this.recordIfChanged("childs");
+        this.getChanged().record("childs");
         this.childs.remove(o);
+    }
+
+    public ParentChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new ParentChanged((Parent) this);
+        }
+        return (ParentChanged) this.changed;
     }
 
     public static class Shims {
@@ -108,6 +116,12 @@ abstract class ParentCodegen extends AbstractDomainObject {
                 return ((ParentCodegen) instance).version;
             }
         };
+    }
+
+    public static class ParentChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public ParentChanged(Parent instance) {
+            super(instance);
+        }
     }
 
 }

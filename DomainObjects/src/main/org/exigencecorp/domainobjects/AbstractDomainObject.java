@@ -1,12 +1,8 @@
 package org.exigencecorp.domainobjects;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.ValidationErrors;
 import org.exigencecorp.domainobjects.validation.errors.ValidationError;
 import org.exigencecorp.domainobjects.validation.rules.Rule;
@@ -17,7 +13,6 @@ import org.exigencecorp.util.ToString;
 public abstract class AbstractDomainObject implements DomainObject {
 
     private final List<Rule<?>> validationRules = new ArrayList<Rule<?>>();
-    private final Set<String> changedProperties = new HashSet<String>();
 
     public final List<ValidationError> validate() {
         ValidationErrors errors = new ValidationErrors();
@@ -40,19 +35,11 @@ public abstract class AbstractDomainObject implements DomainObject {
     }
 
     public final boolean isNew() {
-        return this.getId() == null || this.getChangedProperties().contains("id");
+        return this.getId() == null || this.getChanged().contains("id");
     }
 
     public final boolean isDirty() {
-        return this.getChangedProperties().size() > 0;
-    }
-
-    public final Set<String> getChangedProperties() {
-        return this.changedProperties;
-    }
-
-    public final void clearChangedProperties() {
-        this.changedProperties.clear();
+        return this.getChanged().size() > 0;
     }
 
     public final void addRule(Rule<?> rule) {
@@ -68,21 +55,6 @@ public abstract class AbstractDomainObject implements DomainObject {
     }
 
     public void updateDerivedValues() {
-    }
-
-    /** Used for determining whether we are dirty based our own primitive properties. */
-    protected final void recordIfChanged(String property, Object oldValue, Object newValue) {
-        if (!ObjectUtils.equals(oldValue, newValue)) {
-            this.recordIfChanged(property);
-        }
-    }
-
-    /** Used for determining whether we are dirty based on changes in our collections. */
-    protected final void recordIfChanged(String property) {
-        this.changedProperties.add(property);
-        if (UoW.isOpen()) {
-            UoW.enqueue(this);
-        }
     }
 
 }

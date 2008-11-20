@@ -24,6 +24,7 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     private Integer version = null;
     private static final InheritanceBRootChildAlias inheritanceBRootChildsAlias = new InheritanceBRootChildAlias("a");
     private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, inheritanceBRootChildsAlias, inheritanceBRootChildsAlias.inheritanceBRoot);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected InheritanceBRootCodegen() {
         this.addExtraRules();
@@ -39,7 +40,7 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -51,7 +52,7 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -74,13 +75,20 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     protected void addInheritanceBRootChildWithoutPercolation(InheritanceBRootChild o) {
-        this.recordIfChanged("inheritanceBRootChilds");
+        this.getChanged().record("inheritanceBRootChilds");
         this.inheritanceBRootChilds.add(o);
     }
 
     protected void removeInheritanceBRootChildWithoutPercolation(InheritanceBRootChild o) {
-        this.recordIfChanged("inheritanceBRootChilds");
+        this.getChanged().record("inheritanceBRootChilds");
         this.inheritanceBRootChilds.remove(o);
+    }
+
+    public InheritanceBRootChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new InheritanceBRootChanged((InheritanceBRoot) this);
+        }
+        return (InheritanceBRootChanged) this.changed;
     }
 
     public static class Shims {
@@ -108,6 +116,12 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
                 return ((InheritanceBRootCodegen) instance).version;
             }
         };
+    }
+
+    public static class InheritanceBRootChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public InheritanceBRootChanged(InheritanceBRoot instance) {
+            super(instance);
+        }
     }
 
 }

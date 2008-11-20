@@ -21,6 +21,7 @@ abstract class OneToOneABarCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<OneToOneAFoo> oneToOneAFoo = new ForeignKeyHolder<OneToOneAFoo>(OneToOneAFoo.class);
+    protected org.exigencecorp.domainobjects.Changed changed;
 
     protected OneToOneABarCodegen() {
         this.addExtraRules();
@@ -36,7 +37,7 @@ abstract class OneToOneABarCodegen extends AbstractDomainObject {
     }
 
     public void setId(java.lang.Integer id) {
-        this.recordIfChanged("id", this.id, id);
+        this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
             UoW.getIdentityMap().store(this);
@@ -48,7 +49,7 @@ abstract class OneToOneABarCodegen extends AbstractDomainObject {
     }
 
     public void setName(java.lang.String name) {
-        this.recordIfChanged("name", this.name, name);
+        this.getChanged().record("name", this.name, name);
         this.name = name;
     }
 
@@ -72,8 +73,15 @@ abstract class OneToOneABarCodegen extends AbstractDomainObject {
     }
 
     public void setOneToOneAFooWithoutPercolation(OneToOneAFoo oneToOneAFoo) {
-        this.recordIfChanged("oneToOneAFoo", this.oneToOneAFoo, oneToOneAFoo);
+        this.getChanged().record("oneToOneAFoo", this.oneToOneAFoo, oneToOneAFoo);
         this.oneToOneAFoo.set(oneToOneAFoo);
+    }
+
+    public OneToOneABarChanged getChanged() {
+        if (this.changed == null) {
+            this.changed = new OneToOneABarChanged((OneToOneABar) this);
+        }
+        return (OneToOneABarChanged) this.changed;
     }
 
     public static class Shims {
@@ -109,6 +117,12 @@ abstract class OneToOneABarCodegen extends AbstractDomainObject {
                 return ((OneToOneABarCodegen) instance).oneToOneAFoo.getId();
             }
         };
+    }
+
+    public static class OneToOneABarChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+        public OneToOneABarChanged(OneToOneABar instance) {
+            super(instance);
+        }
     }
 
 }
