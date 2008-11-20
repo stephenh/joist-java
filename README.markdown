@@ -16,10 +16,13 @@ Examples
 
 See [tests][1] and [queries][2] for examples of the syntax. [Base classes][3] and [aliases][4] are code generated.
 
+See [CoolThings][7] for more examples.
+
 [1]: master/Features/tests/features/domain/ChildTest.java
 [2]: master/Features/src/main/features/domain/queries/ChildQueries.java
 [3]: master/Features/src/codegen/features/domain/ChildCodegen.java
 [4]: master/Features/src/codegen/features/domain/queries/ChildAlias.java
+[7]: master/Documentation/CoolThings.md
 
 Patterns
 ========
@@ -40,7 +43,6 @@ Todo
 ====
 
 * Builders
-* Schema check
 * Project dependencies
 
 Acknowledgements
