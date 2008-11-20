@@ -66,7 +66,6 @@ public abstract class AbstractDomainObject implements DomainObject {
         return this.changedProperties;
     }
 
-    /** Called when the object was been successfully flushed to the database. */
     public final void clearChangedProperties() {
         this.changedProperties.clear();
     }
@@ -83,7 +82,6 @@ public abstract class AbstractDomainObject implements DomainObject {
         return Copy.shallow(this.validationRules);
     }
 
-    /** Stub for subclasses to override to update derived values as part of the UoW.flush() process. */
     public void updateDerivedValues() {
     }
 

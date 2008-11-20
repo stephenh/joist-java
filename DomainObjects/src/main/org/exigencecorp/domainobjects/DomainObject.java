@@ -16,8 +16,10 @@ public interface DomainObject {
 
     boolean isDirty();
 
+    /** Called when the object was been successfully flushed to the database. */
     void clearChangedProperties();
 
+    /** Stub for subclasses to override to update derived values as part of the UoW.flush() process. */
     void updateDerivedValues();
 
     List<ValidationError> validate();
