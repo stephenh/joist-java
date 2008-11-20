@@ -122,6 +122,30 @@ abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         public ParentBChildBarChanged(ParentBChildBar instance) {
             super(instance);
         }
+        public boolean hasId() {
+            return this.contains("id");
+        }
+        public Integer getOriginalId() {
+            return (java.lang.Integer) this.getOriginal("id");
+        }
+        public boolean hasName() {
+            return this.contains("name");
+        }
+        public String getOriginalName() {
+            return (java.lang.String) this.getOriginal("name");
+        }
+        public boolean hasVersion() {
+            return this.contains("version");
+        }
+        public Integer getOriginalVersion() {
+            return (java.lang.Integer) this.getOriginal("version");
+        }
+        public boolean hasParentBParent() {
+            return this.contains("parentBParent");
+        }
+        public ParentBParent getOriginalParentBParent() {
+            return (ParentBParent) this.getOriginal("parentBParent");
+        }
     }
 
 }

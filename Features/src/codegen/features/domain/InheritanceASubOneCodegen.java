@@ -56,6 +56,12 @@ abstract class InheritanceASubOneCodegen extends InheritanceABase {
         public InheritanceASubOneChanged(InheritanceASubOne instance) {
             super(instance);
         }
+        public boolean hasOne() {
+            return this.contains("one");
+        }
+        public String getOriginalOne() {
+            return (java.lang.String) this.getOriginal("one");
+        }
     }
 
 }

@@ -56,6 +56,12 @@ abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
         public InheritanceBMiddleChanged(InheritanceBMiddle instance) {
             super(instance);
         }
+        public boolean hasMiddleName() {
+            return this.contains("middleName");
+        }
+        public String getOriginalMiddleName() {
+            return (java.lang.String) this.getOriginal("middleName");
+        }
     }
 
 }

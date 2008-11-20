@@ -122,6 +122,30 @@ abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
         public InheritanceBRootChildChanged(InheritanceBRootChild instance) {
             super(instance);
         }
+        public boolean hasId() {
+            return this.contains("id");
+        }
+        public Integer getOriginalId() {
+            return (java.lang.Integer) this.getOriginal("id");
+        }
+        public boolean hasName() {
+            return this.contains("name");
+        }
+        public String getOriginalName() {
+            return (java.lang.String) this.getOriginal("name");
+        }
+        public boolean hasVersion() {
+            return this.contains("version");
+        }
+        public Integer getOriginalVersion() {
+            return (java.lang.Integer) this.getOriginal("version");
+        }
+        public boolean hasInheritanceBRoot() {
+            return this.contains("inheritanceBRoot");
+        }
+        public InheritanceBRoot getOriginalInheritanceBRoot() {
+            return (InheritanceBRoot) this.getOriginal("inheritanceBRoot");
+        }
     }
 
 }

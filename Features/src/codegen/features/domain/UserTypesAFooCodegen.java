@@ -112,6 +112,30 @@ abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         public UserTypesAFooChanged(UserTypesAFoo instance) {
             super(instance);
         }
+        public boolean hasCreated() {
+            return this.contains("created");
+        }
+        public com.domainlanguage.time.CalendarDate getOriginalCreated() {
+            return (com.domainlanguage.time.CalendarDate) this.getOriginal("created");
+        }
+        public boolean hasId() {
+            return this.contains("id");
+        }
+        public Integer getOriginalId() {
+            return (java.lang.Integer) this.getOriginal("id");
+        }
+        public boolean hasName() {
+            return this.contains("name");
+        }
+        public String getOriginalName() {
+            return (java.lang.String) this.getOriginal("name");
+        }
+        public boolean hasVersion() {
+            return this.contains("version");
+        }
+        public Integer getOriginalVersion() {
+            return (java.lang.Integer) this.getOriginal("version");
+        }
     }
 
 }

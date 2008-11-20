@@ -112,6 +112,30 @@ abstract class PrimitivesCodegen extends AbstractDomainObject {
         public PrimitivesChanged(Primitives instance) {
             super(instance);
         }
+        public boolean hasFlag() {
+            return this.contains("flag");
+        }
+        public Boolean getOriginalFlag() {
+            return (java.lang.Boolean) this.getOriginal("flag");
+        }
+        public boolean hasId() {
+            return this.contains("id");
+        }
+        public Integer getOriginalId() {
+            return (java.lang.Integer) this.getOriginal("id");
+        }
+        public boolean hasName() {
+            return this.contains("name");
+        }
+        public String getOriginalName() {
+            return (java.lang.String) this.getOriginal("name");
+        }
+        public boolean hasVersion() {
+            return this.contains("version");
+        }
+        public Integer getOriginalVersion() {
+            return (java.lang.Integer) this.getOriginal("version");
+        }
     }
 
 }

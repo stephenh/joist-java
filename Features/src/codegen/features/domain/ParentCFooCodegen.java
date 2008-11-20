@@ -148,6 +148,30 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
         public ParentCFooChanged(ParentCFoo instance) {
             super(instance);
         }
+        public boolean hasId() {
+            return this.contains("id");
+        }
+        public Integer getOriginalId() {
+            return (java.lang.Integer) this.getOriginal("id");
+        }
+        public boolean hasName() {
+            return this.contains("name");
+        }
+        public String getOriginalName() {
+            return (java.lang.String) this.getOriginal("name");
+        }
+        public boolean hasVersion() {
+            return this.contains("version");
+        }
+        public Integer getOriginalVersion() {
+            return (java.lang.Integer) this.getOriginal("version");
+        }
+        public boolean hasFirstParentParentCBars() {
+            return this.contains("firstParentParentCBars");
+        }
+        public boolean hasSecondParentParentCBars() {
+            return this.contains("secondParentParentCBars");
+        }
     }
 
 }

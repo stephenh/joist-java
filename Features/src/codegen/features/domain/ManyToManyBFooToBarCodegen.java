@@ -128,6 +128,30 @@ abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
         public ManyToManyBFooToBarChanged(ManyToManyBFooToBar instance) {
             super(instance);
         }
+        public boolean hasId() {
+            return this.contains("id");
+        }
+        public Integer getOriginalId() {
+            return (java.lang.Integer) this.getOriginal("id");
+        }
+        public boolean hasVersion() {
+            return this.contains("version");
+        }
+        public Integer getOriginalVersion() {
+            return (java.lang.Integer) this.getOriginal("version");
+        }
+        public boolean hasBlue() {
+            return this.contains("blue");
+        }
+        public ManyToManyBFoo getOriginalBlue() {
+            return (ManyToManyBFoo) this.getOriginal("blue");
+        }
+        public boolean hasGreen() {
+            return this.contains("green");
+        }
+        public ManyToManyBBar getOriginalGreen() {
+            return (ManyToManyBBar) this.getOriginal("green");
+        }
     }
 
 }

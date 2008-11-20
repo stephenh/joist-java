@@ -220,6 +220,66 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
         public PrimitivesBChanged(PrimitivesB instance) {
             super(instance);
         }
+        public boolean hasBig1() {
+            return this.contains("big1");
+        }
+        public Long getOriginalBig1() {
+            return (java.lang.Long) this.getOriginal("big1");
+        }
+        public boolean hasBig2() {
+            return this.contains("big2");
+        }
+        public Long getOriginalBig2() {
+            return (java.lang.Long) this.getOriginal("big2");
+        }
+        public boolean hasBool1() {
+            return this.contains("bool1");
+        }
+        public Boolean getOriginalBool1() {
+            return (java.lang.Boolean) this.getOriginal("bool1");
+        }
+        public boolean hasBool2() {
+            return this.contains("bool2");
+        }
+        public Boolean getOriginalBool2() {
+            return (java.lang.Boolean) this.getOriginal("bool2");
+        }
+        public boolean hasId() {
+            return this.contains("id");
+        }
+        public Integer getOriginalId() {
+            return (java.lang.Integer) this.getOriginal("id");
+        }
+        public boolean hasInt1() {
+            return this.contains("int1");
+        }
+        public Integer getOriginalInt1() {
+            return (java.lang.Integer) this.getOriginal("int1");
+        }
+        public boolean hasInt2() {
+            return this.contains("int2");
+        }
+        public Integer getOriginalInt2() {
+            return (java.lang.Integer) this.getOriginal("int2");
+        }
+        public boolean hasSmall1() {
+            return this.contains("small1");
+        }
+        public Short getOriginalSmall1() {
+            return (java.lang.Short) this.getOriginal("small1");
+        }
+        public boolean hasSmall2() {
+            return this.contains("small2");
+        }
+        public Short getOriginalSmall2() {
+            return (java.lang.Short) this.getOriginal("small2");
+        }
+        public boolean hasVersion() {
+            return this.contains("version");
+        }
+        public Integer getOriginalVersion() {
+            return (java.lang.Integer) this.getOriginal("version");
+        }
     }
 
 }

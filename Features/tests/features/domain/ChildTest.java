@@ -68,12 +68,16 @@ public class ChildTest extends AbstractFeaturesTest {
         c.setParent(p);
         Assert.assertEquals(1, p.getChilds().size());
         Assert.assertTrue(c.getChanged().contains("parent"));
+        Assert.assertTrue(c.getChanged().hasParent());
         Assert.assertTrue(p.getChanged().contains("childs"));
+        Assert.assertTrue(p.getChanged().hasChilds());
 
         c.setParent(null);
         Assert.assertEquals(0, p.getChilds().size());
         Assert.assertTrue(c.getChanged().contains("parent"));
+        Assert.assertTrue(c.getChanged().hasParent());
         Assert.assertTrue(p.getChanged().contains("childs"));
+        Assert.assertTrue(p.getChanged().hasChilds());
     }
 
     public void testPercolationFromParentToChild() {
@@ -82,12 +86,16 @@ public class ChildTest extends AbstractFeaturesTest {
         p.addChild(c);
         Assert.assertEquals(p, c.getParent());
         Assert.assertTrue(c.getChanged().contains("parent"));
+        Assert.assertTrue(c.getChanged().hasParent());
         Assert.assertTrue(p.getChanged().contains("childs"));
+        Assert.assertTrue(p.getChanged().hasChilds());
 
         p.removeChild(c);
         Assert.assertEquals(null, c.getParent());
         Assert.assertTrue(c.getChanged().contains("parent"));
+        Assert.assertTrue(c.getChanged().hasParent());
         Assert.assertTrue(p.getChanged().contains("childs"));
+        Assert.assertTrue(p.getChanged().hasChilds());
     }
 
 }

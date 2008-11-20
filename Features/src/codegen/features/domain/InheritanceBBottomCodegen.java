@@ -56,6 +56,12 @@ abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
         public InheritanceBBottomChanged(InheritanceBBottom instance) {
             super(instance);
         }
+        public boolean hasBottomName() {
+            return this.contains("bottomName");
+        }
+        public String getOriginalBottomName() {
+            return (java.lang.String) this.getOriginal("bottomName");
+        }
     }
 
 }

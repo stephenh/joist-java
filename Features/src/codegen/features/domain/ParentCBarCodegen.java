@@ -150,6 +150,36 @@ abstract class ParentCBarCodegen extends AbstractDomainObject {
         public ParentCBarChanged(ParentCBar instance) {
             super(instance);
         }
+        public boolean hasId() {
+            return this.contains("id");
+        }
+        public Integer getOriginalId() {
+            return (java.lang.Integer) this.getOriginal("id");
+        }
+        public boolean hasName() {
+            return this.contains("name");
+        }
+        public String getOriginalName() {
+            return (java.lang.String) this.getOriginal("name");
+        }
+        public boolean hasVersion() {
+            return this.contains("version");
+        }
+        public Integer getOriginalVersion() {
+            return (java.lang.Integer) this.getOriginal("version");
+        }
+        public boolean hasFirstParent() {
+            return this.contains("firstParent");
+        }
+        public ParentCFoo getOriginalFirstParent() {
+            return (ParentCFoo) this.getOriginal("firstParent");
+        }
+        public boolean hasSecondParent() {
+            return this.contains("secondParent");
+        }
+        public ParentCFoo getOriginalSecondParent() {
+            return (ParentCFoo) this.getOriginal("secondParent");
+        }
     }
 
 }

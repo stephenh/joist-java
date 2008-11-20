@@ -56,6 +56,12 @@ abstract class InheritanceASubTwoCodegen extends InheritanceABase {
         public InheritanceASubTwoChanged(InheritanceASubTwo instance) {
             super(instance);
         }
+        public boolean hasTwo() {
+            return this.contains("two");
+        }
+        public String getOriginalTwo() {
+            return (java.lang.String) this.getOriginal("two");
+        }
     }
 
 }

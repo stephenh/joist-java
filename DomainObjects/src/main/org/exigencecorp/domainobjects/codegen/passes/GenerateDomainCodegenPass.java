@@ -292,6 +292,26 @@ public class GenerateDomainCodegenPass implements Pass {
             changedClass.baseClassName("{}Changed", entity.getBaseEntity().getClassName());
         }
         changedClass.getConstructor(entity.getClassName() + " instance").body.line("super(instance);", entity.getClassName());
-    }
 
+        for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
+            GMethod has = changedClass.getMethod("has{}", p.getCapitalVariableName()).returnType(boolean.class);
+            has.body.line("return this.contains(\"{}\");", p.getVariableName());
+
+            GMethod original = changedClass.getMethod("getOriginal{}", p.getCapitalVariableName()).returnType(p.getJavaType());
+            original.body.line("return ({}) this.getOriginal(\"{}\");", p.getJavaType(), p.getVariableName());
+        }
+
+        for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+            GMethod has = changedClass.getMethod("has{}", mtop.getCapitalVariableName()).returnType(boolean.class);
+            has.body.line("return this.contains(\"{}\");", mtop.getVariableName());
+
+            GMethod original = changedClass.getMethod("getOriginal{}", mtop.getCapitalVariableName()).returnType(mtop.getJavaType());
+            original.body.line("return ({}) this.getOriginal(\"{}\");", mtop.getJavaType(), mtop.getVariableName());
+        }
+
+        for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
+            GMethod has = changedClass.getMethod("has{}", otmp.getCapitalVariableName()).returnType(boolean.class);
+            has.body.line("return this.contains(\"{}\");", otmp.getVariableName());
+        }
+    }
 }
