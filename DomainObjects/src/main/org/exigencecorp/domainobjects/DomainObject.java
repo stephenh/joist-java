@@ -6,13 +6,15 @@ import org.exigencecorp.domainobjects.validation.errors.ValidationError;
 
 public interface DomainObject {
 
-    /** @return the instance/row id */
+    /** @return the row id--null if the instance is new */
     Integer getId();
 
-    /** @return the version for the optimistic lock */
+    /** @return the version for the optimistic lock--null if the instance is new */
     Integer getVersion();
 
     boolean isNew();
+
+    boolean isDirty();
 
     void clearChangedProperties();
 

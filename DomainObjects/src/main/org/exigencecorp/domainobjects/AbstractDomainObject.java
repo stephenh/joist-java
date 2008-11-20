@@ -54,37 +54,37 @@ public abstract class AbstractDomainObject implements DomainObject {
         return ToString.to(this, this.getId());
     }
 
-    public boolean isNew() {
+    public final boolean isNew() {
         return this.getId() == null || this.getChangedProperties().contains("id");
     }
 
-    public boolean isDirty() {
+    public final boolean isDirty() {
         return this.getChangedProperties().size() > 0;
     }
 
-    public Set<String> getChangedProperties() {
+    public final Set<String> getChangedProperties() {
         return this.changedProperties;
     }
 
     /** Called when the object was been successfully flushed to the database. */
-    public void clearChangedProperties() {
+    public final void clearChangedProperties() {
         this.changedProperties.clear();
+    }
+
+    public final void addRule(Rule<?> rule) {
+        this.validationRules.add(rule);
+    }
+
+    public final void removeRule(Rule<?> rule) {
+        this.validationRules.remove(rule);
+    }
+
+    public final List<Rule<?>> getValidationRules() {
+        return Copy.shallow(this.validationRules);
     }
 
     /** Stub for subclasses to override to update derived values as part of the UoW.flush() process. */
     public void updateDerivedValues() {
-    }
-
-    public void addRule(Rule<?> rule) {
-        this.validationRules.add(rule);
-    }
-
-    public void removeRule(Rule<?> rule) {
-        this.validationRules.remove(rule);
-    }
-
-    public List<Rule<?>> getValidationRules() {
-        return Copy.shallow(this.validationRules);
     }
 
 }
