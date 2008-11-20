@@ -18,7 +18,7 @@ public class Execute {
     private final List<String> commandPlusArgs = new ArrayList<String>();
     private final Map<String, String> env = new HashMap<String, String>();
     private final List<String> possiblePaths = Copy.list(".");
-    private final List<String> possibleExtensions = Copy.list("", "sh", "bat", "exe");
+    private final List<String> possibleExtensions = Copy.list("", ".sh", ".bat", ".exe");
     private OutputStream out;
     private OutputStream err;
     private String input;
@@ -111,7 +111,7 @@ public class Execute {
         }
         for (String path : this.possiblePaths) {
             for (String extension : this.possibleExtensions) {
-                File file = new File(path, executable + "." + extension);
+                File file = new File(path, executable + extension);
                 if (file.exists()) {
                     return file.getAbsolutePath();
                 }
