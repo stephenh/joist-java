@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
-import org.exigencecorp.domainobjects.AbstractDomainObject;
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Delete;
@@ -199,10 +198,8 @@ public class Repository {
             Alias<T> t = AliasRegistry.get(entry.getKey());
             for (T instance : entry.getValue()) {
                 int id = ids.get(i++);
-                t.getIdColumn().setJdbcValue(instance, id);
+                instance.setId(id);
                 t.getVersionColumn().setJdbcValue(instance, 0);
-                ((AbstractDomainObject) instance).getChangedProperties().add("id"); // Hack so isNew() still returns true
-                UoW.getIdentityMap().store(instance);
             }
         }
     }

@@ -9,6 +9,9 @@ public interface DomainObject {
     /** @return the row id--null if the instance is new */
     Integer getId();
 
+    /** the id if specified manually--or when auto-assigned */
+    void setId(Integer id);
+
     /** @return the version for the optimistic lock--null if the instance is new */
     Integer getVersion();
 
