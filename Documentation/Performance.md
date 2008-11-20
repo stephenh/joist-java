@@ -68,7 +68,7 @@ With batching plus ids-at-once:
 CBAS
 ====
 
-Corporate enterprise project, ~450 tables, running 1 JUnit test to save a simple domain object:
+Corporate enterprise project, ~200 tables, running 1 JUnit test to save a simple domain object:
 
 * sh6: Thinkpad T60p, 2.0Ghz, 2GB RAM, Windows XP 32bit
   * Hibernate: 23.5 seconds (unplugged)
