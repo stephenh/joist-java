@@ -14,7 +14,7 @@ public class Join {
     }
 
     public static <T extends Object> String linesWithTickToQuote(T... objects) {
-        return ToString.tickToQuote(StringUtils.join(objects, "\n"));
+        return Tick.toQuote(StringUtils.join(objects, "\n"));
     }
 
     public static <T extends Object> String comma(T... objects) {
