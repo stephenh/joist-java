@@ -19,7 +19,7 @@ public class ConstantFillInStrategy implements FillInStrategy {
     }
 
     public void fillIn(Connection connection, String tableName, String columnName) throws SQLException {
-        Jdbc.executeUpdate(connection, "update {} set {} = {}", Wrap.quotes(tableName), columnName, this.fragment);
+        Jdbc.update(connection, "update {} set {} = {}", Wrap.quotes(tableName), columnName, this.fragment);
     }
 
 }

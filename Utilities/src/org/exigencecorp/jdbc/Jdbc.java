@@ -50,7 +50,7 @@ public class Jdbc {
         }
     }
 
-    public static int executeUpdate(Connection connection, String sql, Object... args) {
+    public static int update(Connection connection, String sql, Object... args) {
         Statement stmt = null;
         try {
             sql = ToString.interpolate(sql, args);
@@ -64,11 +64,11 @@ public class Jdbc {
         }
     }
 
-    public static int executeUpdate(DataSource ds, String sql, Object... args) {
+    public static int update(DataSource ds, String sql, Object... args) {
         Connection connection = null;
         try {
             connection = ds.getConnection();
-            return Jdbc.executeUpdate(connection, sql, args);
+            return Jdbc.update(connection, sql, args);
         } catch (SQLException se) {
             throw new RuntimeException(se);
         } finally {

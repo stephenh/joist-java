@@ -25,20 +25,20 @@ public class DatabaseBootstrapper {
         int i = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_database where datname = '{}'", this.databaseName);
         if (i != 0) {
             Log.debug("Dropping {}", this.databaseName);
-            Jdbc.executeUpdate(this.systemDataSource, "drop database {};", this.databaseName);
+            Jdbc.update(this.systemDataSource, "drop database {};", this.databaseName);
         }
 
         int j = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_user where usename = '{}'", this.username);
         if (j != 0) {
             Log.debug("Dropping {}", this.username);
-            Jdbc.executeUpdate(this.systemDataSource, "drop user {};", this.username);
+            Jdbc.update(this.systemDataSource, "drop user {};", this.username);
         }
 
         Log.debug("Creating {}", this.databaseName);
-        Jdbc.executeUpdate(this.systemDataSource, "create database {};", this.databaseName);
+        Jdbc.update(this.systemDataSource, "create database {};", this.databaseName);
 
         Log.debug("Creating {}", this.username);
-        Jdbc.executeUpdate(this.systemDataSource, "create user {} password '{}';", this.username, this.password);
+        Jdbc.update(this.systemDataSource, "create user {} password '{}';", this.username, this.password);
     }
 
     public void restore(String pgBinPath) {

@@ -18,7 +18,7 @@ import org.exigencecorp.util.Wrap;
 public class MigrationKeywords {
 
     public static void execute(String sql, Object... args) {
-        Jdbc.executeUpdate(Migrater.getConnection(), sql, args);
+        Jdbc.update(Migrater.getConnection(), sql, args);
     }
 
     public static void createTable(String name, Column... columns) {
@@ -60,10 +60,10 @@ public class MigrationKeywords {
     private static int getNextIdForCode(String tableName) {
         int id = Jdbc.queryForInt(Migrater.getConnection(), "select next_id from code_id where table_name = '{}'", tableName);
         if (id == -1) {
-            Jdbc.executeUpdate(Migrater.getConnection(), "insert into code_id (table_name, next_id) values ('{}', 2)", tableName);
+            Jdbc.update(Migrater.getConnection(), "insert into code_id (table_name, next_id) values ('{}', 2)", tableName);
             id = 1;
         } else {
-            Jdbc.executeUpdate(Migrater.getConnection(), "update code_id set next_id = {} where table_name = '{}'", (id + 1), tableName);
+            Jdbc.update(Migrater.getConnection(), "update code_id set next_id = {} where table_name = '{}'", (id + 1), tableName);
         }
         return id;
     }

@@ -69,7 +69,7 @@ public class Repository {
         try {
             this.connection = Repository.THIS_IS_DUMB.getConnection();
             this.connection.setAutoCommit(false);
-            Jdbc.executeUpdate(this.connection, "SET CONSTRAINTS ALL DEFERRED;");
+            Jdbc.update(this.connection, "SET CONSTRAINTS ALL DEFERRED;");
         } catch (SQLException se) {
             throw new RuntimeException(se);
         }

@@ -58,7 +58,7 @@ public class Migrater {
             Migrater.current.set(connection);
 
             if (this.config.getInitialConnectionSetupCommand() != null) {
-                Jdbc.executeUpdate(connection, this.config.getInitialConnectionSetupCommand());
+                Jdbc.update(connection, this.config.getInitialConnectionSetupCommand());
             }
 
             AbstractMigration migration = this.migrationClasses.get(nextVersion);

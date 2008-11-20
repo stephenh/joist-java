@@ -22,30 +22,30 @@ public class PermissionFixer {
     public void setOwnerOfAllTablesTo(String role) {
         Log.debug("Setting owner of all tables to {}", role);
         for (String tableName : this.getTableNames()) {
-            Jdbc.executeUpdate(this.ds, "ALTER TABLE \"{}\" OWNER TO {};", tableName, role);
+            Jdbc.update(this.ds, "ALTER TABLE \"{}\" OWNER TO {};", tableName, role);
         }
     }
 
     public void setOwnerOfAllSequencesTo(String role) {
         Log.debug("Setting owner of all sequences to {}", role);
         for (String sequenceName : this.getSequenceNames()) {
-            Jdbc.executeUpdate(this.ds, "ALTER TABLE \"{}\" OWNER TO {};", sequenceName, role);
+            Jdbc.update(this.ds, "ALTER TABLE \"{}\" OWNER TO {};", sequenceName, role);
         }
     }
 
     public void grantAllOnAllTablesTo(String role) {
         Log.debug("Granting ALL on all tables to {}", role);
         for (String tableName : this.getTableNames()) {
-            Jdbc.executeUpdate(this.ds, "REVOKE ALL ON TABLE \"{}\" FROM {}", tableName, role);
-            Jdbc.executeUpdate(this.ds, "GRANT ALL ON TABLE \"{}\" TO {}", tableName, role);
+            Jdbc.update(this.ds, "REVOKE ALL ON TABLE \"{}\" FROM {}", tableName, role);
+            Jdbc.update(this.ds, "GRANT ALL ON TABLE \"{}\" TO {}", tableName, role);
         }
     }
 
     public void grantAllOnAllSequencesTo(String role) {
         Log.debug("Granting ALL on all sequences to {}", role);
         for (String sequenceName : this.getSequenceNames()) {
-            Jdbc.executeUpdate(this.ds, "REVOKE ALL ON TABLE \"{}\" FROM {};", sequenceName, role);
-            Jdbc.executeUpdate(this.ds, "GRANT ALL ON TABLE \"{}\" TO {};", sequenceName, role);
+            Jdbc.update(this.ds, "REVOKE ALL ON TABLE \"{}\" FROM {};", sequenceName, role);
+            Jdbc.update(this.ds, "GRANT ALL ON TABLE \"{}\" TO {};", sequenceName, role);
         }
     }
 

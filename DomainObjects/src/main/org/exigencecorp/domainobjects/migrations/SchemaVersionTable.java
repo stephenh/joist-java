@@ -24,18 +24,18 @@ public class SchemaVersionTable {
         if (notAround) {
             return true;
         }
-        return Jdbc.executeUpdate(this.dataSource, "UPDATE \"schema_version\" SET \"update_lock\" = 1 WHERE \"update_lock\" = 0") == 1;
+        return Jdbc.update(this.dataSource, "UPDATE \"schema_version\" SET \"update_lock\" = 1 WHERE \"update_lock\" = 0") == 1;
     }
 
     public void unlock() {
         boolean around = Jdbc.queryForInt(this.dataSource, "select count(*) from information_schema.tables where table_name = 'schema_version'") == 1;
         if (around) {
-            Jdbc.executeUpdate(this.dataSource, "UPDATE \"schema_version\" SET \"update_lock\" = 0");
+            Jdbc.update(this.dataSource, "UPDATE \"schema_version\" SET \"update_lock\" = 0");
         }
     }
 
     public void vacuumIfAppropriate() {
-        Jdbc.executeUpdate(this.dataSource, "vacuum analyze");
+        Jdbc.update(this.dataSource, "vacuum analyze");
     }
 
     /** @param conn the auto-commit=false connection for the current update. */
