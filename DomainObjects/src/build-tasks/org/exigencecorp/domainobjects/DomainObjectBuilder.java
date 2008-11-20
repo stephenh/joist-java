@@ -4,10 +4,10 @@ import javax.sql.DataSource;
 
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.CodegenConfig;
+import org.exigencecorp.domainobjects.migrations.DatabaseBootstrapper;
 import org.exigencecorp.domainobjects.migrations.Migrater;
 import org.exigencecorp.domainobjects.migrations.MigraterConfig;
 import org.exigencecorp.domainobjects.migrations.PermissionFixer;
-import org.exigencecorp.domainobjects.migrations.Resetter;
 import org.exigencecorp.util.Reflection;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -35,7 +35,11 @@ public class DomainObjectBuilder {
     }
 
     public void createDatabase() {
-        new Resetter(this.getDataSourceForSystemTableAsSaUser(), this.databaseName, this.databaseAppUsername, this.databaseAppPassword).reset();
+        new DatabaseBootstrapper(//
+            this.getDataSourceForSystemTableAsSaUser(),
+            this.databaseName,
+            this.databaseAppUsername,
+            this.databaseAppPassword).dropAndCreate();
     }
 
     public void migrateDatabase() {
