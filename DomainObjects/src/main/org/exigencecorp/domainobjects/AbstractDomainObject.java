@@ -19,21 +19,6 @@ public abstract class AbstractDomainObject implements DomainObject {
     private final List<Rule<?>> validationRules = new ArrayList<Rule<?>>();
     private final Set<String> changedProperties = new HashSet<String>();
 
-    /** Used for determining whether we are dirty based our own primitive properties. */
-    protected final void recordIfChanged(String property, Object oldValue, Object newValue) {
-        if (!ObjectUtils.equals(oldValue, newValue)) {
-            this.recordIfChanged(property);
-        }
-    }
-
-    /** Used for determining whether we are dirty based on changes in our collections. */
-    protected final void recordIfChanged(String property) {
-        this.changedProperties.add(property);
-        if (UoW.isOpen()) {
-            UoW.enqueue(this);
-        }
-    }
-
     public final List<ValidationError> validate() {
         ValidationErrors errors = new ValidationErrors();
         for (Rule<?> rule : this.getValidationRules()) {
@@ -83,6 +68,21 @@ public abstract class AbstractDomainObject implements DomainObject {
     }
 
     public void updateDerivedValues() {
+    }
+
+    /** Used for determining whether we are dirty based our own primitive properties. */
+    protected final void recordIfChanged(String property, Object oldValue, Object newValue) {
+        if (!ObjectUtils.equals(oldValue, newValue)) {
+            this.recordIfChanged(property);
+        }
+    }
+
+    /** Used for determining whether we are dirty based on changes in our collections. */
+    protected final void recordIfChanged(String property) {
+        this.changedProperties.add(property);
+        if (UoW.isOpen()) {
+            UoW.enqueue(this);
+        }
     }
 
 }
