@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<fileset-config file-format-version="1.2.0" simple-config="false">
-    <local-check-config name="Chimera checkstyle" location="..\..\..\..\..\source\checkstyle.xml" type="internal" description=""/>
-    <fileset name="all" enabled="true" check-config-name="Chimera checkstyle" local="true">
-        <file-match-pattern match-pattern="." include-pattern="true"/>
-    </fileset>
-</fileset-config>
