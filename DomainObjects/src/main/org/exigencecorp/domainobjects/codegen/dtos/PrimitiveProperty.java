@@ -28,7 +28,7 @@ public class PrimitiveProperty {
         this.maxCharacterLength = column.maximumLength;
     }
 
-    public Class<?> getAliasColumnClass() {
+    public String getAliasColumnClassName() {
         return this.config.getAliasType(this.entity.getTableName(), this.columnName, this.dataType);
     }
 
@@ -41,7 +41,7 @@ public class PrimitiveProperty {
     }
 
     public String getJavaType() {
-        return this.config.getJavaType(this.entity.getTableName(), this.getColumnName(), this.dataType).getName();
+        return this.config.getJavaType(this.entity.getTableName(), this.getColumnName(), this.dataType);
     }
 
     public String getDefaultJavaString() {

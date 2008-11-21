@@ -35,8 +35,8 @@ public class CodegenConfig {
     public String queriesBaseClass = "org.exigencecorp.domainobjects.AbstractQueries<{}>";
 
     // Private structures
-    private Map<String, Class<?>> javaTypeByDataType = new HashMap<String, Class<?>>();
-    private Map<String, Class<?>> aliasTypeByDataType = new HashMap<String, Class<?>>();
+    private Map<String, String> javaTypeByDataType = new HashMap<String, String>();
+    private Map<String, String> aliasTypeByDataType = new HashMap<String, String>();
     private Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
     private Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
     private List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
@@ -45,16 +45,16 @@ public class CodegenConfig {
     private Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
 
     public CodegenConfig() {
-        this.setJavaType("integer", Integer.class, IntAliasColumn.class);
-        this.setJavaType("character", String.class, StringAliasColumn.class);
-        this.setJavaType("character varying", String.class, StringAliasColumn.class);
-        this.setJavaType("text", String.class, StringAliasColumn.class);
-        this.setJavaType("smallint", Short.class, ShortAliasColumn.class);
-        this.setJavaType("bigint", Long.class, LongAliasColumn.class);
-        this.setJavaType("boolean", Boolean.class, BooleanAliasColumn.class);
-        this.setJavaType("bytea", String.class, StringAliasColumn.class);
-        this.setJavaType("date", Date.class, DateAliasColumn.class);
-        this.setJavaType("timestamp without time zone", Date.class, DateAliasColumn.class);
+        this.setJavaType("integer", Integer.class.getName(), IntAliasColumn.class.getName());
+        this.setJavaType("character", String.class.getName(), StringAliasColumn.class.getName());
+        this.setJavaType("character varying", String.class.getName(), StringAliasColumn.class.getName());
+        this.setJavaType("text", String.class.getName(), StringAliasColumn.class.getName());
+        this.setJavaType("smallint", Short.class.getName(), ShortAliasColumn.class.getName());
+        this.setJavaType("bigint", Long.class.getName(), LongAliasColumn.class.getName());
+        this.setJavaType("boolean", Boolean.class.getName(), BooleanAliasColumn.class.getName());
+        this.setJavaType("bytea", String.class.getName(), StringAliasColumn.class.getName());
+        this.setJavaType("date", Date.class.getName(), DateAliasColumn.class.getName());
+        this.setJavaType("timestamp without time zone", Date.class.getName(), DateAliasColumn.class.getName());
     }
 
     public void setProjectNameForDefaults(String projectName) {
@@ -62,21 +62,21 @@ public class CodegenConfig {
         this.queriesPackage = projectName + ".domain.queries";
     }
 
-    public void setJavaType(String jdbcDataType, Class<?> javaType, Class<?> aliasColumnType) {
+    public void setJavaType(String jdbcDataType, String javaType, String aliasColumnType) {
         this.javaTypeByDataType.put(jdbcDataType, javaType);
         this.aliasTypeByDataType.put(jdbcDataType, aliasColumnType);
     }
 
-    public Class<?> getJavaType(String tableName, String columnName, String dataType) {
+    public String getJavaType(String tableName, String columnName, String dataType) {
         if (this.javaTypeByDataType.containsKey(dataType)) {
             return this.javaTypeByDataType.get(dataType);
         }
         throw new RuntimeException("Unmatched data type: " + dataType);
     }
 
-    public Class<?> getAliasType(String tableName, String columnName, String dataType) {
+    public String getAliasType(String tableName, String columnName, String dataType) {
         if ("id".equals(columnName)) {
-            return IdAliasColumn.class;
+            return IdAliasColumn.class.getName();
         }
         if (this.aliasTypeByDataType.containsKey(dataType)) {
             return this.aliasTypeByDataType.get(dataType);

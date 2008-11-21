@@ -3,6 +3,7 @@ package org.exigencecorp.domainobjects.codegen.passes;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
@@ -58,11 +59,12 @@ public class GenerateAliasesPass implements Pass {
             }
 
             for (PrimitiveProperty p : baseEntity.getPrimitiveProperties()) {
-                Class<?> aliasColumnClass = p.getAliasColumnClass();
-                aliasClass.addImports(aliasColumnClass);
+                String aliasColumnClassName = p.getAliasColumnClassName();
+                aliasClass.addImports(aliasColumnClassName);
 
+                String simpleName = StringUtils.substringAfterLast(aliasColumnClassName, ".");
                 GField field = aliasClass.getField(p.getVariableName()).setPublic().setFinal();
-                field.type("{}<{}>", aliasColumnClass.getSimpleName(), baseEntity.getClassName());
+                field.type("{}<{}>", simpleName, baseEntity.getClassName());
 
                 this.appendToConstructors(aliasClass, "this.{} = (this.baseAlias == null) ? null : this.baseAlias.{};",//
                     p.getVariableName(),
@@ -139,13 +141,14 @@ public class GenerateAliasesPass implements Pass {
 
     private void addPrimitiveColumns(GClass aliasClass, Entity entity) {
         for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
-            Class<?> aliasColumnClass = p.getAliasColumnClass();
-            aliasClass.addImports(aliasColumnClass);
+            String aliasColumnClassName = p.getAliasColumnClassName();
+            aliasClass.addImports(aliasColumnClassName);
 
+            String simpleName = StringUtils.substringAfterLast(aliasColumnClassName, ".");
             GField field = aliasClass.getField(p.getVariableName()).setPublic().setFinal();
-            field.type("{}<{}>", aliasColumnClass.getSimpleName(), entity.getClassName());
+            field.type("{}<{}>", simpleName, entity.getClassName());
             field.initialValue("new {}<{}>(this, \"{}\", {}.Shims.{})",//
-                aliasColumnClass.getSimpleName(),
+                simpleName,
                 entity.getClassName(),
                 p.getColumnName(),
                 entity.getCodegenClassName(),

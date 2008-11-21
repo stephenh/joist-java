@@ -3,12 +3,12 @@
 	<classpathentry kind="src" path="src/build"/>
 	<classpathentry kind="src" path="src/main"/>
 	<classpathentry kind="src" path="tests"/>
-	<classpathentry kind="src" path="src/build-tasks"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Utilities"/>
 	<classpathentry exported="true" kind="lib" path="lib/main/c3p0-0.9.1.2.jar" sourcepath="lib/main/c3p0-0.9.1.2.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/main/commons-lang-2.3.jar" sourcepath="lib/main/commons-lang-2.3.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/test/junit-3.8.2.jar" sourcepath="lib/test/junit-3.8.2.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/main/postgresql-8.3-603.jdbc3.jar" sourcepath="lib/main/postgresql-8.3-603.jdbc3.zip"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="lib" path="lib/bd/bd.jar"/>
+	<classpathentry kind="lib" path="lib/main/exigence-utilites.jar" sourcepath="lib/main/exigence-utilites.zip"/>
+	<classpathentry kind="lib" path="lib/main/junit-3.8.2.jar" sourcepath="lib/main/junit-3.8.2.zip"/>
+	<classpathentry kind="output" path="bin/eclipse"/>
 </classpath>

@@ -1,8 +1,7 @@
-#Tue Mar 20 11:49:07 CDT 2007
+#Fri Nov 21 15:37:08 CST 2008
 cleanup_settings_version=2
 eclipse.preferences.version=1
 editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true
-formatter_profile=_PayFlex Coding Standards
 formatter_settings_version=11
 org.eclipse.jdt.ui.exception.name=e
 org.eclipse.jdt.ui.gettersetter.use.is=true

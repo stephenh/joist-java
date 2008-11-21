@@ -1,4 +1,4 @@
-package org.exigencecorp.domainobjects;
+package org.exigencecorp.domainobjects.codegen.tasks;
 
 import javax.sql.DataSource;
 
@@ -8,7 +8,6 @@ import org.exigencecorp.domainobjects.migrations.DatabaseBootstrapper;
 import org.exigencecorp.domainobjects.migrations.Migrater;
 import org.exigencecorp.domainobjects.migrations.MigraterConfig;
 import org.exigencecorp.domainobjects.migrations.PermissionFixer;
-import org.exigencecorp.util.Reflection;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -73,7 +72,11 @@ public class DomainObjectBuilder {
     }
 
     private DataSource makeDataSource(String databaseName, String username, String password) {
-        Reflection.forName("org.postgresql.Driver");
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         ComboPooledDataSource ds = new ComboPooledDataSource();
         ds.setJdbcUrl("jdbc:postgresql://localhost/" + databaseName);
         ds.setUser(username);

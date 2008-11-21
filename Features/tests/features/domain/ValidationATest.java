@@ -2,7 +2,6 @@ package features.domain;
 
 import junit.framework.Assert;
 
-import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.validation.ValidationException;
 import org.exigencecorp.domainobjects.validation.errors.PropertyError;
 
@@ -30,7 +29,10 @@ public class ValidationATest extends AbstractFeaturesTest {
     }
 
     public void testMaxLength() {
-        String as = StringUtils.repeat("a", 100);
+        String as = "";
+        for (int i = 0; i < 100; i++) {
+            as += "a";
+        }
 
         ValidationAFoo foo = new ValidationAFoo();
         foo.setName(as + "a");

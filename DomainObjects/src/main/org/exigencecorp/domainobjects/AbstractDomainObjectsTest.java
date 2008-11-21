@@ -30,4 +30,8 @@ public abstract class AbstractDomainObjectsTest extends TestCase {
         UoW.flush();
     }
 
+    protected <T extends DomainObject> T reload(T instance) {
+        return (T) UoW.load(instance.getClass(), instance.getId());
+    }
+
 }
