@@ -6,9 +6,9 @@ An ORM with type-safe queries (no strings) and no runtime class generation.
 
 For example:
 
-    public Child find(int id) {
+    public Child findByName(String name) {
         ChildAlias c = new ChildAlias("c");
-        return Select.from(c).where(c.id.equals(id)).unique();
+        return Select.from(c).where(c.name.equals(name)).unique();
     }
 
 Examples
