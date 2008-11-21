@@ -44,6 +44,7 @@ Todo
 
 * Builders
 * Project dependencies
+* Composite columns (e.g. TimePoint with both time+zone), if needed
 
 Acknowledgements
 ================
