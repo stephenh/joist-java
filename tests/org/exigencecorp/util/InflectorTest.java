@@ -1,7 +1,5 @@
 package org.exigencecorp.util;
 
-import org.exigencecorp.util.Inflector;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
 

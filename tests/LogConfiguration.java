@@ -9,6 +9,7 @@ public class LogConfiguration {
         LogManager.resetConfiguration();
         LogManager.getRootLogger().setLevel(Level.INFO);
         LogManager.getRootLogger().addAppender(LogAppenderFactory.newConsoleAppender());
+        LogManager.getLogger("org.exigencecorp").setLevel(Level.DEBUG);
         Log.debug("Configuration reset, ConsoleAppender added");
     }
 
