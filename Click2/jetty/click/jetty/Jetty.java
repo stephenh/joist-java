@@ -1,7 +1,6 @@
 package click.jetty;
 
 import org.exigencecorp.util.Log;
-import org.exigencecorp.util.RunningTimer;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
@@ -22,7 +21,6 @@ public class Jetty {
         }
 
         Log.debug("Starting {}...", args[0]);
-        RunningTimer.init();
 
         // The "org.mortbay.jetty.webapp.TagLibConfiguration" is a pain in the ass because it
         // loads the spring TLDs and ends up trying to hit java.sun.com to resolve an xsd file
@@ -55,8 +53,6 @@ public class Jetty {
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
         }
-
-        RunningTimer.tick("Started");
     }
 
 }
