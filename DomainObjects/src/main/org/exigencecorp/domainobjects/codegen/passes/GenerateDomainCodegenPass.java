@@ -153,7 +153,7 @@ public class GenerateDomainCodegenPass implements Pass {
                 setter.body.line("}");
             }
 
-            GMethod setter2 = domainCodegen.getMethod("set{}WithoutPercolation", mtop.getCapitalVariableName());
+            GMethod setter2 = domainCodegen.getMethod("set{}WithoutPercolation", mtop.getCapitalVariableName()).setProtected();
             setter2.argument(mtop.getJavaType(), mtop.getVariableName());
             setter2.body.line("this.getChanged().record(\"{}\", this.{}, {});", mtop.getVariableName(), mtop.getVariableName(), mtop
                 .getVariableName());

@@ -71,7 +71,7 @@ abstract class OneToOneBBarCodegen extends AbstractDomainObject {
         }
     }
 
-    public void setOneToOneBFooWithoutPercolation(OneToOneBFoo oneToOneBFoo) {
+    protected void setOneToOneBFooWithoutPercolation(OneToOneBFoo oneToOneBFoo) {
         this.getChanged().record("oneToOneBFoo", this.oneToOneBFoo, oneToOneBFoo);
         this.oneToOneBFoo.set(oneToOneBFoo);
     }

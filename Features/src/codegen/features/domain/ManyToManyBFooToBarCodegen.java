@@ -58,7 +58,7 @@ abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
         }
     }
 
-    public void setBlueWithoutPercolation(ManyToManyBFoo blue) {
+    protected void setBlueWithoutPercolation(ManyToManyBFoo blue) {
         this.getChanged().record("blue", this.blue, blue);
         this.blue.set(blue);
     }
@@ -77,7 +77,7 @@ abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
         }
     }
 
-    public void setGreenWithoutPercolation(ManyToManyBBar green) {
+    protected void setGreenWithoutPercolation(ManyToManyBBar green) {
         this.getChanged().record("green", this.green, green);
         this.green.set(green);
     }

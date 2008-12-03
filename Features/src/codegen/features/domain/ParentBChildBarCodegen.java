@@ -71,7 +71,7 @@ abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         }
     }
 
-    public void setParentBParentWithoutPercolation(ParentBParent parentBParent) {
+    protected void setParentBParentWithoutPercolation(ParentBParent parentBParent) {
         this.getChanged().record("parentBParent", this.parentBParent, parentBParent);
         this.parentBParent.set(parentBParent);
     }

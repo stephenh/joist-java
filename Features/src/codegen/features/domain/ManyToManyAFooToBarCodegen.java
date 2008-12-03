@@ -58,7 +58,7 @@ abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
         }
     }
 
-    public void setManyToManyABarWithoutPercolation(ManyToManyABar manyToManyABar) {
+    protected void setManyToManyABarWithoutPercolation(ManyToManyABar manyToManyABar) {
         this.getChanged().record("manyToManyABar", this.manyToManyABar, manyToManyABar);
         this.manyToManyABar.set(manyToManyABar);
     }
@@ -77,7 +77,7 @@ abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
         }
     }
 
-    public void setManyToManyAFooWithoutPercolation(ManyToManyAFoo manyToManyAFoo) {
+    protected void setManyToManyAFooWithoutPercolation(ManyToManyAFoo manyToManyAFoo) {
         this.getChanged().record("manyToManyAFoo", this.manyToManyAFoo, manyToManyAFoo);
         this.manyToManyAFoo.set(manyToManyAFoo);
     }
