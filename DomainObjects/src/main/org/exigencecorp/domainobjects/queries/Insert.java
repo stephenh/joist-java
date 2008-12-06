@@ -9,6 +9,7 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.util.Join;
 import org.exigencecorp.util.StringBuilderr;
+import org.exigencecorp.util.Wrap;
 
 public class Insert<T extends DomainObject> {
 
@@ -65,9 +66,9 @@ public class Insert<T extends DomainObject> {
     public String toSql() {
         StringBuilderr s = new StringBuilderr();
         s.append("INSERT INTO ");
-        s.append(this.getTableName());
+        s.append(Wrap.quotes(this.getTableName()));
         s.append(" (");
-        s.append(Join.commaSpace(this.getColumnNames()));
+        s.append(Join.commaSpace(Wrap.quotes(this.getColumnNames())));
         s.append(")");
         s.append(" VALUES (");
         s.append(StringUtils.repeat("?, ", this.getColumnNames().size()));

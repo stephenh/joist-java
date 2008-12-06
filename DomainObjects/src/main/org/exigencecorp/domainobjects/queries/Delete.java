@@ -7,6 +7,7 @@ import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.util.StringBuilderr;
+import org.exigencecorp.util.Wrap;
 
 public class Delete<T extends DomainObject> {
 
@@ -44,7 +45,7 @@ public class Delete<T extends DomainObject> {
     public String toSql() {
         StringBuilderr s = new StringBuilderr();
         s.append("DELETE FROM ");
-        s.line(this.getAlias().getTableName());
+        s.line(Wrap.quotes(this.getAlias().getTableName()));
         if (this.where != null) {
             s.line(" WHERE {}", this.where);
         }

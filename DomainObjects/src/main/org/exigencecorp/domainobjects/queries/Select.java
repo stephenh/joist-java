@@ -15,6 +15,7 @@ import org.exigencecorp.jdbc.RowMapper;
 import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Join;
 import org.exigencecorp.util.StringBuilderr;
+import org.exigencecorp.util.Wrap;
 
 public class Select<T extends DomainObject> {
 
@@ -112,7 +113,7 @@ public class Select<T extends DomainObject> {
     public String toSql() {
         StringBuilderr s = new StringBuilderr();
         s.line("SELECT {}", Join.commaSpace(this.selectItems));
-        s.line(" FROM {} {}", this.from.getTableName(), this.from.getName());
+        s.line(" FROM {} {}", Wrap.quotes(this.from.getTableName()), this.from.getName());
         for (JoinClause join : this.joins) {
             s.line(" {}", join);
         }

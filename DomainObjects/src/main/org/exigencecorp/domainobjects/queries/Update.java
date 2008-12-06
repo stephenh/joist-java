@@ -7,6 +7,7 @@ import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.util.StringBuilderr;
+import org.exigencecorp.util.Wrap;
 
 public class Update<T extends DomainObject> {
 
@@ -70,10 +71,10 @@ public class Update<T extends DomainObject> {
 
     public String toSql() {
         StringBuilderr s = new StringBuilderr();
-        s.line("UPDATE {}", this.tableName);
+        s.line("UPDATE {}", Wrap.quotes(this.tableName));
         s.append(" SET ");
         for (String columnName : this.columnNames) {
-            s.append(columnName);
+            s.append(Wrap.quotes(columnName));
             s.append(" = ?, ");
         }
         s.stripLastCommaSpace();

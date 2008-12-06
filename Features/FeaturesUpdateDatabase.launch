@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/Features/src/build/Build.java"/>
+<listEntry value="/Features/lib/bd.jar"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="Build"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.exigencecorp.bd.BuildRunner"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="dobj.createDatabase dobj.migrateDatabase dobj.fixPermissions dobj.codegen"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Features"/>
 </launchConfiguration>
