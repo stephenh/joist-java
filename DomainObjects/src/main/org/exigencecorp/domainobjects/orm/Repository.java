@@ -66,6 +66,9 @@ public class Repository {
 
     public void open() {
         try {
+            if (Repository.THIS_IS_DUMB == null) {
+                throw new RuntimeException("The repository database has not been configured.");
+            }
             this.connection = Repository.THIS_IS_DUMB.getConnection();
             this.connection.setAutoCommit(false);
             Jdbc.update(this.connection, "SET CONSTRAINTS ALL DEFERRED;");
