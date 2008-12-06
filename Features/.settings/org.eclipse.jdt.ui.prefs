@@ -1,4 +1,4 @@
-#Wed Apr 09 23:14:09 CDT 2008
+#Sat Dec 06 15:04:08 CST 2008
 cleanup.add_default_serial_version_id=true
 cleanup.add_generated_serial_version_id=false
 cleanup.add_missing_annotations=false
@@ -53,6 +53,7 @@ cleanup_profile=_Framework Cleanup Standard
 cleanup_settings_version=2
 eclipse.preferences.version=1
 editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true
+formatter_settings_version=11
 org.eclipse.jdt.ui.exception.name=e
 org.eclipse.jdt.ui.gettersetter.use.is=true
 org.eclipse.jdt.ui.javadoc=false
