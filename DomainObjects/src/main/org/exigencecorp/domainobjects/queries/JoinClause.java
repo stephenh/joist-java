@@ -4,6 +4,7 @@ import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.queries.columns.ForeignKeyAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.util.Join;
+import org.exigencecorp.util.Wrap;
 
 public class JoinClause {
 
@@ -15,7 +16,7 @@ public class JoinClause {
      */
     public <T extends DomainObject, W extends DomainObject> JoinClause(String type, Alias<W> newAlias, ForeignKeyAliasColumn<T, W> on) {
         this.text = Join.space(type,//
-            newAlias.getTableName(),
+            Wrap.quotes(newAlias.getTableName()),
             newAlias.getName(),
             "ON",
             on.getQualifiedName(),
@@ -29,7 +30,7 @@ public class JoinClause {
      */
     public JoinClause(String type, Alias<?> newAlias, IdAliasColumn<?> newAliasColumn, IdAliasColumn<?> on) {
         this.text = Join.space(type,//
-            newAlias.getTableName(),
+            Wrap.quotes(newAlias.getTableName()),
             newAlias.getName(),
             "ON",
             on.getQualifiedName(),
