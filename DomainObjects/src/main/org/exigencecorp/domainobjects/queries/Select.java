@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.exigencecorp.domainobjects.DomainObject;
+import org.exigencecorp.domainobjects.Requirements;
+import org.exigencecorp.domainobjects.exceptions.NotFoundException;
+import org.exigencecorp.domainobjects.exceptions.TooManyException;
 import org.exigencecorp.domainobjects.orm.mappers.DataTransferObjectMapper;
 import org.exigencecorp.domainobjects.orm.mappers.DomainObjectMapper;
 import org.exigencecorp.domainobjects.orm.mappers.IdsMapper;
@@ -80,9 +83,11 @@ public class Select<T extends DomainObject> {
     public <R> R unique(Class<R> rowType) {
         List<R> results = this.list(rowType);
         if (results.size() == 0) {
-            throw new RuntimeException("Not found");
+            Requirements.selectUniqueWithTooManyFails.fulfills();
+            throw new NotFoundException();
         } else if (results.size() > 1) {
-            throw new RuntimeException("Too many");
+            Requirements.selectUniqueWithTooManyFails.fulfills();
+            throw new TooManyException();
         }
         return results.get(0);
     }
