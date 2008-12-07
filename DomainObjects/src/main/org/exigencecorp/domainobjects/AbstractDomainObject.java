@@ -17,7 +17,7 @@ public abstract class AbstractDomainObject implements DomainObject {
     public final List<ValidationError> validate() {
         ValidationErrors errors = new ValidationErrors();
         for (Rule<?> rule : this.getValidationRules()) {
-            ((Rule<AbstractDomainObject>) rule).validateObject(errors, this);
+            ((Rule<AbstractDomainObject>) rule).validate(errors, this);
         }
         return errors.getErrors();
     }

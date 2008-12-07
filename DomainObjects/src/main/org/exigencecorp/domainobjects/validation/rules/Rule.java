@@ -4,6 +4,6 @@ import org.exigencecorp.domainobjects.validation.ValidationErrors;
 
 public interface Rule<T> {
 
-    void validateObject(ValidationErrors errors, T object);
+    void validate(ValidationErrors errors, T object);
 
 }

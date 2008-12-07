@@ -17,7 +17,7 @@ public class ValidationAFoo extends ValidationAFooCodegen {
 
     private void addExtraRules() {
         this.addRule(new Rule<ValidationAFoo>() {
-            public void validateObject(ValidationErrors errors, ValidationAFoo foo) {
+            public void validate(ValidationErrors errors, ValidationAFoo foo) {
                 if ("bar".equals(foo.getName())) {
                     errors.addPropertyError(foo, "name", "must not be bar");
                 }

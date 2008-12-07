@@ -23,7 +23,7 @@ public class RegexRule<T extends AbstractDomainObject> implements Rule<T> {
         this.shim = shim;
     }
 
-    public void validateObject(ValidationErrors errors, T t) {
+    public void validate(ValidationErrors errors, T t) {
         String value = (this.shim != null) ? this.shim.get(t) : null;
         if (value != null && !Pattern.matches(this.pattern, value)) {
             errors.addPropertyError(t, this.property, "is invalid");
