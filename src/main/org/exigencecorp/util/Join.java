@@ -13,6 +13,10 @@ public class Join {
         return StringUtils.join(objects, "\n");
     }
 
+    public static <T extends Object> String lines(List<T> objects) {
+        return StringUtils.join(objects, "\n");
+    }
+
     public static <T extends Object> String linesWithTickToQuote(T... objects) {
         return Tick.toQuote(StringUtils.join(objects, "\n"));
     }

@@ -17,4 +17,12 @@ public class Wrap {
         return wrapped;
     }
 
+    public static List<String> quotes(List<String> input) {
+        List<String> wrapped = new ArrayList<String>();
+        for (String i : input) {
+            wrapped.add(Wrap.quotes(i));
+        }
+        return wrapped;
+    }
+
 }
