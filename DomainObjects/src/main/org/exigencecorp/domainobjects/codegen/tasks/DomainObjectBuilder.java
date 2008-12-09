@@ -1,5 +1,8 @@
 package org.exigencecorp.domainobjects.codegen.tasks;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.exigencecorp.domainobjects.codegen.Codegen;
@@ -13,6 +16,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class DomainObjectBuilder {
 
+    public String host = "localhost";
     public String databaseName;
     public String databaseAppUsername;
     public String databaseAppPassword;
@@ -20,8 +24,7 @@ public class DomainObjectBuilder {
     public String databaseSaPassword;
     public CodegenConfig codegenConfig = new CodegenConfig();
     public MigraterConfig migraterConfig = new MigraterConfig();
-    private DataSource appTableAsSaUser;
-    private DataSource systemTableAsSaUser;
+    private final Map<String, DataSource> dss = new HashMap<String, DataSource>();
 
     public DomainObjectBuilder(String projectName) {
         this.databaseName = projectName;
@@ -58,32 +61,32 @@ public class DomainObjectBuilder {
     }
 
     private DataSource getDataSourceForAppTableAsSaUser() {
-        if (this.appTableAsSaUser == null) {
-            this.appTableAsSaUser = this.makeDataSource(this.databaseName, this.databaseSaUsername, this.databaseSaPassword);
-        }
-        return this.appTableAsSaUser;
+        return this.getDs(this.host, this.databaseName, this.databaseSaUsername, this.databaseSaPassword);
     }
 
     private DataSource getDataSourceForSystemTableAsSaUser() {
-        if (this.systemTableAsSaUser == null) {
-            this.systemTableAsSaUser = this.makeDataSource("postgres", this.databaseSaUsername, this.databaseSaPassword);
-        }
-        return this.systemTableAsSaUser;
+        return this.getDs(this.host, "postgres", this.databaseSaUsername, this.databaseSaPassword);
     }
 
-    private DataSource makeDataSource(String databaseName, String username, String password) {
+    private DataSource getDs(String host, String databaseName, String username, String password) {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        ComboPooledDataSource ds = new ComboPooledDataSource();
-        ds.setJdbcUrl("jdbc:postgresql://localhost/" + databaseName);
-        ds.setUser(username);
-        ds.setPassword(password);
-        ds.setMaxPoolSize(3);
-        ds.setInitialPoolSize(1);
-        return ds;
+
+        String key = host + "." + databaseName + "." + username + "." + password;
+        if (!this.dss.containsKey(key)) {
+            ComboPooledDataSource ds = new ComboPooledDataSource();
+            ds.setJdbcUrl("jdbc:postgresql://" + host + "/" + databaseName);
+            ds.setUser(username);
+            ds.setPassword(password);
+            ds.setMaxPoolSize(3);
+            ds.setInitialPoolSize(1);
+            this.dss.put(key, ds);
+        }
+
+        return this.dss.get(key);
     }
 
 }
