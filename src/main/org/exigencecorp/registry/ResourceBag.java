@@ -52,6 +52,8 @@ public class ResourceBag {
             ResourceFactory<Object> factory = (ResourceFactory<Object>) Reflection.newInstance(entry.getKey());
             factory.destroy(entry.getValue());
         }
+        this.factoryInstanceToResource.clear();
+        this.factoryClassToResource.clear();
     }
 
 }
