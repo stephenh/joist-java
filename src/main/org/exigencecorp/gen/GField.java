@@ -51,17 +51,7 @@ public class GField {
     }
 
     public GField type(String fullClassName, Object... args) {
-        this.typeClassName = Interpolate.string(fullClassName, args);
-        if (this.typeClassName.startsWith("java.lang.") && this.typeClassName.lastIndexOf('.') == 9) {
-            this.typeClassName = this.typeClassName.substring("java.lang.".length());
-        }
-        return this;
-    }
-
-    public GField typeInPackage(String packageName, String simpleName, Object... args) {
-        this.type(simpleName, args);
-        this.typeClassName = Interpolate.string(simpleName, args);
-        this.gclass.addImports(packageName + "." + this.typeClassName);
+        this.typeClassName = this.gclass.stripAndImportPackageIfPossible(Interpolate.string(fullClassName, args));
         return this;
     }
 

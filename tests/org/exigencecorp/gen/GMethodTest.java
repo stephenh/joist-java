@@ -24,4 +24,79 @@ public class GMethodTest extends TestCase {
             ""), gc.toCode());
     }
 
+    public void testAutoImport() {
+        GClass gc = new GClass("Foo");
+        gc.getMethod("method").argument("foo.zaz.Bar", "bar").returnType("foo.zaz.Foo");
+        Assert.assertEquals(Join.lines(//
+            "import foo.zaz.Bar;",
+            "import foo.zaz.Foo;",
+            "",
+            "public class Foo {",
+            "",
+            "    public Foo method(Bar bar) {",
+            "    }",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
+
+    public void testAutoImportWithCrazyGenerics() {
+        GClass gc = new GClass("Foo");
+        gc.getMethod("method1").argument("Bar<java.lang.Integer>", "bar");
+        gc.getMethod("method2").argument("foo.Zaz<java.lang.Integer>", "bar");
+        gc.getMethod("method3").argument("foo.Zaz<java.util.Set<java.lang.Integer>>", "bar");
+        Assert.assertEquals(Join.lines(//
+            "import foo.Zaz;",
+            "import java.util.Set;",
+            "",
+            "public class Foo {",
+            "",
+            "    public void method1(Bar<Integer> bar) {",
+            "    }",
+            "",
+            "    public void method2(Zaz<Integer> bar) {",
+            "    }",
+            "",
+            "    public void method3(Zaz<Set<Integer>> bar) {",
+            "    }",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
+
+    public void testAutoImportDirectly() {
+        GClass gc = new GClass("foo.Foo");
+        gc.addImports("foo.Zaz<java.lang.Integer>");
+        gc.addImports("foo.Set<java.util.Set<java.lang.Integer>>");
+        Assert.assertEquals(Join.lines(//
+            "package foo;",
+            "",
+            "public class Foo {",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
+
+    public void testAutoImportWithCollidingNames() {
+        GClass gc = new GClass("Foo");
+        gc.getMethod("method1").argument("foo.Bar<java.lang.Integer>", "bar");
+        gc.getMethod("method2").argument("foo.Bar<java.lang.Integer>", "bar");
+        gc.getMethod("method3").argument("zaz.Bar<java.lang.Integer>", "bar");
+        Assert.assertEquals(Join.lines(//
+            "import foo.Bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    public void method1(Bar<Integer> bar) {",
+            "    }",
+            "",
+            "    public void method2(Bar<Integer> bar) {",
+            "    }",
+            "",
+            "    public void method3(zaz.Bar<Integer> bar) {",
+            "    }",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
 }

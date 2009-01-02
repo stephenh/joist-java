@@ -146,7 +146,14 @@ public class GClassTest extends TestCase {
 
     public void testImplements() {
         GClass gc = new GClass("foo.bar.Foo").implementsInterface(List.class);
-        Assert.assertEquals(Join.lines("package foo.bar;", "", "public class Foo implements java.util.List {", "", "}", ""), gc.toCode());
+        Assert.assertEquals(Join.lines("package foo.bar;",//
+            "",
+            "import java.util.List;",
+            "",
+            "public class Foo implements List {",
+            "",
+            "}",
+            ""), gc.toCode());
     }
 
 }

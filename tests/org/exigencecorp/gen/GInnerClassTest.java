@@ -46,4 +46,40 @@ public class GInnerClassTest extends TestCase {
             ""), gc.toCode());
     }
 
+    public void testOneInnerClassWithImports() {
+        GClass gc = new GClass("Foo");
+        GClass bar = gc.getInnerClass("Bar");
+        bar.addImports("other.package.Zaz");
+        bar.getField("id").type(Integer.class);
+        Assert.assertEquals(Join.lines(//
+            "import other.package.Zaz;",
+            "",
+            "public class Foo {",
+            "",
+            "    public static class Bar {",
+            "        private Integer id;",
+            "    }",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
+
+    public void testOneInnerClassWithImportsInSamePackage() {
+        GClass gc = new GClass("foo.Foo");
+        GClass bar = gc.getInnerClass("Bar");
+        bar.addImports("foo.Zaz");
+        bar.getField("id").type(Integer.class);
+        Assert.assertEquals(Join.lines(//
+            "package foo;",
+            "",
+            "public class Foo {",
+            "",
+            "    public static class Bar {",
+            "        private Integer id;",
+            "    }",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
+
 }

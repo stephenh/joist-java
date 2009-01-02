@@ -10,6 +10,7 @@ import org.exigencecorp.util.StringBuilderr;
 public class GMethod {
 
     public final StringBuilderr body = new StringBuilderr();
+    private final GClass gclass;
     private final String name;
     private final List<String> arguments = new ArrayList<String>();
     private String returnClassName = "void";
@@ -18,6 +19,7 @@ public class GMethod {
     private boolean isStatic;
 
     public GMethod(GClass gclass, String methodName) {
+        this.gclass = gclass;
         this.name = methodName;
     }
 
@@ -26,14 +28,12 @@ public class GMethod {
     }
 
     public GMethod returnType(String returnClassName, Object... args) {
-        this.returnClassName = Interpolate.string(returnClassName, args);
-        if (this.returnClassName.startsWith("java.lang.") && this.returnClassName.lastIndexOf('.') == 9) {
-            this.returnClassName = this.returnClassName.substring("java.lang.".length());
-        }
+        this.returnClassName = this.gclass.stripAndImportPackageIfPossible(Interpolate.string(returnClassName, args));
         return this;
     }
 
     public GMethod argument(String typeClassName, String name) {
+        typeClassName = this.gclass.stripAndImportPackageIfPossible(typeClassName);
         this.arguments.add(typeClassName + " " + name);
         return this;
     }

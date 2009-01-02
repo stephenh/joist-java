@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.util.Interpolate;
@@ -29,6 +31,8 @@ public class GClass {
     private boolean isAnonymous = false;
     private boolean isEnum = false;
     private String baseClassName = null;
+    private GClass outerClass;
+    private static final Pattern classNameWithoutGenerics = Pattern.compile("((\\w+\\.)*)(\\w+)");
 
     public GClass(String fullClassName) {
         int firstPeriod = fullClassName.indexOf('.');
@@ -72,6 +76,7 @@ public class GClass {
         }
         GClass gc = new GClass(name);
         gc.isStaticInnerClass = true;
+        gc.outerClass = this;
         this.innerClasses.add(gc);
         return gc;
     }
@@ -246,6 +251,10 @@ public class GClass {
     }
 
     public GClass addImports(Class<?>... types) {
+        if (this.outerClass != null) {
+            this.outerClass.addImports(types);
+            return this;
+        }
         for (Class<?> type : types) {
             this.imports.add(type.getName());
         }
@@ -253,8 +262,18 @@ public class GClass {
     }
 
     public GClass addImports(String... importClassNames) {
+        if (this.outerClass != null) {
+            this.outerClass.addImports(importClassNames);
+            return this;
+        }
         for (String importClassName : importClassNames) {
-            this.imports.add(importClassName.replaceAll("<.+>", "")); // prune generics
+            importClassName = importClassName.replaceAll("<.+>", ""); // prune generics
+            String simpleClassName = StringUtils.substringAfterLast(importClassName, ".");
+            String packageName = StringUtils.remove(importClassName, "." + simpleClassName);
+            if (StringUtils.equals(this.packageName, packageName) || "java.lang".equals(packageName)) {
+                continue; // same package
+            }
+            this.imports.add(importClassName);
         }
         return this;
     }
@@ -269,20 +288,31 @@ public class GClass {
     }
 
     public GClass baseClassName(String baseClassName, Object... args) {
-        this.baseClassName = this.importAndStripPackage(Interpolate.string(baseClassName, args));
+        this.baseClassName = this.stripAndImportPackageIfPossible(Interpolate.string(baseClassName, args));
         return this;
     }
 
-    private String importAndStripPackage(String fullClassName) {
-        if (fullClassName.indexOf(".") > -1) {
-            String simpleClassName = StringUtils.substringAfterLast(fullClassName, ".");
-            String packageName = StringUtils.remove(fullClassName, "." + simpleClassName);
-            if (!packageName.equals(this.getPackageName())) {
-                this.addImports(fullClassName);
+    /** @return the short name if this was importable or else the full name if a name collision would have happened */
+    public String stripAndImportPackageIfPossible(String fullClassName) {
+        Matcher m = GClass.classNameWithoutGenerics.matcher(fullClassName);
+        while (m.find()) {
+            String packageName = StringUtils.removeEnd(m.group(1), ".");
+            String simpleName = m.group(3);
+            if (StringUtils.isNotBlank(packageName) && !this.isImportAlreadyTakenByDifferentPackage(packageName, simpleName)) {
+                fullClassName = StringUtils.replaceOnce(fullClassName, packageName + "." + simpleName, simpleName);
+                this.addImports(packageName + "." + simpleName);
             }
-            return simpleClassName;
         }
         return fullClassName;
+    }
+
+    private boolean isImportAlreadyTakenByDifferentPackage(String packageName, String simpleName) {
+        for (String existingImport : this.imports) {
+            if (!existingImport.equals(packageName + "." + simpleName) && existingImport.endsWith("." + simpleName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void lineIfNotAnonymousOrInner(StringBuilderr sb) {
@@ -300,7 +330,13 @@ public class GClass {
     }
 
     public GClass implementsInterface(Class<?> interfaceClass) {
-        this.implementsInterfaces.add(interfaceClass.getName());
+        this.implementsInterfaces.add(this.stripAndImportPackageIfPossible(interfaceClass.getName()));
+        return this;
+    }
+
+    public GClass implementsInterface(String interfaceFullName, Object... args) {
+        interfaceFullName = Interpolate.string(interfaceFullName, args);
+        this.implementsInterfaces.add(this.stripAndImportPackageIfPossible(interfaceFullName));
         return this;
     }
 

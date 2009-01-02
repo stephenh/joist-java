@@ -10,20 +10,55 @@ public class GFieldTest extends TestCase {
     public void testOneField() {
         GClass gc = new GClass("foo.bar.Foo");
         gc.getField("id").type(int.class);
-        Assert.assertEquals(Join.lines("package foo.bar;", "", "public class Foo {", "", "    private int id;", "", "}", ""), gc.toCode());
+        Assert.assertEquals(Join.lines("package foo.bar;",//
+            "",
+            "public class Foo {",
+            "",
+            "    private int id;",
+            "",
+            "}",
+            ""), gc.toCode());
     }
 
     public void testOnePublicField() {
         GClass gc = new GClass("foo.bar.Foo");
         gc.getField("id").type(int.class).setPublic();
-        Assert.assertEquals(Join.lines("package foo.bar;", "", "public class Foo {", "", "    public int id;", "", "}", ""), gc.toCode());
+        Assert.assertEquals(Join.lines("package foo.bar;",//
+            "",
+            "public class Foo {",
+            "",
+            "    public int id;",
+            "",
+            "}",
+            ""), gc.toCode());
     }
 
     public void testOneFieldWithDefaultValue() {
         GClass gc = new GClass("foo.bar.Foo");
         gc.getField("id").type(Integer.class).initialValue("null");
-        Assert.assertEquals(Join
-            .lines(new Object[] { "package foo.bar;", "", "public class Foo {", "", "    private Integer id = null;", "", "}", "" }), gc.toCode());
+        Assert.assertEquals(Join.lines(new Object[] { "package foo.bar;",//
+            "",
+            "public class Foo {",
+            "",
+            "    private Integer id = null;",
+            "",
+            "}",
+            "" }), gc.toCode());
+    }
+
+    public void testOnePublicFieldWithTypeImported() {
+        GClass gc = new GClass("foo.bar.Foo");
+        gc.getField("id").type("foo.zaz.Bar<Integer>").setPublic();
+        Assert.assertEquals(Join.lines("package foo.bar;",//
+            "",
+            "import foo.zaz.Bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    public Bar<Integer> id;",
+            "",
+            "}",
+            ""), gc.toCode());
     }
 
     public void testOneFieldOneGetter() {
