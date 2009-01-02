@@ -22,6 +22,21 @@ public class GInnerClassTest extends TestCase {
             ""), gc.toCode());
     }
 
+    public void testOneNonStaticInnerClass() {
+        GClass gc = new GClass("Foo");
+        GClass bar = gc.getInnerClass("Bar").notStatic();
+        bar.getField("id").type(Integer.class);
+        Assert.assertEquals(Join.lines(//
+            "public class Foo {",
+            "",
+            "    public class Bar {",
+            "        private Integer id;",
+            "    }",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
+
     public void testOneTwoInnerClasses() {
         GClass gc = new GClass("Foo");
 

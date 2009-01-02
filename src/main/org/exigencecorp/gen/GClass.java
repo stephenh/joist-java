@@ -27,6 +27,7 @@ public class GClass {
     private final List<String> implementsInterfaces = new ArrayList<String>();
     private String access = "public ";
     private boolean isAbstract = false;
+    private boolean isInnerClass = false;
     private boolean isStaticInnerClass = false;
     private boolean isAnonymous = false;
     private boolean isEnum = false;
@@ -75,16 +76,16 @@ public class GClass {
             }
         }
         GClass gc = new GClass(name);
+        gc.isInnerClass = true;
         gc.isStaticInnerClass = true;
         gc.outerClass = this;
         this.innerClasses.add(gc);
         return gc;
     }
 
-    public GClass getNonStaticInnerClass(String name, Object... args) {
-        GClass gc = this.getInnerClass(name, args);
-        gc.isStaticInnerClass = false;
-        return gc;
+    public GClass notStatic() {
+        this.isStaticInnerClass = false;
+        return this;
     }
 
     public GMethod getConstructor(String... typeAndNames) {
@@ -316,7 +317,7 @@ public class GClass {
     }
 
     private void lineIfNotAnonymousOrInner(StringBuilderr sb) {
-        if (!this.isAnonymous && !this.isStaticInnerClass) {
+        if (!this.isAnonymous && !this.isInnerClass) {
             sb.line();
         }
     }
