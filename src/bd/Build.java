@@ -7,8 +7,8 @@ public class Build {
 
     public Lib libMain = new Lib("lib/main");
     public Source srcMain = new Source("src/main", "bin/main").lib(this.libMain);
-    public Jar binaryJar = new Jar("bin/exigence-utilites.jar").includes(this.srcMain.getDestination());
-    public Zip sourceZip = new Zip("bin/exigence-utilites.zip").includes(this.srcMain.getSourceFiles());
+    public Jar binaryJar = new Jar("bin/exigence-utilities.jar").includes(this.srcMain.getDestination());
+    public Zip sourceZip = new Zip("bin/exigence-utilities.zip").includes(this.srcMain.getSourceFiles());
 
     public Build() {
         this.libMain.updateFromHomeCache();
