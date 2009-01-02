@@ -8,7 +8,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/main/commons-lang-2.3.jar" sourcepath="lib/main/commons-lang-2.3.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/main/postgresql-8.3-603.jdbc3.jar" sourcepath="lib/main/postgresql-8.3-603.jdbc3.zip"/>
 	<classpathentry kind="lib" path="lib/bd/bd.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/main/exigence-utilites.jar" sourcepath="lib/main/exigence-utilites.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/main/exigence-utilities.jar" sourcepath="lib/main/exigence-utilities.zip"/>
 	<classpathentry kind="lib" path="lib/main/junit-3.8.2.jar" sourcepath="lib/main/junit-3.8.2.zip"/>
 	<classpathentry kind="output" path="bin/eclipse"/>
 </classpath>
