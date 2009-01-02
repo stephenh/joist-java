@@ -1,7 +1,5 @@
 package features.domain;
 
-import features.domain.InheritanceABase;
-import features.domain.InheritanceASubTwo;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.queries.Alias;
@@ -15,7 +13,7 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
     private final List<AliasColumn<InheritanceASubTwo, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceASubTwo, ?, ?>>();
     private final IdAliasColumn<InheritanceASubTwo> subClassId = new IdAliasColumn<InheritanceASubTwo>(this, "id", null);
     public final StringAliasColumn<InheritanceASubTwo> two = new StringAliasColumn<InheritanceASubTwo>(this, "two", InheritanceASubTwoCodegen.Shims.two);
-    private final features.domain.InheritanceABaseAlias baseAlias;
+    private final InheritanceABaseAlias baseAlias;
     public final IdAliasColumn<InheritanceABase> id;
     public final StringAliasColumn<InheritanceABase> name;
     public final IntAliasColumn<InheritanceABase> version;

@@ -1,8 +1,5 @@
 package features.domain;
 
-import features.domain.InheritanceBBottomAlias;
-import features.domain.InheritanceBMiddleAlias;
-import features.domain.InheritanceBRoot;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.DomainObject;

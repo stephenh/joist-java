@@ -1,8 +1,8 @@
 package features.domain;
 
-import features.domain.InheritanceABaseAlias;
 import features.domain.queries.InheritanceABaseQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.uow.UoW;
@@ -19,7 +19,7 @@ abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    protected org.exigencecorp.domainobjects.Changed changed;
+    protected Changed changed;
 
     protected InheritanceABaseCodegen() {
         this.addExtraRules();
@@ -34,7 +34,7 @@ abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         return this.id;
     }
 
-    public void setId(java.lang.Integer id) {
+    public void setId(Integer id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -46,7 +46,7 @@ abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.getChanged().record("name", this.name, name);
         this.name = name;
     }
@@ -63,24 +63,24 @@ abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<InheritanceABase, java.lang.Integer> id = new Shim<InheritanceABase, java.lang.Integer>() {
-            public void set(InheritanceABase instance, java.lang.Integer id) {
+        public static final Shim<InheritanceABase, Integer> id = new Shim<InheritanceABase, Integer>() {
+            public void set(InheritanceABase instance, Integer id) {
                 ((InheritanceABaseCodegen) instance).id = id;
             }
             public Integer get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).id;
             }
         };
-        public static final Shim<InheritanceABase, java.lang.String> name = new Shim<InheritanceABase, java.lang.String>() {
-            public void set(InheritanceABase instance, java.lang.String name) {
+        public static final Shim<InheritanceABase, String> name = new Shim<InheritanceABase, String>() {
+            public void set(InheritanceABase instance, String name) {
                 ((InheritanceABaseCodegen) instance).name = name;
             }
             public String get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).name;
             }
         };
-        public static final Shim<InheritanceABase, java.lang.Integer> version = new Shim<InheritanceABase, java.lang.Integer>() {
-            public void set(InheritanceABase instance, java.lang.Integer version) {
+        public static final Shim<InheritanceABase, Integer> version = new Shim<InheritanceABase, Integer>() {
+            public void set(InheritanceABase instance, Integer version) {
                 ((InheritanceABaseCodegen) instance).version = version;
             }
             public Integer get(InheritanceABase instance) {

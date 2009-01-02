@@ -1,10 +1,9 @@
 package features.domain;
 
-import features.domain.InheritanceBRootAlias;
-import features.domain.InheritanceBRootChildAlias;
 import features.domain.queries.InheritanceBRootQueries;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
@@ -24,7 +23,7 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     private Integer version = null;
     private static final InheritanceBRootChildAlias inheritanceBRootChildsAlias = new InheritanceBRootChildAlias("a");
     private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, inheritanceBRootChildsAlias, inheritanceBRootChildsAlias.inheritanceBRoot);
-    protected org.exigencecorp.domainobjects.Changed changed;
+    protected Changed changed;
 
     protected InheritanceBRootCodegen() {
         this.addExtraRules();
@@ -39,7 +38,7 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         return this.id;
     }
 
-    public void setId(java.lang.Integer id) {
+    public void setId(Integer id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -51,7 +50,7 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.getChanged().record("name", this.name, name);
         this.name = name;
     }
@@ -92,24 +91,24 @@ abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<InheritanceBRoot, java.lang.Integer> id = new Shim<InheritanceBRoot, java.lang.Integer>() {
-            public void set(InheritanceBRoot instance, java.lang.Integer id) {
+        public static final Shim<InheritanceBRoot, Integer> id = new Shim<InheritanceBRoot, Integer>() {
+            public void set(InheritanceBRoot instance, Integer id) {
                 ((InheritanceBRootCodegen) instance).id = id;
             }
             public Integer get(InheritanceBRoot instance) {
                 return ((InheritanceBRootCodegen) instance).id;
             }
         };
-        public static final Shim<InheritanceBRoot, java.lang.String> name = new Shim<InheritanceBRoot, java.lang.String>() {
-            public void set(InheritanceBRoot instance, java.lang.String name) {
+        public static final Shim<InheritanceBRoot, String> name = new Shim<InheritanceBRoot, String>() {
+            public void set(InheritanceBRoot instance, String name) {
                 ((InheritanceBRootCodegen) instance).name = name;
             }
             public String get(InheritanceBRoot instance) {
                 return ((InheritanceBRootCodegen) instance).name;
             }
         };
-        public static final Shim<InheritanceBRoot, java.lang.Integer> version = new Shim<InheritanceBRoot, java.lang.Integer>() {
-            public void set(InheritanceBRoot instance, java.lang.Integer version) {
+        public static final Shim<InheritanceBRoot, Integer> version = new Shim<InheritanceBRoot, Integer>() {
+            public void set(InheritanceBRoot instance, Integer version) {
                 ((InheritanceBRootCodegen) instance).version = version;
             }
             public Integer get(InheritanceBRoot instance) {

@@ -1,8 +1,8 @@
 package features.domain;
 
-import features.domain.OneToOneABarAlias;
 import features.domain.queries.OneToOneABarQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
@@ -21,7 +21,7 @@ abstract class OneToOneABarCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<OneToOneAFoo> oneToOneAFoo = new ForeignKeyHolder<OneToOneAFoo>(OneToOneAFoo.class);
-    protected org.exigencecorp.domainobjects.Changed changed;
+    protected Changed changed;
 
     protected OneToOneABarCodegen() {
         this.addExtraRules();
@@ -36,7 +36,7 @@ abstract class OneToOneABarCodegen extends AbstractDomainObject {
         return this.id;
     }
 
-    public void setId(java.lang.Integer id) {
+    public void setId(Integer id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -48,7 +48,7 @@ abstract class OneToOneABarCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.getChanged().record("name", this.name, name);
         this.name = name;
     }
@@ -85,24 +85,24 @@ abstract class OneToOneABarCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<OneToOneABar, java.lang.Integer> id = new Shim<OneToOneABar, java.lang.Integer>() {
-            public void set(OneToOneABar instance, java.lang.Integer id) {
+        public static final Shim<OneToOneABar, Integer> id = new Shim<OneToOneABar, Integer>() {
+            public void set(OneToOneABar instance, Integer id) {
                 ((OneToOneABarCodegen) instance).id = id;
             }
             public Integer get(OneToOneABar instance) {
                 return ((OneToOneABarCodegen) instance).id;
             }
         };
-        public static final Shim<OneToOneABar, java.lang.String> name = new Shim<OneToOneABar, java.lang.String>() {
-            public void set(OneToOneABar instance, java.lang.String name) {
+        public static final Shim<OneToOneABar, String> name = new Shim<OneToOneABar, String>() {
+            public void set(OneToOneABar instance, String name) {
                 ((OneToOneABarCodegen) instance).name = name;
             }
             public String get(OneToOneABar instance) {
                 return ((OneToOneABarCodegen) instance).name;
             }
         };
-        public static final Shim<OneToOneABar, java.lang.Integer> version = new Shim<OneToOneABar, java.lang.Integer>() {
-            public void set(OneToOneABar instance, java.lang.Integer version) {
+        public static final Shim<OneToOneABar, Integer> version = new Shim<OneToOneABar, Integer>() {
+            public void set(OneToOneABar instance, Integer version) {
                 ((OneToOneABarCodegen) instance).version = version;
             }
             public Integer get(OneToOneABar instance) {

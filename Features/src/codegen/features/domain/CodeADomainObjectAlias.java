@@ -1,8 +1,5 @@
 package features.domain;
 
-import features.domain.CodeAColor;
-import features.domain.CodeADomainObject;
-import features.domain.CodeASize;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.queries.Alias;

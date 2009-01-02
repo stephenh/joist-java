@@ -1,6 +1,5 @@
 package features.domain;
 
-import features.domain.InheritanceASubOneAlias;
 import features.domain.queries.InheritanceASubOneQueries;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
@@ -29,7 +28,7 @@ abstract class InheritanceASubOneCodegen extends InheritanceABase {
         return this.one;
     }
 
-    public void setOne(java.lang.String one) {
+    public void setOne(String one) {
         this.getChanged().record("one", this.one, one);
         this.one = one;
     }
@@ -42,8 +41,8 @@ abstract class InheritanceASubOneCodegen extends InheritanceABase {
     }
 
     public static class Shims {
-        public static final Shim<InheritanceASubOne, java.lang.String> one = new Shim<InheritanceASubOne, java.lang.String>() {
-            public void set(InheritanceASubOne instance, java.lang.String one) {
+        public static final Shim<InheritanceASubOne, String> one = new Shim<InheritanceASubOne, String>() {
+            public void set(InheritanceASubOne instance, String one) {
                 ((InheritanceASubOneCodegen) instance).one = one;
             }
             public String get(InheritanceASubOne instance) {

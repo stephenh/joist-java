@@ -1,11 +1,10 @@
 package features.domain;
 
-import features.domain.ManyToManyAFooAlias;
-import features.domain.ManyToManyAFooToBarAlias;
 import features.domain.queries.ManyToManyAFooQueries;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
@@ -26,7 +25,7 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     private Integer version = null;
     private static final ManyToManyAFooToBarAlias manyToManyAFooToBarsAlias = new ManyToManyAFooToBarAlias("a");
     private ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar>((ManyToManyAFoo) this, manyToManyAFooToBarsAlias, manyToManyAFooToBarsAlias.manyToManyAFoo);
-    protected org.exigencecorp.domainobjects.Changed changed;
+    protected Changed changed;
 
     protected ManyToManyAFooCodegen() {
         this.addExtraRules();
@@ -41,7 +40,7 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
         return this.id;
     }
 
-    public void setId(java.lang.Integer id) {
+    public void setId(Integer id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -53,7 +52,7 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.getChanged().record("name", this.name, name);
         this.name = name;
     }
@@ -118,24 +117,24 @@ abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ManyToManyAFoo, java.lang.Integer> id = new Shim<ManyToManyAFoo, java.lang.Integer>() {
-            public void set(ManyToManyAFoo instance, java.lang.Integer id) {
+        public static final Shim<ManyToManyAFoo, Integer> id = new Shim<ManyToManyAFoo, Integer>() {
+            public void set(ManyToManyAFoo instance, Integer id) {
                 ((ManyToManyAFooCodegen) instance).id = id;
             }
             public Integer get(ManyToManyAFoo instance) {
                 return ((ManyToManyAFooCodegen) instance).id;
             }
         };
-        public static final Shim<ManyToManyAFoo, java.lang.String> name = new Shim<ManyToManyAFoo, java.lang.String>() {
-            public void set(ManyToManyAFoo instance, java.lang.String name) {
+        public static final Shim<ManyToManyAFoo, String> name = new Shim<ManyToManyAFoo, String>() {
+            public void set(ManyToManyAFoo instance, String name) {
                 ((ManyToManyAFooCodegen) instance).name = name;
             }
             public String get(ManyToManyAFoo instance) {
                 return ((ManyToManyAFooCodegen) instance).name;
             }
         };
-        public static final Shim<ManyToManyAFoo, java.lang.Integer> version = new Shim<ManyToManyAFoo, java.lang.Integer>() {
-            public void set(ManyToManyAFoo instance, java.lang.Integer version) {
+        public static final Shim<ManyToManyAFoo, Integer> version = new Shim<ManyToManyAFoo, Integer>() {
+            public void set(ManyToManyAFoo instance, Integer version) {
                 ((ManyToManyAFooCodegen) instance).version = version;
             }
             public Integer get(ManyToManyAFoo instance) {

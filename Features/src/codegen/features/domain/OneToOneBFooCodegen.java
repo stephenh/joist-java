@@ -1,10 +1,9 @@
 package features.domain;
 
-import features.domain.OneToOneBBarAlias;
-import features.domain.OneToOneBFooAlias;
 import features.domain.queries.OneToOneBFooQueries;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
@@ -24,7 +23,7 @@ abstract class OneToOneBFooCodegen extends AbstractDomainObject {
     private Integer version = null;
     private static final OneToOneBBarAlias oneToOneBBarsAlias = new OneToOneBBarAlias("a");
     private ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar> oneToOneBBars = new ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar>((OneToOneBFoo) this, oneToOneBBarsAlias, oneToOneBBarsAlias.oneToOneBFoo);
-    protected org.exigencecorp.domainobjects.Changed changed;
+    protected Changed changed;
 
     protected OneToOneBFooCodegen() {
         this.addExtraRules();
@@ -39,7 +38,7 @@ abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         return this.id;
     }
 
-    public void setId(java.lang.Integer id) {
+    public void setId(Integer id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -51,7 +50,7 @@ abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.getChanged().record("name", this.name, name);
         this.name = name;
     }
@@ -92,24 +91,24 @@ abstract class OneToOneBFooCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<OneToOneBFoo, java.lang.Integer> id = new Shim<OneToOneBFoo, java.lang.Integer>() {
-            public void set(OneToOneBFoo instance, java.lang.Integer id) {
+        public static final Shim<OneToOneBFoo, Integer> id = new Shim<OneToOneBFoo, Integer>() {
+            public void set(OneToOneBFoo instance, Integer id) {
                 ((OneToOneBFooCodegen) instance).id = id;
             }
             public Integer get(OneToOneBFoo instance) {
                 return ((OneToOneBFooCodegen) instance).id;
             }
         };
-        public static final Shim<OneToOneBFoo, java.lang.String> name = new Shim<OneToOneBFoo, java.lang.String>() {
-            public void set(OneToOneBFoo instance, java.lang.String name) {
+        public static final Shim<OneToOneBFoo, String> name = new Shim<OneToOneBFoo, String>() {
+            public void set(OneToOneBFoo instance, String name) {
                 ((OneToOneBFooCodegen) instance).name = name;
             }
             public String get(OneToOneBFoo instance) {
                 return ((OneToOneBFooCodegen) instance).name;
             }
         };
-        public static final Shim<OneToOneBFoo, java.lang.Integer> version = new Shim<OneToOneBFoo, java.lang.Integer>() {
-            public void set(OneToOneBFoo instance, java.lang.Integer version) {
+        public static final Shim<OneToOneBFoo, Integer> version = new Shim<OneToOneBFoo, Integer>() {
+            public void set(OneToOneBFoo instance, Integer version) {
                 ((OneToOneBFooCodegen) instance).version = version;
             }
             public Integer get(OneToOneBFoo instance) {

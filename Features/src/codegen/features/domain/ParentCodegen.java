@@ -1,10 +1,9 @@
 package features.domain;
 
-import features.domain.ChildAlias;
-import features.domain.ParentAlias;
 import features.domain.queries.ParentQueries;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
@@ -24,7 +23,7 @@ abstract class ParentCodegen extends AbstractDomainObject {
     private Integer version = null;
     private static final ChildAlias childsAlias = new ChildAlias("a");
     private ForeignKeyListHolder<Parent, Child> childs = new ForeignKeyListHolder<Parent, Child>((Parent) this, childsAlias, childsAlias.parent);
-    protected org.exigencecorp.domainobjects.Changed changed;
+    protected Changed changed;
 
     protected ParentCodegen() {
         this.addExtraRules();
@@ -39,7 +38,7 @@ abstract class ParentCodegen extends AbstractDomainObject {
         return this.id;
     }
 
-    public void setId(java.lang.Integer id) {
+    public void setId(Integer id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -51,7 +50,7 @@ abstract class ParentCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.getChanged().record("name", this.name, name);
         this.name = name;
     }
@@ -92,24 +91,24 @@ abstract class ParentCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<Parent, java.lang.Integer> id = new Shim<Parent, java.lang.Integer>() {
-            public void set(Parent instance, java.lang.Integer id) {
+        public static final Shim<Parent, Integer> id = new Shim<Parent, Integer>() {
+            public void set(Parent instance, Integer id) {
                 ((ParentCodegen) instance).id = id;
             }
             public Integer get(Parent instance) {
                 return ((ParentCodegen) instance).id;
             }
         };
-        public static final Shim<Parent, java.lang.String> name = new Shim<Parent, java.lang.String>() {
-            public void set(Parent instance, java.lang.String name) {
+        public static final Shim<Parent, String> name = new Shim<Parent, String>() {
+            public void set(Parent instance, String name) {
                 ((ParentCodegen) instance).name = name;
             }
             public String get(Parent instance) {
                 return ((ParentCodegen) instance).name;
             }
         };
-        public static final Shim<Parent, java.lang.Integer> version = new Shim<Parent, java.lang.Integer>() {
-            public void set(Parent instance, java.lang.Integer version) {
+        public static final Shim<Parent, Integer> version = new Shim<Parent, Integer>() {
+            public void set(Parent instance, Integer version) {
                 ((ParentCodegen) instance).version = version;
             }
             public Integer get(Parent instance) {

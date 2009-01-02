@@ -1,6 +1,5 @@
 package features.domain;
 
-import features.domain.InheritanceBBottomAlias;
 import features.domain.queries.InheritanceBBottomQueries;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
@@ -29,7 +28,7 @@ abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
         return this.bottomName;
     }
 
-    public void setBottomName(java.lang.String bottomName) {
+    public void setBottomName(String bottomName) {
         this.getChanged().record("bottomName", this.bottomName, bottomName);
         this.bottomName = bottomName;
     }
@@ -42,8 +41,8 @@ abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
     }
 
     public static class Shims {
-        public static final Shim<InheritanceBBottom, java.lang.String> bottomName = new Shim<InheritanceBBottom, java.lang.String>() {
-            public void set(InheritanceBBottom instance, java.lang.String bottomName) {
+        public static final Shim<InheritanceBBottom, String> bottomName = new Shim<InheritanceBBottom, String>() {
+            public void set(InheritanceBBottom instance, String bottomName) {
                 ((InheritanceBBottomCodegen) instance).bottomName = bottomName;
             }
             public String get(InheritanceBBottom instance) {

@@ -1,10 +1,9 @@
 package features.domain;
 
-import features.domain.ParentCBarAlias;
-import features.domain.ParentCFooAlias;
 import features.domain.queries.ParentCFooQueries;
 import java.util.List;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
@@ -26,7 +25,7 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
     private ForeignKeyListHolder<ParentCFoo, ParentCBar> firstParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, firstParentParentCBarsAlias, firstParentParentCBarsAlias.firstParent);
     private static final ParentCBarAlias secondParentParentCBarsAlias = new ParentCBarAlias("a");
     private ForeignKeyListHolder<ParentCFoo, ParentCBar> secondParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, secondParentParentCBarsAlias, secondParentParentCBarsAlias.secondParent);
-    protected org.exigencecorp.domainobjects.Changed changed;
+    protected Changed changed;
 
     protected ParentCFooCodegen() {
         this.addExtraRules();
@@ -41,7 +40,7 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
         return this.id;
     }
 
-    public void setId(java.lang.Integer id) {
+    public void setId(Integer id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -53,7 +52,7 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.getChanged().record("name", this.name, name);
         this.name = name;
     }
@@ -118,24 +117,24 @@ abstract class ParentCFooCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ParentCFoo, java.lang.Integer> id = new Shim<ParentCFoo, java.lang.Integer>() {
-            public void set(ParentCFoo instance, java.lang.Integer id) {
+        public static final Shim<ParentCFoo, Integer> id = new Shim<ParentCFoo, Integer>() {
+            public void set(ParentCFoo instance, Integer id) {
                 ((ParentCFooCodegen) instance).id = id;
             }
             public Integer get(ParentCFoo instance) {
                 return ((ParentCFooCodegen) instance).id;
             }
         };
-        public static final Shim<ParentCFoo, java.lang.String> name = new Shim<ParentCFoo, java.lang.String>() {
-            public void set(ParentCFoo instance, java.lang.String name) {
+        public static final Shim<ParentCFoo, String> name = new Shim<ParentCFoo, String>() {
+            public void set(ParentCFoo instance, String name) {
                 ((ParentCFooCodegen) instance).name = name;
             }
             public String get(ParentCFoo instance) {
                 return ((ParentCFooCodegen) instance).name;
             }
         };
-        public static final Shim<ParentCFoo, java.lang.Integer> version = new Shim<ParentCFoo, java.lang.Integer>() {
-            public void set(ParentCFoo instance, java.lang.Integer version) {
+        public static final Shim<ParentCFoo, Integer> version = new Shim<ParentCFoo, Integer>() {
+            public void set(ParentCFoo instance, Integer version) {
                 ((ParentCFooCodegen) instance).version = version;
             }
             public Integer get(ParentCFoo instance) {

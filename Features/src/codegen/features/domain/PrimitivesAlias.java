@@ -1,6 +1,5 @@
 package features.domain;
 
-import features.domain.Primitives;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.queries.Alias;

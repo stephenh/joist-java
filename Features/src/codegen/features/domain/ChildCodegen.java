@@ -1,8 +1,8 @@
 package features.domain;
 
-import features.domain.ChildAlias;
 import features.domain.queries.ChildQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
@@ -21,7 +21,7 @@ abstract class ChildCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<Parent> parent = new ForeignKeyHolder<Parent>(Parent.class);
-    protected org.exigencecorp.domainobjects.Changed changed;
+    protected Changed changed;
 
     protected ChildCodegen() {
         this.addExtraRules();
@@ -36,7 +36,7 @@ abstract class ChildCodegen extends AbstractDomainObject {
         return this.id;
     }
 
-    public void setId(java.lang.Integer id) {
+    public void setId(Integer id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -48,7 +48,7 @@ abstract class ChildCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.getChanged().record("name", this.name, name);
         this.name = name;
     }
@@ -84,24 +84,24 @@ abstract class ChildCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<Child, java.lang.Integer> id = new Shim<Child, java.lang.Integer>() {
-            public void set(Child instance, java.lang.Integer id) {
+        public static final Shim<Child, Integer> id = new Shim<Child, Integer>() {
+            public void set(Child instance, Integer id) {
                 ((ChildCodegen) instance).id = id;
             }
             public Integer get(Child instance) {
                 return ((ChildCodegen) instance).id;
             }
         };
-        public static final Shim<Child, java.lang.String> name = new Shim<Child, java.lang.String>() {
-            public void set(Child instance, java.lang.String name) {
+        public static final Shim<Child, String> name = new Shim<Child, String>() {
+            public void set(Child instance, String name) {
                 ((ChildCodegen) instance).name = name;
             }
             public String get(Child instance) {
                 return ((ChildCodegen) instance).name;
             }
         };
-        public static final Shim<Child, java.lang.Integer> version = new Shim<Child, java.lang.Integer>() {
-            public void set(Child instance, java.lang.Integer version) {
+        public static final Shim<Child, Integer> version = new Shim<Child, Integer>() {
+            public void set(Child instance, Integer version) {
                 ((ChildCodegen) instance).version = version;
             }
             public Integer get(Child instance) {

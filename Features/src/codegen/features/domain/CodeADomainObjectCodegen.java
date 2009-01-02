@@ -1,8 +1,8 @@
 package features.domain;
 
-import features.domain.CodeADomainObjectAlias;
 import features.domain.queries.CodeADomainObjectQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyCodeHolder;
@@ -22,7 +22,7 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     private Integer version = null;
     private ForeignKeyCodeHolder<CodeAColor> codeAColor = new ForeignKeyCodeHolder<CodeAColor>(CodeAColor.class);
     private ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
-    protected org.exigencecorp.domainobjects.Changed changed;
+    protected Changed changed;
 
     protected CodeADomainObjectCodegen() {
         this.addExtraRules();
@@ -37,7 +37,7 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         return this.id;
     }
 
-    public void setId(java.lang.Integer id) {
+    public void setId(Integer id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -49,7 +49,7 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.getChanged().record("name", this.name, name);
         this.name = name;
     }
@@ -92,24 +92,24 @@ abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<CodeADomainObject, java.lang.Integer> id = new Shim<CodeADomainObject, java.lang.Integer>() {
-            public void set(CodeADomainObject instance, java.lang.Integer id) {
+        public static final Shim<CodeADomainObject, Integer> id = new Shim<CodeADomainObject, Integer>() {
+            public void set(CodeADomainObject instance, Integer id) {
                 ((CodeADomainObjectCodegen) instance).id = id;
             }
             public Integer get(CodeADomainObject instance) {
                 return ((CodeADomainObjectCodegen) instance).id;
             }
         };
-        public static final Shim<CodeADomainObject, java.lang.String> name = new Shim<CodeADomainObject, java.lang.String>() {
-            public void set(CodeADomainObject instance, java.lang.String name) {
+        public static final Shim<CodeADomainObject, String> name = new Shim<CodeADomainObject, String>() {
+            public void set(CodeADomainObject instance, String name) {
                 ((CodeADomainObjectCodegen) instance).name = name;
             }
             public String get(CodeADomainObject instance) {
                 return ((CodeADomainObjectCodegen) instance).name;
             }
         };
-        public static final Shim<CodeADomainObject, java.lang.Integer> version = new Shim<CodeADomainObject, java.lang.Integer>() {
-            public void set(CodeADomainObject instance, java.lang.Integer version) {
+        public static final Shim<CodeADomainObject, Integer> version = new Shim<CodeADomainObject, Integer>() {
+            public void set(CodeADomainObject instance, Integer version) {
                 ((CodeADomainObjectCodegen) instance).version = version;
             }
             public Integer get(CodeADomainObject instance) {

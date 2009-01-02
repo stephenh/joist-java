@@ -1,6 +1,8 @@
 package features.domain;
 
-public enum CodeASize implements org.exigencecorp.domainobjects.Code {
+import org.exigencecorp.domainobjects.Code;
+
+public enum CodeASize implements Code {
 
     ONE(1, "ONE", "One"),
     TWO(2, "TWO", "Two");

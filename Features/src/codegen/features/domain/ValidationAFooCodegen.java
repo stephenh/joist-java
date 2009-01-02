@@ -1,8 +1,8 @@
 package features.domain;
 
-import features.domain.ValidationAFooAlias;
 import features.domain.queries.ValidationAFooQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.uow.UoW;
@@ -19,7 +19,7 @@ abstract class ValidationAFooCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    protected org.exigencecorp.domainobjects.Changed changed;
+    protected Changed changed;
 
     protected ValidationAFooCodegen() {
         this.addExtraRules();
@@ -34,7 +34,7 @@ abstract class ValidationAFooCodegen extends AbstractDomainObject {
         return this.id;
     }
 
-    public void setId(java.lang.Integer id) {
+    public void setId(Integer id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -46,7 +46,7 @@ abstract class ValidationAFooCodegen extends AbstractDomainObject {
         return this.name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.getChanged().record("name", this.name, name);
         this.name = name;
     }
@@ -63,24 +63,24 @@ abstract class ValidationAFooCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ValidationAFoo, java.lang.Integer> id = new Shim<ValidationAFoo, java.lang.Integer>() {
-            public void set(ValidationAFoo instance, java.lang.Integer id) {
+        public static final Shim<ValidationAFoo, Integer> id = new Shim<ValidationAFoo, Integer>() {
+            public void set(ValidationAFoo instance, Integer id) {
                 ((ValidationAFooCodegen) instance).id = id;
             }
             public Integer get(ValidationAFoo instance) {
                 return ((ValidationAFooCodegen) instance).id;
             }
         };
-        public static final Shim<ValidationAFoo, java.lang.String> name = new Shim<ValidationAFoo, java.lang.String>() {
-            public void set(ValidationAFoo instance, java.lang.String name) {
+        public static final Shim<ValidationAFoo, String> name = new Shim<ValidationAFoo, String>() {
+            public void set(ValidationAFoo instance, String name) {
                 ((ValidationAFooCodegen) instance).name = name;
             }
             public String get(ValidationAFoo instance) {
                 return ((ValidationAFooCodegen) instance).name;
             }
         };
-        public static final Shim<ValidationAFoo, java.lang.Integer> version = new Shim<ValidationAFoo, java.lang.Integer>() {
-            public void set(ValidationAFoo instance, java.lang.Integer version) {
+        public static final Shim<ValidationAFoo, Integer> version = new Shim<ValidationAFoo, Integer>() {
+            public void set(ValidationAFoo instance, Integer version) {
                 ((ValidationAFooCodegen) instance).version = version;
             }
             public Integer get(ValidationAFoo instance) {

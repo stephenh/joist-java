@@ -1,8 +1,8 @@
 package features.domain;
 
-import features.domain.ManyToManyBFooToBarAlias;
 import features.domain.queries.ManyToManyBFooToBarQueries;
 import org.exigencecorp.domainobjects.AbstractDomainObject;
+import org.exigencecorp.domainobjects.Changed;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
@@ -19,7 +19,7 @@ abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
     private Integer version = null;
     private ForeignKeyHolder<ManyToManyBFoo> blue = new ForeignKeyHolder<ManyToManyBFoo>(ManyToManyBFoo.class);
     private ForeignKeyHolder<ManyToManyBBar> green = new ForeignKeyHolder<ManyToManyBBar>(ManyToManyBBar.class);
-    protected org.exigencecorp.domainobjects.Changed changed;
+    protected Changed changed;
 
     protected ManyToManyBFooToBarCodegen() {
         this.addExtraRules();
@@ -32,7 +32,7 @@ abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
         return this.id;
     }
 
-    public void setId(java.lang.Integer id) {
+    public void setId(Integer id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -90,16 +90,16 @@ abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
     }
 
     public static class Shims {
-        public static final Shim<ManyToManyBFooToBar, java.lang.Integer> id = new Shim<ManyToManyBFooToBar, java.lang.Integer>() {
-            public void set(ManyToManyBFooToBar instance, java.lang.Integer id) {
+        public static final Shim<ManyToManyBFooToBar, Integer> id = new Shim<ManyToManyBFooToBar, Integer>() {
+            public void set(ManyToManyBFooToBar instance, Integer id) {
                 ((ManyToManyBFooToBarCodegen) instance).id = id;
             }
             public Integer get(ManyToManyBFooToBar instance) {
                 return ((ManyToManyBFooToBarCodegen) instance).id;
             }
         };
-        public static final Shim<ManyToManyBFooToBar, java.lang.Integer> version = new Shim<ManyToManyBFooToBar, java.lang.Integer>() {
-            public void set(ManyToManyBFooToBar instance, java.lang.Integer version) {
+        public static final Shim<ManyToManyBFooToBar, Integer> version = new Shim<ManyToManyBFooToBar, Integer>() {
+            public void set(ManyToManyBFooToBar instance, Integer version) {
                 ((ManyToManyBFooToBarCodegen) instance).version = version;
             }
             public Integer get(ManyToManyBFooToBar instance) {

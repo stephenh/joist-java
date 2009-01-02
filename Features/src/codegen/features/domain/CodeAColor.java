@@ -1,6 +1,8 @@
 package features.domain;
 
-public enum CodeAColor implements org.exigencecorp.domainobjects.Code {
+import org.exigencecorp.domainobjects.Code;
+
+public enum CodeAColor implements Code {
 
     BLUE(1, "BLUE", "Blue"),
     GREEN(2, "GREEN", "Green");

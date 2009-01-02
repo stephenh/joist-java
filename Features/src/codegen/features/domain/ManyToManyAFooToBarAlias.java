@@ -1,8 +1,5 @@
 package features.domain;
 
-import features.domain.ManyToManyABar;
-import features.domain.ManyToManyAFoo;
-import features.domain.ManyToManyAFooToBar;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.queries.Alias;

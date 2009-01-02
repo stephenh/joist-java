@@ -1,6 +1,5 @@
 package features.domain;
 
-import features.domain.InheritanceBMiddleAlias;
 import features.domain.queries.InheritanceBMiddleQueries;
 import org.exigencecorp.domainobjects.Shim;
 import org.exigencecorp.domainobjects.orm.AliasRegistry;
@@ -29,7 +28,7 @@ abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
         return this.middleName;
     }
 
-    public void setMiddleName(java.lang.String middleName) {
+    public void setMiddleName(String middleName) {
         this.getChanged().record("middleName", this.middleName, middleName);
         this.middleName = middleName;
     }
@@ -42,8 +41,8 @@ abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
     }
 
     public static class Shims {
-        public static final Shim<InheritanceBMiddle, java.lang.String> middleName = new Shim<InheritanceBMiddle, java.lang.String>() {
-            public void set(InheritanceBMiddle instance, java.lang.String middleName) {
+        public static final Shim<InheritanceBMiddle, String> middleName = new Shim<InheritanceBMiddle, String>() {
+            public void set(InheritanceBMiddle instance, String middleName) {
                 ((InheritanceBMiddleCodegen) instance).middleName = middleName;
             }
             public String get(InheritanceBMiddle instance) {

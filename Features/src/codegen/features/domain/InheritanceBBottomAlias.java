@@ -1,8 +1,5 @@
 package features.domain;
 
-import features.domain.InheritanceBBottom;
-import features.domain.InheritanceBMiddle;
-import features.domain.InheritanceBRoot;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.queries.Alias;
@@ -16,7 +13,7 @@ public class InheritanceBBottomAlias extends Alias<InheritanceBBottom> {
     private final List<AliasColumn<InheritanceBBottom, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceBBottom, ?, ?>>();
     private final IdAliasColumn<InheritanceBBottom> subClassId = new IdAliasColumn<InheritanceBBottom>(this, "id", null);
     public final StringAliasColumn<InheritanceBBottom> bottomName = new StringAliasColumn<InheritanceBBottom>(this, "bottom_name", InheritanceBBottomCodegen.Shims.bottomName);
-    private final features.domain.InheritanceBMiddleAlias baseAlias;
+    private final InheritanceBMiddleAlias baseAlias;
     public final StringAliasColumn<InheritanceBMiddle> middleName;
     public final IdAliasColumn<InheritanceBRoot> id;
     public final StringAliasColumn<InheritanceBRoot> name;

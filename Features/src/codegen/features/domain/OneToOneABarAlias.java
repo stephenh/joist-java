@@ -1,7 +1,5 @@
 package features.domain;
 
-import features.domain.OneToOneABar;
-import features.domain.OneToOneAFoo;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.queries.Alias;
