@@ -142,6 +142,14 @@ public class GClassTest extends TestCase {
         GClass gc = new GClass("Foo<java.lang.Object>");
         Assert.assertEquals(null, gc.getPackageName());
         Assert.assertEquals("Foo<java.lang.Object>", gc.getFullClassName());
+        Assert.assertEquals("Foo", gc.getFullClassNameWithoutGeneric());
+    }
+
+    public void testGenericWithPackagesInPackages() {
+        GClass gc = new GClass("com.app.Foo<java.lang.Object>");
+        Assert.assertEquals("com.app", gc.getPackageName());
+        Assert.assertEquals("com.app.Foo<java.lang.Object>", gc.getFullClassName());
+        Assert.assertEquals("com.app.Foo", gc.getFullClassNameWithoutGeneric());
     }
 
     public void testImplements() {

@@ -39,8 +39,11 @@ public class GClass {
         int firstPeriod = fullClassName.indexOf('.');
         int firstBracket = fullClassName.indexOf('<');
         if (firstPeriod != -1 && (firstPeriod <= firstBracket || firstBracket == -1)) {
-            this.packageName = StringUtils.substringBeforeLast(fullClassName, ".");
-            this.shortName = StringUtils.substringAfterLast(fullClassName, ".");
+            if (firstBracket == -1) {
+                firstBracket = fullClassName.length();
+            }
+            this.packageName = StringUtils.substringBeforeLast(fullClassName.substring(0, firstBracket), ".");
+            this.shortName = StringUtils.removeStart(fullClassName, this.packageName + ".");
         } else {
             this.packageName = null;
             this.shortName = fullClassName;
@@ -57,11 +60,30 @@ public class GClass {
         return this;
     }
 
+    public String getSimpleClassName() {
+        return this.shortName;
+    }
+
+    public String getSimpleClassNameWithoutGeneric() {
+        int firstBracket = this.shortName.indexOf('<');
+        if (firstBracket != -1) {
+            return this.shortName.substring(0, firstBracket);
+        }
+        return this.shortName;
+    }
+
     public String getFullClassName() {
         if (this.packageName == null) {
             return this.shortName;
         }
         return this.packageName + "." + this.shortName;
+    }
+
+    public String getFullClassNameWithoutGeneric() {
+        if (this.packageName == null) {
+            return this.getSimpleClassNameWithoutGeneric();
+        }
+        return this.packageName + "." + this.getSimpleClassNameWithoutGeneric();
     }
 
     public String getPackageName() {
