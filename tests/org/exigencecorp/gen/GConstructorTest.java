@@ -51,4 +51,21 @@ public class GConstructorTest extends TestCase {
             ""), gc.toCode());
     }
 
+    public void testOneConstructorWithGenerics() {
+        GClass gc = new GClass("foo.bar.Foo<T>");
+        GMethod c = gc.getConstructor();
+        c.body.line("System.out.println(\"foo\");");
+        Assert.assertEquals(Join.lines(
+            "package foo.bar;",
+            "",
+            "public class Foo<T> {",
+            "",
+            "    public Foo() {",
+            "        System.out.println(\"foo\");",
+            "    }",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
+
 }

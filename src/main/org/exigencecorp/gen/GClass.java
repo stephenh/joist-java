@@ -117,7 +117,7 @@ public class GClass {
             }
         }
         GMethod constructor = new GMethod(this, "constructor");
-        constructor.arguments(typeAndNames).constructorFor(this.shortName);
+        constructor.arguments(typeAndNames).constructorFor(this.getSimpleClassNameWithoutGeneric());
         this.constructors.add(constructor);
         return constructor;
     }
@@ -334,6 +334,9 @@ public class GClass {
             if (!existingImport.equals(packageName + "." + simpleName) && existingImport.endsWith("." + simpleName)) {
                 return true;
             }
+        }
+        if (simpleName.equals(this.shortName) && !packageName.equals(this.packageName)) {
+            return true;
         }
         return false;
     }

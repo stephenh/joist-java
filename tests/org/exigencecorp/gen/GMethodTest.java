@@ -29,11 +29,26 @@ public class GMethodTest extends TestCase {
         gc.getMethod("method").argument("foo.zaz.Bar", "bar").returnType("foo.zaz.Foo");
         Assert.assertEquals(Join.lines(//
             "import foo.zaz.Bar;",
-            "import foo.zaz.Foo;",
             "",
             "public class Foo {",
             "",
-            "    public Foo method(Bar bar) {",
+            "    public foo.zaz.Foo method(Bar bar) {",
+            "    }",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
+
+    public void testAutoImportWithTypesAndNames() {
+        GClass gc = new GClass("Foo");
+        gc.getMethod("method").arguments("foo.zaz.Bar bar", "foo.zaz.Blah blah").returnType("foo.zaz.Foo");
+        Assert.assertEquals(Join.lines(//
+            "import foo.zaz.Bar;",
+            "import foo.zaz.Blah;",
+            "",
+            "public class Foo {",
+            "",
+            "    public foo.zaz.Foo method(Bar bar, Blah blah) {",
             "    }",
             "",
             "}",
