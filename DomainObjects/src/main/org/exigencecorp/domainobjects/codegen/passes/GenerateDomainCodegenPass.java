@@ -33,7 +33,7 @@ public class GenerateDomainCodegenPass implements Pass {
             }
 
             GClass domainCodegen = codegen.getOutputCodegenDirectory().getClass(entity.getFullCodegenClassName());
-            domainCodegen.setAbstract().setPackagePrivate();
+            domainCodegen.setAbstract();
             domainCodegen.baseClassName(entity.getParentClassName());
 
             domainCodegen.getConstructor().setProtected().body.line("this.addExtraRules();");
