@@ -51,7 +51,7 @@ See [CoolThings][7] for more examples.
 Why Another ORM?
 ================
 
-I used Rails and ActiveRecord for awhile--the empty class definition, filled in by database metadata, made a lot of sense to me. Java doesn't allow this at runtime, but build-time code generation works even better.
+I used Rails and ActiveRecord for awhile--the empty class definition, with getters/setters filled in by database metadata, made a lot of sense to me. Java doesn't allow this at runtime, but build-time code generation works even better.
 
 The projects I worked on had a "reset the database schema" build step every time someone changes the schema, so running code generation after resetting the database seemed convenient and did not add an extra step.
 
@@ -87,7 +87,7 @@ Caveats
 
 * Still a hobby project at this point--needs more use in the real world
 * I'm actively screwing around with the domain objects framework, "Click2" UI framework, and bindgen framework, so I probably have the Eclipse `.classpath`/`.project` files messed up
-* The `bd` build tool has promise but is a distraction--going back to Ant might be best
+* The `bd` build tool has promise but is a distraction--there is no guarantee (or chance, really) things will work/generate out of the box
 
 Acknowledgements
 ================
