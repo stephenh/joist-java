@@ -21,6 +21,7 @@ public class AbstractPage implements Page, Initable, Renderable, Processable {
 
     private Map<String, Object> model = new HashMap<String, Object>();
     private List<Control> controls = new ArrayList();
+    private ClickContext context = CurrentContext.get();
 
     public void onInit() {
     }
@@ -47,6 +48,10 @@ public class AbstractPage implements Page, Initable, Renderable, Processable {
 
     public void addControl(Control control) {
         this.controls.add(control);
+    }
+
+    public ClickContext getContext() {
+        return this.context;
     }
 
 }

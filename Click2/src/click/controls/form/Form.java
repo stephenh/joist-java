@@ -19,6 +19,11 @@ public class Form implements Control {
         CurrentContext.addControlToCurrentPage(this);
     }
 
+    public Form(String heading) {
+        this();
+        this.setHeading(heading);
+    }
+
     public void onProcess() {
         String submittedFormName = this.getContext().getRequest().getParameter("form_name");
         if (!"form".equals(submittedFormName)) {
@@ -74,6 +79,9 @@ public class Form implements Control {
 
     public void setHeading(String heading) {
         this.heading = heading;
+    }
+
+    public void onSubmit(Runnable runnable) {
     }
 
     private ClickContext getContext() {

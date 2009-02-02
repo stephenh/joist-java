@@ -25,7 +25,7 @@ public class AddFieldsToModelStage implements Stage {
             for (Field field : page.getClass().getFields()) {
                 Object value = field.get(page);
                 if (value != null) {
-                    Log.debug("Auto-adding field {}", field.getName(), value);
+                    Log.debug("Auto-adding field {}", field.getName());
                     page.addModel(field.getName(), value);
                 }
             }

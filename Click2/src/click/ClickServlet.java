@@ -39,7 +39,6 @@ public class ClickServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         ClickContext context = new ClickContext(this.servletConfig, request, response);
         CurrentContext.set(context);
-
         for (Stage stage : this.clickConfig.getStages()) {
             Log.debug("Processing {} in {}", request.getRequestURI(), stage);
             stage.process();

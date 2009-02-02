@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/jetty/jetty-6.1.6.jar" sourcepath="lib/jetty/jetty-6.1.6.zip"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-util-6.1.6.jar" sourcepath="lib/jetty/jetty-6.1.6.zip"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Utilities"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Bindgen"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

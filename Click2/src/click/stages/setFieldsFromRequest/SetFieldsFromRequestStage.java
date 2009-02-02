@@ -3,7 +3,6 @@ package click.stages.setFieldsFromRequest;
 import java.lang.reflect.Field;
 
 import org.exigencecorp.util.Log;
-import org.mvel.PropertyAccessor;
 
 import click.ClickContext;
 import click.CurrentContext;
@@ -28,7 +27,7 @@ public class SetFieldsFromRequestStage implements Stage {
                 Log.debug("No request parameter for {}", field.getName());
             } else {
                 Log.debug("Setting {}.{} with request parameter {}", new Object[] { page, field.getName(), value });
-                PropertyAccessor.set(page, field.getName(), value);
+                // PropertyAccessor.set(page, field.getName(), value);
             }
         }
     }

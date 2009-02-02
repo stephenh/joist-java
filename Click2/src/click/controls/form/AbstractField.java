@@ -1,8 +1,8 @@
 package click.controls.form;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.exigencecorp.bindgen.Binding;
 import org.exigencecorp.util.Inflector;
-import org.mvel.DataConversion;
-import org.mvel.PropertyAccessor;
 
 import click.ClickContext;
 import click.CurrentContext;
@@ -12,7 +12,7 @@ public abstract class AbstractField implements Field {
 
     private String name;
     private String label;
-    private String expression;
+    private Binding binding;
 
     public String getName() {
         return this.name;
@@ -25,12 +25,15 @@ public abstract class AbstractField implements Field {
         }
     }
 
-    public String evaluateExpression() {
-        return DataConversion.convert(PropertyAccessor.get(this.getExpression(), this.getPage()), String.class);
+    public String getBoundValue() {
+        if (this.binding == null) {
+            return "";
+        }
+        return ObjectUtils.toString(this.binding.get());
     }
 
     public void bindRequestValue(String value) {
-        PropertyAccessor.set(this.getPage(), this.getExpression(), value);
+        // PropertyAccessor.set(this.getPage(), this.getExpression(), value);
     }
 
     public String getLabel() {
@@ -41,20 +44,20 @@ public abstract class AbstractField implements Field {
         this.label = label;
     }
 
-    public String getExpression() {
-        return this.expression;
-    }
-
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    private ClickContext getContext() {
+    protected ClickContext getContext() {
         return CurrentContext.get();
     }
 
-    private Page getPage() {
+    protected Page getPage() {
         return this.getContext().getPage();
+    }
+
+    public Binding getBinding() {
+        return this.binding;
+    }
+
+    public void setBinding(Binding binding) {
+        this.binding = binding;
     }
 
 }
