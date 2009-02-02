@@ -2,7 +2,7 @@
 Intro
 =====
 
-An ORM with type-safe queries (no strings) and no runtime class generation.
+An ORM with type-safe queries (no strings) and no runtime class generation (no CGLIB).
 
 Instead, code generation creates base classes for your domain objects, e.g.:
 
@@ -26,14 +26,14 @@ Run `UpdateDatabase`, it will clear your database, apply the `0001`, `0002`, etc
 
 The `ChildCodegen` class will have the new `getNickName()`/`setNickName()` methods in it. Any business logic you've added to `Child` is not overwritten.
 
-Also, code generation creates `XxxAlias` classes for making type-safe queries, e.g.:
+Also, code generation creates a `ChildAlias` class for making type-safe queries, e.g.:
 
     public Child findByName(String name) {
         ChildAlias c = new ChildAlias("c");
         return Select.from(c).where(c.name.equals(name)).unique();
     }
 
-`XxxAlias` classes also have column meta-data and references to the `XxxCodegen.Shims` classes for hydrating/dehydrating `Xxx` objects with no runtime code generation (e.g. no CGLIB) and no runtime reflection.
+The `ChildAlias` class also has column meta-data and references to the `ChildCodegen.Shims` for hydrating/dehydrating `Child` objects with no runtime code generation and no reflection.
 
 Examples
 ========
