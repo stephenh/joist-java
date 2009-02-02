@@ -82,6 +82,13 @@ Todo
 * Composite columns (e.g. TimePoint with both time+zone), if needed
 * Group by queries
 
+Caveats
+=======
+
+* Still a hobby project at this point--needs more use in the real world
+* I'm actively screwing around with the domain objects framework, "Click2" UI framework, and bindgen framework, so I probably have the Eclipse `.classpath`/`.project` files messed up
+* The `bd` build tool has promise but is a distraction--going back to Ant might be best
+
 Acknowledgements
 ================
 
