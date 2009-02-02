@@ -4,12 +4,36 @@ Intro
 
 An ORM with type-safe queries (no strings) and no runtime class generation.
 
-For example:
+Instead, code generation creates base classes for your domain objects, e.g.:
+
+    public class Child extends ChildCodegen {
+    }
+
+The `ChildCodegen` class has the appropriate `getName()`/`setName()`, `getParent()`/`setParent()` methods.
+
+If you want to add a column to your `child` table, you use a Rails-like migration:
+
+    public class m0002 extends AbstractMigration {
+        public m0002() {
+          super("Add child.nick_name column.");
+        }
+        public void apply() {
+            addColumn("child", varchar("nick_name"));
+        }
+    }
+
+Run `UpdateDatabase`, it will clear your database, apply the `0001`, `0002`, etc., migrations, and then recreate the `XxxCodegen` classes.
+
+The `ChildCodegen` class will have the new `getNickName()`/`setNickName()` methods in it. Any business logic you've added to `Child` is not overwritten.
+
+Also, code generation creates `XxxAlias` classes for making type-safe queries, e.g.:
 
     public Child findByName(String name) {
         ChildAlias c = new ChildAlias("c");
         return Select.from(c).where(c.name.equals(name)).unique();
     }
+
+`XxxAlias` classes also have column meta-data and references to the `XxxCodegen.Shims` classes for hydrating/dehydrating `Xxx` objects with no runtime code generation (e.g. no CGLIB) and no runtime reflection.
 
 Examples
 ========
@@ -23,6 +47,17 @@ See [CoolThings][7] for more examples.
 [3]: master/Features/src/codegen/features/domain/ChildCodegen.java
 [4]: master/Features/src/codegen/features/domain/queries/ChildAlias.java
 [7]: master/Documentation/CoolThings.md
+
+Why Another ORM?
+================
+
+I used Rails and ActiveRecord for awhile--the empty class definition, filled in by database metadata, made a lot of sense to me. Java doesn't allow this at runtime, but build-time code generation works even better.
+
+The projects I worked on had a "reset the database schema" build step every time someone changes the schema, so running code generation after resetting the database seemed convenient and did not add an extra step.
+
+Large projects I worked on (200+ tables) also suffered at startup time due to runtime code generation. This was especially painful when practicing TDD. It seems like a waste to consistently re-generate all of the persistence hooks at runtime when you can do it just once at build time. See [Performance][8] for the 23 seconds->1 second and 8 seconds->.35 seconds (depending on the machine) startup time improvement over Hibernate.
+
+[8]: master/Documentation/Performance.md
 
 Patterns
 ========
@@ -45,6 +80,7 @@ Todo
 * Builders
 * Project dependencies
 * Composite columns (e.g. TimePoint with both time+zone), if needed
+* Group by queries
 
 Acknowledgements
 ================
