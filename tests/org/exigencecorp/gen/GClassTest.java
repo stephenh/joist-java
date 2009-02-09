@@ -164,4 +164,16 @@ public class GClassTest extends TestCase {
             ""), gc.toCode());
     }
 
+    public void testAnnotated() {
+        GClass gc = new GClass("foo.bar.Foo");
+        gc.addAnnotation("@SuppressWarnings");
+        Assert.assertEquals(Join.lines(new Object[] { "package foo.bar;",//
+            "",
+            "@SuppressWarnings",
+            "public class Foo {",
+            "",
+            "}",
+            "" }), gc.toCode());
+    }
+
 }

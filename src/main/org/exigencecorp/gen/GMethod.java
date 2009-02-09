@@ -14,6 +14,7 @@ public class GMethod {
     private final GClass gclass;
     private final String name;
     private final List<String> arguments = new ArrayList<String>();
+    private final List<String> annotations = new ArrayList<String>();
     private String returnClassName = "void";
     private String constructorFor = null;
     private String access = "public ";
@@ -60,6 +61,10 @@ public class GMethod {
     public String toCode() {
         StringBuilderr sb = new StringBuilderr();
 
+        for (String annotation : this.annotations) {
+            sb.line(annotation);
+        }
+
         sb.append(this.access);
         if (this.isStatic) {
             sb.append("static ");
@@ -97,6 +102,11 @@ public class GMethod {
 
     public boolean hasSameArguments(String... typeAndNames) {
         return Join.comma(typeAndNames).equals(Join.comma(this.arguments));
+    }
+
+    public GMethod addAnnotation(String annotation) {
+        this.annotations.add(annotation);
+        return this;
     }
 
 }

@@ -114,4 +114,25 @@ public class GMethodTest extends TestCase {
             "}",
             ""), gc.toCode());
     }
+
+    public void testOneMethodAnnotated() {
+        GClass gc = new GClass("foo.bar.Foo");
+        GMethod hello = gc.getMethod("hello");
+        hello.arguments("String foo");
+        hello.setBody("return 'Hi' + foo;");
+        hello.addAnnotation("@SuppressWarnings");
+        Assert.assertEquals(Join.lines(new Object[] {
+            "package foo.bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    @SuppressWarnings",
+            "    public void hello(String foo) {",
+            "        return \"Hi\" + foo;",
+            "    }",
+            "",
+            "}",
+            "" }), gc.toCode());
+    }
+
 }

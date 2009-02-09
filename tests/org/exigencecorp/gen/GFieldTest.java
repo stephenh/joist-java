@@ -150,4 +150,18 @@ public class GFieldTest extends TestCase {
             "" }), gc.toCode());
     }
 
+    public void testOneFieldAnnotated() {
+        GClass gc = new GClass("foo.bar.Foo");
+        gc.getField("id").type(Integer.class).initialValue("null").addAnnotation("@SuppressWarnings");
+        Assert.assertEquals(Join.lines(new Object[] {
+            "package foo.bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    @SuppressWarnings",
+            "    private Integer id = null;",
+            "",
+            "}",
+            "" }), gc.toCode());
+    }
 }

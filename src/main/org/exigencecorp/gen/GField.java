@@ -1,5 +1,8 @@
 package org.exigencecorp.gen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.util.Interpolate;
 import org.exigencecorp.util.StringBuilderr;
@@ -14,6 +17,7 @@ public class GField {
     private String access = "private";
     private boolean isStatic;
     private boolean isFinal;
+    private final List<String> annotations = new ArrayList<String>();
 
     public GField(GClass gclass, String name) {
         this.gclass = gclass;
@@ -22,6 +26,9 @@ public class GField {
 
     public String toCode() {
         StringBuilderr s = new StringBuilderr();
+        for (String annotation : this.annotations) {
+            s.line(annotation);
+        }
         s.append(this.access);
         if (this.isStatic) {
             s.append(" static");
@@ -96,6 +103,11 @@ public class GField {
         // getter.body.line("this.{} = {};", this.name, this.name);
         getter.body.line("return this.{};", this.name);
         return getter;
+    }
+
+    public GField addAnnotation(String annotation) {
+        this.annotations.add(annotation);
+        return this;
     }
 
 }

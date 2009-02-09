@@ -25,6 +25,7 @@ public class GClass {
     private final List<GMethod> constructors = new ArrayList<GMethod>();
     private final List<String> enumValues = new ArrayList<String>();
     private final List<String> implementsInterfaces = new ArrayList<String>();
+    private final List<String> annotations = new ArrayList<String>();
     private String access = "public ";
     private boolean isAbstract = false;
     private boolean isInnerClass = false;
@@ -184,6 +185,10 @@ public class GClass {
                     sb.line("import {};", importClassName);
                 }
                 sb.line();
+            }
+
+            for (String annotation : this.annotations) {
+                sb.line(annotation);
             }
 
             sb.append(this.access);
@@ -363,6 +368,11 @@ public class GClass {
     public GClass implementsInterface(String interfaceFullName, Object... args) {
         interfaceFullName = Interpolate.string(interfaceFullName, args);
         this.implementsInterfaces.add(this.stripAndImportPackageIfPossible(interfaceFullName));
+        return this;
+    }
+
+    public GClass addAnnotation(String annotation) {
+        this.annotations.add(annotation);
         return this;
     }
 
