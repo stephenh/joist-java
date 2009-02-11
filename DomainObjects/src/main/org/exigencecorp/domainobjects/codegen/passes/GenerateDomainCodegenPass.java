@@ -50,9 +50,24 @@ public class GenerateDomainCodegenPass implements Pass {
 
     private void addAlias(GClass domainCodegen, Entity entity) {
         if (!entity.isCodeEntity()) {
-            domainCodegen.staticInitializer.line("AliasRegistry.register({}.class, new {}Alias(\"a\"));",//
-                entity.getClassName(),
-                entity.getClassName());
+            GField alias = domainCodegen.getField("alias") //
+                .setStatic()
+                .setProtected()
+                .type("{}Alias", entity.getClassName());
+            if (entity.isSubclass()) {
+                alias.addAnnotation("@SuppressWarnings(\"hiding\")");
+            }
+
+            GField query = domainCodegen.getField("queries").setPublic().setStatic().setFinal();
+            query.type("{}Queries", entity.getClassName());
+            if (entity.isSubclass()) {
+                query.addAnnotation("@SuppressWarnings(\"hiding\")");
+            }
+            domainCodegen.addImports(entity.getFullQueriesClassName());
+
+            domainCodegen.staticInitializer.line("alias = new {}Alias(\"a\");", entity.getClassName());
+            domainCodegen.staticInitializer.line("AliasRegistry.register({}.class, alias);", entity.getClassName());
+            domainCodegen.staticInitializer.line("queries = new {}Queries();", entity.getClassName());
             domainCodegen.addImports(AliasRegistry.class);
             domainCodegen.addImports(entity.getFullAliasClassName());
         }
@@ -179,18 +194,14 @@ public class GenerateDomainCodegenPass implements Pass {
 
     private void oneToManyProperties(GClass domainCodegen, Entity entity) {
         for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
-            GField collectionAlias = domainCodegen.getField("{}Alias", otmp.getVariableName()).setStatic().setFinal();
-            collectionAlias.type("{}Alias", otmp.getTargetJavaType());
-            collectionAlias.initialValue("new {}Alias(\"a\")", otmp.getTargetJavaType());
-
             GField collection = domainCodegen.getField(otmp.getVariableName());
             collection.type("ForeignKeyListHolder<{}, {}>", entity.getClassName(), otmp.getTargetJavaType());
-            collection.initialValue("new ForeignKeyListHolder<{}, {}>(({}) this, {}Alias, {}Alias.{})",//
+            collection.initialValue("new ForeignKeyListHolder<{}, {}>(({}) this, {}.alias, {}.alias.{})",//
                 entity.getClassName(),
                 otmp.getTargetJavaType(),
                 entity.getClassName(),
-                otmp.getVariableName(),
-                otmp.getVariableName(),
+                otmp.getTargetJavaType() + "Codegen",
+                otmp.getTargetJavaType() + "Codegen",
                 otmp.getKeyFieldName());
             domainCodegen.addImports(ForeignKeyListHolder.class);
 
