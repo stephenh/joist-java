@@ -214,14 +214,6 @@ public class GClass {
             sb.line("{");
         }
 
-        if (this.staticInitializer.toString().length() > 0) {
-            sb.line();
-            sb.line(1, "static {");
-            sb.append(2, this.staticInitializer.toString());
-            sb.lineIfNeeded();
-            sb.line(1, "}");
-        }
-
         if (this.isEnum && this.enumValues.size() > 0) {
             boolean hasMore = this.fields.size() > 0 || this.methods.size() > 0 || this.constructors.size() > 0;
             this.lineIfNotAnonymousOrInner(sb);
@@ -237,6 +229,14 @@ public class GClass {
             for (GField field : this.fields) {
                 sb.append(1, field.toCode());
             }
+        }
+
+        if (this.staticInitializer.toString().length() > 0) {
+            sb.line();
+            sb.line(1, "static {");
+            sb.append(2, this.staticInitializer.toString());
+            sb.lineIfNeeded();
+            sb.line(1, "}");
         }
 
         for (GMethod constructor : this.constructors) {

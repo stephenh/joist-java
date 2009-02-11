@@ -44,4 +44,23 @@ public class GClassStaticInitializerTest extends TestCase {
             "" }), gc.toCode());
     }
 
+    public void testOneStaticField() {
+        GClass gc = new GClass("foo.bar.Foo");
+        gc.staticInitializer.append("i = 0;");
+        gc.getField("i").type(int.class).setStatic().setFinal();
+        Assert.assertEquals(Join.lines(new Object[] {
+            "package foo.bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    private static final int i;",
+            "",
+            "    static {",
+            "        i = 0;",
+            "    }",
+            "",
+            "}",
+            "" }), gc.toCode());
+    }
+
 }
