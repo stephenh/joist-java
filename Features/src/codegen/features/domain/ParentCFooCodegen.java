@@ -11,21 +11,22 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class ParentCFooCodegen extends AbstractDomainObject {
+public abstract class ParentCFooCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(ParentCFoo.class, new ParentCFooAlias("a"));
-    }
-
-    public static final ParentCFooQueries queries = new ParentCFooQueries();
+    protected static ParentCFooAlias alias;
+    public static final ParentCFooQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private static final ParentCBarAlias firstParentParentCBarsAlias = new ParentCBarAlias("a");
-    private ForeignKeyListHolder<ParentCFoo, ParentCBar> firstParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, firstParentParentCBarsAlias, firstParentParentCBarsAlias.firstParent);
-    private static final ParentCBarAlias secondParentParentCBarsAlias = new ParentCBarAlias("a");
-    private ForeignKeyListHolder<ParentCFoo, ParentCBar> secondParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, secondParentParentCBarsAlias, secondParentParentCBarsAlias.secondParent);
+    private ForeignKeyListHolder<ParentCFoo, ParentCBar> firstParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, ParentCBarCodegen.alias, ParentCBarCodegen.alias.firstParent);
+    private ForeignKeyListHolder<ParentCFoo, ParentCBar> secondParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, ParentCBarCodegen.alias, ParentCBarCodegen.alias.secondParent);
     protected Changed changed;
+
+    static {
+        alias = new ParentCFooAlias("a");
+        AliasRegistry.register(ParentCFoo.class, alias);
+        queries = new ParentCFooQueries();
+    }
 
     protected ParentCFooCodegen() {
         this.addExtraRules();

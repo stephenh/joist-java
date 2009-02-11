@@ -9,18 +9,21 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class PrimitivesCodegen extends AbstractDomainObject {
+public abstract class PrimitivesCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(Primitives.class, new PrimitivesAlias("a"));
-    }
-
-    public static final PrimitivesQueries queries = new PrimitivesQueries();
+    protected static PrimitivesAlias alias;
+    public static final PrimitivesQueries queries;
     private Boolean flag = false;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
     protected Changed changed;
+
+    static {
+        alias = new PrimitivesAlias("a");
+        AliasRegistry.register(Primitives.class, alias);
+        queries = new PrimitivesQueries();
+    }
 
     protected PrimitivesCodegen() {
         this.addExtraRules();

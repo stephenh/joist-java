@@ -6,14 +6,19 @@ import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class InheritanceASubOneCodegen extends InheritanceABase {
+public abstract class InheritanceASubOneCodegen extends InheritanceABase {
+
+    @SuppressWarnings("hiding")
+    protected static InheritanceASubOneAlias alias;
+    @SuppressWarnings("hiding")
+    public static final InheritanceASubOneQueries queries;
+    private String one = null;
 
     static {
-        AliasRegistry.register(InheritanceASubOne.class, new InheritanceASubOneAlias("a"));
+        alias = new InheritanceASubOneAlias("a");
+        AliasRegistry.register(InheritanceASubOne.class, alias);
+        queries = new InheritanceASubOneQueries();
     }
-
-    public static final @SuppressWarnings("hiding") InheritanceASubOneQueries queries = new InheritanceASubOneQueries();
-    private String one = null;
 
     protected InheritanceASubOneCodegen() {
         this.addExtraRules();

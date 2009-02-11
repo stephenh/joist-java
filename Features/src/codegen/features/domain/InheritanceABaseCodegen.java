@@ -9,17 +9,20 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class InheritanceABaseCodegen extends AbstractDomainObject {
+public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(InheritanceABase.class, new InheritanceABaseAlias("a"));
-    }
-
-    public static final InheritanceABaseQueries queries = new InheritanceABaseQueries();
+    protected static InheritanceABaseAlias alias;
+    public static final InheritanceABaseQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
     protected Changed changed;
+
+    static {
+        alias = new InheritanceABaseAlias("a");
+        AliasRegistry.register(InheritanceABase.class, alias);
+        queries = new InheritanceABaseQueries();
+    }
 
     protected InheritanceABaseCodegen() {
         this.addExtraRules();

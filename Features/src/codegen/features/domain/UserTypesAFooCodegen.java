@@ -10,18 +10,21 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class UserTypesAFooCodegen extends AbstractDomainObject {
+public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(UserTypesAFoo.class, new UserTypesAFooAlias("a"));
-    }
-
-    public static final UserTypesAFooQueries queries = new UserTypesAFooQueries();
+    protected static UserTypesAFooAlias alias;
+    public static final UserTypesAFooQueries queries;
     private CalendarDate created = null;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
     protected Changed changed;
+
+    static {
+        alias = new UserTypesAFooAlias("a");
+        AliasRegistry.register(UserTypesAFoo.class, alias);
+        queries = new UserTypesAFooQueries();
+    }
 
     protected UserTypesAFooCodegen() {
         this.addExtraRules();

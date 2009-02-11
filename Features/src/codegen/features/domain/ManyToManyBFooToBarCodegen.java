@@ -8,18 +8,21 @@ import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
 import org.exigencecorp.domainobjects.uow.UoW;
 
-abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
+public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(ManyToManyBFooToBar.class, new ManyToManyBFooToBarAlias("a"));
-    }
-
-    public static final ManyToManyBFooToBarQueries queries = new ManyToManyBFooToBarQueries();
+    protected static ManyToManyBFooToBarAlias alias;
+    public static final ManyToManyBFooToBarQueries queries;
     private Integer id = null;
     private Integer version = null;
     private ForeignKeyHolder<ManyToManyBFoo> blue = new ForeignKeyHolder<ManyToManyBFoo>(ManyToManyBFoo.class);
     private ForeignKeyHolder<ManyToManyBBar> green = new ForeignKeyHolder<ManyToManyBBar>(ManyToManyBBar.class);
     protected Changed changed;
+
+    static {
+        alias = new ManyToManyBFooToBarAlias("a");
+        AliasRegistry.register(ManyToManyBFooToBar.class, alias);
+        queries = new ManyToManyBFooToBarQueries();
+    }
 
     protected ManyToManyBFooToBarCodegen() {
         this.addExtraRules();

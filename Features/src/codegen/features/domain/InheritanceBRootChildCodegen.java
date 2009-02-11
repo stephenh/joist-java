@@ -10,18 +10,21 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
+public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(InheritanceBRootChild.class, new InheritanceBRootChildAlias("a"));
-    }
-
-    public static final InheritanceBRootChildQueries queries = new InheritanceBRootChildQueries();
+    protected static InheritanceBRootChildAlias alias;
+    public static final InheritanceBRootChildQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<InheritanceBRoot> inheritanceBRoot = new ForeignKeyHolder<InheritanceBRoot>(InheritanceBRoot.class);
     protected Changed changed;
+
+    static {
+        alias = new InheritanceBRootChildAlias("a");
+        AliasRegistry.register(InheritanceBRootChild.class, alias);
+        queries = new InheritanceBRootChildQueries();
+    }
 
     protected InheritanceBRootChildCodegen() {
         this.addExtraRules();

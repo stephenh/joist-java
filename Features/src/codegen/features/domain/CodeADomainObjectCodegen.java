@@ -10,19 +10,22 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
+public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(CodeADomainObject.class, new CodeADomainObjectAlias("a"));
-    }
-
-    public static final CodeADomainObjectQueries queries = new CodeADomainObjectQueries();
+    protected static CodeADomainObjectAlias alias;
+    public static final CodeADomainObjectQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
     private ForeignKeyCodeHolder<CodeAColor> codeAColor = new ForeignKeyCodeHolder<CodeAColor>(CodeAColor.class);
     private ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
     protected Changed changed;
+
+    static {
+        alias = new CodeADomainObjectAlias("a");
+        AliasRegistry.register(CodeADomainObject.class, alias);
+        queries = new CodeADomainObjectQueries();
+    }
 
     protected CodeADomainObjectCodegen() {
         this.addExtraRules();

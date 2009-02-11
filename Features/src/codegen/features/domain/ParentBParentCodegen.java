@@ -11,21 +11,22 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class ParentBParentCodegen extends AbstractDomainObject {
+public abstract class ParentBParentCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(ParentBParent.class, new ParentBParentAlias("a"));
-    }
-
-    public static final ParentBParentQueries queries = new ParentBParentQueries();
+    protected static ParentBParentAlias alias;
+    public static final ParentBParentQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private static final ParentBChildBarAlias parentBChildBarsAlias = new ParentBChildBarAlias("a");
-    private ForeignKeyListHolder<ParentBParent, ParentBChildBar> parentBChildBars = new ForeignKeyListHolder<ParentBParent, ParentBChildBar>((ParentBParent) this, parentBChildBarsAlias, parentBChildBarsAlias.parentBParent);
-    private static final ParentBChildFooAlias parentBChildFoosAlias = new ParentBChildFooAlias("a");
-    private ForeignKeyListHolder<ParentBParent, ParentBChildFoo> parentBChildFoos = new ForeignKeyListHolder<ParentBParent, ParentBChildFoo>((ParentBParent) this, parentBChildFoosAlias, parentBChildFoosAlias.parentBParent);
+    private ForeignKeyListHolder<ParentBParent, ParentBChildBar> parentBChildBars = new ForeignKeyListHolder<ParentBParent, ParentBChildBar>((ParentBParent) this, ParentBChildBarCodegen.alias, ParentBChildBarCodegen.alias.parentBParent);
+    private ForeignKeyListHolder<ParentBParent, ParentBChildFoo> parentBChildFoos = new ForeignKeyListHolder<ParentBParent, ParentBChildFoo>((ParentBParent) this, ParentBChildFooCodegen.alias, ParentBChildFooCodegen.alias.parentBParent);
     protected Changed changed;
+
+    static {
+        alias = new ParentBParentAlias("a");
+        AliasRegistry.register(ParentBParent.class, alias);
+        queries = new ParentBParentQueries();
+    }
 
     protected ParentBParentCodegen() {
         this.addExtraRules();

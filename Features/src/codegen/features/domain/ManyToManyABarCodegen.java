@@ -13,19 +13,21 @@ import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 import org.exigencecorp.util.Copy;
 
-abstract class ManyToManyABarCodegen extends AbstractDomainObject {
+public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(ManyToManyABar.class, new ManyToManyABarAlias("a"));
-    }
-
-    public static final ManyToManyABarQueries queries = new ManyToManyABarQueries();
+    protected static ManyToManyABarAlias alias;
+    public static final ManyToManyABarQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private static final ManyToManyAFooToBarAlias manyToManyAFooToBarsAlias = new ManyToManyAFooToBarAlias("a");
-    private ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar>((ManyToManyABar) this, manyToManyAFooToBarsAlias, manyToManyAFooToBarsAlias.manyToManyABar);
+    private ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar>((ManyToManyABar) this, ManyToManyAFooToBarCodegen.alias, ManyToManyAFooToBarCodegen.alias.manyToManyABar);
     protected Changed changed;
+
+    static {
+        alias = new ManyToManyABarAlias("a");
+        AliasRegistry.register(ManyToManyABar.class, alias);
+        queries = new ManyToManyABarQueries();
+    }
 
     protected ManyToManyABarCodegen() {
         this.addExtraRules();

@@ -9,17 +9,20 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class ValidationAFooCodegen extends AbstractDomainObject {
+public abstract class ValidationAFooCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(ValidationAFoo.class, new ValidationAFooAlias("a"));
-    }
-
-    public static final ValidationAFooQueries queries = new ValidationAFooQueries();
+    protected static ValidationAFooAlias alias;
+    public static final ValidationAFooQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
     protected Changed changed;
+
+    static {
+        alias = new ValidationAFooAlias("a");
+        AliasRegistry.register(ValidationAFoo.class, alias);
+        queries = new ValidationAFooQueries();
+    }
 
     protected ValidationAFooCodegen() {
         this.addExtraRules();

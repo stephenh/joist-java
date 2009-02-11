@@ -10,18 +10,21 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class OneToOneBBarCodegen extends AbstractDomainObject {
+public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(OneToOneBBar.class, new OneToOneBBarAlias("a"));
-    }
-
-    public static final OneToOneBBarQueries queries = new OneToOneBBarQueries();
+    protected static OneToOneBBarAlias alias;
+    public static final OneToOneBBarQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
     private ForeignKeyHolder<OneToOneBFoo> oneToOneBFoo = new ForeignKeyHolder<OneToOneBFoo>(OneToOneBFoo.class);
     protected Changed changed;
+
+    static {
+        alias = new OneToOneBBarAlias("a");
+        AliasRegistry.register(OneToOneBBar.class, alias);
+        queries = new OneToOneBBarQueries();
+    }
 
     protected OneToOneBBarCodegen() {
         this.addExtraRules();

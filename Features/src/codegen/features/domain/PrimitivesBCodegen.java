@@ -8,13 +8,10 @@ import org.exigencecorp.domainobjects.orm.AliasRegistry;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class PrimitivesBCodegen extends AbstractDomainObject {
+public abstract class PrimitivesBCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(PrimitivesB.class, new PrimitivesBAlias("a"));
-    }
-
-    public static final PrimitivesBQueries queries = new PrimitivesBQueries();
+    protected static PrimitivesBAlias alias;
+    public static final PrimitivesBQueries queries;
     private Long big1 = null;
     private Long big2 = null;
     private Boolean bool1 = false;
@@ -26,6 +23,12 @@ abstract class PrimitivesBCodegen extends AbstractDomainObject {
     private Short small2 = null;
     private Integer version = null;
     protected Changed changed;
+
+    static {
+        alias = new PrimitivesBAlias("a");
+        AliasRegistry.register(PrimitivesB.class, alias);
+        queries = new PrimitivesBQueries();
+    }
 
     protected PrimitivesBCodegen() {
         this.addExtraRules();

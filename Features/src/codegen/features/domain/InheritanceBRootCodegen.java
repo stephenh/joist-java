@@ -11,19 +11,21 @@ import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.domainobjects.validation.rules.MaxLength;
 import org.exigencecorp.domainobjects.validation.rules.NotNull;
 
-abstract class InheritanceBRootCodegen extends AbstractDomainObject {
+public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
 
-    static {
-        AliasRegistry.register(InheritanceBRoot.class, new InheritanceBRootAlias("a"));
-    }
-
-    public static final InheritanceBRootQueries queries = new InheritanceBRootQueries();
+    protected static InheritanceBRootAlias alias;
+    public static final InheritanceBRootQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private static final InheritanceBRootChildAlias inheritanceBRootChildsAlias = new InheritanceBRootChildAlias("a");
-    private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, inheritanceBRootChildsAlias, inheritanceBRootChildsAlias.inheritanceBRoot);
+    private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, InheritanceBRootChildCodegen.alias, InheritanceBRootChildCodegen.alias.inheritanceBRoot);
     protected Changed changed;
+
+    static {
+        alias = new InheritanceBRootAlias("a");
+        AliasRegistry.register(InheritanceBRoot.class, alias);
+        queries = new InheritanceBRootQueries();
+    }
 
     protected InheritanceBRootCodegen() {
         this.addExtraRules();
