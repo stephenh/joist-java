@@ -31,6 +31,8 @@ public class Select<T extends DomainObject> {
     private final List<SelectItem> selectItems = new ArrayList<SelectItem>();
     private Where where = null;
     private Order[] orderBy = null;
+    private Integer limit;
+    private Integer offset;
 
     private Select(Alias<T> alias) {
         this.from = alias;
@@ -57,6 +59,16 @@ public class Select<T extends DomainObject> {
 
     public Select<T> orderBy(Order... columns) {
         this.orderBy = columns;
+        return this;
+    }
+
+    public Select<T> limit(Integer limit) {
+        this.limit = limit;
+        return this;
+    }
+
+    public Select<T> offset(Integer offset) {
+        this.offset = offset;
         return this;
     }
 
@@ -127,6 +139,13 @@ public class Select<T extends DomainObject> {
         }
         if (this.getOrderBy() != null) {
             s.line(" ORDER BY {}", Join.commaSpace(this.getOrderBy()));
+        }
+        Requirements.selectLimitAndOffset.fulfills();
+        if (this.limit != null) {
+            s.line(" LIMIT {}", this.limit);
+        }
+        if (this.offset != null) {
+            s.line(" OFFSET {}", this.offset);
         }
         return s.stripTrailingNewLine().toString();
     }
