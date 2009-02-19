@@ -81,6 +81,8 @@ Todo
 * Project dependencies
 * Composite columns (e.g. TimePoint with both time+zone), if needed
 * Group by queries
+* Convert rules to bindgen?
+* Refactor Insert into Insert/InsertTemplate?
 
 Caveats
 =======
