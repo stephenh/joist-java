@@ -36,9 +36,9 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
     }
 
     private void hydrate(T instance, ResultSet rs) throws SQLException {
-        Alias<?> current = this.from;
+        Alias<? super T> current = this.from;
         while (current != null) {
-            for (AliasColumn<?, ?, ?> c : current.getColumns()) {
+            for (AliasColumn<? super T, ?, ?> c : current.getColumns()) {
                 Object jdbcValue = rs.getObject(c.getName());
                 ((AliasColumn<T, ?, Object>) c).setJdbcValue(instance, jdbcValue);
             }
