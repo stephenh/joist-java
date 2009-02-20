@@ -78,6 +78,9 @@ public class Repository {
     }
 
     public void close() {
+        if (this.connection == null) {
+            return;
+        }
         try {
             this.connection.close();
         } catch (SQLException se) {
@@ -94,6 +97,9 @@ public class Repository {
     }
 
     public void rollback() {
+        if (this.connection == null) {
+            return;
+        }
         try {
             this.connection.rollback();
         } catch (SQLException se) {
