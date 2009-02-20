@@ -11,6 +11,10 @@ public class SubmitField extends AbstractField {
         this.runnable = runnable;
     }
 
+    public void onProcess() {
+        this.runnable.run();
+    }
+
     public String toString() {
         HtmlStringBuilder sb = new HtmlStringBuilder();
         sb.append("<input id={} name={} type={} value={}/>", this.getName(), this.getName(), "submit", this.getBoundValue());
