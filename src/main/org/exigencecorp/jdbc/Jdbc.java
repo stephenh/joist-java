@@ -126,32 +126,6 @@ public class Jdbc {
         }
     }
 
-    public static void update(DataSource ds, String sql, UpdateMapper mapper) {
-        Connection connection = null;
-        try {
-            connection = ds.getConnection();
-            Jdbc.update(connection, sql, mapper);
-        } catch (SQLException se) {
-            throw new RuntimeException(se);
-        } finally {
-            Jdbc.closeSafely(connection);
-        }
-    }
-
-    public static void update(Connection connection, String sql, UpdateMapper mapper) {
-        PreparedStatement ps = null;
-        try {
-            Log.trace("sql = {}", sql);
-            ps = connection.prepareStatement(sql);
-            mapper.mapUpdate(ps);
-            ps.executeUpdate();
-        } catch (SQLException se) {
-            throw new RuntimeException(se);
-        } finally {
-            Jdbc.closeSafely(ps);
-        }
-    }
-
     public static void update(Connection connection, String sql, List<Object> parameters) {
         PreparedStatement ps = null;
         try {
