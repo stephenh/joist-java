@@ -15,6 +15,7 @@ public class GMethod {
     private final String name;
     private final List<String> arguments = new ArrayList<String>();
     private final List<String> annotations = new ArrayList<String>();
+    private final List<String> exceptions = new ArrayList<String>();
     private String returnClassName = "void";
     private String constructorFor = null;
     private String access = "public ";
@@ -74,7 +75,16 @@ public class GMethod {
         } else {
             sb.append("{} {}", this.returnClassName, this.getName());
         }
-        sb.line("({}) {", Join.commaSpace(this.arguments));
+        sb.append("({})", Join.commaSpace(this.arguments));
+        if (this.exceptions.size() > 0) {
+            sb.append(" throws ");
+            List<String> exceptionTypes = new ArrayList<String>();
+            for (String exception : this.exceptions) {
+                exceptionTypes.add(this.gclass.stripAndImportPackageIfPossible(exception));
+            }
+            sb.append(Join.commaSpace(exceptionTypes));
+        }
+        sb.line(" {");
         sb.append(1, this.body.toString());
         sb.lineIfNeeded(); // The body may or may not have a trailing new line on it
         sb.line(0, "}");
@@ -106,6 +116,11 @@ public class GMethod {
 
     public GMethod addAnnotation(String annotation) {
         this.annotations.add(annotation);
+        return this;
+    }
+
+    public GMethod addThrows(String exception) {
+        this.exceptions.add(exception);
         return this;
     }
 

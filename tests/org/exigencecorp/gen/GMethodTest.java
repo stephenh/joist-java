@@ -1,5 +1,7 @@
 package org.exigencecorp.gen;
 
+import java.net.MalformedURLException;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -128,6 +130,26 @@ public class GMethodTest extends TestCase {
             "",
             "    @SuppressWarnings",
             "    public void hello(String foo) {",
+            "        return \"Hi\" + foo;",
+            "    }",
+            "",
+            "}",
+            "" }), gc.toCode());
+    }
+
+    public void testOneMethodThrows() {
+        GClass gc = new GClass("foo.bar.Foo");
+        GMethod hello = gc.getMethod("hello");
+        hello.arguments("String foo");
+        hello.setBody("return 'Hi' + foo;");
+        hello.addThrows(Exception.class.getName());
+        hello.addThrows(MalformedURLException.class.getName());
+        Assert.assertEquals(Join.lines(new Object[] {
+            "package foo.bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    public void hello(String foo) throws Exception, MalformedURLException {",
             "        return \"Hi\" + foo;",
             "    }",
             "",
