@@ -19,6 +19,10 @@ public class Form implements Control {
         CurrentContext.addControlToCurrentPage(this);
     }
 
+    public String getId() {
+        return null;
+    }
+
     public Form(String heading) {
         this();
         this.setHeading(heading);
