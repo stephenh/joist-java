@@ -83,6 +83,7 @@ Todo
 * Group by queries
 * Convert rules to bindgen?
 * Refactor Insert into Insert/InsertTemplate?
+* Support H2 for faster testing?
 
 Caveats
 =======
