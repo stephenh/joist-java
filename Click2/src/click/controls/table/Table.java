@@ -13,7 +13,7 @@ public class Table<T> implements Control {
     private String name;
     private List<Column> columns = new ArrayList<Column>();
     private List<T> list = new ArrayList<T>();
-    private Binding<T> current = null;
+    private Binding<? super T> current = null;
 
     public Table(String name) {
         this.name = name;
@@ -30,7 +30,7 @@ public class Table<T> implements Control {
         this.list = list;
     }
 
-    public void setCurrent(Binding<T> binding) {
+    public void setCurrent(Binding<? super T> binding) {
         this.current = binding;
     }
 
