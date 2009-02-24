@@ -31,13 +31,13 @@ public class ClickContext {
     }
 
     public Page getPage() {
-        if (this.page != null) {
-            throw new RuntimeException("No changing the page after its been set--forwarding is evil, redirect instead.");
-        }
         return this.page;
     }
 
     public void setPage(Page page) {
+        if (this.page != null) {
+            throw new RuntimeException("No changing the page after its been set--forwarding is evil, redirect instead.");
+        }
         this.page = page;
     }
 
