@@ -69,15 +69,20 @@ public class DefaultPageProcessor implements PageProcessor {
     }
 
     protected void doSetFieldsFromRequest(Page page) {
-        // Auto-set request parameters into our page object
-        for (Field field : page.getClass().getFields()) {
-            String value = this.getContext().getRequest().getParameter(field.getName());
-            if (value == null) {
-                Log.debug("No request parameter for {}", field.getName());
-            } else {
-                Log.debug("Setting {}.{} with request parameter {}", new Object[] { page, field.getName(), value });
-                // PropertyAccessor.set(page, field.getName(), value);
+        try {
+            // Auto-set request parameters into our page object
+            for (Field field : page.getClass().getFields()) {
+                String value = this.getContext().getRequest().getParameter(field.getName());
+                if (value == null) {
+                    Log.debug("No request parameter for {}", field.getName());
+                } else {
+                    Log.debug("Setting {}.{} with request parameter {}", page, field.getName(), value);
+                    // TODO: Add type conversion
+                    field.set(page, value);
+                }
             }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
