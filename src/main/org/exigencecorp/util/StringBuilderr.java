@@ -39,10 +39,7 @@ public class StringBuilderr {
      * @param args objects to replace <code>{}</code>
      */
     public void append(String pattern, Object... args) {
-        for (Object arg : args) {
-            pattern = StringUtils.replaceOnce(pattern, "{}", ObjectUtils.toString(arg));
-        }
-        this.sb.append(pattern);
+        this.sb.append(this.interpolate(pattern, args));
     }
 
     public void stripLastCharacterOnPreviousLine() {
@@ -81,6 +78,14 @@ public class StringBuilderr {
 
     public String toString() {
         return this.sb.toString();
+    }
+
+    protected String interpolate(String pattern, Object... args) {
+        String fixed = pattern;
+        for (Object arg : args) {
+            fixed = StringUtils.replaceOnce(fixed, "{}", ObjectUtils.toString(arg));
+        }
+        return fixed;
     }
 
 }
