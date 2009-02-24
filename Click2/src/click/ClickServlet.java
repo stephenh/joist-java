@@ -8,23 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ClickServlet extends HttpServlet {
+public abstract class ClickServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1;
     private ClickConfig clickConfig;
     private ServletConfig servletConfig;
 
     public ClickServlet() {
-        this.clickConfig = this.createClickConfig();
-    }
-
-    public ClickServlet(ClickConfig clickConfig) {
-        this.clickConfig = clickConfig;
     }
 
     @Override
     public void init(ServletConfig servletConfig) {
         this.servletConfig = servletConfig;
+        this.clickConfig = this.createClickConfig();
     }
 
     @Override
@@ -37,8 +33,7 @@ public class ClickServlet extends HttpServlet {
         String className = context.getClickConfig().getPageResolver().getPageFromPath(path);
 
         try {
-            Class<Page> clazz = (Class<Page>) Class.forName(className);
-            Page page = clazz.newInstance();
+            Page page = (Page) Class.forName(className).newInstance();
             context.setPage(page);
 
             PageProcessor processor = page.getProcessor();
@@ -48,8 +43,7 @@ public class ClickServlet extends HttpServlet {
         }
     }
 
-    protected ClickConfig createClickConfig() {
-        return new ClickConfig("yourapp.pages");
-    }
+    /** Should be implemented by each app to create its configuration. */
+    protected abstract ClickConfig createClickConfig();
 
 }
