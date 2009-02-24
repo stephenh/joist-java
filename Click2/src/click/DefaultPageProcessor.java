@@ -16,7 +16,16 @@ public class DefaultPageProcessor implements PageProcessor {
 
     public void process(Page page) {
         Log.debug("Calling onInit on {}", page);
-        this.doOnInit(page);
+        this.doSetFieldsFromRequest(page);
+        this.doInit(page);
+        this.doProcess(page);
+        this.doAddFieldsToModel(page);
+        this.doRender(page);
+    }
+
+    protected void doInit(Page page) {
+        Log.debug("Calling onInit on {}", page);
+        page.onInit();
     }
 
     protected void doProcess(Page page) {
@@ -45,18 +54,13 @@ public class DefaultPageProcessor implements PageProcessor {
         }
     }
 
-    protected void doOnInit(Page page) {
-        Log.debug("Calling onInit on {}", page);
-        page.onInit();
-    }
-
-    protected void addFieldsToModel(Page page) {
+    protected void doAddFieldsToModel(Page page) {
         try {
             for (Field field : page.getClass().getFields()) {
                 Object value = field.get(page);
                 if (value != null) {
                     Log.debug("Auto-adding field {}", field.getName());
-                    // page.addModel(field.getName(), value);
+                    CurrentContext.get().getModel().put(field.getName(), value);
                 }
             }
         } catch (Exception e) {

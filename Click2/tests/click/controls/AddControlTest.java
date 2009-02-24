@@ -15,7 +15,7 @@ public class AddControlTest extends TestCase {
     public void setUp() {
         this.context = new ClickContext();
         this.page = new AbstractPage();
-        // this.context.setPage(this.page);
+        this.context.setPage(this.page);
         CurrentContext.set(this.context);
     }
 

@@ -10,12 +10,18 @@ import click.ClickServlet;
 
 public abstract class AbstractClickPageTest extends TestCase {
 
-    protected ClickConfig config = new ClickConfig("click.pages");
-    protected ClickServlet clickServlet = new ClickServlet(this.config);
-
     static {
         BasicConfigurator.configure();
     }
+
+    protected ClickConfig config = new ClickConfig("click.pages");
+    protected ClickServlet clickServlet = new ClickServlet() {
+        private static final long serialVersionUID = 1;
+
+        protected ClickConfig createClickConfig() {
+            return AbstractClickPageTest.this.config;
+        }
+    };
 
     public void setUp() throws Exception {
         this.clickServlet.init();
