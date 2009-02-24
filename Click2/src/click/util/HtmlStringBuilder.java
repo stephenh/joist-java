@@ -26,4 +26,25 @@ public class HtmlStringBuilder {
         this.sb.append("\n");
     }
 
+    public void start(String element) {
+        this.sb.append("<");
+        this.sb.append(element);
+    }
+
+    public void attribute(String name, String value) {
+        this.sb.append(" ");
+        this.sb.append(name);
+        this.sb.append("=");
+        this.sb.append(value);
+    }
+
+    public void startDone() {
+        this.sb.append(">");
+    }
+
+    public void end(String element) {
+        this.sb.append("</");
+        this.sb.append(element);
+        this.sb.append(">");
+    }
 }

@@ -6,8 +6,8 @@ import java.util.List;
 import org.exigencecorp.util.Log;
 
 import click.ClickContext;
+import click.Control;
 import click.CurrentContext;
-import click.controls.Control;
 import click.util.HtmlStringBuilder;
 
 public class Form implements Control {

@@ -1,4 +1,4 @@
-package click.controls;
+package click;
 
 public interface Control {
 

@@ -1,46 +1,44 @@
 package click;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import click.stages.Stage;
-import click.stages.addFieldsToModel.AddFieldsToModelStage;
-import click.stages.onInit.OnInitStage;
-import click.stages.pageResolution.PageResolutionStage;
-import click.stages.processControls.ProcessControlsStage;
-import click.stages.render.RenderStage;
-import click.stages.setFieldsFromRequest.SetFieldsFromRequestStage;
+import org.apache.velocity.app.VelocityEngine;
 
 public class ClickConfig {
 
-    private final List<Stage> stages;
+    private final PageUrlResolver pageUrlResolver;
+    private final VelocityEngine velocityEngine;
+    private final String basePackageName;
 
-    public ClickConfig() {
-        this.stages = Collections.unmodifiableList(this.createStages());
+    public ClickConfig(String basePackageName) {
+        this.basePackageName = basePackageName;
+        this.pageUrlResolver = this.createPageUrlResolver();
+        this.velocityEngine = this.createVelocityEngine();
     }
 
-    protected List<Stage> createStages() {
-        List<Stage> stages = new ArrayList<Stage>();
-        stages.add(new PageResolutionStage());
-        stages.add(new SetFieldsFromRequestStage());
-        stages.add(new OnInitStage());
-        stages.add(new ProcessControlsStage());
-        stages.add(new AddFieldsToModelStage());
-        stages.add(new RenderStage());
-        return stages;
-    }
-
-    public List<Stage> getStages() {
-        return this.stages;
-    }
-
-    public <T extends Stage> T get(Class<T> type) {
-        for (Stage stage : this.stages) {
-            if (type.isInstance(stage)) {
-                return (T) stage;
-            }
+    protected VelocityEngine createVelocityEngine() {
+        VelocityEngine engine = new VelocityEngine();
+        engine.setProperty("resource.loader", "class");
+        engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        try {
+            engine.init();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        throw new IllegalArgumentException("No stage found for type " + type);
+        return engine;
+    }
+
+    protected PageUrlResolver createPageUrlResolver() {
+        return new PageUrlResolver(this.basePackageName);
+    }
+
+    public String getBasePackageName() {
+        return this.basePackageName;
+    }
+
+    public PageUrlResolver getPageUrlResolver() {
+        return this.pageUrlResolver;
+    }
+
+    public VelocityEngine getVelocityEngine() {
+        return this.velocityEngine;
     }
 }

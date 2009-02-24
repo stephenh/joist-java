@@ -6,10 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import click.controls.Control;
-import click.stages.onInit.Initable;
-import click.stages.processControls.Processable;
-import click.stages.render.Renderable;
 
 /**
  * A good default base class for users to extend.
@@ -17,7 +13,7 @@ import click.stages.render.Renderable;
  * Implements the interfaces necessary for the traditional click
  * event flow (onInit, onGet/onPost, etc.)
  */
-public class AbstractPage implements Page, Initable, Renderable, Processable {
+public class AbstractPage implements Page {
 
     private Map<String, Object> model = new HashMap<String, Object>();
     private List<Control> controls = new ArrayList();
@@ -54,4 +50,7 @@ public class AbstractPage implements Page, Initable, Renderable, Processable {
         return this.context;
     }
 
+    public PageProcessor getProcessor() {
+        return new DefaultPageProcessor();
+    }
 }

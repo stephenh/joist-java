@@ -6,7 +6,7 @@ import java.util.List;
 import org.exigencecorp.bindgen.Binding;
 import org.exigencecorp.util.StringBuilderr;
 
-import click.controls.Control;
+import click.Control;
 
 public class Table<T> implements Control {
 

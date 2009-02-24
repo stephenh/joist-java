@@ -8,10 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.exigencecorp.util.Log;
-
-import click.stages.Stage;
-
 public class ClickServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1;
@@ -29,24 +25,31 @@ public class ClickServlet extends HttpServlet {
     @Override
     public void init(ServletConfig servletConfig) {
         this.servletConfig = servletConfig;
-        for (Stage stage : this.clickConfig.getStages()) {
-            Log.debug("Initializing {}", stage);
-            stage.init();
-        }
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        ClickContext context = new ClickContext(this.servletConfig, request, response);
+        ClickContext context = new ClickContext(this.servletConfig, this.clickConfig, request, response);
         CurrentContext.set(context);
-        for (Stage stage : this.clickConfig.getStages()) {
-            Log.debug("Processing {} in {}", request.getRequestURI(), stage);
-            stage.process();
+
+        // Get the path, e.g. /page.htm (without the webapp context)
+        String path = context.getRequest().getServletPath();
+        String className = context.getClickConfig().getPageUrlResolver().getPageFromPath(path);
+
+        try {
+            Class<Page> clazz = (Class<Page>) Class.forName(className);
+            Page page = clazz.newInstance();
+            context.setPage(page);
+
+            PageProcessor processor = page.getProcessor();
+            processor.process(page);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
     protected ClickConfig createClickConfig() {
-        return new ClickConfig();
+        return new ClickConfig("yourapp.pages");
     }
 
 }

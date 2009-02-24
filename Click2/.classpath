@@ -3,17 +3,19 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="src" path="jetty"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-1.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/javax.servlet-2.4.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.3-alpha-8.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-log4j12.jar"/>
-	<classpathentry kind="lib" path="lib/velocity-1.5.jar" sourcepath="lib/velocity-1.5.zip"/>
-	<classpathentry kind="lib" path="lib/junit-3.8.1.jar" sourcepath="lib/junit-3.8.1.zip"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="lib/main/javax.servlet-2.4.jar" exported="true"/>
+	<classpathentry kind="lib" path="lib/main/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="lib/main/commons-io-1.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/main/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="lib/main/exigence-utilities.jar" sourcepath="lib/main/exigence-utilities.zip"/>
+	<classpathentry kind="lib" path="lib/main/log4j-1.3-alpha-8.jar"/>
+	<classpathentry kind="lib" path="lib/main/slf4j-log4j12.jar"/>
+	<classpathentry kind="lib" path="lib/main/velocity-1.5.jar" sourcepath="lib/main/velocity-1.5.zip"/>
+	<classpathentry kind="lib" path="lib/main/bindgen.jar" sourcepath="lib/main/bindgen.zip"/>
+	<classpathentry kind="lib" path="lib/test/junit-3.8.1.jar" sourcepath="lib/test/junit-3.8.1.zip"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-6.1.6.jar" sourcepath="lib/jetty/jetty-6.1.6.zip"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-util-6.1.6.jar" sourcepath="lib/jetty/jetty-6.1.6.zip"/>
-	<classpathentry kind="lib" path="lib/bindgen.jar" sourcepath="lib/bindgen.zip"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="bin/eclipse"/>
 </classpath>

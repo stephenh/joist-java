@@ -1,10 +1,9 @@
-package click.stages.processControls;
+package click;
 
 import java.util.List;
 
-import click.controls.Control;
 
-public interface Processable {
+public interface Container {
 
     void addControl(Control control);
 
