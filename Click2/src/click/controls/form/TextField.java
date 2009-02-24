@@ -3,7 +3,7 @@ package click.controls.form;
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 
-import click.util.HtmlStringBuilder;
+import click.util.HtmlStringBuilderr;
 
 public class TextField extends AbstractField {
 
@@ -17,7 +17,7 @@ public class TextField extends AbstractField {
     }
 
     public String toString() {
-        HtmlStringBuilder sb = new HtmlStringBuilder();
+        HtmlStringBuilderr sb = new HtmlStringBuilderr();
         sb.append("<input id={} name={} type={} value={}/>", this.getName(), this.getName(), "text", this.getBoundValue());
         return sb.toString();
     }

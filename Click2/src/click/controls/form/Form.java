@@ -8,7 +8,7 @@ import org.exigencecorp.util.Log;
 import click.ClickContext;
 import click.Control;
 import click.CurrentContext;
-import click.util.HtmlStringBuilder;
+import click.util.HtmlStringBuilderr;
 
 public class Form implements Control {
 
@@ -46,7 +46,7 @@ public class Form implements Control {
     }
 
     public String toString() {
-        HtmlStringBuilder sb = new HtmlStringBuilder();
+        HtmlStringBuilderr sb = new HtmlStringBuilderr();
         this.renderStartTags(sb);
         this.renderHeadingTags(sb);
         this.renderFields(sb);
@@ -54,27 +54,27 @@ public class Form implements Control {
         return sb.toString();
     }
 
-    protected void renderStartTags(HtmlStringBuilder sb) {
-        sb.appendln("<form>");
+    protected void renderStartTags(HtmlStringBuilderr sb) {
+        sb.line("<form>");
     }
 
-    protected void renderHeadingTags(HtmlStringBuilder sb) {
-        sb.appendln("<p class={}>{}</p>", "clickFormHeading", this.getHeading());
+    protected void renderHeadingTags(HtmlStringBuilderr sb) {
+        sb.line("<p class={}>{}</p>", "clickFormHeading", this.getHeading());
     }
 
-    protected void renderFields(HtmlStringBuilder sb) {
-        sb.appendln("<table class={}>", "clickForm");
+    protected void renderFields(HtmlStringBuilderr sb) {
+        sb.line("<table class={}>", "clickForm");
         for (Field field : this.fields) {
-            sb.appendln("<tr>");
-            sb.appendln("<th>{}</th>", field.getLabel());
-            sb.appendln("<td>{}</td>", field.toString());
-            sb.appendln("</tr>");
+            sb.line("<tr>");
+            sb.line("<th>{}</th>", field.getLabel());
+            sb.line("<td>{}</td>", field.toString());
+            sb.line("</tr>");
         }
-        sb.appendln("</table>");
+        sb.line("</table>");
     }
 
-    protected void renderEndTags(HtmlStringBuilder sb) {
-        sb.appendln("</form>");
+    protected void renderEndTags(HtmlStringBuilderr sb) {
+        sb.line("</form>");
     }
 
     public String getHeading() {

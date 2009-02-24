@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 
 import click.Control;
 import click.CurrentContext;
-import click.util.HtmlStringBuilder;
+import click.util.HtmlStringBuilderr;
 
 public class PageLink implements Control {
 
@@ -22,7 +22,7 @@ public class PageLink implements Control {
     }
 
     public String toString() {
-        HtmlStringBuilder sb = new HtmlStringBuilder();
+        HtmlStringBuilderr sb = new HtmlStringBuilderr();
         sb.start("a");
         sb.attribute("id", this.getId());
         sb.attribute("href", this.getHref());

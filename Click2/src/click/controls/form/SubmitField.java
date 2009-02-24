@@ -1,6 +1,6 @@
 package click.controls.form;
 
-import click.util.HtmlStringBuilder;
+import click.util.HtmlStringBuilderr;
 
 public class SubmitField extends AbstractField {
 
@@ -16,7 +16,7 @@ public class SubmitField extends AbstractField {
     }
 
     public String toString() {
-        HtmlStringBuilder sb = new HtmlStringBuilder();
+        HtmlStringBuilderr sb = new HtmlStringBuilderr();
         sb.append("<input id={} name={} type={} value={}/>", this.getName(), this.getName(), "submit", this.getBoundValue());
         return sb.toString();
     }

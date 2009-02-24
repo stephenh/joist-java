@@ -3,31 +3,31 @@ package click.util;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-public class HtmlStringBuilderTest extends TestCase {
+public class HtmlStringBuilderrTest extends TestCase {
 
-    private HtmlStringBuilder sb;
+    private HtmlStringBuilderr sb;
 
     public void setUp() {
-        this.sb = new HtmlStringBuilder();
+        this.sb = new HtmlStringBuilderr();
     }
 
     public void testOneNotWrapped() {
-        this.sb.appendln("<p>{}</p>", "bar");
+        this.sb.line("<p>{}</p>", "bar");
         Assert.assertEquals("<p>bar</p>\n", this.sb.toString());
     }
 
     public void testOneWrapped() {
-        this.sb.appendln("<p id={}></p>", "bar");
+        this.sb.line("<p id={}></p>", "bar");
         Assert.assertEquals("<p id=\"bar\"></p>\n", this.sb.toString());
     }
 
     public void testOneWrappedThenOneNotWrapped() {
-        this.sb.appendln("<p id={}>{}</p>", "bar", "bar");
+        this.sb.line("<p id={}>{}</p>", "bar", "bar");
         Assert.assertEquals("<p id=\"bar\">bar</p>\n", this.sb.toString());
     }
 
     public void testOneNotWrappedThenOneWrapped() {
-        this.sb.appendln("{}<p id={}></p>", "bar", "bar");
+        this.sb.line("{}<p id={}></p>", "bar", "bar");
         Assert.assertEquals("bar<p id=\"bar\"></p>\n", this.sb.toString());
     }
 
