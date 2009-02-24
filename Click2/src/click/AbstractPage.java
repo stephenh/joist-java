@@ -5,13 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/**
- * A good default base class for users to extend.
- *
- * Implements the interfaces necessary for the traditional click
- * event flow (onInit, onGet/onPost, etc.)
- */
-public class AbstractPage implements Page {
+/** A good base class for users to extend. */
+public abstract class AbstractPage implements Page {
 
     private final List<Control> controls = new ArrayList();
     private final ClickContext context = CurrentContext.get();
@@ -39,11 +34,8 @@ public class AbstractPage implements Page {
         this.controls.add(control);
     }
 
-    public ClickContext getContext() {
-        return this.context;
-    }
-
     public PageProcessor getProcessor() {
         return DefaultPageProcessor.INSTANCE;
     }
+
 }
