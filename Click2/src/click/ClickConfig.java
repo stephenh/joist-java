@@ -2,6 +2,12 @@ package click;
 
 import org.apache.velocity.app.VelocityEngine;
 
+/** User configuration for click2.
+ *
+ * If you want to customize more than just the base package name,
+ * you should override methods like <code>createVelocityEngine</code>
+ * and <code>createPageResolver</code>.
+ */
 public class ClickConfig {
 
     private final PageResolver pageResolver;
@@ -14,6 +20,7 @@ public class ClickConfig {
         this.velocityEngine = this.createVelocityEngine();
     }
 
+    /** Override if you want to customize the velocity engine. */
     protected VelocityEngine createVelocityEngine() {
         VelocityEngine engine = new VelocityEngine();
         engine.setProperty("resource.loader", "class");
@@ -26,6 +33,7 @@ public class ClickConfig {
         return engine;
     }
 
+    /** Override if you want to customize the page resolver. */
     protected PageResolver createPageResolver() {
         return new PageResolver(this.basePackageName);
     }
