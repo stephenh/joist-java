@@ -34,7 +34,7 @@ public class ClickServlet extends HttpServlet {
 
         // Get the path, e.g. /page.htm (without the webapp context)
         String path = context.getRequest().getServletPath();
-        String className = context.getClickConfig().getPageUrlResolver().getPageFromPath(path);
+        String className = context.getClickConfig().getPageResolver().getPageFromPath(path);
 
         try {
             Class<Page> clazz = (Class<Page>) Class.forName(className);

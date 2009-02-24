@@ -37,7 +37,7 @@ public class PageLink implements Control {
     }
 
     public String getHrefWithoutContext() {
-        String path = CurrentContext.get().getClickConfig().getPageUrlResolver().getPathFromPage(this.pageClass.getName());
+        String path = CurrentContext.get().getClickConfig().getPageResolver().getPathFromPage(this.pageClass.getName());
         if (this.parameters.size() > 0) {
             path += "?";
             for (Map.Entry<String, String> entry : this.parameters.entrySet()) {

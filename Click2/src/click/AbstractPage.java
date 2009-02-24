@@ -2,10 +2,8 @@ package click;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * A good default base class for users to extend.
@@ -15,9 +13,8 @@ import java.util.Map;
  */
 public class AbstractPage implements Page {
 
-    private Map<String, Object> model = new HashMap<String, Object>();
-    private List<Control> controls = new ArrayList();
-    private ClickContext context = CurrentContext.get();
+    private final List<Control> controls = new ArrayList();
+    private final ClickContext context = CurrentContext.get();
 
     public void onInit() {
     }
@@ -27,15 +24,11 @@ public class AbstractPage implements Page {
     }
 
     public Map<String, Object> getModel() {
-        return this.model;
-    }
-
-    public String getTemplate() {
-        return null;
+        return this.context.getModel();
     }
 
     public void addModel(String name, Object value) {
-        this.model.put(name, value);
+        this.getModel().put(name, value);
     }
 
     public List<Control> getControls() {
@@ -51,6 +44,6 @@ public class AbstractPage implements Page {
     }
 
     public PageProcessor getProcessor() {
-        return new DefaultPageProcessor();
+        return DefaultPageProcessor.INSTANCE;
     }
 }

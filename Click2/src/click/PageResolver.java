@@ -7,16 +7,22 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 
-public class PageUrlResolver {
+/** Maps URLs to page classes and back. */
+public class PageResolver {
 
     private static final Pattern fileExtension = Pattern.compile("\\.[A-Za-z]+$");
     private final String basePackageName;
 
-    public PageUrlResolver(String basePackageName) {
+    public PageResolver(String basePackageName) {
         this.basePackageName = basePackageName;
     }
 
-    /** @param path the path without the webapp context */
+    /**
+     * Maps a path to a class name.
+     *
+     * @param path a slash delimited path, e.g. <code>/aa/bb/cc.htm</code>
+     * @return the page's class name, e.g. <code>basePackage.aa.bb.CcPage</code>
+     */
     public String getPageFromPath(String path) {
         if (path == null || !path.startsWith("/")) {
             throw new RuntimeException("uri must be non null and start with /");
@@ -26,7 +32,7 @@ public class PageUrlResolver {
         // Get the last part to muck with (cc.htm)
         String last = parts.remove(parts.size() - 1);
         // Trim file extension (cc.htm -> cc)
-        last = PageUrlResolver.fileExtension.matcher(last).replaceAll("");
+        last = PageResolver.fileExtension.matcher(last).replaceAll("");
         // Cap it (cc -> Cc)
         last = StringUtils.capitalize(last);
         // Put it back at the end
@@ -35,8 +41,10 @@ public class PageUrlResolver {
     }
 
     /**
-     * @param path a slash delimited uri, e.g. <code>/aa/bb/cc.htm</code>
-     * @return <code>aa.bb.Cc</code>
+     * Maps a class name to a path.
+     *
+     * @param className a class name.g. <code>basePackage.aa.bb.CcPage</code>
+     * @return the page's path, e.g. <code>/aa/bb/cc.htm</code>
      */
     public String getPathFromPage(String className) {
         // Add caching here
@@ -49,7 +57,20 @@ public class PageUrlResolver {
         return path;
     }
 
+    /**
+     * Maps a class name to a Velocity template.
+     *
+     * @param className a class name.g. <code>basePackage.aa.bb.CcPage</code>
+     * @return the page's template, e.g. <code>/basePackage/aa/bb/cc.htm</code>
+     */
     public String getTemplateFromPage(String className) {
-        return "/" + StringUtils.removeEnd(className.replace(".", "/"), "Page") + ".htm";
+        // Add caching here
+        String path = "/" + className;
+        path = path.replace('.', '/');
+        path = StringUtils.removeEnd(path, "Page");
+        int lastDot = path.lastIndexOf('/');
+        path = StringUtils.replaceOnce(path, "/" + path.charAt(lastDot + 1), ("/" + path.charAt(lastDot + 1)).toLowerCase());
+        path = path + ".htm";
+        return path;
     }
 }

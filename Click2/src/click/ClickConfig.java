@@ -4,13 +4,13 @@ import org.apache.velocity.app.VelocityEngine;
 
 public class ClickConfig {
 
-    private final PageUrlResolver pageUrlResolver;
+    private final PageResolver pageResolver;
     private final VelocityEngine velocityEngine;
     private final String basePackageName;
 
     public ClickConfig(String basePackageName) {
         this.basePackageName = basePackageName;
-        this.pageUrlResolver = this.createPageUrlResolver();
+        this.pageResolver = this.createPageResolver();
         this.velocityEngine = this.createVelocityEngine();
     }
 
@@ -26,16 +26,16 @@ public class ClickConfig {
         return engine;
     }
 
-    protected PageUrlResolver createPageUrlResolver() {
-        return new PageUrlResolver(this.basePackageName);
+    protected PageResolver createPageResolver() {
+        return new PageResolver(this.basePackageName);
     }
 
     public String getBasePackageName() {
         return this.basePackageName;
     }
 
-    public PageUrlResolver getPageUrlResolver() {
-        return this.pageUrlResolver;
+    public PageResolver getPageResolver() {
+        return this.pageResolver;
     }
 
     public VelocityEngine getVelocityEngine() {

@@ -33,7 +33,7 @@ public class DefaultPageProcessor implements PageProcessor {
             return;
         }
         try {
-            String template = this.getPageUrlResolver().getTemplateFromPage(page.getClass().getName());
+            String template = this.getPageResolver().getTemplateFromPage(page.getClass().getName());
 
             Log.debug("Rendering {} for {}", template, page);
             this.getVelocityEngine().mergeTemplate(//
@@ -85,8 +85,8 @@ public class DefaultPageProcessor implements PageProcessor {
         return this.getContext().getClickConfig().getVelocityEngine();
     }
 
-    protected PageUrlResolver getPageUrlResolver() {
-        return this.getContext().getClickConfig().getPageUrlResolver();
+    protected PageResolver getPageResolver() {
+        return this.getContext().getClickConfig().getPageResolver();
     }
 
     protected Map<String, Object> getModel() {
