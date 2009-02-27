@@ -1,5 +1,8 @@
 package click;
 
+import net.sf.ezmorph.MorphUtils;
+import net.sf.ezmorph.MorpherRegistry;
+
 import org.apache.velocity.app.VelocityEngine;
 
 /** User configuration for click2.
@@ -13,11 +16,16 @@ public class ClickConfig {
     private final PageResolver pageResolver;
     private final VelocityEngine velocityEngine;
     private final String basePackageName;
+    private final MorpherRegistry morpherRegistry;
 
     public ClickConfig(String basePackageName) {
         this.basePackageName = basePackageName;
         this.pageResolver = this.createPageResolver();
         this.velocityEngine = this.createVelocityEngine();
+        this.morpherRegistry = this.createMorpherRegistry();
+
+        // Transmorph t = new Transmorph(new DefaultConverters());
+        // t.convert(o, String.class);
     }
 
     /** Override if you want to customize the velocity engine. */
@@ -38,6 +46,13 @@ public class ClickConfig {
         return new PageResolver(this.basePackageName);
     }
 
+    /** Override if you want to customize the page resolver. */
+    protected MorpherRegistry createMorpherRegistry() {
+        MorpherRegistry mr = new MorpherRegistry();
+        MorphUtils.registerStandardMorphers(mr);
+        return mr;
+    }
+
     public String getBasePackageName() {
         return this.basePackageName;
     }
@@ -48,5 +63,9 @@ public class ClickConfig {
 
     public VelocityEngine getVelocityEngine() {
         return this.velocityEngine;
+    }
+
+    public MorpherRegistry getMorpherRegistry() {
+        return this.morpherRegistry;
     }
 }

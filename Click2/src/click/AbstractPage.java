@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /** A good base class for users to extend. */
-public abstract class AbstractPage implements Page {
+public abstract class AbstractPage extends AbstractContainer implements Page {
 
     private final List<Control> controls = new ArrayList();
     private final ClickContext context = CurrentContext.get();

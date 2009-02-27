@@ -36,8 +36,8 @@ public class Form implements Control {
         }
 
         for (Field field : this.fields) {
-            String value = this.getContext().getRequest().getParameter(field.getName());
-            field.bindRequestValue(value);
+            field.onProcess();
+            // field.bindRequestValue(value);
         }
     }
 

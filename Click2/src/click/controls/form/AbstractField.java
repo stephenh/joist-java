@@ -14,6 +14,10 @@ public abstract class AbstractField implements Field {
     private String label;
     private Binding binding;
 
+    public String getId() {
+        return this.getName();
+    }
+
     public String getName() {
         return this.name;
     }
@@ -32,7 +36,9 @@ public abstract class AbstractField implements Field {
         return ObjectUtils.toString(this.binding.get());
     }
 
-    public void bindRequestValue(String value) {
+    public void onProcess() {
+        String value = this.getContext().getRequest().getParameter(this.getName());
+        this.binding.set(value);
         // PropertyAccessor.set(this.getPage(), this.getExpression(), value);
     }
 

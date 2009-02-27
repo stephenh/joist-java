@@ -13,9 +13,10 @@ public class CurrentContext {
     }
 
     public static void addControlToCurrentPage(Control control) {
-        if (CurrentContext.get() != null && CurrentContext.get().getPage() != null) {
-            CurrentContext.get().getPage().addControl(control);
+        if (CurrentContext.get() == null) {
+            return;
         }
+        CurrentContext.get().addControlToCurrentPage(control);
     }
 
 }

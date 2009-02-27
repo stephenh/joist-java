@@ -1,6 +1,8 @@
 package click;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletConfig;
@@ -14,6 +16,7 @@ public class ClickContext {
     private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final Map<String, Object> model = new HashMap<String, Object>();
+    private final List<Control> prePageSetControls = new ArrayList<Control>();
     private Page page;
 
     public ClickContext() {
@@ -28,6 +31,14 @@ public class ClickContext {
         this.clickConfig = clickConfig;
         this.request = request;
         this.response = response;
+    }
+
+    public void addControlToCurrentPage(Control control) {
+        if (this.getPage() == null) {
+            this.prePageSetControls.add(control);
+        } else {
+            this.getPage().addControl(control);
+        }
     }
 
     public Page getPage() {

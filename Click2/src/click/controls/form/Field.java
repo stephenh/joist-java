@@ -1,11 +1,11 @@
 package click.controls.form;
 
-public interface Field {
+import click.Control;
+
+public interface Field extends Control {
 
     String getName();
 
     String getLabel();
-
-    void bindRequestValue(String value);
 
 }

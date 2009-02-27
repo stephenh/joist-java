@@ -16,11 +16,26 @@ public class DefaultPageProcessor implements PageProcessor {
 
     public void process(Page page) {
         Log.debug("Calling onInit on {}", page);
+        this.doFindFieldsThatAreControls(page);
         this.doSetFieldsFromRequest(page);
         this.doInit(page);
         this.doProcess(page);
         this.doAddFieldsToModel(page);
         this.doRender(page);
+    }
+
+    protected void doFindFieldsThatAreControls(Page page) {
+        try {
+            for (Field field : page.getClass().getFields()) {
+                Object value = field.get(page);
+                if (value != null && value instanceof Control) {
+                    Log.debug("Auto-adding field {}", field.getName());
+                    page.addControl((Control) value);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected void doInit(Page page) {
