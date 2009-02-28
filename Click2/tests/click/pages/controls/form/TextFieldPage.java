@@ -1,8 +1,8 @@
-package click.pages.controls;
+package click.pages.controls.form;
 
 import org.exigencecorp.bindgen.Bindable;
 
-import bindgen.click.pages.controls.TextFieldPageBinding;
+import bindgen.click.pages.controls.form.TextFieldPageBinding;
 import click.AbstractPage;
 import click.controls.form.Form;
 import click.controls.form.TextField;

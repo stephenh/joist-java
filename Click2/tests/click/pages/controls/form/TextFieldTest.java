@@ -1,4 +1,4 @@
-package click.pages.controls;
+package click.pages.controls.form;
 
 import junit.framework.Assert;
 
@@ -21,7 +21,7 @@ public class TextFieldTest extends AbstractClickPageTest {
             "</table>",
             "</form>",
             "",
-            ""), this.request("/controls/textField.htm").getBody());
+            ""), this.request("/controls/form/textField.htm").getBody());
     }
 
     public void testPost() throws Exception {
@@ -37,6 +37,6 @@ public class TextFieldTest extends AbstractClickPageTest {
             "</table>",
             "</form>",
             "",
-            ""), this.request("/controls/textField.htm").setParameter("form_name", "form").setParameter("Value", "bar").postBody());
+            ""), this.request("/controls/form/textField.htm").setParameter("form_name", "form").setParameter("Value", "bar").postBody());
     }
 }
