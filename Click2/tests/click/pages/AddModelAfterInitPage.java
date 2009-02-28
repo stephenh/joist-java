@@ -1,8 +1,8 @@
-package click.pages.stages.addFieldsToModel;
+package click.pages;
 
 import click.AbstractPage;
 
-public class AddAfterInitPage extends AbstractPage {
+public class AddModelAfterInitPage extends AbstractPage {
 
     public String value;
 

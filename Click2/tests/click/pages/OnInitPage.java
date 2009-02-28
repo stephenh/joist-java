@@ -1,4 +1,4 @@
-package click.pages.stages.onInit;
+package click.pages;
 
 import click.AbstractPage;
 

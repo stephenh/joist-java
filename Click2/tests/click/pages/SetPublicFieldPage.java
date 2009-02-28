@@ -1,4 +1,4 @@
-package click.pages.stages.setFieldsFromRequest;
+package click.pages;
 
 import click.AbstractPage;
 
