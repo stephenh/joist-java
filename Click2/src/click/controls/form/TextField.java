@@ -7,12 +7,12 @@ import click.util.HtmlStringBuilderr;
 
 public class TextField extends AbstractField {
 
-    public TextField(Binding binding) {
+    public TextField(Binding<?> binding) {
         this.setName(StringUtils.capitalize(binding.getName()));
         this.setBinding(binding);
     }
 
-    public TextField(String name, Binding binding) {
+    public TextField(String name, Binding<?> binding) {
         this.setName(name);
     }
 

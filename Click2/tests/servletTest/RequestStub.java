@@ -22,7 +22,7 @@ public class RequestStub implements HttpServletRequest {
     private String method;
     private String requestURI; // --> /webapp/foo.servlet
     private String servletPath; // --> /foo.servlet
-    private Map<String, String[]> parameters = new HashMap();
+    private Map<String, String[]> parameters = new HashMap<String, String[]>();
 
     public String getAuthType() {
         // TODO Auto-generated method stub
@@ -225,6 +225,7 @@ public class RequestStub implements HttpServletRequest {
         return this.parameters;
     }
 
+    @SuppressWarnings("unchecked")
     public Enumeration<String> getParameterNames() {
         return IteratorUtils.asEnumeration(this.parameters.keySet().iterator());
     }

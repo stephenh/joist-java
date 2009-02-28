@@ -2,7 +2,7 @@ package click;
 
 public class CurrentContext {
 
-    private static final ThreadLocal<ClickContext> CURRENT = new ThreadLocal();
+    private static final ThreadLocal<ClickContext> CURRENT = new ThreadLocal<ClickContext>();
 
     public static ClickContext get() {
         return CurrentContext.CURRENT.get();

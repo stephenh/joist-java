@@ -12,7 +12,7 @@ import click.util.HtmlStringBuilderr;
 public class PageLink implements Control {
 
     private final Map<String, String> parameters = new HashMap<String, String>();
-    private Class pageClass;
+    private Class<?> pageClass;
 
     public String getId() {
         return null;

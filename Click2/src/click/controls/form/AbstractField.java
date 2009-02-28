@@ -12,7 +12,7 @@ public abstract class AbstractField implements Field {
 
     private String name;
     private String label;
-    private Binding binding;
+    private Binding<?> binding;
 
     public String getId() {
         return this.getName();
@@ -36,9 +36,10 @@ public abstract class AbstractField implements Field {
         return ObjectUtils.toString(this.binding.get());
     }
 
+    @SuppressWarnings("unchecked")
     public void onProcess() {
         String value = this.getContext().getRequest().getParameter(this.getName());
-        this.binding.set(value);
+        ((Binding<Object>) this.binding).set(value);
         // PropertyAccessor.set(this.getPage(), this.getExpression(), value);
     }
 
@@ -58,11 +59,11 @@ public abstract class AbstractField implements Field {
         return this.getContext().getPage();
     }
 
-    public Binding getBinding() {
+    public Binding<?> getBinding() {
         return this.binding;
     }
 
-    public void setBinding(Binding binding) {
+    public void setBinding(Binding<?> binding) {
         this.binding = binding;
     }
 

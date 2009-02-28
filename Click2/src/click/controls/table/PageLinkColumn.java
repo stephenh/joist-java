@@ -6,13 +6,13 @@ import org.exigencecorp.util.StringBuilderr;
 
 public class PageLinkColumn extends AbstractColumn {
 
-    private Class pageClass;
+    private Class<?> pageClass;
     private Binding<?> contentBinding;
 
     // private Object content;
 
     // Replace params with a annotation-gend XxxPageLink class?
-    public PageLinkColumn(Class pageClass, Object... params) {
+    public PageLinkColumn(Class<?> pageClass, Object... params) {
         this.pageClass = pageClass;
     }
 

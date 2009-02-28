@@ -13,7 +13,7 @@ import click.controls.table.TextColumn;
 @Bindable
 public class TablePage extends AbstractPage {
 
-    public Table table = new Table("table");
+    public Table<String> table = new Table<String>("table");
     public String value = "foo";
     public String current;
 

@@ -12,7 +12,7 @@ import click.util.HtmlStringBuilderr;
 
 public class Form implements Control {
 
-    private List<Field> fields = new ArrayList();
+    private List<Field> fields = new ArrayList<Field>();
     private String heading;
 
     public Form() {
