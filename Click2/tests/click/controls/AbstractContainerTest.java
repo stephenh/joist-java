@@ -7,7 +7,7 @@ import click.ClickContext;
 import click.CurrentContext;
 import click.controls.form.Form;
 
-public class AddControlTest extends TestCase {
+public class AbstractContainerTest extends TestCase {
 
     private AbstractPage page;
     private ClickContext context;
