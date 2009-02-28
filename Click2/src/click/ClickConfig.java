@@ -16,16 +16,11 @@ public class ClickConfig {
     private final PageResolver pageResolver;
     private final VelocityEngine velocityEngine;
     private final String basePackageName;
-    private final MorpherRegistry morpherRegistry;
 
     public ClickConfig(String basePackageName) {
         this.basePackageName = basePackageName;
         this.pageResolver = this.createPageResolver();
         this.velocityEngine = this.createVelocityEngine();
-        this.morpherRegistry = this.createMorpherRegistry();
-
-        // Transmorph t = new Transmorph(new DefaultConverters());
-        // t.convert(o, String.class);
     }
 
     /** Override if you want to customize the velocity engine. */
@@ -63,9 +58,5 @@ public class ClickConfig {
 
     public VelocityEngine getVelocityEngine() {
         return this.velocityEngine;
-    }
-
-    public MorpherRegistry getMorpherRegistry() {
-        return this.morpherRegistry;
     }
 }

@@ -92,7 +92,7 @@ public class DefaultPageProcessor implements PageProcessor {
                     Log.debug("No request parameter for {}", field.getName());
                 } else {
                     Log.debug("Setting {}.{} with request parameter {}", page, field.getName(), value);
-                    // TODO: Add type conversion
+                    // Object o = this.getContext().getClickConfig().getMorpherRegistry().morph(field.getType(), value);
                     field.set(page, value);
                 }
             }
