@@ -14,6 +14,7 @@ public class TextField extends AbstractField {
 
     public TextField(String name, Binding<?> binding) {
         this.setName(name);
+        this.setBinding(binding);
     }
 
     public String toString() {
