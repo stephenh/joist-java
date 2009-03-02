@@ -21,7 +21,6 @@ public class Stack {
             // Add 1 for ClassContext.access
             // Add 1 for Stack.getCallersClassName() or Stack.getCallersClassName(int)
             // Add 1 for our caller (we want to get to our caller's caller)
-            // Thread.currentThread().getStackTrace()
             return this.getClassContext()[numberUpFromMe + 4].getName();
         }
     }
