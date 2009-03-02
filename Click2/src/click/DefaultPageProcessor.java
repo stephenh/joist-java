@@ -1,5 +1,6 @@
 package click;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Map;
 
@@ -18,8 +19,16 @@ public class DefaultPageProcessor implements PageProcessor {
         Log.debug("Calling onInit on {}", page);
         this.doFindFieldsThatAreControls(page);
         this.doSetFieldsFromRequest(page);
-        this.doInit(page);
-        this.doProcess(page);
+        try {
+            this.doInit(page);
+            this.doProcess(page);
+        } catch (RedirectException re) {
+            try {
+                CurrentContext.get().getResponse().sendRedirect(re.getUrl());
+            } catch (IOException io) {
+            }
+            return;
+        }
         this.doAddFieldsToModel(page);
         this.doRender(page);
     }

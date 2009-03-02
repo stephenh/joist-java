@@ -13,6 +13,7 @@ public class ResponseStub implements HttpServletResponse {
 
     private StringWriter output = new StringWriter();
     private PrintWriter writer = new PrintWriter(this.output);
+    private String redirect;
 
     public ResponseStub() {
     }
@@ -66,8 +67,12 @@ public class ResponseStub implements HttpServletResponse {
         // TODO Auto-generated method stub
     }
 
+    public String getRedirect() {
+        return this.redirect;
+    }
+
     public void sendRedirect(String arg0) throws IOException {
-        // TODO Auto-generated method stub
+        this.redirect = arg0;
     }
 
     public void setDateHeader(String arg0, long arg1) {

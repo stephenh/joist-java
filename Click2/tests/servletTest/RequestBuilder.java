@@ -35,12 +35,16 @@ public class RequestBuilder {
 
     /** Alias for <code>get().body()</code>. */
     public String getBody() throws Exception {
-        return this.get().body();
+        return this.get().getBody();
+    }
+
+    public String getRedirect() throws Exception {
+        return this.get().getRedirect();
     }
 
     /** Alias for <code>post().body()</code>. */
     public String postBody() throws Exception {
-        return this.post().body();
+        return this.post().getBody();
     }
 
     public RequestBuilder setParameter(String name, String value) {

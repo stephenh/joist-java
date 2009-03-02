@@ -1,6 +1,5 @@
 package servletTest;
 
-
 public class ResponseParser {
 
     private ResponseStub response;
@@ -9,8 +8,11 @@ public class ResponseParser {
         this.response = response;
     }
 
-    public String body() {
+    public String getBody() {
         return this.response.getWriterOutput();
     }
 
+    public String getRedirect() {
+        return this.response.getRedirect();
+    }
 }
