@@ -39,8 +39,10 @@ public abstract class AbstractField implements Field {
     @SuppressWarnings("unchecked")
     public void onProcess() {
         String value = this.getContext().getRequest().getParameter(this.getName());
+        if (value == null) {
+            return; // We would have at least gotten a "" if the field was really submitted
+        }
         ((Binding<Object>) this.binding).set(value);
-        // PropertyAccessor.set(this.getPage(), this.getExpression(), value);
     }
 
     public String getLabel() {
