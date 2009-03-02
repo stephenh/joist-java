@@ -13,6 +13,7 @@ public class TestCounterTest extends TestCase {
         TestCounters.resetAll();
         Assert.assertEquals(1, c.next());
         Assert.assertEquals(2, c.next());
+        Assert.assertEquals(2, c.get());
     }
 
 }
