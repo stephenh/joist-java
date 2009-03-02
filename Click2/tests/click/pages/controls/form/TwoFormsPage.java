@@ -10,8 +10,8 @@ import click.controls.form.TextField;
 @Bindable
 public class TwoFormsPage extends AbstractPage {
 
-    public Form form1 = new Form();
-    public Form form2 = new Form();
+    public Form form1 = new Form("form1");
+    public Form form2 = new Form("form2");
     public String value1 = "foo";
     public String value2 = "foo";
 

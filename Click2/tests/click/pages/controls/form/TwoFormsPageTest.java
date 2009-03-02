@@ -12,7 +12,8 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
         Assert.assertEquals(Join.lines(
             "",
             "<form>",
-            "<p class=\"clickFormHeading\">null</p>",
+            "<input type=\"hidden\" name=\"_formId\" value=\"form1\" />",
+            "<p class=\"clickFormHeading\">Form 1</p>",
             "<table class=\"clickForm\">",
             "<tr>",
             "<th>Value</th>",
@@ -23,7 +24,8 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
             "",
             "",
             "<form>",
-            "<p class=\"clickFormHeading\">null</p>",
+            "<input type=\"hidden\" name=\"_formId\" value=\"form2\" />",
+            "<p class=\"clickFormHeading\">Form 2</p>",
             "<table class=\"clickForm\">",
             "<tr>",
             "<th>Value</th>",
@@ -39,7 +41,8 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
         Assert.assertEquals(Join.lines(
             "",
             "<form>",
-            "<p class=\"clickFormHeading\">null</p>",
+            "<input type=\"hidden\" name=\"_formId\" value=\"form1\" />",
+            "<p class=\"clickFormHeading\">Form 1</p>",
             "<table class=\"clickForm\">",
             "<tr>",
             "<th>Value</th>",
@@ -50,15 +53,16 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
             "",
             "",
             "<form>",
-            "<p class=\"clickFormHeading\">null</p>",
+            "<input type=\"hidden\" name=\"_formId\" value=\"form2\" />",
+            "<p class=\"clickFormHeading\">Form 2</p>",
             "<table class=\"clickForm\">",
             "<tr>",
             "<th>Value</th>",
-            "<td><input id=\"Value\" name=\"Value\" type=\"text\" value=\"bar\"/></td>", // should not be bar
+            "<td><input id=\"Value\" name=\"Value\" type=\"text\" value=\"foo\"/></td>", // is still foo and not bar
             "</tr>",
             "</table>",
             "</form>",
             "",
-            ""), this.request("/controls/form/twoForms.htm").setParameter("form_name", "form").setParameter("Value", "bar").postBody());
+            ""), this.request("/controls/form/twoForms.htm").setParameter("_formId", "form1").setParameter("Value", "bar").postBody());
     }
 }

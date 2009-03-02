@@ -21,7 +21,7 @@ public class AbstractContainerTest extends TestCase {
     }
 
     public void testWithForm() {
-        Form f = new Form();
+        Form f = new Form("f");
         Assert.assertEquals(true, this.page.getControls().contains(f));
     }
 }

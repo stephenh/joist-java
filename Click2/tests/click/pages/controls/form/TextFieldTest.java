@@ -8,15 +8,25 @@ import click.pages.AbstractClickPageTest;
 
 public class TextFieldTest extends AbstractClickPageTest {
 
+    public void testInitialGetDoesNotCauseAClick() throws Exception {
+        this.request("/controls/form/textField.htm").get();
+        Assert.assertEquals(0, TextFieldPage.submitted.get());
+    }
+
     public void testInitialGet() throws Exception {
         Assert.assertEquals(Join.lines(
             "",
             "<form>",
-            "<p class=\"clickFormHeading\">null</p>",
+            "<input type=\"hidden\" name=\"_formId\" value=\"form\" />",
+            "<p class=\"clickFormHeading\">Form</p>",
             "<table class=\"clickForm\">",
             "<tr>",
             "<th>Value</th>",
             "<td><input id=\"Value\" name=\"Value\" type=\"text\" value=\"foo\"/></td>",
+            "</tr>",
+            "<tr>",
+            "<th>Submit</th>",
+            "<td><input id=\"Submit\" name=\"Submit\" type=\"submit\" value=\"\"/></td>",
             "</tr>",
             "</table>",
             "</form>",
@@ -28,15 +38,20 @@ public class TextFieldTest extends AbstractClickPageTest {
         Assert.assertEquals(Join.lines(
             "",
             "<form>",
-            "<p class=\"clickFormHeading\">null</p>",
+            "<input type=\"hidden\" name=\"_formId\" value=\"form\" />",
+            "<p class=\"clickFormHeading\">Form</p>",
             "<table class=\"clickForm\">",
             "<tr>",
             "<th>Value</th>",
             "<td><input id=\"Value\" name=\"Value\" type=\"text\" value=\"bar\"/></td>",
             "</tr>",
+            "<tr>",
+            "<th>Submit</th>",
+            "<td><input id=\"Submit\" name=\"Submit\" type=\"submit\" value=\"\"/></td>",
+            "</tr>",
             "</table>",
             "</form>",
             "",
-            ""), this.request("/controls/form/textField.htm").setParameter("form_name", "form").setParameter("Value", "bar").postBody());
+            ""), this.request("/controls/form/textField.htm").setParameter("_formId", "form").setParameter("Value", "bar").postBody());
     }
 }
