@@ -34,7 +34,7 @@ public class ErrorsDiv implements Control {
         }
 
         HtmlStringBuilderr sb = new HtmlStringBuilderr();
-        sb.line("<div id={} class={}>");
+        sb.line("<div id={} class={}>", this.getId(), "errors");
         sb.line("<ul>");
         for (String error : this.errors) {
             sb.line("<li>{}</li>", error);
