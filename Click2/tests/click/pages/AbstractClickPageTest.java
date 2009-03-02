@@ -3,6 +3,7 @@ package click.pages;
 import junit.framework.TestCase;
 
 import org.apache.log4j.BasicConfigurator;
+import org.exigencecorp.util.TestCounters;
 
 import servletTest.RequestBuilder;
 import click.ClickConfig;
@@ -24,6 +25,8 @@ public abstract class AbstractClickPageTest extends TestCase {
     };
 
     public void setUp() throws Exception {
+        super.setUp();
+        TestCounters.resetAll();
         this.clickServlet.init();
     }
 

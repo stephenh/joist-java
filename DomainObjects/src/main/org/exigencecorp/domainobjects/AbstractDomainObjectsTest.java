@@ -3,11 +3,13 @@ package org.exigencecorp.domainobjects;
 import junit.framework.TestCase;
 
 import org.exigencecorp.domainobjects.uow.UoW;
+import org.exigencecorp.util.TestCounters;
 
 public abstract class AbstractDomainObjectsTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
+        TestCounters.resetAll();
         UoW.open();
     }
 
