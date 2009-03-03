@@ -10,4 +10,6 @@ public interface Column {
 
     void renderRow(StringBuilderr sb);
 
+    String getName();
+
 }

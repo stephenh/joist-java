@@ -36,6 +36,7 @@ public class Table<T> implements Control {
 
     public void addColumn(Column column) {
         this.columns.add(column);
+        column.setTable(this);
     }
 
     public String toString() {
@@ -47,7 +48,7 @@ public class Table<T> implements Control {
     }
 
     private void renderHeader(StringBuilderr sb) {
-        sb.line("<table id={}>", "foo");
+        sb.line("<table id={}>", this.getId());
         sb.line("  <thead>");
         sb.line("    <tr>");
         for (Column column : this.columns) {
@@ -59,13 +60,17 @@ public class Table<T> implements Control {
 
     private void renderRows(StringBuilderr sb) {
         sb.line("  <tbody>");
+        int i = 0;
         for (T object : this.list) {
             this.current.set(object);
             sb.line("    <tr>");
             for (Column column : this.columns) {
+                sb.append("      <td id=\"{}.{}.{}\">", this.getId(), column.getName(), i);
                 column.renderRow(sb);
+                sb.line("</td>");
             }
             sb.line("    </tr>");
+            i++;
         }
         sb.line("  </tbody>");
     }

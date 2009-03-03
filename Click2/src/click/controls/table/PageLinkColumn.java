@@ -19,14 +19,14 @@ public class PageLinkColumn extends AbstractColumn {
     @Override
     public void renderHeader(StringBuilderr sb) {
         if (this.contentBinding != null) {
-            sb.line("<th>{}</th>", this.contentBinding.getName());
+            sb.line("{}", this.contentBinding.getName());
         }
     }
 
     @Override
     public void renderRow(StringBuilderr sb) {
         if (this.contentBinding != null) {
-            sb.line("<td><a href=\"/{}.htm\">{}</a></td>", this.toPage(), this.contentBinding.get());
+            sb.line("<a href=\"/{}.htm\">{}</a>", this.toPage(), this.contentBinding.get());
         }
     }
 
@@ -42,6 +42,10 @@ public class PageLinkColumn extends AbstractColumn {
     public PageLinkColumn setContent(Object content) {
         // this.content = content;
         return this;
+    }
+
+    public String getName() {
+        return this.contentBinding.getName();
     }
 
 }
