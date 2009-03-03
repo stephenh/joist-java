@@ -3,6 +3,7 @@ package click;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -30,7 +31,9 @@ public class DefaultPageProcessor implements PageProcessor {
             return;
         }
         this.doAddFieldsToModel(page);
+        this.doAddFlashToModel(page);
         this.doRender(page);
+        this.doResetFlash(page);
     }
 
     protected void doFindFieldsThatAreControls(Page page) {
@@ -78,6 +81,10 @@ public class DefaultPageProcessor implements PageProcessor {
         }
     }
 
+    protected void doResetFlash(Page page) {
+        this.getContext().getFlash().clear();
+    }
+
     protected void doAddFieldsToModel(Page page) {
         try {
             for (Field field : page.getClass().getFields()) {
@@ -89,6 +96,12 @@ public class DefaultPageProcessor implements PageProcessor {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    protected void doAddFlashToModel(Page page) {
+        for (Entry<String, Object> e : CurrentContext.get().getFlash().get()) {
+            CurrentContext.get().getModel().put(e.getKey(), e.getValue());
         }
     }
 

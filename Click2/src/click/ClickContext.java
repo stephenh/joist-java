@@ -68,6 +68,15 @@ public class ClickContext {
         return this.clickConfig;
     }
 
+    public Flash getFlash() {
+        Flash flash = (Flash) this.getRequest().getSession().getAttribute("_flash");
+        if (flash == null) {
+            flash = new Flash();
+            this.getRequest().getSession().setAttribute("_flash", flash);
+        }
+        return flash;
+    }
+
     public Map<String, Object> getModel() {
         return this.model;
     }
