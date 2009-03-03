@@ -25,6 +25,9 @@ public class RequestStub implements HttpServletRequest {
     private SessionStub session = new SessionStub();
     private Map<String, String[]> parameters = new HashMap<String, String[]>();
 
+    public RequestStub() {
+    }
+
     public String getAuthType() {
         return null;
     }
@@ -257,6 +260,14 @@ public class RequestStub implements HttpServletRequest {
 
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
+    }
+
+    public SessionStub getSessionStub() {
+        return this.session;
+    }
+
+    public void setSessionStub(SessionStub session) {
+        this.session = session;
     }
 
 }

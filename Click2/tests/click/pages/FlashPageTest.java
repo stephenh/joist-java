@@ -5,7 +5,8 @@ import junit.framework.Assert;
 public class FlashPageTest extends AbstractClickPageTest {
 
     public void testFlashOnRedirect() throws Exception {
-        Assert.assertEquals(" submitted ", this.request("/flash.htm").setParameter("_formId", "form").getBody());
+        Assert.assertEquals("/flash.htm", this.request("/flash.htm").setParameter("_formId", "form").get().getRedirect());
+        Assert.assertEquals(" success ", this.request("/flash.htm").getBody());
     }
 
 }

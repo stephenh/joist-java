@@ -20,7 +20,8 @@ public class FlashPage extends AbstractPage {
     }
 
     public void submit() {
-        ClickKeywords.flash("message", "submitted");
+        ClickKeywords.flash("message", "success");
+        ClickKeywords.redirect("/flash.htm");
     }
 
 }

@@ -52,4 +52,12 @@ public class RequestBuilder {
         return this;
     }
 
+    public HttpServlet getServlet() {
+        return this.servlet;
+    }
+
+    public RequestStub getRequest() {
+        return this.request;
+    }
+
 }

@@ -6,6 +6,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.exigencecorp.util.TestCounters;
 
 import servletTest.RequestBuilder;
+import servletTest.SessionStub;
 import click.ClickConfig;
 import click.ClickServlet;
 
@@ -23,6 +24,7 @@ public abstract class AbstractClickPageTest extends TestCase {
             return AbstractClickPageTest.this.config;
         }
     };
+    private SessionStub sessionStub = new SessionStub();
 
     public void setUp() throws Exception {
         super.setUp();
@@ -31,7 +33,9 @@ public abstract class AbstractClickPageTest extends TestCase {
     }
 
     public RequestBuilder request(String url) throws Exception {
-        return new RequestBuilder(this.clickServlet, url);
+        RequestBuilder request = new RequestBuilder(this.clickServlet, url);
+        request.getRequest().setSessionStub(this.sessionStub);
+        return request;
     }
 
 }

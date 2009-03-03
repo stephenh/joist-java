@@ -15,4 +15,5 @@ public class ResponseParser {
     public String getRedirect() {
         return this.response.getRedirect();
     }
+
 }
