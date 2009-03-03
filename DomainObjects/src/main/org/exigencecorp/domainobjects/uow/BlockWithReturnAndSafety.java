@@ -4,6 +4,6 @@ public interface BlockWithReturnAndSafety<T> {
 
     T go();
 
-    void stopped(Exception e);
+    T stopped(Exception e);
 
 }

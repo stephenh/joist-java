@@ -58,8 +58,7 @@ public class UoW {
             committed = true;
             return value;
         } catch (Exception e) {
-            block.stopped(e);
-            return null;
+            return block.stopped(e);
         } finally {
             UoW.safelyRollbackAndCloseIfNeeded(committed);
         }
