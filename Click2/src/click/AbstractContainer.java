@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 /** Base class for Page, Form, Table, etc. */
-public class AbstractContainer implements Container {
+public abstract class AbstractContainer implements Container {
 
     private List<Control> controls = new ArrayList<Control>();
     private List<Control> controlsReadOnly = Collections.unmodifiableList(this.controls);
@@ -20,6 +22,10 @@ public class AbstractContainer implements Container {
     @Override
     public List<Control> getControls() {
         return this.controlsReadOnly;
+    }
+
+    public HttpSession getSession() {
+        return CurrentContext.get().getRequest().getSession();
     }
 
 }
