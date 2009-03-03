@@ -52,6 +52,6 @@ public class TextFieldTest extends AbstractClickPageTest {
             "</table>",
             "</form>",
             "",
-            ""), this.request("/controls/form/textField.htm").setParameter("_formId", "form").setParameter("Value", "bar").postBody());
+            ""), this.request("/controls/form/textField.htm").set("_formId", "form").set("Value", "bar").postBody());
     }
 }

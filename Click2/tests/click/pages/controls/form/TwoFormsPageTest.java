@@ -63,6 +63,6 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
             "</table>",
             "</form>",
             "",
-            ""), this.request("/controls/form/twoForms.htm").setParameter("_formId", "form1").setParameter("Value", "bar").postBody());
+            ""), this.request("/controls/form/twoForms.htm").set("_formId", "form1").set("Value", "bar").postBody());
     }
 }

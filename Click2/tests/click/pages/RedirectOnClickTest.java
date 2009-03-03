@@ -9,7 +9,7 @@ public class RedirectOnClickTest extends AbstractClickPageTest {
     }
 
     public void testPostDoesCauseRedirect() throws Exception {
-        Assert.assertEquals("/foo.htm", this.request("/redirectOnClick.htm").setParameter("_formId", "form").getRedirect());
+        Assert.assertEquals("/foo.htm", this.request("/redirectOnClick.htm").set("_formId", "form").getRedirect());
         Assert.assertEquals(0, RedirectOnClickPage.rendered.get());
         Assert.assertEquals(0, RedirectOnClickPage.lineAfterRedirect.get());
     }

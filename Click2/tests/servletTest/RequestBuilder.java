@@ -47,7 +47,7 @@ public class RequestBuilder {
         return this.post().getBody();
     }
 
-    public RequestBuilder setParameter(String name, String value) {
+    public RequestBuilder set(String name, String value) {
         this.request.setParameter(name, new String[] { value });
         return this;
     }
