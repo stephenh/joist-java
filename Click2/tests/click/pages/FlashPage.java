@@ -6,7 +6,7 @@ import bindgen.click.pages.FlashPageBinding;
 import click.AbstractPage;
 import click.ClickKeywords;
 import click.controls.form.Form;
-import click.controls.form.SubmitField;
+import click.controls.form.SubmitButton;
 
 @Bindable
 public class FlashPage extends AbstractPage {
@@ -16,7 +16,7 @@ public class FlashPage extends AbstractPage {
     @Override
     public void onInit() {
         FlashPageBinding b = new FlashPageBinding(this);
-        this.form.add(new SubmitField(b.submit()));
+        this.form.add(new SubmitButton(b.submit()));
     }
 
     public void submit() {

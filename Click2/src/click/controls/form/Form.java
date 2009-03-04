@@ -14,7 +14,8 @@ import click.util.HtmlStringBuilderr;
 
 public class Form implements Control {
 
-    private List<Field> fields = new ArrayList<Field>();
+    private final List<Field> fields = new ArrayList<Field>();
+    private final List<Button> buttons = new ArrayList<Button>();
     private String id;
     private String heading;
 
@@ -30,14 +31,20 @@ public class Form implements Control {
             Log.debug("{} != {}, skipping onProcess", "form", submittedFormName);
             return;
         }
-
         for (Field field : this.fields) {
             field.onProcess();
+        }
+        for (Button button : this.buttons) {
+            button.onProcess();
         }
     }
 
     public void add(Field field) {
         this.fields.add(field);
+    }
+
+    public void add(Button button) {
+        this.buttons.add(button);
     }
 
     public String toString() {
@@ -60,11 +67,20 @@ public class Form implements Control {
 
     protected void renderFields(HtmlStringBuilderr sb) {
         sb.line("<table class={}>", "clickForm");
+        // Fields
         for (Field field : this.fields) {
             sb.line("<tr>");
             sb.line("<th>{}</th>", field.getLabel());
             sb.line("<td>{}</td>", field.toString());
             sb.line("</tr>");
+        }
+        // Buttons
+        if (this.buttons.size() > 0) {
+            sb.line("<tr><th>&nbsp;</th><td>");
+            for (Button button : this.buttons) {
+                sb.line(button.toString());
+            }
+            sb.line("</td></tr>");
         }
         sb.line("</table>");
     }

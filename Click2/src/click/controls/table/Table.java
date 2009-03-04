@@ -52,7 +52,9 @@ public class Table<T> implements Control {
         sb.line("  <thead>");
         sb.line("    <tr>");
         for (Column column : this.columns) {
+            sb.append("      <th id=\"{}.{}\">", this.getId(), column.getName());
             column.renderHeader(sb);
+            sb.line("</th>");
         }
         sb.line("    </tr>");
         sb.line("  </thead>");
