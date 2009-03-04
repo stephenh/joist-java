@@ -72,8 +72,9 @@ public class DefaultPageProcessor implements PageProcessor {
             String template = this.getPageResolver().getTemplateFromPage(page.getClass().getName());
 
             Log.debug("Rendering {} for {}", template, page);
-            this.getVelocityEngine().mergeTemplate(//
+            this.getVelocityEngine().mergeTemplate(
                 template,
+                "UTF-8",
                 new VelocityContext(this.getModel()),
                 this.getContext().getResponse().getWriter());
         } catch (Exception e) {
