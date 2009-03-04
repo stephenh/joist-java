@@ -22,7 +22,5 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="lib/main/ezmorph-1.0.6.jar" sourcepath="lib/main/ezmorph-1.0.6.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/main/transmorph-2.0.0.jar" sourcepath="lib/main/transmorph-2.0.0.zip"/>
 	<classpathentry kind="output" path="bin/eclipse"/>
 </classpath>

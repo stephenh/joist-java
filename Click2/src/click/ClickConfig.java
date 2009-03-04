@@ -1,8 +1,5 @@
 package click;
 
-import net.sf.ezmorph.MorphUtils;
-import net.sf.ezmorph.MorpherRegistry;
-
 import org.apache.velocity.app.VelocityEngine;
 
 /** User configuration for click2.
@@ -39,13 +36,6 @@ public class ClickConfig {
     /** Override if you want to customize the page resolver. */
     protected PageResolver createPageResolver() {
         return new PageResolver(this.basePackageName);
-    }
-
-    /** Override if you want to customize the page resolver. */
-    protected MorpherRegistry createMorpherRegistry() {
-        MorpherRegistry mr = new MorpherRegistry();
-        MorphUtils.registerStandardMorphers(mr);
-        return mr;
     }
 
     public String getBasePackageName() {
