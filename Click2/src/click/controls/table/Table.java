@@ -8,6 +8,7 @@ import org.exigencecorp.util.Inflector;
 import org.exigencecorp.util.StringBuilderr;
 
 import click.Control;
+import click.util.HtmlStringBuilderr;
 
 public class Table<T> implements Control {
 
@@ -42,14 +43,14 @@ public class Table<T> implements Control {
     }
 
     public String toString() {
-        StringBuilderr sb = new StringBuilderr();
+        HtmlStringBuilderr sb = new HtmlStringBuilderr();
         this.renderHeader(sb);
         this.renderRows(sb);
         this.renderFooter(sb);
         return sb.toString();
     }
 
-    private void renderHeader(StringBuilderr sb) {
+    private void renderHeader(HtmlStringBuilderr sb) {
         sb.line("<h3>{}</h3>", this.getLabel());
         sb.line("<table id={}>", this.getId());
         sb.line("  <thead>");
@@ -63,7 +64,7 @@ public class Table<T> implements Control {
         sb.line("  </thead>");
     }
 
-    private void renderRows(StringBuilderr sb) {
+    private void renderRows(HtmlStringBuilderr sb) {
         sb.line("  <tbody>");
         int i = 0;
         for (T object : this.list) {

@@ -11,7 +11,8 @@ public class TablePageTest extends AbstractClickPageTest {
     public void testInitialGet() throws Exception {
         Assert.assertEquals(Join.lines(
             "",
-            "<table id=table>",
+            "<h3>Table</h3>",
+            "<table id=\"table\">",
             "  <thead>",
             "    <tr>",
             "      <th id=\"table.string\">string</th>",
