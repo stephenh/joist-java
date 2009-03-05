@@ -2,6 +2,7 @@ package click.controls.table;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.exigencecorp.bindgen.Binding;
+import org.exigencecorp.util.Inflector;
 import org.exigencecorp.util.StringBuilderr;
 
 public class TextColumn extends AbstractColumn {
@@ -10,11 +11,7 @@ public class TextColumn extends AbstractColumn {
 
     public TextColumn(Binding<?> binding) {
         this.binding = binding;
-    }
-
-    @Override
-    public void renderHeader(StringBuilderr sb) {
-        sb.append(this.binding.getName());
+        this.setLabel(Inflector.humanize(this.binding.getName()));
     }
 
     @Override

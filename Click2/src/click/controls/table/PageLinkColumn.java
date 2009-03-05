@@ -2,6 +2,7 @@ package click.controls.table;
 
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
+import org.exigencecorp.util.Inflector;
 import org.exigencecorp.util.StringBuilderr;
 
 public class PageLinkColumn extends AbstractColumn {
@@ -17,13 +18,6 @@ public class PageLinkColumn extends AbstractColumn {
     }
 
     @Override
-    public void renderHeader(StringBuilderr sb) {
-        if (this.contentBinding != null) {
-            sb.line("{}", this.contentBinding.getName());
-        }
-    }
-
-    @Override
     public void renderRow(StringBuilderr sb) {
         if (this.contentBinding != null) {
             sb.line("<a href=\"/{}.htm\">{}</a>", this.toPage(), this.contentBinding.get());
@@ -36,6 +30,7 @@ public class PageLinkColumn extends AbstractColumn {
 
     public PageLinkColumn setContent(Binding<?> binding) {
         this.contentBinding = binding;
+        this.setLabel(Inflector.humanize(binding.getName()));
         return this;
     }
 
