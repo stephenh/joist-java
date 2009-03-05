@@ -4,23 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.exigencecorp.bindgen.Binding;
+import org.exigencecorp.util.Inflector;
 import org.exigencecorp.util.StringBuilderr;
 
 import click.Control;
 
 public class Table<T> implements Control {
 
-    private String name;
+    private String id;
+    private String label;
     private List<Column> columns = new ArrayList<Column>();
     private List<T> list = new ArrayList<T>();
     private Binding<? super T> current = null;
 
-    public Table(String name) {
-        this.name = name;
+    public Table(String id) {
+        this.setId(id);
     }
 
     public String getId() {
-        return this.name;
+        return this.id;
     }
 
     public void onProcess() {
@@ -48,6 +50,7 @@ public class Table<T> implements Control {
     }
 
     private void renderHeader(StringBuilderr sb) {
+        sb.line("<h3>{}</h3>", this.getLabel());
         sb.line("<table id={}>", this.getId());
         sb.line("  <thead>");
         sb.line("    <tr>");
@@ -79,6 +82,21 @@ public class Table<T> implements Control {
 
     private void renderFooter(StringBuilderr sb) {
         sb.line("</table>");
+    }
+
+    public String getLabel() {
+        return this.label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+        if (this.label == null) {
+            this.setLabel(Inflector.humanize(id));
+        }
     }
 
 }
