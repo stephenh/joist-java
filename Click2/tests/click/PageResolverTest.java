@@ -1,9 +1,8 @@
 package click;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class PageResolverTest extends TestCase {
+public class PageResolverTest extends AbstractClickTest {
 
     public void testRootDirectory() {
         PageResolver resolver = new PageResolver("app.pages");

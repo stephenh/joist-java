@@ -1,24 +1,49 @@
 package click.controls;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.exigencecorp.bindgen.Binding;
 
 import click.Control;
 import click.CurrentContext;
+import click.Page;
 import click.util.HtmlStringBuilderr;
 
 public class PageLink implements Control {
 
     private final Map<String, String> parameters = new HashMap<String, String>();
-    private Class<?> pageClass;
+    private Class<? extends Page> pageClass;
+
+    public PageLink(Class<? extends Page> pageClass) {
+        this.pageClass = pageClass;
+    }
 
     public String getId() {
         return null;
     }
 
     public void onProcess() {
+    }
+
+    public void addParameter(Object value) {
+        if (value instanceof Binding) {
+            value = ((Binding<?>) value).get();
+        }
+        for (Field field : this.pageClass.getFields()) {
+            if (field.getType().isAssignableFrom(value.getClass())) {
+                this.addParameter(field.getName(), value);
+                return;
+            }
+        }
+        throw new RuntimeException("Could not auto-bind value: " + value);
+    }
+
+    public void addParameter(String name, Object value) {
+        this.parameters.put(name, ObjectUtils.toString(value));
     }
 
     public String toString() {

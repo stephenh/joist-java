@@ -1,20 +1,12 @@
 package click.pages;
 
-import junit.framework.TestCase;
-
-import org.apache.log4j.BasicConfigurator;
-import org.exigencecorp.util.TestCounters;
-
 import servletTest.RequestBuilder;
 import servletTest.SessionStub;
+import click.AbstractClickTest;
 import click.ClickConfig;
 import click.ClickServlet;
 
-public abstract class AbstractClickPageTest extends TestCase {
-
-    static {
-        BasicConfigurator.configure();
-    }
+public abstract class AbstractClickPageTest extends AbstractClickTest {
 
     protected ClickConfig config = new ClickConfig("click.pages");
     protected ClickServlet clickServlet = new ClickServlet() {
@@ -28,7 +20,6 @@ public abstract class AbstractClickPageTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        TestCounters.resetAll();
         this.clickServlet.init();
     }
 

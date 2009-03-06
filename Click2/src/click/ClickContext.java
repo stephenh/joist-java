@@ -19,13 +19,6 @@ public class ClickContext {
     private final List<Control> prePageSetControls = new ArrayList<Control>();
     private Page page;
 
-    public ClickContext() {
-        this.servletConfig = null;
-        this.clickConfig = null;
-        this.request = null;
-        this.response = null;
-    }
-
     public ClickContext(ServletConfig servletConfig, ClickConfig clickConfig, HttpServletRequest request, HttpServletResponse response) {
         this.servletConfig = servletConfig;
         this.clickConfig = clickConfig;

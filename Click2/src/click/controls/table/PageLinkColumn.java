@@ -1,13 +1,17 @@
 package click.controls.table;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
+import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Inflector;
 import org.exigencecorp.util.StringBuilderr;
 
 public class PageLinkColumn extends AbstractColumn {
 
-    private Class<?> pageClass;
+    private final Class<?> pageClass;
+    private final List<Object> params;
     private Binding<?> contentBinding;
 
     // private Object content;
@@ -15,6 +19,7 @@ public class PageLinkColumn extends AbstractColumn {
     // Replace params with a annotation-gend XxxPageLink class?
     public PageLinkColumn(Class<?> pageClass, Object... params) {
         this.pageClass = pageClass;
+        this.params = Copy.list(params);
     }
 
     @Override

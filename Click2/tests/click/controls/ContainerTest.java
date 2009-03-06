@@ -1,27 +1,24 @@
 package click.controls;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 import click.AbstractPage;
-import click.ClickContext;
 import click.CurrentContext;
 import click.controls.form.Form;
 
-public class AbstractContainerTest extends TestCase {
+public class ContainerTest extends AbstractClickControlTest {
 
     private AbstractPage page;
-    private ClickContext context;
 
-    public void setUp() {
-        this.context = new ClickContext();
+    public void setUp() throws Exception {
+        super.setUp();
         this.page = new AbstractPage() {
         };
-        this.context.setPage(this.page);
-        CurrentContext.set(this.context);
     }
 
     public void testWithForm() {
+        CurrentContext.get().setPage(this.page);
         Form f = new Form("f");
         Assert.assertEquals(true, this.page.getControls().contains(f));
     }
+
 }
