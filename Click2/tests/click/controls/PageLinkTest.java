@@ -37,12 +37,8 @@ public class PageLinkTest extends AbstractClickControlTest {
 
     public void testParameterGetsConvertedToAString() {
         this.config.getUrlConverterRegistry().addConverter(PageLinkTest.employeeToString);
-
-        Employee e = new Employee();
-        e.id = 2;
-
         PageLink p = new PageLink(EmployeePage.class);
-        p.addParameter(e);
+        p.addParameter(new Employee(2));
         Assert.assertEquals("click/controls/pageLinkTest$Employee.htm?employee=2", p.getHref());
     }
 
@@ -57,6 +53,10 @@ public class PageLinkTest extends AbstractClickControlTest {
 
     public static class Employee {
         public Integer id;
+
+        public Employee(Integer id) {
+            this.id = id;
+        }
     }
 
     public static Converter<Employee, String> employeeToString = new AbstractConverter<Employee, String>() {
@@ -65,9 +65,7 @@ public class PageLinkTest extends AbstractClickControlTest {
         }
 
         public Employee convertTwoToOne(String value, Class<? extends Employee> toType) {
-            Employee e = new Employee();
-            e.id = new Integer(value);
-            return e;
+            return new Employee(new Integer(value));
         }
     };
 }
