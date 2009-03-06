@@ -35,6 +35,17 @@ public class ConverterTest extends TestCase {
         Assert.assertEquals(1, ConverterRegistry.probes.get());
     }
 
+    public void testBaseCannotGoToSub() {
+        ConverterRegistry r = new ConverterRegistry();
+        Base b = new Base();
+        try {
+            r.convert(b, Sub.class);
+            Assert.fail();
+        } catch (UnsupportedConversionException uce) {
+            Assert.assertEquals(Sub.class, uce.getToType());
+        }
+    }
+
     public void testFailsIfUnsupported() {
         ConverterRegistry r = new ConverterRegistry();
         try {
