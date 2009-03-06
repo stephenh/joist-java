@@ -1,6 +1,7 @@
 package click;
 
 import org.apache.velocity.app.VelocityEngine;
+import org.exigencecorp.conversion.ConverterRegistry;
 
 /** User configuration for click2.
  *
@@ -13,11 +14,13 @@ public class ClickConfig {
     private final PageResolver pageResolver;
     private final VelocityEngine velocityEngine;
     private final String basePackageName;
+    private final ConverterRegistry urlConverterRegistry;
 
     public ClickConfig(String basePackageName) {
         this.basePackageName = basePackageName;
         this.pageResolver = this.createPageResolver();
         this.velocityEngine = this.createVelocityEngine();
+        this.urlConverterRegistry = this.createUrlConverterRegistry();
     }
 
     /** Override if you want to customize the velocity engine. */
@@ -38,6 +41,11 @@ public class ClickConfig {
         return new PageResolver(this.basePackageName);
     }
 
+    /** Override if you want to customize the converter registry. */
+    protected ConverterRegistry createUrlConverterRegistry() {
+        return ConverterRegistry.newRegistryWithDefaultConverters();
+    }
+
     public String getBasePackageName() {
         return this.basePackageName;
     }
@@ -48,5 +56,9 @@ public class ClickConfig {
 
     public VelocityEngine getVelocityEngine() {
         return this.velocityEngine;
+    }
+
+    public ConverterRegistry getUrlConverterRegistry() {
+        return this.urlConverterRegistry;
     }
 }

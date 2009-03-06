@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 
@@ -43,7 +42,8 @@ public class PageLink implements Control {
     }
 
     public void addParameter(String name, Object value) {
-        this.parameters.put(name, ObjectUtils.toString(value));
+        String valueAsString = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(value, String.class);
+        this.parameters.put(name, valueAsString);
     }
 
     public String toString() {
