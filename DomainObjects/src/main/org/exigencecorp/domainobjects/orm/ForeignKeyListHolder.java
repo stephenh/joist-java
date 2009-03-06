@@ -45,9 +45,11 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
             } else {
                 this.loaded = new ArrayList<U>();
             }
-            this.loaded.addAll(this.addedBeforeLoaded);
-            this.loaded.removeAll(this.removedBeforeLoaded);
-            this.loaded = Copy.unique(this.loaded);
+            if (this.addedBeforeLoaded.size() > 0 || this.removedBeforeLoaded.size() > 0) {
+                this.loaded.addAll(this.addedBeforeLoaded);
+                this.loaded.removeAll(this.removedBeforeLoaded);
+                this.loaded = Copy.unique(this.loaded);
+            }
             this.readOnly = Collections.unmodifiableList(this.loaded);
         }
         return this.readOnly;
