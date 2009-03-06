@@ -9,6 +9,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/main/postgresql-8.3-603.jdbc3.jar" sourcepath="lib/main/postgresql-8.3-603.jdbc3.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/bd/bd.jar" sourcepath="lib/bd/bd.zip"/>
 	<classpathentry kind="lib" path="lib/main/junit-3.8.2.jar" sourcepath="lib/main/junit-3.8.2.zip"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Utilities"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Utilities"/>
 	<classpathentry kind="output" path="bin/eclipse"/>
 </classpath>
