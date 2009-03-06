@@ -2,9 +2,11 @@ package click.controls;
 
 import junit.framework.Assert;
 
+import org.exigencecorp.bindgen.Bindable;
 import org.exigencecorp.conversion.AbstractConverter;
 import org.exigencecorp.conversion.Converter;
 
+import bindgen.click.controls.pageLinkTest.EmployeeBinding;
 import click.AbstractPage;
 import click.pages.AddModelPublicFieldPage;
 import click.pages.HelloWorldPage;
@@ -42,6 +44,22 @@ public class PageLinkTest extends AbstractClickControlTest {
         Assert.assertEquals("click/controls/pageLinkTest$Employee.htm?employee=2", p.getHref());
     }
 
+    public void testBoundParameterGetsConvertedToAString() {
+        this.config.getUrlConverterRegistry().addConverter(PageLinkTest.employeeToString);
+        PageLink p = new PageLink(EmployeePage.class);
+        EmployeeBinding b = new EmployeeBinding(new Employee(2));
+        p.addParameter(b);
+        Assert.assertEquals("click/controls/pageLinkTest$Employee.htm?employee=2", p.getHref());
+    }
+
+    public void testBoundParameterGetsConvertedToAStringWithExplicitName() {
+        this.config.getUrlConverterRegistry().addConverter(PageLinkTest.employeeToString);
+        PageLink p = new PageLink(EmployeePage.class);
+        EmployeeBinding b = new EmployeeBinding(new Employee(2));
+        p.addParameter("employee", b);
+        Assert.assertEquals("click/controls/pageLinkTest$Employee.htm?employee=2", p.getHref());
+    }
+
     public static class TwoStringFieldsPage extends AbstractPage {
         public String value1;
         public String value2;
@@ -51,6 +69,7 @@ public class PageLinkTest extends AbstractClickControlTest {
         public Employee employee;
     }
 
+    @Bindable
     public static class Employee {
         public Integer id;
 

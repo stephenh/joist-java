@@ -42,6 +42,9 @@ public class PageLink implements Control {
     }
 
     public void addParameter(String name, Object value) {
+        if (value instanceof Binding) {
+            value = ((Binding<?>) value).get();
+        }
         String valueAsString = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(value, String.class);
         this.parameters.put(name, valueAsString);
     }
