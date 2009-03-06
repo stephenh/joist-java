@@ -114,9 +114,9 @@ public class DefaultPageProcessor implements PageProcessor {
                 if (value == null) {
                     Log.debug("No request parameter for {}", field.getName());
                 } else {
-                    Log.debug("Setting {}.{} with request parameter {}", page, field.getName(), value);
-                    // Object o = this.getContext().getClickConfig().getMorpherRegistry().morph(field.getType(), value);
-                    field.set(page, value);
+                    Object converted = this.getContext().getClickConfig().getUrlConverterRegistry().convert(value, field.getType());
+                    Log.debug("Setting {}.{} with request parameter {}", page, field.getName(), converted);
+                    field.set(page, converted);
                 }
             }
         } catch (Exception e) {
