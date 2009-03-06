@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class ClickServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1;
-    private ClickConfig clickConfig;
     private ServletConfig servletConfig;
+    private ClickConfig clickConfig;
 
     public ClickServlet() {
     }
