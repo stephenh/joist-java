@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
+import org.exigencecorp.util.Inflector;
 
 import click.Control;
 import click.CurrentContext;
@@ -16,13 +17,21 @@ public class PageLink implements Control {
 
     private final Map<String, String> parameters = new HashMap<String, String>();
     private Class<? extends Page> pageClass;
+    private String id;
+    private String text;
 
     public PageLink(Class<? extends Page> pageClass) {
         this.pageClass = pageClass;
+        this.setId(StringUtils.removeEnd(pageClass.getSimpleName(), "Page"));
+        this.setText(Inflector.humanize(StringUtils.removeEnd(pageClass.getSimpleName(), "Page")));
     }
 
     public String getId() {
-        return null;
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void onProcess() {
@@ -55,7 +64,7 @@ public class PageLink implements Control {
         sb.attribute("id", this.getId());
         sb.attribute("href", this.getHref());
         sb.startDone();
-        sb.append("content");
+        sb.append(this.getText());
         sb.end("a");
         return sb.toString();
     }
@@ -73,6 +82,14 @@ public class PageLink implements Control {
             }
         }
         return StringUtils.stripEnd(path, "?&"); // Strip last un-needed ? or &
+    }
+
+    public String getText() {
+        return this.text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
 }
