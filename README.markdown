@@ -2,11 +2,24 @@
 Conversion
 ==========
 
-[ConverterRegistry][1] does simple, inheritance-aware type conversion.
+[ConverterRegistry](master/src/main/org/exigencecorp/conversion/ConverterRegistry.java) does simple, inheritance-aware type conversion.
 
-For example, you can register a single `DomainObjectToStringConverter` converter that knows how to convert all your domain classes (instead a different converter for every domain class).
+For example, you can register a single `DomainObjectToStringConverter` converter that knows how to convert all your domain classes (instead a different converter for every domain class):
 
-It doesn't do any fancy list/array stuff yet, nor have many default converters, but the core seems really solid.
+    public class DomainObjectToStringConverter extends AbstractConverter<DomainObject, String> {
+        public String convertOneToTwo(DomainObject value, Class<? extends String> toType) {
+            return value.getId() == null ? "" : value.getId().toString();
+        }
+        public DomainObject convertTwoToOne(String value, Class<? extends DomainObject> toType) {
+            return UoW.load(toType, new Integer(value));
+        }
+    }
+
+The "one" and "two" are because conversions are assumed to be two-way--so just "to" and "from" does not work (as you can go back: "from" to "to"). Suggestions for better terms than "one" and "two" are welcome.
+
+If you do have a one-way-only conversion, you can extend [AbstractOneWayConverter](master/src/main/org/exigencecorp/conversion/AbstractOneWayConverter.java).
+
+Conversion doesn't do any fancy list/array stuff yet, nor have many default converters, but the core seems solid.
 
 Gen
 ===
