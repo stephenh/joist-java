@@ -1,4 +1,6 @@
 
+`exigence-utilities` is a collection of small libraries and utility classes.
+
 Conversion
 ==========
 
