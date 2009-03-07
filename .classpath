@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/bd"/>
 	<classpathentry kind="src" path="src/main"/>
 	<classpathentry kind="src" path="tests"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/main/log4j-1.2.15.jar" sourcepath="lib/main/log4j-1.2.15.zip"/>
 	<classpathentry kind="lib" path="lib/test/junit-3.8.2.jar" sourcepath="lib/test/junit-3.8.2.zip"/>
 	<classpathentry kind="lib" path="lib/main/commons-lang-2.3.jar" sourcepath="lib/main/commons-lang-2.3.zip"/>
-	<classpathentry kind="lib" path="lib/bd/bd.jar"/>
 	<classpathentry kind="output" path="bin/eclipse"/>
 </classpath>

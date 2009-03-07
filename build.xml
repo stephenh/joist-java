@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<project name="utilities" default="jar" basedir=".">
+
+	<target name="clean">
+		<delete dir="bin"/>
+	</target>
+
+	<target name="compile">
+		<mkdir dir="bin/main"/>
+		<javac srcdir="src/main" destdir="bin/main" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8">
+			<classpath>
+				<fileset dir="lib/main" includes="**/*.jar"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="bin/exigence-utilities.jar">
+			<fileset dir="bin/main" includes="**/*.class"/>
+		</jar>
+		<zip destfile="bin/exigence-utilities.zip">
+			<fileset dir="src/main" includes="**/*.java"/>
+		</zip>
+		<mkdir dir="${user.home}/.bd"/>
+		<copy todir="${user.home}/.bd" file="bin/exigence-utilities.jar"/>
+		<copy todir="${user.home}/.bd" file="bin/exigence-utilities.zip"/>
+	</target>
+
+</project>
+
