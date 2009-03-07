@@ -1,7 +1,7 @@
 package click.controls;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -15,7 +15,7 @@ import click.util.HtmlWriter;
 
 public class PageLink implements Control {
 
-    private final Map<String, String> parameters = new HashMap<String, String>();
+    private final Map<String, Object> parameters = new LinkedHashMap<String, Object>();
     private Class<? extends Page> pageClass;
     private String id;
     private String text;
@@ -38,11 +38,9 @@ public class PageLink implements Control {
     }
 
     public void addParameter(Object value) {
-        if (value instanceof Binding) {
-            value = ((Binding<?>) value).get();
-        }
+        Class<?> valueType = (value instanceof Binding) ? ((Binding<?>) value).getType() : value.getClass();
         for (Field field : this.pageClass.getFields()) {
-            if (field.getType().isAssignableFrom(value.getClass())) {
+            if (field.getType().isAssignableFrom(valueType)) {
                 this.addParameter(field.getName(), value);
                 return;
             }
@@ -50,12 +48,12 @@ public class PageLink implements Control {
         throw new RuntimeException("Could not auto-bind value: " + value);
     }
 
+    /**
+     * @param name the key for the query string entry
+     * @param value the value for the query string entry--will be converted to a string in <code>getHrefWithoutContext</code>
+     */
     public void addParameter(String name, Object value) {
-        if (value instanceof Binding) {
-            value = ((Binding<?>) value).get();
-        }
-        String valueAsString = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(value, String.class);
-        this.parameters.put(name, valueAsString);
+        this.parameters.put(name, value);
     }
 
     public void render(HtmlWriter w) {
@@ -75,8 +73,14 @@ public class PageLink implements Control {
         String path = CurrentContext.get().getClickConfig().getPageResolver().getPathFromPage(this.pageClass.getName());
         if (this.parameters.size() > 0) {
             path += "?";
-            for (Map.Entry<String, String> entry : this.parameters.entrySet()) {
-                path += entry.getKey() + "=" + entry.getValue() + "&";
+            for (Map.Entry<String, Object> entry : this.parameters.entrySet()) {
+                Object value = entry.getValue();
+                // We delay evaluating bindings until here in case they have changed since addParameter was called, e.g. in Tables on each row
+                if (value instanceof Binding) {
+                    value = ((Binding<?>) value).get();
+                }
+                String valueAsString = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(value, String.class);
+                path += entry.getKey() + "=" + valueAsString + "&";
             }
         }
         return StringUtils.stripEnd(path, "?&"); // Strip last un-needed ? or &
