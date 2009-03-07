@@ -9,7 +9,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/main/commons-io-1.3.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/main/commons-lang-2.3.jar" sourcepath="lib/main/commons-lang-2.3.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/main/log4j-1.3-alpha-8.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/main/slf4j-log4j12.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/main/velocity-1.6.1.jar" sourcepath="lib/main/velocity-1.6.1.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/test/junit-3.8.1.jar" sourcepath="lib/test/junit-3.8.1.zip"/>
 	<classpathentry kind="src" path="bin/apt">
