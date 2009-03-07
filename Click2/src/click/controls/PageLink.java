@@ -82,8 +82,9 @@ public class PageLink implements Control {
                 String valueAsString = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(value, String.class);
                 path += entry.getKey() + "=" + valueAsString + "&";
             }
+            path = StringUtils.stripEnd(path, "&"); // Strip last &
         }
-        return StringUtils.stripEnd(path, "?&"); // Strip last un-needed ? or &
+        return path;
     }
 
     public String getText() {
