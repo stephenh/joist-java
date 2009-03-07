@@ -24,7 +24,7 @@ public class PageLink implements Control {
     public PageLink(Class<? extends Page> pageClass) {
         this.pageClass = pageClass;
         this.setId(StringUtils.removeEnd(pageClass.getSimpleName(), "Page"));
-        this.setText(Inflector.humanize(StringUtils.removeEnd(pageClass.getSimpleName(), "Page")));
+        this.text(Inflector.humanize(StringUtils.removeEnd(pageClass.getSimpleName(), "Page")));
     }
 
     public String getId() {
@@ -38,23 +38,30 @@ public class PageLink implements Control {
     public void onProcess() {
     }
 
-    public void addParameter(Object value) {
+    public PageLink params(Object... values) {
+        for (Object value : values) {
+            this.param(value);
+        }
+        return this;
+    }
+
+    public PageLink param(Object value) {
         Class<?> valueType = (value instanceof Binding) ? ((Binding<?>) value).getType() : value.getClass();
         for (Field field : this.pageClass.getFields()) {
             if (field.getType().isAssignableFrom(valueType)) {
-                this.addParameter(field.getName(), value);
-                return;
+                return this.param(field.getName(), value);
             }
         }
-        throw new RuntimeException("Could not auto-bind value: " + value);
+        throw new RuntimeException("Could not auto-bind param: " + value);
     }
 
     /**
      * @param name the key for the query string entry
      * @param value the value for the query string entry--will be converted to a string in <code>getHrefWithoutContext</code>
      */
-    public void addParameter(String name, Object value) {
+    public PageLink param(String name, Object value) {
         this.parameters.put(name, value);
+        return this;
     }
 
     public void render(HtmlWriter w) {
@@ -62,7 +69,7 @@ public class PageLink implements Control {
         w.attribute("id", this.getId());
         w.attribute("href", this.getHref());
         w.startDone();
-        w.append(this.getText());
+        w.append(this.text.get());
         w.end("a");
     }
 
@@ -88,12 +95,8 @@ public class PageLink implements Control {
         return path;
     }
 
-    public String getText() {
-        return this.text.get();
-    }
-
-    public void setText(Object text) {
+    public PageLink text(Object text) {
         this.text.set(text);
+        return this;
     }
-
 }

@@ -22,25 +22,23 @@ public class PageLinkColumn extends AbstractColumn {
     }
 
     public PageLinkColumn param(Object param) {
-        this.pageLink.addParameter(param);
+        this.pageLink.param(param);
         return this;
     }
 
     public PageLinkColumn params(Object... params) {
-        for (Object param : params) {
-            this.pageLink.addParameter(param);
-        }
+        this.pageLink.params(params);
         return this;
     }
 
-    public PageLinkColumn setText(Binding<?> binding) {
-        this.pageLink.setText(binding);
+    public PageLinkColumn text(Binding<?> binding) {
+        this.pageLink.text(binding);
         this.setLabel(Inflector.humanize(binding.getName()));
         return this;
     }
 
-    public PageLinkColumn setText(Object text) {
-        this.pageLink.setText(text);
+    public PageLinkColumn text(Object text) {
+        this.pageLink.text(text);
         return this;
     }
 

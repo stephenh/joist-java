@@ -15,15 +15,13 @@ public class PageLinkColumnTest extends AbstractClickControlTest {
     }
 
     public void testTextOverride() {
-        PageLinkColumn p = new PageLinkColumn(HelloWorldPage.class);
-        p.setText("click here");
+        PageLinkColumn p = new PageLinkColumn(HelloWorldPage.class).text("click here");
         Assert.assertEquals("<a id=\"HelloWorld\" href=\"/helloWorld.htm\">click here</a>", this.render(p));
     }
 
     public void testTextOverrideWithBinding() {
         EmployeeBinding eb = new EmployeeBinding(new Employee(2));
-        PageLinkColumn p = new PageLinkColumn(HelloWorldPage.class);
-        p.setText(eb);
+        PageLinkColumn p = new PageLinkColumn(HelloWorldPage.class).text(eb);
         Assert.assertEquals("<a id=\"HelloWorld\" href=\"/helloWorld.htm\">Bob2</a>", this.render(p));
     }
 
