@@ -8,17 +8,17 @@ import click.util.HtmlWriter;
 public class TextField extends AbstractField {
 
     public TextField(Binding<?> binding) {
-        this.setName(StringUtils.capitalize(binding.getName()));
+        this.setId(StringUtils.capitalize(binding.getName()));
         this.setBinding(binding);
     }
 
-    public TextField(String name, Binding<?> binding) {
-        this.setName(name);
+    public TextField(String id, Binding<?> binding) {
+        this.setId(id);
         this.setBinding(binding);
     }
 
     public void render(HtmlWriter w) {
-        w.append("<input id={} name={} type={} value={}/>", this.getName(), this.getName(), "text", this.getBoundValue());
+        w.append("<input id={} name={} type={} value={}/>", this.getId(), this.getId(), "text", this.getBoundValue());
     }
 
 }

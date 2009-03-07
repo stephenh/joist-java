@@ -10,24 +10,9 @@ import click.Page;
 
 public abstract class AbstractField implements Field {
 
-    private String name;
+    private String id;
     private String label;
     private Binding<?> binding;
-
-    public String getId() {
-        return this.getName();
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-        if (this.getLabel() == null) {
-            this.setLabel(Inflector.humanize(name));
-        }
-    }
 
     public String getBoundValue() {
         if (this.binding == null) {
@@ -38,11 +23,22 @@ public abstract class AbstractField implements Field {
 
     @SuppressWarnings("unchecked")
     public void onProcess() {
-        String value = this.getContext().getRequest().getParameter(this.getName());
+        String value = this.getContext().getRequest().getParameter(this.getId());
         if (value == null) {
             return; // We would have at least gotten a "" if the field was really submitted
         }
         ((Binding<Object>) this.binding).set(value);
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+        if (this.getLabel() == null) {
+            this.setLabel(Inflector.humanize(id));
+        }
     }
 
     public String getLabel() {
