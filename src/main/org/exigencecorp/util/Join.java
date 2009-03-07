@@ -1,7 +1,6 @@
 package org.exigencecorp.util;
 
 import java.util.Collection;
-import java.util.List;
 
 public class Join {
 
@@ -32,7 +31,7 @@ public class Join {
         return Join.join(objects, ", ");
     }
 
-    public static <T extends Object> String commaSpace(List<T> objects) {
+    public static <T extends Object> String commaSpace(Collection<T> objects) {
         return Join.join(objects, ", ");
     }
 
@@ -40,8 +39,16 @@ public class Join {
         return Join.join(objects, " ");
     }
 
-    public static <T extends Object> String space(List<T> objects) {
+    public static <T extends Object> String space(Collection<T> objects) {
         return Join.join(objects, " ");
+    }
+
+    public static <T extends Object> String underscore(T... objects) {
+        return Join.join(objects, "_");
+    }
+
+    public static <T extends Object> String underscore(Collection<T> objects) {
+        return Join.join(objects, "_");
     }
 
     public static <T extends Object> String join(Collection<T> objects, String seperator) {
