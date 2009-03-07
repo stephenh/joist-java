@@ -53,6 +53,10 @@ public class GField {
         return this.name;
     }
 
+    public String getTypeClassName() {
+        return this.typeClassName;
+    }
+
     public GField type(Class<?> type) {
         return this.type(type.getName());
     }
