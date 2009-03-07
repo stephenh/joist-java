@@ -11,21 +11,15 @@ public class StringBuilderr {
         this.line(0, line, args);
     }
 
-    public void lineIfNotNull(String line, Object... args) {
-        if (line != null) {
-            this.line(0, line, args);
-        }
-    }
-
     /**
      * @param indent number of levels to indent
      * @param line pattern <code>{}</code> -> <code>args[i]</code> and <code>'</code> -> <code>"</code> (only if there are args)
      * @param args objects to replace <code>{}</code>
      */
     public void line(int indent, String line, Object... args) {
-        this.sb.append(StringUtils.repeat("    ", indent));
+        this.append(StringUtils.repeat("    ", indent));
         this.append(line, args);
-        this.sb.append("\n");
+        this.append("\n");
     }
 
     public void lineIfNeeded() {
