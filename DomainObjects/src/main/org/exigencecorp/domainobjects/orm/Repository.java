@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.Delete;
@@ -21,6 +20,7 @@ import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
 import org.exigencecorp.domainobjects.uow.UoW;
 import org.exigencecorp.jdbc.Jdbc;
 import org.exigencecorp.jdbc.RowMapper;
+import org.exigencecorp.util.Join;
 import org.exigencecorp.util.MapToList;
 
 public class Repository {
@@ -196,7 +196,7 @@ public class Repository {
         }
 
         final List<Integer> ids = new ArrayList<Integer>();
-        Jdbc.query(this.connection, StringUtils.join(allSql, " UNION ALL "), new RowMapper() {
+        Jdbc.query(this.connection, Join.join(allSql, " UNION ALL "), new RowMapper() {
             public void mapRow(ResultSet rs) throws SQLException {
                 ids.add(rs.getInt(1));
             }

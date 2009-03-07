@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.EnumSet;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.exigencecorp.domainobjects.Code;
 
 public class Codes {
@@ -13,7 +12,7 @@ public class Codes {
     }
 
     public static <T extends Code> T[] valuesByCode(T[] codes) {
-        T[] copy = (T[]) ArrayUtils.clone(codes);
+        T[] copy = Arrays.copyOf(codes, codes.length);
         Arrays.sort(copy, new Comparator<T>() {
             public int compare(T c1, T c2) {
                 return c1.getCode().compareTo(c2.getCode());
@@ -23,7 +22,7 @@ public class Codes {
     }
 
     public static <T extends Code> T[] valuesByName(T[] codes) {
-        T[] copy = (T[]) ArrayUtils.clone(codes);
+        T[] copy = Arrays.copyOf(codes, codes.length);
         Arrays.sort(copy, new Comparator<T>() {
             public int compare(T c1, T c2) {
                 return c1.getName().compareTo(c2.getName());

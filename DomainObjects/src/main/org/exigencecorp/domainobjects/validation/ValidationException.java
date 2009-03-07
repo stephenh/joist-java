@@ -3,8 +3,8 @@ package org.exigencecorp.domainobjects.validation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.validation.errors.ValidationError;
+import org.exigencecorp.util.Join;
 
 /** Throw when someone calls flush and validation errors occur. */
 public class ValidationException extends RuntimeException {
@@ -13,7 +13,7 @@ public class ValidationException extends RuntimeException {
     private List<ValidationError> errors = null;
 
     public ValidationException(String message, List<ValidationError> errors) {
-        super(message + " - " + StringUtils.join(errors, ", "));
+        super(message + " - " + Join.commaSpace(errors));
         this.errors = errors;
     }
 

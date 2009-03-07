@@ -2,7 +2,6 @@ package org.exigencecorp.domainobjects.queries;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.util.Copy;
 
 public class Where {
@@ -35,7 +34,7 @@ public class Where {
     }
 
     public void stripLeadingAliasForUpdates(String aliasName) {
-        this.sql = StringUtils.replace(this.sql, aliasName + ".", "");
+        this.sql = this.sql.replaceAll(aliasName + "\\.", "");
     }
 
     public String toString() {
