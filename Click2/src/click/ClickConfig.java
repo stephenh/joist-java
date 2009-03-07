@@ -15,12 +15,14 @@ public class ClickConfig {
     private final VelocityEngine velocityEngine;
     private final String basePackageName;
     private final ConverterRegistry urlConverterRegistry;
+    private final ConverterRegistry textConverterRegistry;
 
     public ClickConfig(String basePackageName) {
         this.basePackageName = basePackageName;
         this.pageResolver = this.createPageResolver();
         this.velocityEngine = this.createVelocityEngine();
         this.urlConverterRegistry = this.createUrlConverterRegistry();
+        this.textConverterRegistry = this.createTextConverterRegistry();
     }
 
     /** Override if you want to customize the velocity engine. */
@@ -46,6 +48,11 @@ public class ClickConfig {
         return ConverterRegistry.newRegistryWithDefaultConverters();
     }
 
+    /** Override if you want to customize the converter registry. */
+    protected ConverterRegistry createTextConverterRegistry() {
+        return ConverterRegistry.newRegistryWithDefaultConverters();
+    }
+
     public String getBasePackageName() {
         return this.basePackageName;
     }
@@ -60,5 +67,9 @@ public class ClickConfig {
 
     public ConverterRegistry getUrlConverterRegistry() {
         return this.urlConverterRegistry;
+    }
+
+    public ConverterRegistry getTextConverterRegistry() {
+        return this.textConverterRegistry;
     }
 }

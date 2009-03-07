@@ -1,13 +1,9 @@
 package click.controls;
 
 import junit.framework.Assert;
-
-import org.exigencecorp.bindgen.Bindable;
-import org.exigencecorp.conversion.AbstractConverter;
-import org.exigencecorp.conversion.Converter;
-
-import bindgen.click.controls.pageLinkTest.EmployeeBinding;
+import bindgen.click.fakedomain.EmployeeBinding;
 import click.AbstractPage;
+import click.fakedomain.Employee;
 import click.pages.AddModelPublicFieldPage;
 import click.pages.HelloWorldPage;
 
@@ -49,14 +45,12 @@ public class PageLinkTest extends AbstractClickControlTest {
     }
 
     public void testParameterGetsConvertedToAString() {
-        this.config.getUrlConverterRegistry().addConverter(PageLinkTest.employeeToString);
         PageLink p = new PageLink(EmployeePage.class);
         p.addParameter(new Employee(2));
         Assert.assertEquals("click/controls/pageLinkTest$Employee.htm?employee=2", p.getHref());
     }
 
     public void testBoundParameterGetsConvertedToAString() {
-        this.config.getUrlConverterRegistry().addConverter(PageLinkTest.employeeToString);
         PageLink p = new PageLink(EmployeePage.class);
         EmployeeBinding b = new EmployeeBinding(new Employee(2));
         p.addParameter(b);
@@ -64,7 +58,6 @@ public class PageLinkTest extends AbstractClickControlTest {
     }
 
     public void testBoundParameterGetsConvertedToAStringWithExplicitName() {
-        this.config.getUrlConverterRegistry().addConverter(PageLinkTest.employeeToString);
         PageLink p = new PageLink(EmployeePage.class);
         EmployeeBinding b = new EmployeeBinding(new Employee(2));
         p.addParameter("employee", b);
@@ -80,22 +73,4 @@ public class PageLinkTest extends AbstractClickControlTest {
         public Employee employee;
     }
 
-    @Bindable
-    public static class Employee {
-        public Integer id;
-
-        public Employee(Integer id) {
-            this.id = id;
-        }
-    }
-
-    public static Converter<Employee, String> employeeToString = new AbstractConverter<Employee, String>() {
-        public String convertOneToTwo(Employee value, Class<? extends String> toType) {
-            return value.id.toString();
-        }
-
-        public Employee convertTwoToOne(String value, Class<? extends Employee> toType) {
-            return new Employee(new Integer(value));
-        }
-    };
 }

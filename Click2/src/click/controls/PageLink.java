@@ -12,13 +12,14 @@ import click.Control;
 import click.CurrentContext;
 import click.Page;
 import click.util.HtmlWriter;
+import click.util.TextContent;
 
 public class PageLink implements Control {
 
     private final Map<String, Object> parameters = new LinkedHashMap<String, Object>();
-    private Class<? extends Page> pageClass;
+    private final TextContent text = new TextContent();
+    private final Class<? extends Page> pageClass;
     private String id;
-    private String text;
 
     public PageLink(Class<? extends Page> pageClass) {
         this.pageClass = pageClass;
@@ -88,11 +89,11 @@ public class PageLink implements Control {
     }
 
     public String getText() {
-        return this.text;
+        return this.text.get();
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setText(Object text) {
+        this.text.set(text);
     }
 
 }

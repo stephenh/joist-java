@@ -11,12 +11,9 @@ public class PageLinkColumn extends AbstractColumn {
 
     private final PageLink pageLink;
 
-    public PageLinkColumn(Class<? extends Page> pageClass, Object... params) {
+    public PageLinkColumn(Class<? extends Page> pageClass) {
         super(pageClass.getSimpleName()); // default id
         this.pageLink = new PageLink(pageClass);
-        for (Object o : params) {
-            this.pageLink.addParameter(o);
-        }
     }
 
     @Override
@@ -24,19 +21,27 @@ public class PageLinkColumn extends AbstractColumn {
         this.pageLink.render(sb);
     }
 
-    public PageLinkColumn setContent(Binding<?> binding) {
-        this.pageLink.setText(binding.toString());
+    public PageLinkColumn param(Object param) {
+        this.pageLink.addParameter(param);
+        return this;
+    }
+
+    public PageLinkColumn params(Object... params) {
+        for (Object param : params) {
+            this.pageLink.addParameter(param);
+        }
+        return this;
+    }
+
+    public PageLinkColumn setText(Binding<?> binding) {
+        this.pageLink.setText(binding);
         this.setLabel(Inflector.humanize(binding.getName()));
         return this;
     }
 
-    public PageLinkColumn setContent(Object content) {
-        // this.content = content;
+    public PageLinkColumn setText(Object text) {
+        this.pageLink.setText(text);
         return this;
-    }
-
-    public String getName() {
-        return null;
     }
 
 }

@@ -9,6 +9,7 @@ import click.ClickConfig;
 import click.ClickContext;
 import click.Control;
 import click.CurrentContext;
+import click.fakedomain.EmployeeToFriendlyStringConverter;
 import click.fakedomain.EmployeeToStringConverter;
 import click.util.HtmlWriter;
 
@@ -30,6 +31,7 @@ public abstract class AbstractClickControlTest extends AbstractClickTest {
             }
         };
         this.config.getUrlConverterRegistry().addConverter(new EmployeeToStringConverter());
+        this.config.getTextConverterRegistry().addConverter(new EmployeeToFriendlyStringConverter());
         CurrentContext.set(new ClickContext(null, this.config, null, null));
     }
 
