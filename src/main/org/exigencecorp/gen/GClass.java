@@ -8,7 +8,6 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.util.Interpolate;
 import org.exigencecorp.util.Join;
 import org.exigencecorp.util.StringBuilderr;
@@ -37,18 +36,9 @@ public class GClass {
     private static final Pattern classNameWithoutGenerics = Pattern.compile("((\\w+\\.)*)(\\w+)");
 
     public GClass(String fullClassName) {
-        int firstPeriod = fullClassName.indexOf('.');
-        int firstBracket = fullClassName.indexOf('<');
-        if (firstPeriod != -1 && (firstPeriod <= firstBracket || firstBracket == -1)) {
-            if (firstBracket == -1) {
-                firstBracket = fullClassName.length();
-            }
-            this.packageName = StringUtils.substringBeforeLast(fullClassName.substring(0, firstBracket), ".");
-            this.shortName = StringUtils.removeStart(fullClassName, this.packageName + ".");
-        } else {
-            this.packageName = null;
-            this.shortName = fullClassName;
-        }
+        String[] name = this.parseClassName(fullClassName);
+        this.packageName = name[0];
+        this.shortName = name[2];
     }
 
     public GClass setEnum() {
@@ -295,13 +285,12 @@ public class GClass {
             return this;
         }
         for (String importClassName : importClassNames) {
-            importClassName = importClassName.replaceAll("<.+>", ""); // prune generics
-            String simpleClassName = StringUtils.substringAfterLast(importClassName, ".");
-            String packageName = StringUtils.remove(importClassName, "." + simpleClassName);
-            if (StringUtils.equals(this.packageName, packageName) || "java.lang".equals(packageName)) {
-                continue; // same package
+            String[] name = this.parseClassName(importClassName);
+            String packageName = name[0];
+            if (packageName == null || packageName.equals(this.packageName) || "java.lang".equals(packageName)) {
+                continue;
             }
-            this.imports.add(importClassName);
+            this.imports.add(name[0] + "." + name[1]);
         }
         return this;
     }
@@ -324,10 +313,10 @@ public class GClass {
     public String stripAndImportPackageIfPossible(String fullClassName) {
         Matcher m = GClass.classNameWithoutGenerics.matcher(fullClassName);
         while (m.find()) {
-            String packageName = StringUtils.removeEnd(m.group(1), ".");
+            String packageName = m.group(1).replaceAll("\\.$", "");
             String simpleName = m.group(3);
-            if (StringUtils.isNotBlank(packageName) && !this.isImportAlreadyTakenByDifferentPackage(packageName, simpleName)) {
-                fullClassName = StringUtils.replaceOnce(fullClassName, packageName + "." + simpleName, simpleName);
+            if (packageName != null && !"".equals(packageName) && !this.isImportAlreadyTakenByDifferentPackage(packageName, simpleName)) {
+                fullClassName = fullClassName.replaceFirst(packageName + "\\." + simpleName, simpleName);
                 this.addImports(packageName + "." + simpleName);
             }
         }
@@ -374,6 +363,17 @@ public class GClass {
     public GClass addAnnotation(String annotation) {
         this.annotations.add(annotation);
         return this;
+    }
+
+    /** @return a tuple of package name, simple name, and simple name with generics */
+    private String[] parseClassName(String fullNameWithPossibleGenerics) {
+        String s = fullNameWithPossibleGenerics.replaceAll("<.+>", ""); // prune generics
+        int lastDot = s.lastIndexOf('.');
+        if (lastDot == -1) {
+            return new String[] { null, s, fullNameWithPossibleGenerics };
+        } else {
+            return new String[] { s.substring(0, lastDot), s.substring(lastDot + 1), fullNameWithPossibleGenerics.substring(lastDot + 1) };
+        }
     }
 
 }

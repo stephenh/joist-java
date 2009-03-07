@@ -3,7 +3,6 @@ package org.exigencecorp.gen;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.util.Interpolate;
 import org.exigencecorp.util.Join;
 import org.exigencecorp.util.StringBuilderr;
@@ -43,9 +42,8 @@ public class GMethod {
 
     public GMethod arguments(String... typeAndNames) {
         for (String typeAndName : typeAndNames) {
-            String type = StringUtils.substringBeforeLast(typeAndName, " ");
-            String name = StringUtils.substringAfterLast(typeAndName, " ");
-            this.argument(type, name);
+            String[] parts = typeAndName.split(" ");
+            this.argument(parts[0], parts[1]);
         }
         return this;
     }
