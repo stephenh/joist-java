@@ -1,7 +1,5 @@
 package org.exigencecorp.util;
 
-import org.apache.commons.lang.StringUtils;
-
 public class Inflector {
 
     private static String lowerToUpper = "(?<=[a-z])(?=[A-Z]|[0-9])";
@@ -26,7 +24,7 @@ public class Inflector {
     public static String camelize(String s) {
         StringBuffer name = new StringBuffer();
         for (String part : s.split(" |_")) {
-            name.append(StringUtils.capitalize(part));
+            name.append(Inflector.capitalize(part));
         }
         return name.toString();
     }
@@ -35,12 +33,19 @@ public class Inflector {
         String name = "";
         String[] parts = camelCased.split(Inflector.camelCaseSplit);
         for (int i = 0; i < parts.length; i++) {
-            name += StringUtils.capitalize(parts[i]);
+            name += Inflector.capitalize(parts[i]);
             if (i != parts.length - 1) {
                 name += " ";
             }
         }
         return name;
+    }
+
+    public static String capitalize(String str) {
+        if (str == null || str.length() == 0) {
+            return str;
+        }
+        return Character.toTitleCase(str.charAt(0)) + str.substring(1);
     }
 
 }

@@ -1,6 +1,7 @@
 package org.exigencecorp.util;
 
-import org.apache.commons.lang.ArrayUtils;
+import java.util.Arrays;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -47,10 +48,9 @@ public class Log {
         if (!logger.isEnabledFor(level)) {
             return;
         }
-
         if (args.length > 0 && args[0] instanceof Throwable) {
             Throwable t = (Throwable) args[0];
-            args = ArrayUtils.subarray(args, 1, args.length);
+            args = Arrays.copyOfRange(args, 1, args.length);
             logger.log(level, Interpolate.string(message, args), t);
         } else {
             logger.log(level, Interpolate.string(message, args));

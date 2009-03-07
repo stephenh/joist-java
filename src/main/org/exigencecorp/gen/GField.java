@@ -3,6 +3,7 @@ package org.exigencecorp.gen;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.exigencecorp.util.Inflector;
 import org.exigencecorp.util.Interpolate;
 import org.exigencecorp.util.StringBuilderr;
 
@@ -97,7 +98,7 @@ public class GField {
     }
 
     public GMethod makeGetter() {
-        GMethod getter = this.gclass.getMethod("get" + this.capitalize(this.name));
+        GMethod getter = this.gclass.getMethod("get" + Inflector.capitalize(this.name));
 
         getter.returnType(this.typeClassName);
         // getter.body.line("this.{} = {};", this.name, this.name);
@@ -108,11 +109,6 @@ public class GField {
     public GField addAnnotation(String annotation) {
         this.annotations.add(annotation);
         return this;
-    }
-
-    // Eclipse wants everything for bindgen one jar, so trying to kill gen's commons-lang dependency
-    private String capitalize(String s) {
-        return Character.toTitleCase(s.charAt(0)) + s.substring(1);
     }
 
 }

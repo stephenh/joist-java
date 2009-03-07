@@ -1,8 +1,7 @@
 package org.exigencecorp.util;
 
+import java.util.Collection;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 
 public class Join {
 
@@ -10,39 +9,63 @@ public class Join {
     }
 
     public static <T extends Object> String lines(T... objects) {
-        return StringUtils.join(objects, "\n");
+        return Join.join(objects, "\n");
     }
 
-    public static <T extends Object> String lines(List<T> objects) {
-        return StringUtils.join(objects, "\n");
+    public static <T extends Object> String lines(Collection<T> objects) {
+        return Join.join(objects, "\n");
     }
 
     public static <T extends Object> String linesWithTickToQuote(T... objects) {
-        return Tick.toQuote(StringUtils.join(objects, "\n"));
+        return Tick.toQuote(Join.join(objects, "\n"));
     }
 
     public static <T extends Object> String comma(T... objects) {
-        return StringUtils.join(objects, ",");
+        return Join.join(objects, ",");
     }
 
-    public static <T extends Object> String comma(List<T> objects) {
-        return StringUtils.join(objects, ",");
+    public static <T extends Object> String comma(Collection<T> objects) {
+        return Join.join(objects, ",");
     }
 
     public static <T extends Object> String commaSpace(T... objects) {
-        return StringUtils.join(objects, ", ");
+        return Join.join(objects, ", ");
     }
 
     public static <T extends Object> String commaSpace(List<T> objects) {
-        return StringUtils.join(objects, ", ");
+        return Join.join(objects, ", ");
     }
 
     public static <T extends Object> String space(T... objects) {
-        return StringUtils.join(objects, " ");
+        return Join.join(objects, " ");
     }
 
     public static <T extends Object> String space(List<T> objects) {
-        return StringUtils.join(objects, " ");
+        return Join.join(objects, " ");
+    }
+
+    public static <T extends Object> String join(Collection<T> objects, String seperator) {
+        StringBuilder sb = new StringBuilder();
+        for (T o : objects) {
+            sb.append(o == null ? "" : o.toString());
+            sb.append(seperator);
+        }
+        if (objects.size() > 0) {
+            sb.delete(sb.length() - seperator.length(), sb.length());
+        }
+        return sb.toString();
+    }
+
+    public static <T extends Object> String join(T[] objects, String seperator) {
+        StringBuilder sb = new StringBuilder();
+        for (T o : objects) {
+            sb.append(o == null ? "" : o.toString());
+            sb.append(seperator);
+        }
+        if (objects.length > 0) {
+            sb.delete(sb.length() - seperator.length(), sb.length());
+        }
+        return sb.toString();
     }
 
 }

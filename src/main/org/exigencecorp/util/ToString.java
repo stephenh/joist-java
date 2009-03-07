@@ -3,9 +3,6 @@ package org.exigencecorp.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
-
 public class ToString {
 
     private ToString() {
@@ -20,9 +17,9 @@ public class ToString {
         }
         List<String> transformed = new ArrayList<String>();
         for (Object parameter : parameters) {
-            transformed.add(ObjectUtils.toString(parameter));
+            transformed.add(parameter == null ? "" : parameter.toString());
         }
-        return object.getClass().getSimpleName() + "[" + StringUtils.join(transformed, ",") + "]";
+        return object.getClass().getSimpleName() + "[" + Join.comma(transformed, ",") + "]";
     }
 
 }

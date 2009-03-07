@@ -2,14 +2,13 @@ package org.exigencecorp.conversion;
 
 import java.util.List;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.exigencecorp.util.Copy;
 
 public class DefaultConverters {
 
     public static Converter<Object, String> objectToString = new AbstractOneWayConverter<Object, String>() {
         public String convertOneToTwo(Object value, Class<? extends String> toType) {
-            return ObjectUtils.toString(value);
+            return value == null ? "" : value.toString();
         }
     };
 

@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringUtils;
-
 public class Execute {
 
     private final List<String> commandPlusArgs = new ArrayList<String>();
@@ -82,8 +80,8 @@ public class Execute {
             p.waitFor();
 
             Result result = new Result();
-            result.out = StringUtils.chomp(out.toString());
-            result.err = StringUtils.chomp(err.toString());
+            result.out = out.toString();
+            result.err = err.toString();
             result.success = p.exitValue() == 0;
             return result;
         } catch (Exception e) {
