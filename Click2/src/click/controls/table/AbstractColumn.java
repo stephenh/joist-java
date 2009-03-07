@@ -6,9 +6,10 @@ import click.util.HtmlWriter;
 
 public abstract class AbstractColumn implements Column {
 
+    protected Table<?> table;
     private String id;
     private String label;
-    protected Table<?> table;
+    private Integer currentRowIndex;
 
     protected AbstractColumn(String id) {
         this.id = id;
@@ -32,6 +33,12 @@ public abstract class AbstractColumn implements Column {
         this.id = id;
     }
 
+    public String getFullId() {
+        String prefix = this.table == null ? "" : this.table.getId() + ".";
+        String suffix = this.currentRowIndex == null ? "" : "." + this.currentRowIndex;
+        return prefix + this.getId() + suffix;
+    }
+
     public String getLabel() {
         return this.label;
     }
@@ -46,6 +53,14 @@ public abstract class AbstractColumn implements Column {
 
     public void setTable(Table<?> table) {
         this.table = table;
+    }
+
+    public Integer getCurrentRowIndex() {
+        return this.currentRowIndex;
+    }
+
+    public void setCurrentRowIndex(Integer currentRowIndex) {
+        this.currentRowIndex = currentRowIndex;
     }
 
 }

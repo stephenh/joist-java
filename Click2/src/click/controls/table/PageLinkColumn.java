@@ -1,5 +1,6 @@
 package click.controls.table;
 
+import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 import org.exigencecorp.util.Inflector;
 
@@ -12,12 +13,13 @@ public class PageLinkColumn extends AbstractColumn {
     private final PageLink pageLink;
 
     public PageLinkColumn(Class<? extends Page> pageClass) {
-        super(pageClass.getSimpleName()); // default id
+        super(StringUtils.removeEnd(pageClass.getSimpleName(), "Page")); // default id
         this.pageLink = new PageLink(pageClass);
     }
 
     @Override
     public void render(HtmlWriter sb) {
+        this.pageLink.setId(this.getFullId() + ".link");
         this.pageLink.render(sb);
     }
 

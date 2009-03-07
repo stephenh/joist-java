@@ -70,7 +70,8 @@ public class Table<T> implements Control {
             this.current.set(object);
             w.line("    <tr>");
             for (Column column : this.columns) {
-                w.append("      <td id=\"{}.{}.{}\">", this.getId(), column.getId(), i);
+                column.setCurrentRowIndex(i);
+                w.append("      <td id={}>", column.getFullId());
                 column.render(w);
                 w.line("</td>");
             }
