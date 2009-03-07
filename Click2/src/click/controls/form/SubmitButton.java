@@ -3,7 +3,7 @@ package click.controls.form;
 import org.exigencecorp.bindgen.NamedBinding;
 import org.exigencecorp.util.Inflector;
 
-import click.util.HtmlStringBuilderr;
+import click.util.HtmlWriter;
 
 public class SubmitButton implements Button {
 
@@ -29,10 +29,8 @@ public class SubmitButton implements Button {
         this.runnable.run();
     }
 
-    public String toString() {
-        HtmlStringBuilderr sb = new HtmlStringBuilderr();
-        sb.append("<input id={} name={} type={} value={}/>", this.getId(), this.getId(), "submit", this.getLabel());
-        return sb.toString();
+    public void render(HtmlWriter w) {
+        w.append("<input id={} name={} type={} value={}/>", this.getId(), this.getId(), "submit", this.getLabel());
     }
 
     public String getId() {

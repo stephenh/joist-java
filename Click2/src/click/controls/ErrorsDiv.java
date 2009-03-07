@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import click.Control;
-import click.util.HtmlStringBuilderr;
+import click.util.HtmlWriter;
 
 public class ErrorsDiv implements Control {
 
@@ -28,20 +28,17 @@ public class ErrorsDiv implements Control {
         this.errors.add(error);
     }
 
-    public String toString() {
+    public void render(HtmlWriter w) {
         if (this.errors.size() == 0) {
-            return "";
+            return;
         }
-
-        HtmlStringBuilderr sb = new HtmlStringBuilderr();
-        sb.line("<div id={} class={}>", this.getId(), "errors");
-        sb.line("<ul>");
+        w.line("<div id={} class={}>", this.getId(), "errors");
+        w.line("<ul>");
         for (String error : this.errors) {
-            sb.line("<li>{}</li>", error);
+            w.line("<li>{}</li>", error);
         }
-        sb.line("</ul>");
-        sb.line("</div>");
-        return sb.toString();
+        w.line("</ul>");
+        w.line("</div>");
     }
 
 }

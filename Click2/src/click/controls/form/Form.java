@@ -10,7 +10,7 @@ import org.exigencecorp.util.Log;
 import click.ClickContext;
 import click.Control;
 import click.CurrentContext;
-import click.util.HtmlStringBuilderr;
+import click.util.HtmlWriter;
 
 public class Form implements Control {
 
@@ -47,46 +47,44 @@ public class Form implements Control {
         this.buttons.add(button);
     }
 
-    public String toString() {
-        HtmlStringBuilderr sb = new HtmlStringBuilderr();
-        this.renderStartTags(sb);
-        this.renderHeadingTags(sb);
-        this.renderFields(sb);
-        this.renderEndTags(sb);
-        return sb.toString();
+    public void render(HtmlWriter w) {
+        this.renderStartTags(w);
+        this.renderHeadingTags(w);
+        this.renderFields(w);
+        this.renderEndTags(w);
     }
 
-    protected void renderStartTags(HtmlStringBuilderr sb) {
-        sb.line("<form>");
-        sb.line("<input type=\"hidden\" name=\"_formId\" value={} />", this.getId());
+    protected void renderStartTags(HtmlWriter w) {
+        w.line("<form>");
+        w.line("<input type=\"hidden\" name=\"_formId\" value={} />", this.getId());
     }
 
-    protected void renderHeadingTags(HtmlStringBuilderr sb) {
-        sb.line("<p class={}>{}</p>", "clickFormHeading", this.getHeading());
+    protected void renderHeadingTags(HtmlWriter w) {
+        w.line("<p class={}>{}</p>", "clickFormHeading", this.getHeading());
     }
 
-    protected void renderFields(HtmlStringBuilderr sb) {
-        sb.line("<table class={}>", "clickForm");
+    protected void renderFields(HtmlWriter w) {
+        w.line("<table class={}>", "clickForm");
         // Fields
         for (Field field : this.fields) {
-            sb.line("<tr>");
-            sb.line("<th>{}</th>", field.getLabel());
-            sb.line("<td>{}</td>", field.toString());
-            sb.line("</tr>");
+            w.line("<tr>");
+            w.line("<th>{}</th>", field.getLabel());
+            w.line("<td>{}</td>", field);
+            w.line("</tr>");
         }
         // Buttons
         if (this.buttons.size() > 0) {
-            sb.line("<tr><th>&nbsp;</th><td>");
+            w.line("<tr><th>&nbsp;</th><td>");
             for (Button button : this.buttons) {
-                sb.line(button.toString());
+                w.line("{}", button);
             }
-            sb.line("</td></tr>");
+            w.line("</td></tr>");
         }
-        sb.line("</table>");
+        w.line("</table>");
     }
 
-    protected void renderEndTags(HtmlStringBuilderr sb) {
-        sb.line("</form>");
+    protected void renderEndTags(HtmlWriter w) {
+        w.line("</form>");
     }
 
     public String getId() {

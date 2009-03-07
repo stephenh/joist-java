@@ -1,6 +1,6 @@
 package click.controls.table;
 
-import org.exigencecorp.util.StringBuilderr;
+import click.util.HtmlWriter;
 
 public abstract class AbstractColumn implements Column {
 
@@ -15,7 +15,7 @@ public abstract class AbstractColumn implements Column {
         this.table = table;
     }
 
-    public void renderHeader(StringBuilderr sb) {
+    public void renderHeader(HtmlWriter sb) {
         if (this.getLabel() != null) {
             sb.append(this.getLabel());
         }

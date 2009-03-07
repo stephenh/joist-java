@@ -1,14 +1,14 @@
 package click.controls.table;
 
-import org.exigencecorp.util.StringBuilderr;
+import click.util.HtmlWriter;
 
 public interface Column {
 
     void setTable(Table<?> table);
 
-    void renderHeader(StringBuilderr sb);
+    void renderHeader(HtmlWriter sb);
 
-    void renderRow(StringBuilderr sb);
+    void renderRow(HtmlWriter sb);
 
     String getName();
 

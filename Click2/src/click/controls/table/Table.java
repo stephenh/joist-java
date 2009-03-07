@@ -5,10 +5,9 @@ import java.util.List;
 
 import org.exigencecorp.bindgen.Binding;
 import org.exigencecorp.util.Inflector;
-import org.exigencecorp.util.StringBuilderr;
 
 import click.Control;
-import click.util.HtmlStringBuilderr;
+import click.util.HtmlWriter;
 
 public class Table<T> implements Control {
 
@@ -42,47 +41,45 @@ public class Table<T> implements Control {
         column.setTable(this);
     }
 
-    public String toString() {
-        HtmlStringBuilderr sb = new HtmlStringBuilderr();
-        this.renderHeader(sb);
-        this.renderRows(sb);
-        this.renderFooter(sb);
-        return sb.toString();
+    public void render(HtmlWriter w) {
+        this.renderHeader(w);
+        this.renderRows(w);
+        this.renderFooter(w);
     }
 
-    private void renderHeader(HtmlStringBuilderr sb) {
-        sb.line("<h3>{}</h3>", this.getLabel());
-        sb.line("<table id={}>", this.getId());
-        sb.line("  <thead>");
-        sb.line("    <tr>");
+    private void renderHeader(HtmlWriter w) {
+        w.line("<h3>{}</h3>", this.getLabel());
+        w.line("<table id={}>", this.getId());
+        w.line("  <thead>");
+        w.line("    <tr>");
         for (Column column : this.columns) {
-            sb.append("      <th id=\"{}.{}\">", this.getId(), column.getName());
-            column.renderHeader(sb);
-            sb.line("</th>");
+            w.append("      <th id=\"{}.{}\">", this.getId(), column.getName());
+            column.renderHeader(w);
+            w.line("</th>");
         }
-        sb.line("    </tr>");
-        sb.line("  </thead>");
+        w.line("    </tr>");
+        w.line("  </thead>");
     }
 
-    private void renderRows(HtmlStringBuilderr sb) {
-        sb.line("  <tbody>");
+    private void renderRows(HtmlWriter w) {
+        w.line("  <tbody>");
         int i = 0;
         for (T object : this.list) {
             this.current.set(object);
-            sb.line("    <tr>");
+            w.line("    <tr>");
             for (Column column : this.columns) {
-                sb.append("      <td id=\"{}.{}.{}\">", this.getId(), column.getName(), i);
-                column.renderRow(sb);
-                sb.line("</td>");
+                w.append("      <td id=\"{}.{}.{}\">", this.getId(), column.getName(), i);
+                column.renderRow(w);
+                w.line("</td>");
             }
-            sb.line("    </tr>");
+            w.line("    </tr>");
             i++;
         }
-        sb.line("  </tbody>");
+        w.line("  </tbody>");
     }
 
-    private void renderFooter(StringBuilderr sb) {
-        sb.line("</table>");
+    private void renderFooter(HtmlWriter w) {
+        w.line("</table>");
     }
 
     public String getLabel() {

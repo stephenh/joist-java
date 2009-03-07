@@ -9,6 +9,8 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.exigencecorp.util.Log;
 
+import click.util.ControlRenderableAdapter;
+
 public class DefaultPageProcessor implements PageProcessor {
 
     public static final PageProcessor INSTANCE = new DefaultPageProcessor();
@@ -32,6 +34,7 @@ public class DefaultPageProcessor implements PageProcessor {
         }
         this.doAddFieldsToModel(page);
         this.doAddFlashToModel(page);
+        this.doAdaptControlsInModel(page);
         this.doRender(page);
         this.doResetFlash(page);
     }
@@ -59,6 +62,14 @@ public class DefaultPageProcessor implements PageProcessor {
         for (Control control : page.getControls()) {
             Log.debug("Calling onProcess on {}", control.hashCode());
             control.onProcess();
+        }
+    }
+
+    protected void doAdaptControlsInModel(Page page) {
+        for (Map.Entry<String, Object> e : CurrentContext.get().getModel().entrySet()) {
+            if (e.getValue() instanceof Control) {
+                e.setValue(new ControlRenderableAdapter((Control) e.getValue()));
+            }
         }
     }
 

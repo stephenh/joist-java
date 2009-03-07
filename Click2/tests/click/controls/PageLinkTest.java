@@ -20,7 +20,7 @@ public class PageLinkTest extends AbstractClickControlTest {
 
     public void testContentDefaultsToPageName() {
         PageLink p = new PageLink(HelloWorldPage.class);
-        Assert.assertEquals("<a id=\"HelloWorld\" href=\"/helloWorld.htm\">Hello World</a>", p.toString());
+        Assert.assertEquals("<a id=\"HelloWorld\" href=\"/helloWorld.htm\">Hello World</a>", this.render(p));
     }
 
     public void testOneStringParameter() {

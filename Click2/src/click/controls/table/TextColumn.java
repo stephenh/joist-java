@@ -3,7 +3,8 @@ package click.controls.table;
 import org.apache.commons.lang.ObjectUtils;
 import org.exigencecorp.bindgen.Binding;
 import org.exigencecorp.util.Inflector;
-import org.exigencecorp.util.StringBuilderr;
+
+import click.util.HtmlWriter;
 
 public class TextColumn extends AbstractColumn {
 
@@ -15,7 +16,7 @@ public class TextColumn extends AbstractColumn {
     }
 
     @Override
-    public void renderRow(StringBuilderr sb) {
+    public void renderRow(HtmlWriter sb) {
         sb.append(ObjectUtils.toString(this.binding.get()));
     }
 

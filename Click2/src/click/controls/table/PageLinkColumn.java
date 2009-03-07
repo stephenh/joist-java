@@ -6,7 +6,8 @@ import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Inflector;
-import org.exigencecorp.util.StringBuilderr;
+
+import click.util.HtmlWriter;
 
 public class PageLinkColumn extends AbstractColumn {
 
@@ -23,7 +24,7 @@ public class PageLinkColumn extends AbstractColumn {
     }
 
     @Override
-    public void renderRow(StringBuilderr sb) {
+    public void renderRow(HtmlWriter sb) {
         if (this.contentBinding != null) {
             sb.line("<a href=\"/{}.htm\">{}</a>", this.toPage(), this.contentBinding.get());
         }

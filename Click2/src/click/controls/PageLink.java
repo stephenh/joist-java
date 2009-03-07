@@ -11,7 +11,7 @@ import org.exigencecorp.util.Inflector;
 import click.Control;
 import click.CurrentContext;
 import click.Page;
-import click.util.HtmlStringBuilderr;
+import click.util.HtmlWriter;
 
 public class PageLink implements Control {
 
@@ -58,15 +58,13 @@ public class PageLink implements Control {
         this.parameters.put(name, valueAsString);
     }
 
-    public String toString() {
-        HtmlStringBuilderr sb = new HtmlStringBuilderr();
-        sb.start("a");
-        sb.attribute("id", this.getId());
-        sb.attribute("href", this.getHref());
-        sb.startDone();
-        sb.append(this.getText());
-        sb.end("a");
-        return sb.toString();
+    public void render(HtmlWriter w) {
+        w.start("a");
+        w.attribute("id", this.getId());
+        w.attribute("href", this.getHref());
+        w.startDone();
+        w.append(this.getText());
+        w.end("a");
     }
 
     public String getHref() {
