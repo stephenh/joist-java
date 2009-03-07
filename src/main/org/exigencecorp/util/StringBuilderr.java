@@ -1,6 +1,5 @@
 package org.exigencecorp.util;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
 public class StringBuilderr {
@@ -75,11 +74,7 @@ public class StringBuilderr {
     }
 
     protected String interpolate(String pattern, Object... args) {
-        String fixed = pattern;
-        for (Object arg : args) {
-            fixed = StringUtils.replaceOnce(fixed, "{}", ObjectUtils.toString(arg));
-        }
-        return fixed;
+        return Interpolate.string(pattern, args);
     }
 
 }
