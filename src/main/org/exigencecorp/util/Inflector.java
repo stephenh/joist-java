@@ -48,4 +48,11 @@ public class Inflector {
         return Character.toTitleCase(str.charAt(0)) + str.substring(1);
     }
 
+    public static String uncapitalize(String str) {
+        if (str == null || str.length() == 0) {
+            return str;
+        }
+        return Character.toLowerCase(str.charAt(0)) + str.substring(1);
+    }
+
 }
