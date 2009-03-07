@@ -157,4 +157,25 @@ public class GMethodTest extends TestCase {
             "" }), gc.toCode());
     }
 
+    public void testIndentDoesNotAddExtraWhiteSpace() {
+        GClass gc = new GClass("foo.bar.Foo");
+        GMethod hello = gc.getMethod("hello");
+        hello.body.line("int i = 1;");
+        hello.body.line("");
+        hello.body.line("return i;");
+        Assert.assertEquals(Join.lines(new Object[] {
+            "package foo.bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    public void hello() {",
+            "        int i = 1;",
+            "",
+            "        return i;",
+            "    }",
+            "",
+            "}",
+            "" }), gc.toCode());
+    }
+
 }

@@ -1,13 +1,16 @@
 package org.exigencecorp.util;
 
-import org.apache.commons.lang.StringUtils;
-
 public class StringBuilderr {
 
     private StringBuilder sb = new StringBuilder();
 
+    /**
+     * @param line pattern <code>{}</code> -> <code>args[i]</code> and <code>'</code> -> <code>"</code> (only if there are args)
+     * @param args objects to replace <code>{}</code>
+     */
     public void line(String line, Object... args) {
-        this.line(0, line, args);
+        this.append(line, args);
+        this.append("\n");
     }
 
     /**
@@ -16,7 +19,7 @@ public class StringBuilderr {
      * @param args objects to replace <code>{}</code>
      */
     public void line(int indent, String line, Object... args) {
-        this.append(StringUtils.repeat("    ", indent));
+        this.append(this.repeat("    ", indent));
         this.append(line, args);
         this.append("\n");
     }
@@ -53,15 +56,23 @@ public class StringBuilderr {
         return this;
     }
 
+    /** Appends <code>string</code> but indents all of its non-empty lines by <code>indent</code>. */
     public StringBuilderr append(int indent, String string) {
-        String prefix = StringUtils.repeat("    ", indent);
-        String[] lines = StringUtils.splitPreserveAllTokens(string, "\n");
-        for (int i = 0; i < lines.length; i++) {
-            if (lines[i].length() > 0) {
-                lines[i] = prefix + lines[i];
+        String prefix = this.repeat("    ", indent);
+        int at = 0;
+        int br;
+        while ((br = string.indexOf("\n", at)) != -1) {
+            boolean skipPrefix = br > 0 && string.charAt(br - 1) == '\n';
+            if (!skipPrefix) {
+                this.sb.append(prefix);
             }
+            this.sb.append(string.substring(at, br + 1));
+            at = br + 1;
         }
-        this.sb.append(StringUtils.join(lines, "\n"));
+        if (at < string.length()) {
+            this.sb.append(prefix);
+            this.sb.append(string.substring(at));
+        }
         return this;
     }
 
@@ -75,6 +86,14 @@ public class StringBuilderr {
 
     protected String interpolate(String pattern, Object... args) {
         return Interpolate.string(pattern, args);
+    }
+
+    private String repeat(String s, int times) {
+        String r = "";
+        for (int i = 0; i < times; i++) {
+            r += s;
+        }
+        return r;
     }
 
 }
