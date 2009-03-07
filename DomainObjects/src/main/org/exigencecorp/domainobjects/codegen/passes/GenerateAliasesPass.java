@@ -3,7 +3,6 @@ package org.exigencecorp.domainobjects.codegen.passes;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.domainobjects.codegen.Codegen;
 import org.exigencecorp.domainobjects.codegen.dtos.Entity;
@@ -59,12 +58,8 @@ public class GenerateAliasesPass implements Pass {
             }
 
             for (PrimitiveProperty p : baseEntity.getPrimitiveProperties()) {
-                String aliasColumnClassName = p.getAliasColumnClassName();
-                aliasClass.addImports(aliasColumnClassName);
-
-                String simpleName = StringUtils.substringAfterLast(aliasColumnClassName, ".");
                 GField field = aliasClass.getField(p.getVariableName()).setPublic().setFinal();
-                field.type("{}<{}>", simpleName, baseEntity.getClassName());
+                field.type("{}<{}>", p.getAliasColumnClassName(), baseEntity.getClassName());
 
                 this.appendToConstructors(aliasClass, "this.{} = (this.baseAlias == null) ? null : this.baseAlias.{};",//
                     p.getVariableName(),
@@ -141,19 +136,13 @@ public class GenerateAliasesPass implements Pass {
 
     private void addPrimitiveColumns(GClass aliasClass, Entity entity) {
         for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
-            String aliasColumnClassName = p.getAliasColumnClassName();
-            aliasClass.addImports(aliasColumnClassName);
-
-            String simpleName = StringUtils.substringAfterLast(aliasColumnClassName, ".");
             GField field = aliasClass.getField(p.getVariableName()).setPublic().setFinal();
-            field.type("{}<{}>", simpleName, entity.getClassName());
-            field.initialValue("new {}<{}>(this, \"{}\", {}.Shims.{})",//
-                simpleName,
-                entity.getClassName(),
+            field.type("{}<{}>", p.getAliasColumnClassName(), entity.getClassName());
+            field.initialValue("new {}(this, \"{}\", {}.Shims.{})",//
+                field.getTypeClassName(),
                 p.getColumnName(),
                 entity.getCodegenClassName(),
                 p.getVariableName());
-
             this.appendToConstructors(aliasClass, "this.columns.add(this.{});", p.getVariableName());
         }
     }
