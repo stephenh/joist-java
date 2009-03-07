@@ -20,7 +20,7 @@ public class PageLinkColumn extends AbstractColumn {
     }
 
     @Override
-    public void renderRow(HtmlWriter sb) {
+    public void render(HtmlWriter sb) {
         this.pageLink.render(sb);
     }
 

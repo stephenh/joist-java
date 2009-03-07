@@ -1,15 +1,12 @@
 package click.controls.table;
 
+import click.Control;
 import click.util.HtmlWriter;
 
-public interface Column {
+public interface Column extends Control {
 
     void setTable(Table<?> table);
 
     void renderHeader(HtmlWriter sb);
-
-    void renderRow(HtmlWriter sb);
-
-    String getId();
 
 }

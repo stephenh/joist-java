@@ -9,6 +9,7 @@ import org.exigencecorp.util.Inflector;
 import click.Control;
 import click.util.HtmlWriter;
 
+// TODO: Should be a container?
 public class Table<T> implements Control {
 
     private String id;
@@ -70,7 +71,7 @@ public class Table<T> implements Control {
             w.line("    <tr>");
             for (Column column : this.columns) {
                 w.append("      <td id=\"{}.{}.{}\">", this.getId(), column.getId(), i);
-                column.renderRow(w);
+                column.render(w);
                 w.line("</td>");
             }
             w.line("    </tr>");

@@ -17,7 +17,7 @@ public class TextColumn extends AbstractColumn {
     }
 
     @Override
-    public void renderRow(HtmlWriter sb) {
+    public void render(HtmlWriter sb) {
         sb.append(ObjectUtils.toString(this.binding.get()));
     }
 
