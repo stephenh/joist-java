@@ -10,6 +10,6 @@ public interface Column {
 
     void renderRow(HtmlWriter sb);
 
-    String getName();
+    String getId();
 
 }

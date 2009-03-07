@@ -11,6 +11,7 @@ public class TextColumn extends AbstractColumn {
     private Binding<?> binding;
 
     public TextColumn(Binding<?> binding) {
+        super(binding.getName());
         this.binding = binding;
         this.setLabel(Inflector.humanize(this.binding.getName()));
     }

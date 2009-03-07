@@ -19,6 +19,7 @@ public class Table<T> implements Control {
 
     public Table(String id) {
         this.setId(id);
+        this.setLabel(Inflector.humanize(id));
     }
 
     public String getId() {
@@ -53,7 +54,7 @@ public class Table<T> implements Control {
         w.line("  <thead>");
         w.line("    <tr>");
         for (Column column : this.columns) {
-            w.append("      <th id=\"{}.{}\">", this.getId(), column.getName());
+            w.append("      <th id=\"{}.{}\">", this.getId(), column.getId());
             column.renderHeader(w);
             w.line("</th>");
         }
@@ -68,7 +69,7 @@ public class Table<T> implements Control {
             this.current.set(object);
             w.line("    <tr>");
             for (Column column : this.columns) {
-                w.append("      <td id=\"{}.{}.{}\">", this.getId(), column.getName(), i);
+                w.append("      <td id=\"{}.{}.{}\">", this.getId(), column.getId(), i);
                 column.renderRow(w);
                 w.line("</td>");
             }
@@ -92,9 +93,6 @@ public class Table<T> implements Control {
 
     public void setId(String id) {
         this.id = id;
-        if (this.label == null) {
-            this.setLabel(Inflector.humanize(id));
-        }
     }
 
 }

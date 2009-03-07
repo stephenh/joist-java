@@ -12,6 +12,7 @@ public class PageLinkColumn extends AbstractColumn {
     private final PageLink pageLink;
 
     public PageLinkColumn(Class<? extends Page> pageClass, Object... params) {
+        super(pageClass.getSimpleName()); // default id
         this.pageLink = new PageLink(pageClass);
         for (Object o : params) {
             this.pageLink.addParameter(o);
