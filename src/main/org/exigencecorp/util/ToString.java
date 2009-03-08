@@ -19,7 +19,7 @@ public class ToString {
         for (Object parameter : parameters) {
             transformed.add(parameter == null ? "" : parameter.toString());
         }
-        return object.getClass().getSimpleName() + "[" + Join.comma(transformed, ",") + "]";
+        return object.getClass().getSimpleName() + "[" + Join.comma(transformed) + "]";
     }
 
 }
