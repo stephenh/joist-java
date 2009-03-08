@@ -277,7 +277,9 @@ public class GenerateDomainCodegenPass implements Pass {
             remover.body.line("    if (a.get{}().equals(o)) {", mtmp.getCapitalVariableNameSingular());
             remover.body.line("        a.set{}(null);", mtmp.getCapitalVariableNameSingular());
             remover.body.line("        a.set{}(null);", mtmp.getOther().getCapitalVariableNameSingular());
-            remover.body.line("        UoW.delete(a);");
+            remover.body.line("        if (UoW.isOpen()) {");
+            remover.body.line("            UoW.delete(a);");
+            remover.body.line("        }");
             remover.body.line("    }");
             remover.body.line("}");
 
