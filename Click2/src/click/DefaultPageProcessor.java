@@ -81,8 +81,8 @@ public class DefaultPageProcessor implements PageProcessor {
         }
         try {
             String template = this.getPageResolver().getTemplateFromPage(page.getClass().getName());
-
             Log.debug("Rendering {} for {}", template, page);
+            this.getContext().getResponse().setContentType("text/html");
             this.getVelocityEngine().mergeTemplate(
                 template,
                 "UTF-8",
