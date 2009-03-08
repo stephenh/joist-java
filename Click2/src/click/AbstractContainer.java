@@ -9,8 +9,8 @@ import javax.servlet.http.HttpSession;
 /** Base class for Page, Form, Table, etc. */
 public abstract class AbstractContainer implements Container {
 
-    private List<Control> controls = new ArrayList<Control>();
-    private List<Control> controlsReadOnly = Collections.unmodifiableList(this.controls);
+    private final List<Control> controls = new ArrayList<Control>();
+    private final List<Control> controlsReadOnly = Collections.unmodifiableList(this.controls);
 
     @Override
     public void addControl(Control control) {
