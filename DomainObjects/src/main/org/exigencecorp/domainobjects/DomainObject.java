@@ -26,8 +26,8 @@ public interface DomainObject {
 
     List<ValidationError> validate();
 
-    String toFriendlyTypeName();
+    String toTextTypeName();
 
-    String toFriendlyString();
+    String toTextString();
 
 }

@@ -1,23 +1,23 @@
 package org.exigencecorp.domainobjects.validation.errors;
 
-import org.exigencecorp.domainobjects.util.FriendlyString;
+import org.exigencecorp.domainobjects.DomainObject;
 import org.exigencecorp.util.Inflector;
 
 /** An error that applies to just a property. */
 public class PropertyError implements ValidationError {
 
-    private Object parent;
+    private DomainObject instance;
     private String property;
     private String message;
 
-    public PropertyError(Object parent, String property, String message) {
-        this.parent = parent;
+    public PropertyError(DomainObject instance, String property, String message) {
+        this.instance = instance;
         this.property = property;
         this.message = message;
     }
 
-    public Object getParent() {
-        return this.parent;
+    public DomainObject getInstance() {
+        return this.instance;
     }
 
     public String getMessage() {
@@ -25,7 +25,7 @@ public class PropertyError implements ValidationError {
     }
 
     public String toString() {
-        return FriendlyString.interpolate("{} (on {} {})", this.getMessage(), this.parent.toString(), this.parent);
+        return this.getMessage() + " - " + this.instance;
     }
 
 }

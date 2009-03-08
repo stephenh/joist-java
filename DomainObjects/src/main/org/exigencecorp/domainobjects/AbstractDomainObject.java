@@ -22,11 +22,11 @@ public abstract class AbstractDomainObject implements DomainObject {
         return errors.getErrors();
     }
 
-    public String toFriendlyTypeName() {
+    public String toTextTypeName() {
         return Inflector.humanize(this.getClass().getSimpleName());
     }
 
-    public String toFriendlyString() {
+    public String toTextString() {
         return this.toString();
     }
 
