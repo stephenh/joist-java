@@ -4,7 +4,7 @@ import org.exigencecorp.util.Inflector;
 
 import click.util.HtmlWriter;
 
-public abstract class AbstractColumn implements Column {
+public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Column {
 
     protected Table<?> table;
     private String id;
@@ -14,6 +14,15 @@ public abstract class AbstractColumn implements Column {
     protected AbstractColumn(String id) {
         this.id = id;
         this.label = Inflector.humanize(id);
+    }
+
+    // http://www.angelikalanger.com/GenericsFAQ/FAQSections/ProgrammingIdioms.html#What is the getThis trick?
+    protected abstract T getThis();
+
+    public T id(String id) {
+        this.id = id;
+        this.label = Inflector.humanize(id);
+        return this.getThis();
     }
 
     public void onProcess() {

@@ -6,7 +6,7 @@ import org.exigencecorp.util.Inflector;
 
 import click.util.HtmlWriter;
 
-public class TextColumn extends AbstractColumn {
+public class TextColumn extends AbstractColumn<TextColumn> {
 
     private Binding<?> binding;
 
@@ -23,6 +23,11 @@ public class TextColumn extends AbstractColumn {
 
     public String getName() {
         return this.binding.getName();
+    }
+
+    @Override
+    protected TextColumn getThis() {
+        return this;
     }
 
 }

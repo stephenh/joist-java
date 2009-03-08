@@ -8,7 +8,7 @@ import click.Page;
 import click.controls.PageLink;
 import click.util.HtmlWriter;
 
-public class PageLinkColumn extends AbstractColumn {
+public class PageLinkColumn extends AbstractColumn<PageLinkColumn> {
 
     private final PageLink pageLink;
 
@@ -41,6 +41,11 @@ public class PageLinkColumn extends AbstractColumn {
 
     public PageLinkColumn text(Object text) {
         this.pageLink.text(text);
+        return this;
+    }
+
+    @Override
+    protected PageLinkColumn getThis() {
         return this;
     }
 

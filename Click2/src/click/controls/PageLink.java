@@ -99,4 +99,11 @@ public class PageLink implements Control {
         this.text.set(text);
         return this;
     }
+
+    public PageLink id(String id) {
+        this.setId(id);
+        this.text(Inflector.humanize(id));
+        return this;
+    }
+
 }
