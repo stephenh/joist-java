@@ -10,5 +10,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/bd/bd.jar" sourcepath="lib/bd/bd.zip"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Utilities"/>
 	<classpathentry kind="lib" path="lib/test/junit-3.8.2.jar" sourcepath="lib/test/junit-3.8.2.zip"/>
+	<classpathentry kind="lib" path="lib/main/timeandmoney-0.5.1.jar" sourcepath="lib/main/timeandmoney-0.5.1.zip"/>
 	<classpathentry kind="output" path="bin/eclipse"/>
 </classpath>

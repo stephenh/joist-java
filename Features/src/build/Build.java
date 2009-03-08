@@ -8,7 +8,6 @@ public class Build {
 
     public Build() {
         this.lib.updateFromHomeCache();
-        this.dobj.codegenConfig.setJavaType("date", "com.domainlanguage.time.CalendarDate", "features.domain.orm.CalendarDateAliasColumn");
         this.dobj.databaseSaPassword = "postgresql_chimera";
     }
 

@@ -7,12 +7,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.exigencecorp.domainobjects.queries.columns.BooleanAliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.CalendarDateAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.DateAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.LongAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.ShortAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.TimePointAliasColumn;
+
+import com.domainlanguage.time.CalendarDate;
+import com.domainlanguage.time.TimePoint;
 
 public class CodegenConfig {
 
@@ -53,8 +58,14 @@ public class CodegenConfig {
         this.setJavaType("bigint", Long.class.getName(), LongAliasColumn.class.getName());
         this.setJavaType("boolean", Boolean.class.getName(), BooleanAliasColumn.class.getName());
         this.setJavaType("bytea", String.class.getName(), StringAliasColumn.class.getName());
+        this.setJavaType("date", CalendarDate.class.getName(), CalendarDateAliasColumn.class.getName());
+        this.setJavaType("timestamp without time zone", TimePoint.class.getName(), TimePointAliasColumn.class.getName());
+    }
+
+    public CodegenConfig doNotUseTimeAndMoney() {
         this.setJavaType("date", Date.class.getName(), DateAliasColumn.class.getName());
         this.setJavaType("timestamp without time zone", Date.class.getName(), DateAliasColumn.class.getName());
+        return this;
     }
 
     public void setProjectNameForDefaults(String projectName) {

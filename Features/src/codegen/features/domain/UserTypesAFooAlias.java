@@ -1,10 +1,10 @@
 package features.domain;
 
-import features.domain.orm.CalendarDateAliasColumn;
 import java.util.ArrayList;
 import java.util.List;
 import org.exigencecorp.domainobjects.queries.Alias;
 import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
+import org.exigencecorp.domainobjects.queries.columns.CalendarDateAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IdAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.IntAliasColumn;
 import org.exigencecorp.domainobjects.queries.columns.StringAliasColumn;
