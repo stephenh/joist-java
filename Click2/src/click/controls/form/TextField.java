@@ -5,7 +5,7 @@ import org.exigencecorp.bindgen.Binding;
 
 import click.util.HtmlWriter;
 
-public class TextField extends AbstractField {
+public class TextField extends AbstractField<TextField> {
 
     public TextField(Binding<?> binding) {
         this.setId(StringUtils.capitalize(binding.getName()));
@@ -19,6 +19,10 @@ public class TextField extends AbstractField {
 
     public void render(HtmlWriter w) {
         w.append("<input id={} name={} type={} value={}/>", this.getId(), this.getId(), "text", this.getBoundValue());
+    }
+
+    public TextField getThis() {
+        return this;
     }
 
 }

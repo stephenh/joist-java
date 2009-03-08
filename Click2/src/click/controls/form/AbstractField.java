@@ -8,7 +8,7 @@ import click.ClickContext;
 import click.CurrentContext;
 import click.Page;
 
-public abstract class AbstractField implements Field {
+public abstract class AbstractField<T extends AbstractField<T>> implements Field {
 
     private String id;
     private String label;
@@ -30,15 +30,22 @@ public abstract class AbstractField implements Field {
         ((Binding<Object>) this.binding).set(value);
     }
 
+    protected abstract T getThis();
+
+    public T id(String id) {
+        this.id = id;
+        if (this.getLabel() == null) {
+            this.setLabel(Inflector.humanize(id));
+        }
+        return this.getThis();
+    }
+
     public String getId() {
         return this.id;
     }
 
     public void setId(String id) {
         this.id = id;
-        if (this.getLabel() == null) {
-            this.setLabel(Inflector.humanize(id));
-        }
     }
 
     public String getLabel() {
