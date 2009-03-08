@@ -11,7 +11,7 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
     public void testInitialGet() throws Exception {
         Assert.assertEquals(Join.lines(
             "",
-            "<form>",
+            "<form method=\"post\">",
             "<input type=\"hidden\" name=\"_formId\" value=\"form1\" />",
             "<p class=\"clickFormHeading\">Form 1</p>",
             "<table class=\"clickForm\">",
@@ -23,7 +23,7 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
             "</form>",
             "",
             "",
-            "<form>",
+            "<form method=\"post\">",
             "<input type=\"hidden\" name=\"_formId\" value=\"form2\" />",
             "<p class=\"clickFormHeading\">Form 2</p>",
             "<table class=\"clickForm\">",
@@ -40,7 +40,7 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
     public void testPost() throws Exception {
         Assert.assertEquals(Join.lines(
             "",
-            "<form>",
+            "<form method=\"post\">",
             "<input type=\"hidden\" name=\"_formId\" value=\"form1\" />",
             "<p class=\"clickFormHeading\">Form 1</p>",
             "<table class=\"clickForm\">",
@@ -52,7 +52,7 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
             "</form>",
             "",
             "",
-            "<form>",
+            "<form method=\"post\">",
             "<input type=\"hidden\" name=\"_formId\" value=\"form2\" />",
             "<p class=\"clickFormHeading\">Form 2</p>",
             "<table class=\"clickForm\">",

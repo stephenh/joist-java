@@ -55,7 +55,7 @@ public class Form implements Control {
     }
 
     protected void renderStartTags(HtmlWriter w) {
-        w.line("<form>");
+        w.line("<form method=\"post\">");
         w.line("<input type=\"hidden\" name=\"_formId\" value={} />", this.getId());
     }
 

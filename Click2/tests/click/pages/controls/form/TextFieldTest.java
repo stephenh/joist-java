@@ -16,7 +16,7 @@ public class TextFieldTest extends AbstractClickPageTest {
     public void testInitialGet() throws Exception {
         Assert.assertEquals(Join.lines(
             "",
-            "<form>",
+            "<form method=\"post\">",
             "<input type=\"hidden\" name=\"_formId\" value=\"form\" />",
             "<p class=\"clickFormHeading\">Form</p>",
             "<table class=\"clickForm\">",
@@ -36,7 +36,7 @@ public class TextFieldTest extends AbstractClickPageTest {
     public void testPost() throws Exception {
         Assert.assertEquals(Join.lines(
             "",
-            "<form>",
+            "<form method=\"post\">",
             "<input type=\"hidden\" name=\"_formId\" value=\"form\" />",
             "<p class=\"clickFormHeading\">Form</p>",
             "<table class=\"clickForm\">",
