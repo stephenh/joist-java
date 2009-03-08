@@ -28,6 +28,10 @@ public class InterpolateTest extends TestCase {
         Assert.assertEquals("1f2f3", Interpolate.string("{}f{}f{}", "1", "2", "3"));
     }
 
+    public void testNull() {
+        Assert.assertEquals("null", Interpolate.string("{}", new Object[] { null }));
+    }
+
     public void testWithConverter() {
         ConverterRegistry r = new ConverterRegistry();
         r.addConverter(new AbstractOneWayConverter<Integer, String>() {
