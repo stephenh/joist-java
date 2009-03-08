@@ -37,7 +37,8 @@ public class ConverterRegistry {
     }
 
     public <T> T convert(Object value, Class<T> toType) {
-        ConverterKey key = new ConverterKey(value.getClass(), toType);
+        Class<?> valueClass = (value == null) ? Void.class : value.getClass();
+        ConverterKey key = new ConverterKey(valueClass, toType);
         ConverterStub stub = this.converters.get(key);
         if (stub != null) {
             return (T) stub.convert(value, toType);
@@ -45,13 +46,13 @@ public class ConverterRegistry {
 
         // Do we even need to convert?
         ConverterRegistry.probes.next();
-        if (toType.isAssignableFrom(value.getClass())) {
+        if (toType.isAssignableFrom(valueClass)) {
             this.converters.put(key, new NoopConverterStub());
             return (T) value;
         }
         // We didn't find a converter with the default types, start walking up class/interface hierarchies
         for (Class<?> to : this.getSuperclassesAndInterfaces(toType)) {
-            for (Class<?> from : this.getSuperclassesAndInterfaces(value.getClass())) {
+            for (Class<?> from : this.getSuperclassesAndInterfaces(valueClass)) {
                 ConverterKey probeKey = new ConverterKey(from, to);
                 ConverterStub probeStub = this.converters.get(probeKey);
                 if (probeStub != null) {
