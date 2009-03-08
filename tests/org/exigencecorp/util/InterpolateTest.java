@@ -3,6 +3,9 @@ package org.exigencecorp.util;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.exigencecorp.conversion.AbstractOneWayConverter;
+import org.exigencecorp.conversion.ConverterRegistry;
+
 public class InterpolateTest extends TestCase {
 
     public void testAlone() {
@@ -23,5 +26,15 @@ public class InterpolateTest extends TestCase {
 
     public void testAll() {
         Assert.assertEquals("1f2f3", Interpolate.string("{}f{}f{}", "1", "2", "3"));
+    }
+
+    public void testWithConverter() {
+        ConverterRegistry r = new ConverterRegistry();
+        r.addConverter(new AbstractOneWayConverter<Integer, String>() {
+            public String convertOneToTwo(Integer value, Class<? extends String> toType) {
+                return "blah";
+            }
+        });
+        Assert.assertEquals("blah", Interpolate.string("{}", r, new Integer(1)));
     }
 }
