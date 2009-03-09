@@ -1,6 +1,7 @@
 package click.controls.form;
 
 import junit.framework.Assert;
+import bindgen.java.lang.IntegerBinding;
 import bindgen.java.lang.StringBinding;
 import click.controls.AbstractClickControlTest;
 
@@ -16,4 +17,14 @@ public class TextFieldTest extends AbstractClickControlTest {
         Assert.assertEquals(null, sb.get());
     }
 
+    public void testIntegerBinding() {
+        this.request.setParameter("t", "2");
+        IntegerBinding ib = new IntegerBinding(1);
+        Assert.assertEquals(new Integer(1), ib.get());
+
+        TextField t = new TextField(ib).id("t");
+        t.onProcess();
+        Assert.assertEquals(new Integer(2), ib.get());
+        Assert.assertEquals("<input id=\"t\" name=\"t\" type=\"text\" value=\"2\"/>", this.render(t));
+    }
 }

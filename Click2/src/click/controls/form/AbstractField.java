@@ -30,11 +30,13 @@ public abstract class AbstractField<T extends AbstractField<T>> implements Field
         if (value == null) {
             return; // We would have at least gotten a "" if the field was really submitted
         }
+        // Use the text converter because this is coming from a user
+        Object converted = CurrentContext.get().getClickConfig().getTextConverterRegistry().convert(value, this.binding.getType());
         // do this here or inside a Converter?
-        if ("".equals(value)) {
-            value = null;
+        if ("".equals(converted)) {
+            converted = null;
         }
-        ((Binding<Object>) this.binding).set(value);
+        ((Binding<Object>) this.binding).set(converted);
     }
 
     public List<String> getErrors() {
