@@ -43,8 +43,8 @@ public class GMethod {
 
     public GMethod arguments(String... typeAndNames) {
         for (String typeAndName : typeAndNames) {
-            String[] parts = typeAndName.split(" ");
-            this.argument(parts[0], parts[1]);
+            int lastSpace = typeAndName.lastIndexOf(' ');
+            this.argument(typeAndName.substring(0, lastSpace), typeAndName.substring(lastSpace + 1));
         }
         return this;
     }

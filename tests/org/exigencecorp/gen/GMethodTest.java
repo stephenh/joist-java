@@ -197,4 +197,19 @@ public class GMethodTest extends TestCase {
             "" }), gc.toCode());
     }
 
+    public void testOverloadedWithTwoTypeArguments() {
+        GClass gc = new GClass("foo.bar.Foo");
+        gc.getMethod("hello(Map<K, V> map)").typeParameters("K, V");
+        Assert.assertEquals(Join.lines(new Object[] {
+            "package foo.bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    public <K, V> void hello(Map<K, V> map) {",
+            "    }",
+            "",
+            "}",
+            "" }), gc.toCode());
+    }
+
 }
