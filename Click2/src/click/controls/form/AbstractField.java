@@ -1,5 +1,8 @@
 package click.controls.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.exigencecorp.bindgen.Binding;
 import org.exigencecorp.util.Inflector;
@@ -32,6 +35,11 @@ public abstract class AbstractField<T extends AbstractField<T>> implements Field
             value = null;
         }
         ((Binding<Object>) this.binding).set(value);
+    }
+
+    public List<String> getErrors() {
+        List<String> errors = new ArrayList<String>();
+        return errors;
     }
 
     protected abstract T getThis();

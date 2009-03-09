@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.util.Inflector;
+import org.exigencecorp.util.Join;
 import org.exigencecorp.util.Log;
 
 import click.ClickContext;
@@ -70,6 +71,7 @@ public class Form implements Control {
             w.line("<tr>");
             w.line("<th>{}</th>", field.getLabel());
             w.line("<td>{}</td>", field);
+            w.line("<td>{}</td>", StringUtils.defaultIfEmpty(Join.join(field.getErrors(), "<br/>"), "&nbsp;"));
             w.line("</tr>");
         }
         // Buttons
@@ -78,7 +80,7 @@ public class Form implements Control {
             for (Button button : this.buttons) {
                 w.line("{}", button);
             }
-            w.line("</td></tr>");
+            w.line("</td><td>&nbsp;</td></tr>");
         }
         w.line("</table>");
     }
