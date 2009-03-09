@@ -6,9 +6,9 @@ import org.exigencecorp.util.Inflector;
 /** An error that applies to just a property. */
 public class PropertyError implements ValidationError {
 
-    private DomainObject instance;
-    private String property;
-    private String message;
+    private final DomainObject instance;
+    private final String property;
+    private final String message;
 
     public PropertyError(DomainObject instance, String property, String message) {
         this.instance = instance;

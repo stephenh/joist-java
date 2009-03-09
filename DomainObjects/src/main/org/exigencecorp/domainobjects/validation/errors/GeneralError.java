@@ -2,7 +2,7 @@ package org.exigencecorp.domainobjects.validation.errors;
 
 public class GeneralError implements ValidationError {
 
-    private String message;
+    private final String message;
 
     public GeneralError(String message) {
         this.message = message;
