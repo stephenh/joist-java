@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 import org.exigencecorp.util.Inflector;
 
@@ -17,6 +18,14 @@ public abstract class AbstractField<T extends AbstractField<T>> implements Field
     private String label;
     private Binding<?> binding;
 
+    protected AbstractField() {
+    }
+
+    protected AbstractField(Binding<?> binding) {
+        this.id(StringUtils.capitalize(binding.getName()));
+        this.setBinding(binding);
+    }
+
     public String getBoundValue() {
         if (this.binding == null) {
             return "";
@@ -27,7 +36,7 @@ public abstract class AbstractField<T extends AbstractField<T>> implements Field
     @SuppressWarnings("unchecked")
     public void onProcess() {
         String value = this.getContext().getRequest().getParameter(this.getId());
-        if (value == null) {
+        if (value == null & this.skipBindIfParameterIsNotPresent()) {
             return; // We would have at least gotten a "" if the field was really submitted
         }
         // Use the text converter because this is coming from a user
@@ -37,6 +46,10 @@ public abstract class AbstractField<T extends AbstractField<T>> implements Field
             converted = null;
         }
         ((Binding<Object>) this.binding).set(converted);
+    }
+
+    protected boolean skipBindIfParameterIsNotPresent() {
+        return true;
     }
 
     public List<String> getErrors() {
