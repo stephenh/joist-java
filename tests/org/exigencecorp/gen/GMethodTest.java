@@ -178,4 +178,23 @@ public class GMethodTest extends TestCase {
             "" }), gc.toCode());
     }
 
+    public void testTypeParameters() {
+        GClass gc = new GClass("foo.bar.Foo");
+        gc.getMethod("hello").arguments("T foo").typeParameters("T");
+        gc.getMethod("goodbye").arguments("T foo").typeParameters("T").setStatic();
+        Assert.assertEquals(Join.lines(new Object[] {
+            "package foo.bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    public <T> void hello(T foo) {",
+            "    }",
+            "",
+            "    public static <T> void goodbye(T foo) {",
+            "    }",
+            "",
+            "}",
+            "" }), gc.toCode());
+    }
+
 }

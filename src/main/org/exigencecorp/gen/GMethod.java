@@ -19,6 +19,7 @@ public class GMethod {
     private String constructorFor = null;
     private String access = "public ";
     private boolean isStatic;
+    private String typeParameters = null;
 
     public GMethod(GClass gclass, String methodName) {
         this.gclass = gclass;
@@ -67,6 +68,9 @@ public class GMethod {
         sb.append(this.access);
         if (this.isStatic) {
             sb.append("static ");
+        }
+        if (this.typeParameters != null) {
+            sb.append("<{}> ", this.typeParameters);
         }
         if (this.constructorFor != null) {
             sb.append(this.constructorFor);
@@ -119,6 +123,12 @@ public class GMethod {
 
     public GMethod addThrows(String exception) {
         this.exceptions.add(exception);
+        return this;
+    }
+
+    /** @param typeParameters e.g. <code>T, U</code> **/
+    public GMethod typeParameters(String typeParameters) {
+        this.typeParameters = typeParameters;
         return this;
     }
 
