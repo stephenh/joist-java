@@ -34,4 +34,11 @@ public class DefaultConvertersTest extends TestCase {
         Assert.assertEquals("", this.r.convert(null, String.class));
     }
 
+    public void testStringToBoolean() {
+        Assert.assertEquals(Boolean.TRUE, this.r.convert("true", Boolean.class));
+        Assert.assertEquals(Boolean.FALSE, this.r.convert("", Boolean.class));
+        Assert.assertEquals(Boolean.FALSE, this.r.convert("false", Boolean.class));
+        Assert.assertEquals(Boolean.FALSE, this.r.convert(null, Boolean.class));
+    }
+
 }

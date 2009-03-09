@@ -16,10 +16,29 @@ public class DefaultConverters {
         public Integer convertOneToTwo(String value, Class<? extends Integer> toType) {
             return new Integer(value);
         }
+    };
 
+    // This is kind of different--instead of being a simple converter, this tries to just handle all of the
+    // default Boolean cases. Makes for less converters that are more complex. We'll see how this goes.
+    public static Converter<Boolean, Object> booleanToObject = new AbstractConverter<Boolean, Object>() {
+        public Object convertOneToTwo(Boolean value, Class<? extends Object> toType) {
+            if (String.class == toType) {
+                return value.toString();
+            } else {
+                throw new UnsupportedConversionException(value, toType);
+            }
+        }
+
+        public Boolean convertTwoToOne(Object value, Class<? extends Boolean> toType) {
+            if (value instanceof String) {
+                return Boolean.valueOf((String) value);
+            } else {
+                return Boolean.FALSE;
+            }
+        }
     };
 
     public static List<Converter<?, ?>> all = Copy.list(new Converter<?, ?>[] { //
-        DefaultConverters.objectToString, DefaultConverters.stringToInteger });
+        DefaultConverters.objectToString, DefaultConverters.stringToInteger, DefaultConverters.booleanToObject });
 
 }
