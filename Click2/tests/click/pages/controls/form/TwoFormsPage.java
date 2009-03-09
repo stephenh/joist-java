@@ -17,8 +17,8 @@ public class TwoFormsPage extends AbstractPage {
 
     public void onInit() {
         TwoFormsPageBinding bind = new TwoFormsPageBinding(this);
-        this.form1.add(new TextField("Value", bind.value1()));
-        this.form2.add(new TextField("Value", bind.value2()));
+        this.form1.add(new TextField(bind.value1()).id("Value"));
+        this.form2.add(new TextField(bind.value2()).id("Value"));
     }
 
 }

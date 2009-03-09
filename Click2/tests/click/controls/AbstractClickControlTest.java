@@ -4,6 +4,7 @@ import java.io.StringWriter;
 
 import org.apache.velocity.app.VelocityEngine;
 
+import servletTest.RequestStub;
 import click.AbstractClickTest;
 import click.ClickConfig;
 import click.ClickContext;
@@ -17,6 +18,7 @@ public abstract class AbstractClickControlTest extends AbstractClickTest {
 
     private static VelocityEngine cachedEngine;
     protected ClickConfig config;
+    protected RequestStub request;
 
     public void setUp() throws Exception {
         super.setUp();
@@ -32,7 +34,8 @@ public abstract class AbstractClickControlTest extends AbstractClickTest {
         };
         this.config.getUrlConverterRegistry().addConverter(new EmployeeToStringConverter());
         this.config.getTextConverterRegistry().addConverter(new EmployeeToFriendlyStringConverter());
-        CurrentContext.set(new ClickContext(null, this.config, null, null));
+        this.request = new RequestStub();
+        CurrentContext.set(new ClickContext(null, this.config, this.request, null));
     }
 
     protected String render(Control c) {

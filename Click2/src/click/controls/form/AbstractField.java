@@ -27,6 +27,10 @@ public abstract class AbstractField<T extends AbstractField<T>> implements Field
         if (value == null) {
             return; // We would have at least gotten a "" if the field was really submitted
         }
+        // do this here or inside a Converter?
+        if ("".equals(value)) {
+            value = null;
+        }
         ((Binding<Object>) this.binding).set(value);
     }
 
@@ -34,9 +38,7 @@ public abstract class AbstractField<T extends AbstractField<T>> implements Field
 
     public T id(String id) {
         this.id = id;
-        if (this.getLabel() == null) {
-            this.setLabel(Inflector.humanize(id));
-        }
+        this.setLabel(Inflector.humanize(id));
         return this.getThis();
     }
 

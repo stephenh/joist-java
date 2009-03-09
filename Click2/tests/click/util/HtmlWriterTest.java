@@ -57,8 +57,7 @@ public class HtmlWriterTest extends TestCase {
     }
 
     public void testOneTextField() {
-        this.w.line("<p>{}</p>", new TextField("foo", null));
+        this.w.line("<p>{}</p>", new TextField().id("foo"));
         Assert.assertEquals("<p><input id=\"foo\" name=\"foo\" type=\"text\" value=\"\"/></p>\n", this.s.toString());
     }
-
 }

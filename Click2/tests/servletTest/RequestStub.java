@@ -180,7 +180,7 @@ public class RequestStub implements HttpServletRequest {
         return null;
     }
 
-    public void setParameter(String key, String[] values) {
+    public void setParameter(String key, String... values) {
         this.parameters.put(key, values);
     }
 
