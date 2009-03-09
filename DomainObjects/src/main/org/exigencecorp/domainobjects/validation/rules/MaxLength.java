@@ -23,7 +23,7 @@ public class MaxLength<T extends AbstractDomainObject> implements Rule<T> {
     }
 
     public void validate(ValidationErrors errors, T t) {
-        String value = (this.shim != null) ? this.shim.get(t) : null; // Ognl.get(t, this.getProperty(), String.class);
+        String value = (this.shim != null) ? this.shim.get(t) : null;
         if (value != null && value.length() > this.length) {
             errors.addPropertyError(t, this.property, "must be no more than {} character{}", this.length, (this.length == 1 ? "" : "s"));
         }

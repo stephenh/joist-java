@@ -20,7 +20,7 @@ public class NotNull<T extends AbstractDomainObject> implements Rule<T> {
     }
 
     public void validate(ValidationErrors errors, T t) {
-        Object value = (this.shim != null) ? this.shim.get(t) : null; // Ognl.get(t, this.property, Object.class);
+        Object value = (this.shim != null) ? this.shim.get(t) : null;
         if (value == null) {
             errors.addPropertyError(t, this.property, "is required");
         }
