@@ -1,6 +1,6 @@
 package features.domain;
 
-import org.exigencecorp.domainobjects.Code;
+import joist.domain.Code;
 
 public enum CodeASize implements Code {
 
@@ -30,7 +30,7 @@ public enum CodeASize implements Code {
     }
 
     public static CodeASize fromId(Integer id) {
-        return org.exigencecorp.domainobjects.util.Codes.fromInt(CodeASize.values(), id);
+        return joist.domain.util.Codes.fromInt(CodeASize.values(), id);
     }
 
 }

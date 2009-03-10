@@ -1,10 +1,10 @@
 package features.domain.queries;
 
+import joist.domain.Requirements;
+import joist.domain.queries.Select;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.exigencecorp.domainobjects.Requirements;
-import org.exigencecorp.domainobjects.queries.Select;
 import org.exigencecorp.util.Copy;
 import org.exigencecorp.util.Join;
 

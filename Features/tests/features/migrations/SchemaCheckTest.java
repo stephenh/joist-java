@@ -2,9 +2,9 @@ package features.migrations;
 
 import javax.sql.DataSource;
 
+import joist.domain.migrations.SchemaCheck;
 import junit.framework.Assert;
 
-import org.exigencecorp.domainobjects.migrations.SchemaCheck;
 import org.exigencecorp.jdbc.Jdbc;
 
 import features.Registry;

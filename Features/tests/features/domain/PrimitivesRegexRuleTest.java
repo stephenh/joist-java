@@ -1,8 +1,8 @@
 package features.domain;
 
-import org.exigencecorp.domainobjects.Requirements;
-import org.exigencecorp.domainobjects.ValidationAssert;
-import org.exigencecorp.domainobjects.validation.rules.RegexRule;
+import joist.domain.Requirements;
+import joist.domain.ValidationAssert;
+import joist.domain.validation.rules.RegexRule;
 
 public class PrimitivesRegexRuleTest extends AbstractFeaturesTest {
 

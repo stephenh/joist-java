@@ -1,13 +1,13 @@
 package features.domain;
 
 import features.domain.queries.PrimitivesQueries;
-import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Changed;
-import org.exigencecorp.domainobjects.Shim;
-import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.uow.UoW;
-import org.exigencecorp.domainobjects.validation.rules.MaxLength;
-import org.exigencecorp.domainobjects.validation.rules.NotNull;
+import joist.domain.AbstractDomainObject;
+import joist.domain.Changed;
+import joist.domain.Shim;
+import joist.domain.orm.AliasRegistry;
+import joist.domain.uow.UoW;
+import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotNull;
 
 public abstract class PrimitivesCodegen extends AbstractDomainObject {
 
@@ -111,7 +111,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class PrimitivesChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+    public static class PrimitivesChanged extends joist.domain.AbstractChanged {
         public PrimitivesChanged(Primitives instance) {
             super(instance);
         }

@@ -1,7 +1,8 @@
 package features.domain;
 
-import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.queries.Select;
+import joist.domain.orm.AliasRegistry;
+import joist.domain.queries.Select;
+
 import org.exigencecorp.util.Log;
 
 public class ParentsLotsTest extends AbstractFeaturesTest {

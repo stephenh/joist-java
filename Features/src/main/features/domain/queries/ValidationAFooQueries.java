@@ -1,7 +1,7 @@
 package features.domain.queries;
 
+import joist.domain.AbstractQueries;
 import features.domain.ValidationAFoo;
-import org.exigencecorp.domainobjects.AbstractQueries;
 
 public class ValidationAFooQueries extends AbstractQueries<ValidationAFoo> {
 

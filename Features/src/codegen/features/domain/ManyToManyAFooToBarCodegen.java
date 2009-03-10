@@ -1,12 +1,12 @@
 package features.domain;
 
 import features.domain.queries.ManyToManyAFooToBarQueries;
-import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Changed;
-import org.exigencecorp.domainobjects.Shim;
-import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
-import org.exigencecorp.domainobjects.uow.UoW;
+import joist.domain.AbstractDomainObject;
+import joist.domain.Changed;
+import joist.domain.Shim;
+import joist.domain.orm.AliasRegistry;
+import joist.domain.orm.ForeignKeyHolder;
+import joist.domain.uow.UoW;
 
 public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
 
@@ -127,7 +127,7 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ManyToManyAFooToBarChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+    public static class ManyToManyAFooToBarChanged extends joist.domain.AbstractChanged {
         public ManyToManyAFooToBarChanged(ManyToManyAFooToBar instance) {
             super(instance);
         }

@@ -1,7 +1,7 @@
 package features.domain.queries;
 
+import joist.domain.AbstractQueries;
 import features.domain.CodeADomainObject;
-import org.exigencecorp.domainobjects.AbstractQueries;
 
 public class CodeADomainObjectQueries extends AbstractQueries<CodeADomainObject> {
 

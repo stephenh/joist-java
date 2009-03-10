@@ -1,6 +1,7 @@
 package features.domain;
 
-import org.exigencecorp.domainobjects.AbstractDomainObjectsTest;
+import joist.domain.AbstractDomainObjectsTest;
+
 import org.exigencecorp.jdbc.Jdbc;
 
 import features.Registry;

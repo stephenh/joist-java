@@ -2,11 +2,11 @@ package features.domain.queries;
 
 import java.util.List;
 
+import joist.domain.queries.Select;
+import joist.domain.queries.Update;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.exigencecorp.domainobjects.queries.Select;
-import org.exigencecorp.domainobjects.queries.Update;
 import org.exigencecorp.util.Copy;
 
 import features.domain.Primitives;

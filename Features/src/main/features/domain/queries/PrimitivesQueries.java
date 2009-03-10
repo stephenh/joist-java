@@ -2,10 +2,9 @@ package features.domain.queries;
 
 import java.util.List;
 
-import org.exigencecorp.domainobjects.AbstractQueries;
-import org.exigencecorp.domainobjects.queries.Select;
-import org.exigencecorp.domainobjects.queries.Update;
-
+import joist.domain.AbstractQueries;
+import joist.domain.queries.Select;
+import joist.domain.queries.Update;
 import features.domain.Primitives;
 import features.domain.PrimitivesAlias;
 

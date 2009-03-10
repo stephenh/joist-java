@@ -1,7 +1,7 @@
 package features.domain.queries;
 
+import joist.domain.AbstractQueries;
 import features.domain.InheritanceBMiddle;
-import org.exigencecorp.domainobjects.AbstractQueries;
 
 public class InheritanceBMiddleQueries extends AbstractQueries<InheritanceBMiddle> {
 

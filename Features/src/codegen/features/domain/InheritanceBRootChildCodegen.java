@@ -1,14 +1,14 @@
 package features.domain;
 
 import features.domain.queries.InheritanceBRootChildQueries;
-import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Changed;
-import org.exigencecorp.domainobjects.Shim;
-import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.orm.ForeignKeyHolder;
-import org.exigencecorp.domainobjects.uow.UoW;
-import org.exigencecorp.domainobjects.validation.rules.MaxLength;
-import org.exigencecorp.domainobjects.validation.rules.NotNull;
+import joist.domain.AbstractDomainObject;
+import joist.domain.Changed;
+import joist.domain.Shim;
+import joist.domain.orm.AliasRegistry;
+import joist.domain.orm.ForeignKeyHolder;
+import joist.domain.uow.UoW;
+import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotNull;
 
 public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
 
@@ -121,7 +121,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
         };
     }
 
-    public static class InheritanceBRootChildChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+    public static class InheritanceBRootChildChanged extends joist.domain.AbstractChanged {
         public InheritanceBRootChildChanged(InheritanceBRootChild instance) {
             super(instance);
         }

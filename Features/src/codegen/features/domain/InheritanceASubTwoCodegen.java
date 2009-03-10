@@ -1,10 +1,10 @@
 package features.domain;
 
 import features.domain.queries.InheritanceASubTwoQueries;
-import org.exigencecorp.domainobjects.Shim;
-import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.validation.rules.MaxLength;
-import org.exigencecorp.domainobjects.validation.rules.NotNull;
+import joist.domain.Shim;
+import joist.domain.orm.AliasRegistry;
+import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotNull;
 
 public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
 

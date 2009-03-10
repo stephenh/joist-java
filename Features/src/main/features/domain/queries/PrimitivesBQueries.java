@@ -1,7 +1,7 @@
 package features.domain.queries;
 
+import joist.domain.AbstractQueries;
 import features.domain.PrimitivesB;
-import org.exigencecorp.domainobjects.AbstractQueries;
 
 public class PrimitivesBQueries extends AbstractQueries<PrimitivesB> {
 

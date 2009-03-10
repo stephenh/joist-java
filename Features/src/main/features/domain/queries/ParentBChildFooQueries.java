@@ -2,9 +2,8 @@ package features.domain.queries;
 
 import java.util.List;
 
-import org.exigencecorp.domainobjects.AbstractQueries;
-import org.exigencecorp.domainobjects.queries.Select;
-
+import joist.domain.AbstractQueries;
+import joist.domain.queries.Select;
 import features.domain.ParentBChildFoo;
 import features.domain.ParentBChildFooAlias;
 import features.domain.ParentBParentAlias;

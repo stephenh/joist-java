@@ -1,12 +1,11 @@
 package features.migrations;
 
-import static org.exigencecorp.domainobjects.migrations.MigrationKeywords.createTable;
-import static org.exigencecorp.domainobjects.migrations.MigrationKeywords.date;
-import static org.exigencecorp.domainobjects.migrations.MigrationKeywords.integer;
-import static org.exigencecorp.domainobjects.migrations.MigrationKeywords.primaryKey;
-import static org.exigencecorp.domainobjects.migrations.MigrationKeywords.varchar;
-
-import org.exigencecorp.domainobjects.migrations.AbstractMigration;
+import static joist.domain.migrations.MigrationKeywords.createTable;
+import static joist.domain.migrations.MigrationKeywords.date;
+import static joist.domain.migrations.MigrationKeywords.integer;
+import static joist.domain.migrations.MigrationKeywords.primaryKey;
+import static joist.domain.migrations.MigrationKeywords.varchar;
+import joist.domain.migrations.AbstractMigration;
 
 public class m0008 extends AbstractMigration {
 

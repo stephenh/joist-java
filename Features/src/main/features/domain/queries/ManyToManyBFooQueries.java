@@ -1,7 +1,7 @@
 package features.domain.queries;
 
+import joist.domain.AbstractQueries;
 import features.domain.ManyToManyBFoo;
-import org.exigencecorp.domainobjects.AbstractQueries;
 
 public class ManyToManyBFooQueries extends AbstractQueries<ManyToManyBFoo> {
 

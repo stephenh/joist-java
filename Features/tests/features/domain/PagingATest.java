@@ -2,9 +2,8 @@ package features.domain;
 
 import java.util.List;
 
+import joist.domain.uow.UoW;
 import junit.framework.Assert;
-
-import org.exigencecorp.domainobjects.uow.UoW;
 
 public class PagingATest extends AbstractFeaturesTest {
 

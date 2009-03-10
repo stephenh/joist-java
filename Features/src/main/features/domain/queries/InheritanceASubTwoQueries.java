@@ -1,7 +1,7 @@
 package features.domain.queries;
 
+import joist.domain.AbstractQueries;
 import features.domain.InheritanceASubTwo;
-import org.exigencecorp.domainobjects.AbstractQueries;
 
 public class InheritanceASubTwoQueries extends AbstractQueries<InheritanceASubTwo> {
 

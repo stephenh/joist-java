@@ -1,7 +1,7 @@
 package features.domain.queries;
 
+import joist.domain.AbstractQueries;
 import features.domain.ParentCBar;
-import org.exigencecorp.domainobjects.AbstractQueries;
 
 public class ParentCBarQueries extends AbstractQueries<ParentCBar> {
 

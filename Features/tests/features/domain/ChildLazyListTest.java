@@ -1,8 +1,7 @@
 package features.domain;
 
+import joist.domain.uow.UoW;
 import junit.framework.Assert;
-
-import org.exigencecorp.domainobjects.uow.UoW;
 
 public class ChildLazyListTest extends AbstractFeaturesTest {
 

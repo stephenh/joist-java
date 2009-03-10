@@ -2,14 +2,14 @@ package features.domain;
 
 import features.domain.queries.ParentBParentQueries;
 import java.util.List;
-import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Changed;
-import org.exigencecorp.domainobjects.Shim;
-import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
-import org.exigencecorp.domainobjects.uow.UoW;
-import org.exigencecorp.domainobjects.validation.rules.MaxLength;
-import org.exigencecorp.domainobjects.validation.rules.NotNull;
+import joist.domain.AbstractDomainObject;
+import joist.domain.Changed;
+import joist.domain.Shim;
+import joist.domain.orm.AliasRegistry;
+import joist.domain.orm.ForeignKeyListHolder;
+import joist.domain.uow.UoW;
+import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotNull;
 
 public abstract class ParentBParentCodegen extends AbstractDomainObject {
 
@@ -144,7 +144,7 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ParentBParentChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+    public static class ParentBParentChanged extends joist.domain.AbstractChanged {
         public ParentBParentChanged(ParentBParent instance) {
             super(instance);
         }

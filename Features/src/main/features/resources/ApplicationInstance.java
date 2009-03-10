@@ -1,6 +1,7 @@
 package features.resources;
 
-import org.exigencecorp.domainobjects.orm.Repository;
+import joist.domain.orm.Repository;
+
 import org.exigencecorp.util.Log;
 
 import features.Registry;

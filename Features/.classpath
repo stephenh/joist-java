@@ -11,6 +11,6 @@
 	<classpathentry kind="lib" path="lib/junit-3.8.2.jar" sourcepath="lib/junit-3.8.2.zip"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.3.jar" sourcepath="lib/commons-lang-2.3.zip"/>
 	<classpathentry kind="lib" path="lib/postgresql-8.3-603.jdbc3.jar" sourcepath="lib/postgresql-8.3-603.jdbc3.zip"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/DomainObjects"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/joist.domain"/>
 	<classpathentry kind="output" path="bin/eclipse"/>
 </classpath>

@@ -2,10 +2,9 @@ package features.domain.queries;
 
 import java.util.List;
 
-import org.exigencecorp.domainobjects.AbstractQueries;
-import org.exigencecorp.domainobjects.queries.PagedList;
-import org.exigencecorp.domainobjects.queries.Select;
-
+import joist.domain.AbstractQueries;
+import joist.domain.queries.PagedList;
+import joist.domain.queries.Select;
 import features.domain.Parent;
 import features.domain.ParentAlias;
 

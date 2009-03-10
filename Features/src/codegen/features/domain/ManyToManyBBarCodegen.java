@@ -3,14 +3,14 @@ package features.domain;
 import features.domain.queries.ManyToManyBBarQueries;
 import java.util.ArrayList;
 import java.util.List;
-import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Changed;
-import org.exigencecorp.domainobjects.Shim;
-import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
-import org.exigencecorp.domainobjects.uow.UoW;
-import org.exigencecorp.domainobjects.validation.rules.MaxLength;
-import org.exigencecorp.domainobjects.validation.rules.NotNull;
+import joist.domain.AbstractDomainObject;
+import joist.domain.Changed;
+import joist.domain.Shim;
+import joist.domain.orm.AliasRegistry;
+import joist.domain.orm.ForeignKeyListHolder;
+import joist.domain.uow.UoW;
+import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotNull;
 import org.exigencecorp.util.Copy;
 
 public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
@@ -106,7 +106,9 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
             if (a.getBlue().equals(o)) {
                 a.setBlue(null);
                 a.setGreen(null);
-                UoW.delete(a);
+                if (UoW.isOpen()) {
+                    UoW.delete(a);
+                }
             }
         }
     }
@@ -145,7 +147,7 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ManyToManyBBarChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+    public static class ManyToManyBBarChanged extends joist.domain.AbstractChanged {
         public ManyToManyBBarChanged(ManyToManyBBar instance) {
             super(instance);
         }

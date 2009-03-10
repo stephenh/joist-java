@@ -1,10 +1,9 @@
 package features.domain;
 
+import joist.domain.Requirements;
+import joist.domain.exceptions.NotFoundException;
+import joist.domain.exceptions.TooManyException;
 import junit.framework.Assert;
-
-import org.exigencecorp.domainobjects.Requirements;
-import org.exigencecorp.domainobjects.exceptions.NotFoundException;
-import org.exigencecorp.domainobjects.exceptions.TooManyException;
 
 public class PrimitivesSelectUniqueTest extends AbstractFeaturesTest {
 

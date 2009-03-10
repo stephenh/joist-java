@@ -1,6 +1,6 @@
 package features.domain;
 
-import org.exigencecorp.domainobjects.Code;
+import joist.domain.Code;
 
 public enum CodeAColor implements Code {
 
@@ -30,7 +30,7 @@ public enum CodeAColor implements Code {
     }
 
     public static CodeAColor fromId(Integer id) {
-        return org.exigencecorp.domainobjects.util.Codes.fromInt(CodeAColor.values(), id);
+        return joist.domain.util.Codes.fromInt(CodeAColor.values(), id);
     }
 
 }

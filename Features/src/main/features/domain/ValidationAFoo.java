@@ -1,8 +1,8 @@
 package features.domain;
 
-import org.exigencecorp.domainobjects.util.TextString;
-import org.exigencecorp.domainobjects.validation.ValidationErrors;
-import org.exigencecorp.domainobjects.validation.rules.Rule;
+import joist.domain.util.TextString;
+import joist.domain.validation.ValidationErrors;
+import joist.domain.validation.rules.Rule;
 
 public class ValidationAFoo extends ValidationAFooCodegen {
 

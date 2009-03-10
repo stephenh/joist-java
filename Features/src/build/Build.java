@@ -1,5 +1,6 @@
+import joist.domain.codegen.tasks.DomainObjectBuilder;
+
 import org.exigencecorp.bd.java.Lib;
-import org.exigencecorp.domainobjects.codegen.tasks.DomainObjectBuilder;
 
 public class Build {
 

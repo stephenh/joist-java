@@ -3,10 +3,10 @@ package features.domain.orm;
 import java.sql.Date;
 import java.util.TimeZone;
 
-import org.exigencecorp.domainobjects.DomainObject;
-import org.exigencecorp.domainobjects.Shim;
-import org.exigencecorp.domainobjects.queries.Alias;
-import org.exigencecorp.domainobjects.queries.columns.AliasColumn;
+import joist.domain.DomainObject;
+import joist.domain.Shim;
+import joist.domain.queries.Alias;
+import joist.domain.queries.columns.AliasColumn;
 
 import com.domainlanguage.time.CalendarDate;
 import com.domainlanguage.time.TimePoint;

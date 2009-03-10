@@ -1,7 +1,7 @@
 package features.domain.queries;
 
+import joist.domain.AbstractQueries;
 import features.domain.OneToOneAFoo;
-import org.exigencecorp.domainobjects.AbstractQueries;
 
 public class OneToOneAFooQueries extends AbstractQueries<OneToOneAFoo> {
 

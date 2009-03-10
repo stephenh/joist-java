@@ -1,13 +1,13 @@
 package features.domain;
 
 import features.domain.queries.InheritanceABaseQueries;
-import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Changed;
-import org.exigencecorp.domainobjects.Shim;
-import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.uow.UoW;
-import org.exigencecorp.domainobjects.validation.rules.MaxLength;
-import org.exigencecorp.domainobjects.validation.rules.NotNull;
+import joist.domain.AbstractDomainObject;
+import joist.domain.Changed;
+import joist.domain.Shim;
+import joist.domain.orm.AliasRegistry;
+import joist.domain.uow.UoW;
+import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotNull;
 
 public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
 
@@ -92,7 +92,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class InheritanceABaseChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+    public static class InheritanceABaseChanged extends joist.domain.AbstractChanged {
         public InheritanceABaseChanged(InheritanceABase instance) {
             super(instance);
         }

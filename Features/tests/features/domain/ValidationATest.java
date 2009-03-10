@@ -1,10 +1,9 @@
 package features.domain;
 
+import joist.domain.validation.ValidationException;
+import joist.domain.validation.errors.ObjectError;
+import joist.domain.validation.errors.PropertyError;
 import junit.framework.Assert;
-
-import org.exigencecorp.domainobjects.validation.ValidationException;
-import org.exigencecorp.domainobjects.validation.errors.ObjectError;
-import org.exigencecorp.domainobjects.validation.errors.PropertyError;
 
 public class ValidationATest extends AbstractFeaturesTest {
 

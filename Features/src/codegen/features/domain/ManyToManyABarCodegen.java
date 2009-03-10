@@ -3,14 +3,14 @@ package features.domain;
 import features.domain.queries.ManyToManyABarQueries;
 import java.util.ArrayList;
 import java.util.List;
-import org.exigencecorp.domainobjects.AbstractDomainObject;
-import org.exigencecorp.domainobjects.Changed;
-import org.exigencecorp.domainobjects.Shim;
-import org.exigencecorp.domainobjects.orm.AliasRegistry;
-import org.exigencecorp.domainobjects.orm.ForeignKeyListHolder;
-import org.exigencecorp.domainobjects.uow.UoW;
-import org.exigencecorp.domainobjects.validation.rules.MaxLength;
-import org.exigencecorp.domainobjects.validation.rules.NotNull;
+import joist.domain.AbstractDomainObject;
+import joist.domain.Changed;
+import joist.domain.Shim;
+import joist.domain.orm.AliasRegistry;
+import joist.domain.orm.ForeignKeyListHolder;
+import joist.domain.uow.UoW;
+import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotNull;
 import org.exigencecorp.util.Copy;
 
 public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
@@ -106,7 +106,9 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
             if (a.getManyToManyAFoo().equals(o)) {
                 a.setManyToManyAFoo(null);
                 a.setManyToManyABar(null);
-                UoW.delete(a);
+                if (UoW.isOpen()) {
+                    UoW.delete(a);
+                }
             }
         }
     }
@@ -145,7 +147,7 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ManyToManyABarChanged extends org.exigencecorp.domainobjects.AbstractChanged {
+    public static class ManyToManyABarChanged extends joist.domain.AbstractChanged {
         public ManyToManyABarChanged(ManyToManyABar instance) {
             super(instance);
         }
