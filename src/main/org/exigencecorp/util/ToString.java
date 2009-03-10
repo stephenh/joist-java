@@ -1,8 +1,5 @@
 package org.exigencecorp.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ToString {
 
     private ToString() {
@@ -15,11 +12,7 @@ public class ToString {
         if (object == null) {
             return "null";
         }
-        List<String> transformed = new ArrayList<String>();
-        for (Object parameter : parameters) {
-            transformed.add(parameter == null ? "" : parameter.toString());
-        }
-        return object.getClass().getSimpleName() + "[" + Join.comma(transformed) + "]";
+        return object.getClass().getSimpleName() + "[" + Join.comma(parameters) + "]";
     }
 
 }
