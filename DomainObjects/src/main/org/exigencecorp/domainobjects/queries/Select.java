@@ -76,6 +76,10 @@ public class Select<T extends DomainObject> {
         return this.list(this.from.getDomainClass());
     }
 
+    public PagedList<T> paged() {
+        return new PagedList<T>(this);
+    }
+
     public T unique() {
         return this.unique(this.from.getDomainClass());
     }
@@ -111,8 +115,14 @@ public class Select<T extends DomainObject> {
     }
 
     public long count() {
-        this.select(new SelectItem("count(distinct " + this.from.getIdColumn().getQualifiedName() + ") as count"));
-        return this.unique(Count.class).count;
+        // Make a copy countQuery so we can discard any select items and order bys and not mess up this query
+        Select<T> countQuery = Select.from(this.from);
+        countQuery.joins.addAll(this.joins);
+        countQuery.where = this.where;
+        countQuery.offset = this.offset;
+        countQuery.limit = this.limit;
+        countQuery.select(new SelectItem("count(distinct " + this.from.getIdColumn().getQualifiedName() + ") as count"));
+        return countQuery.unique(Count.class).count;
     }
 
     public static class Count {
