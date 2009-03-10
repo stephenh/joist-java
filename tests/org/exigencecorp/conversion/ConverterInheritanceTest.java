@@ -11,16 +11,16 @@ public class ConverterInheritanceTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
         TestCounters.resetAll();
-        this.r.addConverter(new AbstractConverter<DomainObject, String>() {
-            public String convertOneToTwo(DomainObject value, Class<? extends String> toType) {
+        this.r.addConverter(new AbstractConverter<FakeDomainObject, String>() {
+            public String convertOneToTwo(FakeDomainObject value, Class<? extends String> toType) {
                 return value.getId().toString();
             }
 
-            public DomainObject convertTwoToOne(String value, Class<? extends DomainObject> toType) {
+            public FakeDomainObject convertTwoToOne(String value, Class<? extends FakeDomainObject> toType) {
                 try {
                     // We get the toType, so even though we return the generic DomainObject, we have
                     // the concrete type to do database lookups, etc.
-                    DomainObject d = toType.newInstance();
+                    FakeDomainObject d = toType.newInstance();
                     d.setId(new Integer(value));
                     return d;
                 } catch (Exception e) {
@@ -50,13 +50,13 @@ public class ConverterInheritanceTest extends TestCase {
         Assert.assertEquals(1, ConverterRegistry.probes.get());
     }
 
-    public interface DomainObject {
+    public interface FakeDomainObject {
         Integer getId();
 
         void setId(Integer id);
     }
 
-    public static class Employee implements DomainObject {
+    public static class Employee implements FakeDomainObject {
         public Integer id;
 
         public Employee() {
