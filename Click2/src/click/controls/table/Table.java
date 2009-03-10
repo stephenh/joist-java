@@ -17,6 +17,9 @@ public class Table<T> implements Control {
     private List<Column> columns = new ArrayList<Column>();
     private List<T> list = new ArrayList<T>();
     private Binding<? super T> current = null;
+    // Only set if doing paging
+    private Integer pageNumber;
+    private Integer pageRows;
 
     public Table(String id) {
         this.setId(id);
@@ -95,6 +98,22 @@ public class Table<T> implements Control {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getPageNumber() {
+        return this.pageNumber;
+    }
+
+    public void setPageNumber(Integer pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public Integer getPageRows() {
+        return this.pageRows;
+    }
+
+    public void setPageRows(Integer pageRows) {
+        this.pageRows = pageRows;
     }
 
 }
