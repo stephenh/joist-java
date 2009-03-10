@@ -9,7 +9,7 @@ import org.exigencecorp.util.Inflector;
 import click.Control;
 import click.util.HtmlWriter;
 
-// TODO: Should be a container?
+// Should extend AbstractContainer?
 public class Table<T> implements Control {
 
     private String id;
