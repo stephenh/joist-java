@@ -7,21 +7,21 @@ import java.util.ListIterator;
 
 import joist.domain.DomainObject;
 
-
-
-
 public class PagedList<T extends DomainObject> implements List<T> {
 
     private Select<T> query;
     private String message = "PagedList only supports size() and subList(int,int)";
+    private Integer cachedCount;
 
     public PagedList(Select<T> query) {
         this.query = query;
     }
 
     public int size() {
-        // What does casting do on overflow?
-        return (int) this.query.count();
+        if (this.cachedCount == null) {
+            this.cachedCount = (int) this.query.count();
+        }
+        return this.cachedCount;
     }
 
     public List<T> subList(int fromIndex, int toIndex) {
