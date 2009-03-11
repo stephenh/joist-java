@@ -3,6 +3,7 @@ package joist.web.controls;
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import joist.web.Control;
 import joist.web.CurrentContext;
@@ -13,7 +14,6 @@ import joist.web.util.TextContent;
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 import org.exigencecorp.util.Inflector;
-
 
 public class PageLink implements Control {
 
@@ -26,6 +26,15 @@ public class PageLink implements Control {
         this.pageClass = pageClass;
         this.setId(StringUtils.removeEnd(pageClass.getSimpleName(), "Page"));
         this.text(Inflector.humanize(StringUtils.removeEnd(pageClass.getSimpleName(), "Page")));
+    }
+
+    public static PageLink forCurrentPage() {
+        Page page = CurrentContext.get().getPage();
+        PageLink link = new PageLink(page.getClass());
+        for (Entry<String, String[]> e : CurrentContext.get().getParameters().entrySet()) {
+            link.param(e.getKey(), e.getValue()[0]);
+        }
+        return link;
     }
 
     public String getId() {

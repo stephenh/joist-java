@@ -61,6 +61,11 @@ public class ClickContext {
         return this.clickConfig;
     }
 
+    @SuppressWarnings("unchecked")
+    public Map<String, String[]> getParameters() {
+        return this.getRequest().getParameterMap();
+    }
+
     public Flash getFlash() {
         Flash flash = (Flash) this.getRequest().getSession().getAttribute("_flash");
         if (flash == null) {

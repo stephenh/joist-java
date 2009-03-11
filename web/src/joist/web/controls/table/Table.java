@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joist.web.Control;
+import joist.web.controls.PageLink;
 import joist.web.util.HtmlWriter;
 
 import org.exigencecorp.bindgen.Binding;
@@ -86,7 +87,7 @@ public class Table<T> implements Control {
     }
 
     protected List<T> getRowsToRender() {
-        if (this.pageNumber == null || this.pageRows == null) {
+        if (!this.isPaging()) {
             return this.list;
         }
         int beginIndex = (this.getCurrentPageNumber() - 1) * this.getCurrentPageRows();
@@ -101,9 +102,29 @@ public class Table<T> implements Control {
     }
 
     private void renderPagingLinks(HtmlWriter w) {
-        if (this.pageNumber == null || this.pageRows == null) {
+        if (!this.isPaging()) {
             return;
         }
+        boolean showPrevious = this.getCurrentPageNumber() > 1;
+        if (showPrevious) {
+            PageLink previous = PageLink.forCurrentPage();
+            previous.id(this.getId() + ".previous");
+            previous.param(this.pageNumber.getName(), this.getCurrentPageNumber() - 1);
+            previous.text("previous");
+            previous.render(w);
+        }
+        boolean showNext = this.getCurrentPageNumber() < this.getMaxPageNumber();
+        if (showNext) {
+            PageLink next = PageLink.forCurrentPage();
+            next.id(this.getId() + ".next");
+            next.param(this.pageNumber.getName(), this.getCurrentPageNumber() + 1);
+            next.text("next");
+            next.render(w);
+        }
+    }
+
+    public boolean isPaging() {
+        return this.pageNumber != null && this.pageRows != null;
     }
 
     public int getCurrentPageNumber() {
