@@ -15,7 +15,6 @@ import bindgen.joist.web.pages.controls.table.TablePageBinding;
 public class TablePage extends AbstractPage {
 
     public Table<String> table = new Table<String>("table");
-    public String value = "foo";
     public String current;
 
     public void onInit() {

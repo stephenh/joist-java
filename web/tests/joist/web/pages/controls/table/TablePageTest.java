@@ -5,7 +5,6 @@ import junit.framework.Assert;
 
 import org.exigencecorp.util.Join;
 
-
 public class TablePageTest extends AbstractClickPageTest {
 
     public void testInitialGet() throws Exception {

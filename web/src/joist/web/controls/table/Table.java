@@ -9,7 +9,6 @@ import joist.web.util.HtmlWriter;
 import org.exigencecorp.bindgen.Binding;
 import org.exigencecorp.util.Inflector;
 
-
 // Should extend AbstractContainer?
 public class Table<T> implements Control {
 
@@ -19,8 +18,8 @@ public class Table<T> implements Control {
     private List<T> list = new ArrayList<T>();
     private Binding<? super T> current = null;
     // Only set if doing paging
-    private Integer pageNumber;
-    private Integer pageRows;
+    private Binding<Number> pageNumber;
+    private Binding<Number> pageRows;
 
     public Table(String id) {
         this.setId(id);
@@ -70,7 +69,7 @@ public class Table<T> implements Control {
     private void renderRows(HtmlWriter w) {
         w.line("  <tbody>");
         int i = 0;
-        for (T object : this.list) {
+        for (T object : this.getRowsToRender()) {
             this.current.set(object);
             w.line("    <tr>");
             for (Column column : this.columns) {
@@ -83,6 +82,21 @@ public class Table<T> implements Control {
             i++;
         }
         w.line("  </tbody>");
+    }
+
+    protected List<T> getRowsToRender() {
+        if (this.pageNumber == null || this.pageRows == null) {
+            return this.list;
+        }
+        int pageNumber = this.pageNumber.get() != null ? this.pageNumber.get().intValue() : 1;
+        int pageRows = this.pageRows.get() != null ? this.pageRows.get().intValue() : 10;
+        int beginIndex = (pageNumber - 1) * pageRows;
+        int endIndex = pageNumber * pageRows;
+        // Hack to keep indices within the range of size
+        int size = this.list.size();
+        endIndex = (endIndex > size) ? size : endIndex;
+        beginIndex = (beginIndex > endIndex) ? endIndex : beginIndex;
+        return this.list.subList(beginIndex, endIndex);
     }
 
     private void renderFooter(HtmlWriter w) {
@@ -101,19 +115,19 @@ public class Table<T> implements Control {
         this.id = id;
     }
 
-    public Integer getPageNumber() {
+    public Binding<Number> getPageNumber() {
         return this.pageNumber;
     }
 
-    public void setPageNumber(Integer pageNumber) {
+    public void setPageNumber(Binding<Number> pageNumber) {
         this.pageNumber = pageNumber;
     }
 
-    public Integer getPageRows() {
+    public Binding<Number> getPageRows() {
         return this.pageRows;
     }
 
-    public void setPageRows(Integer pageRows) {
+    public void setPageRows(Binding<Number> pageRows) {
         this.pageRows = pageRows;
     }
 
