@@ -1,21 +1,18 @@
-package joist.domain.codegen.tasks;
+package joist.domain.codegen;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
-import joist.domain.codegen.Codegen;
-import joist.domain.codegen.CodegenConfig;
 import joist.domain.migrations.DatabaseBootstrapper;
 import joist.domain.migrations.Migrater;
 import joist.domain.migrations.MigraterConfig;
 import joist.domain.migrations.PermissionFixer;
 
-
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-public class DomainObjectBuilder {
+public class JoistTask {
 
     public String host = "localhost";
     public String databaseName;
@@ -27,7 +24,7 @@ public class DomainObjectBuilder {
     public MigraterConfig migraterConfig = new MigraterConfig();
     private final Map<String, DataSource> dss = new HashMap<String, DataSource>();
 
-    public DomainObjectBuilder(String projectName) {
+    public JoistTask(String projectName) {
         this.databaseName = projectName;
         this.databaseAppUsername = projectName + "_role";
         this.databaseAppPassword = projectName + "_role";
@@ -62,20 +59,14 @@ public class DomainObjectBuilder {
     }
 
     private DataSource getDataSourceForAppTableAsSaUser() {
-        return this.getDs(this.host, this.databaseName, this.databaseSaUsername, this.databaseSaPassword);
+        return this.getCachedDatasource(this.host, this.databaseName, this.databaseSaUsername, this.databaseSaPassword);
     }
 
     private DataSource getDataSourceForSystemTableAsSaUser() {
-        return this.getDs(this.host, "postgres", this.databaseSaUsername, this.databaseSaPassword);
+        return this.getCachedDatasource(this.host, "postgres", this.databaseSaUsername, this.databaseSaPassword);
     }
 
-    private DataSource getDs(String host, String databaseName, String username, String password) {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+    private DataSource getCachedDatasource(String host, String databaseName, String username, String password) {
         String key = host + "." + databaseName + "." + username + "." + password;
         if (!this.dss.containsKey(key)) {
             ComboPooledDataSource ds = new ComboPooledDataSource();
@@ -86,7 +77,6 @@ public class DomainObjectBuilder {
             ds.setInitialPoolSize(1);
             this.dss.put(key, ds);
         }
-
         return this.dss.get(key);
     }
 
