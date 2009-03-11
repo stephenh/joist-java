@@ -20,9 +20,24 @@ public class PagedTableTest extends AbstractClickPageTest {
         this.assertRows(body, 91, 100);
     }
 
-    public void testPage11HasNone() throws Exception {
+    public void testPage11GetsDownGradedTo10() throws Exception {
         String body = this.request("/controls/table/pagedTable.htm").set("page", "11").getBody();
-        this.assertRows(body, 101, 100);
+        this.assertRows(body, 91, 100);
+    }
+
+    public void testPage1With95() throws Exception {
+        String body = this.request("/controls/table/pagedTable.htm").set("page", "1").set("rows", "95").getBody();
+        this.assertRows(body, 1, 95);
+    }
+
+    public void testPage2With95() throws Exception {
+        String body = this.request("/controls/table/pagedTable.htm").set("page", "2").set("rows", "95").getBody();
+        this.assertRows(body, 96, 100);
+    }
+
+    public void testPage1With105() throws Exception {
+        String body = this.request("/controls/table/pagedTable.htm").set("page", "1").set("rows", "105").getBody();
+        this.assertRows(body, 1, 100);
     }
 
     private void assertRows(String body, int start, int end) {

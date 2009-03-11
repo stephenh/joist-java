@@ -50,6 +50,7 @@ public class Table<T> implements Control {
         this.renderHeader(w);
         this.renderRows(w);
         this.renderFooter(w);
+        this.renderPagingLinks(w);
     }
 
     private void renderHeader(HtmlWriter w) {
@@ -88,19 +89,42 @@ public class Table<T> implements Control {
         if (this.pageNumber == null || this.pageRows == null) {
             return this.list;
         }
-        int pageNumber = this.pageNumber.get() != null ? this.pageNumber.get().intValue() : 1;
-        int pageRows = this.pageRows.get() != null ? this.pageRows.get().intValue() : 10;
-        int beginIndex = (pageNumber - 1) * pageRows;
-        int endIndex = pageNumber * pageRows;
+        int beginIndex = (this.getCurrentPageNumber() - 1) * this.getCurrentPageRows();
+        int endIndex = beginIndex + this.getCurrentPageRows();
         // Hack to keep indices within the range of size
-        int size = this.list.size();
-        endIndex = (endIndex > size) ? size : endIndex;
-        beginIndex = (beginIndex > endIndex) ? endIndex : beginIndex;
+        endIndex = (endIndex > this.list.size()) ? this.list.size() : endIndex;
         return this.list.subList(beginIndex, endIndex);
     }
 
     private void renderFooter(HtmlWriter w) {
         w.line("</table>");
+    }
+
+    private void renderPagingLinks(HtmlWriter w) {
+        if (this.pageNumber == null || this.pageRows == null) {
+            return;
+        }
+    }
+
+    public int getCurrentPageNumber() {
+        int pageNumber = this.pageNumber.get() != null ? this.pageNumber.get().intValue() : 1;
+        if (pageNumber > this.getMaxPageNumber()) {
+            pageNumber = this.getMaxPageNumber();
+        }
+        return pageNumber;
+    }
+
+    public int getCurrentPageRows() {
+        return this.pageRows.get() != null ? this.pageRows.get().intValue() : 10;
+    }
+
+    public int getMaxPageNumber() {
+        // 1 2 3 4 5 ( 6 7 8 9 10 ) 11, pageRows = 5, count = 11, so page <= 3
+        int maxNumber = this.list.size() / this.getCurrentPageRows();
+        if (this.list.size() % this.getCurrentPageRows() > 0) {
+            maxNumber++;
+        }
+        return maxNumber;
     }
 
     public String getLabel() {
