@@ -1,11 +1,11 @@
-import joist.domain.codegen.tasks.DomainObjectBuilder;
+import joist.domain.codegen.JoistTask;
 
 import org.exigencecorp.bd.java.Lib;
 
 public class Build {
 
     public Lib lib = new Lib("lib");
-    public DomainObjectBuilder dobj = new DomainObjectBuilder("features");
+    public JoistTask dobj = new JoistTask("features");
 
     public Build() {
         this.lib.updateFromHomeCache();
