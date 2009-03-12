@@ -7,11 +7,9 @@ import joist.web.ClickContext;
 import joist.web.CurrentContext;
 import joist.web.Page;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 import org.exigencecorp.util.Inflector;
-
 
 public abstract class AbstractField<T extends AbstractField<T>> implements Field {
 
@@ -27,11 +25,8 @@ public abstract class AbstractField<T extends AbstractField<T>> implements Field
         this.setBinding(binding);
     }
 
-    public String getBoundValue() {
-        if (this.binding == null) {
-            return "";
-        }
-        return ObjectUtils.toString(this.binding.get());
+    public Object getBoundValue() {
+        return this.binding.get();
     }
 
     @SuppressWarnings("unchecked")
