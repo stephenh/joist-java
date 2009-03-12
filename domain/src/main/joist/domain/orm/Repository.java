@@ -27,7 +27,7 @@ import org.exigencecorp.util.MapToList;
 
 public class Repository {
 
-    public static DataSource THIS_IS_DUMB = null;
+    public static DataSource datasource = null;
     private Connection connection;
 
     public <T extends DomainObject> T load(Class<T> type, Integer id) {
@@ -68,10 +68,10 @@ public class Repository {
 
     public void open() {
         try {
-            if (Repository.THIS_IS_DUMB == null) {
+            if (Repository.datasource == null) {
                 throw new RuntimeException("The repository database has not been configured.");
             }
-            this.connection = Repository.THIS_IS_DUMB.getConnection();
+            this.connection = Repository.datasource.getConnection();
             this.connection.setAutoCommit(false);
             Jdbc.update(this.connection, "SET CONSTRAINTS ALL DEFERRED;");
         } catch (SQLException se) {

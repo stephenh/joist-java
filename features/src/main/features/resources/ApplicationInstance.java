@@ -10,11 +10,11 @@ public class ApplicationInstance {
 
     public void start() {
         Log.debug("Starting...");
-        Repository.THIS_IS_DUMB = Registry.getDataSource();
+        Repository.datasource = Registry.getDataSource();
     }
 
     public void stop() {
-        Repository.THIS_IS_DUMB = null;
+        Repository.datasource = null;
     }
 
 }
