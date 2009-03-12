@@ -14,7 +14,7 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="lib/main/bindgen.jar" sourcepath="lib/main/bindgen.zip"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Utilities"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Bindgen"/>
 	<classpathentry kind="output" path="bin/eclipse"/>
 </classpath>
