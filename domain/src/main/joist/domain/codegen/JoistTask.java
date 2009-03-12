@@ -34,6 +34,13 @@ public class JoistTask {
         this.codegenConfig.setProjectNameForDefaults(projectName);
     }
 
+    public void cycle() {
+        this.createDatabase();
+        this.migrateDatabase();
+        this.fixPermissions();
+        this.codegen();
+    }
+
     public void createDatabase() {
         new DatabaseBootstrapper(//
             this.getDataSourceForSystemTableAsSaUser(),
