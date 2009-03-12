@@ -1,10 +1,10 @@
 import java.io.File;
 
-import org.exigencecorp.bd.Files;
-import org.exigencecorp.bd.Zip;
-import org.exigencecorp.bd.java.Jar;
-import org.exigencecorp.bd.java.Lib;
-import org.exigencecorp.bd.java.Source;
+import org.exigencecorp.bd.resources.Files;
+import org.exigencecorp.bd.resources.Zip;
+import org.exigencecorp.bd.resources.java.Jar;
+import org.exigencecorp.bd.resources.java.Lib;
+import org.exigencecorp.bd.resources.java.Source;
 
 public class Build {
 

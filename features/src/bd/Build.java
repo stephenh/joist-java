@@ -1,6 +1,6 @@
 import joist.domain.codegen.JoistTask;
 
-import org.exigencecorp.bd.java.Lib;
+import org.exigencecorp.bd.resources.java.Lib;
 
 public class Build {
 
