@@ -84,6 +84,7 @@ Todo
 * Convert rules to bindgen?
 * Refactor Insert into Insert/InsertTemplate?
 * Support H2 for faster testing?
+* Add late-bound DataSourceFactory for Repository so it can lazy init
 
 Caveats
 =======
