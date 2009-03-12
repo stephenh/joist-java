@@ -3,7 +3,7 @@ package joist.domain.migrations;
 import java.sql.SQLException;
 
 /** A base class with nice helper methods for updates to extend. */
-public abstract class AbstractMigration {
+public abstract class AbstractMigration implements Migration {
 
     private String description;
 
@@ -12,7 +12,7 @@ public abstract class AbstractMigration {
     }
 
     public String toString() {
-        return this.getClass().getSimpleName() + " - " + this.description;
+        return this.description;
     }
 
     public abstract void apply() throws SQLException;

@@ -61,8 +61,8 @@ public class Migrater {
                 Jdbc.update(connection, this.config.getInitialConnectionSetupCommand());
             }
 
-            AbstractMigration migration = this.migrationClasses.get(nextVersion);
-            Log.info("Performing migration " + migration);
+            Migration migration = this.migrationClasses.get(nextVersion);
+            Log.info("Applying {}: {}", migration.getClass().getSimpleName(), migration.toString());
             migration.apply();
 
             // Tick to the current version number

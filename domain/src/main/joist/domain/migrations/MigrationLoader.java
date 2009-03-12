@@ -32,7 +32,7 @@ public class MigrationLoader {
     }
 
     /** @throws ClassNotFoundException if version is not available */
-    public AbstractMigration get(int version) throws ClassNotFoundException {
+    public Migration get(int version) throws ClassNotFoundException {
         String paddedVersion = StringUtils.leftPad(Integer.toString(version), 4, '0');
 
         // Use a list so we can fail if we find more than 1
