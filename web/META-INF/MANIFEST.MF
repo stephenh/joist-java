@@ -9,6 +9,5 @@ Bundle-ManifestVersion: 2
 Bundle-SymbolicName: click;singleton:=true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/main/commons-lang-2.3.jar,
- lib/main/exigence-utilities.jar,
  .
 
