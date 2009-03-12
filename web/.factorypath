@@ -1,3 +1,3 @@
 <factorypath>
-    <factorypathentry kind="WKSPJAR" id="/joist.web/lib/main/bindgen.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="BD_HOME_CACHE/bindgen.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>
