@@ -1,17 +1,20 @@
+import org.exigencecorp.bd.HomeCache;
 import org.exigencecorp.bd.resources.Dir;
 import org.exigencecorp.bd.resources.Zip;
 import org.exigencecorp.bd.resources.java.Jar;
-import org.exigencecorp.bd.resources.java.Lib;
 import org.exigencecorp.bd.resources.java.Source;
 
 public class Build {
 
+    static {
+        Source.defaultIncludeHomeCache = true;
+    }
+
     public Dir bin = new Dir("bin");
     public Dir binMain = this.bin.dir("main");
-    public Lib libMain = new Lib("lib/main");
-    public Lib libBd = new Lib("lib/bd");
-    public Lib homeCache = Lib.homeCache();
-    public Source srcMain = new Source("src/main", this.binMain).lib(this.libMain).lib(this.homeCache);
+    public Dir libMain = new Dir("lib/main");
+    public Dir libBd = new Dir("lib/bd");
+    public Source srcMain = new Source("src/main", this.binMain).lib(this.libMain);
     public Jar binaryJar = new Jar("bin/joist.domain.jar").includes(this.binMain);
     public Zip sourceZip = new Zip("bin/joist.domain.zip").includes(this.srcMain.getSources());
 
@@ -19,8 +22,8 @@ public class Build {
     }
 
     public void updateLibs() {
-        this.libMain.updateFromHomeCache();
-        this.libBd.updateFromHomeCache();
+        HomeCache.updateIfNeeded(this.libMain.files());
+        HomeCache.updateIfNeeded(this.libBd.files());
     }
 
     public void clean() {
