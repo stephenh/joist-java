@@ -10,11 +10,11 @@
 
 	<target name="main.jar" depends="main.compile">
 		<mkdir dir="bin/jars"/>
-		<jar destfile="bin/jars/joist.utilities.jar">
+		<jar destfile="bin/jars/joist.util.jar">
 			<fileset dir="bin/main" includes="**/*.class"/>
 		</jar>
 		<mkdir dir="bin/sources"/>
-		<zip destfile="bin/sources/joist.utilities.jar">
+		<zip destfile="bin/sources/joist.util.jar">
 			<fileset dir="src/main" includes="**/*.java"/>
 		</zip>
 	</target>

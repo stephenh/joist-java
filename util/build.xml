@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="joist.utilities" default="jar">
+<project name="joist.util" default="main.jar">
 	<import file="src/build/ivy.xml"/>
 	<import file="src/build/main.xml"/>
 
