@@ -1,7 +1,8 @@
+import joist.util.Log;
+import joist.util.LogAppenderFactory;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
-import org.exigencecorp.util.Log;
-import org.exigencecorp.util.LogAppenderFactory;
 
 public class LogConfiguration {
 
