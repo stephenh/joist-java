@@ -26,6 +26,9 @@ public abstract class AbstractField<T extends AbstractField<T>> implements Field
     }
 
     public Object getBoundValue() {
+        if (this.binding == null) {
+            return null;
+        }
         return this.binding.get();
     }
 
