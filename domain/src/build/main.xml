@@ -2,7 +2,7 @@
 	<path id="main.classpath">
 		<fileset dir="bin/main.lib" includes="*.jar"/>
 	</path>
-	<target name="main.compile" depends="ivy.retrieve-jars">
+	<target name="main.compile" depends="ivy.retrieve">
 		<mkdir dir="bin/main"/>
 		<javac srcdir="src/main" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8">
 		</javac>
