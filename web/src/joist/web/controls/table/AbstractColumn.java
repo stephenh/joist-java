@@ -1,9 +1,7 @@
 package joist.web.controls.table;
 
+import joist.util.Inflector;
 import joist.web.util.HtmlWriter;
-
-import org.exigencecorp.util.Inflector;
-
 
 public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Column {
 

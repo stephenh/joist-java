@@ -1,9 +1,0 @@
-#!/bin/sh
-
-mkdir -p bin/bd
-case "`uname`" in CYGWIN*) sep=";" ;; *) sep=":" ;; esac
-"$JAVA_HOME/bin/javac" -cp "lib/bd/bd.jar" -sourcepath src/bd -d bin/bd src/bd/*.java
-if [ $? == 0 ] ; then
-    "$JAVA_HOME/bin/java" -Xmx512m -cp "bin/bd${sep}lib/bd/bd.jar${sep}$JAVA_HOME/lib/tools.jar" org.exigencecorp.bd.BuildRunner $*
-fi
-

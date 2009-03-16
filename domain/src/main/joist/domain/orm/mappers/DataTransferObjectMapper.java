@@ -6,9 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import joist.domain.DomainObject;
-
-
-import org.exigencecorp.jdbc.RowMapper;
+import joist.jdbc.RowMapper;
 
 public class DataTransferObjectMapper<T extends DomainObject, R> implements RowMapper {
 

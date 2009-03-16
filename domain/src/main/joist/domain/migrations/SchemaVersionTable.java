@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
-import org.exigencecorp.jdbc.Jdbc;
+import joist.jdbc.Jdbc;
 
 /** A simple wrapper around the <code>schema_version</code> table for the {@link Migrater} class. */
 public class SchemaVersionTable {

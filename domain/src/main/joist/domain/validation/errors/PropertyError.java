@@ -2,8 +2,7 @@ package joist.domain.validation.errors;
 
 
 import joist.domain.DomainObject;
-
-import org.exigencecorp.util.Inflector;
+import joist.util.Inflector;
 
 /** An error that applies to just a property. */
 public class PropertyError implements ValidationError {

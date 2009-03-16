@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joist.domain.validation.errors.ValidationError;
-
-import org.exigencecorp.util.Join;
+import joist.util.Join;
 
 /** Throw when someone calls flush and validation errors occur. */
 public class ValidationException extends RuntimeException {

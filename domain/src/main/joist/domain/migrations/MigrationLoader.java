@@ -3,8 +3,9 @@ package joist.domain.migrations;
 import java.util.ArrayList;
 import java.util.List;
 
+import joist.util.Reflection;
+
 import org.apache.commons.lang.StringUtils;
-import org.exigencecorp.util.Reflection;
 
 public class MigrationLoader {
 

@@ -9,9 +9,7 @@ import joist.domain.orm.IdentityMap;
 import joist.domain.queries.Alias;
 import joist.domain.queries.columns.AliasColumn;
 import joist.domain.uow.UoW;
-
-
-import org.exigencecorp.jdbc.RowMapper;
+import joist.jdbc.RowMapper;
 
 public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
 

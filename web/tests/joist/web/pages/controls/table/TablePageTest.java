@@ -1,9 +1,8 @@
 package joist.web.pages.controls.table;
 
+import joist.util.Join;
 import joist.web.pages.AbstractClickPageTest;
 import junit.framework.Assert;
-
-import org.exigencecorp.util.Join;
 
 public class TablePageTest extends AbstractClickPageTest {
 

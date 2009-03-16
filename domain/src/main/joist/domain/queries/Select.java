@@ -13,14 +13,12 @@ import joist.domain.orm.mappers.IdsMapper;
 import joist.domain.queries.columns.AliasColumn;
 import joist.domain.queries.columns.IdAliasColumn;
 import joist.domain.uow.UoW;
-
-
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.jdbc.RowMapper;
-import org.exigencecorp.util.Copy;
-import org.exigencecorp.util.Join;
-import org.exigencecorp.util.StringBuilderr;
-import org.exigencecorp.util.Wrap;
+import joist.jdbc.Jdbc;
+import joist.jdbc.RowMapper;
+import joist.util.Copy;
+import joist.util.Join;
+import joist.util.StringBuilderr;
+import joist.util.Wrap;
 
 public class Select<T extends DomainObject> {
 

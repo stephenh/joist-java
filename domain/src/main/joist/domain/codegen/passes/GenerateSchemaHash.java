@@ -1,9 +1,8 @@
 package joist.domain.codegen.passes;
 
 import joist.domain.codegen.Codegen;
-
-import org.exigencecorp.gen.GClass;
-import org.exigencecorp.gen.GField;
+import joist.sourcegen.GClass;
+import joist.sourcegen.GField;
 
 public class GenerateSchemaHash implements Pass {
 

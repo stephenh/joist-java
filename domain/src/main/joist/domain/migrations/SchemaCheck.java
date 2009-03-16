@@ -8,13 +8,11 @@ import javax.sql.DataSource;
 
 import joist.domain.Code;
 import joist.domain.codegen.InformationSchemaWrapper;
-
-
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.jdbc.RowMapper;
-import org.exigencecorp.util.Inflector;
-import org.exigencecorp.util.Interpolate;
-import org.exigencecorp.util.Reflection;
+import joist.jdbc.Jdbc;
+import joist.jdbc.RowMapper;
+import joist.util.Inflector;
+import joist.util.Interpolate;
+import joist.util.Reflection;
 
 public class SchemaCheck {
 

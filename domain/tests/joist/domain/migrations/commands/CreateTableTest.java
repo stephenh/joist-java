@@ -3,11 +3,9 @@ package joist.domain.migrations.commands;
 import joist.domain.migrations.columns.ForeignKeyColumn;
 import joist.domain.migrations.columns.PrimaryKeyColumn;
 import joist.domain.migrations.columns.VarcharColumn;
-import joist.domain.migrations.commands.CreateTable;
+import joist.util.Join;
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
-import org.exigencecorp.util.Join;
 
 public class CreateTableTest extends TestCase {
 

@@ -1,9 +1,7 @@
 package joist.domain.util;
 
-
+import joist.converter.AbstractOneWayConverter;
 import joist.domain.Code;
-
-import org.exigencecorp.conversion.AbstractOneWayConverter;
 
 public class CodeToTextStringConverter extends AbstractOneWayConverter<Code, String> {
 

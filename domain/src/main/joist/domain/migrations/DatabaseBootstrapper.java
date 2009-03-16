@@ -2,10 +2,10 @@ package joist.domain.migrations;
 
 import javax.sql.DataSource;
 
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.util.Execute;
-import org.exigencecorp.util.Log;
-import org.exigencecorp.util.Execute.Result;
+import joist.jdbc.Jdbc;
+import joist.util.Execute;
+import joist.util.Log;
+import joist.util.Execute.Result;
 
 public class DatabaseBootstrapper {
 

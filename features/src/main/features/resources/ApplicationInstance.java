@@ -1,9 +1,7 @@
 package features.resources;
 
 import joist.domain.orm.Repository;
-
-import org.exigencecorp.util.Log;
-
+import joist.util.Log;
 import features.Registry;
 
 public class ApplicationInstance {

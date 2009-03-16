@@ -2,9 +2,8 @@ package features.domain;
 
 import java.util.List;
 
+import joist.util.Copy;
 import junit.framework.Assert;
-
-import org.exigencecorp.util.Copy;
 
 public class PrimitivesUpdateTest extends AbstractFeaturesTest {
 

@@ -1,9 +1,8 @@
 package joist.domain;
 
 import joist.domain.uow.UoW;
+import joist.util.TestCounters;
 import junit.framework.TestCase;
-
-import org.exigencecorp.util.TestCounters;
 
 public abstract class AbstractDomainObjectsTest extends TestCase {
 

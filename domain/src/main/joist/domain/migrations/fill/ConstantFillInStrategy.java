@@ -3,8 +3,8 @@ package joist.domain.migrations.fill;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.util.Wrap;
+import joist.jdbc.Jdbc;
+import joist.util.Wrap;
 
 public class ConstantFillInStrategy implements FillInStrategy {
 

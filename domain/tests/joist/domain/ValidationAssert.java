@@ -3,11 +3,9 @@ package joist.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import joist.domain.DomainObject;
 import joist.domain.validation.errors.ValidationError;
+import joist.util.Join;
 import junit.framework.Assert;
-
-import org.exigencecorp.util.Join;
 
 public class ValidationAssert {
 

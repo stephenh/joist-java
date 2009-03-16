@@ -6,10 +6,9 @@ import java.util.List;
 import joist.domain.validation.ValidationErrors;
 import joist.domain.validation.errors.ValidationError;
 import joist.domain.validation.rules.Rule;
-
-import org.exigencecorp.util.Copy;
-import org.exigencecorp.util.Inflector;
-import org.exigencecorp.util.ToString;
+import joist.util.Copy;
+import joist.util.Inflector;
+import joist.util.ToString;
 
 public abstract class AbstractDomainObject implements DomainObject {
 

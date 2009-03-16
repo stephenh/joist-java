@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import joist.util.Inflector;
 import joist.web.Control;
 import joist.web.CurrentContext;
 import joist.web.Page;
@@ -13,7 +14,6 @@ import joist.web.util.TextContent;
 
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
-import org.exigencecorp.util.Inflector;
 
 public class PageLink implements Control {
 

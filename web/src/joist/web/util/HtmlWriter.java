@@ -3,11 +3,10 @@ package joist.web.util;
 import java.io.IOException;
 import java.io.Writer;
 
+import joist.util.StringBuilderr;
 import joist.web.Control;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.exigencecorp.util.StringBuilderr;
-
 
 /** Add HTML-specific helper methods to the {@link StringBuilderr} class.
  *

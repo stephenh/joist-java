@@ -5,12 +5,11 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import joist.util.Log;
 import joist.web.util.ControlRenderableAdapter;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.exigencecorp.util.Log;
-
 
 public class DefaultPageProcessor implements PageProcessor {
 

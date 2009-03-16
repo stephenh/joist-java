@@ -2,12 +2,10 @@ package features.domain.queries;
 
 import joist.domain.Requirements;
 import joist.domain.queries.Select;
+import joist.util.Copy;
+import joist.util.Join;
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
-import org.exigencecorp.util.Copy;
-import org.exigencecorp.util.Join;
-
 import features.domain.Child;
 import features.domain.ChildAlias;
 import features.domain.ParentAlias;

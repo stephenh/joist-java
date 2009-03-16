@@ -1,8 +1,7 @@
 package joist.domain.migrations.commands;
 
 import joist.domain.migrations.columns.Column;
-
-import org.exigencecorp.util.StringBuilderr;
+import joist.util.StringBuilderr;
 
 public class CreateTable {
 

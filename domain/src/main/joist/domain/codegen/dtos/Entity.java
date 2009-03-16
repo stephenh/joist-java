@@ -8,8 +8,7 @@ import java.util.TreeSet;
 
 import joist.domain.codegen.Codegen;
 import joist.domain.codegen.CodegenConfig;
-
-import org.exigencecorp.util.Inflector;
+import joist.util.Inflector;
 
 /** Represents a domain object we will generate code for. */
 public class Entity {

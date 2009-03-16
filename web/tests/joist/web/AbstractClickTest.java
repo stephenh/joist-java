@@ -1,8 +1,7 @@
 package joist.web;
 
+import joist.util.TestCounters;
 import junit.framework.TestCase;
-
-import org.exigencecorp.util.TestCounters;
 
 public abstract class AbstractClickTest extends TestCase {
 

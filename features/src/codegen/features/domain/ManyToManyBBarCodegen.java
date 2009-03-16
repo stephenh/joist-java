@@ -1,8 +1,8 @@
 package features.domain;
 
-import features.domain.queries.ManyToManyBBarQueries;
 import java.util.ArrayList;
 import java.util.List;
+
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -11,7 +11,8 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import org.exigencecorp.util.Copy;
+import joist.util.Copy;
+import features.domain.queries.ManyToManyBBarQueries;
 
 public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
 
@@ -20,7 +21,10 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar> greenManyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar>((ManyToManyBBar) this, ManyToManyBFooToBarCodegen.alias, ManyToManyBFooToBarCodegen.alias.green);
+    private ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar> greenManyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar>(
+        (ManyToManyBBar) this,
+        ManyToManyBFooToBarCodegen.alias,
+        ManyToManyBFooToBarCodegen.alias.green);
     protected Changed changed;
 
     static {
@@ -125,6 +129,7 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
             public void set(ManyToManyBBar instance, Integer id) {
                 ((ManyToManyBBarCodegen) instance).id = id;
             }
+
             public Integer get(ManyToManyBBar instance) {
                 return ((ManyToManyBBarCodegen) instance).id;
             }
@@ -133,6 +138,7 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
             public void set(ManyToManyBBar instance, String name) {
                 ((ManyToManyBBarCodegen) instance).name = name;
             }
+
             public String get(ManyToManyBBar instance) {
                 return ((ManyToManyBBarCodegen) instance).name;
             }
@@ -141,6 +147,7 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
             public void set(ManyToManyBBar instance, Integer version) {
                 ((ManyToManyBBarCodegen) instance).version = version;
             }
+
             public Integer get(ManyToManyBBar instance) {
                 return ((ManyToManyBBarCodegen) instance).version;
             }
@@ -151,24 +158,31 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
         public ManyToManyBBarChanged(ManyToManyBBar instance) {
             super(instance);
         }
+
         public boolean hasId() {
             return this.contains("id");
         }
+
         public Integer getOriginalId() {
             return (java.lang.Integer) this.getOriginal("id");
         }
+
         public boolean hasName() {
             return this.contains("name");
         }
+
         public String getOriginalName() {
             return (java.lang.String) this.getOriginal("name");
         }
+
         public boolean hasVersion() {
             return this.contains("version");
         }
+
         public Integer getOriginalVersion() {
             return (java.lang.Integer) this.getOriginal("version");
         }
+
         public boolean hasGreenManyToManyBFooToBars() {
             return this.contains("greenManyToManyBFooToBars");
         }

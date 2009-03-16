@@ -1,12 +1,12 @@
 package joist.web.pages;
 
+import joist.util.TestCounter;
 import joist.web.AbstractPage;
 import joist.web.ClickKeywords;
 import joist.web.controls.form.Form;
 import joist.web.controls.form.SubmitButton;
 
 import org.exigencecorp.bindgen.Bindable;
-import org.exigencecorp.util.TestCounter;
 
 import bindgen.joist.web.pages.RedirectOnClickPageBinding;
 

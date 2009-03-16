@@ -3,13 +3,13 @@ package joist.web.controls.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import joist.util.Inflector;
 import joist.web.ClickContext;
 import joist.web.CurrentContext;
 import joist.web.Page;
 
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
-import org.exigencecorp.util.Inflector;
 
 public abstract class AbstractField<T extends AbstractField<T>> implements Field {
 

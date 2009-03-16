@@ -1,9 +1,7 @@
 package features.domain;
 
 import joist.domain.AbstractDomainObjectsTest;
-
-import org.exigencecorp.jdbc.Jdbc;
-
+import joist.jdbc.Jdbc;
 import features.Registry;
 
 public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {

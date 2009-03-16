@@ -1,0 +1,14 @@
+<ivysettings>
+	<settings defaultResolver="main"/>
+	<include url="${ivy.default.settings.dir}/ivysettings-public.xml"/>
+	<include url="${ivy.default.settings.dir}/ivysettings-local.xml"/>
+	<resolvers>
+		<chain name="main" dual="true">
+			<filesystem name="jars">
+				<artifact pattern="${ivy.settings.dir}/jars/[artifact]-[revision](-[classifer]).[ext]" />
+			</filesystem>
+			<resolver ref="local"/>
+			<resolver ref="public"/>
+		</chain>
+	</resolvers>
+</ivysettings>

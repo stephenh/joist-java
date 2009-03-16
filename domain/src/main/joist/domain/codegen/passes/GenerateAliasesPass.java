@@ -15,13 +15,11 @@ import joist.domain.queries.columns.CodeAliasColumn;
 import joist.domain.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.queries.columns.IdAliasColumn;
 import joist.domain.queries.columns.IntAliasColumn;
-
-
-import org.exigencecorp.gen.GClass;
-import org.exigencecorp.gen.GField;
-import org.exigencecorp.gen.GMethod;
-import org.exigencecorp.util.Copy;
-import org.exigencecorp.util.Interpolate;
+import joist.sourcegen.GClass;
+import joist.sourcegen.GField;
+import joist.sourcegen.GMethod;
+import joist.util.Copy;
+import joist.util.Interpolate;
 
 public class GenerateAliasesPass implements Pass {
 

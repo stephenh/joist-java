@@ -5,11 +5,9 @@ import java.util.List;
 
 import joist.domain.DomainObject;
 import joist.domain.uow.UoW;
-
-
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.util.StringBuilderr;
-import org.exigencecorp.util.Wrap;
+import joist.jdbc.Jdbc;
+import joist.util.StringBuilderr;
+import joist.util.Wrap;
 
 public class Update<T extends DomainObject> {
 

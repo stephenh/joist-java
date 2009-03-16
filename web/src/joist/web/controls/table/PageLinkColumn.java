@@ -1,13 +1,12 @@
 package joist.web.controls.table;
 
+import joist.util.Inflector;
 import joist.web.Page;
 import joist.web.controls.PageLink;
 import joist.web.util.HtmlWriter;
 
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
-import org.exigencecorp.util.Inflector;
-
 
 public class PageLinkColumn extends AbstractColumn<PageLinkColumn> {
 

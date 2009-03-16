@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.exigencecorp.jdbc.Jdbc;
+import joist.jdbc.Jdbc;
 
 public abstract class ResultSetFillInStrategy implements FillInStrategy {
 

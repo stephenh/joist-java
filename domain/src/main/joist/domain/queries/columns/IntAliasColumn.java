@@ -6,9 +6,7 @@ import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.queries.Alias;
 import joist.domain.queries.Where;
-
-
-import org.exigencecorp.util.Join;
+import joist.util.Join;
 
 public class IntAliasColumn<T extends DomainObject> extends AliasColumn<T, Integer, Integer> {
 

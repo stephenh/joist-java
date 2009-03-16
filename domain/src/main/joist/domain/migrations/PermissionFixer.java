@@ -7,9 +7,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.jdbc.RowMapper;
-import org.exigencecorp.util.Log;
+import joist.jdbc.Jdbc;
+import joist.jdbc.RowMapper;
+import joist.util.Log;
 
 public class PermissionFixer {
 

@@ -1,9 +1,8 @@
 package joist.domain.migrations.columns;
 
 import joist.domain.migrations.Migrater;
-
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.util.StringBuilderr;
+import joist.jdbc.Jdbc;
+import joist.util.StringBuilderr;
 
 public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
 

@@ -1,6 +1,6 @@
 package joist.web.fakedomain;
 
-import org.exigencecorp.conversion.AbstractOneWayConverter;
+import joist.converter.AbstractOneWayConverter;
 
 public class EmployeeToFriendlyStringConverter extends AbstractOneWayConverter<Employee, String> {
 

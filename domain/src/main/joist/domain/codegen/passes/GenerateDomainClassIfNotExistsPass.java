@@ -2,8 +2,7 @@ package joist.domain.codegen.passes;
 
 import joist.domain.codegen.Codegen;
 import joist.domain.codegen.dtos.Entity;
-
-import org.exigencecorp.gen.GClass;
+import joist.sourcegen.GClass;
 
 public class GenerateDomainClassIfNotExistsPass implements Pass {
 

@@ -6,9 +6,8 @@ import java.sql.SQLException;
 import joist.domain.codegen.Codegen;
 import joist.domain.codegen.dtos.CodeEntity;
 import joist.domain.codegen.dtos.Entity;
-
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.jdbc.RowMapper;
+import joist.jdbc.Jdbc;
+import joist.jdbc.RowMapper;
 
 public class FindCodeValuesPass implements Pass {
 

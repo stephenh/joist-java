@@ -1,0 +1,389 @@
+* [33mb0b8df3... (refs/heads/master)[m Rename org.exigencecorp packages to joist.
+* [33mca3215e...[m Rename utilities -> util.
+*   [33m1a517ce...[m Merge in exigence-utilities for rename to joist-utilities.
+|\  
+| * [33m6bad206... (refs/remotes/utilities/master)[m Move everything into a utilities subdirectory for merging with joist.
+| * [33md9028c0...[m Convert to ivy. The Eclipse IvyDE plugin is working well.
+| * [33m7d261c6...[m Join.comma does the same Object->String conversion.
+| * [33m7965f95...[m Rename DomainObject -> FakeDomainObject to avoid Ctrl-Shift-T confusion with the real one.
+| * [33me8392eb...[m Fix typeAndName parsing when generics were involved.
+| * [33m0e81423...[m Add a default boolean converter.
+| * [33m907d6a1...[m Add method type parameters.
+| * [33m94c2123...[m Remove empty file.
+| * [33m1e5155f...[m Avoid NPEs in ConverterRegistry. Test that null->String works but null->Integer does not.
+| * [33m5908848...[m Test Interpolate with a null argument.
+| * [33m22f68d3...[m Add an Interpolate method that takes a ConverterRegistry.
+| * [33m99fe2c4...[m Fix bug in ToString and add a test this time.
+| * [33m4615bb5...[m Enforce convertTwoToOne is unsupported as final.
+| * [33m8b5c614...[m Add Join.underscore.
+| * [33m80ec1d6...[m Add a getTypeClassName getter so callers can see the result of stripPackageAndImport.
+| * [33maa61135...[m Throw in uncapitalize. Sheesh.
+| * [33mbd65659...[m Just remove the entire commons-lang dependency.
+| * [33m30c08ce...[m Remove StringBuilderr dependency on StringUtils as well.
+| * [33mbccca72...[m Clean up class name parsing while removing gen's StringUtils dependency.
+| * [33md93516d...[m Add high-level note.
+| * [33m78c5662...[m Fix link, add example, discuss 'one' vs. 'two'.
+| * [33mf370c61...[m Use Interpolate.string.
+| * [33m90a974a...[m I don't have time to screw around with bd right now--just use ant.
+| * [33mbaa403a...[m Read take on a readme.
+| * [33m5474450...[m Use indexOf instead of replaceOnce and add tests.
+| * [33mb486f53...[m Remove lineIfNotNull and reduce direct calling to sb.
+| * [33m10e3093...[m HostName doesn't seem like worth keeping around right now.
+| * [33m3829e0d...[m Test that, while Sub->Base works, Base->Sub (correctly) does not.
+| * [33m6287de2...[m A Converter implementation that does two-way/inheritance-walking. No arrays or lists yet.
+| * [33mae0b9cd...[m Add TestCounter#get().
+| * [33mbac64fb...[m Use java6 classpath '*'.
+| * [33mbe1a2b5...[m TestCounter.
+| * [33m45879e8...[m Remove old line.
+| * [33m27c8ea2...[m Apply Extract Method to the interpolation so that subclasses can override it.
+| * [33m335fb11...[m Add support for method throws clauses.
+| * [33mcd25c4a...[m I don't think we need UpdateMapper anymore with Jdbc.updateAll.
+| * [33ma620d4b...[m Put static initializers after any fields so they can be set.
+| * [33m35f0d56...[m Add annotation support to classes, methods, and fields.
+| * [33m46cf061...[m Fix constructor auto importing.
+| * [33mf6efbc1...[m Add classNameWithoutGeneric and fix a bug in package+generic parsing.
+| * [33m575aa59...[m Separate distinction of inner classes vs. static inner classes.
+| * [33mfe0c925...[m Fix jar name.
+| * [33m7a63b62...[m Fix auto import with generics.
+| * [33m19f19e1...[m Clear the registry maps after getting destroyed.
+| * [33m3a39786...[m More utility methods.
+| * [33md13c3eb...[m Debug for our packages.
+| * [33ma2863b3...[m Move LogConfiguration to tests so it does not get shipped.
+| * [33mf34f4d8...[m Build cruft.
+| * [33m7721cf7...[m Moving utilities to its own repo.
+* [33m1dd057b... (refs/remotes/origin/master)[m Update for at lesat compile to work. Not doing tests yet.
+* [33m61a4ff4...[m Just checkin bindgen.jar.
+* [33md4f16fb...[m Update for Lib going away.
+* [33meeeea1b...[m Use the Eclipse project.
+* [33m290a779...[m Remove the bd/bindgen jars and rely on the home cache.
+* [33mb8de93b...[m Do not export bd as it is a build-time dependency.
+* [33mad181bf...[m Implement a simple SelectField.
+* [33mab7154e...[m Add late-bound DataSourceFactory todo.
+* [33m575747c...[m Update bd, add resources package.
+* [33m2e0b11c...[m Rename to Repository.datasource.
+* [33m1d2e17d...[m CalendarDateAliasColumn comes baked into joist.domain now.
+* [33m125847e...[m Kill the exigence-utilities warnings.
+* [33md7b4bf9...[m Features -> joist.features.
+* [33m76eacca...[m Add a Migration interface so you're not forced to extend AbstractMigration.
+* [33ma8030dc...[m I heard that later versions of pg dislike deferred constraints in transactions that change the schema.
+* [33m6393850...[m Add cycle as a shortcut for the create+migrate+fix+codegen steps.
+* [33m0da048c...[m Add next/previous links. They are going to look really bad.
+* [33mb197af7...[m Had some helper numbers and auto-downgrade the page number if its out of range.
+* [33m45ae924...[m Cache the PagedList.count() result.
+* [33m813c82a...[m Working table paging, as long as you drive the table, e.g. no automatic <, > arrows.
+* [33m95a6bfa...[m Enough of a Build to get a jar out. Note the Eclipse PDE aspect kind of sucks because it squats on src.
+* [33m1b90f98...[m We don't actually have an annotation processor yet.
+* [33m3ed1a24...[m Wrong source folder, tests -> src.
+* [33m7b0fa1c...[m Update Features Build to JoistTask.
+* [33m87d9427...[m Move lib to lib/main.
+* [33ma84768c...[m Move src/build -> src/bd.
+* [33m7bc5ebf...[m Update bd to output joist.domain.jar/zip.
+* [33m7b2de5c...[m Rename DomainObjectBuilder to JoistTask for use from bd Build files.
+* [33mf436072...[m Turns out we do need junit in lib/main for the AbstractDomainObjectsTest.
+* [33m0810ebb...[m Rename DomainObjects -> joist.domain, Click2 -> joist.web.
+* [33m93fb01e...[m Paging WIP.
+* [33m4424c20...[m Downgrade it from a todo to just a comment.
+* [33m7bde4b3...[m Add a PagedList that via db-based limit/offset load only a subset of the rows. Also supports size() for a total count.
+* [33mf8272a2...[m Add a CheckboxField as a simple control to flush out.
+* [33m4142d69...[m Add conversion so TextField can work with non-String bindings.
+* [33m17c2cbc...[m Initial take at showing errors next to fields.
+* [33m572d8a8...[m Upgrade bindgen.
+* [33maefaffa...[m Remove old Ognl.get comments.
+* [33m094778a...[m Mark fields as final.
+* [33mad7cc2a...[m Not using toTextTypeName anymore. We'll see how this goes.
+* [33mcabdf13...[m Fix and test text box values of "" getting bound as null instead.
+* [33m819b77b...[m Only call UoW.delete for many-to-many objects if the UoW is open.
+* [33ma45e497...[m Add fluent id method to AbstractField. Use the getThis() hack.
+* [33mf662aaa...[m Set the content-type. HtmlUnit really wanted this.
+* [33m4476451...[m Make controls final for good measure.
+* [33m8093735...[m Need to make forms POST so that we don't muck with the URL.
+* [33m573cc82...[m Refactor TextString to FriendlyString and use Interpolate with a ConverterRegistry.
+* [33mae7d593...[m Add fluent id to AbstractColumn. Use the getThis() hack. Thanks, Sun.
+* [33m08a7587...[m Add a FrozenClock.
+* [33med15df6...[m Make timeandmoney the default for dates and timestamps.
+* [33m39df547...[m Add Column.getFullId and give the PageLink inside of PageLinkColumn a per-row id.
+* [33m37c05ae...[m Remove name from Field, just use id.
+* [33mbc66843...[m Convert PageLink to a more fluent API.
+* [33m91bbaeb...[m Flush out PageLinkColumn.
+* [33m3c6afa8...[m Make Column extend Control.
+* [33mb09d070...[m Create just one VelocityEngine instead of one/test.
+* [33m2621306...[m We only need to strip & as we only add ? if we have a non-zero amount of parameters.
+* [33mc15eaa1...[m Rename column.name to column.id.
+* [33m4cbc195...[m Work on PageLinkColumn and the underlying PageLink.
+* [33mdd2ef18...[m Upgrade bindgen.
+* [33mc1c7840...[m Use Join and a few other misc non-commons-lang changes.
+* [33m7df8d64...[m Simplify by letting GClass to the import stripping.
+* [33m6d7577e...[m commons-io is not needed.
+* [33mcaf25f4...[m Remove dead log4j version, tick junit to 3.8.2, upgrade bindgen.
+* [33m8a40dbc...[m Remove junit from lib/main, use junit that was already in lib/test.
+* [33m6cbf785...[m Not using slf4j right now. Will when Log converts over.
+* [33m1bfb4af...[m Use Velocity 1.6 Renderable interface instead of Control.toString().
+* [33m7c3b172...[m Add id and text to PageLink.
+* [33m47aea63...[m Test that parameters that are Bindings get unbound before going into the url.
+* [33m1a17467...[m Add an Employee(id) constructor to shorten things up.
+* [33m31e2db3...[m Only do addAll/removeAll/unique if we need to.
+* [33ma41f886...[m Need to export the Utilities reference for the Features project.
+* [33m1540ed5...[m Converter for domain objects. Short and sweet. Awesome.
+* [33m11107d7...[m Use the ConverterRegistry for setting public fields. Sweet.
+* [33mb655cd5...[m Just rely on the Utilities project for now.
+* [33md4b12cf...[m Add a UrlConverterRegistry to do object -> string conversion.
+* [33m0c4c812...[m Don't really need Jetty right now.
+* [33m3f1ee11...[m Just rely on the Utilities project for now.
+* [33mab4962b...[m Duplicated--in the base class.
+* [33m1a65f82...[m Add parameter auto-binding to PageLink and test it.
+* [33m86bc664...[m Use AbstractContainer's addControl/getControls implementation.
+* [33me2b43b6...[m Better order.
+* [33m2251bca...[m Add labels to table columns.
+* [33ma037d29...[m Use an HtmlStringBuffer so auto-double-quoting happens.
+* [33m789a012...[m Add a table label.
+* [33m7e304a8...[m Add a button label and humanize the id by default.
+* [33me59263c...[m Tired of upgrading bindgen--just ref to the project.
+* [33m2833bb5...[m SubmitFields are really SubmitButtons. Makes rendering simpler.
+* [33m7ad23bc...[m Upgrade to velocity 1.6.1.
+* [33mbdd23fd...[m Not using either ezmorph or transmorph.
+* [33m1f05c4f...[m Add a return to BlockWithReturnAndSafety.stopped instead of just returning null.
+* [33m532a070...[m Make AbstractContainer abstract and add a getSession() helper method.
+* [33mf2350e3...[m Have Table render th/td so it can do ids in one place.
+* [33mb217650...[m Upgrade bindgen.
+* [33m9c9090e...[m setParameter -> set since that is all I ever use right now.
+* [33mb94ab78...[m Ignore velocity.log.1 as well.
+* [33me01be09...[m Show the message is gone now.
+* [33mf1dc265...[m Persist the SessionStub across requests so we can test flash across a redirect.
+* [33mc57eac4...[m Add a flash.
+* [33m8deac2b...[m Put the builder here for now.
+* [33m11ea3fd...[m Forgot the id.
+* [33m712a6fa...[m Remove todo stub comments.
+* [33mf75916c...[m Add redirect functionality.
+* [33m190bcc1...[m Add Form.id and handle single/multiple forms correctly.
+* [33m4fef7ae...[m Do not bind fields that are not in the request.
+* [33mae6a20e...[m Add TestCounters.resetAll() calls.
+* [33m688539c...[m More utilities upgrades.
+* [33m60c6e75...[m Two forms test--doesn't work right now.
+* [33ma3ad73d...[m Rename.
+* [33m97d9b47...[m Not needed.
+* [33m4135b88...[m Turn generic compiler warnings on and add fixes.
+* [33m0d9548c...[m Add a table test.
+* [33m07bb9cb...[m Move to a form package.
+* [33m7ca50e6...[m Stages went away, so reorganize the tests.
+* [33m998aff9...[m Take out ezmorph MorpherRegistry.
+* [33m7f2e6fb...[m Export all of the libraries.
+* [33me4d0967...[m Check point commits--tests are passing.
+* [33m2a33833...[m Trying some type conversion libraries.
+* [33m46ecc4f...[m Upgrade bindgen.
+* [33m995c70a...[m Avoid NPE when the page isn't in the context yet.
+* [33m287f177...[m Turn on annotation processing.
+* [33m8d31534...[m Don't need the different package anymore.
+* [33me437a61...[m Make AbstractPage abstract.
+* [33m03ad3fd...[m Ugh...use '? super T' hack for now--needed since bindgen started doing inheritance.
+* [33m8124855...[m Remove outdated javadoc.
+* [33madfd505...[m Javadoc.
+* [33me14855e...[m Launch to run all of the tests.
+* [33m9ff55c8...[m Just use reflection to set request parameters.
+* [33m5d45d83...[m Actually hook up most of the DefaultPageProcessor.
+* [33m5effab0...[m Make ClickServlet abstract, delay createClickConfig call until Servlet.init().
+* [33meb3bc5f...[m Wrong method got protected.
+* [33m29b283c...[m Move model to ClickContext, rename PageUrlResolver -> PageResolver.
+* [33me90ef35...[m Not used anymore. Nice.
+* [33m86b8969...[m Change HtmlStringBuilder to inherit from StringBuilderr.
+* [33m04c34c0...[m Checkpoint commit--plugin PDE changes, plus no more stages.
+* [33m777d0b7...[m Back to click2 hacking--need to get this out into a different project.
+* [33mb6c8eb6...[m H2 note.
+* [33m8b6f508...[m Flush out UoW.go with return and safely.
+* [33m66d0b3e...[m Avoid NPEs in close/rollback if no connection is around.
+* [33mee25174...[m Call the runnable on process.
+* [33m3dced3d...[m Make the generic bound stronger. Just for fun as it gets casted anyway.
+* [33m1fa2a4e...[m Todo.
+* [33mfec95ef...[m Limit/offset in selects.
+* [33m2620e72...[m Updated codegen output.
+* [33m1e66936...[m Screwing with the classpath.
+* [33mf694068...[m Not used--I think.
+* [33m6cf282c...[m Get bd.jar from the DomainObjects project.
+* [33m4983369...[m Avoid extra alias field by making the alias put in the registry an accessible field.
+* [33m58f4f0d...[m Upgrade utilities for GClass static initializer fix.
+* [33md6613bd...[m Upgrade bd.
+* [33m8289bd2...[m Make more concrete.
+* [33mb08c6ac...[m Caveat about not generating out of the box.
+* [33m3f3000d...[m The aliases are in the domain package now.
+* [33m7aed444...[m Added caveats.
+* [33mb025637...[m Bindgen spike.
+* [33m45a3607...[m Flushing out intro.
+* [33ma1bb156...[m Removing MVEL jars in favor of bindgen.
+* [33mf6f9925...[m Change XxxCodegen to public so that XxxCodegen.XxxChanged can be referenced.
+* [33mc2626a2...[m Fix misspelled utilities jar name.
+* [33m217fab4...[m Updated codegen output from auto-import-improved GClass.
+* [33m6362993...[m Add a host parameter to dobj.
+* [33maae61f0...[m Rename Rule.validateObject -> validate.
+* [33m6be9815...[m RegexRule and ValidationAssert.
+* [33mc3480cf...[m Add strongly type unchecked exceptions for not found/too many.
+* [33m3327df2...[m Odd Eclipse prefs change.
+* [33mc0d6e24...[m Having Features, which has all the DO tests, rely on a jar'd version of DO was just stupid and annoying.
+* [33m8fa405f...[m Wrap join tables in quotes and update tests.
+* [33mef6253e...[m Wrap table names in quotes.
+* [33meb077f8...[m A bd.bat to refresh the utility jar.
+* [33m9f879bf...[m Move src/build -> src/bd.
+* [33m1491e47...[m Give a nice error message if not configured yet.
+* [33m9647002...[m Make the setXxxWithoutPercolation methods protected.
+* [33m9e1b8d5...[m RunningTimer went away for now.
+* [33ma8d0703...[m What a mess.
+* [33m7828d82...[m Moved Utilities to a separate project.
+* [33m940d49e...[m Composite columns aren't implemented yet.
+* [33mc575fac...[m Use name instead of id.
+* [33m1e31804...[m I somehow doubled the number of tables. Weird.
+* [33m4976f56...[m Should not have been checked in. And we don't even use velocity anymore.
+* [33m849e46f...[m Make package private for good measure.
+* [33m98ab17b...[m Add and link to CoolThings.
+* [33md86d4ad...[m One to ones need to check for codes as well.
+* [33m823d4e2...[m Add type-safe changed methods.
+* [33m3be0d13...[m Move change tracking out to a per-class XxxChanged object.
+* [33m4e1e1f1...[m Add a DomainObject.setId since that is a valid operation.
+* [33mea8b883...[m Move non-public methods to the bottom.
+* [33m7a90847...[m Move javadocs around.
+* [33m8439492...[m Make some more methods final for good measure.
+* [33mee5abec...[m ToString.interpolate -> Interpolate.string.
+* [33m2758277...[m To tickToQuote to Tick.toQuote.
+* [33m7645888...[m Fix having no extensions.
+* [33m3885f90...[m Jdbc.executeUpdate -> Jdbc.update.
+* [33mba55014...[m Resetter -> DatabaseBootstrapper. Execute is fluent.
+* [33m05b9029...[m With the new bd approach, the app doesn't need an sa datasource anymore. Good.
+* [33mfc1868a...[m Clean up dependencies.
+* [33m4ffc809...[m Eclipse favorites tip.
+* [33mfe62f66...[m Broken thanks to PermissionFixer since the app isn't the owner anymore.
+* [33m23b77d1...[m More robust one to one. Handle multi-column uniques and percolation.
+* [33m9ee21c2...[m Basic one to one support.
+* [33mbf984c9...[m IsNull/IsUnique can go away with the new fluent interface.
+* [33m1d9d418...[m The Property interface isn't used.
+* [33mce62681...[m Finally needed PermissionFixer--not sure why it took this long to need it.
+* [33m498e80a...[m We don't have a cache to flush anymore.
+* [33mae40806...[m With Id<> gone, the intValue() isn't needed.
+* [33md2775a8...[m Run codegen with the sa user.
+* [33m2941c6a...[m Add timestamp default.
+* [33m2fe9cd4...[m Split up the information_schema query to avoid a slow join. Wtf, pg.
+* [33m68aa88f...[m Fix test as order changed.
+* [33m7c0b5ad...[m Add method and tests for matching the hash code.
+* [33md4b8187...[m Generate a schema hash and store it in the SchemaHash object.
+* [33m0c077f6...[m Spike a schema check.
+* [33mac3b414...[m Not used.
+* [33m80e639c...[m The Converter object isn't needed anymore. The toXxx methods can just be overridden.
+* [33ma058cff...[m Better descriptions.
+* [33m48e590c...[m Add schema check and proj dependencies to todo.
+* [33m4d5a3bd...[m Print help.
+* [33m7776a49...[m Spike a build tool to solve the Cli crap.
+* [33m7b6ca39...[m Move src -> src/main.
+* [33md46dd6f...[m MigrationClasses -> MigrationLoader.
+* [33mac9b23d...[m Rename Updates -> Migrations.
+* [33mb4dbd5b...[m Clean up primitives--we now always use the non-primitive version so they can start out null.
+* [33meeef774...[m Remove Id/Ids for just Integers. Also refactor update keywords to be more fluent.
+* [33mac2d5f5...[m Make abstract.
+* [33m45f5c29...[m Copy/paste from an email.
+* [33m6d6821b...[m Remove unused import.
+* [33mcd60939...[m Fix many to many with non-default column names.
+* [33m8cfd53f...[m Add ParentC test of multiple foreign keys to the same target table in one class.
+* [33mb076b68...[m UoW was needed for some classes in the chimera schema.
+* [33mb058016...[m getSize() -> size().
+* [33m60d4aef...[m Add more facade methods to UoW, e.g. UoW.load/UoW.delete, Law of Demeter style.
+* [33m4313050...[m Ensure direct modification of the lazy lists is not allowed.
+* [33ma2c5026...[m Codegen in the new ForeignKeyListHolder.
+* [33mb7f85b8...[m Fix egregious oversight where percolation would lead to eager loading.
+* [33m3c17d4a...[m Add Transformer Generation and Generation Gap patterns.
+* [33m94a5de4...[m Kill Repository interface since we only have one implementation (JdbcRepository).
+* [33m72c8692...[m Add count and findAllIds to AbstractQueries.
+* [33m9b42ec8...[m Make the codegen classes package private, which means aliases have to live in the domain package. Seems okay.
+* [33m16b2692...[m Try Child.queries.find(...), etc. instead of Query.child.find(...).
+* [33mbed2a6f...[m setup is static.
+* [33mf00e912...[m Not used anymore.
+* [33m78dda20...[m Add builders to the todo.
+* [33m2555273...[m Try a.and(b) instead of Where.and(a, b).
+* [33mf4eaa4e...[m Map byte[] as strings--I'm not really sure whether this works or not.
+* [33mbfe79de...[m I trust codegen enough now to prune old files.
+* [33mbc5c105...[m Use the query method instead.
+* [33mb3639c8...[m Move root domain class responsibilities into the IdentityMap.
+* [33mee801f2...[m Aliases don't need an explicit handle to the domain base class anymore.
+* [33ma523a2e...[m Remove debug logging.
+* [33mef8474e...[m Fix bug in IdentityMap with more than 2 levels of inheritance.
+* [33mf4044f5...[m Fix bug with not loading the 3rd level of inheritance correctly.
+* [33m1366090...[m Register manually set ids in the IdentityMap immediately and check for conflicts.
+* [33m197c351...[m Fix test as I added some more quoting.
+* [33m9cfb35a...[m Use load to hit the IdentityMap first.
+* [33mf404f06...[m Solve the mapper vs. query. vs. finder problem.
+* [33mb1fa95b...[m Generate and execute validation rules.
+* [33m1271977...[m Detect op lock failure.
+* [33m65a4b39...[m User types using CalendarDate in the Features test.
+* [33m2f083b9...[m Put the perf test back to include the updates.
+* [33m3d78d5c...[m Remove implicit tickToQuote.
+* [33m16bf979...[m Integrate the Updater project into DomainObjects.
+* [33me1586bb...[m Not doing Hibernate types--user types are coming soon.
+* [33m9a3189c...[m Remove code that seems to be dead.
+* [33mf28d6fa...[m Put the Id<Parent> back since we're not playing with Hibernate anymore.
+* [33m5daeefd...[m Remove HibernateRepository and its dependencies. See the hibernate_perf branch if we want to do more of that.
+* [33m5f0544a... (refs/heads/hibernate_pref)[m Remove the JdbcNonBatchingRepository and the now-unused AliasColumn.toSetItem methods.
+* [33m553f686...[m Move setJdbcValue next to getJdbcValue.
+* [33m20da07a...[m Rename getJdbcValue/getDomainValue converter methods to toJdbcValue/toDomainValue.
+* [33m9663f15...[m More todo items.
+* [33m6155b3b...[m Perf test querying against Hibernate HQL queries.
+* [33mb430718...[m Consistent sorting, put in the unit test.
+* [33m5ddee67...[m Assign all the ids at once.
+* [33m8b1bfff...[m Add hibernate back for some perf testing.
+* [33ma1bd279...[m Remove hibernate, velocity, and commons-collections dependencies. Nice.
+* [33me6c598d...[m Percolation is done.
+* [33m72d2ab9...[m Remove small Select|Update|Insert-er classes and inline into Select|Update|Insert.
+* [33me8a48e9...[m Spike on batching inserts/updates.
+* [33m8c5b4d2...[m Use EnumSet to avoid reflection. Requires some generic fun though.
+* [33m7f4a990...[m Remove commented out code.
+* [33mc932f52...[m Minor cleanup to AbstractDomainObject.
+* [33md764757...[m Remove the ugly newAlias method from the DomainObject interface. Replaced by the AliasRegistry.
+* [33m56ad5da...[m Codegen percolation for parent/child relationships.
+* [33m7152251...[m We use a value holder for better encapsulation now.
+* [33ma48d493...[m Codegen in the new ForeignKeyHolder.
+* [33mea18b0a...[m Spike a hand-coded ForeignKeyHolder.
+* [33mb9288d5...[m Removing dead code.
+* [33m696b79f...[m Rename enum -> code, delete some dead code.
+* [33m4ca3007...[m Use jdbc3 so we don't require jdk6.
+* [33md250167...[m Finders need work.
+* [33m5fa39e9...[m Moving examples up.
+* [33mba84025...[m More patterns.
+* [33me4576cf...[m Updating the readme.
+* [33mcd4187e...[m Comments.
+* [33mb43639b...[m ObjectCache -> IdentityMap.
+* [33meeec511...[m Use setXxx instead of isXxx.
+* [33md946db7...[m Codegen the many to many remove method.
+* [33m908f0a7...[m Spike deleting many to many records.
+* [33m5434b33...[m Add getter/adder helper functions for recognized many-to-many scenarios.
+* [33m9fc81b7...[m Add Alias.getRootClassAlias() and some javadocs.
+* [33ma2f701c...[m Test many to many as 2 many to ones hack.
+* [33md3ac329...[m Treat join tables as regular domain objects.
+* [33m8f8237f...[m Use createTable since join tables are domain objects now.
+* [33md7a57fc...[m Hit a constraint name that was too long so go back to using the sequence.
+* [33m94dd3cd...[m Stub in the many-to-many private collections field. No modifiers/shims/lazy-loading yet.
+* [33md3e3446...[m Skeleton many-to-many feature example output.
+* [33m1dc10d1...[m Use a more exact method for noticing many to many tables.
+* [33ma873482...[m Method for many to many tables.
+* [33m4a9bb98...[m Drop FlushDatabase/Schema in favor of flush_test_database() call.
+* [33m1643846...[m Use super for passing in root entity id columns.
+* [33m1adac97...[m Generate a flush_test_database function.
+* [33m6bb9ebc...[m Shorten up the codegen queries by some inlining.
+* [33me8cfabb...[m Test 3-level inheritance.
+* [33md9bfe24...[m Fix n-level inheritance.
+* [33m9e9e677...[m Test codes and parents with multiple types of children.
+* [33m76212c7...[m Add codes in updates.
+* [33m6094709...[m Doing a UoW.open in setUp is pretty common.
+* [33m4cb6007...[m Enums, interfaces, and method overloading.
+* [33m711f969...[m Generate codes.
+* [33m6ca0856...[m Move to the util package.
+* [33m4f23ef0...[m Add one to many (`parent.getChilds()`) to codegen.
+* [33md36cd2d...[m Fine, include the branch in the link.
+* [33md41cb04...[m Trying to get the links to resolve.
+* [33md7d747d...[m Link to base classes and aliases.
+* [33m79d03c7...[m First draft of a readme.
+* [33m8bbfb38...[m Watch out for packageless classes with generics.
+* [33m239b776...[m Make sure object cache works.
+* [33m1937074...[m Handcode parent.getChilds().
+* [33m7f95dd5...[m Move common commit/etc. into AbstractDomainObjectsTest.
+* [33ma0753fd...[m commitAndReOpen is usually what we want.
+* [33m741ba93...[m Get codegen up to date with handling typed Ids.
+* [33maf4b158...[m Screwing around with Cbas2.
+* [33m717b5cc...[m Add a Select.listIds() method.
+* [33m9b30c94...[m Add an Ids<T> type and use it for bulk updates.
+* [33ma1c3d73...[m Ignore bin and log.
+* [33mf94d3e0...[m Add bringing back a single primitive.
+* [33me897a07...[m Add basic count functionality by spiking the reflection dto approach.
+* [33mdb4043b...[m Initial import.

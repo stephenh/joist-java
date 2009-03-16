@@ -5,13 +5,12 @@ import java.util.List;
 
 import joist.domain.DomainObject;
 import joist.domain.uow.UoW;
-
+import joist.jdbc.Jdbc;
+import joist.util.Join;
+import joist.util.StringBuilderr;
+import joist.util.Wrap;
 
 import org.apache.commons.lang.StringUtils;
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.util.Join;
-import org.exigencecorp.util.StringBuilderr;
-import org.exigencecorp.util.Wrap;
 
 public class Insert<T extends DomainObject> {
 

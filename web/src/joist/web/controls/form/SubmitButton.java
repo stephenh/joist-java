@@ -1,10 +1,9 @@
 package joist.web.controls.form;
 
+import joist.util.Inflector;
 import joist.web.util.HtmlWriter;
 
 import org.exigencecorp.bindgen.NamedBinding;
-import org.exigencecorp.util.Inflector;
-
 
 public class SubmitButton implements Button {
 

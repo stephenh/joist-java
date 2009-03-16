@@ -18,12 +18,10 @@ import joist.domain.queries.Select;
 import joist.domain.queries.Update;
 import joist.domain.queries.columns.AliasColumn;
 import joist.domain.uow.UoW;
-
-
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.jdbc.RowMapper;
-import org.exigencecorp.util.Join;
-import org.exigencecorp.util.MapToList;
+import joist.jdbc.Jdbc;
+import joist.jdbc.RowMapper;
+import joist.util.Join;
+import joist.util.MapToList;
 
 public class Repository {
 

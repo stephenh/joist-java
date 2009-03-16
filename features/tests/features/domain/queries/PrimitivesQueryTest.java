@@ -4,11 +4,9 @@ import java.util.List;
 
 import joist.domain.queries.Select;
 import joist.domain.queries.Update;
+import joist.util.Copy;
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
-import org.exigencecorp.util.Copy;
-
 import features.domain.Primitives;
 import features.domain.PrimitivesAlias;
 

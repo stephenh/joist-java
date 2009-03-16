@@ -1,9 +1,10 @@
 package joist.domain.util;
 
+import joist.converter.Converter;
+import joist.converter.ConverterRegistry;
+import joist.util.Interpolate;
+
 import org.apache.commons.lang.StringUtils;
-import org.exigencecorp.conversion.Converter;
-import org.exigencecorp.conversion.ConverterRegistry;
-import org.exigencecorp.util.Interpolate;
 
 /**
  * Describes domain objects for on-screen display to users.

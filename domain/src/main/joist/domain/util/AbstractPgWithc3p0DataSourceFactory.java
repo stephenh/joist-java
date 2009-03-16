@@ -4,9 +4,9 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.exigencecorp.registry.ResourceFactory;
-import org.exigencecorp.util.Log;
-import org.exigencecorp.util.Reflection;
+import joist.registry.ResourceFactory;
+import joist.util.Log;
+import joist.util.Reflection;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;

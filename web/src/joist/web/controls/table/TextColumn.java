@@ -1,11 +1,10 @@
 package joist.web.controls.table;
 
+import joist.util.Inflector;
 import joist.web.util.HtmlWriter;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.exigencecorp.bindgen.Binding;
-import org.exigencecorp.util.Inflector;
-
 
 public class TextColumn extends AbstractColumn<TextColumn> {
 

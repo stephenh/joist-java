@@ -1,9 +1,8 @@
 package joist.domain.util;
 
 
+import joist.converter.AbstractOneWayConverter;
 import joist.domain.DomainObject;
-
-import org.exigencecorp.conversion.AbstractOneWayConverter;
 
 public class DomainObjectToTextStringConverter extends AbstractOneWayConverter<DomainObject, String> {
 

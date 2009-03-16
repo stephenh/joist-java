@@ -1,7 +1,8 @@
 package joist.web;
 
+import joist.converter.ConverterRegistry;
+
 import org.apache.velocity.app.VelocityEngine;
-import org.exigencecorp.conversion.ConverterRegistry;
 
 /** User configuration for click2.
  *

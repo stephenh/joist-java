@@ -6,8 +6,6 @@ import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.queries.Alias;
 
-
-
 import com.domainlanguage.time.TimePoint;
 
 public class TimePointAliasColumn<T extends DomainObject> extends AliasColumn<T, TimePoint, Date> {

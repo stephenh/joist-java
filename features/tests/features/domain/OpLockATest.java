@@ -1,9 +1,7 @@
 package features.domain;
 
+import joist.jdbc.Jdbc;
 import junit.framework.Assert;
-
-import org.exigencecorp.jdbc.Jdbc;
-
 import features.Registry;
 
 public class OpLockATest extends AbstractFeaturesTest {

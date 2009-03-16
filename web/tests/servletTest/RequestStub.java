@@ -8,14 +8,13 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.collections.IteratorUtils;
 
 public class RequestStub implements HttpServletRequest {
 
@@ -198,7 +197,7 @@ public class RequestStub implements HttpServletRequest {
 
     @SuppressWarnings("unchecked")
     public Enumeration<String> getParameterNames() {
-        return IteratorUtils.asEnumeration(this.parameters.keySet().iterator());
+        return new Vector(this.parameters.keySet()).elements();
     }
 
     public String[] getParameterValues(String key) {

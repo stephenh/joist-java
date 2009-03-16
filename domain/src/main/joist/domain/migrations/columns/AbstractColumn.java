@@ -1,6 +1,6 @@
 package joist.domain.migrations.columns;
 
-import org.exigencecorp.util.StringBuilderr;
+import joist.util.StringBuilderr;
 
 public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Column {
 

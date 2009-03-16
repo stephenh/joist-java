@@ -19,7 +19,7 @@
 		<ivy:retrieve pattern="bin/[conf].lib/[artifact](-[classifier]).[ext]" conf="*" type="jar,source" log="quiet"/>
 	</target>
 
-	<target name="ivy.publish-jars">
+	<target name="ivy.publish-jars" depends="ivy.load">
 		<ivy:resolve log="download-only"/>
 		<ivy:publish resolver="local" conf="main,source" forcedeliver="true" overwrite="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>

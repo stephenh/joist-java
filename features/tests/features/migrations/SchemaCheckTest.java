@@ -3,10 +3,8 @@ package features.migrations;
 import javax.sql.DataSource;
 
 import joist.domain.migrations.SchemaCheck;
+import joist.jdbc.Jdbc;
 import junit.framework.Assert;
-
-import org.exigencecorp.jdbc.Jdbc;
-
 import features.Registry;
 import features.domain.AbstractFeaturesTest;
 import features.domain.SchemaHash;

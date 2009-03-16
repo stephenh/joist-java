@@ -5,8 +5,8 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.util.Log;
+import joist.jdbc.Jdbc;
+import joist.util.Log;
 
 public class Migrater {
 

@@ -11,10 +11,10 @@ import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.jdbc.RowMapper;
-import org.exigencecorp.util.Copy;
-import org.exigencecorp.util.MapToList;
+import joist.jdbc.Jdbc;
+import joist.jdbc.RowMapper;
+import joist.util.Copy;
+import joist.util.MapToList;
 
 public class InformationSchemaWrapper {
 

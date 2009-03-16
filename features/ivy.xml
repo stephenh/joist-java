@@ -1,0 +1,11 @@
+<ivy-module version="2.0">
+	<info organisation="joist" module="features" revision="SNAPSHOT"/>
+	<configurations>
+		<conf name="main"/>
+		<conf name="test" extends="main" visibility="private"/>
+		<conf name="source" description="sources"/>
+	</configurations>
+	<dependencies>
+		<dependency org="joist" name="domain" rev="SNAPSHOT" conf="main"/>
+	</dependencies>
+</ivy-module>

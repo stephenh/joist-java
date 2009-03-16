@@ -6,9 +6,7 @@ import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.queries.Alias;
 import joist.domain.queries.Where;
-
-
-import org.exigencecorp.util.Join;
+import joist.util.Join;
 
 /**
  * @param T should always be the root class--I think so

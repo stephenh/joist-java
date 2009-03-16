@@ -2,8 +2,7 @@ package features.domain;
 
 import joist.domain.orm.AliasRegistry;
 import joist.domain.queries.Select;
-
-import org.exigencecorp.util.Log;
+import joist.util.Log;
 
 public class ParentsLotsTest extends AbstractFeaturesTest {
 

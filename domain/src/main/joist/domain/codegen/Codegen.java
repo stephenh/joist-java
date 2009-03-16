@@ -20,9 +20,8 @@ import joist.domain.codegen.passes.GenerateFlushFunction;
 import joist.domain.codegen.passes.GenerateSchemaHash;
 import joist.domain.codegen.passes.OutputPass;
 import joist.domain.codegen.passes.Pass;
-
-import org.exigencecorp.gen.GDirectory;
-import org.exigencecorp.util.Copy;
+import joist.sourcegen.GDirectory;
+import joist.util.Copy;
 
 /** Generates our domain objects from the database schema. */
 public class Codegen {

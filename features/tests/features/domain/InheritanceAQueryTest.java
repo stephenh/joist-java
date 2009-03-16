@@ -1,11 +1,10 @@
 package features.domain;
 
 import joist.domain.queries.Select;
+import joist.util.Copy;
+import joist.util.Join;
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
-import org.exigencecorp.util.Copy;
-import org.exigencecorp.util.Join;
 
 public class InheritanceAQueryTest extends TestCase {
 

@@ -3,16 +3,15 @@ package joist.web.controls.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import joist.util.Inflector;
+import joist.util.Join;
+import joist.util.Log;
 import joist.web.ClickContext;
 import joist.web.Control;
 import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
 import org.apache.commons.lang.StringUtils;
-import org.exigencecorp.util.Inflector;
-import org.exigencecorp.util.Join;
-import org.exigencecorp.util.Log;
-
 
 public class Form implements Control {
 

@@ -2,7 +2,7 @@ package joist.domain.queries;
 
 import java.util.List;
 
-import org.exigencecorp.util.Copy;
+import joist.util.Copy;
 
 public class Where {
 

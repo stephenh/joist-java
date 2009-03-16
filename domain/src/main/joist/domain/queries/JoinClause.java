@@ -4,9 +4,8 @@ package joist.domain.queries;
 import joist.domain.DomainObject;
 import joist.domain.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.queries.columns.IdAliasColumn;
-
-import org.exigencecorp.util.Join;
-import org.exigencecorp.util.Wrap;
+import joist.util.Join;
+import joist.util.Wrap;
 
 public class JoinClause {
 

@@ -9,9 +9,7 @@ import joist.domain.queries.Alias;
 import joist.domain.queries.Select;
 import joist.domain.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.uow.UoW;
-
-
-import org.exigencecorp.util.Copy;
+import joist.util.Copy;
 
 /**
  * A value holder that will lazy load the objects inferred by their foreign key to us.

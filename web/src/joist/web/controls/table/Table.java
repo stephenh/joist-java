@@ -3,12 +3,12 @@ package joist.web.controls.table;
 import java.util.ArrayList;
 import java.util.List;
 
+import joist.util.Inflector;
 import joist.web.Control;
 import joist.web.controls.PageLink;
 import joist.web.util.HtmlWriter;
 
 import org.exigencecorp.bindgen.Binding;
-import org.exigencecorp.util.Inflector;
 
 // Should extend AbstractContainer?
 public class Table<T> implements Control {

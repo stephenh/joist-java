@@ -6,9 +6,8 @@ import joist.domain.codegen.dtos.CodeEntity;
 import joist.domain.codegen.dtos.CodeValue;
 import joist.domain.codegen.dtos.Entity;
 import joist.domain.util.Codes;
-
-import org.exigencecorp.gen.GClass;
-import org.exigencecorp.gen.GMethod;
+import joist.sourcegen.GClass;
+import joist.sourcegen.GMethod;
 
 public class GenerateCodesPass implements Pass {
 

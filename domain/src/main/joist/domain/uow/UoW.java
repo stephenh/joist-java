@@ -4,9 +4,7 @@ import java.sql.Connection;
 
 import joist.domain.DomainObject;
 import joist.domain.orm.IdentityMap;
-
-
-import org.exigencecorp.util.Log;
+import joist.util.Log;
 
 public class UoW {
 

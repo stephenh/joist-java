@@ -1,6 +1,6 @@
 package joist.web.fakedomain;
 
-import org.exigencecorp.conversion.AbstractConverter;
+import joist.converter.AbstractConverter;
 
 public class EmployeeToStringConverter extends AbstractConverter<Employee, String> {
 

@@ -2,8 +2,7 @@ package features;
 
 import javax.sql.DataSource;
 
-import org.exigencecorp.registry.ResourceBag;
-
+import joist.registry.ResourceBag;
 import features.resources.ApplicationInstance;
 import features.resources.FeaturesDataSourceFactory;
 

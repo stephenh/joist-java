@@ -1,10 +1,8 @@
 package joist.web.pages;
 
+import joist.util.TestCounter;
 import joist.web.AbstractPage;
 import joist.web.ClickKeywords;
-
-import org.exigencecorp.util.TestCounter;
-
 
 public class RedirectOnInitPage extends AbstractPage {
 

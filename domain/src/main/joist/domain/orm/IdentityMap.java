@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import joist.domain.DomainObject;
-
-
-import org.exigencecorp.util.Log;
+import joist.util.Log;
 
 public class IdentityMap {
 

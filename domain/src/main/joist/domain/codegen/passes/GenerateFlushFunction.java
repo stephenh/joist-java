@@ -2,10 +2,9 @@ package joist.domain.codegen.passes;
 
 import joist.domain.codegen.Codegen;
 import joist.domain.codegen.dtos.Entity;
-
-import org.exigencecorp.jdbc.Jdbc;
-import org.exigencecorp.util.StringBuilderr;
-import org.exigencecorp.util.Wrap;
+import joist.jdbc.Jdbc;
+import joist.util.StringBuilderr;
+import joist.util.Wrap;
 
 public class GenerateFlushFunction implements Pass {
 

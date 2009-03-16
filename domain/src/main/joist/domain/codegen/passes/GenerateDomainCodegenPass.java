@@ -19,12 +19,10 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-
-
-import org.exigencecorp.gen.GClass;
-import org.exigencecorp.gen.GField;
-import org.exigencecorp.gen.GMethod;
-import org.exigencecorp.util.Copy;
+import joist.sourcegen.GClass;
+import joist.sourcegen.GField;
+import joist.sourcegen.GMethod;
+import joist.util.Copy;
 
 public class GenerateDomainCodegenPass implements Pass {
 

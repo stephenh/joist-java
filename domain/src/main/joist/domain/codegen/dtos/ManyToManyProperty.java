@@ -5,9 +5,9 @@ import java.util.List;
 import joist.domain.codegen.Codegen;
 import joist.domain.codegen.CodegenConfig;
 import joist.domain.codegen.InformationSchemaColumn;
+import joist.util.Inflector;
 
 import org.apache.commons.lang.StringUtils;
-import org.exigencecorp.util.Inflector;
 
 public class ManyToManyProperty {
 
