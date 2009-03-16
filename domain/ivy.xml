@@ -12,7 +12,7 @@
 	<dependencies>
 		<dependency org="joist" name="util" rev="SNAPSHOT" conf="main"/>
 		<dependency org="commons-lang" name="commons-lang" rev="latest.stable" conf="main->*"/>
-		<dependency org="timeandmoney" name="timeandmoney" rev="0.5.1" conf="main->*"/>
+		<dependency org="timeandmoney" name="timeandmoney" rev="0.5.1" conf="main->default"/>
 		<!-- In main for the AbstractDomainObjectTest. -->
 		<dependency org="junit" name="junit" rev="3.8.2" conf="main->master,sources"/>
 		<!-- Not runtime because we ref both c3p0 and pg classes directly. -->
