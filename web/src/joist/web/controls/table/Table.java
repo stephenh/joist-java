@@ -145,6 +145,9 @@ public class Table<T> implements Control {
         if (this.list.size() % this.getCurrentPageRows() > 0) {
             maxNumber++;
         }
+        if (maxNumber == 0) {
+            maxNumber = 1;
+        }
         return maxNumber;
     }
 

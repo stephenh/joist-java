@@ -54,6 +54,12 @@ public class PagedTableTest extends AbstractClickPageTest {
         this.assertNoNext(body);
     }
 
+    public void testPage1WithNoEntries() throws Exception {
+        String body = this.request("/controls/table/pagedTable.htm").set("emptyTable", "true").getBody();
+        this.assertNoPrevious(body);
+        this.assertNoNext(body);
+    }
+
     private void assertRows(String body, int start, int end) {
         Assert.assertFalse("was not supposed to have " + (start - 1), body.contains("foo" + (start - 1)));
         for (int i = start; i <= end; i++) {

@@ -18,12 +18,15 @@ public class PagedTablePage extends AbstractPage {
     public String current;
     public Integer page;
     public Integer rows;
+    public Boolean emptyTable = false;
 
     public void onInit() {
         List<String> strings = new ArrayList<String>();
         // one-based, so foo1 through foo100
-        for (int i = 1; i <= 100; i++) {
-            strings.add("foo" + Integer.toString(i));
+        if (!this.emptyTable) {
+            for (int i = 1; i <= 100; i++) {
+                strings.add("foo" + Integer.toString(i));
+            }
         }
 
         PagedTablePageBinding bind = new PagedTablePageBinding(this);
