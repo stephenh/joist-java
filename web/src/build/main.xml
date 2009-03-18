@@ -4,7 +4,7 @@
 		<fileset dir="bin/main.lib" includes="*.jar"/>
 	</path>
 
-	<target name="main.compile" depends="retrieve" description="compile src/main">
+	<target name="main.compile" depends="ivy.retrieve" description="compile src/main">
 		<mkdir dir="bin/main"/>
 		<javac srcdir="src" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8"/>
 	</target>

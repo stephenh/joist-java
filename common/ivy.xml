@@ -13,12 +13,12 @@
 		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivy.home}/${ivy.jar.name}"/>
 	</target>
 
-	<target name="retrieve" depends="ivy.load" description="downloads jars for the project">
+	<target name="ivy.retrieve" depends="ivy.load" description="downloads jars for the project">
 		<ivy:resolve log="download-only"/>
 		<ivy:retrieve pattern="bin/[conf].lib/[artifact](-[classifier]).[ext]" conf="*" type="jar,source"/>
 	</target>
 
-	<target name="publish" depends="ivy.load" description="publishs the jar for the project">
+	<target name="ivy.publish" depends="ivy.load" description="publishs the jar for the project">
 		<ivy:resolve log="download-only"/>
 		<ivy:publish resolver="local" conf="main,source" forcedeliver="true" overwrite="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
