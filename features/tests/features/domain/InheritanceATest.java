@@ -56,6 +56,8 @@ public class InheritanceATest extends AbstractFeaturesTest {
         Assert.assertEquals(2, l.size());
         Assert.assertEquals(InheritanceASubOne.class, l.get(0).getClass());
         Assert.assertEquals(InheritanceASubTwo.class, l.get(1).getClass());
+        Assert.assertEquals("a", ((InheritanceASubOne) l.get(0)).getOne());
+        Assert.assertEquals("b", ((InheritanceASubTwo) l.get(1)).getTwo());
 
         InheritanceASubOne otherA = InheritanceASubOne.queries.find(2);
         Assert.assertTrue(otherA == l.get(0));

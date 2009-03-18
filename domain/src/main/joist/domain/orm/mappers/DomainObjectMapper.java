@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import joist.domain.DomainObject;
+import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.IdentityMap;
 import joist.domain.queries.Alias;
 import joist.domain.queries.columns.AliasColumn;
@@ -36,7 +37,7 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
     }
 
     private void hydrate(T instance, ResultSet rs) throws SQLException {
-        Alias<? super T> current = this.from;
+        Alias<? super T> current = AliasRegistry.get(instance);
         while (current != null) {
             for (AliasColumn<? super T, ?, ?> c : current.getColumns()) {
                 Object jdbcValue = rs.getObject(c.getName());
