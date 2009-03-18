@@ -2,7 +2,7 @@
 	<info organisation="joist" module="web" revision="SNAPSHOT"/>
 	<configurations>
 		<conf name="main"/>
-		<conf name="test" extends="main" visibility="private"/>
+		<conf name="unit" extends="main" visibility="private"/>
 		<conf name="source" description="sources"/>
 	</configurations>
 	<publications>
@@ -17,7 +17,7 @@
 		<dependency org="commons-collections" name="commons-collections" rev="3.2.1" conf="main->master,sources"/>
 		<!-- end velocity 1.6.1 -->
 		<dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="main->master,sources"/>
-		<dependency org="junit" name="junit" rev="3.8.2" conf="test->master"/>
+		<dependency org="junit" name="junit" rev="3.8.2" conf="unit->master"/>
 		<dependency org="exigencecorp" name="bindgen" rev="SNAPSHOT" conf="main->master,sources"/>
 	</dependencies>
 </ivy-module>
