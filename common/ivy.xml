@@ -6,7 +6,6 @@
 
 	<target name="ivy.install" unless="ivy.installed">
 		<mkdir dir="${ivy.home}"/>
-		<echo message="installing ivy..."/>
 		<get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.jar.version}/${ivy.jar.name}" dest="${ivy.home}/${ivy.jar.name}"/>
 	</target>
 
@@ -14,11 +13,12 @@
 		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivy.home}/${ivy.jar.name}"/>
 	</target>
 
-	<target name="ivy.retrieve" depends="ivy.load">
+	<target name="retrieve" depends="ivy.load" description="downloads jars for the project">
+		<ivy:resolve log="download-only"/>
 		<ivy:retrieve pattern="bin/[conf].lib/[artifact](-[classifier]).[ext]" conf="*" type="jar,source"/>
 	</target>
 
-	<target name="ivy.publish" depends="ivy.load">
+	<target name="publish" depends="ivy.load" description="publishs the jar for the project">
 		<ivy:resolve log="download-only"/>
 		<ivy:publish resolver="local" conf="main,source" forcedeliver="true" overwrite="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
