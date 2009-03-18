@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <project name="joist.web" default="main.jar">
-	<import file="build/ivy.xml"/>
-	<import file="build/main.xml"/>
+	<import file="src/build/ivy.xml"/>
+	<import file="src/build/main.xml"/>
 
 	<target name="clean">
 		<delete dir="bin"/>
