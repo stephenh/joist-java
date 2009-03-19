@@ -171,7 +171,7 @@ public class Select<T extends DomainObject> {
         int i = 0;
         List<String> subClassCases = new ArrayList<String>();
         for (Alias<?> sub : this.from.getSubClassAliases()) {
-            this.join(new JoinClause("LEFT OUTER JOIN", sub, sub.getSubClassIdColumn(), this.from.getIdColumn()));
+            this.join(new JoinClause("LEFT OUTER JOIN", sub, this.from.getIdColumn(), sub.getSubClassIdColumn()));
             for (AliasColumn<?, ?, ?> c : sub.getColumns()) {
                 this.selectItems.add(new SelectItem(c));
             }
@@ -186,7 +186,7 @@ public class Select<T extends DomainObject> {
         Alias<?> base = this.from.getBaseClassAlias();
         while (base != null) {
             IdAliasColumn<?> id = base.getSubClassIdColumn() == null ? base.getIdColumn() : base.getSubClassIdColumn();
-            this.join(new JoinClause("INNER JOIN", base, id, this.from.getSubClassIdColumn()));
+            this.join(new JoinClause("INNER JOIN", base, this.from.getSubClassIdColumn(), id));
             for (AliasColumn<?, ?, ?> c : base.getColumns()) {
                 this.selectItems.add(new SelectItem(c));
             }

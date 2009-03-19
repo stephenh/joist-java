@@ -1,6 +1,5 @@
 package joist.domain.queries.columns;
 
-
 import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.queries.Alias;
@@ -71,6 +70,10 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
 
     public boolean skipUpdate() {
         return this.getName().equals("id") || this.getName().equals("version");
+    }
+
+    public Alias<T> getAlias() {
+        return this.alias;
     }
 
 }

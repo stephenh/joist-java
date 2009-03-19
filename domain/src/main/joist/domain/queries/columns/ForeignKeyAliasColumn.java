@@ -1,9 +1,9 @@
 package joist.domain.queries.columns;
 
-
 import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.queries.Alias;
+import joist.domain.queries.JoinClause;
 import joist.domain.queries.Where;
 
 /**
@@ -22,6 +22,14 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
 
     public Where equals(Integer value) {
         return new Where(this.getQualifiedName() + " = ?", value);
+    }
+
+    public JoinClause on(Alias<W> on) {
+        return new JoinClause("INNER JOIN", this.getAlias(), on.getIdColumn(), this);
+    }
+
+    public JoinClause on(IdAliasColumn<W> on) {
+        return new JoinClause("INNER JOIN", this.getAlias(), on, this);
     }
 
 }
