@@ -18,11 +18,19 @@ public class JoinClause {
         this(type, newAlias.getTableName(), newAlias.getName(), existingAliasIdColum.getQualifiedName(), newAliasIdColumn.getQualifiedName());
     }
 
-    public JoinClause(String type, Alias<?> newAlias, IdAliasColumn<?> existingIdColumn, ForeignKeyAliasColumn<?, ?> newForeignKeyColumn) {
+    public <T extends DomainObject, W extends DomainObject> JoinClause(
+        String type,
+        Alias<T> newAlias,
+        IdAliasColumn<? super W> existingIdColumn,
+        ForeignKeyAliasColumn<T, W> newForeignKeyColumn) {
         this(type, newAlias.getTableName(), newAlias.getName(), existingIdColumn.getQualifiedName(), newForeignKeyColumn.getQualifiedName());
     }
 
-    public JoinClause(String type, Alias<?> newAlias, ForeignKeyAliasColumn<?, ?> existingForeignKeyColumn, IdAliasColumn<?> newIdColum) {
+    public <T extends DomainObject, W extends DomainObject> JoinClause(
+        String type,
+        Alias<T> newAlias,
+        ForeignKeyAliasColumn<W, T> existingForeignKeyColumn,
+        IdAliasColumn<? super T> newIdColum) {
         this(type, newAlias.getTableName(), newAlias.getName(), existingForeignKeyColumn.getQualifiedName(), newIdColum.getQualifiedName());
     }
 
