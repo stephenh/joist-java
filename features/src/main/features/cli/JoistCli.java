@@ -1,10 +1,10 @@
 package features.cli;
 
-import joist.domain.codegen.JoistTask;
+import joist.domain.codegen.AbstractJoistCli;
 
-public class Joist extends JoistTask {
+public class JoistCli extends AbstractJoistCli {
 
-    public Joist() {
+    public JoistCli() {
         super("features");
         this.databaseSaPassword = "postgresql_chimera";
     }

@@ -12,7 +12,7 @@ import joist.domain.migrations.PermissionFixer;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-public class JoistTask {
+public abstract class AbstractJoistCli {
 
     public String host = "localhost";
     public String databaseName;
@@ -24,7 +24,7 @@ public class JoistTask {
     public MigraterConfig migraterConfig = new MigraterConfig();
     private final Map<String, DataSource> dss = new HashMap<String, DataSource>();
 
-    public JoistTask(String projectName) {
+    public AbstractJoistCli(String projectName) {
         this.databaseName = projectName;
         this.databaseAppUsername = projectName + "_role";
         this.databaseAppPassword = projectName + "_role";

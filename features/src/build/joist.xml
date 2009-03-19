@@ -6,7 +6,7 @@
 				<path refid="main.classpath"/>
 				<pathelement location="bin/main"/>
 			</classpath>
-			<arg value="Joist.codegen"/>
+			<arg value="JoistCli.codegen"/>
 		</java>
 	</target>
 
