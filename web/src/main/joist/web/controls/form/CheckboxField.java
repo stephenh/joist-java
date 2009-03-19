@@ -4,7 +4,6 @@ import joist.web.util.HtmlWriter;
 
 import org.exigencecorp.bindgen.Binding;
 
-
 public class CheckboxField extends AbstractField<CheckboxField> {
 
     public CheckboxField(Binding<Boolean> binding) {
@@ -18,7 +17,7 @@ public class CheckboxField extends AbstractField<CheckboxField> {
 
     @Override
     public void render(HtmlWriter w) {
-        String checked = "true".equals(this.getBoundValue()) ? "checked" : "unchecked";
+        String checked = this.getBoundValue() == Boolean.TRUE ? "checked" : "unchecked";
         w.append("<input id={} name={} type={} value={} checked={}/>", this.getId(), this.getId(), "checkbox", "true", checked);
     }
 
