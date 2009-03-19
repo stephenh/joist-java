@@ -24,12 +24,12 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
         return new Where(this.getQualifiedName() + " = ?", value);
     }
 
-    public JoinClause on(Alias<W> on) {
-        return new JoinClause("INNER JOIN", this.getAlias(), on.getIdColumn(), this);
+    public JoinClause<T, W> on(Alias<W> on) {
+        return new JoinClause<T, W>("INNER JOIN", this.getAlias(), on.getIdColumn(), this);
     }
 
-    public JoinClause on(IdAliasColumn<W> on) {
-        return new JoinClause("INNER JOIN", this.getAlias(), on, this);
+    public JoinClause<T, W> on(IdAliasColumn<W> on) {
+        return new JoinClause<T, W>("INNER JOIN", this.getAlias(), on, this);
     }
 
 }

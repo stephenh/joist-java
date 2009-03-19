@@ -167,9 +167,10 @@ public class GenerateAliasesPass implements Pass {
                 GClass otherAliasClass = codegen.getOutputCodegenDirectory().getClass(p.getManySide().getFullAliasClassName());
                 if (!otherAliasClass.hasMethod("on")) {
                     GMethod on = otherAliasClass.getMethod("on");
-                    on.argument("ForeignKeyAliasColumn<? extends DomainObject, " + p.getJavaType() + ">", "on");
-                    on.returnType("JoinClause");
-                    on.body.line("return new JoinClause(\"INNER JOIN\", this, on);");
+                    on.typeParameters("T extends DomainObject");
+                    on.argument("ForeignKeyAliasColumn<T, " + p.getJavaType() + ">", "on");
+                    on.returnType("JoinClause<T, {}>", p.getJavaType());
+                    on.body.line("return new JoinClause<T, {}>(\"INNER JOIN\", this, on);", p.getJavaType());
                     otherAliasClass.addImports(ForeignKeyAliasColumn.class, JoinClause.class, DomainObject.class);
                 }
             }

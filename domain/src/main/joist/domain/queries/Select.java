@@ -27,7 +27,7 @@ public class Select<T extends DomainObject> {
     }
 
     private final Alias<T> from;
-    private final List<JoinClause> joins = new ArrayList<JoinClause>();
+    private final List<JoinClause<?, ?>> joins = new ArrayList<JoinClause<?, ?>>();
     private final List<SelectItem> selectItems = new ArrayList<SelectItem>();
     private Where where = null;
     private Order[] orderBy = null;
@@ -43,7 +43,7 @@ public class Select<T extends DomainObject> {
         this.addOuterJoinsForSubClasses();
     }
 
-    public void join(JoinClause join) {
+    public void join(JoinClause<?, ?> join) {
         this.joins.add(join);
     }
 
@@ -141,7 +141,7 @@ public class Select<T extends DomainObject> {
         StringBuilderr s = new StringBuilderr();
         s.line("SELECT {}", Join.commaSpace(this.selectItems));
         s.line(" FROM {} {}", Wrap.quotes(this.from.getTableName()), this.from.getName());
-        for (JoinClause join : this.joins) {
+        for (JoinClause<?, ?> join : this.joins) {
             s.line(" {}", join);
         }
         if (this.getWhere() != null) {
@@ -167,6 +167,7 @@ public class Select<T extends DomainObject> {
         return new ArrayList<Object>();
     }
 
+    @SuppressWarnings("unchecked")
     private void addOuterJoinsForSubClasses() {
         int i = 0;
         List<String> subClassCases = new ArrayList<String>();
@@ -182,6 +183,7 @@ public class Select<T extends DomainObject> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void addInnerJoinsForBaseClasses() {
         Alias<?> base = this.from.getBaseClassAlias();
         while (base != null) {

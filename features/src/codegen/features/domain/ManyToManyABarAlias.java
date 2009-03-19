@@ -2,6 +2,7 @@ package features.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import joist.domain.DomainObject;
 import joist.domain.queries.Alias;
 import joist.domain.queries.JoinClause;
@@ -41,8 +42,8 @@ public class ManyToManyABarAlias extends Alias<ManyToManyABar> {
         return null;
     }
 
-    public JoinClause on(ForeignKeyAliasColumn<? extends DomainObject, ManyToManyABar> on) {
-        return new JoinClause("INNER JOIN", this, on);
+    public <T extends DomainObject> JoinClause<T, ManyToManyABar> on(ForeignKeyAliasColumn<T, ManyToManyABar> on) {
+        return new JoinClause<T, ManyToManyABar>("INNER JOIN", this, on);
     }
 
 }
