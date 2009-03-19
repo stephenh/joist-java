@@ -1,21 +1,15 @@
-<project name="main" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="main">
+
 	<path id="main.classpath">
 		<fileset dir="bin/main.lib" includes="*.jar"/>
 	</path>
-	<target name="main.compile" depends="ivy.retrieve-jars">
+
+	<target name="main.compile" description="compile src/main/ and src/codegen/ to bin/main/" depends="ivy.retrieve">
 		<mkdir dir="bin/main"/>
-		<javac srcdir="src/main" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8">
+		<javac destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8">
+			<src path="src/main"/>
+			<src path="src/codegen"/>
 		</javac>
 	</target>
 
-	<target name="main.jar" depends="main.compile">
-		<mkdir dir="bin/jars"/>
-		<jar destfile="bin/jars/joist.domain.jar">
-			<fileset dir="bin/main" includes="**/*.class"/>
-		</jar>
-		<mkdir dir="bin/sources"/>
-		<zip destfile="bin/sources/joist.domain.jar">
-			<fileset dir="src/main" includes="**/*.java"/>
-		</zip>
-	</target>
 </project>
