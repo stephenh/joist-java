@@ -25,8 +25,8 @@ public class OneToOneBFooAlias extends Alias<OneToOneBFoo> {
         this.columns.add(this.version);
     }
 
-    public JoinClause on(ForeignKeyAliasColumn<? extends DomainObject, OneToOneBFoo> on) {
-        return new JoinClause("INNER JOIN", this, on);
+    public <T extends DomainObject> JoinClause<T, OneToOneBFoo> on(ForeignKeyAliasColumn<T, OneToOneBFoo> on) {
+        return new JoinClause<T, OneToOneBFoo>("INNER JOIN", this, on);
     }
 
     public List<AliasColumn<OneToOneBFoo, ?, ?>> getColumns() {

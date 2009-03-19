@@ -25,8 +25,8 @@ public class ParentBParentAlias extends Alias<ParentBParent> {
         this.columns.add(this.version);
     }
 
-    public JoinClause on(ForeignKeyAliasColumn<? extends DomainObject, ParentBParent> on) {
-        return new JoinClause("INNER JOIN", this, on);
+    public <T extends DomainObject> JoinClause<T, ParentBParent> on(ForeignKeyAliasColumn<T, ParentBParent> on) {
+        return new JoinClause<T, ParentBParent>("INNER JOIN", this, on);
     }
 
     public List<AliasColumn<ParentBParent, ?, ?>> getColumns() {
