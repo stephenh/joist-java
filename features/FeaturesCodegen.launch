@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/joist.domain/lib/bd/bd.jar"/>
+<listEntry value="/joist.features/src/main/features/cli/Cli.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.exigencecorp.bd.BuildRunner"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="joist.codegen"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Features"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="features.cli.Cli"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="Joist.codegen"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="joist.features"/>
 </launchConfiguration>

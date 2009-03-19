@@ -10,6 +10,20 @@ public class Reflection {
     private Reflection() {
     }
 
+    public static Object invoke(String methodName, Object target, Object... params) {
+        Class<?>[] types = new Class<?>[params.length];
+        for (int i = 0; i < params.length; i++) {
+            types[i] = params[i].getClass();
+        }
+        Method m = null;
+        try {
+            m = target.getClass().getMethod(methodName);
+        } catch (NoSuchMethodException nsme) {
+            throw new RuntimeException(nsme);
+        }
+        return Reflection.invoke(m, target, params);
+    }
+
     public static Object invoke(Method method, Object target, Object... params) {
         try {
             return method.invoke(target, params);
