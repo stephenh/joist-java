@@ -1,0 +1,14 @@
+<project name="features.joist">
+
+	<target name="joist.codegen" description="regenerate the domain codegen classes in src/codegen/" depends="main.compile">
+		<java classname="features.cli.Cli">
+			<classpath>
+				<path refid="main.classpath"/>
+				<pathelement location="bin/main"/>
+			</classpath>
+			<arg value="Joist.codegen"/>
+		</java>
+	</target>
+
+</project>
+
