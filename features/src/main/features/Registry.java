@@ -11,11 +11,11 @@ public class Registry {
     private static final ResourceBag RESOURCES = new ResourceBag();
 
     public static DataSource getDataSource() {
-        return Registry.RESOURCES.getResourceForFactoryClass(FeaturesDataSourceFactory.class);
+        return Registry.RESOURCES.get(FeaturesDataSourceFactory.class);
     }
 
     public static ApplicationInstance getApplicationInstance() {
-        return Registry.RESOURCES.getResourceForInstanceClass(ApplicationInstance.class);
+        return Registry.RESOURCES.get(ApplicationInstance.Factory.class);
     }
 
 }
