@@ -9,7 +9,7 @@ import features.Registry;
 public class Cli {
 
     public static void main(String[] args) {
-        Registry.getApplicationInstance().start();
+        Registry.start();
         try {
             for (String arg : args) {
                 String[] parts = StringUtils.split(arg, ".", 2);
@@ -17,7 +17,7 @@ public class Cli {
                 Reflection.invoke(parts[1], task);
             }
         } finally {
-            Registry.getApplicationInstance().stop();
+            Registry.stop();
         }
     }
 

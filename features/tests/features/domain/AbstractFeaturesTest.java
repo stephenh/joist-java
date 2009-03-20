@@ -7,7 +7,7 @@ import features.Registry;
 public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
 
     static {
-        Registry.getApplicationInstance().start();
+        Registry.start();
     }
 
     public void setUp() throws Exception {
