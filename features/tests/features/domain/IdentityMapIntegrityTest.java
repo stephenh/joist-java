@@ -1,6 +1,7 @@
 package features.domain;
 
 import joist.domain.uow.UoW;
+import joist.jdbc.JdbcException;
 import junit.framework.Assert;
 
 public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
@@ -47,8 +48,8 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
         try {
             this.commitAndReOpen();
             Assert.fail();
-        } catch (RuntimeException re) {
-            Assert.assertTrue(re.getMessage().contains("duplicate key"));
+        } catch (JdbcException re) {
+            Assert.assertTrue(re.getCause().getNextException().getMessage().contains("duplicate key"));
         }
     }
 

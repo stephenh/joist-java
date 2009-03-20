@@ -154,7 +154,11 @@ public class Jdbc {
                 for (int i = 0; i < parameters.size(); i++) {
                     ps.setObject(i + 1, parameters.get(i));
                 }
-                changed.add(ps.executeUpdate());
+                ps.addBatch();
+            }
+            int[] is = ps.executeBatch();
+            for (int i : is) {
+                changed.add(i);
             }
             return changed;
         } catch (SQLException se) {
