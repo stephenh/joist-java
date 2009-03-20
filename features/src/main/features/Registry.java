@@ -9,19 +9,19 @@ import features.resources.FeaturesDataSourceFactory;
 
 public class Registry {
 
-    private static final ResourceBag RESOURCES = new ResourceBag();
+    private static final ResourceBag resourcesBag = new ResourceBag();
 
     public static void start() {
         Log.debug("Starting...");
-        Repository.datasource = Registry.getDataSource();
+        Repository.datasource = Registry.resourcesBag.getLazy(FeaturesDataSourceFactory.class);
     }
 
     public static void stop() {
-        Registry.RESOURCES.destroyResources();
+        Registry.resourcesBag.destroyResources();
     }
 
     public static DataSource getDataSource() {
-        return Registry.RESOURCES.get(FeaturesDataSourceFactory.class);
+        return Registry.resourcesBag.get(FeaturesDataSourceFactory.class);
     }
 
 }

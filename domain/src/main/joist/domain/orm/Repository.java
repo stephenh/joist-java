@@ -20,12 +20,13 @@ import joist.domain.queries.columns.AliasColumn;
 import joist.domain.uow.UoW;
 import joist.jdbc.Jdbc;
 import joist.jdbc.RowMapper;
+import joist.registry.LazyResource;
 import joist.util.Join;
 import joist.util.MapToList;
 
 public class Repository {
 
-    public static DataSource datasource = null;
+    public static LazyResource<DataSource> datasource = null;
     private Connection connection;
 
     public <T extends DomainObject> T load(Class<T> type, Integer id) {
@@ -69,7 +70,7 @@ public class Repository {
             if (Repository.datasource == null) {
                 throw new RuntimeException("The repository database has not been configured.");
             }
-            this.connection = Repository.datasource.getConnection();
+            this.connection = Repository.datasource.get().getConnection();
             this.connection.setAutoCommit(false);
             Jdbc.update(this.connection, "SET CONSTRAINTS ALL DEFERRED;");
         } catch (SQLException se) {

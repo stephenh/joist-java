@@ -21,6 +21,14 @@ public class ResourceBag {
         return instance;
     }
 
+    public synchronized <T, U extends ResourceFactory<T>> LazyResource<T> getLazy(final Class<U> factoryClass) {
+        return new LazyResource<T>() {
+            public T get() {
+                return ResourceBag.this.get(factoryClass);
+            }
+        };
+    }
+
     /** Calls <code>destroy</code> for all the resources created by factories. */
     public synchronized void destroyResources() {
         for (Map.Entry<Class<?>, Object> entry : this.instancesByFactoryClass.entrySet()) {
