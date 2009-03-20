@@ -1,14 +1,15 @@
-<project name="main" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="main">
+
 	<path id="main.classpath">
 		<fileset dir="bin/main.lib" includes="*.jar"/>
 	</path>
-	<target name="main.compile" depends="ivy.retrieve-jars">
+
+	<target name="main.compile" depends="ivy.retrieve" description="compile src/main/ to bin/main/">
 		<mkdir dir="bin/main"/>
-		<javac srcdir="src/main" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8">
-		</javac>
+		<javac srcdir="src/main" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8"/>
 	</target>
 
-	<target name="main.jar" depends="main.compile">
+	<target name="main.jar" depends="main.compile" description="create binary and source jars of bin/main/ and src/main/">
 		<mkdir dir="bin/jars"/>
 		<jar destfile="bin/jars/joist.util.jar">
 			<fileset dir="bin/main" includes="**/*.class"/>
@@ -18,4 +19,5 @@
 			<fileset dir="src/main" includes="**/*.java"/>
 		</zip>
 	</target>
+
 </project>
