@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 import joist.util.Interpolate;
 import joist.util.Log;
 
-
 public class Jdbc {
 
     private Jdbc() {
@@ -32,7 +31,7 @@ public class Jdbc {
                 value = rs.getInt(1);
             }
         } catch (SQLException se) {
-            throw new RuntimeException(se);
+            throw new JdbcException(se);
         } finally {
             Jdbc.closeSafely(rs, stmt);
         }
@@ -45,7 +44,7 @@ public class Jdbc {
             connection = ds.getConnection();
             return Jdbc.queryForInt(connection, sql, args);
         } catch (SQLException se) {
-            throw new RuntimeException(se);
+            throw new JdbcException(se);
         } finally {
             Jdbc.closeSafely(connection);
         }
@@ -59,7 +58,7 @@ public class Jdbc {
             stmt = connection.createStatement();
             return stmt.executeUpdate(sql);
         } catch (SQLException se) {
-            throw new RuntimeException(se);
+            throw new JdbcException(se);
         } finally {
             Jdbc.closeSafely(stmt);
         }
@@ -71,7 +70,7 @@ public class Jdbc {
             connection = ds.getConnection();
             return Jdbc.update(connection, sql, args);
         } catch (SQLException se) {
-            throw new RuntimeException(se);
+            throw new JdbcException(se);
         } finally {
             Jdbc.closeSafely(connection);
         }
@@ -83,7 +82,7 @@ public class Jdbc {
             connection = ds.getConnection();
             Jdbc.query(connection, sql, rse);
         } catch (SQLException se) {
-            throw new RuntimeException(se);
+            throw new JdbcException(se);
         } finally {
             Jdbc.closeSafely(connection);
         }
@@ -100,7 +99,7 @@ public class Jdbc {
                 rse.mapRow(rs);
             }
         } catch (SQLException se) {
-            throw new RuntimeException(se);
+            throw new JdbcException(se);
         } finally {
             Jdbc.closeSafely(rs, s);
         }
@@ -121,7 +120,7 @@ public class Jdbc {
                 rse.mapRow(rs);
             }
         } catch (SQLException se) {
-            throw new RuntimeException(se);
+            throw new JdbcException(se);
         } finally {
             Jdbc.closeSafely(rs, s);
         }
@@ -138,7 +137,7 @@ public class Jdbc {
             }
             ps.executeUpdate();
         } catch (SQLException se) {
-            throw new RuntimeException(se);
+            throw new JdbcException(se);
         } finally {
             Jdbc.closeSafely(ps);
         }
@@ -159,7 +158,7 @@ public class Jdbc {
             }
             return changed;
         } catch (SQLException se) {
-            throw new RuntimeException(se);
+            throw new JdbcException(se);
         } finally {
             Jdbc.closeSafely(ps);
         }
