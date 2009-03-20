@@ -6,7 +6,6 @@ import javax.sql.DataSource;
 
 import joist.registry.ResourceFactory;
 import joist.util.Log;
-import joist.util.Reflection;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;
@@ -27,8 +26,6 @@ public abstract class AbstractPgWithc3p0DataSourceFactory implements ResourceFac
     }
 
     public ComboPooledDataSource create() {
-        Reflection.forName("org.postgresql.Driver");
-
         ComboPooledDataSource ds = new ComboPooledDataSource();
         ds.setJdbcUrl("jdbc:postgresql://localhost/" + this.databaseName);
         ds.setUser(this.databaseName + "_role");
