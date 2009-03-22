@@ -149,9 +149,9 @@ public class GenerateAliasesPass implements Pass {
 
     private void addManyToOneColumns(Codegen codegen, GClass aliasClass, Entity entity) {
         for (ManyToOneProperty p : entity.getManyToOneProperties()) {
-            Class<?> aliasColumnClass = (p.getManySide().isCodeEntity()) ? CodeAliasColumn.class : ForeignKeyAliasColumn.class;
+            Class<?> aliasColumnClass = (p.getOneSide().isCodeEntity()) ? CodeAliasColumn.class : ForeignKeyAliasColumn.class;
             aliasClass.addImports(aliasColumnClass);
-            aliasClass.addImports(p.getManySide().getFullClassName());
+            aliasClass.addImports(p.getOneSide().getFullClassName());
 
             GField field = aliasClass.getField(p.getVariableName()).setPublic().setFinal();
             field.type("{}<{}, {}>", aliasColumnClass.getSimpleName(), entity.getClassName(), p.getJavaType());
@@ -163,8 +163,8 @@ public class GenerateAliasesPass implements Pass {
                 entity.getCodegenClassName(),
                 p.getVariableName());
 
-            if (!p.getManySide().isCodeEntity()) {
-                GClass otherAliasClass = codegen.getOutputCodegenDirectory().getClass(p.getManySide().getFullAliasClassName());
+            if (!p.getOneSide().isCodeEntity()) {
+                GClass otherAliasClass = codegen.getOutputCodegenDirectory().getClass(p.getOneSide().getFullAliasClassName());
                 if (!otherAliasClass.hasMethod("on")) {
                     GMethod on = otherAliasClass.getMethod("on");
                     on.typeParameters("T extends DomainObject");

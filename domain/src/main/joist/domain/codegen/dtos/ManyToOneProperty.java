@@ -21,25 +21,25 @@ import org.apache.commons.lang.StringUtils;
 public class ManyToOneProperty {
 
     private CodegenConfig config;
-    private Entity oneSide;
+    private Entity manySide;
     private String constraintName;
     private String columnName;
     private OneToManyProperty oneToManyProperty;
 
-    public ManyToOneProperty(Entity oneSide, InformationSchemaColumn column) {
-        this.config = oneSide.config;
-        this.oneSide = oneSide;
+    public ManyToOneProperty(Entity manySide, InformationSchemaColumn column) {
+        this.config = manySide.config;
+        this.manySide = manySide;
         this.columnName = column.name;
         this.constraintName = column.foreignKeyConstraintName;
         this.assertValidConstraintName();
     }
 
-    public Entity getManySide() {
-        return this.oneToManyProperty.getManySide();
+    public Entity getOneSide() {
+        return this.oneToManyProperty.getOneSide();
     }
 
-    public Entity getOneSide() {
-        return this.oneSide;
+    public Entity getManySide() {
+        return this.manySide;
     }
 
     public String getCapitalVariableName() {
@@ -55,11 +55,11 @@ public class ManyToOneProperty {
     }
 
     public String getJavaType() {
-        return this.getManySide().getClassName();
+        return this.getOneSide().getClassName();
     }
 
     public List<String> getCustomRules() {
-        return this.config.getCustomRules(this.getOneSide().getClassName(), this.getJavaType(), this.getVariableName());
+        return this.config.getCustomRules(this.getManySide().getClassName(), this.getJavaType(), this.getVariableName());
     }
 
     public boolean isOwnerMe() {
@@ -92,11 +92,11 @@ public class ManyToOneProperty {
     }
 
     public String getGetterAccessLevel() {
-        return this.config.getGetterAccess(this.oneSide.getTableName(), this.columnName);
+        return this.config.getGetterAccess(this.manySide.getTableName(), this.columnName);
     }
 
     public String getSetterAccessLevel() {
-        return this.config.getSetterAccess(this.oneSide.getTableName(), this.columnName);
+        return this.config.getSetterAccess(this.manySide.getTableName(), this.columnName);
     }
 
 }

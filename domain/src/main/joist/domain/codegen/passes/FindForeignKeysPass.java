@@ -14,31 +14,31 @@ public class FindForeignKeysPass implements Pass {
                 continue;
             }
 
-            Entity oneSide = codegen.getEntity(column);
-            if (oneSide == null) {
+            Entity manySide = codegen.getEntity(column);
+            if (manySide == null) {
                 continue;
             }
 
-            Entity manySide = codegen.getEntity(column.foreignKeyTableName);
-            if (manySide == null) {
+            Entity oneSide = codegen.getEntity(column.foreignKeyTableName);
+            if (oneSide == null) {
                 throw new RuntimeException("Could not deduce referencedTableName for " + column.name);
             }
 
             if ("id".equals(column.name)) {
                 // A foreign key on an "id" column means subclass!
-                oneSide.setBaseEntity(manySide);
-                manySide.addSubEntity(oneSide);
+                manySide.setBaseEntity(oneSide);
+                oneSide.addSubEntity(manySide);
                 continue;
             }
 
-            ManyToOneProperty mtop = new ManyToOneProperty(oneSide, column);
-            OneToManyProperty otmp = new OneToManyProperty(manySide, column);
+            ManyToOneProperty mtop = new ManyToOneProperty(manySide, column);
+            OneToManyProperty otmp = new OneToManyProperty(oneSide, column);
 
-            oneSide.getManyToOneProperties().add(mtop);
+            manySide.getManyToOneProperties().add(mtop);
             mtop.setOneToManyProperty(otmp);
 
-            manySide.getOneToManyProperties().add(otmp);
-            otmp.setForeignKeyColumn(mtop);
+            oneSide.getOneToManyProperties().add(otmp);
+            otmp.setManyToOneProperty(mtop);
 
             otmp.setOneToOne(column.unique);
         }

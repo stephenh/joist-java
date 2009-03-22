@@ -12,32 +12,32 @@ import org.apache.commons.lang.StringUtils;
 public class OneToManyProperty {
 
     private CodegenConfig config;
-    private Entity manySide;
+    private Entity oneSide;
     private String constraintName;
     private String keyColumnName;
     private String capitalVariableNameSingular;
-    private ManyToOneProperty foreignKeyColumn;
+    private ManyToOneProperty manyToOneProperty;
     private boolean oneToOne = false;
 
     /** Parent (oneSide) -> child (manySide) */
-    public OneToManyProperty(Entity manySide, InformationSchemaColumn oneSideColumn) {
-        this.config = manySide.config;
-        this.manySide = manySide;
-        this.constraintName = oneSideColumn.foreignKeyConstraintName;
-        this.keyColumnName = oneSideColumn.name;
-    }
-
-    public Entity getOneSide() {
-        return this.getForeignKeyColumn().getOneSide();
+    public OneToManyProperty(Entity oneSide, InformationSchemaColumn manySide) {
+        this.config = oneSide.config;
+        this.oneSide = oneSide;
+        this.constraintName = manySide.foreignKeyConstraintName;
+        this.keyColumnName = manySide.name;
     }
 
     public Entity getManySide() {
-        return this.manySide;
+        return this.getManyToOneProperty().getManySide();
+    }
+
+    public Entity getOneSide() {
+        return this.oneSide;
     }
 
     public String getCapitalVariableNameSingular() {
         if (this.capitalVariableNameSingular == null) {
-            if (this.getKeyPropertyName().equals(this.manySide.getClassName())) {
+            if (this.getKeyPropertyName().equals(this.oneSide.getClassName())) {
                 // Regular many-to-one relationship of only 1 column in the target table pointing to us, so name our side based on the type
                 this.capitalVariableNameSingular = this.getTargetJavaType();
             } else {
@@ -61,7 +61,7 @@ public class OneToManyProperty {
     }
 
     public List<String> getCustomRules() {
-        return this.config.getCustomRules(this.getOneSide().getClassName(), this.getJavaType(), this.getVariableName());
+        return this.config.getCustomRules(this.getManySide().getClassName(), this.getJavaType(), this.getVariableName());
     }
 
     public String getKeyPropertyName() {
@@ -78,7 +78,7 @@ public class OneToManyProperty {
     }
 
     public String getTargetJavaType() {
-        return this.getOneSide().getClassName();
+        return this.getManySide().getClassName();
     }
 
     public boolean isOwnerMe() {
@@ -90,19 +90,19 @@ public class OneToManyProperty {
     }
 
     public boolean getNoTicking() {
-        return this.config.isDoNotIncrementParentsOpLock(this.manySide.getClassName(), this.getVariableName());
+        return this.config.isDoNotIncrementParentsOpLock(this.oneSide.getClassName(), this.getVariableName());
     }
 
     public boolean isCollectionSkipped() {
-        return this.config.isCollectionSkipped(this.manySide.getClassName(), this.getVariableName());
+        return this.config.isCollectionSkipped(this.oneSide.getClassName(), this.getVariableName());
     }
 
-    public ManyToOneProperty getForeignKeyColumn() {
-        return this.foreignKeyColumn;
+    public ManyToOneProperty getManyToOneProperty() {
+        return this.manyToOneProperty;
     }
 
-    public void setForeignKeyColumn(ManyToOneProperty foreignKeyColumn) {
-        this.foreignKeyColumn = foreignKeyColumn;
+    public void setManyToOneProperty(ManyToOneProperty foreignKeyColumn) {
+        this.manyToOneProperty = foreignKeyColumn;
     }
 
     public boolean isOneToOne() {
