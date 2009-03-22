@@ -18,7 +18,7 @@ public class GenerateFlushFunction implements Pass {
 
         for (Entity entity : codegen.getEntities().values()) {
             if (entity.isRoot()) {
-                sql.line("ALTER SEQUENCE {} RESTART WITH 2 INCREMENT BY 1;", Wrap.quotes(entity.getTableName() + "_id_seq"));
+                sql.line("ALTER SEQUENCE {} RESTART WITH 1 INCREMENT BY 1;", Wrap.quotes(entity.getTableName() + "_id_seq"));
             }
         }
         for (Entity entity : codegen.getEntities().values()) {

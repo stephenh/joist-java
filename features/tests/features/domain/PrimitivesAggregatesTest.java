@@ -24,7 +24,7 @@ public class PrimitivesAggregatesTest extends AbstractFeaturesTest {
     public void testNameOnly() {
         new Primitives("testNameOnly");
         this.commitAndReOpen();
-        Assert.assertEquals("testNameOnly", Primitives.queries.findNameOnly(2));
+        Assert.assertEquals("testNameOnly", Primitives.queries.findNameOnly(1));
     }
 
     public void testNameAndFlagOnly() {

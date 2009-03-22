@@ -20,7 +20,7 @@ public class OpLockATest extends AbstractFeaturesTest {
             this.commitAndReOpen();
             Assert.fail();
         } catch (RuntimeException re) {
-            Assert.assertEquals("Op lock failed for Parent[2]", re.getMessage());
+            Assert.assertEquals("Op lock failed for Parent[1]", re.getMessage());
         }
     }
 

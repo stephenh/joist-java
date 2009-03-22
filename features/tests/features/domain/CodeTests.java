@@ -11,7 +11,7 @@ public class CodeTests extends AbstractFeaturesTest {
         d.setName("foo");
         this.commitAndReOpen();
 
-        d = CodeADomainObject.queries.find(2);
+        d = CodeADomainObject.queries.find(1);
         Assert.assertEquals(CodeAColor.BLUE, d.getCodeAColor());
         Assert.assertEquals(CodeASize.ONE, d.getCodeASize());
     }

@@ -53,7 +53,7 @@ public class ChildTest extends AbstractFeaturesTest {
         new Child(p1, "child");
         this.commitAndReOpen();
 
-        Child c = Child.queries.find(2);
+        Child c = Child.queries.find(1);
         c.setParent(new Parent("p2"));
         Assert.assertTrue(c.getChanged().contains("parent"));
         this.commitAndReOpen();

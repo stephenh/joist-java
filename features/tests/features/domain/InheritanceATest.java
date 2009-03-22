@@ -11,7 +11,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
         a.setName("name");
         a.setOne("one");
         this.commitAndReOpen();
-        Assert.assertEquals(2, a.getId().intValue());
+        Assert.assertEquals(1, a.getId().intValue());
 
         a = this.reload(a);
         Assert.assertEquals("name", a.getName());
@@ -23,7 +23,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
         b.setName("name");
         b.setTwo("two");
         this.commitAndReOpen();
-        Assert.assertEquals(2, b.getId().intValue());
+        Assert.assertEquals(1, b.getId().intValue());
 
         b = this.reload(b);
         Assert.assertEquals("name", b.getName());
@@ -35,7 +35,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
         b.setName("name");
         b.setTwo("two");
         this.commitAndReOpen();
-        Assert.assertEquals(2, b.getId().intValue());
+        Assert.assertEquals(1, b.getId().intValue());
 
         b = this.reload(b);
         b.setName("name2");
@@ -59,7 +59,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
         Assert.assertEquals("a", ((InheritanceASubOne) l.get(0)).getOne());
         Assert.assertEquals("b", ((InheritanceASubTwo) l.get(1)).getTwo());
 
-        InheritanceASubOne otherA = InheritanceASubOne.queries.find(2);
+        InheritanceASubOne otherA = InheritanceASubOne.queries.find(1);
         Assert.assertTrue(otherA == l.get(0));
     }
 
@@ -72,10 +72,10 @@ public class InheritanceATest extends AbstractFeaturesTest {
         Assert.assertEquals(1, l.size());
         Assert.assertEquals(InheritanceASubOne.class, l.get(0).getClass());
 
-        InheritanceASubOne otherA = InheritanceASubOne.queries.find(2);
+        InheritanceASubOne otherA = InheritanceASubOne.queries.find(1);
         Assert.assertTrue(otherA == l.get(0));
 
-        InheritanceABase baseA = InheritanceABase.queries.find(2);
+        InheritanceABase baseA = InheritanceABase.queries.find(1);
         Assert.assertTrue(otherA == baseA);
     }
 
@@ -87,7 +87,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
         InheritanceASubOne a = InheritanceASubOne.queries.findByName("namea");
         Assert.assertEquals("a", a.getOne());
 
-        InheritanceASubOne otherA = InheritanceASubOne.queries.find(2);
+        InheritanceASubOne otherA = InheritanceASubOne.queries.find(1);
         Assert.assertTrue(otherA == a);
     }
 
