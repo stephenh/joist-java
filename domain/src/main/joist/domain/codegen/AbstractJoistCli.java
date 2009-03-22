@@ -10,6 +10,8 @@ import joist.domain.migrations.Migrater;
 import joist.domain.migrations.MigraterConfig;
 import joist.domain.migrations.PermissionFixer;
 
+import org.h2.jdbcx.JdbcConnectionPool;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public abstract class AbstractJoistCli {
@@ -67,11 +69,13 @@ public abstract class AbstractJoistCli {
     }
 
     private DataSource getDataSourceForAppTableAsSaUser() {
-        return this.getCachedDatasource(this.dbHost, this.dbName, this.dbSaUsername, this.dbSaPassword);
+        return JdbcConnectionPool.create("jdbc:h2:mem:foo;DB_CLOSE_DELAY=-1", "", "");
+        // return this.getCachedDatasource(this.host, this.databaseName, this.databaseSaUsername, this.databaseSaPassword);
     }
 
     private DataSource getDataSourceForSystemTableAsSaUser() {
-        return this.getCachedDatasource(this.dbHost, "postgres", this.dbSaUsername, this.dbSaPassword);
+        return JdbcConnectionPool.create("jdbc:h2:mem:foo;DB_CLOSE_DELAY=-1", "", "");
+        // return this.getCachedDatasource(this.host, "postgres", this.databaseSaUsername, this.databaseSaPassword);
     }
 
     private DataSource getCachedDatasource(String dbHost, String dbName, String username, String password) {

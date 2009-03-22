@@ -1,5 +1,6 @@
 package joist.domain.orm;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,6 +23,10 @@ public class AliasRegistry {
 
     public static <T extends DomainObject> Alias<T> get(T instance) {
         return (Alias<T>) AliasRegistry.aliases.get(instance.getClass());
+    }
+
+    public static Collection<Alias<?>> getAliases() {
+        return AliasRegistry.aliases.values();
     }
 
     public static Class<?> getRootClass(Class<?> domainClass) {

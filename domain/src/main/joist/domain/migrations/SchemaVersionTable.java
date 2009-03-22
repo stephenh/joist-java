@@ -35,7 +35,7 @@ public class SchemaVersionTable {
     }
 
     public void vacuumIfAppropriate() {
-        Jdbc.update(this.dataSource, "vacuum analyze");
+        // Jdbc.update(this.dataSource, "vacuum analyze");
     }
 
     /** @param conn the auto-commit=false connection for the current update. */

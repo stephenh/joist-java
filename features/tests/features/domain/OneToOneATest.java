@@ -5,8 +5,8 @@ import junit.framework.Assert;
 public class OneToOneATest extends AbstractFeaturesTest {
 
     public void testOneSide() {
-        OneToOneABar bar = new OneToOneABar("bar");
         OneToOneAFoo foo = new OneToOneAFoo("foo");
+        OneToOneABar bar = new OneToOneABar("bar");
         bar.setOneToOneAFoo(foo);
         this.commitAndReOpen();
         bar = this.reload(bar);
@@ -23,8 +23,8 @@ public class OneToOneATest extends AbstractFeaturesTest {
     }
 
     public void testManySide() {
-        OneToOneABar bar = new OneToOneABar("bar");
         OneToOneAFoo foo = new OneToOneAFoo("foo");
+        OneToOneABar bar = new OneToOneABar("bar");
         foo.setOneToOneABar(bar);
         this.commitAndReOpen();
         foo = this.reload(foo);
@@ -43,6 +43,15 @@ public class OneToOneATest extends AbstractFeaturesTest {
         Assert.assertEquals("foo", bar1.getOneToOneBFoo().getName());
         bar2 = this.reload(bar2);
         Assert.assertEquals("foo", bar2.getOneToOneBFoo().getName());
+    }
+
+    public void testOneSideWithReverseInstantiationOrder() {
+        OneToOneABar bar = new OneToOneABar("bar");
+        OneToOneAFoo foo = new OneToOneAFoo("foo");
+        bar.setOneToOneAFoo(foo);
+        this.commitAndReOpen();
+        bar = this.reload(bar);
+        Assert.assertEquals("foo", bar.getOneToOneAFoo().getName());
     }
 
 }
