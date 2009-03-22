@@ -41,7 +41,7 @@ public class InformationSchemaWrapper {
     public InformationSchemaWrapper(DataSource dataSource) {
         this.dataSource = dataSource;
         this.findColumns();
-        this.findConstraints();
+        // this.findConstraints();
     }
 
     public List<InformationSchemaColumn> getColumns() {
