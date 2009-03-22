@@ -9,6 +9,10 @@ public class Wrap {
         return "\"" + input + "\"";
     }
 
+    public static String ticks(String input) {
+        return "'" + input + "'";
+    }
+
     public static List<String> quotes(String... input) {
         List<String> wrapped = new ArrayList<String>();
         for (String i : input) {
