@@ -22,12 +22,12 @@ public class InformationSchemaWrapper {
         + " c.table_name, c.column_name, c.data_type, c.character_maximum_length, c.is_nullable, c.column_default as default_value"
         + " FROM information_schema.columns c"
         + " INNER JOIN information_schema.tables t on c.table_name = t.table_name"
-        + " WHERE t.table_schema = 'public'";
+        + " WHERE t.table_schema = 'PUBLIC'";
     private static final String constraintSql = "SELECT"
         + " kcu.table_name, kcu.column_name, kcu.constraint_name, ccu.table_name AS ref_table_name, ccu.column_name AS ref_column_name"
         + " FROM information_schema.key_column_usage kcu"
         + " INNER JOIN information_schema.constraint_column_usage ccu ON kcu.constraint_name = ccu.constraint_name"
-        + " WHERE kcu.table_schema = 'public'";
+        + " WHERE kcu.table_schema = 'PUBLIC'";
     // For some reason pg is a dog if we join table_constraints into the above query, so do it separately
     // Ugly but SchemaCheckTest went from 5.5s to 1.6s with aoviding this join
     private static final String constraintTypeSql = "SELECT"

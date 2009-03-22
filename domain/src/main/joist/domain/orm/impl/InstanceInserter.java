@@ -80,7 +80,7 @@ public class InstanceInserter<T extends DomainObject> {
             s.append(Wrap.quotes(alias.getTableName()));
             s.append(" (");
             for (AliasColumn<?, ?, ?> column : this.columns) {
-                s.append(column.getName());
+                s.append(Wrap.quotes(column.getName()));
                 s.append(", ");
             }
             s.stripLastCommaSpace();

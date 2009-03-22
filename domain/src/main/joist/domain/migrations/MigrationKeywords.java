@@ -64,7 +64,12 @@ public class MigrationKeywords {
 
     public static void addCode(String tableName, String code, String description) {
         int id = MigrationKeywords.getNextIdForCode(tableName);
-        MigrationKeywords.execute("INSERT INTO \"{}\" (id, code, name, version) VALUES ({}, '{}', '{}', 0)", tableName, id, code, description);
+        MigrationKeywords.execute(
+            "INSERT INTO \"{}\" (\"id\", \"code\", \"name\", \"version\") VALUES ({}, '{}', '{}', 0)",
+            tableName,
+            id,
+            code,
+            description);
     }
 
     public static void addUnique(String tableName, String... columnNames) {
@@ -77,12 +82,12 @@ public class MigrationKeywords {
     }
 
     private static int getNextIdForCode(String tableName) {
-        int id = Jdbc.queryForInt(Migrater.getConnection(), "select next_id from code_id where table_name = '{}'", tableName);
+        int id = Jdbc.queryForInt(Migrater.getConnection(), "select \"next_id\" from \"code_id\" where \"table_name\" = '{}'", tableName);
         if (id == -1) {
-            Jdbc.update(Migrater.getConnection(), "insert into code_id (table_name, next_id) values ('{}', 2)", tableName);
+            Jdbc.update(Migrater.getConnection(), "insert into \"code_id\" (\"table_name\", \"next_id\") values ('{}', 2)", tableName);
             id = 1;
         } else {
-            Jdbc.update(Migrater.getConnection(), "update code_id set next_id = {} where table_name = '{}'", (id + 1), tableName);
+            Jdbc.update(Migrater.getConnection(), "update \"code_id\" set \"next_id\" = {} where \"table_name\" = '{}'", (id + 1), tableName);
         }
         return id;
     }

@@ -62,7 +62,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
             sb.append(" ON DELETE CASCADE");
         }
         sb.line(" DEFERRABLE;");
-        sb.line("CREATE INDEX \"{}\" ON \"{}\" USING btree ({});", indexName, this.getTableName(), this.getName());
+        sb.line("CREATE INDEX \"{}\" ON \"{}\" ({});", indexName, this.getTableName(), this.getNameInQuotes());
     }
 
 }

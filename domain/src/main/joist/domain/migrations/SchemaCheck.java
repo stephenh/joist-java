@@ -46,7 +46,7 @@ public class SchemaCheck {
                 maxId = Math.max(maxId, code.getId());
 
                 // Try an exact match first
-                int exactMatch = Jdbc.queryForInt(this.dataSource, "select count(*) from \"{}\" where id = {} and code = '{}'",//
+                int exactMatch = Jdbc.queryForInt(this.dataSource, "select count(*) from \"{}\" where \"id\" = {} and \"code\" = '{}'",//
                     tableName,
                     code.getId(),
                     code.getCode());
@@ -55,7 +55,7 @@ public class SchemaCheck {
                 }
 
                 // Next see if we're getting id collision
-                int idMatch = Jdbc.queryForInt(this.dataSource, "select count(*) from \"{}\" where id = {}", tableName, code.getId());
+                int idMatch = Jdbc.queryForInt(this.dataSource, "select count(*) from \"{}\" where \"id\" = {}", tableName, code.getId());
                 if (idMatch == 0) {
                     String message = Interpolate.string("Code {} {}-{} is not in the database", tableName, code.getId(), code.getCode());
                     throw new RuntimeException(message);
@@ -85,7 +85,7 @@ public class SchemaCheck {
             });
 
             // Now check the sequence value
-            int lastValue = Jdbc.queryForInt(this.dataSource, "select next_id - 1 from code_id where table_name = '{}'", tableName);
+            int lastValue = Jdbc.queryForInt(this.dataSource, "select \"next_id\" - 1 from \"code_id\" where \"table_name\" = '{}'", tableName);
             if (maxId > lastValue) {
                 String message = Interpolate.string("Code {} has a max id of {} but the last assigned was {}", tableName, maxId, lastValue);
                 throw new RuntimeException(message);

@@ -16,6 +16,10 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
         this.dataType = dataType;
     }
 
+    public String getNameInQuotes() {
+        return Wrap.quotes(this.name);
+    }
+
     public T nullable() {
         this.nullable = true;
         return (T) this;

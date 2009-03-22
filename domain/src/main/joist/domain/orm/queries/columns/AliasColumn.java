@@ -6,6 +6,7 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Order;
 import joist.domain.orm.queries.SelectItem;
 import joist.domain.orm.queries.Where;
+import joist.util.Wrap;
 
 /**
  * @param T the domain object type
@@ -85,7 +86,7 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
     }
 
     public String getQualifiedName() {
-        return this.alias.getName() + "." + this.name;
+        return this.alias.getName() + "." + Wrap.quotes(this.name);
     }
 
     public String getName() {

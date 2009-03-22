@@ -33,11 +33,11 @@ public class ChildQueryLimitAndOffsetTest extends TestCase {
         q.offset(20);
 
         Assert.assertEquals(Join.lines(
-            "SELECT c.id, c.name, c.version, c.parent_id",
+            "SELECT c.\"id\", c.\"name\", c.\"version\", c.\"parent_id\"",
             " FROM \"child\" c",
-            " INNER JOIN \"parent\" p ON c.parent_id = p.id",
-            " WHERE p.name = ?",
-            " ORDER BY p.name, c.name",
+            " INNER JOIN \"parent\" p ON c.\"parent_id\" = p.\"id\"",
+            " WHERE p.\"name\" = ?",
+            " ORDER BY p.\"name\", c.\"name\"",
             " LIMIT 10",
             " OFFSET 20"), q.toSql());
         Assert.assertEquals(Copy.list("bob"), q.getWhere().getParameters());

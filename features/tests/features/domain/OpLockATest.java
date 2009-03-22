@@ -14,7 +14,7 @@ public class OpLockATest extends AbstractFeaturesTest {
         p.setName("parent2");
 
         // Change it first
-        Jdbc.update(Registry.getDataSource(), "UPDATE parent SET name = 'changed', version = 1");
+        Jdbc.update(Registry.getDataSource(), "UPDATE \"parent\" SET \"name\" = 'changed', \"version\" = 1");
 
         try {
             this.commitAndReOpen();
