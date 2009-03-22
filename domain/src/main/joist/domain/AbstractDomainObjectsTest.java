@@ -9,6 +9,10 @@ public abstract class AbstractDomainObjectsTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
         TestCounters.resetAll();
+        // Protect against previous tests that didn't clean up
+        if (UoW.isOpen()) {
+            UoW.close();
+        }
         UoW.open();
     }
 
