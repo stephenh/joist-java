@@ -36,6 +36,7 @@ public class InformationSchemaWrapper {
 
     private final DataSource dataSource;
     private final List<InformationSchemaColumn> columns = new ArrayList<InformationSchemaColumn>();
+    private List<String> entityTables;
 
     public InformationSchemaWrapper(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -55,6 +56,23 @@ public class InformationSchemaWrapper {
             }
         }
         return tables;
+    }
+
+    /** @return the root class entity table names, no code tables or subclass tables */
+    public List<String> getEntityTables() {
+        if (this.entityTables != null) {
+            return this.entityTables;
+        }
+        this.entityTables = new ArrayList<String>();
+        for (InformationSchemaColumn column : this.columns) {
+            if (column.name.equals("id")
+                && column.foreignKeyColumnName == null
+                && !this.entityTables.contains(column.tableName)
+                && !this.isCodeTable(column.tableName)) {
+                this.entityTables.add(column.tableName);
+            }
+        }
+        return this.entityTables;
     }
 
     public List<String> getManyToManyTables() {
