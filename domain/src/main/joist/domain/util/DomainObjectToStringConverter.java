@@ -11,6 +11,9 @@ public class DomainObjectToStringConverter extends AbstractConverter<DomainObjec
     }
 
     public DomainObject convertTwoToOne(String value, Class<? extends DomainObject> toType) {
+        if ("".equals(value)) {
+            return null;
+        }
         return UoW.load(toType, new Integer(value));
     }
 
