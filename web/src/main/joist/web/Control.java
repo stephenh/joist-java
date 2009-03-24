@@ -6,6 +6,8 @@ public interface Control {
 
     String getId();
 
+    String getFullId();
+
     void onProcess();
 
     void render(HtmlWriter w);

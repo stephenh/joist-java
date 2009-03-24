@@ -19,7 +19,7 @@ public class ContainerTest extends AbstractClickControlTest {
     public void testWithForm() {
         CurrentContext.get().setPage(this.page);
         Form f = new Form("f");
-        new DefaultPageProcessor().doAddControls(this.page);
+        new DefaultPageProcessor().doAddOrphanControlsToPage(this.page);
         Assert.assertEquals(true, this.page.getControls().contains(f));
     }
 
