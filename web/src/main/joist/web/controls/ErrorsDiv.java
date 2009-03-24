@@ -11,7 +11,7 @@ public class ErrorsDiv extends AbstractControl {
     private final List<String> errors = new ArrayList<String>();
 
     public ErrorsDiv() {
-        this.setId("Errors");
+        this.setId("errors");
     }
 
     public void add(String error) {
@@ -24,8 +24,9 @@ public class ErrorsDiv extends AbstractControl {
         }
         w.line("<div id={} class={}>", this.getId(), "errors");
         w.line("<ul>");
+        int i = 0;
         for (String error : this.errors) {
-            w.line("<li>{}</li>", error);
+            w.line("<li id={}>{}</li>", (this.getId() + "." + (i++)), error);
         }
         w.line("</ul>");
         w.line("</div>");
