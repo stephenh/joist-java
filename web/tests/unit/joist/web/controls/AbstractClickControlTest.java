@@ -17,7 +17,6 @@ import servletTest.RequestStub;
 
 public abstract class AbstractClickControlTest extends AbstractClickTest {
 
-    private static VelocityEngine cachedEngine;
     protected ClickConfig config;
     protected RequestStub request;
 
@@ -26,11 +25,7 @@ public abstract class AbstractClickControlTest extends AbstractClickTest {
         this.config = new ClickConfig("joist.web.pages") {
             @Override
             protected VelocityEngine createVelocityEngine() {
-                // Creating a new engine for each test was causing heap errors
-                if (AbstractClickControlTest.cachedEngine == null) {
-                    AbstractClickControlTest.cachedEngine = super.createVelocityEngine();
-                }
-                return AbstractClickControlTest.cachedEngine;
+                return testEngine;
             }
         };
         this.config.getUrlConverterRegistry().addConverter(new EmployeeToStringConverter());
