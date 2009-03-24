@@ -5,6 +5,7 @@ import joist.web.AbstractPage;
 import joist.web.ClickKeywords;
 import joist.web.controls.form.Form;
 import joist.web.controls.form.SubmitButton;
+import joist.web.util.HtmlWriter;
 
 import org.exigencecorp.bindgen.Bindable;
 
@@ -24,9 +25,9 @@ public class RedirectOnClickPage extends AbstractPage {
     }
 
     @Override
-    public boolean onRender() {
+    public void render(HtmlWriter w) {
+        super.render(w);
         RedirectOnClickPage.rendered.next();
-        return false;
     }
 
     public void submit() {

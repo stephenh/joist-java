@@ -7,6 +7,4 @@ public interface Page extends Container {
 
     void onInit();
 
-    boolean onRender();
-
 }

@@ -3,6 +3,7 @@ package joist.web.pages;
 import joist.util.TestCounter;
 import joist.web.AbstractPage;
 import joist.web.ClickKeywords;
+import joist.web.util.HtmlWriter;
 
 public class RedirectOnInitPage extends AbstractPage {
 
@@ -14,9 +15,9 @@ public class RedirectOnInitPage extends AbstractPage {
     }
 
     @Override
-    public boolean onRender() {
+    public void render(HtmlWriter w) {
+        super.render(w);
         RedirectOnInitPage.rendered.next();
-        return false;
     }
 
 }

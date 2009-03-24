@@ -1,14 +1,16 @@
 package joist.web;
 
 import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import joist.util.Log;
+import joist.web.exceptions.IoException;
 import joist.web.util.ControlRenderableAdapter;
+import joist.web.util.HtmlWriter;
 
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
 public class DefaultPageProcessor implements PageProcessor {
@@ -29,9 +31,10 @@ public class DefaultPageProcessor implements PageProcessor {
         } catch (RedirectException re) {
             try {
                 CurrentContext.get().getResponse().sendRedirect(re.getUrl());
+                return;
             } catch (IOException io) {
+                throw new IoException(io);
             }
-            return;
         }
         this.doAddFieldsToModel(page);
         this.doAddFlashToModel(page);
@@ -75,23 +78,17 @@ public class DefaultPageProcessor implements PageProcessor {
     }
 
     protected void doRender(Page page) {
-        Log.debug("Calling onRender on {}", page);
-        boolean okayToContinue = page.onRender();
-        if (!okayToContinue) {
-            return;
-        }
+        // Should be done by the page?
+        this.getContext().getResponse().setContentType("text/html");
+        Writer w;
         try {
-            String template = this.getPageResolver().getTemplateFromPage(page.getClass().getName());
-            Log.debug("Rendering {} for {}", template, page);
-            this.getContext().getResponse().setContentType("text/html");
-            this.getVelocityEngine().mergeTemplate(
-                template,
-                "UTF-8",
-                new VelocityContext(this.getModel()),
-                this.getContext().getResponse().getWriter());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            w = this.getContext().getResponse().getWriter();
+        } catch (IOException io) {
+            throw new IoException(io);
         }
+        HtmlWriter hw = new HtmlWriter(w);
+        page.render(hw);
+        hw.close();
     }
 
     protected void doResetFlash(Page page) {

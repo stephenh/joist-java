@@ -4,9 +4,8 @@ import joist.web.AbstractPage;
 
 public class RenderHelloUserPage extends AbstractPage {
     @Override
-    public boolean onRender() {
+    public void onInit() {
         this.addModel("username", "bob");
-        return true;
     }
 
 }

@@ -2,7 +2,7 @@ package joist.web;
 
 import java.util.List;
 
-public interface Container {
+public interface Container extends Control {
 
     void addControl(Control control);
 

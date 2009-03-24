@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import joist.web.exceptions.IoException;
+
 public abstract class ClickServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1;
@@ -28,16 +30,21 @@ public abstract class ClickServlet extends HttpServlet {
         ClickContext context = new ClickContext(this.servletConfig, this.clickConfig, request, response);
         CurrentContext.set(context);
 
+        try {
+            Page page = this.getPage(context);
+            context.setPage(page);
+            page.getProcessor().process(page);
+        } catch (IoException io) {
+            throw io.getCause();
+        }
+    }
+
+    protected Page getPage(ClickContext context) {
         // Get the path, e.g. /page.htm (without the webapp context)
         String path = context.getRequest().getServletPath();
         String className = context.getClickConfig().getPageResolver().getPageFromPath(path);
-
         try {
-            Page page = (Page) Class.forName(className).newInstance();
-            context.setPage(page);
-
-            PageProcessor processor = page.getProcessor();
-            processor.process(page);
+            return (Page) Class.forName(className).newInstance();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

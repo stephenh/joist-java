@@ -12,6 +12,10 @@ public class CurrentContext {
         CurrentContext.CURRENT.set(context);
     }
 
+    public static ClickConfig getConfig() {
+        return CurrentContext.get().getClickConfig();
+    }
+
     public static void addControlToCurrentPage(Control control) {
         if (CurrentContext.get() == null) {
             return;
