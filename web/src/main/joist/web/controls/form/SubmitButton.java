@@ -1,13 +1,13 @@
 package joist.web.controls.form;
 
 import joist.util.Inflector;
+import joist.web.AbstractControl;
 import joist.web.util.HtmlWriter;
 
 import org.exigencecorp.bindgen.NamedBinding;
 
-public class SubmitButton implements Button {
+public class SubmitButton extends AbstractControl implements Button {
 
-    private String id;
     private String label;
     private Runnable runnable;
 
@@ -20,10 +20,12 @@ public class SubmitButton implements Button {
         }
     }
 
+    @Override
     public void onProcess() {
         this.runnable.run();
     }
 
+    @Override
     public void render(HtmlWriter w) {
         w.append("<input id={} name={} type={} value={}/>", this.getId(), this.getId(), "submit", this.getLabel());
     }
@@ -32,14 +34,6 @@ public class SubmitButton implements Button {
         this.setId(id);
         this.setLabel(Inflector.humanize(id));
         return this;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getLabel() {

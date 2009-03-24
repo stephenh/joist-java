@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import joist.util.Inflector;
-import joist.web.Control;
+import joist.web.AbstractControl;
 import joist.web.CurrentContext;
 import joist.web.Page;
 import joist.web.util.HtmlWriter;
@@ -15,12 +15,11 @@ import joist.web.util.TextContent;
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 
-public class PageLink implements Control {
+public class PageLink extends AbstractControl {
 
     private final Class<? extends Page> pageClass;
     private final Map<String, Object> parameters = new LinkedHashMap<String, Object>();
     private final TextContent text = new TextContent();
-    private String id;
 
     public PageLink(Class<? extends Page> pageClass) {
         this.pageClass = pageClass;
@@ -35,17 +34,6 @@ public class PageLink implements Control {
             link.param(e.getKey(), e.getValue()[0]);
         }
         return link;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void onProcess() {
     }
 
     public PageLink params(Object... values) {

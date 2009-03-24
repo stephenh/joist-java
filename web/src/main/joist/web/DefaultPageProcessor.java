@@ -11,22 +11,20 @@ import joist.web.exceptions.IoException;
 import joist.web.util.ControlRenderableAdapter;
 import joist.web.util.HtmlWriter;
 
-import org.apache.velocity.app.VelocityEngine;
-
 public class DefaultPageProcessor implements PageProcessor {
 
     public static final PageProcessor INSTANCE = new DefaultPageProcessor();
 
-    protected DefaultPageProcessor() {
+    public DefaultPageProcessor() {
     }
 
+    @Override
     public void process(Page page) {
         Log.debug("Calling onInit on {}", page);
-        this.doFindFieldsThatAreControls(page);
         this.doSetFieldsFromRequest(page);
         try {
             this.doInit(page);
-            this.doFindFieldsThatAreControls(page); // temporary hack to find fields set in init
+            this.doAddControls(page);
             this.doProcess(page);
         } catch (RedirectException re) {
             try {
@@ -43,33 +41,26 @@ public class DefaultPageProcessor implements PageProcessor {
         this.doResetFlash(page);
     }
 
-    protected void doFindFieldsThatAreControls(Page page) {
-        try {
-            for (Field field : page.getClass().getFields()) {
-                Object value = field.get(page);
-                if (value != null && value instanceof Control) {
-                    Log.debug("Auto-adding field {} as control", field.getName());
-                    page.addControl((Control) value);
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    protected void doInit(Page page) {
+    public void doInit(Page page) {
         Log.debug("Calling onInit on {}", page);
         page.onInit();
     }
 
-    protected void doProcess(Page page) {
-        for (Control control : page.getControls()) {
-            Log.debug("Calling onProcess on {}", control.hashCode());
-            control.onProcess();
+    public void doAddControls(Page page) {
+        for (Control c : CurrentContext.get().getAllControls()) {
+            if (c.getParent() == null && c != page) {
+                Log.debug("Adding {} to page {}", c, page);
+                page.addControl(c);
+            }
         }
     }
 
-    protected void doAdaptControlsInModel(Page page) {
+    public void doProcess(Page page) {
+        Log.debug("Calling doProcess on {}", page);
+        page.onProcess();
+    }
+
+    public void doAdaptControlsInModel(Page page) {
         for (Map.Entry<String, Object> e : CurrentContext.get().getModel().entrySet()) {
             if (e.getValue() instanceof Control) {
                 e.setValue(new ControlRenderableAdapter((Control) e.getValue()));
@@ -77,7 +68,7 @@ public class DefaultPageProcessor implements PageProcessor {
         }
     }
 
-    protected void doRender(Page page) {
+    public void doRender(Page page) {
         // Should be done by the page?
         this.getContext().getResponse().setContentType("text/html");
         Writer w;
@@ -91,11 +82,11 @@ public class DefaultPageProcessor implements PageProcessor {
         hw.close();
     }
 
-    protected void doResetFlash(Page page) {
+    public void doResetFlash(Page page) {
         this.getContext().getFlash().clear();
     }
 
-    protected void doAddFieldsToModel(Page page) {
+    public void doAddFieldsToModel(Page page) {
         try {
             for (Field field : page.getClass().getFields()) {
                 Object value = field.get(page);
@@ -109,13 +100,13 @@ public class DefaultPageProcessor implements PageProcessor {
         }
     }
 
-    protected void doAddFlashToModel(Page page) {
+    public void doAddFlashToModel(Page page) {
         for (Entry<String, Object> e : CurrentContext.get().getFlash().get()) {
             CurrentContext.get().getModel().put(e.getKey(), e.getValue());
         }
     }
 
-    protected void doSetFieldsFromRequest(Page page) {
+    public void doSetFieldsFromRequest(Page page) {
         try {
             // Auto-set request parameters into our page object
             for (Field field : page.getClass().getFields()) {
@@ -135,18 +126,6 @@ public class DefaultPageProcessor implements PageProcessor {
 
     protected ClickContext getContext() {
         return CurrentContext.get();
-    }
-
-    protected VelocityEngine getVelocityEngine() {
-        return this.getContext().getClickConfig().getVelocityEngine();
-    }
-
-    protected PageResolver getPageResolver() {
-        return this.getContext().getClickConfig().getPageResolver();
-    }
-
-    protected Map<String, Object> getModel() {
-        return this.getContext().getModel();
     }
 
 }

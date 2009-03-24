@@ -4,40 +4,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import joist.web.util.HtmlWriter;
-
 /** Base class for Page, Form, Table, etc. */
-public abstract class AbstractContainer implements Container {
+public abstract class AbstractContainer extends AbstractControl {
 
     private final List<Control> controls = new ArrayList<Control>();
     private final List<Control> controlsReadOnly = Collections.unmodifiableList(this.controls);
 
-    public String getId() {
-        return null;
-    }
-
-    public void render(HtmlWriter w) {
-    }
-
-    public void onProcess() {
-    }
-
     @Override
-    public void addControl(Control control) {
-        if (!this.controls.contains(control)) {
-            this.controls.add(control);
+    public void onProcess() {
+        for (Control control : this.getControls()) {
+            control.onProcess();
         }
     }
 
-    @Override
-    public List<Control> getControls() {
-        return this.controlsReadOnly;
+    public void addControl(Control control) {
+        this.controls.add(control);
+        control.setParent(this);
     }
 
-    public HttpSession getSession() {
-        return CurrentContext.get().getRequest().getSession();
+    public List<Control> getControls() {
+        return this.controlsReadOnly;
     }
 
 }

@@ -3,26 +3,15 @@ package joist.web.controls;
 import java.util.ArrayList;
 import java.util.List;
 
-import joist.web.Control;
+import joist.web.AbstractControl;
 import joist.web.util.HtmlWriter;
 
-
-public class ErrorsDiv implements Control {
+public class ErrorsDiv extends AbstractControl {
 
     private final List<String> errors = new ArrayList<String>();
-    private String id;
 
     public ErrorsDiv() {
-        this.id = "Errors";
-    }
-
-    @Override
-    public String getId() {
-        return this.id;
-    }
-
-    @Override
-    public void onProcess() {
+        this.setId("Errors");
     }
 
     public void add(String error) {

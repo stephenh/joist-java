@@ -10,4 +10,8 @@ public interface Control {
 
     void render(HtmlWriter w);
 
+    Control getParent();
+
+    void setParent(Control c);
+
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joist.util.Inflector;
+import joist.web.AbstractControl;
 import joist.web.ClickContext;
 import joist.web.CurrentContext;
 import joist.web.Page;
@@ -11,9 +12,8 @@ import joist.web.Page;
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 
-public abstract class AbstractField<T extends AbstractField<T>> implements Field {
+public abstract class AbstractField<T extends AbstractField<T>> extends AbstractControl implements Field {
 
-    private String id;
     private String label;
     private Binding<?> binding;
 
@@ -59,17 +59,9 @@ public abstract class AbstractField<T extends AbstractField<T>> implements Field
     protected abstract T getThis();
 
     public T id(String id) {
-        this.id = id;
+        this.setId(id);
         this.setLabel(Inflector.humanize(id));
         return this.getThis();
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getLabel() {

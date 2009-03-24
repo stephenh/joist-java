@@ -6,26 +6,24 @@ import java.util.List;
 import joist.util.Inflector;
 import joist.util.Join;
 import joist.util.Log;
+import joist.web.AbstractControl;
 import joist.web.ClickContext;
-import joist.web.Control;
 import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
 import org.apache.commons.lang.StringUtils;
 
-public class Form implements Control {
+public class Form extends AbstractControl {
 
     private final List<Field> fields = new ArrayList<Field>();
     private final List<Button> buttons = new ArrayList<Button>();
-    private String id;
     private String heading;
 
     public Form(String id) {
-        CurrentContext.addControlToCurrentPage(this);
-        this.id = id;
-        this.setHeading(Inflector.humanize(id));
+        this.id(id);
     }
 
+    @Override
     public void onProcess() {
         String submittedFormName = this.getContext().getRequest().getParameter("_formId");
         if (submittedFormName == null || !StringUtils.equals(this.getId(), submittedFormName)) {
@@ -40,14 +38,23 @@ public class Form implements Control {
         }
     }
 
+    public Form id(String id) {
+        this.setId(id);
+        this.setHeading(Inflector.humanize(id));
+        return this;
+    }
+
     public void add(Field field) {
         this.fields.add(field);
+        field.setParent(this);
     }
 
     public void add(Button button) {
         this.buttons.add(button);
+        button.setParent(this);
     }
 
+    @Override
     public void render(HtmlWriter w) {
         this.renderStartTags(w);
         this.renderHeadingTags(w);
@@ -87,10 +94,6 @@ public class Form implements Control {
 
     protected void renderEndTags(HtmlWriter w) {
         w.line("</form>");
-    }
-
-    public String getId() {
-        return this.id;
     }
 
     public String getHeading() {

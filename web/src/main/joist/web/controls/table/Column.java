@@ -10,8 +10,6 @@ public interface Column extends Control {
 
     void renderHeader(HtmlWriter sb);
 
-    void setTable(Table<?> table);
-
     void setCurrentRowIndex(Integer index);
 
 }

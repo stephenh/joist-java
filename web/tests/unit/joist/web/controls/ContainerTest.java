@@ -2,6 +2,7 @@ package joist.web.controls;
 
 import joist.web.AbstractPage;
 import joist.web.CurrentContext;
+import joist.web.DefaultPageProcessor;
 import joist.web.controls.form.Form;
 import junit.framework.Assert;
 
@@ -18,6 +19,7 @@ public class ContainerTest extends AbstractClickControlTest {
     public void testWithForm() {
         CurrentContext.get().setPage(this.page);
         Form f = new Form("f");
+        new DefaultPageProcessor().doAddControls(this.page);
         Assert.assertEquals(true, this.page.getControls().contains(f));
     }
 

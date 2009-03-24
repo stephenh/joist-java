@@ -1,10 +1,16 @@
 package joist.web;
 
-public interface Page extends Container {
+import java.util.List;
+
+public interface Page extends Control {
 
     /** Called immediately after the page is instantiated to get its processor. */
     PageProcessor getProcessor();
 
     void onInit();
+
+    void addControl(Control c);
+
+    List<Control> getControls();
 
 }

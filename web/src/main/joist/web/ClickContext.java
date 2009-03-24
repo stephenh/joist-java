@@ -16,7 +16,7 @@ public class ClickContext {
     private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final Map<String, Object> model = new HashMap<String, Object>();
-    private final List<Control> prePageSetControls = new ArrayList<Control>();
+    private final List<Control> allControls = new ArrayList<Control>();
     private Page page;
 
     public ClickContext(ServletConfig servletConfig, ClickConfig clickConfig, HttpServletRequest request, HttpServletResponse response) {
@@ -26,12 +26,8 @@ public class ClickContext {
         this.response = response;
     }
 
-    public void addControlToCurrentPage(Control control) {
-        if (this.getPage() == null) {
-            this.prePageSetControls.add(control);
-        } else {
-            this.getPage().addControl(control);
-        }
+    public void addControl(Control control) {
+        this.allControls.add(control);
     }
 
     public Page getPage() {
@@ -77,6 +73,10 @@ public class ClickContext {
 
     public Map<String, Object> getModel() {
         return this.model;
+    }
+
+    public List<Control> getAllControls() {
+        return this.allControls;
     }
 
 }

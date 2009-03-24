@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joist.util.Inflector;
-import joist.web.Control;
+import joist.web.AbstractControl;
 import joist.web.controls.PageLink;
 import joist.web.util.HtmlWriter;
 
 import org.exigencecorp.bindgen.Binding;
 
 // Should extend AbstractContainer?
-public class Table<T> implements Control {
+public class Table<T> extends AbstractControl {
 
-    private String id;
     private String label;
     private List<Column> columns = new ArrayList<Column>();
     private List<T> list = new ArrayList<T>();
@@ -27,13 +26,6 @@ public class Table<T> implements Control {
         this.setLabel(Inflector.humanize(id));
     }
 
-    public String getId() {
-        return this.id;
-    }
-
-    public void onProcess() {
-    }
-
     public void setList(List<T> list) {
         this.list = list;
     }
@@ -44,9 +36,10 @@ public class Table<T> implements Control {
 
     public void addColumn(Column column) {
         this.columns.add(column);
-        column.setTable(this);
+        column.setParent(this);
     }
 
+    @Override
     public void render(HtmlWriter w) {
         this.renderHeader(w);
         this.renderRows(w);
@@ -157,10 +150,6 @@ public class Table<T> implements Control {
 
     public void setLabel(String label) {
         this.label = label;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Binding<Number> getPageNumber() {
