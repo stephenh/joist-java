@@ -111,11 +111,9 @@ public class DefaultPageProcessor implements PageProcessor {
             // Auto-set request parameters into our page object
             for (Field field : page.getClass().getFields()) {
                 String value = this.getContext().getRequest().getParameter(field.getName());
-                if (value == null) {
-                    Log.debug("No request parameter for {}", field.getName());
-                } else {
+                if (value != null) {
+                    Log.debug("Setting {}.{} to {}", page, field.getName(), value);
                     Object converted = this.getContext().getClickConfig().getUrlConverterRegistry().convert(value, field.getType());
-                    Log.debug("Setting {}.{} with request parameter {}", page, field.getName(), converted);
                     field.set(page, converted);
                 }
             }
