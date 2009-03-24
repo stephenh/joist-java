@@ -17,9 +17,9 @@ import org.exigencecorp.bindgen.Binding;
 
 public class PageLink implements Control {
 
+    private final Class<? extends Page> pageClass;
     private final Map<String, Object> parameters = new LinkedHashMap<String, Object>();
     private final TextContent text = new TextContent();
-    private final Class<? extends Page> pageClass;
     private String id;
 
     public PageLink(Class<? extends Page> pageClass) {
@@ -89,8 +89,14 @@ public class PageLink implements Control {
 
     public String getHrefWithoutContext() {
         String path = CurrentContext.get().getClickConfig().getPageResolver().getPathFromPage(this.pageClass.getName());
+        path += this.getQueryString();
+        return path;
+    }
+
+    protected String getQueryString() {
+        String qs = "";
         if (this.parameters.size() > 0) {
-            path += "?";
+            qs += "?";
             for (Map.Entry<String, Object> entry : this.parameters.entrySet()) {
                 Object value = entry.getValue();
                 // We delay evaluating bindings until here in case they have changed since addParameter was called, e.g. in Tables on each row
@@ -98,11 +104,11 @@ public class PageLink implements Control {
                     value = ((Binding<?>) value).get();
                 }
                 String valueAsString = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(value, String.class);
-                path += entry.getKey() + "=" + valueAsString + "&";
+                qs += entry.getKey() + "=" + valueAsString + "&";
             }
-            path = StringUtils.stripEnd(path, "&"); // Strip last &
+            qs = StringUtils.stripEnd(qs, "&"); // Strip last &
         }
-        return path;
+        return qs;
     }
 
     public PageLink text(Object text) {
