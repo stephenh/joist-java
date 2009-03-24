@@ -14,15 +14,10 @@ public class SubmitButton implements Button {
     public SubmitButton(Runnable runnable) {
         this.runnable = runnable;
         if (runnable instanceof NamedBinding) {
-            this.setId(((NamedBinding) runnable).getName());
+            this.id(((NamedBinding) runnable).getName());
         } else {
-            this.setId("Submit");
+            this.id("submit");
         }
-    }
-
-    public SubmitButton(String id, Runnable runnable) {
-        this.setId(id);
-        this.runnable = runnable;
     }
 
     public void onProcess() {
@@ -33,15 +28,18 @@ public class SubmitButton implements Button {
         w.append("<input id={} name={} type={} value={}/>", this.getId(), this.getId(), "submit", this.getLabel());
     }
 
+    public SubmitButton id(String id) {
+        this.setId(id);
+        this.setLabel(Inflector.humanize(id));
+        return this;
+    }
+
     public String getId() {
         return this.id;
     }
 
     public void setId(String id) {
         this.id = id;
-        if (this.label == null) {
-            this.setLabel(Inflector.humanize(id));
-        }
     }
 
     public String getLabel() {
