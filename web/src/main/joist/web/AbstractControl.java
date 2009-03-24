@@ -1,6 +1,13 @@
 package joist.web;
 
-public abstract class AbstractControl implements Control {
+import java.io.Writer;
+
+import joist.web.util.HtmlWriter;
+
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.Renderable;
+
+public abstract class AbstractControl implements Control, Renderable {
 
     private String id;
     private Control parent;
@@ -10,6 +17,12 @@ public abstract class AbstractControl implements Control {
     }
 
     public void onProcess() {
+    }
+
+    @Override
+    public final boolean render(InternalContextAdapter context, Writer writer) {
+        this.render(new HtmlWriter(writer));
+        return true;
     }
 
     public String getFullId() {

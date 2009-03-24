@@ -3,12 +3,10 @@ package joist.web;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import joist.util.Log;
 import joist.web.exceptions.IoException;
-import joist.web.util.ControlRenderableAdapter;
 import joist.web.util.HtmlWriter;
 
 public class DefaultPageProcessor implements PageProcessor {
@@ -33,7 +31,6 @@ public class DefaultPageProcessor implements PageProcessor {
         this.doAddAllControlsToModel(page);
         this.doAddFieldsToModel(page);
         this.doAddFlashToModel(page);
-        this.doAdaptControlsInModel(page);
         this.doRender(page);
         this.doResetFlash(page);
     }
@@ -105,14 +102,6 @@ public class DefaultPageProcessor implements PageProcessor {
     public void doAddFlashToModel(Page page) {
         for (Entry<String, Object> e : CurrentContext.get().getFlash().entrySet()) {
             CurrentContext.get().getModel().put(e.getKey(), e.getValue());
-        }
-    }
-
-    public void doAdaptControlsInModel(Page page) {
-        for (Map.Entry<String, Object> e : CurrentContext.get().getModel().entrySet()) {
-            if (e.getValue() instanceof Control) {
-                e.setValue(new ControlRenderableAdapter((Control) e.getValue()));
-            }
         }
     }
 
