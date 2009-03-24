@@ -16,4 +16,16 @@ public class ClickKeywords {
         return new Table<T>(name);
     }
 
+    public static void addModel(String key, Object value) {
+        CurrentContext.get().getModel().put(key, value);
+    }
+
+    public static Object getSession(String key) {
+        return CurrentContext.get().getRequest().getSession().getAttribute(key);
+    }
+
+    public static void setSession(String key, Object value) {
+        CurrentContext.get().getRequest().getSession().setAttribute(key, value);
+    }
+
 }
