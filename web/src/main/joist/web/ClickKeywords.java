@@ -12,6 +12,11 @@ public class ClickKeywords {
         throw new RedirectException(url);
     }
 
+    public static void redirect(Class<? extends Page> pageClass) {
+        String path = CurrentContext.get().getClickConfig().getPageResolver().getPathFromPage(pageClass.getName());
+        throw new RedirectException(path);
+    }
+
     public static <T> Table<T> table(String name) {
         return new Table<T>(name);
     }
