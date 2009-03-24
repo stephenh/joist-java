@@ -24,6 +24,7 @@ public class DefaultPageProcessor implements PageProcessor {
         this.doSetFieldsFromRequest(page);
         try {
             this.doInit(page);
+            this.doFindFieldsThatAreControls(page); // temporary hack to find fields set in init
             this.doProcess(page);
         } catch (RedirectException re) {
             try {
@@ -44,7 +45,7 @@ public class DefaultPageProcessor implements PageProcessor {
             for (Field field : page.getClass().getFields()) {
                 Object value = field.get(page);
                 if (value != null && value instanceof Control) {
-                    Log.debug("Auto-adding field {}", field.getName());
+                    Log.debug("Auto-adding field {} as control", field.getName());
                     page.addControl((Control) value);
                 }
             }
@@ -102,7 +103,7 @@ public class DefaultPageProcessor implements PageProcessor {
             for (Field field : page.getClass().getFields()) {
                 Object value = field.get(page);
                 if (value != null) {
-                    Log.debug("Auto-adding field {}", field.getName());
+                    Log.debug("Auto-adding field {} to model", field.getName());
                     CurrentContext.get().getModel().put(field.getName(), value);
                 }
             }
