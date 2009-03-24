@@ -19,7 +19,7 @@ public class PageLinkColumn extends AbstractColumn<PageLinkColumn> {
 
     @Override
     public void render(HtmlWriter sb) {
-        this.pageLink.setId(this.getFullId() + ".link");
+        this.pageLink.setId(this.getFullId() + "-link");
         this.pageLink.render(sb);
     }
 

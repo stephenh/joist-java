@@ -11,8 +11,7 @@ public class AddModelAllControlsTest extends AbstractClickPageTest {
 
     public void testFormFieldOnlyInOnInit() throws Exception {
         String body = this.request("/addModelAllControls.htm").set("onlyField", "true").getBody();
-        // Assert.assertEquals("<input id=\"foo-bar\" name=\"bar\" type=\"text\" value=\"\"/>\r\n", body);
-        Assert.assertEquals("${foo-bar}\r\n", body);
+        Assert.assertEquals("<input id=\"foo-bar\" name=\"bar\" type=\"text\" value=\"\"/>\r\n", body);
     }
 
 }

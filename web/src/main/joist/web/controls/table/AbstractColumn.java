@@ -29,8 +29,8 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> extends Abstra
     }
 
     public String getFullId() {
-        String prefix = this.getParent() == null ? "" : this.getParent().getId() + ".";
-        String suffix = this.currentRowIndex == null ? "" : "." + this.currentRowIndex;
+        String prefix = this.getParent() == null ? "" : this.getParent().getId() + "-";
+        String suffix = this.currentRowIndex == null ? "" : "-" + this.currentRowIndex;
         return prefix + this.getId() + suffix;
     }
 

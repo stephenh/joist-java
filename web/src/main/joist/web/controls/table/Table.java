@@ -53,7 +53,7 @@ public class Table<T> extends AbstractControl {
         w.line("  <thead>");
         w.line("    <tr>");
         for (Column column : this.columns) {
-            w.append("      <th id=\"{}.{}\">", this.getId(), column.getId());
+            w.append("      <th id=\"{}\">", column.getFullId());
             column.renderHeader(w);
             w.line("</th>");
         }

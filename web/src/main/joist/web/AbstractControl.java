@@ -14,7 +14,7 @@ public abstract class AbstractControl implements Control {
 
     public String getFullId() {
         if (this.getParent() != null && !(this.getParent() instanceof Page)) {
-            return this.getParent().getId() + "." + this.getId();
+            return this.getParent().getId() + "-" + this.getId();
         } else {
             return this.getId();
         }
