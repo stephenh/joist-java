@@ -27,12 +27,8 @@ public class DefaultPageProcessor implements PageProcessor {
             this.doAddOrphanControlsToPage(page);
             this.doProcess(page);
         } catch (RedirectException re) {
-            try {
-                CurrentContext.get().getResponse().sendRedirect(re.getUrl());
-                return;
-            } catch (IOException io) {
-                throw new IoException(io);
-            }
+            this.doRedirect(re);
+            return;
         }
         this.doAddAllControlsToModel(page);
         this.doAddFieldsToModel(page);
@@ -75,6 +71,14 @@ public class DefaultPageProcessor implements PageProcessor {
     public void doProcess(Page page) {
         Log.debug("Calling doProcess on {}", page);
         page.onProcess();
+    }
+
+    public void doRedirect(RedirectException re) {
+        try {
+            CurrentContext.get().getResponse().sendRedirect(re.getUrl());
+        } catch (IOException io) {
+            throw new IoException(io);
+        }
     }
 
     public void doAddAllControlsToModel(Page page) {
