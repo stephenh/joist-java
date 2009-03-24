@@ -101,9 +101,6 @@ public class Form implements Control {
         this.heading = heading;
     }
 
-    public void onSubmit(Runnable runnable) {
-    }
-
     private ClickContext getContext() {
         return CurrentContext.get();
     }
