@@ -115,15 +115,9 @@ public class DefaultPageProcessor implements PageProcessor {
     public void doRender(Page page) {
         // Should be done by the page?
         this.getContext().getResponse().setContentType("text/html");
-        Writer w;
-        try {
-            w = this.getContext().getResponse().getWriter();
-        } catch (IOException io) {
-            throw new IoException(io);
-        }
-        HtmlWriter hw = new HtmlWriter(w);
-        page.render(hw);
-        hw.close();
+        HtmlWriter w = new HtmlWriter(this.getWriter());
+        page.render(w);
+        w.close();
     }
 
     public void doResetFlash(Page page) {
@@ -132,6 +126,14 @@ public class DefaultPageProcessor implements PageProcessor {
 
     protected ClickContext getContext() {
         return CurrentContext.get();
+    }
+
+    protected Writer getWriter() {
+        try {
+            return this.getContext().getResponse().getWriter();
+        } catch (IOException io) {
+            throw new IoException(io);
+        }
     }
 
 }
