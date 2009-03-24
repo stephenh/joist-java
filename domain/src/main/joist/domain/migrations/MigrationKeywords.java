@@ -68,6 +68,10 @@ public class MigrationKeywords {
         return id;
     }
 
+    public static void dropNotNull(String tableName, String columnName) {
+        Jdbc.update(Migrater.getConnection(), "alter table \"{}\" alter column \"{}\" drop not null", tableName, columnName);
+    }
+
     public static PrimaryKeyColumn primaryKey(String name) {
         return new PrimaryKeyColumn(name);
     }
