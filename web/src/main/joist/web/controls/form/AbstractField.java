@@ -9,7 +9,6 @@ import joist.web.ClickContext;
 import joist.web.CurrentContext;
 import joist.web.Page;
 
-import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 
 public abstract class AbstractField<T extends AbstractField<T>> extends AbstractControl implements Field {
@@ -21,7 +20,7 @@ public abstract class AbstractField<T extends AbstractField<T>> extends Abstract
     }
 
     protected AbstractField(Binding<?> binding) {
-        this.id(StringUtils.capitalize(binding.getName()));
+        this.id(binding.getName());
         this.setBinding(binding);
     }
 

@@ -20,11 +20,11 @@ public class TextFieldTest extends AbstractClickPageTest {
             "<table class=\"clickForm\">",
             "<tr>",
             "<th>Value</th>",
-            "<td><input id=\"Value\" name=\"Value\" type=\"text\" value=\"foo\"/></td>",
+            "<td><input id=\"form.value\" name=\"value\" type=\"text\" value=\"foo\"/></td>",
             "<td>&nbsp;</td>",
             "</tr>",
             "<tr><th>&nbsp;</th><td>",
-            "<input id=\"submit\" name=\"submit\" type=\"submit\" value=\"Submit\"/>",
+            "<input id=\"form.submit\" name=\"submit\" type=\"submit\" value=\"Submit\"/>",
             "</td><td>&nbsp;</td></tr>",
             "</table>",
             "</form>",
@@ -41,15 +41,15 @@ public class TextFieldTest extends AbstractClickPageTest {
             "<table class=\"clickForm\">",
             "<tr>",
             "<th>Value</th>",
-            "<td><input id=\"Value\" name=\"Value\" type=\"text\" value=\"bar\"/></td>",
+            "<td><input id=\"form.value\" name=\"value\" type=\"text\" value=\"bar\"/></td>",
             "<td>&nbsp;</td>",
             "</tr>",
             "<tr><th>&nbsp;</th><td>",
-            "<input id=\"submit\" name=\"submit\" type=\"submit\" value=\"Submit\"/>",
+            "<input id=\"form.submit\" name=\"submit\" type=\"submit\" value=\"Submit\"/>",
             "</td><td>&nbsp;</td></tr>",
             "</table>",
             "</form>",
             "",
-            ""), this.request("/controls/form/textField.htm").set("_formId", "form").set("Value", "bar").postBody());
+            ""), this.request("/controls/form/textField.htm").set("_formId", "form").set("value", "bar").postBody());
     }
 }

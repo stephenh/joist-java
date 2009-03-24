@@ -12,6 +12,14 @@ public abstract class AbstractControl implements Control {
     public void onProcess() {
     }
 
+    public String getFullId() {
+        if (this.getParent() != null && !(this.getParent() instanceof Page)) {
+            return this.getParent().getId() + "." + this.getId();
+        } else {
+            return this.getId();
+        }
+    }
+
     public String getId() {
         return this.id;
     }

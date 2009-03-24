@@ -27,7 +27,7 @@ public class SubmitButton extends AbstractControl implements Button {
 
     @Override
     public void render(HtmlWriter w) {
-        w.append("<input id={} name={} type={} value={}/>", this.getId(), this.getId(), "submit", this.getLabel());
+        w.append("<input id={} name={} type={} value={}/>", this.getFullId(), this.getId(), "submit", this.getLabel());
     }
 
     public SubmitButton id(String id) {

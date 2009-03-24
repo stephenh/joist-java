@@ -29,7 +29,7 @@ public class SelectField<T> extends AbstractField<SelectField<T>> {
 
     @Override
     public void render(HtmlWriter w) {
-        w.line("<select id={} name={}>", this.getId(), this.getId());
+        w.line("<select id={} name={}>", this.getFullId(), this.getId());
         if (this.showBlank) {
             if (this.getBoundValue() == null) {
                 w.line("<option selected=\"selected\" value=\"\"></option>");
