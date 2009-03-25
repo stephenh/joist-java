@@ -1,4 +1,4 @@
-<project name="unit">
+<project name="web.unit">
 
 	<path id="unit.classpath">
 		<pathelement path="bin/main"/>

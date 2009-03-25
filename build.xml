@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <project name="joist" default="jar-all" xmlns:ivy="antlib:org.apache.ivy.ant">
-	<import file="common/ivy.xml"/>
+	<import file="common/ivytargets.xml"/>
 
 	<target name="buildlist" depends="ivy.load">
 		<ivy:buildlist reference="modules">
@@ -16,13 +16,8 @@
 	<target name="jar-all" depends="buildlist" description="jar all">
 		<subant buildpathref="modules" verbose="true">
 			<target name="main.jar"/>
-			<target name="ivy.publish"/>
+			<target name="ivy.publish-local"/>
 		</subant>
-	</target>
-
-	<target name="publish-local-all" depends="buildlist" description="publish-local all">
-		<subant target="main.jar" buildpathref="modules" verbose="true" />
-		<subant target="ivy.publish" buildpathref="modules" verbose="true" />
 	</target>
 
 	<target name="clear-cache">

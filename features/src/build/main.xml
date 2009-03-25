@@ -1,4 +1,4 @@
-<project name="main">
+<project name="features.main">
 
 	<path id="main.classpath">
 		<fileset dir="bin/main.lib" includes="*.jar"/>
