@@ -1,23 +1,23 @@
 <ivysettings>
-	<settings defaultResolver="main"/>
+	<settings defaultResolver="default"/>
 	<include url="${ivy.default.settings.dir}/ivysettings-public.xml"/>
 	<include url="${ivy.default.settings.dir}/ivysettings-local.xml"/>
+	<property name="ivy.joist.default.root" value="${ivy.default.ivy.user.dir}/joist" override="false"/>
 	<resolvers>
-		<!-- Copy/paste from ivysettings-local.xml with checkmodified=true set. -->
-		<!-- Because we publish snapshots locally, we need to set checkmodified=true to skip the cache. -->
-		<filesystem name="local-checkmodified" checkmodified="true">
+		<!-- Copy/paste from ivysettings-local.xml bith with checkmodified/changingPattern to bust the cache for snapshots. -->
+		<filesystem name="local-checkmodified" checkmodified="true" changingPattern=".*SNAPSHOT">
 			<ivy pattern="${ivy.local.default.root}/${ivy.local.default.ivy.pattern}" />
 			<artifact pattern="${ivy.local.default.root}/${ivy.local.default.artifact.pattern}" />
 		</filesystem>
-		<!-- Our local jar cache; eventually will be on the net, I think. -->
-		<filesystem name="jars">
-			<ivy pattern="${ivy.settings.dir}/../jars/[organisation]/[module]/ivys/ivy-[revision].xml"/>
-			<artifact pattern="${ivy.settings.dir}/../jars/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
-		</filesystem>
-		<chain name="main" dual="true">
+		<url name="joist">
+			<ivy pattern="http://joist.ws/repo/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="http://joist.ws/repo/${ivy.local.default.artifact.pattern}" />
+		</url>
+		<!-- Repeating the checkmodified/changingPattern incantation here is very important. -->
+		<chain name="default" checkmodified="true" changingPattern=".*SNAPSHOT">
 			<!-- Check just-published local before our joist repo. -->
 			<resolver ref="local-checkmodified"/>
-			<resolver ref="jars"/>
+			<resolver ref="joist"/>
 			<resolver ref="public"/>
 		</chain>
 	</resolvers>
