@@ -5,7 +5,7 @@
 	<resolvers>
 		<chain name="main" dual="true">
 			<filesystem name="jars">
-				<artifact pattern="${ivy.settings.dir}/jars/[artifact]-[revision](-[classifier]).[ext]" />
+				<artifact pattern="${ivy.settings.dir}/../jars/[artifact]-[revision](-[classifier]).[ext]" />
 			</filesystem>
 			<resolver ref="local"/>
 			<resolver ref="public"/>
