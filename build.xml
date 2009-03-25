@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<project name="joist" default="jar-all" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<import file="common/ivy.xml"/>
+
+	<target name="buildlist" depends="ivy.load">
+		<ivy:buildlist reference="modules">
+			<fileset dir="." includes="**/build.xml" excludes="build.xml,features/build.xml"/>
+		</ivy:buildlist>
+	</target>
+
+	<target name="clean-all" depends="buildlist" description="clean all">
+		<subant target="clean" buildpathref="modules" verbose="true" />
+	</target>
+
+	<target name="jar-all" depends="buildlist" description="jar all">
+		<subant buildpathref="modules" verbose="true">
+			<target name="main.jar"/>
+			<target name="ivy.publish"/>
+		</subant>
+	</target>
+
+	<target name="publish-local-all" depends="buildlist" description="publish-local all">
+		<subant target="main.jar" buildpathref="modules" verbose="true" />
+		<subant target="ivy.publish" buildpathref="modules" verbose="true" />
+	</target>
+
+	<target name="clear-cache">
+		<delete dir="${user.home}/.ivy2/cache/joist"/>
+		<delete dir="${user.home}/.ivy2/local/joist"/>
+		<delete dir="jars/joist"/>
+	</target>
+
+</project>
+

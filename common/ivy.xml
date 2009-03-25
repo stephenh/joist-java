@@ -14,14 +14,19 @@
 	</target>
 
 	<target name="ivy.retrieve" depends="ivy.load" description="downloads jars for the project">
-		<ivy:resolve log="download-only"/>
-		<ivy:retrieve pattern="bin/[conf].lib/[artifact](-[classifier]).[ext]" conf="*" type="jar,source"/>
+		<ivy:resolve/>
+		<ivy:retrieve pattern="bin/[conf].lib/[artifact](-[classifier]).[ext]" conf="*" type="jar"/>
 	</target>
 
-	<target name="ivy.publish" depends="ivy.load" description="publishs the jar for the project">
-		<ivy:resolve log="download-only"/>
+	<target name="ivy.publish-local" depends="ivy.load" description="publishes the jar to your local ivy2 repo">
+		<ivy:resolve/>
 		<ivy:publish resolver="local" conf="main,source" forcedeliver="true" overwrite="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
 		</ivy:publish>
+	</target>
+
+	<target name="ivy.update-jars-repo" depends="ivy.load" description="installs library dependencies into the /jars/ repo">
+		<ivy:resolve/>
+		<ivy:install organisation="${ivy.organisation}" module="${ivy.module}" revision="${ivy.revision}" from="main" to="jars" overwrite="true"/>
 	</target>
 </project>
