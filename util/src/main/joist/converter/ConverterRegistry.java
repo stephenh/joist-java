@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentMap;
 import joist.util.Copy;
 import joist.util.TestCounter;
 
-
 public class ConverterRegistry {
 
     protected static final TestCounter probes = new TestCounter();
@@ -30,7 +29,7 @@ public class ConverterRegistry {
         // This is kind of ugly--Converters were built to be inherently two-way--but they're not
         // always, so look for AbstractOneWayConverter as a marker interface. Maybe eventually go
         // back to one-way-only converters? Dunno.
-        if (!(c instanceof AbstractOneWayConverter)) {
+        if (!(c instanceof AbstractOneWayConverter<?, ?>)) {
             ConverterKey key2 = new ConverterKey(c.getTypeTwo(), c.getTypeOne());
             ConverterStubTwo<T, U> stub2 = new ConverterStubTwo<T, U>(c);
             this.converters.put(key2, stub2);

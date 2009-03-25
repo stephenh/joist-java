@@ -44,7 +44,7 @@ public class PageLink extends AbstractControl {
     }
 
     public PageLink param(Object value) {
-        Class<?> valueType = (value instanceof Binding) ? ((Binding<?>) value).getType() : value.getClass();
+        Class<?> valueType = (value instanceof Binding<?>) ? ((Binding<?>) value).getType() : value.getClass();
         for (Field field : this.pageClass.getFields()) {
             if (field.getType().isAssignableFrom(valueType)) {
                 return this.param(field.getName(), value);
@@ -88,7 +88,7 @@ public class PageLink extends AbstractControl {
             for (Map.Entry<String, Object> entry : this.parameters.entrySet()) {
                 Object value = entry.getValue();
                 // We delay evaluating bindings until here in case they have changed since addParameter was called, e.g. in Tables on each row
-                if (value instanceof Binding) {
+                if (value instanceof Binding<?>) {
                     value = ((Binding<?>) value).get();
                 }
                 String valueAsString = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(value, String.class);
