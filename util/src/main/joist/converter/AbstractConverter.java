@@ -1,6 +1,6 @@
 package joist.converter;
 
-import java.lang.reflect.ParameterizedType;
+import joist.util.ConstructorTypeParameter;
 
 public abstract class AbstractConverter<T, U> implements Converter<T, U> {
 
@@ -9,16 +9,8 @@ public abstract class AbstractConverter<T, U> implements Converter<T, U> {
     protected ConverterRegistry registry;
 
     protected AbstractConverter() {
-        for (Class<?> type = this.getClass(); type != null; type = type.getSuperclass()) {
-            if (type.getSuperclass().equals(AbstractConverter.class) || type.getSuperclass().equals(AbstractOneWayConverter.class)) {
-                ParameterizedType ptype = (ParameterizedType) type.getGenericSuperclass();
-                this.one = (Class<T>) ptype.getActualTypeArguments()[0];
-                this.two = (Class<U>) ptype.getActualTypeArguments()[1];
-                return;
-            }
-        }
-        // Should never happen
-        throw new RuntimeException("Could not infer the types from the AbstractConverter generic superclass");
+        this.one = (Class<T>) ConstructorTypeParameter.of(this).param(AbstractConverter.class, 0).param(AbstractOneWayConverter.class, 0).resolve();
+        this.two = (Class<U>) ConstructorTypeParameter.of(this).param(AbstractConverter.class, 1).param(AbstractOneWayConverter.class, 1).resolve();
     }
 
     public Class<T> getTypeOne() {
