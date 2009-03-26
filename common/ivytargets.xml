@@ -26,16 +26,16 @@
 		<ivy:retrieve pattern="bin/[conf].lib/[artifact](-[classifier]).[ext]" conf="*" type="jar"/>
 	</target>
 
-	<target name="ivy.publish-local" depends="ivy.load" description="publishes the jar to your .ivy2/local/ repo">
+	<target name="ivy.publish-local" depends="ivy.load" description="publishes the jar/source to your .ivy2/local/ repo">
 		<ivy:resolve/>
 		<ivy:publish resolver="local" conf="main,source" forcedeliver="true" overwrite="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>
 
-	<target name="ivy.publish-joist" depends="ivy.load" description="publishes the jar to your .ivy2/joist/ repo">
+	<target name="ivy.publish-joist" depends="jar,ivy.load" description="publishes the jar/source to joist.ws">
 		<ivy:resolve/>
-		<ivy:publish resolver="joist" conf="main,source" forcedeliver="true" overwrite="true">
+		<ivy:publish resolver="joist-upload" conf="main,source" status="release" forcedeliver="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>
