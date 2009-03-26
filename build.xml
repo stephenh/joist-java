@@ -25,6 +25,8 @@
 		<delete dir="${user.home}/.ivy2/local/joist"/>
 		<delete dir="${user.home}/.ivy2/cache/exigencecorp"/>
 		<delete dir="${user.home}/.ivy2/local/exigencecorp"/>
+		<delete dir="${user.home}/.ivy2/cache/timeandmoney"/>
+		<delete dir="${user.home}/.ivy2/cache/velocity"/>
 		<delete dir="jars/joist"/>
 	</target>
 
