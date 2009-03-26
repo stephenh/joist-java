@@ -3,7 +3,7 @@
 	<configurations>
 		<conf name="main"/>
 		<conf name="test" extends="main" visibility="private"/>
-		<conf name="source" description="sources"/>
+		<conf name="sources"/>
 	</configurations>
 	<dependencies>
 		<dependency org="joist" name="domain" rev="SNAPSHOT" conf="main"/>

@@ -28,14 +28,14 @@
 
 	<target name="ivy.publish-local" depends="ivy.load" description="publishes the jar/source to your .ivy2/local/ repo">
 		<ivy:resolve/>
-		<ivy:publish resolver="local" conf="main,source" forcedeliver="true" overwrite="true">
+		<ivy:publish resolver="local" conf="main,sources" forcedeliver="true" overwrite="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>
 
 	<target name="ivy.publish-joist" depends="ivy.load" description="publishes the jar/source to joist.ws">
 		<ivy:resolve/>
-		<ivy:publish resolver="joist-upload" conf="main,source" status="release" forcedeliver="true">
+		<ivy:publish resolver="joist-upload" conf="main,sources" status="release" forcedeliver="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>
