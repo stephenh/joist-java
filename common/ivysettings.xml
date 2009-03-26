@@ -2,7 +2,6 @@
 	<settings defaultResolver="default"/>
 	<include url="${ivy.default.settings.dir}/ivysettings-public.xml"/>
 	<include url="${ivy.default.settings.dir}/ivysettings-local.xml"/>
-	<property name="ivy.joist.default.root" value="${ivy.default.ivy.user.dir}/joist" override="false"/>
 	<resolvers>
 		<!-- Copy/paste from ivysettings-local.xml bith with checkmodified/changingPattern to bust the cache for snapshots. -->
 		<filesystem name="local-checkmodified" checkmodified="true" changingPattern=".*SNAPSHOT">
