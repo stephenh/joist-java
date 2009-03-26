@@ -9,8 +9,8 @@
 			<artifact pattern="${ivy.local.default.root}/${ivy.local.default.artifact.pattern}" />
 		</filesystem>
 		<url name="joist">
-			<ivy pattern="http://joist.ws/repo/${ivy.local.default.ivy.pattern}" />
-			<artifact pattern="http://joist.ws/repo/${ivy.local.default.artifact.pattern}" />
+			<ivy pattern="http://repo.joist.ws/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="http://repo.joist.ws/${ivy.local.default.artifact.pattern}" />
 		</url>
 		<!-- Repeating the checkmodified/changingPattern incantation here is very important. -->
 		<chain name="default" checkmodified="true" changingPattern=".*SNAPSHOT">
