@@ -33,7 +33,7 @@
 		</ivy:publish>
 	</target>
 
-	<target name="ivy.publish-joist" depends="jar,ivy.load" description="publishes the jar/source to joist.ws">
+	<target name="ivy.publish-joist" depends="ivy.load" description="publishes the jar/source to joist.ws">
 		<ivy:resolve/>
 		<ivy:publish resolver="joist-upload" conf="main,source" status="release" forcedeliver="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
