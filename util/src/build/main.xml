@@ -1,7 +1,7 @@
 <project name="util.main">
 
 	<path id="main.classpath">
-		<fileset dir="bin/main.lib" includes="*.jar"/>
+		<fileset dir="bin/lib/main/jars" includes="*.jar"/>
 	</path>
 
 	<target name="main.compile" depends="ivy.retrieve" description="compile src/main/ to bin/main/">

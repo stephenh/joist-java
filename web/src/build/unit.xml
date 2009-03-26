@@ -2,7 +2,7 @@
 
 	<path id="unit.classpath">
 		<pathelement path="bin/main"/>
-		<fileset dir="bin/unit.lib" includes="*.jar"/>
+		<fileset dir="bin/lib/unit/jars" includes="*.jar"/>
 	</path>
 
 	<target name="unit.compile" depends="main.compile" description="compile tests/unit">
