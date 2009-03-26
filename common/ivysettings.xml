@@ -8,10 +8,19 @@
 			<ivy pattern="${ivy.local.default.root}/${ivy.local.default.ivy.pattern}" />
 			<artifact pattern="${ivy.local.default.root}/${ivy.local.default.artifact.pattern}" />
 		</filesystem>
+
+		<!-- For downloading our own jars, e.g. bindgen, timeandmoney, etc. -->
 		<url name="joist">
 			<ivy pattern="http://repo.joist.ws/${ivy.local.default.ivy.pattern}" />
 			<artifact pattern="http://repo.joist.ws/${ivy.local.default.artifact.pattern}" />
 		</url>
+
+		<!-- For uploading releases. -->
+		<ssh name="joist-upload" user="root" host="repo.joist.ws" publishPermissions="0644">
+			<ivy pattern="/var/joist.repo/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" />
+			<artifact pattern="/var/joist.repo/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" />
+		</ssh>
+
 		<!-- Repeating the checkmodified/changingPattern incantation here is very important. -->
 		<chain name="default" checkmodified="true" changingPattern=".*SNAPSHOT">
 			<!-- Check just-published local before our joist repo. -->
