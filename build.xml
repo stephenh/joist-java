@@ -23,6 +23,8 @@
 	<target name="clear-cache">
 		<delete dir="${user.home}/.ivy2/cache/joist"/>
 		<delete dir="${user.home}/.ivy2/local/joist"/>
+		<delete dir="${user.home}/.ivy2/cache/exigencecorp"/>
+		<delete dir="${user.home}/.ivy2/local/exigencecorp"/>
 		<delete dir="jars/joist"/>
 	</target>
 
