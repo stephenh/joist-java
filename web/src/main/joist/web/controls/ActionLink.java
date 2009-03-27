@@ -30,7 +30,7 @@ public class ActionLink extends PageLink {
 
     @Override
     public void onProcess() {
-        if ("true".equals(this.getContext().getRequest().getParameter(this.getId()))) {
+        if ("true".equals(this.getContext().getRequest().getParameter(this.getFullId()))) {
             this.runnable.run();
         }
     }
@@ -41,7 +41,7 @@ public class ActionLink extends PageLink {
 
     @Override
     protected String getQueryString() {
-        this.param(this.getId(), "true");
+        this.param(this.getFullId(), "true");
         return super.getQueryString();
     }
 

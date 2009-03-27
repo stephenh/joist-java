@@ -64,7 +64,7 @@ public class PageLink extends AbstractControl {
 
     public void render(HtmlWriter w) {
         w.start("a");
-        w.attribute("id", this.getId());
+        w.attribute("id", this.getFullId());
         w.attribute("href", this.getHref());
         w.startDone();
         w.append(this.text.get());
