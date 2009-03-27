@@ -21,7 +21,7 @@ public abstract class AbstractControl implements Control, Renderable {
 
     @Override
     public final boolean render(InternalContextAdapter context, Writer writer) {
-        this.render(new HtmlWriter(writer));
+        this.render((writer instanceof HtmlWriter) ? (HtmlWriter) writer : new HtmlWriter(writer));
         return true;
     }
 
