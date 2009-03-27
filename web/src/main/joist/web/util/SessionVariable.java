@@ -47,4 +47,8 @@ public class SessionVariable<T> {
         setSession(this.name, null);
     }
 
+    public boolean isSet() {
+        return this.get() != null;
+    }
+
 }
