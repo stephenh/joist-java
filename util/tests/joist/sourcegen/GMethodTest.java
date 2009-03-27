@@ -2,12 +2,9 @@ package joist.sourcegen;
 
 import java.net.MalformedURLException;
 
-import joist.sourcegen.GClass;
-import joist.sourcegen.GMethod;
 import joist.util.Join;
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
 
 public class GMethodTest extends TestCase {
 
@@ -193,6 +190,21 @@ public class GMethodTest extends TestCase {
             "    }",
             "",
             "    public static <T> void goodbye(T foo) {",
+            "    }",
+            "",
+            "}",
+            "" }), gc.toCode());
+    }
+
+    public void testOverloadedWithNoArguments() {
+        GClass gc = new GClass("foo.bar.Foo");
+        gc.getMethod("hello()");
+        Assert.assertEquals(Join.lines(new Object[] {
+            "package foo.bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    public void hello() {",
             "    }",
             "",
             "}",
