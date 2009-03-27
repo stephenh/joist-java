@@ -18,6 +18,6 @@
 		<!-- end velocity 1.6.1 -->
 		<dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="main->master,sources"/>
 		<dependency org="junit" name="junit" rev="3.8.2" conf="unit->master"/>
-		<dependency org="exigencecorp" name="bindgen" rev="1.1" conf="main->master,sources"/>
+		<dependency org="exigencecorp" name="bindgen" rev="1.2" conf="main->master,sources"/>
 	</dependencies>
 </ivy-module>
