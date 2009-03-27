@@ -109,7 +109,7 @@ public class DefaultPageProcessor implements PageProcessor {
         // Should be done by the page?
         this.getContext().getResponse().setContentType("text/html");
         HtmlWriter w = new HtmlWriter(this.getWriter());
-        page.render(w);
+        page.getLayout().render(w);
         w.close();
     }
 

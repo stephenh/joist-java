@@ -85,9 +85,10 @@ public class PageResolver {
     protected String resolvePathFromPage(String className) {
         String path = StringUtils.removeStart(className, this.basePackageName);
         path = path.replace('.', '/');
-        path = StringUtils.removeEnd(path, "Page");
+        // Change /Foo.htm to /foo.htm
         int lastDot = path.lastIndexOf('/');
         path = StringUtils.replaceOnce(path, "/" + path.charAt(lastDot + 1), ("/" + path.charAt(lastDot + 1)).toLowerCase());
+        path = StringUtils.removeEnd(path, "Page");
         path = path + ".htm";
         return path;
     }
@@ -95,9 +96,19 @@ public class PageResolver {
     protected String resolveTemplateFromPage(String className) {
         String path = "/" + className;
         path = path.replace('.', '/');
-        path = StringUtils.removeEnd(path, "Page");
+        // Change /Foo.htm to /foo.htm
         int lastDot = path.lastIndexOf('/');
         path = StringUtils.replaceOnce(path, "/" + path.charAt(lastDot + 1), ("/" + path.charAt(lastDot + 1)).toLowerCase());
+        // Change /foo$Bar to /foo.bar
+        int lastDollar = path.lastIndexOf('$');
+        if (lastDollar != -1) {
+            path = StringUtils.replaceOnce(path, "$" + path.charAt(lastDollar + 1), ("." + path.charAt(lastDollar + 1)).toLowerCase());
+        }
+        // CHange /fooPage.htm to /foo.htm
+        int pageIndex = path.lastIndexOf("Page");
+        if (pageIndex != -1) {
+            path = StringUtils.substring(path, 0, pageIndex) + StringUtils.substring(path, pageIndex + 4);
+        }
         path = path + ".htm";
         return path;
     }

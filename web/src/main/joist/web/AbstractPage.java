@@ -10,11 +10,16 @@ public abstract class AbstractPage extends AbstractContainer implements Page {
     }
 
     public String getId() {
-        return this.getClass().getName();
+        return "page";
     }
 
     public void render(HtmlWriter w) {
         VelocityRenderer.render(this, w);
+    }
+
+    /** @return the control to render--defaults to this, but could be a layout control */
+    public Control getLayout() {
+        return this;
     }
 
     public PageProcessor getProcessor() {

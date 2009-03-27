@@ -13,4 +13,6 @@ public interface Page extends Control {
 
     List<Control> getControls();
 
+    Control getLayout();
+
 }
