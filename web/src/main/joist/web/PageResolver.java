@@ -3,6 +3,7 @@ package joist.web;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +12,9 @@ import org.apache.commons.lang.StringUtils;
 public class PageResolver {
 
     private static final Pattern fileExtension = Pattern.compile("\\.[A-Za-z]+$");
+    private final ConcurrentHashMap<String, String> pageCache = new ConcurrentHashMap<String, String>();
+    private final ConcurrentHashMap<String, String> pathCache = new ConcurrentHashMap<String, String>();
+    private final ConcurrentHashMap<String, String> templateCache = new ConcurrentHashMap<String, String>();
     private final String basePackageName;
 
     public PageResolver(String basePackageName) {
@@ -27,7 +31,45 @@ public class PageResolver {
         if (path == null || !path.startsWith("/")) {
             throw new RuntimeException("uri must be non null and start with /");
         }
-        // Add caching here
+        String pageClassName = this.pageCache.get(path);
+        if (pageClassName == null) {
+            pageClassName = this.resolvePageFromPath(path);
+            this.pageCache.put(path, pageClassName);
+        }
+        return pageClassName;
+    }
+
+    /**
+     * Maps a class name to a path.
+     *
+     * @param className a class name.g. <code>basePackage.aa.bb.CcPage</code>
+     * @return the page's path, e.g. <code>/aa/bb/cc.htm</code>
+     */
+    public String getPathFromPage(String className) {
+        String path = this.pathCache.get(className);
+        if (path == null) {
+            path = this.resolvePathFromPage(className);
+            this.pathCache.put(className, path);
+        }
+        return path;
+    }
+
+    /**
+     * Maps a class name to a Velocity template.
+     *
+     * @param className a class name.g. <code>basePackage.aa.bb.CcPage</code>
+     * @return the page's template, e.g. <code>/basePackage/aa/bb/cc.htm</code>
+     */
+    public String getTemplateFromPage(String className) {
+        String path = this.templateCache.get(className);
+        if (path == null) {
+            path = this.resolveTemplateFromPage(className);
+            this.templateCache.put(className, path);
+        }
+        return path;
+    }
+
+    protected String resolvePageFromPath(String path) {
         List<String> parts = new ArrayList<String>(Arrays.asList(path.substring(1).split("/")));
         // Get the last part to muck with (cc.htm)
         String last = parts.remove(parts.size() - 1);
@@ -40,14 +82,7 @@ public class PageResolver {
         return this.basePackageName + "." + StringUtils.join(parts, '.') + "Page";
     }
 
-    /**
-     * Maps a class name to a path.
-     *
-     * @param className a class name.g. <code>basePackage.aa.bb.CcPage</code>
-     * @return the page's path, e.g. <code>/aa/bb/cc.htm</code>
-     */
-    public String getPathFromPage(String className) {
-        // Add caching here
+    protected String resolvePathFromPage(String className) {
         String path = StringUtils.removeStart(className, this.basePackageName);
         path = path.replace('.', '/');
         path = StringUtils.removeEnd(path, "Page");
@@ -57,14 +92,7 @@ public class PageResolver {
         return path;
     }
 
-    /**
-     * Maps a class name to a Velocity template.
-     *
-     * @param className a class name.g. <code>basePackage.aa.bb.CcPage</code>
-     * @return the page's template, e.g. <code>/basePackage/aa/bb/cc.htm</code>
-     */
-    public String getTemplateFromPage(String className) {
-        // Add caching here
+    protected String resolveTemplateFromPage(String className) {
         String path = "/" + className;
         path = path.replace('.', '/');
         path = StringUtils.removeEnd(path, "Page");
@@ -73,4 +101,5 @@ public class PageResolver {
         path = path + ".htm";
         return path;
     }
+
 }
