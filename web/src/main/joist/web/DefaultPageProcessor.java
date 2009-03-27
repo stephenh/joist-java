@@ -21,13 +21,14 @@ public class DefaultPageProcessor implements PageProcessor {
         Log.debug("Calling onInit on {}", page);
         this.doSetFieldsFromRequest(page);
         try {
-            this.doInit(page);
+            this.doOnInit(page);
             this.doAddOrphanControlsToPage(page);
             this.doProcess(page);
         } catch (RedirectException re) {
             this.doRedirect(re);
             return;
         }
+        this.doOnRender(page);
         this.doAddAllControlsToModel(page);
         this.doAddFieldsToModel(page);
         this.doAddFlashToModel(page);
@@ -51,7 +52,7 @@ public class DefaultPageProcessor implements PageProcessor {
         }
     }
 
-    public void doInit(Page page) {
+    public void doOnInit(Page page) {
         Log.debug("Calling onInit on {}", page);
         page.onInit();
     }
@@ -59,7 +60,7 @@ public class DefaultPageProcessor implements PageProcessor {
     public void doAddOrphanControlsToPage(Page page) {
         for (Control c : CurrentContext.get().getAllControls()) {
             if (c.getParent() == null && c != page) {
-                Log.debug("Adding {} to page {}", c, page);
+                Log.debug("Adding orphan control {} to page {}", c, page);
                 page.addControl(c);
             }
         }
@@ -80,7 +81,7 @@ public class DefaultPageProcessor implements PageProcessor {
 
     public void doAddAllControlsToModel(Page page) {
         for (Control c : CurrentContext.get().getAllControls()) {
-            Log.debug("Adding {} to model", c);
+            Log.debug("Adding control {} to model", c.getFullId());
             CurrentContext.get().getModel().put(c.getFullId(), c);
         }
     }
@@ -90,7 +91,7 @@ public class DefaultPageProcessor implements PageProcessor {
             for (Field field : page.getClass().getFields()) {
                 Object value = field.get(page);
                 if (value != null) {
-                    Log.debug("Auto-adding field {} to model", field.getName());
+                    Log.debug("Adding field {} to model", field.getName());
                     CurrentContext.get().getModel().put(field.getName(), value);
                 }
             }
@@ -103,6 +104,11 @@ public class DefaultPageProcessor implements PageProcessor {
         for (Entry<String, Object> e : CurrentContext.get().getFlash().entrySet()) {
             CurrentContext.get().getModel().put(e.getKey(), e.getValue());
         }
+    }
+
+    public void doOnRender(Page page) {
+        Log.debug("Calling onRender on {}", page);
+        page.onRender();
     }
 
     public void doRender(Page page) {

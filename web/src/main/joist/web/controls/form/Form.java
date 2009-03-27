@@ -38,6 +38,16 @@ public class Form extends AbstractControl {
         }
     }
 
+    @Override
+    public void onRender() {
+        for (Field field : this.fields) {
+            field.onRender();
+        }
+        for (Button button : this.buttons) {
+            button.onRender();
+        }
+    }
+
     public Form id(String id) {
         this.setId(id);
         this.setHeading(Inflector.humanize(id));

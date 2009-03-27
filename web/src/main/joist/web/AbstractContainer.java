@@ -17,6 +17,13 @@ public abstract class AbstractContainer extends AbstractControl {
         }
     }
 
+    @Override
+    public void onRender() {
+        for (Control control : this.getControls()) {
+            control.onRender();
+        }
+    }
+
     public void addControl(Control control) {
         this.controls.add(control);
         control.setParent(this);

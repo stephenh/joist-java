@@ -16,7 +16,12 @@ public abstract class AbstractControl implements Control, Renderable {
         CurrentContext.addControl(this);
     }
 
+    @Override
     public void onProcess() {
+    }
+
+    @Override
+    public void onRender() {
     }
 
     @Override

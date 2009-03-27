@@ -10,6 +10,8 @@ public interface Control {
 
     void onProcess();
 
+    void onRender();
+
     void render(HtmlWriter w);
 
     Control getParent();
