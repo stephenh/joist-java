@@ -13,7 +13,7 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
     private String sequenceName = null;
 
     public PrimaryKeyColumn(String name) {
-        super(name);
+        super(name, "int");
     }
 
     public String toSql() {

@@ -40,7 +40,7 @@ public class CreateTableTest extends TestCase {
                 Join
                     .linesWithTickToQuote(
                         "CREATE TABLE 'demographic' (",
-                        "    gender_id int",
+                        "    \"gender_id\" int",
                         ");",
                         "ALTER TABLE 'demographic' ALTER COLUMN 'gender_id' SET NOT NULL;",
                         "ALTER TABLE 'demographic' ADD CONSTRAINT 'constraint_1_owner_isneither_fk' FOREIGN KEY ('gender_id') REFERENCES 'gender' ('id') DEFERRABLE;",

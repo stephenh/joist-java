@@ -5,15 +5,16 @@ public class CharColumn extends AbstractColumn<CharColumn> {
     private Integer length;
 
     public CharColumn(String name, Integer length) {
-        super(name);
+        super(name, "char");
         this.length = length;
     }
 
     public String toSql() {
         if (this.length != null) {
-            return this.getName() + " char(" + this.length + "),";
+            return this.getQuotedName() + " char(" + this.length + "),";
+        } else {
+            return super.toSql();
         }
-        return this.getName() + " char,";
     }
 
 }

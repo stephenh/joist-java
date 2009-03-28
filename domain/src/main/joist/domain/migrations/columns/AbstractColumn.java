@@ -1,16 +1,19 @@
 package joist.domain.migrations.columns;
 
 import joist.util.StringBuilderr;
+import joist.util.Wrap;
 
 public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Column {
 
     private final String name;
+    private final String dataType;
     private String tableName;
     private boolean nullable = false;
     private boolean unique = false;
 
-    protected AbstractColumn(String name) {
+    protected AbstractColumn(String name, String dataType) {
         this.name = name;
+        this.dataType = dataType;
     }
 
     public T nullable() {
@@ -27,6 +30,10 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
         return this.name;
     }
 
+    public String getQuotedName() {
+        return Wrap.quotes(this.name);
+    }
+
     public String getTableName() {
         return this.tableName;
     }
@@ -36,7 +43,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
     }
 
     public String toSql() {
-        throw new IllegalStateException("The concrete column class must override us");
+        return this.getQuotedName() + " " + this.getDataType() + ",";
     }
 
     public void preInjectCommands(StringBuilderr sb) {
@@ -58,6 +65,10 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
 
     private boolean isUnique() {
         return this.unique;
+    }
+
+    public String getDataType() {
+        return this.dataType;
     }
 
 }

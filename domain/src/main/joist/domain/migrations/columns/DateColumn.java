@@ -4,11 +4,7 @@ package joist.domain.migrations.columns;
 public class DateColumn extends AbstractColumn<DateColumn> {
 
     public DateColumn(String name) {
-        super(name);
-    }
-
-    public String toSql() {
-        return "\"" + this.getName() + "\" date,";
+        super(name, "date");
     }
 
 }

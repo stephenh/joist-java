@@ -1,13 +1,11 @@
 package joist.domain.migrations.columns;
 
-import joist.util.StringBuilderr;
-
 public class VarcharColumn extends AbstractColumn<VarcharColumn> {
 
     private int length;
 
     public VarcharColumn(String name) {
-        super(name);
+        super(name, "varchar");
         this.length = 100;
     }
 
@@ -17,11 +15,7 @@ public class VarcharColumn extends AbstractColumn<VarcharColumn> {
     }
 
     public String toSql() {
-        return "\"" + this.getName() + "\" varchar(" + this.length + "),";
-    }
-
-    public void postInjectCommands(StringBuilderr sb) {
-        super.postInjectCommands(sb);
+        return this.getQuotedName() + " varchar(" + this.length + "),";
     }
 
 }

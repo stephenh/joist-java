@@ -5,7 +5,7 @@ public class BooleanColumn extends AbstractColumn<BooleanColumn> {
     private Boolean defaultValue = null;
 
     public BooleanColumn(String name) {
-        super(name);
+        super(name, "boolean");
     }
 
     public BooleanColumn defaultTrue() {
@@ -19,7 +19,7 @@ public class BooleanColumn extends AbstractColumn<BooleanColumn> {
     }
 
     public String toSql() {
-        String sql = this.getName() + " boolean";
+        String sql = this.getQuotedName() + " boolean";
         if (this.defaultValue != null) {
             sql += " DEFAULT " + this.defaultValue.toString().toUpperCase() + ",";
         } else {

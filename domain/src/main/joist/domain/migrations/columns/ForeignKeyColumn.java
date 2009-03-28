@@ -15,14 +15,14 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
     };
 
     public ForeignKeyColumn(String otherTable) {
-        super(otherTable + "_id");
+        super(otherTable + "_id", "int");
         this.otherTable = otherTable;
         this.otherTableColumn = "id";
         this.owner = Owner.IsThem;
     }
 
     public ForeignKeyColumn(String columnName, String otherTable, String otherTableColumn) {
-        super(columnName);
+        super(columnName, "int");
         if (!columnName.endsWith("id")) {
             throw new RuntimeException("names of fk columns should end with id");
         }
@@ -39,10 +39,6 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
     public ForeignKeyColumn ownerIsNeither() {
         this.owner = Owner.IsNeither;
         return this;
-    }
-
-    public String toSql() {
-        return this.getName() + " int,";
     }
 
     @Override
