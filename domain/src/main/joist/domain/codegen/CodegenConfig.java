@@ -9,6 +9,7 @@ import java.util.Map;
 import joist.domain.AbstractDomainObject;
 import joist.domain.AbstractQueries;
 import joist.domain.queries.columns.BooleanAliasColumn;
+import joist.domain.queries.columns.ByteArrayAliasColumn;
 import joist.domain.queries.columns.CalendarDateAliasColumn;
 import joist.domain.queries.columns.DateAliasColumn;
 import joist.domain.queries.columns.IdAliasColumn;
@@ -59,7 +60,7 @@ public class CodegenConfig {
         this.setJavaType("smallint", Short.class.getName(), ShortAliasColumn.class.getName());
         this.setJavaType("bigint", Long.class.getName(), LongAliasColumn.class.getName());
         this.setJavaType("boolean", Boolean.class.getName(), BooleanAliasColumn.class.getName());
-        this.setJavaType("bytea", String.class.getName(), StringAliasColumn.class.getName());
+        this.setJavaType("bytea", "byte[]", ByteArrayAliasColumn.class.getName());
         this.setJavaType("date", CalendarDate.class.getName(), CalendarDateAliasColumn.class.getName());
         this.setJavaType("timestamp without time zone", TimePoint.class.getName(), TimePointAliasColumn.class.getName());
     }

@@ -2,6 +2,7 @@ package joist.domain.migrations;
 
 import joist.domain.migrations.columns.BigIntColumn;
 import joist.domain.migrations.columns.BooleanColumn;
+import joist.domain.migrations.columns.ByteaColumn;
 import joist.domain.migrations.columns.Column;
 import joist.domain.migrations.columns.DateColumn;
 import joist.domain.migrations.columns.ForeignKeyColumn;
@@ -86,6 +87,10 @@ public class MigrationKeywords {
 
     public static ForeignKeyColumn foreignKey(String columnName, String otherTable, String otherTableColumn) {
         return new ForeignKeyColumn(columnName, otherTable, otherTableColumn);
+    }
+
+    public static ByteaColumn bytea(String name) {
+        return new ByteaColumn(name);
     }
 
     public static DateColumn date(String name) {
