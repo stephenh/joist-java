@@ -1,6 +1,5 @@
 package joist.domain.validation.rules;
 
-
 import joist.domain.AbstractDomainObject;
 import joist.domain.Shim;
 import joist.domain.validation.ValidationErrors;

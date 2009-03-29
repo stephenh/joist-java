@@ -1,6 +1,5 @@
 package joist.domain.util;
 
-
 import joist.converter.AbstractOneWayConverter;
 import joist.domain.DomainObject;
 

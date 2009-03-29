@@ -10,8 +10,6 @@ import joist.domain.validation.errors.ObjectError;
 import joist.domain.validation.errors.PropertyError;
 import joist.domain.validation.errors.ValidationError;
 
-
-
 public class ValidationErrors {
 
     private static final long serialVersionUID = 1;

@@ -1,6 +1,5 @@
 package joist.domain.validation.errors;
 
-
 import joist.domain.DomainObject;
 import joist.util.Inflector;
 

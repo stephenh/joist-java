@@ -7,8 +7,6 @@ import joist.domain.Requirements;
 import joist.domain.Shim;
 import joist.domain.validation.ValidationErrors;
 
-
-
 public class RegexRule<T extends AbstractDomainObject> implements Rule<T> {
 
     static {

@@ -1,6 +1,5 @@
 package joist.domain.util;
 
-
 import joist.domain.DomainObject;
 import joist.domain.uow.UoW;
 

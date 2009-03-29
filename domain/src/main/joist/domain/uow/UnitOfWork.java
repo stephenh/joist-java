@@ -1,6 +1,5 @@
 package joist.domain.uow;
 
-
 import joist.domain.DomainObject;
 import joist.domain.orm.IdentityMap;
 import joist.domain.orm.Repository;

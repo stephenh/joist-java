@@ -6,9 +6,6 @@ import java.util.EnumSet;
 
 import joist.domain.Code;
 
-
-
-
 public class Codes {
 
     private Codes() {
