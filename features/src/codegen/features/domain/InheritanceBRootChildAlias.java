@@ -41,4 +41,8 @@ public class InheritanceBRootChildAlias extends Alias<InheritanceBRootChild> {
         return null;
     }
 
+    public int getOrder() {
+        return 9;
+    }
+
 }

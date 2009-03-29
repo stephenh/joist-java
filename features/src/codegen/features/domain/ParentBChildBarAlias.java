@@ -41,4 +41,8 @@ public class ParentBChildBarAlias extends Alias<ParentBChildBar> {
         return null;
     }
 
+    public int getOrder() {
+        return 23;
+    }
+
 }

@@ -41,4 +41,8 @@ public class ChildAlias extends Alias<Child> {
         return null;
     }
 
+    public int getOrder() {
+        return 21;
+    }
+
 }

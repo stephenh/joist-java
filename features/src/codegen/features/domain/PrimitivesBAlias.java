@@ -54,4 +54,8 @@ public class PrimitivesBAlias extends Alias<PrimitivesB> {
         return null;
     }
 
+    public int getOrder() {
+        return 28;
+    }
+
 }

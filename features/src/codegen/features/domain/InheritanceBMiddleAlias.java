@@ -57,4 +57,8 @@ public class InheritanceBMiddleAlias extends Alias<InheritanceBMiddle> {
         return this.baseAlias;
     }
 
+    public int getOrder() {
+        return 7;
+    }
+
 }

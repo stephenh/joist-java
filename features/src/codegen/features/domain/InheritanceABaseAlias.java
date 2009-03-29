@@ -40,4 +40,8 @@ public class InheritanceABaseAlias extends Alias<InheritanceABase> {
         return null;
     }
 
+    public int getOrder() {
+        return 3;
+    }
+
 }

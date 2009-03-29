@@ -41,6 +41,10 @@ public class ManyToManyBBarAlias extends Alias<ManyToManyBBar> {
         return null;
     }
 
+    public int getOrder() {
+        return 13;
+    }
+
     public <T extends DomainObject> JoinClause<T, ManyToManyBBar> on(ForeignKeyAliasColumn<T, ManyToManyBBar> on) {
         return new JoinClause<T, ManyToManyBBar>("INNER JOIN", this, on);
     }

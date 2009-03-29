@@ -38,4 +38,8 @@ public class ValidationAFooAlias extends Alias<ValidationAFoo> {
         return null;
     }
 
+    public int getOrder() {
+        return 30;
+    }
+
 }
