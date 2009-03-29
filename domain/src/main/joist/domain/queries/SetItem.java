@@ -1,18 +1,19 @@
 package joist.domain.queries;
 
+import joist.domain.DomainObject;
 import joist.domain.queries.columns.AliasColumn;
 
-public class SetItem {
+public class SetItem<T extends DomainObject> {
 
-    private final AliasColumn<?, ?, ?> column;
+    private final AliasColumn<T, ?, ?> column;
     private final Object value;
 
-    public SetItem(AliasColumn<?, ?, ?> column, Object value) {
+    public SetItem(AliasColumn<T, ?, ?> column, Object value) {
         this.column = column;
         this.value = value;
     }
 
-    public AliasColumn<?, ?, ?> getColumn() {
+    public AliasColumn<T, ?, ?> getColumn() {
         return this.column;
     }
 

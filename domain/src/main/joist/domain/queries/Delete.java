@@ -16,20 +16,15 @@ public class Delete<T extends DomainObject> {
     }
 
     private final Alias<T> alias;
-    private final List<List<Object>> allParameters = new ArrayList<List<Object>>();
+    private final List<Object> parameters = new ArrayList<Object>();
     private Where where = null;
 
     private Delete(Alias<T> alias) {
         this.alias = alias;
-        this.allParameters.add(new ArrayList<Object>());
     }
 
-    public void execute() {
-        Jdbc.updateAll(UoW.getConnection(), this.toSql(), this.getAllParameters());
-    }
-
-    public Alias<T> getAlias() {
-        return this.alias;
+    public int execute() {
+        return Jdbc.update(UoW.getConnection(), this.toSql(), this.parameters);
     }
 
     public Delete<T> where(Where where) {
@@ -37,24 +32,19 @@ public class Delete<T extends DomainObject> {
             throw new RuntimeException("Already set");
         }
         this.where = where;
-        this.where.stripLeadingAliasForUpdates(this.getAlias().getName());
-        this.allParameters.get(0).addAll(where.getParameters());
+        this.parameters.addAll(where.getParameters());
         return this;
     }
 
     public String toSql() {
         StringBuilderr s = new StringBuilderr();
         s.append("DELETE FROM ");
-        s.line(Wrap.quotes(this.getAlias().getTableName()));
+        s.line(Wrap.quotes(this.alias.getTableName()));
         if (this.where != null) {
-            s.line(" WHERE {}", this.where);
+            s.line(" WHERE {}", this.where.getSqlWithoutAliasPrefix(this.alias.getName()));
         }
         s.stripTrailingNewLine();
         return s.toString();
-    }
-
-    public List<List<Object>> getAllParameters() {
-        return this.allParameters;
     }
 
 }

@@ -68,10 +68,6 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
         return this.name;
     }
 
-    public boolean skipUpdate() {
-        return this.getName().equals("id") || this.getName().equals("version");
-    }
-
     public Alias<T> getAlias() {
         return this.alias;
     }

@@ -9,81 +9,57 @@ import joist.jdbc.Jdbc;
 import joist.util.StringBuilderr;
 import joist.util.Wrap;
 
+/** A class for issuing UPDATEs against a table with custom SETs and WHERE clauses. */
 public class Update<T extends DomainObject> {
 
-    private final String aliasName;
-    private final String tableName;
-    private final List<String> columnNames = new ArrayList<String>();
-    private final List<List<Object>> allParameters = new ArrayList<List<Object>>();
-    private final boolean isTemplate;
+    private final Alias<T> alias;
+    private final List<SetItem<T>> setItems = new ArrayList<SetItem<T>>();
     private Where where = null;
 
     public static <T extends DomainObject> Update<T> into(Alias<T> alias) {
-        return new Update<T>(alias, false);
+        return new Update<T>(alias);
     }
 
-    public static <T extends DomainObject> Update<T> intoTemplate(Alias<T> alias) {
-        return new Update<T>(alias, true);
+    private Update(Alias<T> alias) {
+        this.alias = alias;
     }
 
-    private Update(Alias<T> alias, boolean isTemplate) {
-        this.aliasName = alias.getName();
-        this.tableName = alias.getTableName();
-        this.isTemplate = isTemplate;
-        if (!isTemplate) {
-            this.allParameters.add(new ArrayList<Object>());
-        }
-    }
-
-    public List<Integer> execute() {
-        return Jdbc.updateAll(UoW.getConnection(), this.toSql(), this.getAllParameters());
-    }
-
-    public void set(SetItem setItem) {
-        this.columnNames.add(setItem.getColumn().getName());
-        if (!this.isTemplate) {
-            this.allParameters.get(0).add(setItem.getValue());
-        }
+    public void set(SetItem<T> setItem) {
+        this.setItems.add(setItem);
     }
 
     public void where(Where where) {
-        if (this.where != null) {
-            throw new RuntimeException("Already set");
-        }
         this.where = where;
-        this.where.stripLeadingAliasForUpdates(this.aliasName);
-        if (!this.isTemplate) {
-            this.allParameters.get(0).addAll(where.getParameters());
-        }
     }
 
-    public void addColumnName(String name) {
-        this.columnNames.add(name);
-    }
-
-    public void addMoreParameters(List<Object> parameters) {
-        this.allParameters.add(parameters);
-    }
-
-    public List<List<Object>> getAllParameters() {
-        return this.allParameters;
+    public int execute() {
+        return Jdbc.update(UoW.getConnection(), this.toSql(), this.getParameters());
     }
 
     public String toSql() {
         StringBuilderr s = new StringBuilderr();
-        s.line("UPDATE {}", Wrap.quotes(this.tableName));
+        s.line("UPDATE {}", Wrap.quotes(this.alias.getTableName()));
         s.append(" SET ");
-        for (String columnName : this.columnNames) {
-            s.append(Wrap.quotes(columnName));
+        for (SetItem<T> c : this.setItems) {
+            s.append(Wrap.quotes(c.getColumn().getName()));
             s.append(" = ?, ");
         }
         s.stripLastCommaSpace();
         s.line();
         if (this.where != null) {
-            s.line(" WHERE {}", this.where.getSql());
+            s.line(" WHERE {}", this.where.getSqlWithoutAliasPrefix(this.alias.getName()));
         }
         s.stripTrailingNewLine();
         return s.toString();
+    }
+
+    public List<Object> getParameters() {
+        List<Object> parameters = new ArrayList<Object>();
+        for (SetItem<T> item : this.setItems) {
+            parameters.add(item.getValue());
+        }
+        parameters.addAll(this.where.getParameters());
+        return parameters;
     }
 
 }

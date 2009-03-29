@@ -6,8 +6,8 @@ import joist.util.Copy;
 
 public class Where {
 
-    private String sql;
-    private List<Object> parameters;
+    private final String sql;
+    private final List<Object> parameters;
 
     private static Where makeAnd(Where... clauses) {
         String sql = clauses[0].sql;
@@ -33,10 +33,6 @@ public class Where {
         return Where.makeAnd(this, other);
     }
 
-    public void stripLeadingAliasForUpdates(String aliasName) {
-        this.sql = this.sql.replaceAll(aliasName + "\\.", "");
-    }
-
     public String toString() {
         return this.sql;
     }
@@ -47,6 +43,10 @@ public class Where {
 
     public String getSql() {
         return this.sql;
+    }
+
+    public String getSqlWithoutAliasPrefix(String aliasName) {
+        return this.sql.replaceAll(aliasName + "\\.", "");
     }
 
 }

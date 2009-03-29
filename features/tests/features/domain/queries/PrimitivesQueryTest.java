@@ -64,7 +64,7 @@ public class PrimitivesQueryTest extends TestCase {
     }
 
     private List<Object> toParameters(Update<Primitives> q) {
-        return q.getAllParameters().get(0);
+        return q.getParameters();
     }
 
 }

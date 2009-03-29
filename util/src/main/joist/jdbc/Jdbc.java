@@ -126,7 +126,7 @@ public class Jdbc {
         }
     }
 
-    public static void update(Connection connection, String sql, List<Object> parameters) {
+    public static int update(Connection connection, String sql, List<Object> parameters) {
         PreparedStatement ps = null;
         try {
             Log.trace("sql = {}", sql);
@@ -135,7 +135,7 @@ public class Jdbc {
             for (int i = 0; i < parameters.size(); i++) {
                 ps.setObject(i + 1, parameters.get(i));
             }
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException se) {
             throw new JdbcException(se);
         } finally {
@@ -143,7 +143,19 @@ public class Jdbc {
         }
     }
 
-    public static List<Integer> updateAll(Connection connection, String sql, List<List<Object>> allParameters) {
+    public static int update(DataSource ds, String sql, List<Object> parameters) {
+        Connection connection = null;
+        try {
+            connection = ds.getConnection();
+            return Jdbc.update(connection, sql, parameters);
+        } catch (SQLException se) {
+            throw new JdbcException(se);
+        } finally {
+            Jdbc.closeSafely(connection);
+        }
+    }
+
+    public static List<Integer> updateBatch(Connection connection, String sql, List<List<Object>> allParameters) {
         List<Integer> changed = new ArrayList<Integer>();
         PreparedStatement ps = null;
         try {

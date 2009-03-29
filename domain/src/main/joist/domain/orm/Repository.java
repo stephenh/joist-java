@@ -1,9 +1,7 @@
 package joist.domain.orm;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -11,18 +9,16 @@ import java.util.Map.Entry;
 import javax.sql.DataSource;
 
 import joist.domain.DomainObject;
+import joist.domain.orm.impl.IdAssigner;
+import joist.domain.orm.impl.InstanceInserter;
+import joist.domain.orm.impl.InstanceUpdater;
+import joist.domain.orm.impl.SortedInstances;
 import joist.domain.queries.Alias;
 import joist.domain.queries.Delete;
-import joist.domain.queries.Insert;
 import joist.domain.queries.Select;
-import joist.domain.queries.Update;
-import joist.domain.queries.columns.AliasColumn;
 import joist.domain.uow.UoW;
 import joist.jdbc.Jdbc;
-import joist.jdbc.RowMapper;
 import joist.registry.LazyResource;
-import joist.util.Join;
-import joist.util.MapToList;
 
 public class Repository {
 
@@ -47,29 +43,21 @@ public class Repository {
     }
 
     public <T extends DomainObject> void store(Set<T> instances) {
-        MapToList<Class<T>, T> byClassInserts = new MapToList<Class<T>, T>();
-        MapToList<Class<T>, T> byClassUpdates = new MapToList<Class<T>, T>();
-        for (T instance : instances) {
-            if (instance.isNew()) {
-                byClassInserts.add(instance.getClass(), instance);
-            } else {
-                byClassUpdates.add(instance.getClass(), instance);
-            }
+        SortedInstances<T> sorted = new SortedInstances<T>(instances);
+        new IdAssigner().assignIds(sorted.inserts);
+        for (Entry<Class<T>, List<T>> entry : sorted.inserts.entrySet()) {
+            InstanceInserter.get(entry.getKey()).insert(entry.getValue());
         }
-        this.assignIds(byClassInserts);
-        for (Entry<Class<T>, List<T>> entry : byClassInserts.entrySet()) {
-            this.batchInserts(entry.getKey(), entry.getValue());
-        }
-        for (Entry<Class<T>, List<T>> entry : byClassUpdates.entrySet()) {
-            this.batchUpdates(entry.getKey(), entry.getValue());
+        for (Entry<Class<T>, List<T>> entry : sorted.updates.entrySet()) {
+            InstanceUpdater.get(entry.getKey()).update(entry.getValue());
         }
     }
 
     public void open() {
+        if (Repository.datasource == null) {
+            throw new RuntimeException("The repository database has not been configured.");
+        }
         try {
-            if (Repository.datasource == null) {
-                throw new RuntimeException("The repository database has not been configured.");
-            }
             this.connection = Repository.datasource.get().getConnection();
             this.connection.setAutoCommit(false);
             Jdbc.update(this.connection, "SET CONSTRAINTS ALL DEFERRED;");
@@ -112,105 +100,4 @@ public class Repository {
         return this.connection;
     }
 
-    private <T extends DomainObject> void batchInserts(Class<T> domainClass, List<T> instances) {
-        Alias<? super T> current = AliasRegistry.get(domainClass);
-        while (current != null) {
-            Insert<? super T> q = Insert.intoTemplate(current);
-            for (AliasColumn<? super T, ?, ?> column : current.getColumns()) {
-                q.addColumnName(column.getName());
-            }
-            if (!current.isRootClass()) {
-                q.addColumnName(current.getIdColumn().getName());
-            }
-            for (T instance : instances) {
-                List<Object> parameters = new ArrayList<Object>();
-                for (AliasColumn<? super T, ?, ?> column : current.getColumns()) {
-                    parameters.add(column.getJdbcValue(instance));
-                }
-                if (!current.isRootClass()) {
-                    parameters.add(current.getIdColumn().getJdbcValue(instance));
-                }
-                q.addMoreParameters(parameters);
-            }
-            q.execute();
-            current = current.getBaseClassAlias();
-        }
-    }
-
-    private <T extends DomainObject> void batchUpdates(Class<T> domainClass, List<T> instances) {
-        Alias<? super T> current = AliasRegistry.get(domainClass);
-        while (current != null) {
-            Update<? super T> q = Update.intoTemplate(current);
-            for (AliasColumn<? super T, ?, ?> c : current.getColumns()) {
-                if (!c.skipUpdate()) {
-                    q.addColumnName(c.getName());
-                }
-            }
-            if (current.isRootClass()) {
-                q.addColumnName(current.getVersionColumn().getName());
-                q.where(current.getIdColumn().equals(0).and(current.getVersionColumn().equals(0)));
-            } else {
-                q.where(current.getSubClassIdColumn().equals(0));
-            }
-            for (T instance : instances) {
-                List<Object> parameters = new ArrayList<Object>();
-                for (AliasColumn<? super T, ?, ?> c : current.getColumns()) {
-                    if (!c.skipUpdate()) {
-                        parameters.add(c.getJdbcValue(instance));
-                    }
-                }
-                if (current.isRootClass()) {
-                    parameters.add(instance.getVersion() + 1);
-                    parameters.add(current.getIdColumn().getJdbcValue(instance));
-                    parameters.add(current.getVersionColumn().getJdbcValue(instance));
-                    current.getVersionColumn().setJdbcValue(instance, instance.getVersion() + 1);
-                } else {
-                    parameters.add(current.getIdColumn().getJdbcValue(instance));
-                }
-                q.addMoreParameters(parameters);
-            }
-            List<Integer> changed = q.execute();
-            for (int i = 0; i < changed.size(); i++) {
-                if (changed.get(i).intValue() != 1) {
-                    throw new RuntimeException("Op lock failed for " + instances.get(i));
-                }
-            }
-            current = current.getBaseClassAlias();
-        }
-    }
-
-    private <T extends DomainObject> void assignIds(MapToList<Class<T>, T> byClassInserts) {
-        List<String> allSql = new ArrayList<String>();
-        for (Entry<Class<T>, List<T>> entry : byClassInserts.entrySet()) {
-            String sql = "select nextval('" + AliasRegistry.get(entry.getKey()).getRootClassAlias().getTableName() + "_id_seq')";
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                if (entry.getValue().get(i).getId() != null) {
-                    AliasRegistry.get(entry.getKey()).getVersionColumn().setJdbcValue(entry.getValue().get(i), 0);
-                    continue; // skip new objects that got manually assigned an id
-                }
-                allSql.add(sql);
-            }
-        }
-
-        if (allSql.size() == 0) {
-            return;
-        }
-
-        final List<Integer> ids = new ArrayList<Integer>();
-        Jdbc.query(this.connection, Join.join(allSql, " UNION ALL "), new RowMapper() {
-            public void mapRow(ResultSet rs) throws SQLException {
-                ids.add(rs.getInt(1));
-            }
-        });
-
-        int i = 0;
-        for (Entry<Class<T>, List<T>> entry : byClassInserts.entrySet()) {
-            Alias<T> t = AliasRegistry.get(entry.getKey());
-            for (T instance : entry.getValue()) {
-                int id = ids.get(i++);
-                instance.setId(id);
-                t.getVersionColumn().setJdbcValue(instance, 0);
-            }
-        }
-    }
 }

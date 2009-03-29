@@ -1,6 +1,5 @@
 package joist.domain.queries.columns;
 
-
 import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.queries.Alias;
@@ -12,7 +11,7 @@ public class BooleanAliasColumn<T extends DomainObject> extends AliasColumn<T, B
         super(alias, name, shim);
     }
 
-    public SetItem to(Boolean value) {
-        return new SetItem(this, value);
+    public SetItem<T> to(Boolean value) {
+        return new SetItem<T>(this, value);
     }
 }

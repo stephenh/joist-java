@@ -6,8 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import joist.domain.DomainObject;
 import joist.domain.queries.Alias;
 
-
-
 public class AliasRegistry {
 
     private static final Map<Class<?>, Alias<?>> aliases = new ConcurrentHashMap<Class<?>, Alias<?>>();

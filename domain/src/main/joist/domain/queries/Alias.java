@@ -8,8 +8,6 @@ import joist.domain.queries.columns.AliasColumn;
 import joist.domain.queries.columns.IdAliasColumn;
 import joist.domain.queries.columns.IntAliasColumn;
 
-
-
 /**
  * @param T the domain class to query against
  */
