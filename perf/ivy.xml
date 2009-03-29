@@ -1,0 +1,18 @@
+<ivy-module version="2.0">
+	<info organisation="joist" module="perf" revision="SNAPSHOT"/>
+	<configurations>
+		<conf name="main"/>
+		<conf name="test" extends="main" visibility="private"/>
+		<conf name="sources"/>
+	</configurations>
+	<dependencies>
+		<dependency org="joist" name="features" rev="SNAPSHOT" conf="main"/>
+		<dependency org="joist" name="domain" rev="SNAPSHOT" conf="main"/>
+		<dependency org="org.hibernate" name="hibernate" rev="3.2.6.ga" conf="main->*">
+			<exclude org="javax.transaction"/>
+			<exclude org="javax.security"/>
+		</dependency>
+		<dependency org="geronimo-spec" name="geronimo-spec-jta" rev="1.0.1B-rc4"/>
+		<dependency org="com.sun.japex" name="japex" rev="1.1.7" conf="main->*"/>
+	</dependencies>
+</ivy-module>

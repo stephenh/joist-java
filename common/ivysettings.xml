@@ -23,6 +23,8 @@
 
 		<!-- they have webdriver -->
 		<ibiblio name="openqa" root="http://nexus.openqa.org/content/repositories/releases/" m2compatible="true"/>
+		<!-- For japex. -->
+		<ibiblio name="java.net" root="http://download.java.net/maven/1/" pattern="[organization]/jars/[module]-[revision].[ext]" />
 
 		<!-- Repeating the checkmodified/changingPattern incantation here is very important. -->
 		<chain name="default" checkmodified="true" changingPattern=".*SNAPSHOT">
@@ -31,6 +33,7 @@
 			<resolver ref="joist"/>
 			<resolver ref="public"/>
 			<resolver ref="openqa"/>
+			<resolver ref="java.net"/>
 		</chain>
 	</resolvers>
 </ivysettings>

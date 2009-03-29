@@ -10,7 +10,7 @@ import joist.util.Log;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;
 
-public abstract class AbstractPgWithc3p0DataSourceFactory implements ResourceFactory<DataSource> {
+public class AbstractPgWithc3p0DataSourceFactory implements ResourceFactory<DataSource> {
 
     static {
         AbstractPgWithc3p0DataSourceFactory.setDefaultc3p0Flags();
@@ -30,7 +30,7 @@ public abstract class AbstractPgWithc3p0DataSourceFactory implements ResourceFac
     protected int maxPoolSize = 3;
     protected int initialPoolSize = 1;
 
-    protected AbstractPgWithc3p0DataSourceFactory(String databaseName) {
+    public AbstractPgWithc3p0DataSourceFactory(String databaseName) {
         this.databaseName = databaseName;
         this.user = databaseName + "_role";
         this.password = databaseName + "_role";
