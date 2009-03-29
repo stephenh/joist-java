@@ -32,6 +32,8 @@ public abstract class Alias<T extends DomainObject> {
 
     public abstract IdAliasColumn<T> getSubClassIdColumn();
 
+    public abstract int getOrder();
+
     public String getTableName() {
         return this.tableName;
     }

@@ -1,6 +1,7 @@
 package joist.domain.orm.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class InstanceInserter<T extends DomainObject> {
             this.steps.add(new Step<T>(current));
             current = current.getBaseClassAlias();
         }
+        Collections.reverse(this.steps); // do base classes first
     }
 
     public void insert(List<T> instances) {

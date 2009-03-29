@@ -25,12 +25,14 @@ public class ManyToOneProperty {
     private String constraintName;
     private String columnName;
     private OneToManyProperty oneToManyProperty;
+    private boolean isNotNull;
 
     public ManyToOneProperty(Entity manySide, InformationSchemaColumn column) {
         this.config = manySide.config;
         this.manySide = manySide;
         this.columnName = column.name;
         this.constraintName = column.foreignKeyConstraintName;
+        this.isNotNull = !column.nullable;
         this.assertValidConstraintName();
     }
 
@@ -97,6 +99,10 @@ public class ManyToOneProperty {
 
     public String getSetterAccessLevel() {
         return this.config.getSetterAccess(this.manySide.getTableName(), this.columnName);
+    }
+
+    public boolean isNotNull() {
+        return this.isNotNull;
     }
 
 }

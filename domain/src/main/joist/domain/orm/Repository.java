@@ -17,7 +17,6 @@ import joist.domain.queries.Alias;
 import joist.domain.queries.Delete;
 import joist.domain.queries.Select;
 import joist.domain.uow.UoW;
-import joist.jdbc.Jdbc;
 import joist.registry.LazyResource;
 
 public class Repository {
@@ -45,8 +44,8 @@ public class Repository {
     public <T extends DomainObject> void store(Set<T> instances) {
         SortedInstances<T> sorted = new SortedInstances<T>(instances);
         new IdAssigner().assignIds(sorted.inserts);
-        for (Entry<Class<T>, List<T>> entry : sorted.inserts.entrySet()) {
-            InstanceInserter.get(entry.getKey()).insert(entry.getValue());
+        for (Class<T> key : sorted.insertsByForeignKey) {
+            InstanceInserter.get(key).insert(sorted.inserts.get(key));
         }
         for (Entry<Class<T>, List<T>> entry : sorted.updates.entrySet()) {
             InstanceUpdater.get(entry.getKey()).update(entry.getValue());
@@ -60,7 +59,6 @@ public class Repository {
         try {
             this.connection = Repository.datasource.get().getConnection();
             this.connection.setAutoCommit(false);
-            Jdbc.update(this.connection, "SET CONSTRAINTS ALL DEFERRED;");
         } catch (SQLException se) {
             throw new RuntimeException(se);
         }

@@ -20,10 +20,12 @@ import joist.sourcegen.GField;
 import joist.sourcegen.GMethod;
 import joist.util.Copy;
 import joist.util.Interpolate;
+import joist.util.TopologicalSort;
 
 public class GenerateAliasesPass implements Pass {
 
     public void pass(Codegen codegen) {
+        List<Entity> sorted = this.getEntitiesSortedByForeignKeys(codegen);
         for (Entity entity : codegen.getEntities().values()) {
             if (entity.isCodeEntity()) {
                 continue;
@@ -40,6 +42,8 @@ public class GenerateAliasesPass implements Pass {
             this.addPrimitiveColumns(aliasClass, entity);
             this.addManyToOneColumns(codegen, aliasClass, entity);
             this.addInheritedColumns(aliasClass, entity);
+
+            this.addOrderMethod(aliasClass, sorted.indexOf(entity));
         }
     }
 
@@ -184,6 +188,29 @@ public class GenerateAliasesPass implements Pass {
         for (GMethod constructor : aliasClass.getConstructors()) {
             constructor.body.line(line);
         }
+    }
+
+    private List<Entity> getEntitiesSortedByForeignKeys(Codegen codegen) {
+        TopologicalSort<Entity> ts = new TopologicalSort<Entity>();
+        for (Entity entity : codegen.getEntities().values()) {
+            ts.addNode(entity);
+        }
+        for (Entity entity : codegen.getEntities().values()) {
+            if (entity.isSubclass()) {
+                ts.addDependency(entity, entity.getBaseEntity());
+            }
+            for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+                if (mtop.isNotNull()) {
+                    ts.addDependency(entity, mtop.getOneSide());
+                }
+            }
+        }
+        return ts.sort();
+    }
+
+    private void addOrderMethod(GClass aliasClass, int index) {
+        GMethod order = aliasClass.getMethod("getOrder").returnType(int.class);
+        order.body.line("return {};", index);
     }
 
 }
