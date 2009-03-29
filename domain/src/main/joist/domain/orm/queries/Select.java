@@ -1,4 +1,4 @@
-package joist.domain.queries;
+package joist.domain.orm.queries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,8 @@ import joist.domain.exceptions.TooManyException;
 import joist.domain.orm.mappers.DataTransferObjectMapper;
 import joist.domain.orm.mappers.DomainObjectMapper;
 import joist.domain.orm.mappers.IdsMapper;
-import joist.domain.queries.columns.AliasColumn;
-import joist.domain.queries.columns.IdAliasColumn;
+import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.IdAliasColumn;
 import joist.domain.uow.UoW;
 import joist.jdbc.Jdbc;
 import joist.jdbc.RowMapper;

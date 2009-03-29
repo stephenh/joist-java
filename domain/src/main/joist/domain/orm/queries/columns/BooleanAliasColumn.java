@@ -1,9 +1,9 @@
-package joist.domain.queries.columns;
+package joist.domain.orm.queries.columns;
 
 import joist.domain.DomainObject;
 import joist.domain.Shim;
-import joist.domain.queries.Alias;
-import joist.domain.queries.SetItem;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.SetItem;
 
 public class BooleanAliasColumn<T extends DomainObject> extends AliasColumn<T, Boolean, Boolean> {
 

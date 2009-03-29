@@ -1,10 +1,10 @@
-package joist.domain.queries.columns;
+package joist.domain.orm.queries.columns;
 
 
 import joist.domain.DomainObject;
 import joist.domain.Shim;
-import joist.domain.queries.Alias;
-import joist.domain.queries.Where;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.Where;
 
 public class ShortAliasColumn<T extends DomainObject> extends AliasColumn<T, Short, Integer> {
 

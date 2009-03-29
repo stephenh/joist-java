@@ -1,6 +1,6 @@
-package joist.domain.queries;
+package joist.domain.orm.queries;
 
-import joist.domain.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.AliasColumn;
 
 public class SelectItem {
 

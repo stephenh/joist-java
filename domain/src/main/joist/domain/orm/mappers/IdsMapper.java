@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import joist.domain.DomainObject;
-import joist.domain.queries.Alias;
+import joist.domain.orm.queries.Alias;
 import joist.jdbc.RowMapper;
 
 public class IdsMapper<T extends DomainObject> implements RowMapper {

@@ -3,8 +3,8 @@ package features.domain.queries;
 import java.util.List;
 
 import joist.domain.AbstractQueries;
-import joist.domain.queries.Select;
-import joist.domain.queries.Update;
+import joist.domain.orm.queries.Select;
+import joist.domain.orm.queries.Update;
 import features.domain.Primitives;
 import features.domain.PrimitivesAlias;
 

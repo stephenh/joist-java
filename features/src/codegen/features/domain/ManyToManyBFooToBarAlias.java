@@ -2,11 +2,11 @@ package features.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import joist.domain.queries.Alias;
-import joist.domain.queries.columns.AliasColumn;
-import joist.domain.queries.columns.ForeignKeyAliasColumn;
-import joist.domain.queries.columns.IdAliasColumn;
-import joist.domain.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
+import joist.domain.orm.queries.columns.IdAliasColumn;
+import joist.domain.orm.queries.columns.IntAliasColumn;
 
 public class ManyToManyBFooToBarAlias extends Alias<ManyToManyBFooToBar> {
 

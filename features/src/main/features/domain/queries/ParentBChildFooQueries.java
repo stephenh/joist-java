@@ -3,7 +3,7 @@ package features.domain.queries;
 import java.util.List;
 
 import joist.domain.AbstractQueries;
-import joist.domain.queries.Select;
+import joist.domain.orm.queries.Select;
 import features.domain.ParentBChildFoo;
 import features.domain.ParentBChildFooAlias;
 import features.domain.ParentBParentAlias;

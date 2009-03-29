@@ -1,10 +1,10 @@
-package joist.domain.queries;
+package joist.domain.orm.queries;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import joist.domain.DomainObject;
-import joist.domain.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.uow.UoW;
 import joist.jdbc.Jdbc;
 import joist.util.StringBuilderr;

@@ -7,8 +7,8 @@ import java.util.List;
 import joist.domain.DomainObject;
 import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.IdentityMap;
-import joist.domain.queries.Alias;
-import joist.domain.queries.columns.AliasColumn;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.uow.UoW;
 import joist.jdbc.RowMapper;
 

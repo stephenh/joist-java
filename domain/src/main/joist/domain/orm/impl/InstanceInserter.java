@@ -8,8 +8,8 @@ import java.util.Map;
 
 import joist.domain.DomainObject;
 import joist.domain.orm.AliasRegistry;
-import joist.domain.queries.Alias;
-import joist.domain.queries.columns.AliasColumn;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.uow.UoW;
 import joist.jdbc.Jdbc;
 import joist.util.StringBuilderr;

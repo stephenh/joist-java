@@ -1,4 +1,4 @@
-package joist.domain.queries;
+package joist.domain.orm.queries;
 
 import java.util.ArrayList;
 import java.util.List;

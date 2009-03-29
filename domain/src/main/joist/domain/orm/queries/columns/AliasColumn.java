@@ -1,11 +1,11 @@
-package joist.domain.queries.columns;
+package joist.domain.orm.queries.columns;
 
 import joist.domain.DomainObject;
 import joist.domain.Shim;
-import joist.domain.queries.Alias;
-import joist.domain.queries.Order;
-import joist.domain.queries.SelectItem;
-import joist.domain.queries.Where;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.Order;
+import joist.domain.orm.queries.SelectItem;
+import joist.domain.orm.queries.Where;
 
 /**
  * @param T the domain object type

@@ -8,16 +8,16 @@ import java.util.Map;
 
 import joist.domain.AbstractDomainObject;
 import joist.domain.AbstractQueries;
-import joist.domain.queries.columns.BooleanAliasColumn;
-import joist.domain.queries.columns.ByteArrayAliasColumn;
-import joist.domain.queries.columns.CalendarDateAliasColumn;
-import joist.domain.queries.columns.DateAliasColumn;
-import joist.domain.queries.columns.IdAliasColumn;
-import joist.domain.queries.columns.IntAliasColumn;
-import joist.domain.queries.columns.LongAliasColumn;
-import joist.domain.queries.columns.ShortAliasColumn;
-import joist.domain.queries.columns.StringAliasColumn;
-import joist.domain.queries.columns.TimePointAliasColumn;
+import joist.domain.orm.queries.columns.BooleanAliasColumn;
+import joist.domain.orm.queries.columns.ByteArrayAliasColumn;
+import joist.domain.orm.queries.columns.CalendarDateAliasColumn;
+import joist.domain.orm.queries.columns.DateAliasColumn;
+import joist.domain.orm.queries.columns.IdAliasColumn;
+import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
+import joist.domain.orm.queries.columns.ShortAliasColumn;
+import joist.domain.orm.queries.columns.StringAliasColumn;
+import joist.domain.orm.queries.columns.TimePointAliasColumn;
 
 import com.domainlanguage.time.CalendarDate;
 import com.domainlanguage.time.TimePoint;

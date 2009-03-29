@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import joist.domain.DomainObject;
-import joist.domain.queries.Alias;
-import joist.domain.queries.Select;
-import joist.domain.queries.columns.ForeignKeyAliasColumn;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.Select;
+import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.uow.UoW;
 import joist.util.Copy;
 

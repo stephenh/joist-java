@@ -2,13 +2,13 @@ package features.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import joist.domain.queries.Alias;
-import joist.domain.queries.columns.AliasColumn;
-import joist.domain.queries.columns.BooleanAliasColumn;
-import joist.domain.queries.columns.IdAliasColumn;
-import joist.domain.queries.columns.IntAliasColumn;
-import joist.domain.queries.columns.LongAliasColumn;
-import joist.domain.queries.columns.ShortAliasColumn;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.BooleanAliasColumn;
+import joist.domain.orm.queries.columns.IdAliasColumn;
+import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
+import joist.domain.orm.queries.columns.ShortAliasColumn;
 
 public class PrimitivesBAlias extends Alias<PrimitivesB> {
 

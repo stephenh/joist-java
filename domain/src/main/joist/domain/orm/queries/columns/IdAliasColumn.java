@@ -1,11 +1,11 @@
-package joist.domain.queries.columns;
+package joist.domain.orm.queries.columns;
 
 import java.util.List;
 
 import joist.domain.DomainObject;
 import joist.domain.Shim;
-import joist.domain.queries.Alias;
-import joist.domain.queries.Where;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.Where;
 import joist.util.Join;
 
 /**

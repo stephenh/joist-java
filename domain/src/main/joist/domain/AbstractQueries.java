@@ -3,8 +3,8 @@ package joist.domain;
 import java.util.List;
 
 import joist.domain.orm.AliasRegistry;
-import joist.domain.queries.Alias;
-import joist.domain.queries.Select;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.Select;
 import joist.domain.uow.UoW;
 
 

@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 import joist.domain.DomainObject;
 import joist.domain.orm.AliasRegistry;
-import joist.domain.queries.Alias;
+import joist.domain.orm.queries.Alias;
 import joist.domain.uow.UoW;
 import joist.jdbc.Jdbc;
 import joist.jdbc.RowMapper;

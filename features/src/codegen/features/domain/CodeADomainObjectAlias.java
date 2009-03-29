@@ -2,12 +2,12 @@ package features.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import joist.domain.queries.Alias;
-import joist.domain.queries.columns.AliasColumn;
-import joist.domain.queries.columns.CodeAliasColumn;
-import joist.domain.queries.columns.IdAliasColumn;
-import joist.domain.queries.columns.IntAliasColumn;
-import joist.domain.queries.columns.StringAliasColumn;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.CodeAliasColumn;
+import joist.domain.orm.queries.columns.IdAliasColumn;
+import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class CodeADomainObjectAlias extends Alias<CodeADomainObject> {
 

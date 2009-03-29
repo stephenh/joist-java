@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import joist.domain.DomainObject;
-import joist.domain.queries.Alias;
+import joist.domain.orm.queries.Alias;
 
 public class AliasRegistry {
 

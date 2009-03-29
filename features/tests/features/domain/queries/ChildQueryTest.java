@@ -1,6 +1,6 @@
 package features.domain.queries;
 
-import joist.domain.queries.Select;
+import joist.domain.orm.queries.Select;
 import joist.util.Copy;
 import joist.util.Join;
 import junit.framework.Assert;

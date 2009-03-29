@@ -1,4 +1,4 @@
-package joist.domain.queries;
+package joist.domain.orm.queries;
 
 public class Order {
 

@@ -1,8 +1,8 @@
-package joist.domain.queries;
+package joist.domain.orm.queries;
 
 import joist.domain.DomainObject;
-import joist.domain.queries.columns.ForeignKeyAliasColumn;
-import joist.domain.queries.columns.IdAliasColumn;
+import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
+import joist.domain.orm.queries.columns.IdAliasColumn;
 import joist.util.Join;
 import joist.util.Wrap;
 

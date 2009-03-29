@@ -1,12 +1,12 @@
-package joist.domain.queries;
+package joist.domain.orm.queries;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import joist.domain.DomainObject;
-import joist.domain.queries.columns.AliasColumn;
-import joist.domain.queries.columns.IdAliasColumn;
-import joist.domain.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.IdAliasColumn;
+import joist.domain.orm.queries.columns.IntAliasColumn;
 
 /**
  * @param T the domain class to query against

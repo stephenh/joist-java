@@ -2,8 +2,8 @@ package features.domain.queries;
 
 import java.util.List;
 
-import joist.domain.queries.Select;
-import joist.domain.queries.Update;
+import joist.domain.orm.queries.Select;
+import joist.domain.orm.queries.Update;
 import joist.util.Copy;
 import junit.framework.Assert;
 import junit.framework.TestCase;

@@ -13,9 +13,9 @@ import joist.domain.orm.impl.IdAssigner;
 import joist.domain.orm.impl.InstanceInserter;
 import joist.domain.orm.impl.InstanceUpdater;
 import joist.domain.orm.impl.SortedInstances;
-import joist.domain.queries.Alias;
-import joist.domain.queries.Delete;
-import joist.domain.queries.Select;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.Delete;
+import joist.domain.orm.queries.Select;
 import joist.domain.uow.UoW;
 import joist.registry.LazyResource;
 
