@@ -1,16 +1,17 @@
 package joist.domain.orm.queries;
 
+import joist.domain.DomainObject;
 import joist.domain.orm.queries.columns.AliasColumn;
 
-public class SelectItem {
+public class SelectItem<T extends DomainObject> {
 
     private final String text;
 
-    public SelectItem(AliasColumn<?, ?, ?> column) {
+    public SelectItem(AliasColumn<T, ?, ?> column) {
         this.text = column.getQualifiedName();
     }
 
-    public SelectItem(AliasColumn<?, ?, ?> column, String as) {
+    public SelectItem(AliasColumn<T, ?, ?> column, String as) {
         this.text = column.getQualifiedName() + " as " + as;
     }
 

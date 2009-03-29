@@ -56,8 +56,8 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
         return new Where(this.getQualifiedName() + " = ?", value);
     }
 
-    public SelectItem as(String as) {
-        return new SelectItem(this, as);
+    public SelectItem<T> as(String as) {
+        return new SelectItem<T>(this, as);
     }
 
     public String getQualifiedName() {

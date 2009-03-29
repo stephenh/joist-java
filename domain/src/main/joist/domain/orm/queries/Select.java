@@ -28,7 +28,7 @@ public class Select<T extends DomainObject> {
 
     private final Alias<T> from;
     private final List<JoinClause<?, ?>> joins = new ArrayList<JoinClause<?, ?>>();
-    private final List<SelectItem> selectItems = new ArrayList<SelectItem>();
+    private final List<SelectItem<T>> selectItems = new ArrayList<SelectItem<T>>();
     private Where where = null;
     private Order[] orderBy = null;
     private Integer limit;
@@ -37,7 +37,7 @@ public class Select<T extends DomainObject> {
     private Select(Alias<T> alias) {
         this.from = alias;
         for (AliasColumn<T, ?, ?> c : alias.getColumns()) {
-            this.selectItems.add(new SelectItem(c));
+            this.selectItems.add(new SelectItem<T>(c));
         }
         this.addInnerJoinsForBaseClasses();
         this.addOuterJoinsForSubClasses();
@@ -47,7 +47,7 @@ public class Select<T extends DomainObject> {
         this.joins.add(join);
     }
 
-    public void select(SelectItem... selectItems) {
+    public void select(SelectItem<T>... selectItems) {
         this.selectItems.clear();
         this.selectItems.addAll(Copy.list(selectItems));
     }
@@ -121,7 +121,7 @@ public class Select<T extends DomainObject> {
         countQuery.where = this.where;
         countQuery.offset = this.offset;
         countQuery.limit = this.limit;
-        countQuery.select(new SelectItem("count(distinct " + this.from.getIdColumn().getQualifiedName() + ") as count"));
+        countQuery.select(new SelectItem<T>("count(distinct " + this.from.getIdColumn().getQualifiedName() + ") as count"));
         return countQuery.unique(Count.class).count;
     }
 
