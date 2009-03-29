@@ -22,7 +22,6 @@ public class TextArea extends AbstractField<TextArea> {
             this.getId(),
             this.rows,
             this.columns,
-            "text",
             this.getBoundValue());
     }
 

@@ -9,7 +9,7 @@ public class TextAreaTest extends AbstractClickControlTest {
     public void testGet() {
         TextArea t = new TextArea().id("t");
         t.setParent(new Form("form"));
-        Assert.assertEquals("<textarea id=\"form-t\" name=\"t\" rows=\"20\" cols=\"80\">text</textarea>", this.render(t));
+        Assert.assertEquals("<textarea id=\"form-t\" name=\"t\" rows=\"20\" cols=\"80\"></textarea>", this.render(t));
     }
 
     public void testEmptyStringBindsAsNull() {
