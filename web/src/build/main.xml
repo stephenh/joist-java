@@ -6,17 +6,17 @@
 
 	<target name="main.compile" depends="ivy.retrieve" description="compile src/main">
 		<mkdir dir="bin/main"/>
-		<javac srcdir="src" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8"/>
+		<javac srcdir="src/main" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8"/>
 	</target>
 
-	<target name="main.jar" depends="main.compile" description="create the joist.web jar">
+	<target name="main.jar" depends="main.compile,testing.jar" description="create the joist.web jar">
 		<mkdir dir="bin/jars"/>
 		<jar destfile="bin/jars/joist.web.jar">
 			<fileset dir="bin/main" includes="**/*.class"/>
 		</jar>
 		<mkdir dir="bin/sources"/>
 		<zip destfile="bin/sources/joist.web.jar">
-			<fileset dir="src" includes="**/*.java"/>
+			<fileset dir="src/main" includes="**/*.java"/>
 		</zip>
 	</target>
 

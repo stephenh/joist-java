@@ -28,7 +28,7 @@
 
 	<target name="ivy.publish-local" depends="ivy.load" description="publishes the jar/source to your .ivy2/local/ repo">
 		<ivy:resolve/>
-		<ivy:publish resolver="local" conf="main,sources" forcedeliver="true" overwrite="true">
+		<ivy:publish resolver="local" forcedeliver="true" overwrite="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>
