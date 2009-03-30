@@ -12,6 +12,10 @@ public class ClickKeywords {
         throw new RedirectException(url);
     }
 
+    public static void render(String contentType, byte[] bytes) {
+        throw new RenderException(contentType, bytes);
+    }
+
     public static void redirect(Class<? extends Page> pageClass) {
         String path = CurrentContext.get().getClickConfig().getPageResolver().getPathFromPage(pageClass.getName());
         throw new RedirectException(path);

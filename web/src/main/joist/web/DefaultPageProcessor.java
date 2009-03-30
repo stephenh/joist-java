@@ -1,6 +1,7 @@
 package joist.web;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.Map.Entry;
@@ -24,11 +25,14 @@ public class DefaultPageProcessor implements PageProcessor {
             this.doOnInit(page);
             this.doAddOrphanControlsToPage(page);
             this.doProcess(page);
+            this.doOnRender(page);
         } catch (RedirectException re) {
             this.doRedirect(re);
             return;
+        } catch (RenderException re) {
+            this.doRender(page, re);
+            return;
         }
-        this.doOnRender(page);
         this.doAddAllControlsToModel(page);
         this.doAddFieldsToModel(page);
         this.doAddFlashToModel(page);
@@ -112,11 +116,21 @@ public class DefaultPageProcessor implements PageProcessor {
     }
 
     public void doRender(Page page) {
-        // Should be done by the page?
         this.getContext().getResponse().setContentType("text/html");
         HtmlWriter w = new HtmlWriter(this.getWriter());
         page.getLayout().render(w);
         w.close();
+    }
+
+    public void doRender(Page page, RenderException re) {
+        this.getContext().getResponse().setContentType(re.getContentType());
+        try {
+            OutputStream out = this.getContext().getResponse().getOutputStream();
+            out.write(re.getBytes());
+            out.flush();
+        } catch (IOException io) {
+            throw new IoException(io);
+        }
     }
 
     public void doResetFlash(Page page) {
