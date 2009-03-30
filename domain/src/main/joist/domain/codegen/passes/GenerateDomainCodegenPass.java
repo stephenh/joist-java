@@ -107,20 +107,21 @@ public class GenerateDomainCodegenPass implements Pass {
             shimGetter.returnType(p.getJavaType());
             shimGetter.body.line("return (({}) instance).{};", entity.getCodegenClassName(), p.getVariableName());
 
+            GMethod shimName = shimClass.getMethod("getName").returnType(String.class);
+            shimName.body.line("return \"{}\";", p.getVariableName());
+
             if (p.shouldHaveNotNullRule()) {
-                domainCodegen.getMethod("addExtraRules").body.line("this.addRule(new NotNull<{}>(\"{}\", Shims.{}));",//
+                domainCodegen.getMethod("addExtraRules").body.line("this.addRule(new NotNull<{}>(Shims.{}));",//
                     entity.getClassName(),
-                    p.getVariableName(),
                     p.getVariableName());
                 domainCodegen.addImports(NotNull.class);
             }
 
             if (p.getMaxCharacterLength() != 0) {
-                domainCodegen.getMethod("addExtraRules").body.line("this.addRule(new MaxLength<{}>(\"{}\", {}, Shims.{}));",//
+                domainCodegen.getMethod("addExtraRules").body.line("this.addRule(new MaxLength<{}>(Shims.{}, {}));",//
                     entity.getClassName(),
                     p.getVariableName(),
-                    p.getMaxCharacterLength(),
-                    p.getVariableName());
+                    p.getMaxCharacterLength());
                 domainCodegen.addImports(MaxLength.class);
             }
 
@@ -187,6 +188,9 @@ public class GenerateDomainCodegenPass implements Pass {
             shimGetter.argument(entity.getClassName(), "instance");
             shimGetter.returnType("Integer");
             shimGetter.body.line(0, "return (({}) instance).{}.getId();", entity.getCodegenClassName(), mtop.getVariableName());
+
+            GMethod shimName = shimClass.getMethod("getName").returnType(String.class);
+            shimName.body.line("return \"{}\";", mtop.getVariableName());
 
             domainCodegen.addImports(Shim.class);
         }

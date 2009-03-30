@@ -6,4 +6,6 @@ public interface Shim<T, U> {
 
     U get(T instance);
 
+    String getName();
+
 }

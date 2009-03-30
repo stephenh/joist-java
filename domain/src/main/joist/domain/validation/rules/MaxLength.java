@@ -16,8 +16,8 @@ public class MaxLength<T extends AbstractDomainObject> implements Rule<T> {
         this.shim = null;
     }
 
-    public MaxLength(String property, int length, Shim<T, String> shim) {
-        this.property = property;
+    public MaxLength(Shim<T, String> shim, int length) {
+        this.property = shim.getName();
         this.length = length;
         this.shim = shim;
     }
