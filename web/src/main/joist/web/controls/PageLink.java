@@ -23,8 +23,7 @@ public class PageLink extends AbstractControl {
 
     public PageLink(Class<? extends Page> pageClass) {
         this.pageClass = pageClass;
-        this.setId(StringUtils.removeEnd(pageClass.getSimpleName(), "Page"));
-        this.text(Inflector.humanize(StringUtils.removeEnd(pageClass.getSimpleName(), "Page")));
+        this.id(StringUtils.uncapitalize(StringUtils.removeEnd(pageClass.getSimpleName(), "Page")));
     }
 
     public static PageLink forCurrentPage() {
