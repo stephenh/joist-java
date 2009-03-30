@@ -1,9 +1,8 @@
 package joist.web;
 
-import java.util.NoSuchElementException;
-
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
 public abstract class AbstractPageObject {
@@ -53,6 +52,10 @@ public abstract class AbstractPageObject {
 
     protected String getCurrentPath() {
         return StringUtils.removeStart(this.driver.getCurrentUrl(), this.getBasePath());
+    }
+
+    public String getPageSource() {
+        return this.driver.getPageSource();
     }
 
 }
