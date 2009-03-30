@@ -21,12 +21,16 @@
 			<artifact pattern="/var/joist.repo/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" />
 		</ssh>
 
+		<!-- they have webdriver -->
+		<ibiblio name="openqa" root="http://nexus.openqa.org/content/repositories/releases/" m2compatible="true"/>
+
 		<!-- Repeating the checkmodified/changingPattern incantation here is very important. -->
 		<chain name="default" checkmodified="true" changingPattern=".*SNAPSHOT">
 			<!-- Check just-published local before our joist repo. -->
 			<resolver ref="local-checkmodified"/>
 			<resolver ref="joist"/>
 			<resolver ref="public"/>
+			<resolver ref="openqa"/>
 		</chain>
 	</resolvers>
 </ivysettings>
