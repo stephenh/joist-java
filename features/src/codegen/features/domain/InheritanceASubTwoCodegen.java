@@ -25,8 +25,8 @@ public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<InheritanceASubTwo>("two", Shims.two));
-        this.addRule(new MaxLength<InheritanceASubTwo>("two", 100, Shims.two));
+        this.addRule(new NotNull<InheritanceASubTwo>(Shims.two));
+        this.addRule(new MaxLength<InheritanceASubTwo>(Shims.two, 100));
     }
 
     public String getTwo() {
@@ -52,6 +52,9 @@ public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
             }
             public String get(InheritanceASubTwo instance) {
                 return ((InheritanceASubTwoCodegen) instance).two;
+            }
+            public String getName() {
+                return "two";
             }
         };
     }

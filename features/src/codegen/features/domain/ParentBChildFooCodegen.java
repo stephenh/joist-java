@@ -31,8 +31,8 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<ParentBChildFoo>("name", Shims.name));
-        this.addRule(new MaxLength<ParentBChildFoo>("name", 100, Shims.name));
+        this.addRule(new NotNull<ParentBChildFoo>(Shims.name));
+        this.addRule(new MaxLength<ParentBChildFoo>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -94,6 +94,9 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
             public Integer get(ParentBChildFoo instance) {
                 return ((ParentBChildFooCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<ParentBChildFoo, String> name = new Shim<ParentBChildFoo, String>() {
             public void set(ParentBChildFoo instance, String name) {
@@ -101,6 +104,9 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
             }
             public String get(ParentBChildFoo instance) {
                 return ((ParentBChildFooCodegen) instance).name;
+            }
+            public String getName() {
+                return "name";
             }
         };
         public static final Shim<ParentBChildFoo, Integer> version = new Shim<ParentBChildFoo, Integer>() {
@@ -110,6 +116,9 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
             public Integer get(ParentBChildFoo instance) {
                 return ((ParentBChildFooCodegen) instance).version;
             }
+            public String getName() {
+                return "version";
+            }
         };
         public static final Shim<ParentBChildFoo, Integer> parentBParentId = new Shim<ParentBChildFoo, Integer>() {
             public void set(ParentBChildFoo instance, Integer parentBParentId) {
@@ -117,6 +126,9 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
             }
             public Integer get(ParentBChildFoo instance) {
                 return ((ParentBChildFooCodegen) instance).parentBParent.getId();
+            }
+            public String getName() {
+                return "parentBParent";
             }
         };
     }

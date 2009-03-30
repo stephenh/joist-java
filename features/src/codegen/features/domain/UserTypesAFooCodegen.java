@@ -31,9 +31,9 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<UserTypesAFoo>("created", Shims.created));
-        this.addRule(new NotNull<UserTypesAFoo>("name", Shims.name));
-        this.addRule(new MaxLength<UserTypesAFoo>("name", 100, Shims.name));
+        this.addRule(new NotNull<UserTypesAFoo>(Shims.created));
+        this.addRule(new NotNull<UserTypesAFoo>(Shims.name));
+        this.addRule(new MaxLength<UserTypesAFoo>(Shims.name, 100));
     }
 
     public CalendarDate getCreated() {
@@ -85,6 +85,9 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
             public CalendarDate get(UserTypesAFoo instance) {
                 return ((UserTypesAFooCodegen) instance).created;
             }
+            public String getName() {
+                return "created";
+            }
         };
         public static final Shim<UserTypesAFoo, Integer> id = new Shim<UserTypesAFoo, Integer>() {
             public void set(UserTypesAFoo instance, Integer id) {
@@ -92,6 +95,9 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
             }
             public Integer get(UserTypesAFoo instance) {
                 return ((UserTypesAFooCodegen) instance).id;
+            }
+            public String getName() {
+                return "id";
             }
         };
         public static final Shim<UserTypesAFoo, String> name = new Shim<UserTypesAFoo, String>() {
@@ -101,6 +107,9 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
             public String get(UserTypesAFoo instance) {
                 return ((UserTypesAFooCodegen) instance).name;
             }
+            public String getName() {
+                return "name";
+            }
         };
         public static final Shim<UserTypesAFoo, Integer> version = new Shim<UserTypesAFoo, Integer>() {
             public void set(UserTypesAFoo instance, Integer version) {
@@ -108,6 +117,9 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
             }
             public Integer get(UserTypesAFoo instance) {
                 return ((UserTypesAFooCodegen) instance).version;
+            }
+            public String getName() {
+                return "version";
             }
         };
     }

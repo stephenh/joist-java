@@ -29,8 +29,8 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<InheritanceABase>("name", Shims.name));
-        this.addRule(new MaxLength<InheritanceABase>("name", 100, Shims.name));
+        this.addRule(new NotNull<InheritanceABase>(Shims.name));
+        this.addRule(new MaxLength<InheritanceABase>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -73,6 +73,9 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
             public Integer get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<InheritanceABase, String> name = new Shim<InheritanceABase, String>() {
             public void set(InheritanceABase instance, String name) {
@@ -81,6 +84,9 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
             public String get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).name;
             }
+            public String getName() {
+                return "name";
+            }
         };
         public static final Shim<InheritanceABase, Integer> version = new Shim<InheritanceABase, Integer>() {
             public void set(InheritanceABase instance, Integer version) {
@@ -88,6 +94,9 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
             }
             public Integer get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).version;
+            }
+            public String getName() {
+                return "version";
             }
         };
     }

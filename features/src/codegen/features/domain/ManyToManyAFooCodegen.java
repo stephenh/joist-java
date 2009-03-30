@@ -34,8 +34,8 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<ManyToManyAFoo>("name", Shims.name));
-        this.addRule(new MaxLength<ManyToManyAFoo>("name", 100, Shims.name));
+        this.addRule(new NotNull<ManyToManyAFoo>(Shims.name));
+        this.addRule(new MaxLength<ManyToManyAFoo>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -128,6 +128,9 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
             public Integer get(ManyToManyAFoo instance) {
                 return ((ManyToManyAFooCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<ManyToManyAFoo, String> name = new Shim<ManyToManyAFoo, String>() {
             public void set(ManyToManyAFoo instance, String name) {
@@ -136,6 +139,9 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
             public String get(ManyToManyAFoo instance) {
                 return ((ManyToManyAFooCodegen) instance).name;
             }
+            public String getName() {
+                return "name";
+            }
         };
         public static final Shim<ManyToManyAFoo, Integer> version = new Shim<ManyToManyAFoo, Integer>() {
             public void set(ManyToManyAFoo instance, Integer version) {
@@ -143,6 +149,9 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
             }
             public Integer get(ManyToManyAFoo instance) {
                 return ((ManyToManyAFooCodegen) instance).version;
+            }
+            public String getName() {
+                return "version";
             }
         };
     }

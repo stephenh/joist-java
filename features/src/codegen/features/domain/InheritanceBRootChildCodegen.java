@@ -31,8 +31,8 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<InheritanceBRootChild>("name", Shims.name));
-        this.addRule(new MaxLength<InheritanceBRootChild>("name", 100, Shims.name));
+        this.addRule(new NotNull<InheritanceBRootChild>(Shims.name));
+        this.addRule(new MaxLength<InheritanceBRootChild>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -94,6 +94,9 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
             public Integer get(InheritanceBRootChild instance) {
                 return ((InheritanceBRootChildCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<InheritanceBRootChild, String> name = new Shim<InheritanceBRootChild, String>() {
             public void set(InheritanceBRootChild instance, String name) {
@@ -101,6 +104,9 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
             }
             public String get(InheritanceBRootChild instance) {
                 return ((InheritanceBRootChildCodegen) instance).name;
+            }
+            public String getName() {
+                return "name";
             }
         };
         public static final Shim<InheritanceBRootChild, Integer> version = new Shim<InheritanceBRootChild, Integer>() {
@@ -110,6 +116,9 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
             public Integer get(InheritanceBRootChild instance) {
                 return ((InheritanceBRootChildCodegen) instance).version;
             }
+            public String getName() {
+                return "version";
+            }
         };
         public static final Shim<InheritanceBRootChild, Integer> inheritanceBRootId = new Shim<InheritanceBRootChild, Integer>() {
             public void set(InheritanceBRootChild instance, Integer inheritanceBRootId) {
@@ -117,6 +126,9 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
             }
             public Integer get(InheritanceBRootChild instance) {
                 return ((InheritanceBRootChildCodegen) instance).inheritanceBRoot.getId();
+            }
+            public String getName() {
+                return "inheritanceBRoot";
             }
         };
     }

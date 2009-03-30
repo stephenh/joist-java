@@ -32,8 +32,8 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<InheritanceBRoot>("name", Shims.name));
-        this.addRule(new MaxLength<InheritanceBRoot>("name", 100, Shims.name));
+        this.addRule(new NotNull<InheritanceBRoot>(Shims.name));
+        this.addRule(new MaxLength<InheritanceBRoot>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -100,6 +100,9 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
             public Integer get(InheritanceBRoot instance) {
                 return ((InheritanceBRootCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<InheritanceBRoot, String> name = new Shim<InheritanceBRoot, String>() {
             public void set(InheritanceBRoot instance, String name) {
@@ -108,6 +111,9 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
             public String get(InheritanceBRoot instance) {
                 return ((InheritanceBRootCodegen) instance).name;
             }
+            public String getName() {
+                return "name";
+            }
         };
         public static final Shim<InheritanceBRoot, Integer> version = new Shim<InheritanceBRoot, Integer>() {
             public void set(InheritanceBRoot instance, Integer version) {
@@ -115,6 +121,9 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
             }
             public Integer get(InheritanceBRoot instance) {
                 return ((InheritanceBRootCodegen) instance).version;
+            }
+            public String getName() {
+                return "version";
             }
         };
     }

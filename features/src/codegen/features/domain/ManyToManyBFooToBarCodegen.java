@@ -100,6 +100,9 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
             public Integer get(ManyToManyBFooToBar instance) {
                 return ((ManyToManyBFooToBarCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<ManyToManyBFooToBar, Integer> version = new Shim<ManyToManyBFooToBar, Integer>() {
             public void set(ManyToManyBFooToBar instance, Integer version) {
@@ -107,6 +110,9 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
             }
             public Integer get(ManyToManyBFooToBar instance) {
                 return ((ManyToManyBFooToBarCodegen) instance).version;
+            }
+            public String getName() {
+                return "version";
             }
         };
         public static final Shim<ManyToManyBFooToBar, Integer> blueId = new Shim<ManyToManyBFooToBar, Integer>() {
@@ -116,6 +122,9 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
             public Integer get(ManyToManyBFooToBar instance) {
                 return ((ManyToManyBFooToBarCodegen) instance).blue.getId();
             }
+            public String getName() {
+                return "blue";
+            }
         };
         public static final Shim<ManyToManyBFooToBar, Integer> greenId = new Shim<ManyToManyBFooToBar, Integer>() {
             public void set(ManyToManyBFooToBar instance, Integer greenId) {
@@ -123,6 +132,9 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
             }
             public Integer get(ManyToManyBFooToBar instance) {
                 return ((ManyToManyBFooToBarCodegen) instance).green.getId();
+            }
+            public String getName() {
+                return "green";
             }
         };
     }

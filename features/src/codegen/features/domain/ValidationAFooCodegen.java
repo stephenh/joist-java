@@ -29,8 +29,8 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<ValidationAFoo>("name", Shims.name));
-        this.addRule(new MaxLength<ValidationAFoo>("name", 100, Shims.name));
+        this.addRule(new NotNull<ValidationAFoo>(Shims.name));
+        this.addRule(new MaxLength<ValidationAFoo>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -73,6 +73,9 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
             public Integer get(ValidationAFoo instance) {
                 return ((ValidationAFooCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<ValidationAFoo, String> name = new Shim<ValidationAFoo, String>() {
             public void set(ValidationAFoo instance, String name) {
@@ -81,6 +84,9 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
             public String get(ValidationAFoo instance) {
                 return ((ValidationAFooCodegen) instance).name;
             }
+            public String getName() {
+                return "name";
+            }
         };
         public static final Shim<ValidationAFoo, Integer> version = new Shim<ValidationAFoo, Integer>() {
             public void set(ValidationAFoo instance, Integer version) {
@@ -88,6 +94,9 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
             }
             public Integer get(ValidationAFoo instance) {
                 return ((ValidationAFooCodegen) instance).version;
+            }
+            public String getName() {
+                return "version";
             }
         };
     }

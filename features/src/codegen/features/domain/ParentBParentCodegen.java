@@ -33,8 +33,8 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<ParentBParent>("name", Shims.name));
-        this.addRule(new MaxLength<ParentBParent>("name", 100, Shims.name));
+        this.addRule(new NotNull<ParentBParent>(Shims.name));
+        this.addRule(new MaxLength<ParentBParent>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -125,6 +125,9 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
             public Integer get(ParentBParent instance) {
                 return ((ParentBParentCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<ParentBParent, String> name = new Shim<ParentBParent, String>() {
             public void set(ParentBParent instance, String name) {
@@ -133,6 +136,9 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
             public String get(ParentBParent instance) {
                 return ((ParentBParentCodegen) instance).name;
             }
+            public String getName() {
+                return "name";
+            }
         };
         public static final Shim<ParentBParent, Integer> version = new Shim<ParentBParent, Integer>() {
             public void set(ParentBParent instance, Integer version) {
@@ -140,6 +146,9 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
             }
             public Integer get(ParentBParent instance) {
                 return ((ParentBParentCodegen) instance).version;
+            }
+            public String getName() {
+                return "version";
             }
         };
     }

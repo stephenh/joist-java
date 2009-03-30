@@ -33,8 +33,8 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<ParentCFoo>("name", Shims.name));
-        this.addRule(new MaxLength<ParentCFoo>("name", 100, Shims.name));
+        this.addRule(new NotNull<ParentCFoo>(Shims.name));
+        this.addRule(new MaxLength<ParentCFoo>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -125,6 +125,9 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
             public Integer get(ParentCFoo instance) {
                 return ((ParentCFooCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<ParentCFoo, String> name = new Shim<ParentCFoo, String>() {
             public void set(ParentCFoo instance, String name) {
@@ -133,6 +136,9 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
             public String get(ParentCFoo instance) {
                 return ((ParentCFooCodegen) instance).name;
             }
+            public String getName() {
+                return "name";
+            }
         };
         public static final Shim<ParentCFoo, Integer> version = new Shim<ParentCFoo, Integer>() {
             public void set(ParentCFoo instance, Integer version) {
@@ -140,6 +146,9 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
             }
             public Integer get(ParentCFoo instance) {
                 return ((ParentCFooCodegen) instance).version;
+            }
+            public String getName() {
+                return "version";
             }
         };
     }

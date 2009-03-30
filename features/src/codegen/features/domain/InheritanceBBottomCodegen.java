@@ -25,8 +25,8 @@ public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<InheritanceBBottom>("bottomName", Shims.bottomName));
-        this.addRule(new MaxLength<InheritanceBBottom>("bottomName", 100, Shims.bottomName));
+        this.addRule(new NotNull<InheritanceBBottom>(Shims.bottomName));
+        this.addRule(new MaxLength<InheritanceBBottom>(Shims.bottomName, 100));
     }
 
     public String getBottomName() {
@@ -52,6 +52,9 @@ public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
             }
             public String get(InheritanceBBottom instance) {
                 return ((InheritanceBBottomCodegen) instance).bottomName;
+            }
+            public String getName() {
+                return "bottomName";
             }
         };
     }

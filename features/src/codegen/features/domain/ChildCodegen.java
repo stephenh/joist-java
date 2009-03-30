@@ -31,8 +31,8 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<Child>("name", Shims.name));
-        this.addRule(new MaxLength<Child>("name", 100, Shims.name));
+        this.addRule(new NotNull<Child>(Shims.name));
+        this.addRule(new MaxLength<Child>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -94,6 +94,9 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             public Integer get(Child instance) {
                 return ((ChildCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<Child, String> name = new Shim<Child, String>() {
             public void set(Child instance, String name) {
@@ -101,6 +104,9 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             }
             public String get(Child instance) {
                 return ((ChildCodegen) instance).name;
+            }
+            public String getName() {
+                return "name";
             }
         };
         public static final Shim<Child, Integer> version = new Shim<Child, Integer>() {
@@ -110,6 +116,9 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             public Integer get(Child instance) {
                 return ((ChildCodegen) instance).version;
             }
+            public String getName() {
+                return "version";
+            }
         };
         public static final Shim<Child, Integer> parentId = new Shim<Child, Integer>() {
             public void set(Child instance, Integer parentId) {
@@ -117,6 +126,9 @@ public abstract class ChildCodegen extends AbstractDomainObject {
             }
             public Integer get(Child instance) {
                 return ((ChildCodegen) instance).parent.getId();
+            }
+            public String getName() {
+                return "parent";
             }
         };
     }

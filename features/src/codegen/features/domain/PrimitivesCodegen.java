@@ -30,9 +30,9 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<Primitives>("flag", Shims.flag));
-        this.addRule(new NotNull<Primitives>("name", Shims.name));
-        this.addRule(new MaxLength<Primitives>("name", 100, Shims.name));
+        this.addRule(new NotNull<Primitives>(Shims.flag));
+        this.addRule(new NotNull<Primitives>(Shims.name));
+        this.addRule(new MaxLength<Primitives>(Shims.name, 100));
     }
 
     public Boolean getFlag() {
@@ -84,6 +84,9 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
             public Boolean get(Primitives instance) {
                 return ((PrimitivesCodegen) instance).flag;
             }
+            public String getName() {
+                return "flag";
+            }
         };
         public static final Shim<Primitives, Integer> id = new Shim<Primitives, Integer>() {
             public void set(Primitives instance, Integer id) {
@@ -91,6 +94,9 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
             }
             public Integer get(Primitives instance) {
                 return ((PrimitivesCodegen) instance).id;
+            }
+            public String getName() {
+                return "id";
             }
         };
         public static final Shim<Primitives, String> name = new Shim<Primitives, String>() {
@@ -100,6 +106,9 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
             public String get(Primitives instance) {
                 return ((PrimitivesCodegen) instance).name;
             }
+            public String getName() {
+                return "name";
+            }
         };
         public static final Shim<Primitives, Integer> version = new Shim<Primitives, Integer>() {
             public void set(Primitives instance, Integer version) {
@@ -107,6 +116,9 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
             }
             public Integer get(Primitives instance) {
                 return ((PrimitivesCodegen) instance).version;
+            }
+            public String getName() {
+                return "version";
             }
         };
     }

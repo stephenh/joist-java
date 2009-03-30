@@ -31,8 +31,8 @@ public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<OneToOneAFoo>("name", Shims.name));
-        this.addRule(new MaxLength<OneToOneAFoo>("name", 100, Shims.name));
+        this.addRule(new NotNull<OneToOneAFoo>(Shims.name));
+        this.addRule(new MaxLength<OneToOneAFoo>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -101,6 +101,9 @@ public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
             public Integer get(OneToOneAFoo instance) {
                 return ((OneToOneAFooCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<OneToOneAFoo, String> name = new Shim<OneToOneAFoo, String>() {
             public void set(OneToOneAFoo instance, String name) {
@@ -109,6 +112,9 @@ public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
             public String get(OneToOneAFoo instance) {
                 return ((OneToOneAFooCodegen) instance).name;
             }
+            public String getName() {
+                return "name";
+            }
         };
         public static final Shim<OneToOneAFoo, Integer> version = new Shim<OneToOneAFoo, Integer>() {
             public void set(OneToOneAFoo instance, Integer version) {
@@ -116,6 +122,9 @@ public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
             }
             public Integer get(OneToOneAFoo instance) {
                 return ((OneToOneAFooCodegen) instance).version;
+            }
+            public String getName() {
+                return "version";
             }
         };
     }

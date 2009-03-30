@@ -31,8 +31,8 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<OneToOneBBar>("name", Shims.name));
-        this.addRule(new MaxLength<OneToOneBBar>("name", 100, Shims.name));
+        this.addRule(new NotNull<OneToOneBBar>(Shims.name));
+        this.addRule(new MaxLength<OneToOneBBar>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -94,6 +94,9 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
             public Integer get(OneToOneBBar instance) {
                 return ((OneToOneBBarCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<OneToOneBBar, String> name = new Shim<OneToOneBBar, String>() {
             public void set(OneToOneBBar instance, String name) {
@@ -101,6 +104,9 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
             }
             public String get(OneToOneBBar instance) {
                 return ((OneToOneBBarCodegen) instance).name;
+            }
+            public String getName() {
+                return "name";
             }
         };
         public static final Shim<OneToOneBBar, Integer> version = new Shim<OneToOneBBar, Integer>() {
@@ -110,6 +116,9 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
             public Integer get(OneToOneBBar instance) {
                 return ((OneToOneBBarCodegen) instance).version;
             }
+            public String getName() {
+                return "version";
+            }
         };
         public static final Shim<OneToOneBBar, Integer> oneToOneBFooId = new Shim<OneToOneBBar, Integer>() {
             public void set(OneToOneBBar instance, Integer oneToOneBFooId) {
@@ -117,6 +126,9 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
             }
             public Integer get(OneToOneBBar instance) {
                 return ((OneToOneBBarCodegen) instance).oneToOneBFoo.getId();
+            }
+            public String getName() {
+                return "oneToOneBFoo";
             }
         };
     }

@@ -31,8 +31,8 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<ParentBChildBar>("name", Shims.name));
-        this.addRule(new MaxLength<ParentBChildBar>("name", 100, Shims.name));
+        this.addRule(new NotNull<ParentBChildBar>(Shims.name));
+        this.addRule(new MaxLength<ParentBChildBar>(Shims.name, 100));
     }
 
     public Integer getId() {
@@ -94,6 +94,9 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
             public Integer get(ParentBChildBar instance) {
                 return ((ParentBChildBarCodegen) instance).id;
             }
+            public String getName() {
+                return "id";
+            }
         };
         public static final Shim<ParentBChildBar, String> name = new Shim<ParentBChildBar, String>() {
             public void set(ParentBChildBar instance, String name) {
@@ -101,6 +104,9 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
             }
             public String get(ParentBChildBar instance) {
                 return ((ParentBChildBarCodegen) instance).name;
+            }
+            public String getName() {
+                return "name";
             }
         };
         public static final Shim<ParentBChildBar, Integer> version = new Shim<ParentBChildBar, Integer>() {
@@ -110,6 +116,9 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
             public Integer get(ParentBChildBar instance) {
                 return ((ParentBChildBarCodegen) instance).version;
             }
+            public String getName() {
+                return "version";
+            }
         };
         public static final Shim<ParentBChildBar, Integer> parentBParentId = new Shim<ParentBChildBar, Integer>() {
             public void set(ParentBChildBar instance, Integer parentBParentId) {
@@ -117,6 +126,9 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
             }
             public Integer get(ParentBChildBar instance) {
                 return ((ParentBChildBarCodegen) instance).parentBParent.getId();
+            }
+            public String getName() {
+                return "parentBParent";
             }
         };
     }

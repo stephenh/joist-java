@@ -25,8 +25,8 @@ public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<InheritanceBMiddle>("middleName", Shims.middleName));
-        this.addRule(new MaxLength<InheritanceBMiddle>("middleName", 100, Shims.middleName));
+        this.addRule(new NotNull<InheritanceBMiddle>(Shims.middleName));
+        this.addRule(new MaxLength<InheritanceBMiddle>(Shims.middleName, 100));
     }
 
     public String getMiddleName() {
@@ -52,6 +52,9 @@ public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
             }
             public String get(InheritanceBMiddle instance) {
                 return ((InheritanceBMiddleCodegen) instance).middleName;
+            }
+            public String getName() {
+                return "middleName";
             }
         };
     }
