@@ -103,16 +103,12 @@ public class DefaultPageProcessor implements PageProcessor {
     }
 
     public void doAddFieldsToModel(Page page) {
-        try {
-            for (Field field : page.getClass().getFields()) {
-                Object value = field.get(page);
-                if (value != null) {
-                    Log.debug("Adding field {} to model", field.getName());
-                    CurrentContext.get().getModel().put(field.getName(), value);
-                }
+        for (Field field : page.getClass().getFields()) {
+            Object value = Reflection.get(field, page);
+            if (value != null) {
+                Log.debug("Adding field {} to model", field.getName());
+                CurrentContext.get().getModel().put(field.getName(), value);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 
