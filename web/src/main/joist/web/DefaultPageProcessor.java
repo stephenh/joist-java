@@ -71,9 +71,25 @@ public class DefaultPageProcessor implements PageProcessor {
         page.onProcess();
     }
 
+    public void doOnRender(Page page) {
+        Log.debug("Calling onRender on {}", page);
+        page.onRender();
+    }
+
     public void doRedirect(RedirectException re) {
         try {
             CurrentContext.get().getResponse().sendRedirect(re.getUrl());
+        } catch (IOException io) {
+            throw new IoException(io);
+        }
+    }
+
+    public void doRender(Page page, RenderException re) {
+        this.getContext().getResponse().setContentType(re.getContentType());
+        try {
+            OutputStream out = this.getContext().getResponse().getOutputStream();
+            out.write(re.getBytes());
+            out.flush();
         } catch (IOException io) {
             throw new IoException(io);
         }
@@ -106,27 +122,11 @@ public class DefaultPageProcessor implements PageProcessor {
         }
     }
 
-    public void doOnRender(Page page) {
-        Log.debug("Calling onRender on {}", page);
-        page.onRender();
-    }
-
     public void doRender(Page page) {
         this.getContext().getResponse().setContentType("text/html");
         HtmlWriter w = new HtmlWriter(this.getWriter());
         page.getLayout().render(w);
         w.close();
-    }
-
-    public void doRender(Page page, RenderException re) {
-        this.getContext().getResponse().setContentType(re.getContentType());
-        try {
-            OutputStream out = this.getContext().getResponse().getOutputStream();
-            out.write(re.getBytes());
-            out.flush();
-        } catch (IOException io) {
-            throw new IoException(io);
-        }
     }
 
     public void doResetFlash(Page page) {
