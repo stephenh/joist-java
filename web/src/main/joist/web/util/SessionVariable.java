@@ -12,6 +12,10 @@ public class SessionVariable<T> {
     private final String name;
     private Class<? extends Page> redirectIfUnset;
 
+    public static <T> SessionVariable<T> of(Class<T> type) {
+        return new SessionVariable<T>(type, type.getName());
+    }
+
     public SessionVariable(Class<T> type, String name) {
         this.type = type;
         this.name = name;
