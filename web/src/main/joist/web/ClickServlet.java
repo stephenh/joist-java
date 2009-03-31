@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import joist.util.Reflection;
 import joist.web.exceptions.IoException;
 
 public abstract class ClickServlet extends HttpServlet {
@@ -15,9 +16,6 @@ public abstract class ClickServlet extends HttpServlet {
     private static final long serialVersionUID = 1;
     private ServletConfig servletConfig;
     private ClickConfig clickConfig;
-
-    public ClickServlet() {
-    }
 
     @Override
     public void init(ServletConfig servletConfig) {
@@ -29,7 +27,6 @@ public abstract class ClickServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         ClickContext context = new ClickContext(this.servletConfig, this.clickConfig, request, response);
         CurrentContext.set(context);
-
         try {
             Page page = this.getPage(context);
             context.setPage(page);
@@ -43,11 +40,7 @@ public abstract class ClickServlet extends HttpServlet {
         // Get the path, e.g. /page.htm (without the webapp context)
         String path = context.getRequest().getServletPath();
         String className = context.getClickConfig().getPageResolver().getPageFromPath(path);
-        try {
-            return (Page) Class.forName(className).newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return (Page) Reflection.newInstance(className);
     }
 
     /** Should be implemented by each app to create its configuration. */
