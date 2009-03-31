@@ -63,14 +63,7 @@ public class Reflection {
 
     public static <T> T newInstance(Class<T> type) {
         try {
-            for (Constructor<?> c : type.getConstructors()) {
-                if (c.getParameterTypes().length == 0) {
-                    // found the nullary constructor, so instantiate an object
-                    return type.newInstance();
-                }
-            }
-            // nullary constructor does not exist for given type
-            throw new RuntimeException("Given type (" + type.getCanonicalName() + ") must have a default constructor.");
+            return type.newInstance();
         } catch (IllegalAccessException iea) {
             throw new RuntimeException(iea);
         } catch (InstantiationException ie) {
