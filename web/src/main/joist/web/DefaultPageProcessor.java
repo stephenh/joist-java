@@ -14,9 +14,6 @@ public class DefaultPageProcessor implements PageProcessor {
 
     public static final PageProcessor INSTANCE = new DefaultPageProcessor();
 
-    public DefaultPageProcessor() {
-    }
-
     @Override
     public void process(Page page) {
         try {
