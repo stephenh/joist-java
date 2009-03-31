@@ -19,7 +19,6 @@ public class DefaultPageProcessor implements PageProcessor {
 
     @Override
     public void process(Page page) {
-        Log.debug("Calling onInit on {}", page);
         try {
             this.doSetFieldsFromRequest(page);
             this.doOnInit(page);
