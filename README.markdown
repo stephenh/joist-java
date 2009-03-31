@@ -77,14 +77,14 @@ Patterns
 Todo
 ====
 
-* Builders
-* Project dependencies
 * Composite columns (e.g. TimePoint with both time+zone), if needed
 * Group by queries
+* Execute/load hand-written SQL queries, with inheritance?
 * Convert rules to bindgen?
-* Refactor Insert into Insert/InsertTemplate?
-* Support H2 for faster testing?
-* Add late-bound DataSourceFactory for Repository so it can lazy init
+* H2 prototyping (continue spike in h2 branch)
+* Setup trac/something, Hudson/something
+* Eager loading (continue spike in eager branch)
+* Ajax/JSON controls
 
 Caveats
 =======
