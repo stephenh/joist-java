@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.Map.Entry;
 
 import joist.util.Log;
+import joist.util.Reflection;
 import joist.web.exceptions.IoException;
 import joist.web.util.HtmlWriter;
 
@@ -17,7 +18,7 @@ public class DefaultPageProcessor implements PageProcessor {
     @Override
     public void process(Page page) {
         try {
-            this.doSetFieldsFromRequest(page);
+            this.doSetPageFieldsFromRequest(page);
             this.doOnInit(page);
             this.doAddOrphanControlsToPage(page);
             this.doProcess(page);
@@ -36,23 +37,18 @@ public class DefaultPageProcessor implements PageProcessor {
         this.doResetFlash(page);
     }
 
-    public void doSetFieldsFromRequest(Page page) {
-        try {
-            // Auto-set request parameters into our page object
-            for (Field field : page.getClass().getFields()) {
-                String value = this.getContext().getRequest().getParameter(field.getName());
-                if (value != null) {
-                    Object converted = this.getContext().getClickConfig().getUrlConverterRegistry().convert(value, field.getType());
-                    if (page.isAllowedViaUrl(converted)) {
-                        Log.debug("Setting {}.{} to {}", page, field.getName(), value);
-                        field.set(page, converted);
-                    } else {
-                        Log.debug("Skipping {}.{} to {}", page, field.getName(), value);
-                    }
+    public void doSetPageFieldsFromRequest(Page page) {
+        for (Field field : page.getClass().getFields()) {
+            String value = this.getContext().getRequest().getParameter(field.getName());
+            if (value != null) {
+                Object converted = this.getContext().getClickConfig().getUrlConverterRegistry().convert(value, field.getType());
+                if (page.isAllowedViaUrl(converted)) {
+                    Log.debug("Setting {}.{} to {}", page, field.getName(), value);
+                    Reflection.set(field, page, converted);
+                } else {
+                    Log.debug("Skipping {}.{} to {}", page, field.getName(), value);
                 }
             }
-        } catch (IllegalAccessException iae) {
-            throw new RuntimeException(iae);
         }
     }
 
