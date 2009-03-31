@@ -101,7 +101,8 @@ public class Table<T> extends AbstractControl {
         boolean showPrevious = this.getCurrentPageNumber() > 1;
         if (showPrevious) {
             PageLink previous = PageLink.forCurrentPage();
-            previous.id(this.getId() + ".previous");
+            previous.setParent(this);
+            previous.id("previous");
             previous.param(this.pageNumber.getName(), this.getCurrentPageNumber() - 1);
             previous.text("previous");
             previous.render(w);
@@ -109,7 +110,8 @@ public class Table<T> extends AbstractControl {
         boolean showNext = this.getCurrentPageNumber() < this.getMaxPageNumber();
         if (showNext) {
             PageLink next = PageLink.forCurrentPage();
-            next.id(this.getId() + ".next");
+            next.setParent(this);
+            next.id("next");
             next.param(this.pageNumber.getName(), this.getCurrentPageNumber() + 1);
             next.text("next");
             next.render(w);
