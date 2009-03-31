@@ -70,45 +70,51 @@ public class PageResolver {
     }
 
     protected String resolvePageFromPath(String path) {
+        // /foo/bar.htm -> [ "foo", "bar.htm" ]
         List<String> parts = new ArrayList<String>(Arrays.asList(path.substring(1).split("/")));
-        // Get the last part to muck with (cc.htm)
+        // Get the file name, e.g. bar.htm
         String last = parts.remove(parts.size() - 1);
-        // Trim file extension (cc.htm -> cc)
+        // Trim extension, bar.htm -> bar
         last = PageResolver.fileExtension.matcher(last).replaceAll("");
-        // Cap it (cc -> Cc)
+        // Cap it, bar -> Bar
         last = StringUtils.capitalize(last);
-        // Put it back at the end
+        // Put the file name back on the end, [ "foo", "Bar" ]
         parts.add(parts.size(), last);
         return this.basePackageName + "." + StringUtils.join(parts, '.') + "Page";
     }
 
     protected String resolvePathFromPage(String className) {
+        // Strip base package, com.webapp.pages.package.FooPage -> package.FooPage
         String path = StringUtils.removeStart(className, this.basePackageName);
+        // Change to slashes, package.FooPage -> package/FooPage
         path = path.replace('.', '/');
-        // Change /Foo.htm to /foo.htm
+        // Lower case the class name, /FooPage -> /fooPage
         int lastDot = path.lastIndexOf('/');
         path = StringUtils.replaceOnce(path, "/" + path.charAt(lastDot + 1), ("/" + path.charAt(lastDot + 1)).toLowerCase());
+        // Remove page suffix, /fooPage -> /foo
         path = StringUtils.removeEnd(path, "Page");
+        // Add htm suffix, /foo -> foo.htm
         path = path + ".htm";
         return path;
     }
 
     protected String resolveTemplateFromPage(String className) {
-        String path = "/" + className;
-        path = path.replace('.', '/');
-        // Change /Foo.htm to /foo.htm
+        // Change to slashes, package.FooPage -> /package/FooPage
+        String path = "/" + className.replace('.', '/');
+        // Lower case the class name, /FooPage -> /fooPage
         int lastDot = path.lastIndexOf('/');
         path = StringUtils.replaceOnce(path, "/" + path.charAt(lastDot + 1), ("/" + path.charAt(lastDot + 1)).toLowerCase());
-        // Change /foo$Bar to /foo.bar
+        // Lower case inner class names too, /foo$Bar -> /foo.bar
         int lastDollar = path.lastIndexOf('$');
         if (lastDollar != -1) {
             path = StringUtils.replaceOnce(path, "$" + path.charAt(lastDollar + 1), ("." + path.charAt(lastDollar + 1)).toLowerCase());
         }
-        // CHange /fooPage.htm to /foo.htm
+        // Remove page suffix, /package/fooPage -> /package/foo
         int pageIndex = path.lastIndexOf("Page");
         if (pageIndex != -1) {
             path = StringUtils.substring(path, 0, pageIndex) + StringUtils.substring(path, pageIndex + 4);
         }
+        // Add htm suffix, /package/foo -> /package/foo.htm
         path = path + ".htm";
         return path;
     }
