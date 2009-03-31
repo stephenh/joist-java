@@ -1,36 +1,28 @@
 package joist.domain.validation.rules;
 
-import joist.domain.AbstractDomainObject;
+import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.validation.ValidationErrors;
 
-public class MaxLength<T extends AbstractDomainObject> implements Rule<T> {
+public class MaxLength<T extends DomainObject> implements Rule<T> {
 
-    private final String property;
     private final Shim<T, String> shim;
     private final int length;
 
-    public MaxLength(String property, int length) {
-        this.property = property;
-        this.length = length;
-        this.shim = null;
-    }
-
     public MaxLength(Shim<T, String> shim, int length) {
-        this.property = shim.getName();
         this.length = length;
         this.shim = shim;
     }
 
     public void validate(ValidationErrors errors, T t) {
-        String value = (this.shim != null) ? this.shim.get(t) : null;
+        String value = this.shim.get(t);
         if (value != null && value.length() > this.length) {
-            errors.addPropertyError(t, this.property, "must be no more than {} character{}", this.length, (this.length == 1 ? "" : "s"));
+            errors.addPropertyError(t, this.shim.getName(), "must be no more than {} character{}", this.length, (this.length == 1 ? "" : "s"));
         }
     }
 
     public String getProperty() {
-        return this.property;
+        return this.shim.getName();
     }
 
     public int getLength() {

@@ -2,12 +2,12 @@ package joist.domain.validation.rules;
 
 import java.util.regex.Pattern;
 
-import joist.domain.AbstractDomainObject;
+import joist.domain.DomainObject;
 import joist.domain.Requirements;
 import joist.domain.Shim;
 import joist.domain.validation.ValidationErrors;
 
-public class RegexRule<T extends AbstractDomainObject> implements Rule<T> {
+public class RegexRule<T extends DomainObject> implements Rule<T> {
 
     static {
         Requirements.rulesCanBeRegex.fulfills();

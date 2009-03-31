@@ -3,7 +3,7 @@ package joist.domain.validation;
 import java.util.ArrayList;
 import java.util.List;
 
-import joist.domain.AbstractDomainObject;
+import joist.domain.DomainObject;
 import joist.domain.util.TextString;
 import joist.domain.validation.errors.GeneralError;
 import joist.domain.validation.errors.ObjectError;
@@ -19,11 +19,11 @@ public class ValidationErrors {
         this.errors.add(new GeneralError(error));
     }
 
-    public void addObjectError(AbstractDomainObject o, String error, Object... args) {
+    public void addObjectError(DomainObject o, String error, Object... args) {
         this.errors.add(new ObjectError(o, TextString.interpolate(error, args)));
     }
 
-    public void addPropertyError(AbstractDomainObject o, String propertyName, String error, Object... args) {
+    public void addPropertyError(DomainObject o, String propertyName, String error, Object... args) {
         this.errors.add(new PropertyError(o, propertyName, TextString.interpolate(error, args)));
     }
 

@@ -1,10 +1,10 @@
 package joist.domain.validation.rules;
 
-import joist.domain.AbstractDomainObject;
+import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.validation.ValidationErrors;
 
-public class NotNull<T extends AbstractDomainObject> implements Rule<T> {
+public class NotNull<T extends DomainObject> implements Rule<T> {
 
     private final Shim<T, ?> shim;
 
