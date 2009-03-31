@@ -16,12 +16,12 @@ public class PageLinkTest extends AbstractClickControlTest {
 
     public void testTextDefaultsToPageName() {
         PageLink p = new PageLink(HelloWorldPage.class);
-        Assert.assertEquals("<a id=\"HelloWorld\" href=\"/helloWorld.htm\">Hello World</a>", this.render(p));
+        Assert.assertEquals("<a id=\"helloWorld\" href=\"/helloWorld.htm\">Hello World</a>", this.render(p));
     }
 
     public void testTextOverride() {
         PageLink p = new PageLink(HelloWorldPage.class).text("click here");
-        Assert.assertEquals("<a id=\"HelloWorld\" href=\"/helloWorld.htm\">click here</a>", this.render(p));
+        Assert.assertEquals("<a id=\"helloWorld\" href=\"/helloWorld.htm\">click here</a>", this.render(p));
     }
 
     public void testOneStringParameter() {

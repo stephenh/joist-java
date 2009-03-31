@@ -77,15 +77,15 @@ public class PagedTableTest extends AbstractClickPageTest {
     }
 
     private void assertPrevious(String body, int page) {
-        Assert.assertTrue(body.contains("<a id=\"table.previous\" href=\"/controls/table/pagedTable.htm?page=" + page + "\">previous</a>"));
+        Assert.assertTrue(body.contains("<a id=\"table-previous\" href=\"/controls/table/pagedTable.htm?page=" + page + "\">previous</a>"));
     }
 
     private void assertNext(String body, int page) {
-        Assert.assertTrue(body.contains("<a id=\"table.next\" href=\"/controls/table/pagedTable.htm?page=" + page + "\">next</a>"));
+        Assert.assertTrue(body.contains("<a id=\"table-next\" href=\"/controls/table/pagedTable.htm?page=" + page + "\">next</a>"));
     }
 
     private void assertPreviousWithRows(String body, int page, int rows) {
-        Assert.assertTrue(body.contains("<a id=\"table.previous\" href=\"/controls/table/pagedTable.htm?page="
+        Assert.assertTrue(body.contains("<a id=\"table-previous\" href=\"/controls/table/pagedTable.htm?page="
             + page
             + "&rows="
             + rows
@@ -93,7 +93,7 @@ public class PagedTableTest extends AbstractClickPageTest {
     }
 
     private void assertNextWithRows(String body, int page, int rows) {
-        Assert.assertTrue(body.contains("<a id=\"table.next\" href=\"/controls/table/pagedTable.htm?page=" + page + "&rows=" + rows + "\">next</a>"));
+        Assert.assertTrue(body.contains("<a id=\"table-next\" href=\"/controls/table/pagedTable.htm?page=" + page + "&rows=" + rows + "\">next</a>"));
     }
 
 }
