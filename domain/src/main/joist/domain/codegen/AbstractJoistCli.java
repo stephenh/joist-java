@@ -14,22 +14,23 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public abstract class AbstractJoistCli {
 
-    public String host = "localhost";
-    public String databaseName;
-    public String databaseAppUsername;
-    public String databaseAppPassword;
-    public String databaseSaUsername;
-    public String databaseSaPassword;
+    public String dbHost;
+    public String dbName;
+    public String dbAppUsername;
+    public String dbAppPassword;
+    public String dbSaUsername;
+    public String dbSaPassword;
     public CodegenConfig codegenConfig = new CodegenConfig();
     public MigraterConfig migraterConfig = new MigraterConfig();
     private final Map<String, DataSource> dss = new HashMap<String, DataSource>();
 
     public AbstractJoistCli(String projectName) {
-        this.databaseName = projectName;
-        this.databaseAppUsername = projectName + "_role";
-        this.databaseAppPassword = projectName + "_role";
-        this.databaseSaUsername = "sa";
-        this.databaseSaPassword = "";
+        this.dbHost = System.getProperty("db.host", "localhost");
+        this.dbName = System.getProperty("db.name", projectName);
+        this.dbAppUsername = System.getProperty("db.app.username", projectName + "_role");
+        this.dbAppPassword = System.getProperty("db.app.password", projectName + "_role");
+        this.dbSaUsername = System.getProperty("db.sa.username", "sa");
+        this.dbSaPassword = System.getProperty("db.sa.password", "");
         this.migraterConfig.setProjectNameForDefaults(projectName);
         this.codegenConfig.setProjectNameForDefaults(projectName);
     }
@@ -44,9 +45,9 @@ public abstract class AbstractJoistCli {
     public void createDatabase() {
         new DatabaseBootstrapper(//
             this.getDataSourceForSystemTableAsSaUser(),
-            this.databaseName,
-            this.databaseAppUsername,
-            this.databaseAppPassword).dropAndCreate();
+            this.dbName,
+            this.dbAppUsername,
+            this.dbAppPassword).dropAndCreate();
     }
 
     public void migrateDatabase() {
@@ -55,10 +56,10 @@ public abstract class AbstractJoistCli {
 
     public void fixPermissions() {
         PermissionFixer pf = new PermissionFixer(this.getDataSourceForAppTableAsSaUser());
-        pf.setOwnerOfAllTablesTo(this.databaseSaUsername);
-        pf.setOwnerOfAllSequencesTo(this.databaseAppUsername);
-        pf.grantAllOnAllTablesTo(this.databaseAppUsername);
-        pf.grantAllOnAllSequencesTo(this.databaseAppUsername);
+        pf.setOwnerOfAllTablesTo(this.dbSaUsername);
+        pf.setOwnerOfAllSequencesTo(this.dbAppUsername);
+        pf.grantAllOnAllTablesTo(this.dbAppUsername);
+        pf.grantAllOnAllSequencesTo(this.dbAppUsername);
     }
 
     public void codegen() {
@@ -66,18 +67,18 @@ public abstract class AbstractJoistCli {
     }
 
     private DataSource getDataSourceForAppTableAsSaUser() {
-        return this.getCachedDatasource(this.host, this.databaseName, this.databaseSaUsername, this.databaseSaPassword);
+        return this.getCachedDatasource(this.dbHost, this.dbName, this.dbSaUsername, this.dbSaPassword);
     }
 
     private DataSource getDataSourceForSystemTableAsSaUser() {
-        return this.getCachedDatasource(this.host, "postgres", this.databaseSaUsername, this.databaseSaPassword);
+        return this.getCachedDatasource(this.dbHost, "postgres", this.dbSaUsername, this.dbSaPassword);
     }
 
-    private DataSource getCachedDatasource(String host, String databaseName, String username, String password) {
-        String key = host + "." + databaseName + "." + username + "." + password;
+    private DataSource getCachedDatasource(String dbHost, String dbName, String username, String password) {
+        String key = dbHost + "." + dbName + "." + username + "." + password;
         if (!this.dss.containsKey(key)) {
             ComboPooledDataSource ds = new ComboPooledDataSource();
-            ds.setJdbcUrl("jdbc:postgresql://" + host + "/" + databaseName);
+            ds.setJdbcUrl("jdbc:postgresql://" + dbHost + "/" + dbName);
             ds.setUser(username);
             ds.setPassword(password);
             ds.setMaxPoolSize(3);
