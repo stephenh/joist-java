@@ -20,8 +20,8 @@ public class DefaultPageProcessor implements PageProcessor {
     @Override
     public void process(Page page) {
         Log.debug("Calling onInit on {}", page);
-        this.doSetFieldsFromRequest(page);
         try {
+            this.doSetFieldsFromRequest(page);
             this.doOnInit(page);
             this.doAddOrphanControlsToPage(page);
             this.doProcess(page);
@@ -46,13 +46,17 @@ public class DefaultPageProcessor implements PageProcessor {
             for (Field field : page.getClass().getFields()) {
                 String value = this.getContext().getRequest().getParameter(field.getName());
                 if (value != null) {
-                    Log.debug("Setting {}.{} to {}", page, field.getName(), value);
                     Object converted = this.getContext().getClickConfig().getUrlConverterRegistry().convert(value, field.getType());
-                    field.set(page, converted);
+                    if (page.isAllowedViaUrl(converted)) {
+                        Log.debug("Setting {}.{} to {}", page, field.getName(), value);
+                        field.set(page, converted);
+                    } else {
+                        Log.debug("Skipping {}.{} to {}", page, field.getName(), value);
+                    }
                 }
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (IllegalAccessException iae) {
+            throw new RuntimeException(iae);
         }
     }
 

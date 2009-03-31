@@ -8,4 +8,8 @@ public class SetPublicFieldTest extends AbstractClickPageTest {
         Assert.assertEquals("Hello foo.", this.request("/setPublicField.htm").set("value", "foo").getBody());
     }
 
+    public void testPublicStringFieldGetsRejected() throws Exception {
+        Assert.assertEquals("/rejected", this.request("/setPublicField.htm").set("value", "bar").getRedirect());
+    }
+
 }

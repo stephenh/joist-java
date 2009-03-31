@@ -15,4 +15,6 @@ public interface Page extends Control {
 
     Control getLayout();
 
+    boolean isAllowedViaUrl(Object converted);
+
 }
