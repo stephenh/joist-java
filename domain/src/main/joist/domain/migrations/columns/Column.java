@@ -4,6 +4,8 @@ import joist.util.StringBuilderr;
 
 public interface Column {
 
+    String getName();
+
     void setTableName(String tableName);
 
     String toSql();

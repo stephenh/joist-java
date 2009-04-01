@@ -21,9 +21,7 @@ public class BooleanColumn extends AbstractColumn<BooleanColumn> {
     public String toSql() {
         String sql = this.getQuotedName() + " boolean";
         if (this.defaultValue != null) {
-            sql += " DEFAULT " + this.defaultValue.toString().toUpperCase() + ",";
-        } else {
-            sql += ",";
+            sql += " DEFAULT " + this.defaultValue.toString().toUpperCase();
         }
         return sql;
     }

@@ -11,7 +11,7 @@ public class CharColumn extends AbstractColumn<CharColumn> {
 
     public String toSql() {
         if (this.length != null) {
-            return this.getQuotedName() + " char(" + this.length + "),";
+            return this.getQuotedName() + " char(" + this.length + ")";
         } else {
             return super.toSql();
         }

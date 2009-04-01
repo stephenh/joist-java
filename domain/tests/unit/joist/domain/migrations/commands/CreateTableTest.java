@@ -15,7 +15,7 @@ public class CreateTableTest extends TestCase {
         Assert.assertEquals(Join.linesWithTickToQuote(
             "CREATE SEQUENCE tpa_id_seq;",
             "CREATE TABLE 'tpa' (",
-            "    id int DEFAULT nextval(''tpa_id_seq'') NOT NULL, PRIMARY KEY (id),",
+            "    'id' int DEFAULT nextval(''tpa_id_seq''), PRIMARY KEY (\"id\"),",
             "    'name' varchar(100)",
             ");",
             "ALTER TABLE 'tpa' ALTER COLUMN 'id' SET NOT NULL;",

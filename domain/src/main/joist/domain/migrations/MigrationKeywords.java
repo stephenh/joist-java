@@ -1,5 +1,7 @@
 package joist.domain.migrations;
 
+import java.sql.SQLException;
+
 import joist.domain.migrations.columns.BigIntColumn;
 import joist.domain.migrations.columns.BooleanColumn;
 import joist.domain.migrations.columns.ByteaColumn;
@@ -11,7 +13,10 @@ import joist.domain.migrations.columns.PrimaryKeyColumn;
 import joist.domain.migrations.columns.SmallIntColumn;
 import joist.domain.migrations.columns.VarcharColumn;
 import joist.domain.migrations.commands.CreateTable;
+import joist.domain.migrations.fill.ConstantFillInStrategy;
+import joist.domain.migrations.fill.FillInStrategy;
 import joist.jdbc.Jdbc;
+import joist.jdbc.JdbcException;
 import joist.util.Join;
 import joist.util.StringBuilderr;
 import joist.util.Wrap;
@@ -51,6 +56,10 @@ public class MigrationKeywords {
             MigrationKeywords.foreignKey(table1).ownerIsNeither(),
             MigrationKeywords.foreignKey(table2).ownerIsNeither(),
             MigrationKeywords.integer("version"));
+    }
+
+    public static void alterColumnType(String tableName, String columName, String type) {
+        MigrationKeywords.execute("ALTER TABLE \"{}\" ALTER COLUMN \"{}\" TYPE {}", tableName, columName, type);
     }
 
     public static void addCode(String tableName, String code, String description) {
@@ -115,6 +124,40 @@ public class MigrationKeywords {
 
     public static BooleanColumn bool(String name) {
         return new BooleanColumn(name);
+    }
+
+    public static void addColumn(String table, Column column) {
+        MigrationKeywords.addColumn(table, column, null);
+    }
+
+    public static void addColumn(String table, Column column, FillInStrategy fill) {
+        column.setTableName(table);
+        // pre
+        StringBuilderr pre = new StringBuilderr();
+        column.preInjectCommands(pre);
+        if (pre.toString().length() > 0) {
+            MigrationKeywords.execute(pre.toString());
+        }
+        // column
+        MigrationKeywords.execute("ALTER TABLE \"{}\" ADD COLUMN {}", table, column.toSql());
+        // fill
+        if (fill != null) {
+            try {
+                fill.fillIn(Migrater.getConnection(), table, column.getName());
+            } catch (SQLException se) {
+                throw new JdbcException(se);
+            }
+        }
+        // post
+        StringBuilderr post = new StringBuilderr();
+        column.postInjectCommands(post);
+        if (post.toString().length() > 0) {
+            MigrationKeywords.execute(post.toString());
+        }
+    }
+
+    public static FillInStrategy constantFillIn(String fragment) {
+        return new ConstantFillInStrategy(fragment);
     }
 
     public static void addForeignKeyConstraint(String table, ForeignKeyColumn column) {

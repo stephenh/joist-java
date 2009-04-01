@@ -9,7 +9,6 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
     };
 
     private UseSequence useSequence = PrimaryKeyColumn.UseSequence.Yes;
-    private String primaryKeySet = null;
     private String sequenceName = null;
 
     public PrimaryKeyColumn(String name) {
@@ -17,13 +16,11 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
     }
 
     public String toSql() {
-        if (this.primaryKeySet != null) {
-            return "PRIMARY KEY (" + this.getName() + ", " + this.primaryKeySet + "),";
-        }
         if (this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
-            return this.getName() + " int DEFAULT nextval('" + this.getSequenceName() + "') NOT NULL, PRIMARY KEY (" + this.getName() + "),";
+            return super.toSql() + " DEFAULT nextval('" + this.getSequenceName() + "'), PRIMARY KEY (" + this.getQuotedName() + ")";
+        } else {
+            return super.toSql() + ", PRIMARY KEY (" + this.getQuotedName() + ")";
         }
-        return this.getName() + " int NOT NULL, PRIMARY KEY (" + this.getName() + "),";
     }
 
     public String getSequenceName() {

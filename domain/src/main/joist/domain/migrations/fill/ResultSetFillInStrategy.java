@@ -19,15 +19,14 @@ public abstract class ResultSetFillInStrategy implements FillInStrategy {
         Statement stmt = null;
         ResultSet rs = null;
         try {
+            // Get the fragments
             stmt = connection.createStatement();
             stmt.setFetchSize(100);
             stmt.setFetchDirection(ResultSet.FETCH_FORWARD);
-
             rs = stmt.executeQuery("select * from \"" + tableName + "\"");
-
-            // Get the fragments
             this.fillIn(rs, values);
 
+            // Update the fragments
             for (Map.Entry<Integer, String> entry : values.getValues().entrySet()) {
                 Statement s = connection.createStatement();
                 s.executeUpdate("UPDATE \"" + tableName + "\" SET \"" + columnName + "\" = " + entry.getValue() + " WHERE id = " + entry.getKey());

@@ -43,7 +43,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
     }
 
     public String toSql() {
-        return this.getQuotedName() + " " + this.getDataType() + ",";
+        return this.getQuotedName() + " " + this.getDataType();
     }
 
     public void preInjectCommands(StringBuilderr sb) {
