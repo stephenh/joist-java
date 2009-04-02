@@ -7,22 +7,22 @@
 	<target name="main.compile" depends="ivy.retrieve" description="compile src/main">
 		<mkdir dir="bin/main"/>
 		<mkdir dir="bin/apt-javac"/>
-		<javac srcdir="src/main" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8">
+		<javac srcdir="src/main" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.6" target="1.6" encoding="utf8">
 			<compilerarg value="-s"/>
-			<compilerarg value="bin/apt-javac"/>
+			<compilerarg value="${basedir}/bin/apt-javac"/>
 			<compilerarg value="-processor"/>
 			<compilerarg value="org.exigencecorp.bindgen.processor.BindgenAnnotationProcessor"/>
 			<compilerarg value="-Abindgen.skipExistingBindingCheck=true"/> <!-- for javac -->
 			<compilerarg value="-XprintRounds"/>
 		</javac>
 		<mkdir dir="bin/unit"/>
-		<javac srcdir="tests/unit" destdir="bin/unit" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8">
+		<javac srcdir="tests/unit" destdir="bin/unit" classpathref="main.classpath" debug="true" nowarn="yes" source="1.6" target="1.6" encoding="utf8">
 			<classpath>
 				<pathelement location="bin/main"/>
 				<fileset dir="bin/lib/unit/jars" includes="*.jar"/>
 			</classpath>
 			<compilerarg value="-s"/>
-			<compilerarg value="bin/apt-javac"/>
+			<compilerarg value="${basedir}/bin/apt-javac"/>
 			<compilerarg value="-processor"/>
 			<compilerarg value="org.exigencecorp.bindgen.processor.BindgenAnnotationProcessor"/>
 			<compilerarg value="-Abindgen.skipExistingBindingCheck=true"/> <!-- for javac -->
