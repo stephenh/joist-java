@@ -37,13 +37,15 @@ public class SelectField<T> extends AbstractField<SelectField<T>> {
                 w.line("<option value=\"\"></option>");
             }
         }
+        int i = 0;
         for (T option : this.options) {
+            String id = this.getFullId() + "-" + i++;
             String forValue = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(option, String.class);
             String forLabel = CurrentContext.get().getClickConfig().getTextConverterRegistry().convert(option, String.class);
             if (option.equals(this.getBoundValue())) {
-                w.line("<option selected=\"selected\" value={}>{}</option>", forValue, forLabel);
+                w.line("<option id={} selected=\"selected\" value={}>{}</option>", id, forValue, forLabel);
             } else {
-                w.line("<option value={}>{}</option>", forValue, forLabel);
+                w.line("<option id={} value={}>{}</option>", id, forValue, forLabel);
             }
         }
         w.line("</select>");
