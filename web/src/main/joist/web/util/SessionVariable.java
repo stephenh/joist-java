@@ -3,10 +3,15 @@ package joist.web.util;
 import static joist.web.ClickKeywords.getSession;
 import static joist.web.ClickKeywords.redirect;
 import static joist.web.ClickKeywords.setSession;
+
+import java.util.List;
+
 import joist.web.CurrentContext;
 import joist.web.Page;
 
-public class SessionVariable<T> {
+import org.exigencecorp.bindgen.Binding;
+
+public class SessionVariable<T> implements Binding<T> {
 
     private final Class<T> type;
     private final String name;
@@ -14,6 +19,10 @@ public class SessionVariable<T> {
 
     public static <T> SessionVariable<T> of(Class<T> type) {
         return new SessionVariable<T>(type, type.getName());
+    }
+
+    public static <T> SessionVariable<T> of(Class<T> type, String name) {
+        return new SessionVariable<T>(type, name);
     }
 
     public SessionVariable(Class<T> type, String name) {
@@ -53,6 +62,26 @@ public class SessionVariable<T> {
 
     public boolean isSet() {
         return this.get() != null;
+    }
+
+    @Override
+    public Class<T> getType() {
+        return this.type;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public List<Binding<?>> getChildBindings() {
+        return null;
+    }
+
+    @Override
+    public Binding<?> getParentBinding() {
+        return null;
     }
 
 }
