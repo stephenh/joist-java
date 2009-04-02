@@ -1,7 +1,5 @@
 package joist.converter;
 
-import joist.converter.ConverterRegistry;
-import joist.converter.UnsupportedConversionException;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -33,7 +31,7 @@ public class DefaultConvertersTest extends TestCase {
     }
 
     public void testNullToString() {
-        Assert.assertEquals("", this.r.convert(null, String.class));
+        Assert.assertEquals(null, this.r.convert(null, String.class));
     }
 
     public void testStringToBoolean() {

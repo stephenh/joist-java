@@ -4,12 +4,11 @@ import java.util.List;
 
 import joist.util.Copy;
 
-
 public class DefaultConverters {
 
     public static Converter<Object, String> objectToString = new AbstractOneWayConverter<Object, String>() {
         public String convertOneToTwo(Object value, Class<? extends String> toType) {
-            return value == null ? "" : value.toString();
+            return value == null ? null : value.toString();
         }
     };
 
