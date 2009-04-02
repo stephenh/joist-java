@@ -22,5 +22,6 @@
 		<dependency org="junit" name="junit" rev="3.8.2" conf="unit->master"/>
 		<!-- testing -->
 		<dependency org="org.openqa.selenium.webdriver" name="webdriver-firefox" rev="0.6.870" conf="testing->*"/>
+		<dependency org="org.mortbay.jetty" name="jetty" rev="6.1.9" conf="testing->*"/>
 	</dependencies>
 </ivy-module>
