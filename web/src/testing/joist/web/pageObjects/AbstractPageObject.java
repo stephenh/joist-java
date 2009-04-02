@@ -1,4 +1,4 @@
-package joist.web;
+package joist.web.pageObjects;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;

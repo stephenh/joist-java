@@ -1,4 +1,4 @@
-package joist.web;
+package joist.web.pageObjects;
 
 public class ButtonObject {
 
