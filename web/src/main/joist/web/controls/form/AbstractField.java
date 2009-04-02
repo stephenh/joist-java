@@ -63,6 +63,11 @@ public abstract class AbstractField<T extends AbstractField<T>> extends Abstract
         return this.getThis();
     }
 
+    public T label(String label) {
+        this.setLabel(label);
+        return this.getThis();
+    }
+
     public String getLabel() {
         return this.label;
     }

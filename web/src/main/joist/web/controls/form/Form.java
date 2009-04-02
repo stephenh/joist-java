@@ -54,6 +54,11 @@ public class Form extends AbstractControl {
         return this;
     }
 
+    public Form heading(String heading) {
+        this.setHeading(heading);
+        return this;
+    }
+
     public void add(Field field) {
         this.fields.add(field);
         field.setParent(this);
