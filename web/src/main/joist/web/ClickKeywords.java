@@ -18,7 +18,8 @@ public class ClickKeywords {
 
     public static void redirect(Class<? extends Page> pageClass) {
         String path = CurrentContext.get().getClickConfig().getPageResolver().getPathFromPage(pageClass.getName());
-        throw new RedirectException(path);
+        String contextPath = CurrentContext.get().getRequest().getContextPath();
+        throw new RedirectException(contextPath + path);
     }
 
     public static <T> Table<T> table(String name) {

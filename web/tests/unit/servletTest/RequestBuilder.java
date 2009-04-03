@@ -52,6 +52,11 @@ public class RequestBuilder {
         return this;
     }
 
+    public RequestBuilder contextPath(String path) {
+        this.request.setContextPath(path);
+        return this;
+    }
+
     public HttpServlet getServlet() {
         return this.servlet;
     }

@@ -11,7 +11,7 @@ public class RedirectOnInitPage extends AbstractPage {
 
     @Override
     public void onInit() {
-        ClickKeywords.redirect("/foo.htm");
+        ClickKeywords.redirect(RedirectOnInitPage.class);
     }
 
     @Override

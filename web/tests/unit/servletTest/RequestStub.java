@@ -23,6 +23,7 @@ public class RequestStub implements HttpServletRequest {
     private String servletPath; // --> /foo.servlet
     private SessionStub session = new SessionStub();
     private Map<String, String[]> parameters = new HashMap<String, String[]>();
+    private String contextPath = "";
 
     public RequestStub() {
     }
@@ -32,7 +33,11 @@ public class RequestStub implements HttpServletRequest {
     }
 
     public String getContextPath() {
-        return null;
+        return this.contextPath;
+    }
+
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
     }
 
     public Cookie[] getCookies() {

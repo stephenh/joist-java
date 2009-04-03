@@ -71,7 +71,8 @@ public class PageLink extends AbstractControl {
     }
 
     public String getHref() {
-        return this.getHrefWithoutContext();
+        String contextPath = CurrentContext.get().getRequest().getContextPath();
+        return contextPath + this.getHrefWithoutContext();
     }
 
     public String getHrefWithoutContext() {
