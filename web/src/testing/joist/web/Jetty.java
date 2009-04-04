@@ -20,7 +20,7 @@ public class Jetty {
 
     /** @param args <code>/=./content, /foo=./bar</code> */
     public static void main(String[] args) {
-        if (args.length == 0) {
+        if (args == null || args.length == 0) {
             args = new String[] { "/=content" };
         }
 
