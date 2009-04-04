@@ -14,8 +14,8 @@ import joist.web.exceptions.IoException;
 public abstract class ClickServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1;
-    private ServletConfig servletConfig;
-    private ClickConfig clickConfig;
+    protected ServletConfig servletConfig;
+    protected ClickConfig clickConfig;
 
     @Override
     public void init(ServletConfig servletConfig) {
