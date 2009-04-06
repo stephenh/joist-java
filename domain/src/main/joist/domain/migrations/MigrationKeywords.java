@@ -67,6 +67,15 @@ public class MigrationKeywords {
         MigrationKeywords.execute("INSERT INTO \"{}\" (id, code, name, version) VALUES ({}, '{}', '{}', 0)", tableName, id, code, description);
     }
 
+    public static void addUnique(String tableName, String... columnNames) {
+        String constraintName = tableName + "_" + Join.underscore(columnNames) + "_key";
+        MigrationKeywords.execute(//
+            "ALTER TABLE \"{}\" ADD CONSTRAINT \"{}\" UNIQUE ({});",
+            tableName,
+            constraintName,
+            Join.commaSpace(Wrap.quotes(columnNames)));
+    }
+
     private static int getNextIdForCode(String tableName) {
         int id = Jdbc.queryForInt(Migrater.getConnection(), "select next_id from code_id where table_name = '{}'", tableName);
         if (id == -1) {
