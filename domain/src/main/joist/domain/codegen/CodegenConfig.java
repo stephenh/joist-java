@@ -44,7 +44,9 @@ public class CodegenConfig {
 
     // Private structures
     private final Map<String, String> javaTypeByDataType = new HashMap<String, String>();
+    private final Map<String, String> javaTypeByColumnName = new HashMap<String, String>();
     private final Map<String, String> aliasTypeByDataType = new HashMap<String, String>();
+    private final Map<String, String> aliasTypeByColumnName = new HashMap<String, String>();
     private final Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
     private final Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
     private final List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
@@ -81,7 +83,15 @@ public class CodegenConfig {
         this.aliasTypeByDataType.put(jdbcDataType, aliasColumnType);
     }
 
+    public void setJavaType(String tableName, String columnName, String javaType, String aliasColumnType) {
+        this.javaTypeByColumnName.put(tableName + "." + columnName, javaType);
+        this.aliasTypeByColumnName.put(tableName + "." + columnName, aliasColumnType);
+    }
+
     public String getJavaType(String tableName, String columnName, String dataType) {
+        if (this.javaTypeByColumnName.containsKey(tableName + "." + columnName)) {
+            return this.javaTypeByColumnName.get(tableName + "." + columnName);
+        }
         if (this.javaTypeByDataType.containsKey(dataType)) {
             return this.javaTypeByDataType.get(dataType);
         }
@@ -91,6 +101,9 @@ public class CodegenConfig {
     public String getAliasType(String tableName, String columnName, String dataType) {
         if ("id".equals(columnName)) {
             return IdAliasColumn.class.getName();
+        }
+        if (this.aliasTypeByColumnName.containsKey(tableName + "." + columnName)) {
+            return this.aliasTypeByColumnName.get(tableName + "." + columnName);
         }
         if (this.aliasTypeByDataType.containsKey(dataType)) {
             return this.aliasTypeByDataType.get(dataType);
