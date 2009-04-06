@@ -43,14 +43,14 @@ public class CodegenConfig {
     public String queriesBaseClass = AbstractQueries.class.getName() + "<{}>";
 
     // Private structures
-    private Map<String, String> javaTypeByDataType = new HashMap<String, String>();
-    private Map<String, String> aliasTypeByDataType = new HashMap<String, String>();
-    private Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
-    private Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
-    private List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
-    private List<String> skipCollection = new ArrayList<String>();
-    private List<String> notAbstractEvenThoughSubclassed = new ArrayList<String>();
-    private Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
+    private final Map<String, String> javaTypeByDataType = new HashMap<String, String>();
+    private final Map<String, String> aliasTypeByDataType = new HashMap<String, String>();
+    private final Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
+    private final Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
+    private final List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
+    private final List<String> skipCollection = new ArrayList<String>();
+    private final List<String> notAbstractEvenThoughSubclassed = new ArrayList<String>();
+    private final Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
 
     public CodegenConfig() {
         this.setJavaType("integer", Integer.class.getName(), IntAliasColumn.class.getName());
