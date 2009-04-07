@@ -28,6 +28,10 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
         return new JoinClause<T, W>("INNER JOIN", this.getAlias(), on.getIdColumn(), this);
     }
 
+    public JoinClause<T, W> onLeftOuter(Alias<W> on) {
+        return new JoinClause<T, W>("LEFT OUTER JOIN", this.getAlias(), on.getIdColumn(), this);
+    }
+
     public JoinClause<T, W> on(IdAliasColumn<W> on) {
         return new JoinClause<T, W>("INNER JOIN", this.getAlias(), on, this);
     }
