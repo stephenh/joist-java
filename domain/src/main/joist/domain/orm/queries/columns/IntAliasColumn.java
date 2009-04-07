@@ -14,14 +14,6 @@ public class IntAliasColumn<T extends DomainObject> extends AliasColumn<T, Integ
         super(alias, name, shim);
     }
 
-    public Where moreThan(Integer value) {
-        return new Where(this.getQualifiedName() + " > ?", value);
-    }
-
-    public Where lessThan(Integer value) {
-        return new Where(this.getQualifiedName() + " < ?", value);
-    }
-
     public Where in(List<Integer> ids) {
         return new Where(this.getQualifiedName() + " in (" + Join.comma(ids) + ")");
     }
