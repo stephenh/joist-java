@@ -1,6 +1,7 @@
 package features.domain.queries;
 
 import joist.domain.orm.queries.Select;
+import joist.domain.orm.queries.Where;
 import joist.util.Copy;
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -23,6 +24,14 @@ public class AliasColumnTest extends TestCase {
         q.where(p.id.isNotNull());
         Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM \"primitives\" p\n WHERE p.id IS NOT NULL", q.toSql());
         Assert.assertEquals(Copy.list(), q.getParameters());
+    }
+
+    public void testNot() {
+        PrimitivesAlias p = new PrimitivesAlias("p");
+        Select<Primitives> q = Select.from(p);
+        q.where(Where.not(p.id.equals(1)));
+        Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM \"primitives\" p\n WHERE NOT (\n p.id = ?)", q.toSql());
+        Assert.assertEquals(Copy.list(1), q.getParameters());
     }
 
 }

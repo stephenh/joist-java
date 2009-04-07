@@ -9,6 +9,10 @@ public class Where {
     private final String sql;
     private final List<Object> parameters;
 
+    public static Where not(Where clause) {
+        return new Where("NOT (\n " + clause.sql + ")", clause.parameters);
+    }
+
     private static Where makeAnd(Where... clauses) {
         String sql = clauses[0].sql;
         List<Object> parameters = Copy.list(clauses[0].parameters);
