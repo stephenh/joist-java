@@ -71,6 +71,9 @@ public class Form extends AbstractControl {
 
     @Override
     public void render(HtmlWriter w) {
+        if (this.fields.size() == 0 && this.buttons.size() == 0) {
+            return;
+        }
         this.renderStartTags(w);
         this.renderHeadingTags(w);
         this.renderFields(w);
@@ -80,6 +83,11 @@ public class Form extends AbstractControl {
     protected void renderStartTags(HtmlWriter w) {
         w.line("<form method=\"post\">");
         w.line("<input type=\"hidden\" name=\"_formId\" value={} />", this.getId());
+        for (Field field : this.fields) {
+            if (field.isHidden()) {
+                w.line("{}", field);
+            }
+        }
     }
 
     protected void renderHeadingTags(HtmlWriter w) {
@@ -90,11 +98,13 @@ public class Form extends AbstractControl {
         w.line("<table class={}>", "clickForm");
         // Fields
         for (Field field : this.fields) {
-            w.line("<tr>");
-            w.line("<th>{}</th>", field.getLabel());
-            w.line("<td>{}</td>", field);
-            w.line("<td>{}</td>", StringUtils.defaultIfEmpty(Join.join(field.getErrors(), "<br/>"), "&nbsp;"));
-            w.line("</tr>");
+            if (!field.isHidden()) {
+                w.line("<tr>");
+                w.line("<th>{}</th>", field.getLabel());
+                w.line("<td>{}</td>", field);
+                w.line("<td>{}</td>", StringUtils.defaultIfEmpty(Join.join(field.getErrors(), "<br/>"), "&nbsp;"));
+                w.line("</tr>");
+            }
         }
         // Buttons
         if (this.buttons.size() > 0) {

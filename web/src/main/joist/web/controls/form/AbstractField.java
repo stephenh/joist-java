@@ -31,6 +31,11 @@ public abstract class AbstractField<T extends AbstractField<T>> extends Abstract
         return this.binding.get();
     }
 
+    @Override
+    public boolean isHidden() {
+        return false;
+    }
+
     @SuppressWarnings("unchecked")
     public void onProcess() {
         String value = this.getContext().getRequest().getParameter(this.getId());
