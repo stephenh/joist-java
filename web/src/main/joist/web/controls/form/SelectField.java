@@ -3,6 +3,7 @@ package joist.web.controls.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import joist.util.Copy;
 import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
@@ -13,12 +14,17 @@ public class SelectField<T> extends AbstractField<SelectField<T>> {
     private List<T> options = new ArrayList<T>();
     private boolean showBlank = false;
 
-    public SelectField(Binding<T> binding) {
+    public SelectField(Binding<?> binding) {
         super(binding);
     }
 
     public SelectField<T> options(List<T> options) {
         this.options = options;
+        return this;
+    }
+
+    public SelectField<T> options(T... options) {
+        this.options = Copy.list(options);
         return this;
     }
 
