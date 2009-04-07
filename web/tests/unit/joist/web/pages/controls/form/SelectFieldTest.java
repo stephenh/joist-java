@@ -10,8 +10,8 @@ public class SelectFieldTest extends AbstractClickPageTest {
         Assert.assertTrue(this.request("/controls/form/selectField.htm").getBody().contains(
             Join.lines(
                 "<td><select id=\"form-value\" name=\"value\">",
-                "<option value=\"one\">one</option>",
-                "<option value=\"two\">two</option>",
+                "<option id=\"form-value-0\" value=\"one\">one</option>",
+                "<option id=\"form-value-1\" value=\"two\">two</option>",
                 "</select>",
                 "</td>",
                 "")));
@@ -21,8 +21,8 @@ public class SelectFieldTest extends AbstractClickPageTest {
         Assert.assertTrue(this.request("/controls/form/selectField.htm").set("_formId", "form").set("value", "one").getBody().contains(
             Join.lines(
                 "<td><select id=\"form-value\" name=\"value\">",
-                "<option selected=\"selected\" value=\"one\">one</option>",
-                "<option value=\"two\">two</option>",
+                "<option id=\"form-value-0\" selected=\"selected\" value=\"one\">one</option>",
+                "<option id=\"form-value-1\" value=\"two\">two</option>",
                 "</select>",
                 "</td>",
                 "")));
@@ -32,8 +32,8 @@ public class SelectFieldTest extends AbstractClickPageTest {
         Assert.assertTrue(this.request("/controls/form/selectField.htm").set("value", "one").getBody().contains(
             Join.lines(
                 "<td><select id=\"form-value\" name=\"value\">",
-                "<option selected=\"selected\" value=\"one\">one</option>",
-                "<option value=\"two\">two</option>",
+                "<option id=\"form-value-0\" selected=\"selected\" value=\"one\">one</option>",
+                "<option id=\"form-value-1\" value=\"two\">two</option>",
                 "</select>",
                 "</td>",
                 "")));
@@ -43,9 +43,9 @@ public class SelectFieldTest extends AbstractClickPageTest {
         Assert.assertTrue(this.request("/controls/form/selectField.htm").set("flipShowBlank", "true").getBody().contains(
             Join.lines(
                 "<td><select id=\"form-value\" name=\"value\">",
-                "<option selected=\"selected\" value=\"\"></option>",
-                "<option value=\"one\">one</option>",
-                "<option value=\"two\">two</option>",
+                "<option id=\"form-value-blank\" selected=\"selected\" value=\"\"></option>",
+                "<option id=\"form-value-0\" value=\"one\">one</option>",
+                "<option id=\"form-value-1\" value=\"two\">two</option>",
                 "</select>",
                 "</td>",
                 "")));
@@ -61,9 +61,9 @@ public class SelectFieldTest extends AbstractClickPageTest {
             .contains(
                 Join.lines(
                     "<td><select id=\"form-value\" name=\"value\">",
-                    "<option selected=\"selected\" value=\"\"></option>",
-                    "<option value=\"one\">one</option>",
-                    "<option value=\"two\">two</option>",
+                    "<option id=\"form-value-blank\" selected=\"selected\" value=\"\"></option>",
+                    "<option id=\"form-value-0\" value=\"one\">one</option>",
+                    "<option id=\"form-value-1\" value=\"two\">two</option>",
                     "</select>",
                     "</td>",
                     "")));

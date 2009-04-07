@@ -3,6 +3,7 @@ package joist.web.controls.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import joist.converter.ConverterRegistry;
 import joist.util.Inflector;
 import joist.web.AbstractControl;
 import joist.web.ClickContext;
@@ -43,12 +44,17 @@ public abstract class AbstractField<T extends AbstractField<T>> extends Abstract
             return; // We would have at least gotten a "" if the field was really submitted
         }
         // Use the text converter because this is coming from a user
-        Object converted = CurrentContext.get().getClickConfig().getTextConverterRegistry().convert(value, this.binding.getType());
+        Object converted = this.getProcessConverterRegistry().convert(value, this.binding.getType());
         // do this here or inside a Converter?
         if ("".equals(converted)) {
             converted = null;
         }
         ((Binding<Object>) this.binding).set(converted);
+    }
+
+    /** @return by default the text converter for showing objects in text fields. */
+    protected ConverterRegistry getProcessConverterRegistry() {
+        return CurrentContext.get().getClickConfig().getTextConverterRegistry();
     }
 
     protected boolean skipBindIfParameterIsNotPresent() {

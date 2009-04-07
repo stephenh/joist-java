@@ -1,5 +1,6 @@
 package joist.web.controls.form;
 
+import joist.converter.ConverterRegistry;
 import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
@@ -26,6 +27,11 @@ public class HiddenField extends AbstractField<HiddenField> {
 
     public HiddenField getThis() {
         return this;
+    }
+
+    @Override
+    protected ConverterRegistry getProcessConverterRegistry() {
+        return CurrentContext.get().getClickConfig().getUrlConverterRegistry();
     }
 
 }

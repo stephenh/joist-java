@@ -3,6 +3,8 @@ package joist.web.pages;
 import joist.web.AbstractClickTest;
 import joist.web.ClickConfig;
 import joist.web.ClickServlet;
+import joist.web.fakedomain.EmployeeToFriendlyStringConverter;
+import joist.web.fakedomain.EmployeeToStringConverter;
 
 import org.apache.velocity.app.VelocityEngine;
 
@@ -30,6 +32,8 @@ public abstract class AbstractClickPageTest extends AbstractClickTest {
                 return testEngine;
             }
         };
+        this.config.getUrlConverterRegistry().addConverter(new EmployeeToStringConverter());
+        this.config.getTextConverterRegistry().addConverter(new EmployeeToFriendlyStringConverter());
         this.clickServlet.init();
     }
 
