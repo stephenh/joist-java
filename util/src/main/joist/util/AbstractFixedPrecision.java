@@ -21,44 +21,55 @@ import java.math.RoundingMode;
  */
 public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>> implements Comparable<T>, Serializable {
 
-    private static final BigDecimal MAX_VALUE = AbstractFixedPrecision.fromSerializedLongUtil(Long.MAX_VALUE);
-    private static final BigDecimal MIN_VALUE = AbstractFixedPrecision.fromSerializedLongUtil(Long.MIN_VALUE);
+    private static final BigDecimal MAX_VALUE = AbstractFixedPrecision.fromSerializedLongUtilAsBigDecimal(Long.MAX_VALUE);
+    private static final BigDecimal MIN_VALUE = AbstractFixedPrecision.fromSerializedLongUtilAsBigDecimal(Long.MIN_VALUE);
     private static final MathContext ZERO_NO_ROUND = new MathContext(0, RoundingMode.UNNECESSARY);
     private static final MathContext THIRTY_TWO_HALF_EVEN = new MathContext(32, RoundingMode.HALF_EVEN);
     private static final long serialVersionUID = 1;
     protected final BigDecimal value;
+    private final boolean isSafe;
 
-    protected AbstractFixedPrecision(BigDecimal value) {
-        this.value = value;
+    protected AbstractFixedPrecision(Initializer i) {
+        this.value = i.value;
+        this.isSafe = i.isSafe;
         this.boundsCheck();
     }
 
-    protected abstract T newValue(BigDecimal value);
+    protected abstract T newValue(Initializer i);
 
     // Arithmetic operation methods
 
     public T plus(T addend) {
-        return this.newValue(this.value.add(addend.value, AbstractFixedPrecision.ZERO_NO_ROUND));
+        return this.newValue(//
+            new Initializer(this.value.add(addend.value, AbstractFixedPrecision.ZERO_NO_ROUND), this.isSafe && addend.isSafe));
     }
 
     public T minus(T subtrahend) {
-        return this.newValue(this.value.subtract(subtrahend.value, AbstractFixedPrecision.ZERO_NO_ROUND));
+        return this.newValue(//
+            new Initializer(this.value.subtract(subtrahend.value, AbstractFixedPrecision.ZERO_NO_ROUND), this.isSafe && subtrahend.isSafe));
     }
 
     public T times(T multiplicand) {
-        return this.newValue(this.value.multiply(multiplicand.value, AbstractFixedPrecision.ZERO_NO_ROUND));
+        return this.newValue(//
+            new Initializer(this.value.multiply(multiplicand.value, AbstractFixedPrecision.ZERO_NO_ROUND), this.isSafe && multiplicand.isSafe));
     }
 
     public T dividedBy(T divisor) {
-        return this.newValue(this.value.divide(divisor.value, AbstractFixedPrecision.THIRTY_TWO_HALF_EVEN));
+        return this.newValue(//
+            new Initializer(this.value.divide(divisor.value, AbstractFixedPrecision.THIRTY_TWO_HALF_EVEN), false));
     }
 
     public T toThePower(int power) {
-        return this.newValue(this.value.pow(power, AbstractFixedPrecision.THIRTY_TWO_HALF_EVEN));
+        return this.newValue(new Initializer(this.value.pow(power, AbstractFixedPrecision.THIRTY_TWO_HALF_EVEN), false));
+    }
+
+    public T round() {
+        return this.round(9);
     }
 
     public T round(int decimalPlacesToWhichToRound) {
-        return this.newValue(this.value.setScale(decimalPlacesToWhichToRound, RoundingMode.HALF_EVEN));
+        boolean isNowSafe = decimalPlacesToWhichToRound <= 9;
+        return this.newValue(new Initializer(this.value.setScale(decimalPlacesToWhichToRound, RoundingMode.HALF_EVEN), isNowSafe));
     }
 
     public String toExplicitPrecisionString(int decimalPlacesToDisplay) {
@@ -104,7 +115,11 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
     }
 
     public String toString() {
-        return this.value.toPlainString();
+        String plain = this.value.toPlainString();
+        while (plain.endsWith("0")) {
+            plain = plain.substring(0, plain.length() - 1);
+        }
+        return plain;
     }
 
     public static <T extends AbstractFixedPrecision<T>> T max(T a, T b) {
@@ -123,13 +138,13 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
         }
     }
 
+    /** Prevent values that we cannot represent post-serialization. */
     private void boundsCheck() {
-        // Prevent values that we cannot represent post-serialization
         if (this.value.compareTo(AbstractFixedPrecision.MAX_VALUE) > 0) {
-            throw new RuntimeException("Value " + this.value + " larger than allowable representation");
+            throw new BoundsException(this.value);
         }
         if (this.value.compareTo(AbstractFixedPrecision.MIN_VALUE) < 0) {
-            throw new RuntimeException("Value " + this.value + " smaller than allowable representation");
+            throw new BoundsException(this.value);
         }
     }
 
@@ -137,26 +152,53 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
 
     // Serialization methods
 
-    protected static BigDecimal fromStringUtil(String value) {
-        return new BigDecimal(value, AbstractFixedPrecision.THIRTY_TWO_HALF_EVEN);
+    /** @param value the string value, assumed to be unsafe */
+    protected static Initializer fromStringUtil(final String value) {
+        return new Initializer(new BigDecimal(value), false);
     }
 
-    protected static BigDecimal fromLongUtil(long value) {
-        return new BigDecimal(value);
+    /** @param long the actual value (not serialized like {@link AbstractFixedPrecision#fromSerializedLongUtil}. */
+    protected static Initializer fromLongUtil(long value) {
+        return new Initializer(new BigDecimal(value), true);
     }
 
-    /** @param representation The serialized value, represented as value * 10^9 */
-    protected static BigDecimal fromSerializedLongUtil(long representation) {
+    /** @param double the actual value. */
+    protected static Initializer fromDoubleUtil(double value) {
+        return new Initializer(new BigDecimal(value), false);
+    }
+
+    /** @param representation The serialized value, represented as actual value * 10^9 */
+    protected static Initializer fromSerializedLongUtil(long representation) {
+        return new Initializer(AbstractFixedPrecision.fromSerializedLongUtilAsBigDecimal(representation), true);
+    }
+
+    private static BigDecimal fromSerializedLongUtilAsBigDecimal(long representation) {
         return new BigDecimal(BigInteger.valueOf(representation), 9, new MathContext(19, RoundingMode.UNNECESSARY));
     }
 
+    /** @return a serialized value, represented as value * 10^9--if over the precision limit, we fail */
     public long toSerializedLong() {
-        // Generate a serialized value, represented as (value rounded to precision limit) * 10^9
-        BigDecimal scaledRepresentation = this.round(9).value.movePointRight(9);
-        try {
-            return scaledRepresentation.longValueExact();
-        } catch (ArithmeticException ae) {
-            throw new RuntimeException("Serialization error; internal value misrepresented. This should never happen. Raw value: " + this.value, ae);
+        if (!this.isSafe) {
+            throw new ArithmeticException("An unsafe operation has been performed and explicit round() call is required.");
+        }
+        return this.value.movePointRight(9).longValueExact();
+    }
+
+    public static class BoundsException extends RuntimeException {
+        private static final long serialVersionUID = 1L;
+
+        public BoundsException(BigDecimal value) {
+            super("Value " + value + " is outside the allowable representation");
+        }
+    }
+
+    public static class Initializer {
+        public final BigDecimal value;
+        public final boolean isSafe;
+
+        private Initializer(BigDecimal value, boolean isSafe) {
+            this.value = value;
+            this.isSafe = isSafe;
         }
     }
 
