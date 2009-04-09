@@ -1,5 +1,7 @@
 package joist.util;
 
+import java.math.RoundingMode;
+
 import joist.util.AbstractFixedPrecision.BoundsException;
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -10,7 +12,7 @@ public class FixedPrecisionTest extends TestCase {
         private static final long serialVersionUID = 1L;
 
         private Foo(Initializer i) {
-            super(i);
+            super(i, 9, RoundingMode.HALF_EVEN);
         }
 
         @Override
@@ -64,6 +66,7 @@ public class FixedPrecisionTest extends TestCase {
     public void testStringConstructionIsUnsafeWithExcessivePrecisionAsWell() {
         Foo excessivePrecision = Foo.from("4.1234567895");
         this.assertNotSerializable(excessivePrecision);
+        this.assertNotSerializable(excessivePrecision.round(10)); // still unsafe
         this.assertSerializable(Foo.from("4.123456790"), excessivePrecision.round());
     }
 

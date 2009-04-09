@@ -24,14 +24,17 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
     private static final BigDecimal MAX_VALUE = AbstractFixedPrecision.fromSerializedLongUtilAsBigDecimal(Long.MAX_VALUE);
     private static final BigDecimal MIN_VALUE = AbstractFixedPrecision.fromSerializedLongUtilAsBigDecimal(Long.MIN_VALUE);
     private static final MathContext ZERO_NO_ROUND = new MathContext(0, RoundingMode.UNNECESSARY);
-    private static final MathContext THIRTY_TWO_HALF_EVEN = new MathContext(32, RoundingMode.HALF_EVEN);
     private static final long serialVersionUID = 1;
     protected final BigDecimal value;
     private final boolean isSafe;
+    private final int persistedScale;
+    private final RoundingMode roundingMode;
 
-    protected AbstractFixedPrecision(Initializer i) {
+    protected AbstractFixedPrecision(Initializer i, int persistedScale, RoundingMode roundingMode) {
         this.value = i.value;
         this.isSafe = i.isSafe;
+        this.persistedScale = persistedScale;
+        this.roundingMode = roundingMode;
         this.boundsCheck();
     }
 
@@ -56,20 +59,22 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
 
     public T dividedBy(T divisor) {
         return this.newValue(//
-            new Initializer(this.value.divide(divisor.value, AbstractFixedPrecision.THIRTY_TWO_HALF_EVEN), false));
+            new Initializer(this.value.divide(divisor.value, new MathContext(32, this.roundingMode)), false));
     }
 
     public T toThePower(int power) {
-        return this.newValue(new Initializer(this.value.pow(power, AbstractFixedPrecision.THIRTY_TWO_HALF_EVEN), false));
+        return this.newValue(new Initializer(this.value.pow(power, new MathContext(32, this.roundingMode)), false));
     }
 
+    /** @return the value rounded to the persisted scale */
     public T round() {
-        return this.round(9);
+        return this.round(this.persistedScale);
     }
 
+    /** @return the value rounded to <code>decimalPlacesToWhichToRound</code>, safe if less than or equal to the persisted scale */
     public T round(int decimalPlacesToWhichToRound) {
-        boolean isNowSafe = decimalPlacesToWhichToRound <= 9;
-        return this.newValue(new Initializer(this.value.setScale(decimalPlacesToWhichToRound, RoundingMode.HALF_EVEN), isNowSafe));
+        boolean isNowSafe = decimalPlacesToWhichToRound <= this.persistedScale;
+        return this.newValue(new Initializer(this.value.setScale(decimalPlacesToWhichToRound, this.roundingMode), isNowSafe));
     }
 
     public String toExplicitPrecisionString(int decimalPlacesToDisplay) {
