@@ -43,36 +43,36 @@ public class DefaultPageProcessor implements PageProcessor {
             if (value != null) {
                 Object converted = this.getContext().getClickConfig().getUrlConverterRegistry().convert(value, field.getType());
                 if (page.isAllowedViaUrl(converted)) {
-                    Log.debug("Setting {}.{} to {}", page, field.getName(), value);
+                    Log.trace("Setting {}.{} to {}", page, field.getName(), value);
                     Reflection.set(field, page, converted);
                 } else {
-                    Log.debug("Skipping {}.{} to {}", page, field.getName(), value);
+                    Log.trace("Skipping {}.{} to {}", page, field.getName(), value);
                 }
             }
         }
     }
 
     public void doOnInit(Page page) {
-        Log.debug("Calling onInit on {}", page);
+        Log.trace("Calling onInit on {}", page);
         page.onInit();
     }
 
     public void doAddOrphanControlsToPage(Page page) {
         for (Control c : CurrentContext.get().getAllControls()) {
             if (c.getParent() == null && c != page) {
-                Log.debug("Adding orphan control {} to page {}", c, page);
+                Log.trace("Adding orphan control {} to page {}", c, page);
                 page.addControl(c);
             }
         }
     }
 
     public void doProcess(Page page) {
-        Log.debug("Calling doProcess on {}", page);
+        Log.trace("Calling doProcess on {}", page);
         page.onProcess();
     }
 
     public void doOnRender(Page page) {
-        Log.debug("Calling onRender on {}", page);
+        Log.trace("Calling onRender on {}", page);
         page.onRender();
     }
 
@@ -97,7 +97,7 @@ public class DefaultPageProcessor implements PageProcessor {
 
     public void doAddAllControlsToModel(Page page) {
         for (Control c : CurrentContext.get().getAllControls()) {
-            Log.debug("Adding control {} to model", c.getFullId());
+            Log.trace("Adding control {} to model", c.getFullId());
             CurrentContext.get().getModel().put(c.getFullId(), c);
         }
     }
@@ -106,7 +106,7 @@ public class DefaultPageProcessor implements PageProcessor {
         for (Field field : page.getClass().getFields()) {
             Object value = Reflection.get(field, page);
             if (value != null) {
-                Log.debug("Adding field {} to model", field.getName());
+                Log.trace("Adding field {} to model", field.getName());
                 CurrentContext.get().getModel().put(field.getName(), value);
             }
         }

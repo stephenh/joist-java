@@ -25,9 +25,11 @@ public class Form extends AbstractControl {
 
     @Override
     public void onProcess() {
+        // Should perhaps send the onProcess() through and let Fields/Buttons note that
+        // we're not "POSTing"--spreads out the logic, but I think it would be cleaner
         String submittedFormName = this.getContext().getRequest().getParameter("_formId");
         if (submittedFormName == null || !StringUtils.equals(this.getId(), submittedFormName)) {
-            Log.debug("{} != {}, skipping onProcess", "form", submittedFormName);
+            Log.trace("{} != {}, skipping onProcess", submittedFormName, this.getId());
             return;
         }
         for (Field field : this.fields) {
