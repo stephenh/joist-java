@@ -9,10 +9,11 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
     public void testInitialGet() throws Exception {
         Assert.assertEquals(Join.lines(
             "",
+            "<div class=\"web-form\">",
             "<form method=\"post\">",
             "<input type=\"hidden\" name=\"_formId\" value=\"form1\" />",
-            "<p class=\"clickFormHeading\">Form 1</p>",
-            "<table class=\"clickForm\">",
+            "<h2>Form 1</h2>",
+            "<table>",
             "<tr>",
             "<th>Value</th>",
             "<td><input id=\"form1-value\" name=\"value\" type=\"text\" value=\"foo\"/></td>",
@@ -20,12 +21,14 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
             "</tr>",
             "</table>",
             "</form>",
+            "</div>",
             "",
             "",
+            "<div class=\"web-form\">",
             "<form method=\"post\">",
             "<input type=\"hidden\" name=\"_formId\" value=\"form2\" />",
-            "<p class=\"clickFormHeading\">Form 2</p>",
-            "<table class=\"clickForm\">",
+            "<h2>Form 2</h2>",
+            "<table>",
             "<tr>",
             "<th>Value</th>",
             "<td><input id=\"form2-value\" name=\"value\" type=\"text\" value=\"foo\"/></td>",
@@ -33,6 +36,7 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
             "</tr>",
             "</table>",
             "</form>",
+            "</div>",
             "",
             ""), this.request("/controls/form/twoForms.htm").getBody());
     }
@@ -40,10 +44,11 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
     public void testPost() throws Exception {
         Assert.assertEquals(Join.lines(
             "",
+            "<div class=\"web-form\">",
             "<form method=\"post\">",
             "<input type=\"hidden\" name=\"_formId\" value=\"form1\" />",
-            "<p class=\"clickFormHeading\">Form 1</p>",
-            "<table class=\"clickForm\">",
+            "<h2>Form 1</h2>",
+            "<table>",
             "<tr>",
             "<th>Value</th>",
             "<td><input id=\"form1-value\" name=\"value\" type=\"text\" value=\"bar\"/></td>",
@@ -51,12 +56,14 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
             "</tr>",
             "</table>",
             "</form>",
+            "</div>",
             "",
             "",
+            "<div class=\"web-form\">",
             "<form method=\"post\">",
             "<input type=\"hidden\" name=\"_formId\" value=\"form2\" />",
-            "<p class=\"clickFormHeading\">Form 2</p>",
-            "<table class=\"clickForm\">",
+            "<h2>Form 2</h2>",
+            "<table>",
             "<tr>",
             "<th>Value</th>",
             "<td><input id=\"form2-value\" name=\"value\" type=\"text\" value=\"foo\"/></td>", // is still foo and not bar
@@ -64,6 +71,7 @@ public class TwoFormsPageTest extends AbstractClickPageTest {
             "</tr>",
             "</table>",
             "</form>",
+            "</div>",
             "",
             ""), this.request("/controls/form/twoForms.htm").set("_formId", "form1").set("value", "bar").postBody());
     }

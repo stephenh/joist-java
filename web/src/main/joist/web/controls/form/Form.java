@@ -83,6 +83,7 @@ public class Form extends AbstractControl {
     }
 
     protected void renderStartTags(HtmlWriter w) {
+        w.line("<div class=\"web-form\">");
         w.line("<form method=\"post\">");
         w.line("<input type=\"hidden\" name=\"_formId\" value={} />", this.getId());
         for (Field field : this.fields) {
@@ -93,11 +94,11 @@ public class Form extends AbstractControl {
     }
 
     protected void renderHeadingTags(HtmlWriter w) {
-        w.line("<p class={}>{}</p>", "clickFormHeading", this.getHeading());
+        w.line("<h2>{}</h2>", this.getHeading());
     }
 
     protected void renderFields(HtmlWriter w) {
-        w.line("<table class={}>", "clickForm");
+        w.line("<table>");
         // Fields
         for (Field field : this.fields) {
             if (!field.isHidden()) {
@@ -110,17 +111,22 @@ public class Form extends AbstractControl {
         }
         // Buttons
         if (this.buttons.size() > 0) {
-            w.line("<tr><th>&nbsp;</th><td>");
+            w.line("<tr>");
+            w.line("<th>&nbsp;</th>");
+            w.line("<td>");
             for (Button button : this.buttons) {
                 w.line("{}", button);
             }
-            w.line("</td><td>&nbsp;</td></tr>");
+            w.line("</td>");
+            w.line("<td>&nbsp;</td>");
+            w.line("</tr>");
         }
         w.line("</table>");
     }
 
     protected void renderEndTags(HtmlWriter w) {
         w.line("</form>");
+        w.line("</div>");
     }
 
     public String getHeading() {

@@ -6,7 +6,7 @@ public class AddModelAllControlsTest extends AbstractClickPageTest {
 
     public void testFormOnlyInOnInit() throws Exception {
         String body = this.request("/addModelAllControls.htm").getBody();
-        Assert.assertTrue(body.contains("<p class=\"clickFormHeading\">Foo</p>"));
+        Assert.assertTrue(body.contains("<h2>Foo</h2>"));
     }
 
     public void testFormFieldOnlyInOnInit() throws Exception {
