@@ -1,6 +1,5 @@
 package joist.domain.orm;
 
-
 import joist.domain.DomainObject;
 import joist.domain.uow.UoW;
 
@@ -31,7 +30,7 @@ public class ForeignKeyHolder<T extends DomainObject> {
 
     public Integer getId() {
         if (this.instance != null) {
-            return this.instance.getId().intValue();
+            return this.instance.getId();
         }
         return this.id;
     }
