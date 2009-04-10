@@ -22,9 +22,7 @@ public abstract class AbstractDomainObjectsTest extends TestCase {
     }
 
     protected void commitAndReOpen() {
-        UoW.commit();
-        UoW.close();
-        UoW.open();
+        UoW.commitAndReOpen();
     }
 
     protected void rollback() {

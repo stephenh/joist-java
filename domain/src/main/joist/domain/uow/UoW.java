@@ -91,6 +91,12 @@ public class UoW {
         UoW.getCurrent().rollback();
     }
 
+    public static void commitAndReOpen() {
+        UoW.commit();
+        UoW.close();
+        UoW.open();
+    }
+
     public static <T extends DomainObject> void enqueue(T instance) {
         UoW.getCurrent().getValidator().enqueue(instance);
     }
