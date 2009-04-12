@@ -12,6 +12,11 @@ public class ToString {
         if (object == null) {
             return "null";
         }
+        for (int i = 0; i < parameters.length; i++) {
+            if (parameters[i] == null) {
+                parameters[i] = "null";
+            }
+        }
         return object.getClass().getSimpleName() + "[" + Join.comma(parameters) + "]";
     }
 
