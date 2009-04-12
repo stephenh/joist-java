@@ -68,25 +68,42 @@ public class UoW {
         return UoW.uowForThread.get() != null;
     }
 
+    /**
+     * Opens a new {@link UnitOfWork} and database connection.
+     */
     public static void open() {
         UoW.assertClosed();
         UoW.uowForThread.set(new UnitOfWork());
         UoW.getCurrent().open();
     }
 
+    /**
+     * Closes the current {@link UnitOfWork} and database connection, without any flush or txn commit/rollback.
+     */
     public static void close() {
         UoW.getCurrent().close();
         UoW.uowForThread.set(null);
     }
 
+    /**
+     * Flushes changes to the database without committing the transaction.
+     *
+     * @throws ValidationException if validation errors occur
+     */
     public static void flush() {
         UoW.getCurrent().flush();
     }
 
+    /**
+     * Commits the transaction, after flushing.
+     *
+     * @throws ValidationException if validation errors occur
+     */
     public static void commit() {
         UoW.getCurrent().commit();
     }
 
+    /** Rolls back the transaction. */
     public static void rollback() {
         UoW.getCurrent().rollback();
     }
@@ -97,14 +114,17 @@ public class UoW {
         UoW.open();
     }
 
+    /** Queues <code>instance</code> for validation on flush. */
     public static <T extends DomainObject> void enqueue(T instance) {
         UoW.getCurrent().getValidator().enqueue(instance);
     }
 
+    /** Queues <code>instance</code> for deletion on flush. */
     public static <T extends DomainObject> void delete(T instance) {
         UoW.getCurrent().delete(instance);
     }
 
+    /** @return the instance of <code>type</code> for <code>id</code>, checking the identity map */
     public static <T extends DomainObject> T load(Class<T> type, Integer id) {
         return UoW.getCurrent().getRepository().load(type, id);
     }
@@ -113,6 +133,7 @@ public class UoW {
         return UoW.getCurrent().getIdentityMap();
     }
 
+    /** @return the current database connection */
     public static Connection getConnection() {
         return UoW.getCurrent().getRepository().getConnection();
     }
