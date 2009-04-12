@@ -11,7 +11,8 @@ public class CodeToStringConverter extends AbstractConverter<Code, String> {
 
     @SuppressWarnings("unchecked")
     public Code convertTwoToOne(String value, Class<? extends Code> toType) {
-        return (Code) Enum.valueOf((Class<Enum>) toType, value);
+        // javac needs the double cast--ugh
+        return (Code) Enum.valueOf((Class<Enum>) (Class<?>) toType, value);
 
     }
 }
