@@ -10,12 +10,14 @@ import joist.util.Execute.Result;
 public class DatabaseBootstrapper {
 
     private final DataSource systemDataSource;
+    private final DataSource appDataSource;
     private final String databaseName;
     private final String username;
     private final String password;
 
-    public DatabaseBootstrapper(DataSource systemDataSource, String appDatabaseName, String appUsername, String appPassword) {
+    public DatabaseBootstrapper(DataSource systemDataSource, DataSource appDataSource, String appDatabaseName, String appUsername, String appPassword) {
         this.systemDataSource = systemDataSource;
+        this.appDataSource = appDataSource;
         this.databaseName = appDatabaseName;
         this.username = appUsername;
         this.password = appPassword;
@@ -35,10 +37,13 @@ public class DatabaseBootstrapper {
         }
 
         Log.debug("Creating {}", this.databaseName);
-        Jdbc.update(this.systemDataSource, "create database {};", this.databaseName);
+        Jdbc.update(this.systemDataSource, "create database {} template template0;", this.databaseName);
 
         Log.debug("Creating {}", this.username);
         Jdbc.update(this.systemDataSource, "create user {} password '{}';", this.username, this.password);
+
+        Log.debug("Creating plpgsql");
+        Jdbc.update(this.appDataSource, "create language plpgsql;");
     }
 
     public void restore(String pgBinPath) {
