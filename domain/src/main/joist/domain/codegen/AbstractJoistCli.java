@@ -29,7 +29,7 @@ public abstract class AbstractJoistCli {
         this.dbName = System.getProperty("db.name", projectName);
         this.dbAppUsername = System.getProperty("db.app.username", projectName + "_role");
         this.dbAppPassword = System.getProperty("db.app.password", projectName + "_role");
-        this.dbSaUsername = System.getProperty("db.sa.username", "sa");
+        this.dbSaUsername = System.getProperty("db.sa.username", "postgres");
         this.dbSaPassword = System.getProperty("db.sa.password", "");
         this.migraterConfig.setProjectNameForDefaults(projectName);
         this.codegenConfig.setProjectNameForDefaults(projectName);
