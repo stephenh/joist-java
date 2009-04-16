@@ -19,19 +19,26 @@ public abstract class AbstractPgWithc3p0DataSourceFactory implements ResourceFac
         System.setProperty("com.mchange.v2.c3p0.VMID", "NONE");
     }
 
-    private final String databaseName;
+    protected String databaseName;
+    protected String user;
+    protected String password;
+    protected String host = "localhost";
+    protected int maxPoolSize = 3;
+    protected int initialPoolSize = 1;
 
     protected AbstractPgWithc3p0DataSourceFactory(String databaseName) {
         this.databaseName = databaseName;
+        this.user = databaseName + "_role";
+        this.password = databaseName + "_role";
     }
 
     public ComboPooledDataSource create() {
         ComboPooledDataSource ds = new ComboPooledDataSource();
-        ds.setJdbcUrl("jdbc:postgresql://localhost/" + this.databaseName);
-        ds.setUser(this.databaseName + "_role");
-        ds.setPassword(this.databaseName + "_role");
-        ds.setMaxPoolSize(3);
-        ds.setInitialPoolSize(1);
+        ds.setJdbcUrl("jdbc:postgresql://" + this.host + "/" + this.databaseName);
+        ds.setUser(this.user);
+        ds.setPassword(this.password);
+        ds.setMaxPoolSize(this.maxPoolSize);
+        ds.setInitialPoolSize(this.initialPoolSize);
         ds.setPreferredTestQuery("select 1");
         ds.setTestConnectionOnCheckout(true);
         return ds;
