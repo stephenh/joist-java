@@ -58,7 +58,7 @@ public abstract class AbstractJoistCli {
     public void fixPermissions() {
         PermissionFixer pf = new PermissionFixer(this.getDataSourceForAppTableAsSaUser());
         pf.setOwnerOfAllTablesTo(this.dbSaUsername);
-        pf.setOwnerOfAllSequencesTo(this.dbAppUsername);
+        pf.setOwnerOfAllSequencesTo(this.dbAppUsername); // the app user needs to own them to reset them for tests--could fix by flushing as sa user
         pf.grantAllOnAllTablesTo(this.dbAppUsername);
         pf.grantAllOnAllSequencesTo(this.dbAppUsername);
     }
