@@ -1,8 +1,8 @@
 package joist.web.util;
 
-import static joist.web.ClickKeywords.getSession;
-import static joist.web.ClickKeywords.redirect;
-import static joist.web.ClickKeywords.setSession;
+import static joist.web.WebKeywords.getSession;
+import static joist.web.WebKeywords.redirect;
+import static joist.web.WebKeywords.setSession;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class SessionVariable<T> implements Binding<T> {
         if (valueAsString == null) {
             return null;
         }
-        return CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(valueAsString, this.type);
+        return CurrentContext.get().getWebConfig().getUrlConverterRegistry().convert(valueAsString, this.type);
     }
 
     public T getOrRedirect() {
@@ -52,7 +52,7 @@ public class SessionVariable<T> implements Binding<T> {
     }
 
     public void set(T value) {
-        String valueAsString = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(value, String.class);
+        String valueAsString = CurrentContext.get().getWebConfig().getUrlConverterRegistry().convert(value, String.class);
         setSession(this.name, valueAsString);
     }
 

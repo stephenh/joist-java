@@ -1,8 +1,8 @@
 package joist.web.pages;
 
 import joist.web.AbstractClickTest;
-import joist.web.ClickConfig;
-import joist.web.ClickServlet;
+import joist.web.WebConfig;
+import joist.web.WebServlet;
 import joist.web.fakedomain.EmployeeToFriendlyStringConverter;
 import joist.web.fakedomain.EmployeeToStringConverter;
 
@@ -13,20 +13,20 @@ import servletTest.SessionStub;
 
 public abstract class AbstractClickPageTest extends AbstractClickTest {
 
-    protected ClickConfig config;
-    protected ClickServlet clickServlet;
+    protected WebConfig config;
+    protected WebServlet clickServlet;
     private SessionStub sessionStub = new SessionStub();
 
     public void setUp() throws Exception {
         super.setUp();
-        this.clickServlet = new ClickServlet() {
+        this.clickServlet = new WebServlet() {
             private static final long serialVersionUID = 1;
 
-            protected ClickConfig createClickConfig() {
+            protected WebConfig createClickConfig() {
                 return AbstractClickPageTest.this.config;
             }
         };
-        this.config = new ClickConfig("joist.web.pages") {
+        this.config = new WebConfig("joist.web.pages") {
             @Override
             protected VelocityEngine createVelocityEngine() {
                 return testEngine;

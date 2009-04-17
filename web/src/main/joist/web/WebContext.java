@@ -9,19 +9,19 @@ import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ClickContext {
+public class WebContext {
 
     private final ServletConfig servletConfig;
-    private final ClickConfig clickConfig;
+    private final WebConfig webConfig;
     private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final Map<String, Object> model = new HashMap<String, Object>();
     private final List<Control> allControls = new ArrayList<Control>();
     private Page page;
 
-    public ClickContext(ServletConfig servletConfig, ClickConfig clickConfig, HttpServletRequest request, HttpServletResponse response) {
+    public WebContext(ServletConfig servletConfig, WebConfig clickConfig, HttpServletRequest request, HttpServletResponse response) {
         this.servletConfig = servletConfig;
-        this.clickConfig = clickConfig;
+        this.webConfig = clickConfig;
         this.request = request;
         this.response = response;
     }
@@ -53,8 +53,8 @@ public class ClickContext {
         return this.servletConfig;
     }
 
-    public ClickConfig getClickConfig() {
-        return this.clickConfig;
+    public WebConfig getWebConfig() {
+        return this.webConfig;
     }
 
     @SuppressWarnings("unchecked")

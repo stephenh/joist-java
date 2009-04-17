@@ -41,7 +41,7 @@ public class DefaultPageProcessor implements PageProcessor {
         for (Field field : page.getClass().getFields()) {
             String value = this.getContext().getRequest().getParameter(field.getName());
             if (value != null) {
-                Object converted = this.getContext().getClickConfig().getUrlConverterRegistry().convert(value, field.getType());
+                Object converted = this.getContext().getWebConfig().getUrlConverterRegistry().convert(value, field.getType());
                 if (page.isAllowedViaUrl(converted)) {
                     Log.trace("Setting {}.{} to {}", page, field.getName(), value);
                     Reflection.set(field, page, converted);
@@ -129,7 +129,7 @@ public class DefaultPageProcessor implements PageProcessor {
         this.getContext().getFlash().clear();
     }
 
-    protected ClickContext getContext() {
+    protected WebContext getContext() {
         return CurrentContext.get();
     }
 

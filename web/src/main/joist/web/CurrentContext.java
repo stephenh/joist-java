@@ -2,13 +2,13 @@ package joist.web;
 
 public class CurrentContext {
 
-    private static final ThreadLocal<ClickContext> CURRENT = new ThreadLocal<ClickContext>();
+    private static final ThreadLocal<WebContext> CURRENT = new ThreadLocal<WebContext>();
 
-    public static ClickContext get() {
+    public static WebContext get() {
         return CurrentContext.CURRENT.get();
     }
 
-    public static void set(ClickContext context) {
+    public static void set(WebContext context) {
         CurrentContext.CURRENT.set(context);
     }
 

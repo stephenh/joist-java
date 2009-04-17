@@ -7,7 +7,7 @@ import joist.util.Inflector;
 import joist.util.Join;
 import joist.util.Log;
 import joist.web.AbstractControl;
-import joist.web.ClickContext;
+import joist.web.WebContext;
 import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
@@ -137,7 +137,7 @@ public class Form extends AbstractControl {
         this.heading = heading;
     }
 
-    private ClickContext getContext() {
+    private WebContext getContext() {
         return CurrentContext.get();
     }
 

@@ -6,7 +6,7 @@ import java.util.List;
 import joist.converter.ConverterRegistry;
 import joist.util.Inflector;
 import joist.web.AbstractControl;
-import joist.web.ClickContext;
+import joist.web.WebContext;
 import joist.web.CurrentContext;
 import joist.web.Page;
 
@@ -54,7 +54,7 @@ public abstract class AbstractField<T extends AbstractField<T>> extends Abstract
 
     /** @return by default the text converter for showing objects in text fields. */
     protected ConverterRegistry getProcessConverterRegistry() {
-        return CurrentContext.get().getClickConfig().getTextConverterRegistry();
+        return CurrentContext.get().getWebConfig().getTextConverterRegistry();
     }
 
     protected boolean skipBindIfParameterIsNotPresent() {
@@ -87,7 +87,7 @@ public abstract class AbstractField<T extends AbstractField<T>> extends Abstract
         this.label = label;
     }
 
-    protected ClickContext getContext() {
+    protected WebContext getContext() {
         return CurrentContext.get();
     }
 

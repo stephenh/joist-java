@@ -48,8 +48,8 @@ public class SelectField<T> extends AbstractField<SelectField<T>> {
         int i = 0;
         for (T option : this.options) {
             String id = this.getFullId() + "-" + i++;
-            String forValue = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(option, String.class);
-            String forLabel = CurrentContext.get().getClickConfig().getTextConverterRegistry().convert(option, String.class);
+            String forValue = CurrentContext.get().getWebConfig().getUrlConverterRegistry().convert(option, String.class);
+            String forLabel = CurrentContext.get().getWebConfig().getTextConverterRegistry().convert(option, String.class);
             if (option.equals(this.getBoundValue())) {
                 w.line("<option id={} selected=\"selected\" value={}>{}</option>", id, forValue, forLabel);
             } else {
@@ -66,7 +66,7 @@ public class SelectField<T> extends AbstractField<SelectField<T>> {
 
     @Override
     protected ConverterRegistry getProcessConverterRegistry() {
-        return CurrentContext.get().getClickConfig().getUrlConverterRegistry();
+        return CurrentContext.get().getWebConfig().getUrlConverterRegistry();
     }
 
 }

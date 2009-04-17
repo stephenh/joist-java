@@ -2,7 +2,7 @@ package joist.web;
 
 import joist.web.controls.table.Table;
 
-public class ClickKeywords {
+public class WebKeywords {
 
     public static void flash(String key, Object value) {
         CurrentContext.get().getFlash().put(key, value);
@@ -17,7 +17,7 @@ public class ClickKeywords {
     }
 
     public static void redirect(Class<? extends Page> pageClass) {
-        String path = CurrentContext.get().getClickConfig().getPageResolver().getPathFromPage(pageClass.getName());
+        String path = CurrentContext.get().getWebConfig().getPageResolver().getPathFromPage(pageClass.getName());
         String contextPath = CurrentContext.get().getRequest().getContextPath();
         throw new RedirectException(contextPath + path);
     }

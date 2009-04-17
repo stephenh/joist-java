@@ -1,6 +1,6 @@
 package joist.web.pages;
 
-import static joist.web.ClickKeywords.addModel;
+import static joist.web.WebKeywords.addModel;
 import joist.web.AbstractPage;
 
 public class OnInitPage extends AbstractPage {

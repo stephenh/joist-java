@@ -76,7 +76,7 @@ public class PageLink extends AbstractControl {
     }
 
     public String getHrefWithoutContext() {
-        String path = CurrentContext.get().getClickConfig().getPageResolver().getPathFromPage(this.pageClass.getName());
+        String path = CurrentContext.get().getWebConfig().getPageResolver().getPathFromPage(this.pageClass.getName());
         path += this.getQueryString();
         return path;
     }
@@ -91,7 +91,7 @@ public class PageLink extends AbstractControl {
                 if (value instanceof Binding<?>) {
                     value = ((Binding<?>) value).get();
                 }
-                String valueAsString = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(value, String.class);
+                String valueAsString = CurrentContext.get().getWebConfig().getUrlConverterRegistry().convert(value, String.class);
                 qs += entry.getKey() + "=" + valueAsString + "&";
             }
             qs = StringUtils.stripEnd(qs, "&"); // Strip last &

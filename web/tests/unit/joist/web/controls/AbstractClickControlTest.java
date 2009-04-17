@@ -3,8 +3,8 @@ package joist.web.controls;
 import java.io.StringWriter;
 
 import joist.web.AbstractClickTest;
-import joist.web.ClickConfig;
-import joist.web.ClickContext;
+import joist.web.WebConfig;
+import joist.web.WebContext;
 import joist.web.Control;
 import joist.web.CurrentContext;
 import joist.web.fakedomain.EmployeeToFriendlyStringConverter;
@@ -17,12 +17,12 @@ import servletTest.RequestStub;
 
 public abstract class AbstractClickControlTest extends AbstractClickTest {
 
-    protected ClickConfig config;
+    protected WebConfig config;
     protected RequestStub request;
 
     public void setUp() throws Exception {
         super.setUp();
-        this.config = new ClickConfig("joist.web.pages") {
+        this.config = new WebConfig("joist.web.pages") {
             @Override
             protected VelocityEngine createVelocityEngine() {
                 return testEngine;
@@ -31,7 +31,7 @@ public abstract class AbstractClickControlTest extends AbstractClickTest {
         this.config.getUrlConverterRegistry().addConverter(new EmployeeToStringConverter());
         this.config.getTextConverterRegistry().addConverter(new EmployeeToFriendlyStringConverter());
         this.request = new RequestStub();
-        CurrentContext.set(new ClickContext(null, this.config, this.request, null));
+        CurrentContext.set(new WebContext(null, this.config, this.request, null));
     }
 
     protected String render(Control c) {

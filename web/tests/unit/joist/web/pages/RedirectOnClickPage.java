@@ -2,7 +2,7 @@ package joist.web.pages;
 
 import joist.util.TestCounter;
 import joist.web.AbstractPage;
-import joist.web.ClickKeywords;
+import joist.web.WebKeywords;
 import joist.web.controls.form.Form;
 import joist.web.controls.form.SubmitButton;
 import joist.web.util.HtmlWriter;
@@ -31,7 +31,7 @@ public class RedirectOnClickPage extends AbstractPage {
     }
 
     public void submit() {
-        ClickKeywords.redirect("/foo.htm");
+        WebKeywords.redirect("/foo.htm");
         RedirectOnClickPage.lineAfterRedirect.next();
     }
 

@@ -18,7 +18,7 @@ public class TextContent {
         if (this.content instanceof Binding<?>) {
             value = ((Binding<?>) this.content).get();
         }
-        String valueAsString = CurrentContext.get().getClickConfig().getTextConverterRegistry().convert(value, String.class);
+        String valueAsString = CurrentContext.get().getWebConfig().getTextConverterRegistry().convert(value, String.class);
         return valueAsString;
     }
 

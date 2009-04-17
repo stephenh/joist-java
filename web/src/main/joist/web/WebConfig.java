@@ -4,13 +4,13 @@ import joist.converter.ConverterRegistry;
 
 import org.apache.velocity.app.VelocityEngine;
 
-/** User configuration for click2.
+/** User configuration for {@link WebServlet}.
  *
  * If you want to customize more than just the base package name,
  * you should override methods like <code>createVelocityEngine</code>
  * and <code>createPageResolver</code>.
  */
-public class ClickConfig {
+public class WebConfig {
 
     private final PageResolver pageResolver;
     private final VelocityEngine velocityEngine;
@@ -18,7 +18,7 @@ public class ClickConfig {
     private final ConverterRegistry urlConverterRegistry;
     private final ConverterRegistry textConverterRegistry;
 
-    public ClickConfig(String basePackageName) {
+    public WebConfig(String basePackageName) {
         this.basePackageName = basePackageName;
         this.pageResolver = this.createPageResolver();
         this.velocityEngine = this.createVelocityEngine();

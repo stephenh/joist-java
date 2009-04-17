@@ -24,7 +24,7 @@ public class MessagesDiv extends AbstractControl {
     }
 
     public void add(String type, String text, Object... args) {
-        text = Interpolate.string(text, CurrentContext.get().getClickConfig().getTextConverterRegistry(), args);
+        text = Interpolate.string(text, CurrentContext.get().getWebConfig().getTextConverterRegistry(), args);
         this.getMessages(true).add(new Message(type, text));
     }
 

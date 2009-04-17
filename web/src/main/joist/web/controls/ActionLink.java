@@ -2,7 +2,7 @@ package joist.web.controls;
 
 import java.util.Map.Entry;
 
-import joist.web.ClickContext;
+import joist.web.WebContext;
 import joist.web.CurrentContext;
 import joist.web.Page;
 
@@ -35,7 +35,7 @@ public class ActionLink extends PageLink {
         }
     }
 
-    private ClickContext getContext() {
+    private WebContext getContext() {
         return CurrentContext.get();
     }
 

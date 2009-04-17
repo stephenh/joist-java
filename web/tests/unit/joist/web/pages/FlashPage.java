@@ -1,7 +1,7 @@
 package joist.web.pages;
 
 import joist.web.AbstractPage;
-import joist.web.ClickKeywords;
+import joist.web.WebKeywords;
 import joist.web.controls.form.Form;
 import joist.web.controls.form.SubmitButton;
 
@@ -21,8 +21,8 @@ public class FlashPage extends AbstractPage {
     }
 
     public void submit() {
-        ClickKeywords.flash("message", "success");
-        ClickKeywords.redirect("/flash.htm");
+        WebKeywords.flash("message", "success");
+        WebKeywords.redirect("/flash.htm");
     }
 
 }

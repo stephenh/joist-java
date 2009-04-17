@@ -2,7 +2,7 @@ package joist.web.pages;
 
 import joist.util.TestCounter;
 import joist.web.AbstractPage;
-import joist.web.ClickKeywords;
+import joist.web.WebKeywords;
 import joist.web.util.HtmlWriter;
 
 public class RedirectOnInitPage extends AbstractPage {
@@ -11,7 +11,7 @@ public class RedirectOnInitPage extends AbstractPage {
 
     @Override
     public void onInit() {
-        ClickKeywords.redirect(RedirectOnInitPage.class);
+        WebKeywords.redirect(RedirectOnInitPage.class);
     }
 
     @Override

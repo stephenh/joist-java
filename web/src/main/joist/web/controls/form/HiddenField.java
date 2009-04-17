@@ -21,7 +21,7 @@ public class HiddenField extends AbstractField<HiddenField> {
     }
 
     public void render(HtmlWriter w) {
-        String valueForUrl = CurrentContext.get().getClickConfig().getUrlConverterRegistry().convert(this.getBoundValue(), String.class);
+        String valueForUrl = CurrentContext.get().getWebConfig().getUrlConverterRegistry().convert(this.getBoundValue(), String.class);
         w.append("<input id={} name={} type={} value={}/>", this.getFullId(), this.getId(), "hidden", valueForUrl);
     }
 
@@ -31,7 +31,7 @@ public class HiddenField extends AbstractField<HiddenField> {
 
     @Override
     protected ConverterRegistry getProcessConverterRegistry() {
-        return CurrentContext.get().getClickConfig().getUrlConverterRegistry();
+        return CurrentContext.get().getWebConfig().getUrlConverterRegistry();
     }
 
 }
