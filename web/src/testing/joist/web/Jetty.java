@@ -37,7 +37,7 @@ public class Jetty {
 
         // Use SocketConnector because SelectChannelConnector locks files
         Connector connector = new SocketConnector();
-        connector.setPort(8080);
+        connector.setPort(new Integer(System.getProperty("jetty.port", "8080")));
         connector.setMaxIdleTime(60000);
 
         Jetty.SERVER.setConnectors(new Connector[] { connector });
