@@ -1,0 +1,31 @@
+<project name="ivybootstrap" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<!--
+	The "ivy.bootstrap" target ensures ivy and JSCH are downloaded and installed
+	in the user's $HOME/.ivy2 directory so we can implicitly taskdef them into
+	this ant context without messing with the $ANT_HOME/lib directory or
+	otherwise having the user explicitly go download ivy.
+	-->
+
+	<property name="ivy.jar.version" value="2.0.0"/>
+	<property name="ivy.jar.name" value="ivy-${ivy.jar.version}.jar"/>
+	<property name="ivy.home" value="${user.home}/.ivy2"/>
+	<available property="ivy.installed" file="${ivy.home}/${ivy.jar.name}"/>
+
+	<property name="jsch.jar.version" value="0.1.29"/>
+	<property name="jsch.jar.name" value="jsch-${jsch.jar.version}.jar"/>
+	<available property="jsch.installed" file="${ivy.home}/${jsch.jar.name}"/>
+
+	<target name="ivy.install" unless="ivy.installed">
+		<mkdir dir="${ivy.home}"/>
+		<get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.jar.version}/${ivy.jar.name}" dest="${ivy.home}/${ivy.jar.name}"/>
+	</target>
+
+	<target name="jsch.install" unless="jsch.installed">
+		<get src="http://repo1.maven.org/maven2/jsch/jsch/${jsch.jar.version}/${jsch.jar.name}" dest="${ivy.home}/${jsch.jar.name}"/>
+	</target>
+
+	<target name="ivy.bootstrap" depends="ivy.install,jsch.install" unless="ivy.bootstrapped">
+		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivy.home}/${ivy.jar.name};${ivy.home}/${jsch.jar.name}"/>
+		<property name="ivy.bootstrapped" value="true"/> <!-- Avoid re-bootstrapping because it causes classloader issues. -->
+	</target>
+</project>

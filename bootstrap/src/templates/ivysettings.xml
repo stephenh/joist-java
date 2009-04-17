@@ -1,0 +1,27 @@
+<ivysettings>
+	<settings defaultResolver="main"/>
+	<include url="${ivy.default.settings.dir}/ivysettings-public.xml"/>
+	<include url="${ivy.default.settings.dir}/ivysettings-local.xml"/>
+	<resolvers>
+		<!-- Copy/paste from ivysettings-local.xml bith with checkmodified/changingPattern to bust the cache for snapshots. -->
+		<filesystem name="local-checkmodified" checkmodified="true" changingPattern=".*SNAPSHOT">
+			<ivy pattern="${ivy.local.default.root}/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="${ivy.local.default.root}/${ivy.local.default.artifact.pattern}" />
+		</filesystem>
+
+		<!-- For downloading our own jars, e.g. bindgen, timeandmoney, etc. -->
+		<url name="joist">
+			<ivy pattern="http://repo.joist.ws/${ivy.local.default.ivy.pattern}" />
+			<artifact pattern="http://repo.joist.ws/${ivy.local.default.artifact.pattern}" />
+		</url>
+
+		<!-- Repeating the checkmodified/changingPattern incantation here is very important. -->
+		<chain name="main" checkmodified="true" changingPattern=".*SNAPSHOT">
+			<resolver ref="local-checkmodified"/>
+			<resolver ref="joist"/>
+			<!-- they have webdriver -->
+			<ibiblio name="openqa" root="http://nexus.openqa.org/content/repositories/releases/" m2compatible="true"/>
+			<resolver ref="public"/>
+		</chain>
+	</resolvers>
+</ivysettings>

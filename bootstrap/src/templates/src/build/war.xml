@@ -1,0 +1,12 @@
+<project name="@projectName@.war">
+
+	<target name="war.create" depends="main.compile" description="creates @projectName@.war">
+		<mkdir dir="bin/jars"/>
+		<jar destfile="bin/jars/@projectName@.war">
+			<zipfileset dir="bin/main" includes="**/*" prefix="WEB-INF/classes"/>
+			<zipfileset dir="bin/lib/main/jars" includes="*.jar" prefix="WEB-INF/lib"/>
+			<fileset dir="content" includes="**/*"/>
+		</jar>
+	</target>
+
+</project>

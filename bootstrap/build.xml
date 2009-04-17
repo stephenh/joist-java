@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<project name="joist.bootstrap" default="main.jar">
+	<import file="../common/ivytargets.xml"/>
+	<import file="src/build/main.xml"/>
+
+	<target name="test" description="noop">
+	</target>
+
+	<target name="clean">
+		<delete dir="bin"/>
+	</target>
+</project>
+
