@@ -1,14 +1,12 @@
 package joist.util;
 
-
-import joist.util.Wrap;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class WrapTest extends TestCase {
 
     public void testQuotes() {
-        Assert.assertEquals("\"foo\"", Wrap.quotes("foo"));
+        Assert.assertEquals("\"foo2\"", Wrap.quotes("foo"));
     }
 
 }
