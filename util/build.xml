@@ -3,6 +3,11 @@
 <project name="joist.util" default="main.jar">
 	<import file="../common/ivytargets.xml"/>
 	<import file="src/build/main.xml"/>
+	<import file="src/build/unit.xml"/>
+
+	<target name="test">
+		<antcall target="unit.run"/>
+	</target>
 
 	<target name="clean">
 		<delete dir="bin"/>

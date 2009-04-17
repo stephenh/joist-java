@@ -6,7 +6,11 @@
 	<import file="src/build/testing.xml"/>
 	<import file="src/build/unit.xml"/>
 
-	<target name="clean">
+	<target name="test" description="run all web tests">
+		<antcall target="unit.run"/>
+	</target>
+
+	<target name="clean" description="clean web/bin">
 		<delete dir="bin"/>
 	</target>
 </project>

@@ -20,6 +20,10 @@
 		</subant>
 	</target>
 
+	<target name="test-all" depends="buildlist" description="test all">
+		<subant target="test" buildpathref="modules" verbose="true" />
+	</target>
+
 	<target name="clear-cache">
 		<delete dir="${user.home}/.ivy2/cache/joist"/>
 		<delete dir="${user.home}/.ivy2/local/joist"/>
