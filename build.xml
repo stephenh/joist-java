@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 
 <project name="joist" default="jar-all" xmlns:ivy="antlib:org.apache.ivy.ant">
-	<import file="common/ivyload.xml"/>
+	<import file="common/ivybootstrap.xml"/>
 
-	<target name="buildlist" depends="ivy.load">
+	<target name="buildlist" depends="ivy.bootstrap">
 		<ivy:buildlist reference="modules">
 			<fileset dir="." includes="**/build.xml" excludes="build.xml,features/build.xml"/>
 		</ivy:buildlist>

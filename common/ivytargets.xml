@@ -1,27 +1,27 @@
 <project name="common.ivytargets" xmlns:ivy="antlib:org.apache.ivy.ant">
 
-	<import file="ivyload.xml"/>
+	<import file="ivybootstrap.xml"/>
 
-	<target name="ivy.retrieve" depends="ivy.load" description="downloads jars for the project">
+	<target name="ivy.retrieve" depends="ivy.bootstrap" description="downloads jars for the project">
 		<ivy:resolve/>
 		<ivy:retrieve pattern="bin/lib/[conf]/[type]s/[artifact].[ext]" conf="*" type="jar"/>
 	</target>
 
-	<target name="ivy.publish-local" depends="ivy.load" description="publishes the jar/source to your .ivy2/local/ repo">
+	<target name="ivy.publish-local" depends="ivy.bootstrap" description="publishes the jar/source to your .ivy2/local/ repo">
 		<ivy:resolve/>
 		<ivy:publish resolver="local" forcedeliver="true" overwrite="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>
 
-	<target name="ivy.publish-joist" depends="ivy.load" description="publishes the jar/source to joist.ws">
+	<target name="ivy.publish-joist" depends="ivy.bootstrap" description="publishes the jar/source to joist.ws">
 		<ivy:resolve/>
 		<ivy:publish resolver="joist-upload" conf="main,sources" status="release" forcedeliver="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>
 
-	<target name="ivy.update-joist-repo" depends="ivy.load" description="installs all our library dependencies into the joist repo">
+	<target name="ivy.update-joist-repo" depends="ivy.bootstrap" description="installs all our library dependencies into the joist repo">
 		<ivy:resolve/>
 		<ivy:install organisation="${ivy.organisation}" module="${ivy.module}" revision="${ivy.revision}" from="default" to="joist" overwrite="true"/>
 	</target>
