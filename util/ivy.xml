@@ -1,8 +1,8 @@
 <ivy-module version="2.0">
 	<info organisation="joist" module="util" revision="SNAPSHOT"/>
-	<configurations defaultconfmapping="main->main(master),sources;test->master,sources">
+	<configurations defaultconfmapping="main->main(master),sources;unit->master,sources">
 		<conf name="main"/>
-		<conf name="test" extends="main" visibility="private"/>
+		<conf name="unit" extends="main" visibility="private"/>
 		<conf name="sources"/>
 	</configurations>
 	<publications>
@@ -11,6 +11,6 @@
 	</publications>
 	<dependencies>
 		<dependency org="log4j" name="log4j" rev="1.2.15" conf="main"/>
-		<dependency org="junit" name="junit" rev="3.8.2" conf="test"/>
+		<dependency org="junit" name="junit" rev="3.8.2" conf="unit"/>
 	</dependencies>
 </ivy-module>
