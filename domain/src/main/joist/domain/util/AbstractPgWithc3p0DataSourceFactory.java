@@ -13,6 +13,10 @@ import com.mchange.v2.c3p0.DataSources;
 public abstract class AbstractPgWithc3p0DataSourceFactory implements ResourceFactory<DataSource> {
 
     static {
+        AbstractPgWithc3p0DataSourceFactory.setDefaultc3p0Flags();
+    }
+
+    public static void setDefaultc3p0Flags() {
         // Save 50-100ms because we don't care about JMX/whatever
         System.setProperty("com.mchange.v2.c3p0.management.ManagementCoordinator", "com.mchange.v2.c3p0.management.NullManagementCoordinator");
         // Save 50ms because we don't care about JNDI

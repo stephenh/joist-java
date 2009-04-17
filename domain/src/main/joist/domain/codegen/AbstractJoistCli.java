@@ -9,6 +9,7 @@ import joist.domain.migrations.DatabaseBootstrapper;
 import joist.domain.migrations.Migrater;
 import joist.domain.migrations.MigraterConfig;
 import joist.domain.migrations.PermissionFixer;
+import joist.domain.util.AbstractPgWithc3p0DataSourceFactory;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -76,6 +77,7 @@ public abstract class AbstractJoistCli {
     }
 
     private DataSource getCachedDatasource(String dbHost, String dbName, String username, String password) {
+        AbstractPgWithc3p0DataSourceFactory.setDefaultc3p0Flags();
         String key = dbHost + "." + dbName + "." + username + "." + password;
         if (!this.dss.containsKey(key)) {
             ComboPooledDataSource ds = new ComboPooledDataSource();
