@@ -6,14 +6,13 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import joist.domain.util.AbstractPgWithc3p0DataSourceFactory;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cache.NoCacheProvider;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.connection.ConnectionProvider;
 import org.hibernate.dialect.PostgreSQLDialect;
 import org.hibernate.transaction.JDBCTransactionFactory;
 
@@ -24,39 +23,39 @@ import features.domain.Parent;
 
 public class HibernateDriver extends com.sun.japex.JapexDriverBase {
 
-    private SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory;
 
     @Override
     public void initializeDriver() {
-
-        Configuration c = new Configuration();
-        c.setProperty("hibernate.cache.use_second_level_cache", "false");
-        c.setProperty("hibernate.cache.provider_class", NoCacheProvider.class.getName());
-        c.setProperty("hibernate.connection.autocommit", "false");
-        c.setProperty("hibernate.connection.provider_class", ConnectionProvider.class.getName());
-        c.setProperty("hibernate.dialect", PostgreSQLDialect.class.getName());
-        c.setProperty("hibernate.transaction.factory_class", JDBCTransactionFactory.class.getName());
-        // c.setProperty("hibernate.current_session_context_class", ManagedSessionContext.class.getName());
-
-        c.addResource("joist/perf/Parent.hbm.xml");
-
-        this.sessionFactory = c.buildSessionFactory();
+        if (HibernateDriver.sessionFactory == null) {
+            Configuration c = new Configuration();
+            c.setProperty("hibernate.cache.use_second_level_cache", "false");
+            c.setProperty("hibernate.cache.provider_class", NoCacheProvider.class.getName());
+            c.setProperty("hibernate.connection.autocommit", "false");
+            c.setProperty("hibernate.connection.provider_class", MyConnectionProvider.class.getName());
+            c.setProperty("hibernate.dialect", PostgreSQLDialect.class.getName());
+            c.setProperty("hibernate.transaction.factory_class", JDBCTransactionFactory.class.getName());
+            c.addResource("joist/perf/Parent.hbm.xml");
+            HibernateDriver.sessionFactory = c.buildSessionFactory();
+        }
     }
 
+    @Override
     public void run(TestCase testCase) {
         int number = new Integer(testCase.getParam("number"));
         boolean commitOnEach = testCase.getBooleanParam("commitOnEach");
         boolean insert = testCase.getParam("type").equals("insert");
+
         Session s = null;
         Transaction t = null;
         if (!commitOnEach) {
-            s = this.sessionFactory.openSession();
+            s = HibernateDriver.sessionFactory.openSession();
             t = s.beginTransaction();
         }
 
         for (int i = 0; i < number; i++) {
             if (commitOnEach) {
-                s = this.sessionFactory.openSession();
+                s = HibernateDriver.sessionFactory.openSession();
                 t = s.beginTransaction();
             }
 
@@ -81,8 +80,8 @@ public class HibernateDriver extends com.sun.japex.JapexDriverBase {
         }
     }
 
-    public static class ConnectionProvider implements org.hibernate.connection.ConnectionProvider {
-        private final DataSource ds = new AbstractPgWithc3p0DataSourceFactory("features").create();
+    public static class MyConnectionProvider implements ConnectionProvider {
+        private final DataSource ds = new MyDataSourceFactory().create();
 
         public void configure(Properties props) throws HibernateException {
         }
@@ -107,4 +106,5 @@ public class HibernateDriver extends com.sun.japex.JapexDriverBase {
             return false;
         }
     }
+
 }

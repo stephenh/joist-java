@@ -4,7 +4,6 @@ import javax.sql.DataSource;
 
 import joist.domain.orm.Repository;
 import joist.domain.uow.UoW;
-import joist.domain.util.AbstractPgWithc3p0DataSourceFactory;
 import joist.registry.LazyResource;
 
 import com.sun.japex.TestCase;
@@ -15,12 +14,14 @@ public class JoistDriver extends com.sun.japex.JapexDriverBase {
 
     @Override
     public void initializeDriver() {
-        final DataSource ds = new AbstractPgWithc3p0DataSourceFactory("features").create();
-        Repository.datasource = new LazyResource<DataSource>() {
-            public DataSource get() {
-                return ds;
-            }
-        };
+        if (Repository.datasource == null) {
+            final DataSource ds = new MyDataSourceFactory().create();
+            Repository.datasource = new LazyResource<DataSource>() {
+                public DataSource get() {
+                    return ds;
+                }
+            };
+        }
     }
 
     @Override

@@ -30,7 +30,7 @@ public class AbstractPgWithc3p0DataSourceFactory implements ResourceFactory<Data
     protected int maxPoolSize = 3;
     protected int initialPoolSize = 1;
 
-    public AbstractPgWithc3p0DataSourceFactory(String databaseName) {
+    protected AbstractPgWithc3p0DataSourceFactory(String databaseName) {
         this.databaseName = databaseName;
         this.user = databaseName + "_role";
         this.password = databaseName + "_role";
