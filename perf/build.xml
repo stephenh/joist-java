@@ -25,7 +25,7 @@
 		<fileset dir="${env.JAPEX_HOME}/lib/" includes="*.jar"/>
 	</path>
 
-	<target name="run" depends="main.compile">
+	<target name="run" depends="main.compile" description="runs japex">
 		<java dir="." fork="true" classname="com.sun.japex.Japex">
 			<classpath refid="run.classpath"/>
 			<arg line="japex.xml"/>
