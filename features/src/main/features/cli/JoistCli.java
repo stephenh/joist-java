@@ -6,7 +6,6 @@ public class JoistCli extends AbstractJoistCli {
 
     public JoistCli() {
         super("features");
-        this.dbSaPassword = "postgresql_chimera";
     }
 
 }
