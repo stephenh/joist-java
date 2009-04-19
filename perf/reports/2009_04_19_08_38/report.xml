@@ -1,0 +1,421 @@
+<testSuiteReport name="JoistVsHibernate" xmlns="http://www.sun.com/japex/testSuiteReport">
+  <chartType>linechart</chartType>
+  <classPath>bin/main
+bin/lib/main/jars/*.jar</classPath>
+  <configFile>japex.xml</configFile>
+  <dateTime>19 Apr 2009/08:38:46 CDT</dateTime>
+  <hostName>sh7</hostName>
+  <numberOfCpus>2</numberOfCpus>
+  <numberOfThreads>1</numberOfThreads>
+  <osArchitecture>amd64</osArchitecture>
+  <osName>Windows Vista</osName>
+  <plotDrivers>true</plotDrivers>
+  <plotGroupSize>7</plotGroupSize>
+  <reportsDirectory>reports</reportsDirectory>
+  <resultAxis>normal</resultAxis>
+  <resultAxisX>normal</resultAxisX>
+  <resultUnit>ms</resultUnit>
+  <runIterations>1</runIterations>
+  <runsPerDriver>7</runsPerDriver>
+  <singleClassLoader>false</singleClassLoader>
+  <version>1.1.7</version>
+  <vmInfo>Sun Microsystems Inc. 11.0-b11</vmInfo>
+  <warmupIterations>4</warmupIterations>
+  <warmupsPerDriver>1</warmupsPerDriver>
+  <driver name="Hibernate">
+    <driverClass>joist.perf.HibernateDriver</driverClass>
+    <resultAritMean>106.892</resultAritMean>
+    <resultAritMeanStddev>10.548</resultAritMeanStddev>
+    <resultGeomMean>53.262</resultGeomMean>
+    <resultGeomMeanStddev>4.104</resultGeomMeanStddev>
+    <resultHarmMean>11.388</resultHarmMean>
+    <resultHarmMeanStddev>0.665</resultHarmMeanStddev>
+    <testCase name="1ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.002</resultTime>
+      <resultValue>1.914</resultValue>
+      <resultValueStddev>0.253</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">1</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="50ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.055</resultTime>
+      <resultValue>55.1</resultValue>
+      <resultValueStddev>2.422</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">50</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="100ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.11</resultTime>
+      <resultValue>110.177</resultValue>
+      <resultValueStddev>8.303</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">100</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="150ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.173</resultTime>
+      <resultValue>172.789</resultValue>
+      <resultValueStddev>7.591</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">150</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="200ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.229</resultTime>
+      <resultValue>228.676</resultValue>
+      <resultValueStddev>9.811</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">200</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="250ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.296</resultTime>
+      <resultValue>296.257</resultValue>
+      <resultValueStddev>28.771</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">250</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="300ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.346</resultTime>
+      <resultValue>346.011</resultValue>
+      <resultValueStddev>18.142</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">300</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="1ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.002</resultTime>
+      <resultValue>1.675</resultValue>
+      <resultValueStddev>0.053</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">1</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="50ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.016</resultTime>
+      <resultValue>15.504</resultValue>
+      <resultValueStddev>0.435</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">50</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="100ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.03</resultTime>
+      <resultValue>30.084</resultValue>
+      <resultValueStddev>2.53</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">100</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="150ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.043</resultTime>
+      <resultValue>42.87</resultValue>
+      <resultValueStddev>1.458</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">150</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="200ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.056</resultTime>
+      <resultValue>56.327</resultValue>
+      <resultValueStddev>2.466</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">200</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="250ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.084</resultTime>
+      <resultValue>84.453</resultValue>
+      <resultValueStddev>28.854</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">250</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="300ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.096</resultTime>
+      <resultValue>95.537</resultValue>
+      <resultValueStddev>25.572</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">300</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="1au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.002</resultTime>
+      <resultValue>2.231</resultValue>
+      <resultValueStddev>0.331</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">1</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="50au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.033</resultTime>
+      <resultValue>33.064</resultValue>
+      <resultValueStddev>1.489</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">50</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="100au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.081</resultTime>
+      <resultValue>81.401</resultValue>
+      <resultValueStddev>24.297</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">100</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="150au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.097</resultTime>
+      <resultValue>96.82</resultValue>
+      <resultValueStddev>4.102</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">150</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="200au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.133</resultTime>
+      <resultValue>132.714</resultValue>
+      <resultValueStddev>13.516</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">200</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="250au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.172</resultTime>
+      <resultValue>172.218</resultValue>
+      <resultValueStddev>27.908</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">250</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="300au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.189</resultTime>
+      <resultValue>188.918</resultValue>
+      <resultValueStddev>13.192</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">300</number>
+      <type xmlns="">update</type>
+    </testCase>
+  </driver>
+  <driver name="Joist">
+    <driverClass>joist.perf.JoistDriver</driverClass>
+    <resultAritMean>80.855</resultAritMean>
+    <resultAritMeanStddev>7.21</resultAritMeanStddev>
+    <resultGeomMean>33.425</resultGeomMean>
+    <resultGeomMeanStddev>1.506</resultGeomMeanStddev>
+    <resultHarmMean>9.579</resultHarmMean>
+    <resultHarmMeanStddev>0.297</resultHarmMeanStddev>
+    <testCase name="1ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.002</resultTime>
+      <resultValue>1.797</resultValue>
+      <resultValueStddev>0.05</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">1</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="50ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.052</resultTime>
+      <resultValue>52.018</resultValue>
+      <resultValueStddev>2.196</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">50</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="100ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.106</resultTime>
+      <resultValue>105.738</resultValue>
+      <resultValueStddev>6.85</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">100</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="150ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.165</resultTime>
+      <resultValue>165.183</resultValue>
+      <resultValueStddev>10.052</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">150</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="200ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.223</resultTime>
+      <resultValue>222.7</resultValue>
+      <resultValueStddev>13.732</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">200</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="250ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.275</resultTime>
+      <resultValue>274.892</resultValue>
+      <resultValueStddev>11.132</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">250</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="300ei">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.33</resultTime>
+      <resultValue>330.403</resultValue>
+      <resultValueStddev>17.302</resultValueStddev>
+      <commitOnEach xmlns="">true</commitOnEach>
+      <number xmlns="">300</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="1ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.002</resultTime>
+      <resultValue>1.863</resultValue>
+      <resultValueStddev>0.229</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">1</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="50ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.006</resultTime>
+      <resultValue>6.09</resultValue>
+      <resultValueStddev>0.145</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">50</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="100ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.011</resultTime>
+      <resultValue>10.611</resultValue>
+      <resultValueStddev>0.081</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">100</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="150ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.015</resultTime>
+      <resultValue>15.243</resultValue>
+      <resultValueStddev>0.247</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">150</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="200ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.02</resultTime>
+      <resultValue>19.744</resultValue>
+      <resultValueStddev>0.301</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">200</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="250ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.024</resultTime>
+      <resultValue>24.264</resultValue>
+      <resultValueStddev>0.502</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">250</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="300ai">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.03</resultTime>
+      <resultValue>29.514</resultValue>
+      <resultValueStddev>0.528</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">300</number>
+      <type xmlns="">insert</type>
+    </testCase>
+    <testCase name="1au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.002</resultTime>
+      <resultValue>2.066</resultValue>
+      <resultValueStddev>0.081</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">1</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="50au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.02</resultTime>
+      <resultValue>20.39</resultValue>
+      <resultValueStddev>0.598</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">50</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="100au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.038</resultTime>
+      <resultValue>38.411</resultValue>
+      <resultValueStddev>1.724</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">100</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="150au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.068</resultTime>
+      <resultValue>67.993</resultValue>
+      <resultValueStddev>24.378</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">150</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="200au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.088</resultTime>
+      <resultValue>87.766</resultValue>
+      <resultValueStddev>26.395</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">200</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="250au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.109</resultTime>
+      <resultValue>109.323</resultValue>
+      <resultValueStddev>31.902</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">250</number>
+      <type xmlns="">update</type>
+    </testCase>
+    <testCase name="300au">
+      <resultIterations>1</resultIterations>
+      <resultTime>0.112</resultTime>
+      <resultValue>111.94</resultValue>
+      <resultValueStddev>2.992</resultValueStddev>
+      <commitOnEach xmlns="">false</commitOnEach>
+      <number xmlns="">300</number>
+      <type xmlns="">update</type>
+    </testCase>
+  </driver>
+</testSuiteReport>
