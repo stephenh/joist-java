@@ -21,7 +21,7 @@ public abstract class WebServlet extends HttpServlet {
     public void init(ServletConfig servletConfig) throws ServletException {
         super.init(servletConfig);
         this.servletConfig = servletConfig;
-        this.clickConfig = this.createClickConfig();
+        this.clickConfig = this.createWebConfig();
     }
 
     @Override
@@ -45,6 +45,6 @@ public abstract class WebServlet extends HttpServlet {
     }
 
     /** Should be implemented by each app to create its configuration. */
-    protected abstract WebConfig createClickConfig();
+    protected abstract WebConfig createWebConfig();
 
 }

@@ -22,7 +22,7 @@ public abstract class AbstractClickPageTest extends AbstractClickTest {
         this.clickServlet = new WebServlet() {
             private static final long serialVersionUID = 1;
 
-            protected WebConfig createClickConfig() {
+            protected WebConfig createWebConfig() {
                 return AbstractClickPageTest.this.config;
             }
         };
