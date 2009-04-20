@@ -10,6 +10,7 @@ import joist.domain.migrations.Migrater;
 import joist.domain.migrations.MigraterConfig;
 import joist.domain.migrations.PermissionFixer;
 import joist.domain.util.AbstractPgWithc3p0DataSourceFactory;
+import joist.util.Inflector;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -27,9 +28,9 @@ public abstract class AbstractJoistCli {
 
     public AbstractJoistCli(String projectName) {
         this.dbHost = System.getProperty("db.host", "localhost");
-        this.dbName = System.getProperty("db.name", projectName);
-        this.dbAppUsername = System.getProperty("db.app.username", projectName + "_role");
-        this.dbAppPassword = System.getProperty("db.app.password", projectName + "_role");
+        this.dbName = System.getProperty("db.name", Inflector.underscore(projectName));
+        this.dbAppUsername = System.getProperty("db.app.username", Inflector.underscore(projectName) + "_role");
+        this.dbAppPassword = System.getProperty("db.app.password", Inflector.underscore(projectName) + "_role");
         this.dbSaUsername = System.getProperty("db.sa.username", "postgres");
         this.dbSaPassword = System.getProperty("db.sa.password", ".");
         this.migraterConfig.setProjectNameForDefaults(projectName);
