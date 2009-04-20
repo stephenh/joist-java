@@ -5,7 +5,7 @@ import joist.domain.util.AbstractPgWithc3p0DataSourceFactory;
 public class @ProjectName@DataSourceFactory extends AbstractPgWithc3p0DataSourceFactory {
 
     public @ProjectName@DataSourceFactory() {
-        super("@projectName@");
+        super("@project_name@");
     }
 
 }
