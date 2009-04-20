@@ -24,6 +24,14 @@
 		<subant target="test" buildpathref="modules" verbose="true" />
 	</target>
 
+	<target name="release-all" depends="buildlist" description="jar all">
+		<subant buildpathref="modules" verbose="true">
+			<target name="main.jar"/>
+			<target name="ivy.publish-local"/>
+			<target name="ivy.publish-joist"/>
+		</subant>
+	</target>
+
 	<target name="clear-cache">
 		<delete dir="${user.home}/.ivy2/cache/joist"/>
 		<delete dir="${user.home}/.ivy2/local/joist"/>
