@@ -1,7 +1,6 @@
 package @projectName@;
 
 import joist.domain.AbstractDomainObjectsTest;
-import joist.domain.uow.UoW;
 import joist.domain.util.Freeze;
 import joist.jdbc.Jdbc;
 

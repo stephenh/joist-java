@@ -4,8 +4,6 @@ import joist.domain.util.AbstractBuilder;
 import joist.util.TestCounter;
 import @projectName@.domain.User;
 
-import com.domainlanguage.time.CalendarDate;
-
 public class UserBuilder extends AbstractBuilder<User> {
 
     private static TestCounter counter = new TestCounter();

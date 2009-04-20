@@ -1,6 +1,5 @@
 package @projectName@.domain;
 
-import junit.framework.Assert;
 import @projectName@.Abstract@ProjectName@UnitTest;
 
 public class UserTest extends Abstract@ProjectName@UnitTest {
