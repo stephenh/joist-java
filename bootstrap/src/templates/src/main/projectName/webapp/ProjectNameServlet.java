@@ -30,7 +30,7 @@ public class @ProjectName@Servlet extends WebServlet {
     }
 
     @Override
-    protected WebConfig createClickConfig() {
+    protected WebConfig createWebConfig() {
         return new WebConfig("@projectName@.webapp.pages") {
             protected ConverterRegistry createUrlConverterRegistry() {
                 ConverterRegistry r = super.createUrlConverterRegistry();
