@@ -93,8 +93,8 @@ public class GenerateDomainCodegenPass implements Pass {
                 }
             }
 
-            GClass shims = domainCodegen.getInnerClass("Shims");
-            GField shimField = shims.getField(p.getVariableName()).setPublic().setStatic().setFinal();
+            GClass shims = domainCodegen.getInnerClass("Shims").setPackagePrivate();
+            GField shimField = shims.getField(p.getVariableName()).setProtected().setStatic().setFinal();
             shimField.type("Shim<" + entity.getClassName() + ", " + p.getJavaType() + ">");
             GClass shimClass = shimField.initialAnonymousClass();
 
@@ -176,7 +176,7 @@ public class GenerateDomainCodegenPass implements Pass {
             setter2.body.line("this.{}.set({});", mtop.getVariableName(), mtop.getVariableName());
 
             GClass shims = domainCodegen.getInnerClass("Shims");
-            GField shimField = shims.getField(mtop.getVariableName() + "Id").setPublic().setStatic().setFinal();
+            GField shimField = shims.getField(mtop.getVariableName() + "Id").setProtected().setStatic().setFinal();
             shimField.type("Shim<" + entity.getClassName() + ", Integer>");
             GClass shimClass = shimField.initialAnonymousClass();
 
