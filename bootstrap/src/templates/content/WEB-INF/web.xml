@@ -4,8 +4,7 @@
 
 	<servlet>
 		<servlet-name>JoistWeb</servlet-name>
-		<servlet-class>@projectName@.webapp.JoistWebServlet
-		</servlet-class>
+		<servlet-class>@projectName@.webapp.@ProjectName@Servlet</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
 
