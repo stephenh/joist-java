@@ -10,7 +10,7 @@
 		<artifact name="joist.domain" type="source" ext="jar" conf="sources"/>
 	</publications>
 	<dependencies>
-		<dependency org="joist" name="util" rev="SNAPSHOT" conf="main"/>
+		<dependency org="joist" name="util" rev="${joist.version}" conf="main"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.4" conf="main->*"/>
 		<dependency org="timeandmoney" name="timeandmoney" rev="0.5.1" conf="main->default"/>
 		<!-- In main for the AbstractDomainObjectTest. -->

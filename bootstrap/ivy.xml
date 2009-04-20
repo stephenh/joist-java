@@ -9,6 +9,6 @@
 		<artifact name="joist.bootstrap" type="source" ext="jar" conf="sources"/>
 	</publications>
 	<dependencies>
-		<dependency org="joist" name="util" rev="SNAPSHOT" conf="main"/>
+		<dependency org="joist" name="util" rev="${joist.version}" conf="main"/>
 	</dependencies>
 </ivy-module>
