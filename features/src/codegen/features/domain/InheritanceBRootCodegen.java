@@ -92,8 +92,8 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         return (InheritanceBRootChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<InheritanceBRoot, Integer> id = new Shim<InheritanceBRoot, Integer>() {
+    static class Shims {
+        protected static final Shim<InheritanceBRoot, Integer> id = new Shim<InheritanceBRoot, Integer>() {
             public void set(InheritanceBRoot instance, Integer id) {
                 ((InheritanceBRootCodegen) instance).id = id;
             }
@@ -104,7 +104,7 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<InheritanceBRoot, String> name = new Shim<InheritanceBRoot, String>() {
+        protected static final Shim<InheritanceBRoot, String> name = new Shim<InheritanceBRoot, String>() {
             public void set(InheritanceBRoot instance, String name) {
                 ((InheritanceBRootCodegen) instance).name = name;
             }
@@ -115,7 +115,7 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<InheritanceBRoot, Integer> version = new Shim<InheritanceBRoot, Integer>() {
+        protected static final Shim<InheritanceBRoot, Integer> version = new Shim<InheritanceBRoot, Integer>() {
             public void set(InheritanceBRoot instance, Integer version) {
                 ((InheritanceBRootCodegen) instance).version = version;
             }

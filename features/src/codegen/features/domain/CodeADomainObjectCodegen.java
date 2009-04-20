@@ -94,8 +94,8 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         return (CodeADomainObjectChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<CodeADomainObject, Integer> id = new Shim<CodeADomainObject, Integer>() {
+    static class Shims {
+        protected static final Shim<CodeADomainObject, Integer> id = new Shim<CodeADomainObject, Integer>() {
             public void set(CodeADomainObject instance, Integer id) {
                 ((CodeADomainObjectCodegen) instance).id = id;
             }
@@ -106,7 +106,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<CodeADomainObject, String> name = new Shim<CodeADomainObject, String>() {
+        protected static final Shim<CodeADomainObject, String> name = new Shim<CodeADomainObject, String>() {
             public void set(CodeADomainObject instance, String name) {
                 ((CodeADomainObjectCodegen) instance).name = name;
             }
@@ -117,7 +117,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<CodeADomainObject, Integer> version = new Shim<CodeADomainObject, Integer>() {
+        protected static final Shim<CodeADomainObject, Integer> version = new Shim<CodeADomainObject, Integer>() {
             public void set(CodeADomainObject instance, Integer version) {
                 ((CodeADomainObjectCodegen) instance).version = version;
             }
@@ -128,7 +128,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
                 return "version";
             }
         };
-        public static final Shim<CodeADomainObject, Integer> codeAColorId = new Shim<CodeADomainObject, Integer>() {
+        protected static final Shim<CodeADomainObject, Integer> codeAColorId = new Shim<CodeADomainObject, Integer>() {
             public void set(CodeADomainObject instance, Integer codeAColorId) {
                 ((CodeADomainObjectCodegen) instance).codeAColor.setId(codeAColorId);
             }
@@ -139,7 +139,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
                 return "codeAColor";
             }
         };
-        public static final Shim<CodeADomainObject, Integer> codeASizeId = new Shim<CodeADomainObject, Integer>() {
+        protected static final Shim<CodeADomainObject, Integer> codeASizeId = new Shim<CodeADomainObject, Integer>() {
             public void set(CodeADomainObject instance, Integer codeASizeId) {
                 ((CodeADomainObjectCodegen) instance).codeASize.setId(codeASizeId);
             }

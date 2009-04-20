@@ -45,8 +45,8 @@ public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
         return (InheritanceBBottomChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<InheritanceBBottom, String> bottomName = new Shim<InheritanceBBottom, String>() {
+    static class Shims {
+        protected static final Shim<InheritanceBBottom, String> bottomName = new Shim<InheritanceBBottom, String>() {
             public void set(InheritanceBBottom instance, String bottomName) {
                 ((InheritanceBBottomCodegen) instance).bottomName = bottomName;
             }

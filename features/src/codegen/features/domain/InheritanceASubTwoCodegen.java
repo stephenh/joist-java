@@ -45,8 +45,8 @@ public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
         return (InheritanceASubTwoChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<InheritanceASubTwo, String> two = new Shim<InheritanceASubTwo, String>() {
+    static class Shims {
+        protected static final Shim<InheritanceASubTwo, String> two = new Shim<InheritanceASubTwo, String>() {
             public void set(InheritanceASubTwo instance, String two) {
                 ((InheritanceASubTwoCodegen) instance).two = two;
             }

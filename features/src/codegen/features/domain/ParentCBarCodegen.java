@@ -106,8 +106,8 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
         return (ParentCBarChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<ParentCBar, Integer> id = new Shim<ParentCBar, Integer>() {
+    static class Shims {
+        protected static final Shim<ParentCBar, Integer> id = new Shim<ParentCBar, Integer>() {
             public void set(ParentCBar instance, Integer id) {
                 ((ParentCBarCodegen) instance).id = id;
             }
@@ -118,7 +118,7 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<ParentCBar, String> name = new Shim<ParentCBar, String>() {
+        protected static final Shim<ParentCBar, String> name = new Shim<ParentCBar, String>() {
             public void set(ParentCBar instance, String name) {
                 ((ParentCBarCodegen) instance).name = name;
             }
@@ -129,7 +129,7 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<ParentCBar, Integer> version = new Shim<ParentCBar, Integer>() {
+        protected static final Shim<ParentCBar, Integer> version = new Shim<ParentCBar, Integer>() {
             public void set(ParentCBar instance, Integer version) {
                 ((ParentCBarCodegen) instance).version = version;
             }
@@ -140,7 +140,7 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
                 return "version";
             }
         };
-        public static final Shim<ParentCBar, Integer> firstParentId = new Shim<ParentCBar, Integer>() {
+        protected static final Shim<ParentCBar, Integer> firstParentId = new Shim<ParentCBar, Integer>() {
             public void set(ParentCBar instance, Integer firstParentId) {
                 ((ParentCBarCodegen) instance).firstParent.setId(firstParentId);
             }
@@ -151,7 +151,7 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
                 return "firstParent";
             }
         };
-        public static final Shim<ParentCBar, Integer> secondParentId = new Shim<ParentCBar, Integer>() {
+        protected static final Shim<ParentCBar, Integer> secondParentId = new Shim<ParentCBar, Integer>() {
             public void set(ParentCBar instance, Integer secondParentId) {
                 ((ParentCBarCodegen) instance).secondParent.setId(secondParentId);
             }

@@ -86,8 +86,8 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
         return (OneToOneBBarChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<OneToOneBBar, Integer> id = new Shim<OneToOneBBar, Integer>() {
+    static class Shims {
+        protected static final Shim<OneToOneBBar, Integer> id = new Shim<OneToOneBBar, Integer>() {
             public void set(OneToOneBBar instance, Integer id) {
                 ((OneToOneBBarCodegen) instance).id = id;
             }
@@ -98,7 +98,7 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<OneToOneBBar, String> name = new Shim<OneToOneBBar, String>() {
+        protected static final Shim<OneToOneBBar, String> name = new Shim<OneToOneBBar, String>() {
             public void set(OneToOneBBar instance, String name) {
                 ((OneToOneBBarCodegen) instance).name = name;
             }
@@ -109,7 +109,7 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<OneToOneBBar, Integer> version = new Shim<OneToOneBBar, Integer>() {
+        protected static final Shim<OneToOneBBar, Integer> version = new Shim<OneToOneBBar, Integer>() {
             public void set(OneToOneBBar instance, Integer version) {
                 ((OneToOneBBarCodegen) instance).version = version;
             }
@@ -120,7 +120,7 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
                 return "version";
             }
         };
-        public static final Shim<OneToOneBBar, Integer> oneToOneBFooId = new Shim<OneToOneBBar, Integer>() {
+        protected static final Shim<OneToOneBBar, Integer> oneToOneBFooId = new Shim<OneToOneBBar, Integer>() {
             public void set(OneToOneBBar instance, Integer oneToOneBFooId) {
                 ((OneToOneBBarCodegen) instance).oneToOneBFoo.setId(oneToOneBFooId);
             }

@@ -92,8 +92,8 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
         return (ManyToManyBFooToBarChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<ManyToManyBFooToBar, Integer> id = new Shim<ManyToManyBFooToBar, Integer>() {
+    static class Shims {
+        protected static final Shim<ManyToManyBFooToBar, Integer> id = new Shim<ManyToManyBFooToBar, Integer>() {
             public void set(ManyToManyBFooToBar instance, Integer id) {
                 ((ManyToManyBFooToBarCodegen) instance).id = id;
             }
@@ -104,7 +104,7 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<ManyToManyBFooToBar, Integer> version = new Shim<ManyToManyBFooToBar, Integer>() {
+        protected static final Shim<ManyToManyBFooToBar, Integer> version = new Shim<ManyToManyBFooToBar, Integer>() {
             public void set(ManyToManyBFooToBar instance, Integer version) {
                 ((ManyToManyBFooToBarCodegen) instance).version = version;
             }
@@ -115,7 +115,7 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
                 return "version";
             }
         };
-        public static final Shim<ManyToManyBFooToBar, Integer> blueId = new Shim<ManyToManyBFooToBar, Integer>() {
+        protected static final Shim<ManyToManyBFooToBar, Integer> blueId = new Shim<ManyToManyBFooToBar, Integer>() {
             public void set(ManyToManyBFooToBar instance, Integer blueId) {
                 ((ManyToManyBFooToBarCodegen) instance).blue.setId(blueId);
             }
@@ -126,7 +126,7 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
                 return "blue";
             }
         };
-        public static final Shim<ManyToManyBFooToBar, Integer> greenId = new Shim<ManyToManyBFooToBar, Integer>() {
+        protected static final Shim<ManyToManyBFooToBar, Integer> greenId = new Shim<ManyToManyBFooToBar, Integer>() {
             public void set(ManyToManyBFooToBar instance, Integer greenId) {
                 ((ManyToManyBFooToBarCodegen) instance).green.setId(greenId);
             }

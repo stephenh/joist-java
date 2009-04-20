@@ -65,8 +65,8 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
         return (ValidationAFooChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<ValidationAFoo, Integer> id = new Shim<ValidationAFoo, Integer>() {
+    static class Shims {
+        protected static final Shim<ValidationAFoo, Integer> id = new Shim<ValidationAFoo, Integer>() {
             public void set(ValidationAFoo instance, Integer id) {
                 ((ValidationAFooCodegen) instance).id = id;
             }
@@ -77,7 +77,7 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<ValidationAFoo, String> name = new Shim<ValidationAFoo, String>() {
+        protected static final Shim<ValidationAFoo, String> name = new Shim<ValidationAFoo, String>() {
             public void set(ValidationAFoo instance, String name) {
                 ((ValidationAFooCodegen) instance).name = name;
             }
@@ -88,7 +88,7 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<ValidationAFoo, Integer> version = new Shim<ValidationAFoo, Integer>() {
+        protected static final Shim<ValidationAFoo, Integer> version = new Shim<ValidationAFoo, Integer>() {
             public void set(ValidationAFoo instance, Integer version) {
                 ((ValidationAFooCodegen) instance).version = version;
             }

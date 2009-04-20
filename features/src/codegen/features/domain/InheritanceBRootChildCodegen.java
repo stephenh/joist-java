@@ -86,8 +86,8 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
         return (InheritanceBRootChildChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<InheritanceBRootChild, Integer> id = new Shim<InheritanceBRootChild, Integer>() {
+    static class Shims {
+        protected static final Shim<InheritanceBRootChild, Integer> id = new Shim<InheritanceBRootChild, Integer>() {
             public void set(InheritanceBRootChild instance, Integer id) {
                 ((InheritanceBRootChildCodegen) instance).id = id;
             }
@@ -98,7 +98,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
                 return "id";
             }
         };
-        public static final Shim<InheritanceBRootChild, String> name = new Shim<InheritanceBRootChild, String>() {
+        protected static final Shim<InheritanceBRootChild, String> name = new Shim<InheritanceBRootChild, String>() {
             public void set(InheritanceBRootChild instance, String name) {
                 ((InheritanceBRootChildCodegen) instance).name = name;
             }
@@ -109,7 +109,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
                 return "name";
             }
         };
-        public static final Shim<InheritanceBRootChild, Integer> version = new Shim<InheritanceBRootChild, Integer>() {
+        protected static final Shim<InheritanceBRootChild, Integer> version = new Shim<InheritanceBRootChild, Integer>() {
             public void set(InheritanceBRootChild instance, Integer version) {
                 ((InheritanceBRootChildCodegen) instance).version = version;
             }
@@ -120,7 +120,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
                 return "version";
             }
         };
-        public static final Shim<InheritanceBRootChild, Integer> inheritanceBRootId = new Shim<InheritanceBRootChild, Integer>() {
+        protected static final Shim<InheritanceBRootChild, Integer> inheritanceBRootId = new Shim<InheritanceBRootChild, Integer>() {
             public void set(InheritanceBRootChild instance, Integer inheritanceBRootId) {
                 ((InheritanceBRootChildCodegen) instance).inheritanceBRoot.setId(inheritanceBRootId);
             }

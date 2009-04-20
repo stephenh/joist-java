@@ -86,8 +86,8 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
         return (ParentBChildFooChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<ParentBChildFoo, Integer> id = new Shim<ParentBChildFoo, Integer>() {
+    static class Shims {
+        protected static final Shim<ParentBChildFoo, Integer> id = new Shim<ParentBChildFoo, Integer>() {
             public void set(ParentBChildFoo instance, Integer id) {
                 ((ParentBChildFooCodegen) instance).id = id;
             }
@@ -98,7 +98,7 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<ParentBChildFoo, String> name = new Shim<ParentBChildFoo, String>() {
+        protected static final Shim<ParentBChildFoo, String> name = new Shim<ParentBChildFoo, String>() {
             public void set(ParentBChildFoo instance, String name) {
                 ((ParentBChildFooCodegen) instance).name = name;
             }
@@ -109,7 +109,7 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<ParentBChildFoo, Integer> version = new Shim<ParentBChildFoo, Integer>() {
+        protected static final Shim<ParentBChildFoo, Integer> version = new Shim<ParentBChildFoo, Integer>() {
             public void set(ParentBChildFoo instance, Integer version) {
                 ((ParentBChildFooCodegen) instance).version = version;
             }
@@ -120,7 +120,7 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
                 return "version";
             }
         };
-        public static final Shim<ParentBChildFoo, Integer> parentBParentId = new Shim<ParentBChildFoo, Integer>() {
+        protected static final Shim<ParentBChildFoo, Integer> parentBParentId = new Shim<ParentBChildFoo, Integer>() {
             public void set(ParentBChildFoo instance, Integer parentBParentId) {
                 ((ParentBChildFooCodegen) instance).parentBParent.setId(parentBParentId);
             }

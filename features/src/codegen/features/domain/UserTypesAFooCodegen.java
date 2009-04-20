@@ -77,8 +77,8 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         return (UserTypesAFooChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<UserTypesAFoo, CalendarDate> created = new Shim<UserTypesAFoo, CalendarDate>() {
+    static class Shims {
+        protected static final Shim<UserTypesAFoo, CalendarDate> created = new Shim<UserTypesAFoo, CalendarDate>() {
             public void set(UserTypesAFoo instance, CalendarDate created) {
                 ((UserTypesAFooCodegen) instance).created = created;
             }
@@ -89,7 +89,7 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
                 return "created";
             }
         };
-        public static final Shim<UserTypesAFoo, Integer> id = new Shim<UserTypesAFoo, Integer>() {
+        protected static final Shim<UserTypesAFoo, Integer> id = new Shim<UserTypesAFoo, Integer>() {
             public void set(UserTypesAFoo instance, Integer id) {
                 ((UserTypesAFooCodegen) instance).id = id;
             }
@@ -100,7 +100,7 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<UserTypesAFoo, String> name = new Shim<UserTypesAFoo, String>() {
+        protected static final Shim<UserTypesAFoo, String> name = new Shim<UserTypesAFoo, String>() {
             public void set(UserTypesAFoo instance, String name) {
                 ((UserTypesAFooCodegen) instance).name = name;
             }
@@ -111,7 +111,7 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<UserTypesAFoo, Integer> version = new Shim<UserTypesAFoo, Integer>() {
+        protected static final Shim<UserTypesAFoo, Integer> version = new Shim<UserTypesAFoo, Integer>() {
             public void set(UserTypesAFoo instance, Integer version) {
                 ((UserTypesAFooCodegen) instance).version = version;
             }

@@ -120,8 +120,8 @@ public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
         return (ManyToManyBFooChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<ManyToManyBFoo, Integer> id = new Shim<ManyToManyBFoo, Integer>() {
+    static class Shims {
+        protected static final Shim<ManyToManyBFoo, Integer> id = new Shim<ManyToManyBFoo, Integer>() {
             public void set(ManyToManyBFoo instance, Integer id) {
                 ((ManyToManyBFooCodegen) instance).id = id;
             }
@@ -132,7 +132,7 @@ public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<ManyToManyBFoo, String> name = new Shim<ManyToManyBFoo, String>() {
+        protected static final Shim<ManyToManyBFoo, String> name = new Shim<ManyToManyBFoo, String>() {
             public void set(ManyToManyBFoo instance, String name) {
                 ((ManyToManyBFooCodegen) instance).name = name;
             }
@@ -143,7 +143,7 @@ public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<ManyToManyBFoo, Integer> version = new Shim<ManyToManyBFoo, Integer>() {
+        protected static final Shim<ManyToManyBFoo, Integer> version = new Shim<ManyToManyBFoo, Integer>() {
             public void set(ManyToManyBFoo instance, Integer version) {
                 ((ManyToManyBFooCodegen) instance).version = version;
             }

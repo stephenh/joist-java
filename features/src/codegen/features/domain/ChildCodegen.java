@@ -86,8 +86,8 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         return (ChildChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<Child, Integer> id = new Shim<Child, Integer>() {
+    static class Shims {
+        protected static final Shim<Child, Integer> id = new Shim<Child, Integer>() {
             public void set(Child instance, Integer id) {
                 ((ChildCodegen) instance).id = id;
             }
@@ -98,7 +98,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<Child, String> name = new Shim<Child, String>() {
+        protected static final Shim<Child, String> name = new Shim<Child, String>() {
             public void set(Child instance, String name) {
                 ((ChildCodegen) instance).name = name;
             }
@@ -109,7 +109,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<Child, Integer> version = new Shim<Child, Integer>() {
+        protected static final Shim<Child, Integer> version = new Shim<Child, Integer>() {
             public void set(Child instance, Integer version) {
                 ((ChildCodegen) instance).version = version;
             }
@@ -120,7 +120,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
                 return "version";
             }
         };
-        public static final Shim<Child, Integer> parentId = new Shim<Child, Integer>() {
+        protected static final Shim<Child, Integer> parentId = new Shim<Child, Integer>() {
             public void set(Child instance, Integer parentId) {
                 ((ChildCodegen) instance).parent.setId(parentId);
             }

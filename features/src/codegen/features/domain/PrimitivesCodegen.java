@@ -76,8 +76,8 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
         return (PrimitivesChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<Primitives, Boolean> flag = new Shim<Primitives, Boolean>() {
+    static class Shims {
+        protected static final Shim<Primitives, Boolean> flag = new Shim<Primitives, Boolean>() {
             public void set(Primitives instance, Boolean flag) {
                 ((PrimitivesCodegen) instance).flag = flag;
             }
@@ -88,7 +88,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
                 return "flag";
             }
         };
-        public static final Shim<Primitives, Integer> id = new Shim<Primitives, Integer>() {
+        protected static final Shim<Primitives, Integer> id = new Shim<Primitives, Integer>() {
             public void set(Primitives instance, Integer id) {
                 ((PrimitivesCodegen) instance).id = id;
             }
@@ -99,7 +99,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<Primitives, String> name = new Shim<Primitives, String>() {
+        protected static final Shim<Primitives, String> name = new Shim<Primitives, String>() {
             public void set(Primitives instance, String name) {
                 ((PrimitivesCodegen) instance).name = name;
             }
@@ -110,7 +110,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<Primitives, Integer> version = new Shim<Primitives, Integer>() {
+        protected static final Shim<Primitives, Integer> version = new Shim<Primitives, Integer>() {
             public void set(Primitives instance, Integer version) {
                 ((PrimitivesCodegen) instance).version = version;
             }

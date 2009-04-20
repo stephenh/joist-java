@@ -92,8 +92,8 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         return (OneToOneBFooChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<OneToOneBFoo, Integer> id = new Shim<OneToOneBFoo, Integer>() {
+    static class Shims {
+        protected static final Shim<OneToOneBFoo, Integer> id = new Shim<OneToOneBFoo, Integer>() {
             public void set(OneToOneBFoo instance, Integer id) {
                 ((OneToOneBFooCodegen) instance).id = id;
             }
@@ -104,7 +104,7 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<OneToOneBFoo, String> name = new Shim<OneToOneBFoo, String>() {
+        protected static final Shim<OneToOneBFoo, String> name = new Shim<OneToOneBFoo, String>() {
             public void set(OneToOneBFoo instance, String name) {
                 ((OneToOneBFooCodegen) instance).name = name;
             }
@@ -115,7 +115,7 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<OneToOneBFoo, Integer> version = new Shim<OneToOneBFoo, Integer>() {
+        protected static final Shim<OneToOneBFoo, Integer> version = new Shim<OneToOneBFoo, Integer>() {
             public void set(OneToOneBFoo instance, Integer version) {
                 ((OneToOneBFooCodegen) instance).version = version;
             }

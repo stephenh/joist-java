@@ -92,8 +92,8 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
         return (ManyToManyAFooToBarChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<ManyToManyAFooToBar, Integer> id = new Shim<ManyToManyAFooToBar, Integer>() {
+    static class Shims {
+        protected static final Shim<ManyToManyAFooToBar, Integer> id = new Shim<ManyToManyAFooToBar, Integer>() {
             public void set(ManyToManyAFooToBar instance, Integer id) {
                 ((ManyToManyAFooToBarCodegen) instance).id = id;
             }
@@ -104,7 +104,7 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<ManyToManyAFooToBar, Integer> version = new Shim<ManyToManyAFooToBar, Integer>() {
+        protected static final Shim<ManyToManyAFooToBar, Integer> version = new Shim<ManyToManyAFooToBar, Integer>() {
             public void set(ManyToManyAFooToBar instance, Integer version) {
                 ((ManyToManyAFooToBarCodegen) instance).version = version;
             }
@@ -115,7 +115,7 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
                 return "version";
             }
         };
-        public static final Shim<ManyToManyAFooToBar, Integer> manyToManyABarId = new Shim<ManyToManyAFooToBar, Integer>() {
+        protected static final Shim<ManyToManyAFooToBar, Integer> manyToManyABarId = new Shim<ManyToManyAFooToBar, Integer>() {
             public void set(ManyToManyAFooToBar instance, Integer manyToManyABarId) {
                 ((ManyToManyAFooToBarCodegen) instance).manyToManyABar.setId(manyToManyABarId);
             }
@@ -126,7 +126,7 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
                 return "manyToManyABar";
             }
         };
-        public static final Shim<ManyToManyAFooToBar, Integer> manyToManyAFooId = new Shim<ManyToManyAFooToBar, Integer>() {
+        protected static final Shim<ManyToManyAFooToBar, Integer> manyToManyAFooId = new Shim<ManyToManyAFooToBar, Integer>() {
             public void set(ManyToManyAFooToBar instance, Integer manyToManyAFooId) {
                 ((ManyToManyAFooToBarCodegen) instance).manyToManyAFoo.setId(manyToManyAFooId);
             }

@@ -136,8 +136,8 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         return (PrimitivesBChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<PrimitivesB, Long> big1 = new Shim<PrimitivesB, Long>() {
+    static class Shims {
+        protected static final Shim<PrimitivesB, Long> big1 = new Shim<PrimitivesB, Long>() {
             public void set(PrimitivesB instance, Long big1) {
                 ((PrimitivesBCodegen) instance).big1 = big1;
             }
@@ -148,7 +148,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return "big1";
             }
         };
-        public static final Shim<PrimitivesB, Long> big2 = new Shim<PrimitivesB, Long>() {
+        protected static final Shim<PrimitivesB, Long> big2 = new Shim<PrimitivesB, Long>() {
             public void set(PrimitivesB instance, Long big2) {
                 ((PrimitivesBCodegen) instance).big2 = big2;
             }
@@ -159,7 +159,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return "big2";
             }
         };
-        public static final Shim<PrimitivesB, Boolean> bool1 = new Shim<PrimitivesB, Boolean>() {
+        protected static final Shim<PrimitivesB, Boolean> bool1 = new Shim<PrimitivesB, Boolean>() {
             public void set(PrimitivesB instance, Boolean bool1) {
                 ((PrimitivesBCodegen) instance).bool1 = bool1;
             }
@@ -170,7 +170,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return "bool1";
             }
         };
-        public static final Shim<PrimitivesB, Boolean> bool2 = new Shim<PrimitivesB, Boolean>() {
+        protected static final Shim<PrimitivesB, Boolean> bool2 = new Shim<PrimitivesB, Boolean>() {
             public void set(PrimitivesB instance, Boolean bool2) {
                 ((PrimitivesBCodegen) instance).bool2 = bool2;
             }
@@ -181,7 +181,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return "bool2";
             }
         };
-        public static final Shim<PrimitivesB, Integer> id = new Shim<PrimitivesB, Integer>() {
+        protected static final Shim<PrimitivesB, Integer> id = new Shim<PrimitivesB, Integer>() {
             public void set(PrimitivesB instance, Integer id) {
                 ((PrimitivesBCodegen) instance).id = id;
             }
@@ -192,7 +192,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<PrimitivesB, Integer> int1 = new Shim<PrimitivesB, Integer>() {
+        protected static final Shim<PrimitivesB, Integer> int1 = new Shim<PrimitivesB, Integer>() {
             public void set(PrimitivesB instance, Integer int1) {
                 ((PrimitivesBCodegen) instance).int1 = int1;
             }
@@ -203,7 +203,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return "int1";
             }
         };
-        public static final Shim<PrimitivesB, Integer> int2 = new Shim<PrimitivesB, Integer>() {
+        protected static final Shim<PrimitivesB, Integer> int2 = new Shim<PrimitivesB, Integer>() {
             public void set(PrimitivesB instance, Integer int2) {
                 ((PrimitivesBCodegen) instance).int2 = int2;
             }
@@ -214,7 +214,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return "int2";
             }
         };
-        public static final Shim<PrimitivesB, Short> small1 = new Shim<PrimitivesB, Short>() {
+        protected static final Shim<PrimitivesB, Short> small1 = new Shim<PrimitivesB, Short>() {
             public void set(PrimitivesB instance, Short small1) {
                 ((PrimitivesBCodegen) instance).small1 = small1;
             }
@@ -225,7 +225,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return "small1";
             }
         };
-        public static final Shim<PrimitivesB, Short> small2 = new Shim<PrimitivesB, Short>() {
+        protected static final Shim<PrimitivesB, Short> small2 = new Shim<PrimitivesB, Short>() {
             public void set(PrimitivesB instance, Short small2) {
                 ((PrimitivesBCodegen) instance).small2 = small2;
             }
@@ -236,7 +236,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return "small2";
             }
         };
-        public static final Shim<PrimitivesB, Integer> version = new Shim<PrimitivesB, Integer>() {
+        protected static final Shim<PrimitivesB, Integer> version = new Shim<PrimitivesB, Integer>() {
             public void set(PrimitivesB instance, Integer version) {
                 ((PrimitivesBCodegen) instance).version = version;
             }

@@ -86,8 +86,8 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         return (ParentBChildBarChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<ParentBChildBar, Integer> id = new Shim<ParentBChildBar, Integer>() {
+    static class Shims {
+        protected static final Shim<ParentBChildBar, Integer> id = new Shim<ParentBChildBar, Integer>() {
             public void set(ParentBChildBar instance, Integer id) {
                 ((ParentBChildBarCodegen) instance).id = id;
             }
@@ -98,7 +98,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<ParentBChildBar, String> name = new Shim<ParentBChildBar, String>() {
+        protected static final Shim<ParentBChildBar, String> name = new Shim<ParentBChildBar, String>() {
             public void set(ParentBChildBar instance, String name) {
                 ((ParentBChildBarCodegen) instance).name = name;
             }
@@ -109,7 +109,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<ParentBChildBar, Integer> version = new Shim<ParentBChildBar, Integer>() {
+        protected static final Shim<ParentBChildBar, Integer> version = new Shim<ParentBChildBar, Integer>() {
             public void set(ParentBChildBar instance, Integer version) {
                 ((ParentBChildBarCodegen) instance).version = version;
             }
@@ -120,7 +120,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
                 return "version";
             }
         };
-        public static final Shim<ParentBChildBar, Integer> parentBParentId = new Shim<ParentBChildBar, Integer>() {
+        protected static final Shim<ParentBChildBar, Integer> parentBParentId = new Shim<ParentBChildBar, Integer>() {
             public void set(ParentBChildBar instance, Integer parentBParentId) {
                 ((ParentBChildBarCodegen) instance).parentBParent.setId(parentBParentId);
             }

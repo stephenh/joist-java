@@ -65,8 +65,8 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         return (InheritanceABaseChanged) this.changed;
     }
 
-    public static class Shims {
-        public static final Shim<InheritanceABase, Integer> id = new Shim<InheritanceABase, Integer>() {
+    static class Shims {
+        protected static final Shim<InheritanceABase, Integer> id = new Shim<InheritanceABase, Integer>() {
             public void set(InheritanceABase instance, Integer id) {
                 ((InheritanceABaseCodegen) instance).id = id;
             }
@@ -77,7 +77,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
                 return "id";
             }
         };
-        public static final Shim<InheritanceABase, String> name = new Shim<InheritanceABase, String>() {
+        protected static final Shim<InheritanceABase, String> name = new Shim<InheritanceABase, String>() {
             public void set(InheritanceABase instance, String name) {
                 ((InheritanceABaseCodegen) instance).name = name;
             }
@@ -88,7 +88,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        public static final Shim<InheritanceABase, Integer> version = new Shim<InheritanceABase, Integer>() {
+        protected static final Shim<InheritanceABase, Integer> version = new Shim<InheritanceABase, Integer>() {
             public void set(InheritanceABase instance, Integer version) {
                 ((InheritanceABaseCodegen) instance).version = version;
             }
