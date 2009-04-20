@@ -10,5 +10,15 @@
 		</java>
 	</target>
 
+	<target name="joist.cycle" depends="main.compile" description="recreate local database">
+		<java classname="features.cli.Cli">
+			<classpath>
+				<fileset dir="bin/lib/main/jars" includes="**/*.jar"/>
+				<pathelement location="bin/main"/>
+			</classpath>
+			<arg value="JoistCli.cycle"/>
+		</java>
+	</target>
+
 </project>
 

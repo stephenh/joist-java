@@ -6,7 +6,7 @@
 	<target name="buildlist" depends="ivy.bootstrap">
 		<ivy:settings file="common/ivysettings.xml"/>
 		<ivy:buildlist reference="modules">
-			<fileset dir="." includes="*/build.xml" excludes="build.xml,features/build.xml,perf/build.xml,newproject/build.xml"/>
+			<fileset dir="." includes="*/build.xml" excludes="build.xml,perf/build.xml,newproject/build.xml"/>
 		</ivy:buildlist>
 	</target>
 
