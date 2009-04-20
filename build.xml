@@ -25,7 +25,7 @@
 		<subant target="test" buildpathref="modules" verbose="true" />
 	</target>
 
-	<target name="release-all" depends="buildlist" description="jar all">
+	<target name="release-all" depends="buildlist" description="release all">
 		<subant buildpathref="modules" verbose="true">
 			<target name="main.jar"/>
 			<target name="ivy.publish-local"/>
