@@ -6,7 +6,7 @@ import joist.domain.migrations.AbstractMigration;
 public class m0001 extends AbstractMigration {
 
     public m0001() {
-        super("Create entry.");
+        super("Create user.");
     }
 
     public void apply() {
