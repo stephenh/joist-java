@@ -45,7 +45,7 @@ public class ValidationATest extends AbstractFeaturesTest {
             Assert.fail();
         } catch (ValidationException ve) {
             Assert.assertEquals("Name must not be bar", ve.getValidationErrorMessages().get(0));
-            Assert.assertEquals("Name must not be bar - ValidationAFoo[]", ve.getValidationErrors().get(0).toString());
+            Assert.assertEquals("Name must not be bar - ValidationAFoo[null]", ve.getValidationErrors().get(0).toString());
             Assert.assertEquals(foo, ((PropertyError) ve.getValidationErrors().get(0)).getInstance());
         }
     }
@@ -58,7 +58,7 @@ public class ValidationATest extends AbstractFeaturesTest {
             Assert.fail();
         } catch (ValidationException ve) {
             Assert.assertEquals("is all messed up", ve.getValidationErrorMessages().get(0));
-            Assert.assertEquals("is all messed up - ValidationAFoo[]", ve.getValidationErrors().get(0).toString());
+            Assert.assertEquals("is all messed up - ValidationAFoo[null]", ve.getValidationErrors().get(0).toString());
             Assert.assertEquals(foo, ((ObjectError) ve.getValidationErrors().get(0)).getInstance());
         }
     }
