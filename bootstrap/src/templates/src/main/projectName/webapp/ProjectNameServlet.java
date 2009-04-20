@@ -14,9 +14,20 @@ import joist.domain.util.DomainObjectToStringConverter;
 import joist.domain.util.DomainObjectToTextStringConverter;
 import joist.web.WebServlet;
 import joist.web.WebConfig;
+import myApp.Registry;
 
 @SuppressWarnings("serial")
 public class @ProjectName@Servlet extends WebServlet {
+
+    @Override
+    public void init() {
+        Registry.start();
+    }
+
+    @Override
+    public void destroy() {
+        Registry.stop();
+    }
 
     @Override
     protected WebConfig createClickConfig() {
