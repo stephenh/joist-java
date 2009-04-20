@@ -18,7 +18,8 @@ public abstract class WebServlet extends HttpServlet {
     protected WebConfig clickConfig;
 
     @Override
-    public void init(ServletConfig servletConfig) {
+    public void init(ServletConfig servletConfig) throws ServletException {
+        super.init(servletConfig);
         this.servletConfig = servletConfig;
         this.clickConfig = this.createClickConfig();
     }
