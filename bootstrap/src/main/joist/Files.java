@@ -4,6 +4,7 @@ public class Files {
 
     public static String[] files = new String[] {
         ".classpath",
+        ".factorypath",
         ".project",
         ".gitignore",
         "build.properties",
