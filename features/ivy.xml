@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-	<info organisation="joist" module="features" revision="SNAPSHOT"/>
+	<info organisation="joist" module="features" revision="${joist.version}"/>
 	<configurations>
 		<conf name="main"/>
 		<conf name="testing" extends="main" visibility="private"/>

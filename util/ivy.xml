@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-	<info organisation="joist" module="util" revision="SNAPSHOT"/>
+	<info organisation="joist" module="util" revision="${joist.version}"/>
 	<configurations defaultconfmapping="main->main(master),sources;unit->master,sources">
 		<conf name="main"/>
 		<conf name="unit" extends="main" visibility="private"/>
