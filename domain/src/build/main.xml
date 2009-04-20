@@ -9,7 +9,7 @@
 		<javac srcdir="src/main" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8"/>
 	</target>
 
-	<target name="main.jar" depends="main.compile" description="create joist.domain.jar">
+	<target name="main.jar" depends="main.compile,testing.jar" description="create joist.domain.jar">
 		<mkdir dir="bin/jars"/>
 		<jar destfile="bin/jars/joist.domain.jar">
 			<fileset dir="bin/main" includes="**/*.class"/>
