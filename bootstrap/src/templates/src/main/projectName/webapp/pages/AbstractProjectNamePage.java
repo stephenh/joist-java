@@ -5,8 +5,6 @@ import joist.domain.validation.ValidationException;
 import joist.web.AbstractPage;
 import joist.web.controls.MessagesDiv;
 
-import com.domainlanguage.time.TimePoint;
-
 public abstract class Abstract@ProjectName@Page extends AbstractPage {
 
     protected MessagesDiv messages = new MessagesDiv();
