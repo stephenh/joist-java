@@ -1,4 +1,7 @@
 
+Overview
+========
+
 Joist is a webapp development stack that consists of:
 
 * joist.orm--an ORM with type-safe queries (no strings) and no runtime class generation (no CGLIB).
