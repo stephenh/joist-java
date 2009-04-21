@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<project name="joist" default="jar-all" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<import file="common/ivybootstrap.xml"/>
+
+	<target name="buildlist" depends="ivy.bootstrap">
+		<ivy:settings file="common/ivysettings.xml"/>
+		<ivy:buildlist reference="modules">
+			<fileset dir="." includes="*/build.xml" excludes="build.xml,perf/build.xml,newproject/build.xml"/>
+		</ivy:buildlist>
+	</target>
+
+	<target name="clean-all" depends="buildlist" description="clean all">
+		<subant target="clean" buildpathref="modules" verbose="true" />
+	</target>
+
+	<target name="jar-all" depends="buildlist" description="jar all">
+		<subant buildpathref="modules" verbose="true">
+			<target name="main.jar"/>
+			<target name="ivy.publish-local"/>
+		</subant>
+	</target>
+
+	<target name="test-all" depends="buildlist" description="test all">
+		<subant target="test" buildpathref="modules" verbose="true" />
+	</target>
+
+	<target name="release-all" depends="buildlist" description="release all">
+		<subant buildpathref="modules" verbose="true">
+			<target name="main.jar"/>
+			<target name="ivy.publish-local"/>
+			<target name="ivy.publish-joist"/>
+		</subant>
+	</target>
+
+	<target name="clear-cache">
+		<delete dir="${user.home}/.ivy2/cache/joist"/>
+		<delete dir="${user.home}/.ivy2/local/joist"/>
+		<delete dir="${user.home}/.ivy2/cache/exigencecorp"/>
+		<delete dir="${user.home}/.ivy2/local/exigencecorp"/>
+		<delete dir="${user.home}/.ivy2/cache/timeandmoney"/>
+		<delete dir="${user.home}/.ivy2/cache/velocity"/>
+		<delete dir="jars/joist"/>
+	</target>
+
+</project>
+

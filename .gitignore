@@ -1,0 +1,4 @@
+bin
+*.log*
+build.properties
+newproject

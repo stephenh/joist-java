@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<project name="joist.web" default="main.jar">
+	<import file="../common/ivytargets.xml"/>
+	<import file="src/build/main.xml"/>
+	<import file="src/build/testing.xml"/>
+	<import file="src/build/unit.xml"/>
+
+	<target name="test" description="run all web tests">
+		<antcall target="unit.run"/>
+	</target>
+
+	<target name="clean" description="clean web/bin">
+		<delete dir="bin"/>
+	</target>
+</project>
+

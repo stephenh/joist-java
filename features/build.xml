@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<project name="joist.features" default="main.jar">
+	<import file="../common/ivytargets.xml"/>
+	<import file="src/build/main.xml"/>
+	<import file="src/build/tests.xml"/>
+	<import file="src/build/joist.xml"/>
+
+	<target name="test">
+		<antcall target="joist.cycle"/>
+		<antcall target="tests.run"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="bin"/>
+	</target>
+</project>
+

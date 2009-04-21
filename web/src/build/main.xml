@@ -1,0 +1,44 @@
+<project name="web.main">
+
+	<path id="main.classpath">
+		<fileset dir="bin/lib/main/jars" includes="*.jar"/>
+	</path>
+
+	<target name="main.compile" depends="ivy.retrieve" description="compile src/main">
+		<mkdir dir="bin/main"/>
+		<mkdir dir="bin/apt-javac"/>
+		<javac srcdir="src/main" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.6" target="1.6" encoding="utf8">
+			<compilerarg value="-s"/>
+			<compilerarg value="${basedir}/bin/apt-javac"/>
+			<compilerarg value="-processor"/>
+			<compilerarg value="org.exigencecorp.bindgen.processor.BindgenAnnotationProcessor"/>
+			<compilerarg value="-Abindgen.skipExistingBindingCheck=true"/> <!-- for javac -->
+			<compilerarg value="-XprintRounds"/>
+		</javac>
+		<mkdir dir="bin/unit"/>
+		<javac srcdir="tests/unit" destdir="bin/unit" classpathref="main.classpath" debug="true" nowarn="yes" source="1.6" target="1.6" encoding="utf8">
+			<classpath>
+				<pathelement location="bin/main"/>
+				<fileset dir="bin/lib/unit/jars" includes="*.jar"/>
+			</classpath>
+			<compilerarg value="-s"/>
+			<compilerarg value="${basedir}/bin/apt-javac"/>
+			<compilerarg value="-processor"/>
+			<compilerarg value="org.exigencecorp.bindgen.processor.BindgenAnnotationProcessor"/>
+			<compilerarg value="-Abindgen.skipExistingBindingCheck=true"/> <!-- for javac -->
+			<compilerarg value="-XprintRounds"/>
+		</javac>
+	</target>
+
+	<target name="main.jar" depends="main.compile,testing.jar" description="create the joist.web jar">
+		<mkdir dir="bin/jars"/>
+		<jar destfile="bin/jars/joist.web.jar">
+			<fileset dir="bin/main" includes="**/*.class"/>
+		</jar>
+		<mkdir dir="bin/sources"/>
+		<zip destfile="bin/sources/joist.web.jar">
+			<fileset dir="src/main" includes="**/*.java"/>
+		</zip>
+	</target>
+
+</project>

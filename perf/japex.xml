@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testSuite name="JoistVsHibernate" xmlns="http://www.sun.com/japex/testSuite">
+	<param name="japex.classPath" value="bin/main"/>
+	<param name="japex.classPath" value="bin/lib/main/jars/*.jar"/>
+
+	<param name="japex.runsPerDriver" value="3"/>
+	<param name="japex.warmupIterations" value="3"/>
+	<param name="japex.runIterations" value="1"/>
+	<param name="japex.numberOfThreads" value="1"/>
+	<param name="japex.resultUnit" value="ms"/>
+	<param name="japex.chartType" value="linechart"/>
+	<param name="japex.plotDrivers" value="true"/>
+	<param name="japex.plotGroupSize" value="7"/>
+
+	<driver name="Hibernate">
+		<param name="japex.driverClass" value="joist.perf.HibernateDriver"/>
+	</driver>
+
+	<driver name="Joist">
+		<param name="japex.driverClass" value="joist.perf.JoistDriver"/>
+	</driver>
+
+	<!-- insert, each -->
+	<testCase name="1ei">
+		<param name="number" value="1"/>
+		<param name="commitOnEach" value="true"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="50ei">
+		<param name="number" value="50"/>
+		<param name="commitOnEach" value="true"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="100ei">
+		<param name="number" value="100"/>
+		<param name="commitOnEach" value="true"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="150ei">
+		<param name="number" value="150"/>
+		<param name="commitOnEach" value="true"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="200ei">
+		<param name="number" value="200"/>
+		<param name="commitOnEach" value="true"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="250ei">
+		<param name="number" value="250"/>
+		<param name="commitOnEach" value="true"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="300ei">
+		<param name="number" value="300"/>
+		<param name="commitOnEach" value="true"/>
+		<param name="type" value="insert"/>
+	</testCase>
+
+	<!-- insert, all -->
+	<testCase name="1ai">
+		<param name="number" value="1"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="50ai">
+		<param name="number" value="50"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="100ai">
+		<param name="number" value="100"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="150ai">
+		<param name="number" value="150"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="200ai">
+		<param name="number" value="200"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="250ai">
+		<param name="number" value="250"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="insert"/>
+	</testCase>
+	<testCase name="300ai">
+		<param name="number" value="300"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="insert"/>
+	</testCase>
+
+	<!-- update, all -->
+	<testCase name="1au">
+		<param name="number" value="1"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="update"/>
+	</testCase>
+	<testCase name="50au">
+		<param name="number" value="50"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="update"/>
+	</testCase>
+	<testCase name="100au">
+		<param name="number" value="100"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="update"/>
+	</testCase>
+	<testCase name="150au">
+		<param name="number" value="150"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="update"/>
+	</testCase>
+	<testCase name="200au">
+		<param name="number" value="200"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="update"/>
+	</testCase>
+	<testCase name="250au">
+		<param name="number" value="250"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="update"/>
+	</testCase>
+	<testCase name="300au">
+		<param name="number" value="300"/>
+		<param name="commitOnEach" value="false"/>
+		<param name="type" value="update"/>
+	</testCase>
+
+</testSuite>

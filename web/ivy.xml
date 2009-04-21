@@ -1,0 +1,27 @@
+<ivy-module version="2.0">
+	<info organisation="joist" module="web" revision="${joist.version}"/>
+	<configurations>
+		<conf name="main"/>
+		<conf name="sources"/>
+		<conf name="testing" extends="main"/>
+		<conf name="unit" extends="main" visibility="private"/>
+	</configurations>
+	<publications>
+		<artifact name="joist.web" type="jar" ext="jar" conf="main"/>
+		<artifact name="joist.web" type="source" ext="jar" conf="sources"/>
+		<artifact name="joist.web-testing" type="jar" ext="jar" conf="testing"/>
+		<artifact name="joist.web-testing" type="source" ext="jar" conf="sources"/>
+	</publications>
+	<dependencies>
+		<dependency org="joist" name="util" rev="${joist.version}" conf="main"/>
+		<dependency org="commons-lang" name="commons-lang" rev="2.4" conf="main->master,sources"/>
+		<dependency org="exigencecorp" name="bindgen" rev="1.5" conf="main->master,sources"/>
+		<dependency org="org.apache.velocity" name="velocity" rev="1.6.2" conf="main->default"/>
+		<dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="main->master,sources"/>
+		<!-- unit -->
+		<dependency org="junit" name="junit" rev="3.8.2" conf="unit->master"/>
+		<!-- testing -->
+		<dependency org="org.openqa.selenium.webdriver" name="webdriver-firefox" rev="0.6.870" conf="testing->*"/>
+		<dependency org="org.mortbay.jetty" name="jetty" rev="6.1.9" conf="testing->*"/>
+	</dependencies>
+</ivy-module>

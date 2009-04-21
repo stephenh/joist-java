@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="@projectName@" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee">
+	<display-name>@projectName@</display-name>
+
+	<servlet>
+		<servlet-name>JoistWeb</servlet-name>
+		<servlet-class>@projectName@.webapp.@ProjectName@Servlet</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>JoistWeb</servlet-name>
+		<url-pattern>*.htm</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.htm</welcome-file>
+	</welcome-file-list>
+</web-app>

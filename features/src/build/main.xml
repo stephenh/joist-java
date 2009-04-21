@@ -1,0 +1,22 @@
+<project name="features.main">
+
+	<path id="main.classpath">
+		<fileset dir="bin/lib/main/jars" includes="*.jar"/>
+	</path>
+
+	<target name="main.compile" description="compile src/main/ and src/codegen/ to bin/main/" depends="ivy.retrieve">
+		<mkdir dir="bin/main"/>
+		<javac destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8">
+			<src path="src/main"/>
+			<src path="src/codegen"/>
+		</javac>
+	</target>
+
+	<target name="main.jar" depends="main.compile" description="create joist.features.jar">
+		<mkdir dir="bin/jars"/>
+		<jar destfile="bin/jars/joist.features.jar">
+			<fileset dir="bin/main" includes="**/*.class"/>
+		</jar>
+	</target>
+
+</project>

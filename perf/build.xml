@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<project name="joist.perf" default="main.jar">
+	<property environment="env"/>
+	<import file="../common/ivytargets.xml"/>
+
+	<target name="clean">
+		<delete dir="bin"/>
+	</target>
+
+	<path id="main.classpath">
+		<fileset dir="bin/lib/main/jars" includes="*.jar"/>
+	</path>
+
+	<target name="main.compile" depends="ivy.retrieve" description="compile src/main">
+		<mkdir dir="bin/main"/>
+		<javac srcdir="src/main" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8"/>
+		<copy todir="bin/main">
+			<fileset dir="src/main" includes="**/*" excludes="**/*.java"/>
+		</copy>
+	</target>
+
+	<path id="run.classpath">
+		<pathelement location="bin/main"/>
+		<fileset dir="${env.JAPEX_HOME}/lib/" includes="*.jar"/>
+	</path>
+
+	<target name="run" depends="main.compile" description="runs japex">
+		<java dir="." fork="true" classname="com.sun.japex.Japex">
+			<classpath refid="run.classpath"/>
+			<arg line="japex.xml"/>
+		</java>
+	</target>
+
+</project>
+

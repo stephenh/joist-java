@@ -1,0 +1,29 @@
+<project name="features.tests">
+
+	<path id="tests.classpath">
+		<fileset dir="bin/lib/testing/jars" includes="*.jar"/>
+		<pathelement path="bin/main"/>
+	</path>
+
+	<target name="tests.compile" depends="main.compile" description="compile tests">
+		<mkdir dir="bin/tests/"/>
+		<javac srcdir="tests/" destdir="bin/tests/" classpathref="tests.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8"/>
+	</target>
+
+	<target name="tests.run" depends="tests.compile" description="run tests/">
+		<mkdir dir="bin/results/"/>
+		<junit printsummary="on" showoutput="yes" failureproperty="test-suite-failed" fork="yes" forkmode="once">
+			<classpath>
+				<pathelement path="bin/tests/"/>
+				<path refid="tests.classpath"/>
+			</classpath>
+			<formatter type="xml"/>
+			<batchtest todir="bin/results/">
+				<fileset dir="tests/" includes="**/*Test.java" excludes="**/Abstract*.java"/>
+			</batchtest>
+		</junit>
+		<fail if="test-suite-failed">tests failed</fail>
+	</target>
+
+</project>
+
