@@ -192,6 +192,13 @@ public class GenerateDomainCodegenPass implements Pass {
             GMethod shimName = shimClass.getMethod("getName").returnType(String.class);
             shimName.body.line("return \"{}\";", mtop.getVariableName());
 
+            if (mtop.isNotNull()) {
+                domainCodegen.getMethod("addExtraRules").body.line("this.addRule(new NotNull<{}>(Shims.{}Id));",//
+                    entity.getClassName(),
+                    mtop.getVariableName());
+                domainCodegen.addImports(NotNull.class);
+            }
+
             domainCodegen.addImports(Shim.class);
         }
     }

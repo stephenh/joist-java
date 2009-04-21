@@ -2,6 +2,7 @@ package features.domain;
 
 import java.util.List;
 
+import joist.domain.ValidationAssert;
 import junit.framework.Assert;
 
 public class ChildTest extends AbstractFeaturesTest {
@@ -96,6 +97,12 @@ public class ChildTest extends AbstractFeaturesTest {
         Assert.assertTrue(c.getChanged().hasParent());
         Assert.assertTrue(p.getChanged().contains("childs"));
         Assert.assertTrue(p.getChanged().hasChilds());
+    }
+
+    public void testParentIsRequired() {
+        Child c = new Child();
+        c.setName("child");
+        ValidationAssert.assertErrors(c, "Parent is required");
     }
 
 }
