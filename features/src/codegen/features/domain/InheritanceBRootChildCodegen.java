@@ -33,6 +33,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
     private void addExtraRules() {
         this.addRule(new NotNull<InheritanceBRootChild>(Shims.name));
         this.addRule(new MaxLength<InheritanceBRootChild>(Shims.name, 100));
+        this.addRule(new NotNull<InheritanceBRootChild>(Shims.inheritanceBRootId));
     }
 
     public Integer getId() {

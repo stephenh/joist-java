@@ -33,6 +33,7 @@ public abstract class OneToOneABarCodegen extends AbstractDomainObject {
     private void addExtraRules() {
         this.addRule(new NotNull<OneToOneABar>(Shims.name));
         this.addRule(new MaxLength<OneToOneABar>(Shims.name, 100));
+        this.addRule(new NotNull<OneToOneABar>(Shims.oneToOneAFooId));
     }
 
     public Integer getId() {

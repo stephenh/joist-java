@@ -33,6 +33,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     private void addExtraRules() {
         this.addRule(new NotNull<ParentBChildBar>(Shims.name));
         this.addRule(new MaxLength<ParentBChildBar>(Shims.name, 100));
+        this.addRule(new NotNull<ParentBChildBar>(Shims.parentBParentId));
     }
 
     public Integer getId() {

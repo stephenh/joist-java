@@ -34,6 +34,8 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     private void addExtraRules() {
         this.addRule(new NotNull<CodeADomainObject>(Shims.name));
         this.addRule(new MaxLength<CodeADomainObject>(Shims.name, 100));
+        this.addRule(new NotNull<CodeADomainObject>(Shims.codeAColorId));
+        this.addRule(new NotNull<CodeADomainObject>(Shims.codeASizeId));
     }
 
     public Integer getId() {
