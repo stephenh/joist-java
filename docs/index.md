@@ -32,6 +32,13 @@ Joist is opinionated. Currently these opinions mean:
 * PostgreSQL is the only supported database (though there is an H2 branch with tests passing)
 * Annotation processing (e.g. bindgen) works best in Eclipse running in a 1.6 JVM (this is difficult for Mac OSX until 64-bit Eclipse 1.5 ships)
 
+Source
+------
+
+Joist is hosted on github:
+
+[http://github.com/stephenh/joist](http://github.com/stephenh/joist)
+
 Acknowledgements
 ----------------
 
