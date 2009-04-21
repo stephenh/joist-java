@@ -29,6 +29,7 @@ Setup
 
 * Edit `build.properties` and set the `db.sa.password` to your local `postgres` user's password
 * Edit `ivy.xml` and change the joist versions from `SNAPSHOT` to `0.1`--this is annoying, but please live with it for now
+* Install [IvyDE](http://ant.apache.org/ivy/ivyde/) for Eclipse--the update site is [http://www.apache.org/dist/ant/ivyde/updatesite](http://www.apache.org/dist/ant/ivyde/updatesite)
 * Import the project into Eclipse--note there will be a few compile errors until the next time
 
 Database Bootstrap
