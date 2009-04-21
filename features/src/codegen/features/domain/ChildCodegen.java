@@ -33,6 +33,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     private void addExtraRules() {
         this.addRule(new NotNull<Child>(Shims.name));
         this.addRule(new MaxLength<Child>(Shims.name, 100));
+        this.addRule(new NotNull<Child>(Shims.parentId));
     }
 
     public Integer getId() {

@@ -34,6 +34,8 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
     private void addExtraRules() {
         this.addRule(new NotNull<ParentCBar>(Shims.name));
         this.addRule(new MaxLength<ParentCBar>(Shims.name, 100));
+        this.addRule(new NotNull<ParentCBar>(Shims.firstParentId));
+        this.addRule(new NotNull<ParentCBar>(Shims.secondParentId));
     }
 
     public Integer getId() {

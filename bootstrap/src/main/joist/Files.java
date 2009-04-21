@@ -40,6 +40,10 @@ public class Files {
         "tests/unit/projectName/domain/UserTest.java",
         "tests/unit/projectName/domain/builders/UserBuilder.java",
         "tests/integration/projectName/AbstractProjectNameIntegrationTest.java",
-        "tests/integration/projectName/domain/UserIntegrationTest.java" };
+        "tests/integration/projectName/domain/UserIntegrationTest.java",
+        "tests/web/projectName/AbstractProjectNameWebTest.java",
+        "tests/web/projectName/webapp/pageObjects/AbstractProjectNamePageObject.java",
+        "tests/web/projectName/webapp/pageObjects/IndexPageObject.java",
+        "tests/web/projectName/webapp/pages/IndexPageTest.java" };
 
 }

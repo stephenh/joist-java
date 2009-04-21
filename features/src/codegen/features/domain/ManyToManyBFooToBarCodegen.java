@@ -7,6 +7,7 @@ import joist.domain.Shim;
 import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
+import joist.domain.validation.rules.NotNull;
 
 public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
 
@@ -29,6 +30,8 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
+        this.addRule(new NotNull<ManyToManyBFooToBar>(Shims.blueId));
+        this.addRule(new NotNull<ManyToManyBFooToBar>(Shims.greenId));
     }
 
     public Integer getId() {

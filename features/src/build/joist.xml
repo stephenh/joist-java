@@ -1,7 +1,7 @@
 <project name="features.joist">
 
 	<target name="joist.codegen" description="regenerate the domain codegen classes in src/codegen/" depends="main.compile">
-		<java classname="features.cli.Cli">
+		<java classname="features.cli.Cli" dir="${basedir}" fork="true">
 			<classpath>
 				<path refid="main.classpath"/>
 				<pathelement location="bin/main"/>
@@ -11,7 +11,7 @@
 	</target>
 
 	<target name="joist.cycle" depends="main.compile" description="recreate local database">
-		<java classname="features.cli.Cli">
+		<java classname="features.cli.Cli" dir="${basedir}" fork="true">
 			<classpath>
 				<fileset dir="bin/lib/main/jars" includes="**/*.jar"/>
 				<pathelement location="bin/main"/>

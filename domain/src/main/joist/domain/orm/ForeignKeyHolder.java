@@ -2,6 +2,7 @@ package joist.domain.orm;
 
 import joist.domain.DomainObject;
 import joist.domain.uow.UoW;
+import joist.util.Default;
 
 /** A value holder that will lazy load the foreign key. */
 public class ForeignKeyHolder<T extends DomainObject> {
@@ -30,7 +31,10 @@ public class ForeignKeyHolder<T extends DomainObject> {
 
     public Integer getId() {
         if (this.instance != null) {
-            return this.instance.getId();
+            // Return -1 as the dummy value that we have a value, but do not
+            // know its id yet. So far this is only for the NotNull rule so
+            // it can still use the xxxId shim
+            return Default.value(this.instance.getId(), -1);
         }
         return this.id;
     }

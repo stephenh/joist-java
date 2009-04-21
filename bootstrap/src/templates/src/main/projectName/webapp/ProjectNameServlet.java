@@ -14,7 +14,7 @@ import joist.domain.util.DomainObjectToStringConverter;
 import joist.domain.util.DomainObjectToTextStringConverter;
 import joist.web.WebServlet;
 import joist.web.WebConfig;
-import myApp.Registry;
+import @projectName@.Registry;
 
 @SuppressWarnings("serial")
 public class @ProjectName@Servlet extends WebServlet {

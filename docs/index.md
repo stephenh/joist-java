@@ -16,7 +16,7 @@ The goal is a simple, productive environment for enterprise-scale webapps.
 Sections
 --------
 
-* [Getting Started](started.html)
+* [Getting Started](gettingStarted.html)
 * [joist.orm](orm.html)
 * [joist.web](web.html)
 * [bindgen](bindgen.html)
@@ -25,12 +25,24 @@ Sections
 Opinions
 --------
 
-Joist is opinionated. Currently these opinions mean:
+Joist is tailored for projects that agree with its opinions:
 
-* Large, enterprise teams are best served by a simple/known language (Java) and as much type safety as possible
-* Domain objects exactly match schema (so best for greenfield projects with schema control)
-* PostgreSQL is the only supported database (though there is an H2 branch with tests passing)
-* Annotation processing (e.g. bindgen) works best in Eclipse running in a 1.6 JVM (this is difficult for Mac OSX until 64-bit Eclipse 1.5 ships)
+* Enterprise teams are best served by a simple language and as much type safety as possible
+* Domain objects should match and be driven by the schema
+* Most HTML templates are boilerplate spaghetti code with no levels of abstraction
+* PostgreSQL is the database (though a h2 branch exists with passing tests)
+
+Caveats
+-------
+
+* Annotation processing (e.g. bindgen) works best in Eclipse running in a 1.6 JVM--this is difficult developers on Mac OSX until the 64-bit Eclipse 1.5 ships
+
+Source
+------
+
+Joist is hosted on github:
+
+[http://github.com/stephenh/joist](http://github.com/stephenh/joist)
 
 Acknowledgements
 ----------------

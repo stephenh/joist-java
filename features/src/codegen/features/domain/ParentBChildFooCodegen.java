@@ -33,6 +33,7 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
     private void addExtraRules() {
         this.addRule(new NotNull<ParentBChildFoo>(Shims.name));
         this.addRule(new MaxLength<ParentBChildFoo>(Shims.name, 100));
+        this.addRule(new NotNull<ParentBChildFoo>(Shims.parentBParentId));
     }
 
     public Integer getId() {

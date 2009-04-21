@@ -62,6 +62,9 @@ public class Table<T> extends AbstractControl {
     }
 
     private void renderRows(HtmlWriter w) {
+        if (this.current == null) {
+            throw new RuntimeException("The current binding is not set");
+        }
         w.line("  <tbody>");
         int i = 0;
         for (T object : this.getRowsToRender()) {
