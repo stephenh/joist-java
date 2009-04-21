@@ -16,7 +16,7 @@ The goal is a simple, productive environment for enterprise-scale webapps.
 Sections
 --------
 
-* [Getting Started](started.html)
+* [Getting Started](gettingStarted.html)
 * [joist.orm](orm.html)
 * [joist.web](web.html)
 * [bindgen](bindgen.html)
