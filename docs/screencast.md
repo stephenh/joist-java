@@ -43,3 +43,8 @@ This screencast shows how to use the bootstrap jar to start a project with some 
     </object>
 </div>
 
+Note
+----
+
+Per the [caveat](index.html), Eclipse must be running *on* a JDK6 JVM for the annotation processing to work--it cannot be running on a JDK5 JVM and using the "JDK6" compiler option.
+

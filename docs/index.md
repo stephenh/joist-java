@@ -35,7 +35,13 @@ Joist is tailored for projects that agree with its opinions:
 Caveats
 -------
 
-* Annotation processing (e.g. bindgen) works best in Eclipse running in a 1.6 JVM--this is difficult developers on Mac OSX until the 64-bit Eclipse 1.5 ships
+* Annotation processing (e.g. bindgen) works best in Eclipse running in a 1.6 JVM.
+
+  Just using a JDK5 JVM for Eclipse with the JDK6 compiler option set is not enough--Eclipse itself needs the JVM it is running within to have the JDK6-only annotation processing APIs.
+
+  This is difficult developers on Mac OSX because Eclipse's SWT binaries are 32-bit but the Apple JDK6 is 64-bit. Mac OSX users will either have to find a 32-bit JDK6 to install or wait until the Eclipse 1.5 ships with 64-bit support.
+
+* The type-safe SQL DSL currently only handles a simple subset of SQL queries
 
 Source
 ------
