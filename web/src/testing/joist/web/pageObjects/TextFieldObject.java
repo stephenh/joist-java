@@ -1,13 +1,9 @@
 package joist.web.pageObjects;
 
-public class TextFieldObject {
-
-    protected final AbstractPageObject pageObject;
-    protected final String id;
+public class TextFieldObject extends AbstractElementObject {
 
     public TextFieldObject(AbstractPageObject pageObject, String id) {
-        this.pageObject = pageObject;
-        this.id = id;
+        super(pageObject, id);
     }
 
     public String get() {

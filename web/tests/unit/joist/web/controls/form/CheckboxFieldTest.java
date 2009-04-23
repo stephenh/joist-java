@@ -1,7 +1,6 @@
 package joist.web.controls.form;
 
 import joist.web.controls.AbstractClickControlTest;
-import joist.web.controls.form.CheckboxField;
 import junit.framework.Assert;
 import bindgen.java.lang.BooleanBinding;
 
@@ -12,7 +11,7 @@ public class CheckboxFieldTest extends AbstractClickControlTest {
         Assert.assertEquals(false, bb.get().booleanValue());
 
         CheckboxField c = new CheckboxField(bb).id("c");
-        Assert.assertEquals("<input id=\"c\" name=\"c\" type=\"checkbox\" value=\"true\" checked=\"unchecked\"/>", this.render(c));
+        Assert.assertEquals("<input id=\"c\" name=\"c\" type=\"checkbox\" value=\"true\"/>", this.render(c));
 
         this.request.setParameter("c", "true");
         c.onProcess();
@@ -30,7 +29,7 @@ public class CheckboxFieldTest extends AbstractClickControlTest {
         // this.request.setParameter("c", "true"); Browsers will not POST any value if unchecked
         c.onProcess();
         Assert.assertEquals(false, bb.get().booleanValue());
-        Assert.assertEquals("<input id=\"c\" name=\"c\" type=\"checkbox\" value=\"true\" checked=\"unchecked\"/>", this.render(c));
+        Assert.assertEquals("<input id=\"c\" name=\"c\" type=\"checkbox\" value=\"true\"/>", this.render(c));
     }
 
 }

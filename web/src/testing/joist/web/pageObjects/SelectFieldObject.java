@@ -2,14 +2,10 @@ package joist.web.pageObjects;
 
 import org.openqa.selenium.By;
 
-public class SelectFieldObject {
-
-    protected final AbstractPageObject pageObject;
-    protected final String id;
+public class SelectFieldObject extends AbstractElementObject {
 
     public SelectFieldObject(AbstractPageObject pageObject, String id) {
-        this.pageObject = pageObject;
-        this.id = id;
+        super(pageObject, id);
     }
 
     public String get() {
