@@ -7,8 +7,8 @@ import joist.util.Inflector;
 import joist.util.Join;
 import joist.util.Log;
 import joist.web.AbstractControl;
-import joist.web.WebContext;
 import joist.web.CurrentContext;
+import joist.web.WebContext;
 import joist.web.util.HtmlWriter;
 
 import org.apache.commons.lang.StringUtils;
@@ -67,6 +67,9 @@ public class Form extends AbstractControl {
     }
 
     public void add(Button button) {
+        if (this.buttons.size() == 0) {
+            button.setDefaultButton(true);
+        }
         this.buttons.add(button);
         button.setParent(this);
     }
