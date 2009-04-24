@@ -52,7 +52,7 @@ public class Form extends AbstractControl {
 
     public Form id(String id) {
         this.setId(id);
-        this.setHeading(Inflector.humanize(id));
+        this.setHeading(Inflector.humanize(StringUtils.removeEnd(id, "Form")));
         return this;
     }
 

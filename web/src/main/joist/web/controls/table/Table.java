@@ -8,6 +8,7 @@ import joist.web.AbstractControl;
 import joist.web.controls.PageLink;
 import joist.web.util.HtmlWriter;
 
+import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 
 // Should extend AbstractContainer?
@@ -22,8 +23,7 @@ public class Table<T> extends AbstractControl {
     private Binding<Number> pageRows;
 
     public Table(String id) {
-        this.setId(id);
-        this.setLabel(Inflector.humanize(id));
+        this.id(id);
     }
 
     public void setList(List<T> list) {
@@ -45,6 +45,17 @@ public class Table<T> extends AbstractControl {
         this.renderRows(w);
         this.renderFooter(w);
         this.renderPagingLinks(w);
+    }
+
+    public Table<T> id(String id) {
+        this.setId(id);
+        this.setLabel(Inflector.humanize(StringUtils.removeEnd(id, "Table")));
+        return this;
+    }
+
+    public Table<T> label(String label) {
+        this.setLabel(label);
+        return this;
     }
 
     private void renderHeader(HtmlWriter w) {
