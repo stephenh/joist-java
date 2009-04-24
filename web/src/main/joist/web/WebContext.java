@@ -41,6 +41,10 @@ public class WebContext {
         this.page = page;
     }
 
+    public boolean isPost() {
+        return this.getRequest().getMethod().equals("POST");
+    }
+
     public HttpServletRequest getRequest() {
         return this.request;
     }
