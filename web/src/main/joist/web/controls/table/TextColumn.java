@@ -1,9 +1,9 @@
 package joist.web.controls.table;
 
 import joist.util.Inflector;
+import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.exigencecorp.bindgen.Binding;
 
 public class TextColumn extends AbstractColumn<TextColumn> {
@@ -18,7 +18,8 @@ public class TextColumn extends AbstractColumn<TextColumn> {
 
     @Override
     public void render(HtmlWriter sb) {
-        sb.append(ObjectUtils.toString(this.binding.get()));
+        String asText = CurrentContext.get().getWebConfig().getTextConverterRegistry().convert(this.binding.get(), String.class);
+        sb.append(asText);
     }
 
     public String getName() {
