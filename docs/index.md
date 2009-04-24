@@ -9,7 +9,7 @@ Joist
 Overview
 --------
 
-Joist is a web application development stack. It consists of [joist.orm](orm.html), an ORM with type-safe queries (no strings) and no runtime class generation (no CGLIB), and [joist.web](web.html), a component-based web framework.
+Joist is a web application development stack. It consists of two sub-projects [joist.orm](orm.html), an ORM with type-safe queries (no strings) and no runtime class generation (no CGLIB), and [joist.web](web.html), a component-based web framework.
 
 The goal is a simple, productive environment for enterprise-scale webapps.
 
@@ -22,6 +22,7 @@ Sections
 * [joist.web](web.html)
 * [bindgen](bindgen.html)
 * [Eclipse Tips](eclipseTips.html)
+* [Code Generation](codeGeneration.html)
 
 Opinions
 --------
