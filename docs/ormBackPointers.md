@@ -37,7 +37,7 @@ And using `child.setParent(p)` means that `p.getChilds()` will just work:
 Lazy Loading
 ------------
 
-Note that when calling `child.setParent(parent)`, and the implicit `parent.addChild(child)` is done by joist.orm for you, the parent's "other" children are not pulled back from the database.
+Note that when calling `child.setParent(parent)`, and the implicit `parent.addChild(child)` is done by joist.domain for you, the parent's "other" children are not pulled back from the database.
 
 The changes to the `parent.childs` collection are kept lazy until the `parent.getChilds()` method is explicitly called. Then the database is hit and any `parent.childs` added/removed items that had been kept lazy are applied to the results before being returned from `parent.getChilds()`.
 
