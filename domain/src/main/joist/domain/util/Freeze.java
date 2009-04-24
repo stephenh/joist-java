@@ -2,6 +2,7 @@ package joist.domain.util;
 
 import java.util.TimeZone;
 
+import com.domainlanguage.time.CalendarDate;
 import com.domainlanguage.time.TimePoint;
 import com.domainlanguage.timeutil.Clock;
 
@@ -12,6 +13,10 @@ public class Freeze {
 
     static {
         Clock.setDefaultTimeZone(Freeze.defaultTimeZone);
+    }
+
+    public static void at(CalendarDate day) {
+        FrozenClock.freeze(day.startAsTimePoint(Freeze.defaultTimeZone));
     }
 
     public static void at(int year, int month, int day) {
