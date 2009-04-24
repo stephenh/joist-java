@@ -16,7 +16,7 @@ Pages are responsible for initializing controls to render the page and handle an
 Mapping
 -------
 
-joist.orm maps class names from URLs simply:
+joist.web maps class names from URLs simply:
 
 * `/dir/file.htm` to `com.yourmap.basepackage.dir.FilePage`
 

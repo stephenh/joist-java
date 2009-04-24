@@ -4,7 +4,7 @@ Overview
 
 Joist is a webapp development stack that consists of:
 
-* joist.orm--an ORM with type-safe queries (no strings) and no runtime class generation (no CGLIB).
+* joist.domain--an ORM with type-safe queries (no strings) and no runtime class generation (no CGLIB).
 * joist.web--a page-, component-based web framework that leverages bindgen for type safe data binding
 
 See [http://joist.ws](http://joist.ws) for more documentation.

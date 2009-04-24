@@ -3,8 +3,8 @@ layout: default
 title: Patterns
 ---
 
-joist.orm Patterns
-==================
+joist.domain Patterns
+=====================
 
 Fowler's [PoEAA](http://martinfowler.com/books.html#eaa) provided a lot of guidance to drive joist via its patterns.
 

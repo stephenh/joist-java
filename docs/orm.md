@@ -1,19 +1,19 @@
 ---
 layout: default
-title: joist.orm
+title: joist.domain
 ---
 
-joist.orm
-=========
+joist.domain
+============
 
 Overview
 --------
 
-joist.orm is an ORM that focuses on performance, specifically startup time.
+joist.domain is an ORM that focuses on performance, specifically startup time.
 
 While startup time is of little concern in production, in TDD environments it is critical to maintaining productivity.
 
-To achieve the fastest possible startup time, Joist uses code generation (see [shims](./ormShims.html) and [aliases](./ormAliases.html)) instead of the runtime bytecode generation. So, instead of re-generating potentially several hundred classes (on projects with large schemas) with CGLIB on each startup, all of joist.orm's persistence hooks and meta-data are regular, static Java code that loads quickly. 
+To achieve the fastest possible startup time, Joist uses code generation (see [shims](./ormShims.html) and [aliases](./ormAliases.html)) instead of the runtime bytecode generation. So, instead of re-generating potentially several hundred classes (on projects with large schemas) with CGLIB on each startup, all of joist.domain's persistence hooks and meta-data are regular, static Java code that loads quickly. 
 
 Sections
 --------

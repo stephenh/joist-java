@@ -9,7 +9,7 @@ Auto-Maintained Back Pointers
 Overview
 --------
 
-joist.orm automatically maintains both sides of foreign key relationships.
+joist.domain automatically maintains both sides of foreign key relationships.
 
 This means if you add a child to a parent, you don't have to worry about explicitly setting the parent on the child, for fear that later the child will call `getParent()` and get back null. joist maintains both sides.
 
