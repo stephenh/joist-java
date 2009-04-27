@@ -1,4 +1,4 @@
-<ivy-module version="2.0">
+<ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
 	<info organisation="joist" module="web" revision="${joist.version}"/>
 	<configurations>
 		<conf name="main"/>
@@ -16,7 +16,11 @@
 		<dependency org="joist" name="util" rev="${joist.version}" conf="main"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.4" conf="main->master,sources"/>
 		<dependency org="exigencecorp" name="bindgen" rev="1.7" conf="main->master,sources"/>
-		<dependency org="org.apache.velocity" name="velocity" rev="1.6.2" conf="main->default"/>
+		<dependency org="org.apache.velocity" name="velocity" rev="1.6.2" conf="main->default">
+			 <!-- Velocity can't just name their sources -sources like everyone else. -->
+			<artifact name="velocity" type="jar"/>
+			<artifact name="velocity" type="source" ext="jar" m:classifier="src"/>
+		</dependency>
 		<dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="main->master,sources"/>
 		<!-- unit -->
 		<dependency org="junit" name="junit" rev="3.8.2" conf="unit->master"/>
