@@ -3,7 +3,6 @@ package joist.web.util;
 import java.io.StringWriter;
 
 import joist.web.controls.form.TextField;
-import joist.web.util.HtmlWriter;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -61,4 +60,9 @@ public class HtmlWriterTest extends TestCase {
         this.w.line("<p>{}</p>", new TextField().id("foo"));
         Assert.assertEquals("<p><input id=\"foo\" name=\"foo\" type=\"text\" value=\"\"/></p>\n", this.s.toString());
     }
+
+    public void testNoNpe() {
+        this.w.append(null);
+    }
+
 }

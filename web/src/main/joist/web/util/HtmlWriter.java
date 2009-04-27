@@ -37,6 +37,9 @@ public class HtmlWriter extends Writer {
     }
 
     public void append(String pattern, Object... args) {
+        if (pattern == null) {
+            return;
+        }
         int arg = 0;
         int at = 0;
         int br;
