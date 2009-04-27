@@ -44,7 +44,7 @@ The next test is inserting X objects-per-commit:
 
 Joist is ~60-70% faster than Hibernate when bulk-inserting items.
 
-(Technically Joist cheats here because it assigns all of the new entity ids with one bulk SQL statement instead of 1-per-entity like Hibernate does.)
+(Technically Joist cheats here because, although both Joist and Hibernate use the PostgreSQL sequences for id generation, Joist grabs all of the new entity ids with one bulk SQL statement while Hibernate uses 1-query-per-entity.)
 
 ---
 
