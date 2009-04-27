@@ -8,6 +8,15 @@ import org.apache.log4j.Logger;
 public class Log {
 
     static {
+        Log.init();
+    }
+
+    /** Looks for a LogConfiguration class.
+     *
+     * Kind of like log4j.properties, except log4j does not know about it, so
+     * we need to explicitly init() it.
+     */
+    public static void init() {
         try {
             Object config = Class.forName("LogConfiguration").newInstance();
             config.getClass().getMethod("setup").invoke(null);
