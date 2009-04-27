@@ -18,6 +18,8 @@ For example, running 1 JUnit test to save an `Address` object on a ~200-table sc
 
 joist.domain starts 94% faster than Hibernate on this large, ~200-table schema.
 
+Most of the remaining startup time, ~0.3 seconds worth, is the database connection/pool getting established, so it is unlikely to go away.
+
 ---
 
 Notes:
