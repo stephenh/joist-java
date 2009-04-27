@@ -8,7 +8,7 @@ import joist.web.controls.form.SubmitButton;
 
 import org.exigencecorp.bindgen.Bindable;
 
-import bindgen.BindKeyword;
+import bindgen.joist.web.pages.controls.form.SelectFieldPageBinding;
 
 @Bindable
 public class SelectFieldPage extends AbstractPage {
@@ -18,13 +18,14 @@ public class SelectFieldPage extends AbstractPage {
     public Boolean flipShowBlank = false;
 
     public void onInit() {
-        SelectField<String> sf = new SelectField<String>(BindKeyword.bind(this).value());
+        SelectFieldPageBinding b = new SelectFieldPageBinding(this);
+        SelectField<String> sf = new SelectField<String>(b.value());
         sf.options(Copy.list("one", "two"));
         if (this.flipShowBlank) {
             sf.showBlank();
         }
         this.form.add(sf);
-        this.form.add(new SubmitButton(BindKeyword.bind(this).submit()));
+        this.form.add(new SubmitButton(b.submit()));
     }
 
     public void submit() {

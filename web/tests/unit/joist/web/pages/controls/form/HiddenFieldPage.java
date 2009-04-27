@@ -8,7 +8,7 @@ import joist.web.fakedomain.Employee;
 
 import org.exigencecorp.bindgen.Bindable;
 
-import bindgen.BindKeyword;
+import bindgen.joist.web.pages.controls.form.HiddenFieldPageBinding;
 
 @Bindable
 public class HiddenFieldPage extends AbstractPage {
@@ -17,8 +17,9 @@ public class HiddenFieldPage extends AbstractPage {
     public Employee employee;
 
     public void onInit() {
-        this.form.add(new HiddenField(BindKeyword.bind(this).employee()));
-        this.form.add(new SubmitButton(BindKeyword.bind(this).submit()));
+        HiddenFieldPageBinding b = new HiddenFieldPageBinding(this);
+        this.form.add(new HiddenField(b.employee()));
+        this.form.add(new SubmitButton(b.submit()));
     }
 
     public void submit() {
