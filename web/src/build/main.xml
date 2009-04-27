@@ -13,6 +13,7 @@
 			<compilerarg value="-processor"/>
 			<compilerarg value="org.exigencecorp.bindgen.processor.BindgenAnnotationProcessor"/>
 			<compilerarg value="-Abindgen.skipExistingBindingCheck=true"/> <!-- for javac -->
+			<compilerarg value="-Abindgen.skipBindKeyword=true"/>
 			<compilerarg value="-XprintRounds"/>
 		</javac>
 		<mkdir dir="bin/unit"/>
