@@ -165,6 +165,10 @@ public class MigrationKeywords {
         }
     }
 
+    public static void dropColumn(String table, String column) {
+        MigrationKeywords.execute("ALTER TABLE \"{}\" DROP COLUMN \"{}\";", table, column);
+    }
+
     public static FillInStrategy constantFillIn(String fragment) {
         return new ConstantFillInStrategy(fragment);
     }
