@@ -13,10 +13,6 @@ public abstract class AbstractPageObject {
         this.driver = driver;
     }
 
-    public void open(String path) {
-        this.driver.get(this.getBasePath() + path);
-    }
-
     public void type(String id, String value) {
         this.driver.findElement(By.id(id)).clear();
         this.driver.findElement(By.id(id)).sendKeys(value);
@@ -44,6 +40,10 @@ public abstract class AbstractPageObject {
 
     public void clearCookies() {
         this.driver.manage().deleteAllCookies();
+    }
+
+    protected void openWithBasePath(String path) {
+        this.driver.get(this.getBasePath() + path);
     }
 
     protected String getBasePath() {
