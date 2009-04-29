@@ -45,22 +45,11 @@ public class HtmlWriter extends Writer {
         int br;
         while ((br = pattern.indexOf("{}", at)) != -1) {
             this.write(pattern.substring(at, br));
+            at = br + 2; // advance
             if (arg < args.length) {
                 boolean wrapInQuotes = br > 0 && pattern.charAt(br - 1) == '=';
-                if (wrapInQuotes) {
-                    this.write("\"");
-                }
-                Object value = args[arg++];
-                if (value instanceof Control) {
-                    ((Control) value).render(this);
-                } else {
-                    this.write(ObjectUtils.toString(value));
-                }
-                if (wrapInQuotes) {
-                    this.write("\"");
-                }
+                this.writeInQuotesIfNeeded(args[arg++], wrapInQuotes);
             }
-            at = br + 2;
         }
         if (at != pattern.length()) {
             this.write(pattern.substring(at));
@@ -119,6 +108,20 @@ public class HtmlWriter extends Writer {
             this.w.write(str);
         } catch (IOException io) {
             throw new IoException(io);
+        }
+    }
+
+    private void writeInQuotesIfNeeded(Object value, boolean wrapInQuotes) {
+        if (wrapInQuotes) {
+            this.write("\"");
+        }
+        if (value instanceof Control) {
+            ((Control) value).render(this);
+        } else {
+            this.write(ObjectUtils.toString(value));
+        }
+        if (wrapInQuotes) {
+            this.write("\"");
         }
     }
 
