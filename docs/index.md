@@ -16,7 +16,7 @@ The goal is a simple, productive environment for enterprise-scale webapps.
 Sections
 --------
 
-* [Screencast](screencast.html)
+* [Screencasts](screencasts.html)
 * [Getting Started](gettingStarted.html)
 * [joist.domain](orm.html)
 * [joist.web](web.html)
@@ -39,11 +39,11 @@ Caveats
 
 * Annotation processing (e.g. bindgen) works best in Eclipse running in a 1.6 JVM.
 
-  Just using a JDK5 JVM for Eclipse with the JDK6 compiler option set is not enough--Eclipse itself needs the JVM it is running within to have the JDK6-only annotation processing APIs.
+  Just using a JDK5 JVM for running Eclipse itself with the JDK6 compiler option set is not enough--for APT to work, Eclipse needs its own JVM to have the JDK6-only annotation processing APIs.
 
-  This is difficult developers on Mac OSX because Eclipse's SWT binaries are 32-bit but the Apple JDK6 is 64-bit. Mac OSX users will either have to find a 32-bit JDK6 to install or wait until the Eclipse 1.5 ships with 64-bit support.
+  This is difficult developers on Mac OSX because Eclipse's SWT binaries are 32-bit but the Apple JDK6 is 64-bit. Mac OSX users will either have to find a 32-bit JDK6 to install or wait until the Eclipse 3.5 ships with 64-bit support. FWIW, the Eclipse 3.5 integration releases work well on win32.
 
-* The type-safe SQL DSL currently only handles a simple subset of SQL queries
+* The type-safe SQL DSL currently only handles a simple subset of SQL queries. It needs flushed out by more real-world usage.
 
 Source
 ------

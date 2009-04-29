@@ -13,10 +13,12 @@ The separate [Bindgen](http://github.com/stephenh/bindgen) project is joist.web'
 
 Bindgen uses code generation, but is built on top of the JDK6 annotation processor API to provide (in Eclipse) a seamless editing/generation experience. The generated code is kept up to date as soon as "save" is hit.
 
+See [Code Generation](codeGeneration.html) for more discussion about the different types of code generation.
+
 Approach
 --------
 
-Bindgen generates closure-like classes that shadow classes annotated with `@Bindable` and provide type-safe instances of the [`Binding`](http://github.com/stephenh/bindgen/blob/4471fecafcaf6adb86044b661837c37278d269ca/bindgen/src/org/exigencecorp/bindgen/Binding.java) interface to allow frameworks to `get`/`set` that property's data.
+Bindgen generates closure-like classes that shadow classes annotated with `@Bindable` and provide type-safe instances of the [`Binding`](http://github.com/stephenh/bindgen/blob/4471fecafcaf6adb86044b661837c37278d269ca/bindgen/src/org/exigencecorp/bindgen/Binding.java) interface to allow frameworks to `get`/`set` properties' data.
 
 Example
 -------
@@ -56,5 +58,6 @@ See the [Bindgen](http://github.com/stephenh/bindgen) docs for more information.
 Sections
 --------
 
+* [Screencasts](screencasts.html)
 * [Performance](bindgenPerformance.html)
 
