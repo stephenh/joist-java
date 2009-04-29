@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 
 // Should extend AbstractContainer?
-public class Table<T> extends AbstractControl {
+public class Table<T> extends AbstractControl<Table<T>> {
 
     private String label;
     private List<Column> columns = new ArrayList<Column>();
@@ -182,6 +182,10 @@ public class Table<T> extends AbstractControl {
 
     public void setPageRows(Binding<Number> pageRows) {
         this.pageRows = pageRows;
+    }
+
+    protected Table<T> getThis() {
+        return this;
     }
 
 }

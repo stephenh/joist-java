@@ -15,7 +15,7 @@ import joist.web.util.TextContent;
 import org.apache.commons.lang.StringUtils;
 import org.exigencecorp.bindgen.Binding;
 
-public class PageLink extends AbstractControl {
+public class PageLink extends AbstractControl<PageLink> {
 
     private final Class<? extends Page> pageClass;
     private final Map<String, Object> parameters = new LinkedHashMap<String, Object>();
@@ -107,6 +107,10 @@ public class PageLink extends AbstractControl {
     public PageLink id(String id) {
         this.setId(id);
         this.text(Inflector.humanize(id));
+        return this;
+    }
+
+    protected PageLink getThis() {
         return this;
     }
 

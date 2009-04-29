@@ -6,13 +6,13 @@ import java.util.List;
 import joist.converter.ConverterRegistry;
 import joist.util.Inflector;
 import joist.web.AbstractControl;
-import joist.web.WebContext;
 import joist.web.CurrentContext;
 import joist.web.Page;
+import joist.web.WebContext;
 
 import org.exigencecorp.bindgen.Binding;
 
-public abstract class AbstractField<T extends AbstractField<T>> extends AbstractControl implements Field {
+public abstract class AbstractField<T extends AbstractField<T>> extends AbstractControl<T> implements Field {
 
     private String label;
     private Binding<?> binding;

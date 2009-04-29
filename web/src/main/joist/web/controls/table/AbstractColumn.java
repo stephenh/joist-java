@@ -4,7 +4,7 @@ import joist.util.Inflector;
 import joist.web.AbstractControl;
 import joist.web.util.HtmlWriter;
 
-public abstract class AbstractColumn<T extends AbstractColumn<T>> extends AbstractControl implements Column {
+public abstract class AbstractColumn<T extends AbstractColumn<T>> extends AbstractControl<T> implements Column {
 
     private String label;
     private Integer currentRowIndex;

@@ -7,7 +7,7 @@ import joist.web.util.HtmlWriter;
 
 import org.exigencecorp.bindgen.NamedBinding;
 
-public class SubmitButton extends AbstractControl implements Button {
+public class SubmitButton extends AbstractControl<SubmitButton> implements Button {
 
     private String label;
     private Runnable runnable;
@@ -57,6 +57,10 @@ public class SubmitButton extends AbstractControl implements Button {
 
     public void setDefaultButton(boolean isDefaultButton) {
         this.isDefaultButton = isDefaultButton;
+    }
+
+    protected SubmitButton getThis() {
+        return this;
     }
 
 }

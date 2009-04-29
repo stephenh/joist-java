@@ -9,7 +9,7 @@ import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
 /** Stores/displays messages in the flash. */
-public class MessagesDiv extends AbstractControl {
+public class MessagesDiv extends AbstractControl<MessagesDiv> {
 
     public MessagesDiv() {
         this.setId("messages");
@@ -52,6 +52,10 @@ public class MessagesDiv extends AbstractControl {
             CurrentContext.get().getFlash().put("messages-div-" + this.getId(), messages);
         }
         return messages;
+    }
+
+    protected MessagesDiv getThis() {
+        return this;
     }
 
     public static class Message {

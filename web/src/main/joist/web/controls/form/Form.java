@@ -13,7 +13,7 @@ import joist.web.util.HtmlWriter;
 
 import org.apache.commons.lang.StringUtils;
 
-public class Form extends AbstractControl {
+public class Form extends AbstractControl<Form> {
 
     private final List<Field> fields = new ArrayList<Field>();
     private final List<Button> buttons = new ArrayList<Button>();
@@ -142,6 +142,10 @@ public class Form extends AbstractControl {
 
     private WebContext getContext() {
         return CurrentContext.get();
+    }
+
+    protected Form getThis() {
+        return this;
     }
 
 }

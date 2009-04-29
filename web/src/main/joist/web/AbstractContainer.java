@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 /** Base class for Page, Form, Table, etc. */
-public abstract class AbstractContainer extends AbstractControl {
+public abstract class AbstractContainer extends AbstractControl<AbstractContainer> {
 
     private final List<Control> controls = new ArrayList<Control>();
     private final List<Control> controlsReadOnly = Collections.unmodifiableList(this.controls);
@@ -31,6 +31,10 @@ public abstract class AbstractContainer extends AbstractControl {
 
     public List<Control> getControls() {
         return this.controlsReadOnly;
+    }
+
+    protected AbstractContainer getThis() {
+        return this;
     }
 
 }

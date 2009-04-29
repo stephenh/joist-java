@@ -1,16 +1,19 @@
 package joist.web;
 
 import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
 
 import joist.web.util.HtmlWriter;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.Renderable;
 
-public abstract class AbstractControl implements Control, Renderable {
+public abstract class AbstractControl<T extends AbstractControl<T>> implements Control, Renderable {
 
     private String id;
     private Control parent;
+    protected Map<String, String> attributes;
 
     protected AbstractControl() {
         CurrentContext.addControl(this);
@@ -54,4 +57,15 @@ public abstract class AbstractControl implements Control, Renderable {
         this.parent = parent;
     }
 
+    public void set(String name, String value) {
+    }
+
+    public Map<String, String> getAttributes() {
+        if (this.attributes == null) {
+            this.attributes = new HashMap<String, String>();
+        }
+        return this.attributes;
+    }
+
+    protected abstract T getThis();
 }

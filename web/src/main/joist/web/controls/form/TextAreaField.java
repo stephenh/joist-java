@@ -4,15 +4,15 @@ import joist.web.util.HtmlWriter;
 
 import org.exigencecorp.bindgen.Binding;
 
-public class TextArea extends AbstractField<TextArea> {
+public class TextAreaField extends AbstractField<TextAreaField> {
 
     private int rows = 20;
     private int columns = 80;
 
-    public TextArea() {
+    public TextAreaField() {
     }
 
-    public TextArea(Binding<?> binding) {
+    public TextAreaField(Binding<?> binding) {
         super(binding);
     }
 
@@ -25,13 +25,13 @@ public class TextArea extends AbstractField<TextArea> {
             this.getBoundValue());
     }
 
-    public TextArea size(int rows, int columns) {
+    public TextAreaField size(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
         return this;
     }
 
-    public TextArea getThis() {
+    public TextAreaField getThis() {
         return this;
     }
 
