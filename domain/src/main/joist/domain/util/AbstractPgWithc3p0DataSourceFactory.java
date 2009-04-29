@@ -31,9 +31,9 @@ public class AbstractPgWithc3p0DataSourceFactory implements ResourceFactory<Data
     protected int initialPoolSize = 1;
 
     protected AbstractPgWithc3p0DataSourceFactory(String databaseName) {
-        this.databaseName = databaseName;
-        this.user = databaseName + "_role";
-        this.password = databaseName + "_role";
+        this.databaseName = System.getProperty("db.name", databaseName);
+        this.user = System.getProperty("db.username", databaseName + "_role");
+        this.password = System.getProperty("db.password", databaseName + "_role");
     }
 
     public ComboPooledDataSource create() {
