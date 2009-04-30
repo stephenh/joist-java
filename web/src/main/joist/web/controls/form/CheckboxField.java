@@ -21,7 +21,7 @@ public class CheckboxField extends AbstractField<CheckboxField> {
         if (this.getBoundValue() == Boolean.TRUE) {
             w.append(" checked={}", "checked");
         }
-        w.append("/>");
+        w.append("{}/>", this.attributes);
     }
 
     @Override

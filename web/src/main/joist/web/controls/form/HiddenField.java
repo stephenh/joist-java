@@ -22,7 +22,7 @@ public class HiddenField extends AbstractField<HiddenField> {
 
     public void render(HtmlWriter w) {
         String valueForUrl = CurrentContext.get().getWebConfig().getUrlConverterRegistry().convert(this.getBoundValue(), String.class);
-        w.append("<input id={} name={} type={} value={}/>", this.getFullId(), this.getId(), "hidden", valueForUrl);
+        w.append("<input id={} name={} type={} value={}{}/>", this.getFullId(), this.getId(), "hidden", valueForUrl, this.attributes);
     }
 
     public HiddenField getThis() {

@@ -19,7 +19,7 @@ public class StaticField extends AbstractField<StaticField> {
     }
 
     public void render(HtmlWriter w) {
-        w.append("<span id={}>{}</span>", this.getFullId(), this.getBoundValue());
+        w.append("<span id={}{}>{}</span>", this.getFullId(), this.attributes, this.getBoundValue());
     }
 
     public StaticField getThis() {

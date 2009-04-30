@@ -36,7 +36,7 @@ public class SelectField<T> extends AbstractField<SelectField<T>> {
 
     @Override
     public void render(HtmlWriter w) {
-        w.line("<select id={} name={}>", this.getFullId(), this.getId());
+        w.line("<select id={} name={}{}>", this.getFullId(), this.getId(), this.attributes);
         if (this.showBlank) {
             String blankId = this.getFullId() + "-blank";
             if (this.getBoundValue() == null) {

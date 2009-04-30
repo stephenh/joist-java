@@ -17,11 +17,12 @@ public class TextAreaField extends AbstractField<TextAreaField> {
     }
 
     public void render(HtmlWriter w) {
-        w.append("<textarea id={} name={} rows={} cols={}>{}</textarea>",//
+        w.append("<textarea id={} name={} rows={} cols={}{}>{}</textarea>",//
             this.getFullId(),
             this.getId(),
             this.rows,
             this.columns,
+            this.attributes,
             this.getBoundValue());
     }
 
