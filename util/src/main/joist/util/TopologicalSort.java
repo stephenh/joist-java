@@ -60,7 +60,9 @@ public class TopologicalSort<T> {
 
     private void removeDependenciesForParent(MapToList<T, T> dependenciesLeft, T node) {
         for (Map.Entry<T, List<T>> e : dependenciesLeft.entrySet()) {
-            e.getValue().remove(node);
+            while (e.getValue().contains(node)) {
+                e.getValue().remove(node);
+            }
         }
     }
 

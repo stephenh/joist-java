@@ -91,6 +91,12 @@ public class TopologicalSortTest extends TestCase {
         this.assertSorted("ACBD"); // BC was not lost
     }
 
+    public void testMultipleRedundantDependencies() {
+        this.addNodes("AB");
+        this.addDependencies("AB", "AB");
+        this.assertSorted("BA");
+    }
+
     private void addNodes(String nodes) {
         for (int i = 0; i < nodes.length(); i++) {
             this.ts.addNode(String.valueOf(nodes.charAt(i)));
