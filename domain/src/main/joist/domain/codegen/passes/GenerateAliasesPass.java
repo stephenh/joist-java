@@ -202,10 +202,12 @@ public class GenerateAliasesPass implements Pass {
             for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
                 if (mtop.isNotNull()) {
                     ts.addDependency(entity, mtop.getOneSide());
+                } else {
+                    ts.addDependencyIfNoCycle(entity, mtop.getOneSide());
                 }
             }
         }
-        return ts.sort();
+        return ts.get();
     }
 
     private void addOrderMethod(GClass aliasClass, int index) {
