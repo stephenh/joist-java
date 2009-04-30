@@ -49,7 +49,7 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
             this.commitAndReOpen();
             Assert.fail();
         } catch (JdbcException re) {
-            Assert.assertTrue(re.getCause().getNextException().getMessage().contains("duplicate key"));
+            Assert.assertTrue(re.getCause().getMessage().contains("duplicate key"));
         }
     }
 
