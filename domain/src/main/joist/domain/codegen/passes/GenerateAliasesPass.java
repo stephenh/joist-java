@@ -202,7 +202,12 @@ public class GenerateAliasesPass implements Pass {
             for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
                 if (mtop.isNotNull()) {
                     ts.addDependency(entity, mtop.getOneSide());
-                } else {
+                }
+            }
+        }
+        for (Entity entity : codegen.getEntities().values()) {
+            for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+                if (!mtop.isNotNull()) {
                     ts.addDependencyIfNoCycle(entity, mtop.getOneSide());
                 }
             }
