@@ -18,8 +18,16 @@ public class MapToList<K, V> extends LinkedHashMap<K, List<V>> {
         return values;
     }
 
+    public void add(Object key) {
+        this.get(key);
+    }
+
     public void add(Object key, V value) {
         this.get(key).add(value);
+    }
+
+    public void remove(Object key, V value) {
+        this.get(key).remove(value);
     }
 
 }

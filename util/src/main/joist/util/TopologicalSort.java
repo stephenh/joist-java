@@ -1,70 +1,72 @@
 package joist.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class TopologicalSort<T> {
 
-    private final List<T> nodes = new ArrayList<T>();
-    private final Map<T, T> dependencies = new HashMap<T, T>();
+    private final MapToList<T, T> dependencies = new MapToList<T, T>();
+    private List<T> cached;
 
     public void addNode(T node) {
-        this.nodes.add(node);
+        this.dependencies.add(node);
     }
 
     public void addDependency(T dependent, T parent) {
         this.ensureNodes(dependent, parent);
-        this.dependencies.put(dependent, parent);
+        this.dependencies.add(dependent, parent);
         if (this.hasCycles()) {
             throw new CycleException(dependent, parent);
         }
     }
 
-    public void addWeakDependency(T dependent, T parent) {
+    public void addDependencyIfNoCycle(T dependent, T parent) {
         this.ensureNodes(dependent, parent);
-        this.dependencies.put(dependent, parent);
+        this.dependencies.add(dependent, parent);
         if (this.hasCycles()) {
-            this.dependencies.remove(dependent);
+            this.dependencies.remove(dependent, parent);
         }
     }
 
-    public List<T> sort() {
+    public List<T> get() {
+        if (this.cached == null) {
+            this.cached = this.sort();
+        }
+        return this.cached;
+    }
+
+    private List<T> sort() {
         List<T> sorted = new ArrayList<T>();
-        List<T> nodesLeft = Copy.list(this.nodes);
-        Map<T, T> dependenciesLeft = new HashMap<T, T>(this.dependencies);
+        List<T> nodesLeft = Copy.shallow(this.dependencies.keySet());
+        MapToList<T, T> dependenciesLeft = Copy.shallow(this.dependencies);
         while (nodesLeft.size() > 0) {
-            T next = this.findNodeWithNoDependencies(nodesLeft, dependenciesLeft);
-            this.removeDependenciesForParent(dependenciesLeft, next);
-            this.removeNode(nodesLeft, next);
-            sorted.add(next);
+            T nextNode = this.findNodeWithNoDependencies(nodesLeft, dependenciesLeft);
+            this.removeDependenciesForParent(dependenciesLeft, nextNode);
+            this.removeNode(nodesLeft, nextNode);
+            sorted.add(nextNode);
         }
         return sorted;
     }
 
-    private T findNodeWithNoDependencies(List<T> nodesLeft, Map<T, T> dependenciesLeft) {
+    private T findNodeWithNoDependencies(List<T> nodesLeft, MapToList<T, T> dependenciesLeft) {
         for (T node : nodesLeft) {
-            if (!dependenciesLeft.keySet().contains(node)) {
+            if (dependenciesLeft.get(node).size() == 0) {
                 return node;
             }
         }
         throw new CycleException();
     }
 
-    private void removeDependenciesForParent(Map<T, T> dependenciesLeft, T node) {
-        for (Iterator<Entry<T, T>> i = dependenciesLeft.entrySet().iterator(); i.hasNext();) {
-            if (i.next().getValue().equals(node)) {
-                i.remove();
-            }
+    private void removeDependenciesForParent(MapToList<T, T> dependenciesLeft, T node) {
+        for (Map.Entry<T, List<T>> e : dependenciesLeft.entrySet()) {
+            e.getValue().remove(node);
         }
     }
 
     private boolean hasCycles() {
         try {
-            this.sort();
+            this.cached = this.sort();
             return false;
         } catch (CycleException ce) {
             return true;
@@ -76,10 +78,10 @@ public class TopologicalSort<T> {
     }
 
     private void ensureNodes(T dependent, T parent) {
-        if (!this.nodes.contains(dependent)) {
+        if (!this.dependencies.containsKey(dependent)) {
             throw new RuntimeException("The dependent is not yet a node: " + dependent);
         }
-        if (!this.nodes.contains(parent)) {
+        if (!this.dependencies.containsKey(parent)) {
             throw new RuntimeException("The parent is not yet a node: " + parent);
         }
     }

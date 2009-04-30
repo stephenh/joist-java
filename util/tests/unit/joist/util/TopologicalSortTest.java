@@ -85,6 +85,12 @@ public class TopologicalSortTest extends TestCase {
         this.assertSorted("BCA"); // CB took effect, BA was ignored
     }
 
+    public void testMultipleDependencies() {
+        this.addNodes("ABCD");
+        this.addDependencies("BC", "BA");
+        this.assertSorted("ACBD"); // BC was not lost
+    }
+
     private void addNodes(String nodes) {
         for (int i = 0; i < nodes.length(); i++) {
             this.ts.addNode(String.valueOf(nodes.charAt(i)));
@@ -99,12 +105,13 @@ public class TopologicalSortTest extends TestCase {
 
     private void addWeakDependencies(String... dependencies) {
         for (String d : dependencies) {
-            this.ts.addWeakDependency(String.valueOf(d.charAt(0)), String.valueOf(d.charAt(1)));
+            this.ts.addDependencyIfNoCycle(String.valueOf(d.charAt(0)), String.valueOf(d.charAt(1)));
         }
     }
 
     private void assertSorted(String expected) {
-        List<String> sorted = this.ts.sort();
+        List<String> sorted = this.ts.get();
         Assert.assertEquals(expected, Join.join(sorted, ""));
     }
+
 }

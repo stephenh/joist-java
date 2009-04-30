@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.Map.Entry;
 
 public class Copy {
 
@@ -14,6 +15,14 @@ public class Copy {
 
     public static <T> List<T> shallow(Collection<T> source) {
         return new ArrayList<T>(source);
+    }
+
+    public static <T> MapToList<T, T> shallow(MapToList<T, T> source) {
+        MapToList<T, T> copy = new MapToList<T, T>();
+        for (Entry<T, List<T>> e : source.entrySet()) {
+            copy.put(e.getKey(), Copy.shallow(e.getValue()));
+        }
+        return copy;
     }
 
     public static <T> List<T> reverse(List<T> source) {
