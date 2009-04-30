@@ -62,6 +62,12 @@ public class HtmlWriter extends Writer {
         this.append(element);
     }
 
+    public void attributes(Map<?, ?> attributes) {
+        for (Map.Entry<?, ?> e : attributes.entrySet()) {
+            this.attribute(ObjectUtils.toString(e.getKey()), ObjectUtils.toString(e.getValue()));
+        }
+    }
+
     public void attribute(String name, String value) {
         this.append(" ");
         this.append(name);
@@ -112,7 +118,6 @@ public class HtmlWriter extends Writer {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void writeInQuotesIfNeeded(Object value, boolean wrapInQuotes) {
         if (wrapInQuotes) {
             this.write("\"");
@@ -120,10 +125,7 @@ public class HtmlWriter extends Writer {
         if (value instanceof Control) {
             ((Control) value).render(this);
         } else if (value instanceof Map<?, ?>) {
-            Map<Object, Object> map = Map.class.cast(value);
-            for (Map.Entry<Object, Object> e : map.entrySet()) {
-                this.write(" " + e.getKey() + "=\"" + e.getValue() + "\"");
-            }
+            this.attributes(Map.class.cast(value));
         } else {
             this.write(ObjectUtils.toString(value));
         }
