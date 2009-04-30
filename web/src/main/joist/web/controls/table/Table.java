@@ -60,7 +60,7 @@ public class Table<T> extends AbstractControl<Table<T>> {
 
     private void renderHeader(HtmlWriter w) {
         w.line("<h3>{}</h3>", this.getLabel());
-        w.line("<table id={}>", this.getId());
+        w.line("<table id={}{}>", this.getId(), this.attributes);
         w.line("  <thead>");
         w.line("    <tr>");
         for (Column column : this.columns) {

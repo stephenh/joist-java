@@ -57,7 +57,9 @@ public abstract class AbstractControl<T extends AbstractControl<T>> implements C
         this.parent = parent;
     }
 
-    public void set(String name, String value) {
+    public T set(String name, String value) {
+        this.getAttributes().put(name, value);
+        return this.getThis();
     }
 
     public Map<String, String> getAttributes() {
