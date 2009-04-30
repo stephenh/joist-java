@@ -1,5 +1,6 @@
 package joist.jdbc;
 
+import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -174,6 +175,9 @@ public class Jdbc {
             }
             return changed;
         } catch (SQLException se) {
+            if (se instanceof BatchUpdateException) {
+                throw new JdbcException(((BatchUpdateException) se).getNextException());
+            }
             throw new JdbcException(se);
         } finally {
             Jdbc.closeSafely(ps);
