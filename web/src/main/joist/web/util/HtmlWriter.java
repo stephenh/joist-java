@@ -2,6 +2,7 @@ package joist.web.util;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Map;
 
 import joist.util.StringBuilderr;
 import joist.web.Control;
@@ -42,14 +43,14 @@ public class HtmlWriter extends Writer {
         }
         int arg = 0;
         int at = 0;
-        int br;
-        while ((br = pattern.indexOf("{}", at)) != -1) {
-            this.write(pattern.substring(at, br));
-            at = br + 2; // advance
-            if (arg < args.length) {
-                boolean wrapInQuotes = br > 0 && pattern.charAt(br - 1) == '=';
+        int bracesIndex;
+        while ((bracesIndex = pattern.indexOf("{}", at)) != -1) {
+            this.write(pattern.substring(at, bracesIndex));
+            if (args != null && arg < args.length) {
+                boolean wrapInQuotes = bracesIndex > 0 && pattern.charAt(bracesIndex - 1) == '=';
                 this.writeInQuotesIfNeeded(args[arg++], wrapInQuotes);
             }
+            at = bracesIndex + 2; // advance
         }
         if (at != pattern.length()) {
             this.write(pattern.substring(at));
@@ -111,12 +112,18 @@ public class HtmlWriter extends Writer {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void writeInQuotesIfNeeded(Object value, boolean wrapInQuotes) {
         if (wrapInQuotes) {
             this.write("\"");
         }
         if (value instanceof Control) {
             ((Control) value).render(this);
+        } else if (value instanceof Map<?, ?>) {
+            Map<Object, Object> map = Map.class.cast(value);
+            for (Map.Entry<Object, Object> e : map.entrySet()) {
+                this.write(" " + e.getKey() + "=\"" + e.getValue() + "\"");
+            }
         } else {
             this.write(ObjectUtils.toString(value));
         }

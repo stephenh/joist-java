@@ -2,6 +2,7 @@ package joist.web.util;
 
 import java.io.StringWriter;
 
+import joist.util.Make;
 import joist.web.controls.form.TextField;
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -59,6 +60,21 @@ public class HtmlWriterTest extends TestCase {
     public void testOneTextField() {
         this.w.line("<p>{}</p>", new TextField().id("foo"));
         Assert.assertEquals("<p><input id=\"foo\" name=\"foo\" type=\"text\" value=\"\"/></p>\n", this.s.toString());
+    }
+
+    public void testWithMap() {
+        this.w.line("<p{}>content</p>", Make.map("class", "foo"));
+        Assert.assertEquals("<p class=\"foo\">content</p>\n", this.s.toString());
+    }
+
+    public void testWithMapThatIsNull() {
+        this.w.line("<p{}>content</p>", (Object[]) null);
+        Assert.assertEquals("<p>content</p>\n", this.s.toString());
+    }
+
+    public void testWithMapThatIsNullWithOtherArguments() {
+        this.w.line("<p id={}{}>content</p>", "one", null);
+        Assert.assertEquals("<p id=\"one\">content</p>\n", this.s.toString());
     }
 
     public void testNoNpe() {
