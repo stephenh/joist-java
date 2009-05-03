@@ -30,10 +30,10 @@ public class MessagesDiv extends AbstractControl<MessagesDiv> {
 
     /** Does not render anything unless we have messages to display--also checks the flash. */
     public void render(HtmlWriter w) {
-        List<Message> messages = this.getMessages(false);
-        if (messages == null || messages.size() == 0) {
+        if (!this.hasMessages()) {
             return;
         }
+        List<Message> messages = this.getMessages(false);
         w.line("<div id={} class={}>", this.getId(), "messages");
         w.line("<ul>");
         int i = 0;
@@ -42,6 +42,11 @@ public class MessagesDiv extends AbstractControl<MessagesDiv> {
         }
         w.line("</ul>");
         w.line("</div>");
+    }
+
+    public boolean hasMessages() {
+        List<Message> messages = this.getMessages(false);
+        return messages != null && messages.size() > 0;
     }
 
     @SuppressWarnings("unchecked")
