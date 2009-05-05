@@ -220,6 +220,16 @@ public class GenerateDomainCodegenPass implements Pass {
                 GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableName()).returnType(otmp.getJavaType());
                 getter.body.line("return this.{}.get();", otmp.getVariableName());
 
+                GMethod setter = domainCodegen.getMethod("set" + otmp.getCapitalVariableName()).argument(otmp.getJavaType(), otmp.getVariableName());
+                setter.body.line("for ({} o : joist.util.Copy.shallow(this.get{}())) {",//
+                    otmp.getTargetJavaType(),
+                    otmp.getCapitalVariableName());
+                setter.body.line("    this.remove{}(o);", otmp.getCapitalVariableNameSingular());
+                setter.body.line("}");
+                setter.body.line("for ({} o : {}) {", otmp.getTargetJavaType(), otmp.getVariableName());
+                setter.body.line("    this.add{}(o);", otmp.getCapitalVariableNameSingular());
+                setter.body.line("}");
+
                 GMethod adder = domainCodegen.getMethod("add{}", otmp.getCapitalVariableNameSingular());
                 adder.argument(otmp.getTargetJavaType(), "o");
                 adder.body.line("o.set{}WithoutPercolation(({}) this);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
@@ -273,6 +283,14 @@ public class GenerateDomainCodegenPass implements Pass {
             getter.body.line("    l.add(o.get{}());", mtmp.getCapitalVariableNameSingular());
             getter.body.line("}");
             getter.body.line("return l;");
+
+            GMethod setter = domainCodegen.getMethod("set" + mtmp.getCapitalVariableName()).argument(mtmp.getJavaType(), mtmp.getVariableName());
+            setter.body.line("for ({} o : Copy.shallow(this.get{}())) {", mtmp.getTargetJavaType(), mtmp.getCapitalVariableName());
+            setter.body.line("    this.remove{}(o);", mtmp.getCapitalVariableNameSingular());
+            setter.body.line("}");
+            setter.body.line("for ({} o : {}) {", mtmp.getTargetJavaType(), mtmp.getVariableName());
+            setter.body.line("    this.add{}(o);", mtmp.getCapitalVariableNameSingular());
+            setter.body.line("}");
 
             GMethod adder = domainCodegen.getMethod("add{}", mtmp.getCapitalVariableNameSingular());
             adder.argument(mtmp.getTargetTable().getClassName(), "o");
