@@ -43,8 +43,8 @@ public class AbstractPgWithc3p0DataSourceFactory implements ResourceFactory<Data
         ds.setPassword(this.password);
         ds.setMaxPoolSize(this.maxPoolSize);
         ds.setInitialPoolSize(this.initialPoolSize);
-        ds.setPreferredTestQuery("select 1");
-        ds.setTestConnectionOnCheckout(true);
+        // ds.setPreferredTestQuery("select 1");
+        ds.setTestConnectionOnCheckout(false); // true);
         return ds;
     }
 
