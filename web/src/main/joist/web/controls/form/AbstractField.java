@@ -40,7 +40,7 @@ public abstract class AbstractField<T extends AbstractField<T>> extends Abstract
     @SuppressWarnings("unchecked")
     public void onProcess() {
         String value = this.getContext().getRequest().getParameter(this.getId());
-        if (value == null & this.skipBindIfParameterIsNotPresent()) {
+        if (value == null && this.skipBindIfParameterIsNotPresent()) {
             return; // We would have at least gotten a "" if the field was really submitted
         }
         // Use the text converter because this is coming from a user
