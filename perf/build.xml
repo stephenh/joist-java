@@ -28,6 +28,7 @@
 	<target name="run" depends="main.compile" description="runs japex">
 		<java dir="." fork="true" classname="com.sun.japex.Japex">
 			<classpath refid="run.classpath"/>
+			<!--jvmarg value="-agentlib:yjpagent=onexit=snapshot,tracing"/-->
 			<arg line="japex.xml"/>
 		</java>
 	</target>
