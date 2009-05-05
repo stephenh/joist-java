@@ -20,4 +20,5 @@ Todo
 * Setup trac/something
 * Eager loading (continue spike in eager branch)
 * Ajax/JSON controls
+* Establish license
 
