@@ -24,9 +24,10 @@ public abstract class AbstractContainer extends AbstractControl<AbstractContaine
         }
     }
 
-    public void addControl(Control control) {
+    public <T extends Control> T addControl(T control) {
         this.controls.add(control);
         control.setParent(this);
+        return control;
     }
 
     public List<Control> getControls() {
