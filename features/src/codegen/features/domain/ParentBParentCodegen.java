@@ -66,6 +66,15 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
         return this.parentBChildBars.get();
     }
 
+    public void setParentBChildBars(List<ParentBChildBar> parentBChildBars) {
+        for (ParentBChildBar o : joist.util.Copy.shallow(this.getParentBChildBars())) {
+            this.removeParentBChildBar(o);
+        }
+        for (ParentBChildBar o : parentBChildBars) {
+            this.addParentBChildBar(o);
+        }
+    }
+
     public void addParentBChildBar(ParentBChildBar o) {
         o.setParentBParentWithoutPercolation((ParentBParent) this);
         this.addParentBChildBarWithoutPercolation(o);
@@ -88,6 +97,15 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
 
     public List<ParentBChildFoo> getParentBChildFoos() {
         return this.parentBChildFoos.get();
+    }
+
+    public void setParentBChildFoos(List<ParentBChildFoo> parentBChildFoos) {
+        for (ParentBChildFoo o : joist.util.Copy.shallow(this.getParentBChildFoos())) {
+            this.removeParentBChildFoo(o);
+        }
+        for (ParentBChildFoo o : parentBChildFoos) {
+            this.addParentBChildFoo(o);
+        }
     }
 
     public void addParentBChildFoo(ParentBChildFoo o) {

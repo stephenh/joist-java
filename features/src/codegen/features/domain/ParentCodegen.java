@@ -65,6 +65,15 @@ public abstract class ParentCodegen extends AbstractDomainObject {
         return this.childs.get();
     }
 
+    public void setChilds(List<Child> childs) {
+        for (Child o : joist.util.Copy.shallow(this.getChilds())) {
+            this.removeChild(o);
+        }
+        for (Child o : childs) {
+            this.addChild(o);
+        }
+    }
+
     public void addChild(Child o) {
         o.setParentWithoutPercolation((Parent) this);
         this.addChildWithoutPercolation(o);

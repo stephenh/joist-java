@@ -67,6 +67,15 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
         return this.greenManyToManyBFooToBars.get();
     }
 
+    public void setGreenManyToManyBFooToBars(List<ManyToManyBFooToBar> greenManyToManyBFooToBars) {
+        for (ManyToManyBFooToBar o : joist.util.Copy.shallow(this.getGreenManyToManyBFooToBars())) {
+            this.removeGreenManyToManyBFooToBar(o);
+        }
+        for (ManyToManyBFooToBar o : greenManyToManyBFooToBars) {
+            this.addGreenManyToManyBFooToBar(o);
+        }
+    }
+
     public void addGreenManyToManyBFooToBar(ManyToManyBFooToBar o) {
         o.setGreenWithoutPercolation((ManyToManyBBar) this);
         this.addGreenManyToManyBFooToBarWithoutPercolation(o);
@@ -93,6 +102,15 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
             l.add(o.getBlue());
         }
         return l;
+    }
+
+    public void setBlues(List<ManyToManyBFoo> blues) {
+        for (ManyToManyBFoo o : Copy.shallow(this.getBlues())) {
+            this.removeBlue(o);
+        }
+        for (ManyToManyBFoo o : blues) {
+            this.addBlue(o);
+        }
     }
 
     public void addBlue(ManyToManyBFoo o) {

@@ -66,6 +66,15 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
         return this.firstParentParentCBars.get();
     }
 
+    public void setFirstParentParentCBars(List<ParentCBar> firstParentParentCBars) {
+        for (ParentCBar o : joist.util.Copy.shallow(this.getFirstParentParentCBars())) {
+            this.removeFirstParentParentCBar(o);
+        }
+        for (ParentCBar o : firstParentParentCBars) {
+            this.addFirstParentParentCBar(o);
+        }
+    }
+
     public void addFirstParentParentCBar(ParentCBar o) {
         o.setFirstParentWithoutPercolation((ParentCFoo) this);
         this.addFirstParentParentCBarWithoutPercolation(o);
@@ -88,6 +97,15 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
 
     public List<ParentCBar> getSecondParentParentCBars() {
         return this.secondParentParentCBars.get();
+    }
+
+    public void setSecondParentParentCBars(List<ParentCBar> secondParentParentCBars) {
+        for (ParentCBar o : joist.util.Copy.shallow(this.getSecondParentParentCBars())) {
+            this.removeSecondParentParentCBar(o);
+        }
+        for (ParentCBar o : secondParentParentCBars) {
+            this.addSecondParentParentCBar(o);
+        }
     }
 
     public void addSecondParentParentCBar(ParentCBar o) {

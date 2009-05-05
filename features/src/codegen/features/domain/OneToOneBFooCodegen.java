@@ -65,6 +65,15 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         return this.oneToOneBBars.get();
     }
 
+    public void setOneToOneBBars(List<OneToOneBBar> oneToOneBBars) {
+        for (OneToOneBBar o : joist.util.Copy.shallow(this.getOneToOneBBars())) {
+            this.removeOneToOneBBar(o);
+        }
+        for (OneToOneBBar o : oneToOneBBars) {
+            this.addOneToOneBBar(o);
+        }
+    }
+
     public void addOneToOneBBar(OneToOneBBar o) {
         o.setOneToOneBFooWithoutPercolation((OneToOneBFoo) this);
         this.addOneToOneBBarWithoutPercolation(o);

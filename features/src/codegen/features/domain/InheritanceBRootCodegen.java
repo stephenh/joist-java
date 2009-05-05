@@ -65,6 +65,15 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         return this.inheritanceBRootChilds.get();
     }
 
+    public void setInheritanceBRootChilds(List<InheritanceBRootChild> inheritanceBRootChilds) {
+        for (InheritanceBRootChild o : joist.util.Copy.shallow(this.getInheritanceBRootChilds())) {
+            this.removeInheritanceBRootChild(o);
+        }
+        for (InheritanceBRootChild o : inheritanceBRootChilds) {
+            this.addInheritanceBRootChild(o);
+        }
+    }
+
     public void addInheritanceBRootChild(InheritanceBRootChild o) {
         o.setInheritanceBRootWithoutPercolation((InheritanceBRoot) this);
         this.addInheritanceBRootChildWithoutPercolation(o);
