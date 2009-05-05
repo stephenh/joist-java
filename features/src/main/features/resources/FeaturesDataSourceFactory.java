@@ -1,8 +1,8 @@
 package features.resources;
 
-import joist.domain.util.AbstractPgWithc3p0DataSourceFactory;
+import joist.domain.util.AbstractPgWithUtilDataSourceFactory;
 
-public class FeaturesDataSourceFactory extends AbstractPgWithc3p0DataSourceFactory {
+public class FeaturesDataSourceFactory extends AbstractPgWithUtilDataSourceFactory {
 
     public FeaturesDataSourceFactory() {
         super("features");
