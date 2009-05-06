@@ -10,6 +10,7 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.util.Copy;
 
 public abstract class ParentCFooCodegen extends AbstractDomainObject {
 
@@ -67,7 +68,7 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
     }
 
     public void setFirstParentParentCBars(List<ParentCBar> firstParentParentCBars) {
-        for (ParentCBar o : joist.util.Copy.shallow(this.getFirstParentParentCBars())) {
+        for (ParentCBar o : Copy.list(this.getFirstParentParentCBars())) {
             this.removeFirstParentParentCBar(o);
         }
         for (ParentCBar o : firstParentParentCBars) {
@@ -100,7 +101,7 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
     }
 
     public void setSecondParentParentCBars(List<ParentCBar> secondParentParentCBars) {
-        for (ParentCBar o : joist.util.Copy.shallow(this.getSecondParentParentCBars())) {
+        for (ParentCBar o : Copy.list(this.getSecondParentParentCBars())) {
             this.removeSecondParentParentCBar(o);
         }
         for (ParentCBar o : secondParentParentCBars) {

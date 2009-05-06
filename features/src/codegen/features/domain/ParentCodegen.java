@@ -10,6 +10,7 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.util.Copy;
 
 public abstract class ParentCodegen extends AbstractDomainObject {
 
@@ -66,7 +67,7 @@ public abstract class ParentCodegen extends AbstractDomainObject {
     }
 
     public void setChilds(List<Child> childs) {
-        for (Child o : joist.util.Copy.shallow(this.getChilds())) {
+        for (Child o : Copy.list(this.getChilds())) {
             this.removeChild(o);
         }
         for (Child o : childs) {

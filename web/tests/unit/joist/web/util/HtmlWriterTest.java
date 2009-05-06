@@ -2,7 +2,7 @@ package joist.web.util;
 
 import java.io.StringWriter;
 
-import joist.util.Make;
+import joist.util.Copy;
 import joist.web.controls.form.TextField;
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -63,7 +63,7 @@ public class HtmlWriterTest extends TestCase {
     }
 
     public void testWithMap() {
-        this.w.line("<p{}>content</p>", Make.map("class", "foo"));
+        this.w.line("<p{}>content</p>", Copy.map("class", "foo"));
         Assert.assertEquals("<p class=\"foo\">content</p>\n", this.s.toString());
     }
 

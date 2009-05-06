@@ -221,7 +221,7 @@ public class GenerateDomainCodegenPass implements Pass {
                 getter.body.line("return this.{}.get();", otmp.getVariableName());
 
                 GMethod setter = domainCodegen.getMethod("set" + otmp.getCapitalVariableName()).argument(otmp.getJavaType(), otmp.getVariableName());
-                setter.body.line("for ({} o : joist.util.Copy.shallow(this.get{}())) {",//
+                setter.body.line("for ({} o : Copy.list(this.get{}())) {",//
                     otmp.getTargetJavaType(),
                     otmp.getCapitalVariableName());
                 setter.body.line("    this.remove{}(o);", otmp.getCapitalVariableNameSingular());
@@ -239,7 +239,8 @@ public class GenerateDomainCodegenPass implements Pass {
                 remover.argument(otmp.getTargetJavaType(), "o");
                 remover.body.line("o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
                 remover.body.line("this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
-                domainCodegen.addImports(List.class);
+
+                domainCodegen.addImports(Copy.class, List.class);
             } else {
                 GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableNameSingular()).returnType(otmp.getTargetJavaType());
                 getter.body.line("return (this.{}.get().size() == 0) ? null : this.{}.get().get(0);", otmp.getVariableName(), otmp.getVariableName());
@@ -285,7 +286,7 @@ public class GenerateDomainCodegenPass implements Pass {
             getter.body.line("return l;");
 
             GMethod setter = domainCodegen.getMethod("set" + mtmp.getCapitalVariableName()).argument(mtmp.getJavaType(), mtmp.getVariableName());
-            setter.body.line("for ({} o : Copy.shallow(this.get{}())) {", mtmp.getTargetJavaType(), mtmp.getCapitalVariableName());
+            setter.body.line("for ({} o : Copy.list(this.get{}())) {", mtmp.getTargetJavaType(), mtmp.getCapitalVariableName());
             setter.body.line("    this.remove{}(o);", mtmp.getCapitalVariableNameSingular());
             setter.body.line("}");
             setter.body.line("for ({} o : {}) {", mtmp.getTargetJavaType(), mtmp.getVariableName());
@@ -300,7 +301,7 @@ public class GenerateDomainCodegenPass implements Pass {
 
             GMethod remover = domainCodegen.getMethod("remove{}", mtmp.getCapitalVariableNameSingular());
             remover.argument(mtmp.getTargetTable().getClassName(), "o");
-            remover.body.line("for ({} a : Copy.shallow(this.get{}())) {",//
+            remover.body.line("for ({} a : Copy.list(this.get{}())) {",//
                 mtmp.getJoinTable().getClassName(),
                 mtmp.getMySideManyToOne().getOneToManyProperty().getCapitalVariableName());
             remover.body.line("    if (a.get{}().equals(o)) {", mtmp.getCapitalVariableNameSingular());

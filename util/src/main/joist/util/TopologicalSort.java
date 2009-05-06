@@ -38,8 +38,8 @@ public class TopologicalSort<T> {
 
     private List<T> sort() {
         List<T> sorted = new ArrayList<T>();
-        List<T> nodesLeft = Copy.shallow(this.dependencies.keySet());
-        MapToList<T, T> dependenciesLeft = Copy.shallow(this.dependencies);
+        List<T> nodesLeft = Copy.list(this.dependencies.keySet());
+        MapToList<T, T> dependenciesLeft = Copy.map(this.dependencies);
         while (nodesLeft.size() > 0) {
             T nextNode = this.findNodeWithNoDependencies(nodesLeft, dependenciesLeft);
             this.removeDependenciesForParent(dependenciesLeft, nextNode);

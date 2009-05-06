@@ -68,7 +68,7 @@ public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
     }
 
     public void setBlueManyToManyBFooToBars(List<ManyToManyBFooToBar> blueManyToManyBFooToBars) {
-        for (ManyToManyBFooToBar o : joist.util.Copy.shallow(this.getBlueManyToManyBFooToBars())) {
+        for (ManyToManyBFooToBar o : Copy.list(this.getBlueManyToManyBFooToBars())) {
             this.removeBlueManyToManyBFooToBar(o);
         }
         for (ManyToManyBFooToBar o : blueManyToManyBFooToBars) {
@@ -105,7 +105,7 @@ public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
     }
 
     public void setGreens(List<ManyToManyBBar> greens) {
-        for (ManyToManyBBar o : Copy.shallow(this.getGreens())) {
+        for (ManyToManyBBar o : Copy.list(this.getGreens())) {
             this.removeGreen(o);
         }
         for (ManyToManyBBar o : greens) {
@@ -120,7 +120,7 @@ public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
     }
 
     public void removeGreen(ManyToManyBBar o) {
-        for (ManyToManyBFooToBar a : Copy.shallow(this.getBlueManyToManyBFooToBars())) {
+        for (ManyToManyBFooToBar a : Copy.list(this.getBlueManyToManyBFooToBars())) {
             if (a.getGreen().equals(o)) {
                 a.setGreen(null);
                 a.setBlue(null);
