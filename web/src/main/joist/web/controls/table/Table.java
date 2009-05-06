@@ -19,8 +19,8 @@ public class Table<T> extends AbstractControl<Table<T>> {
     private List<T> list = new ArrayList<T>();
     private Binding<? super T> current = null;
     // Only set if doing paging
-    private Binding<Number> pageNumber;
-    private Binding<Number> pageRows;
+    private Binding<? extends Number> pageNumber;
+    private Binding<? extends Number> pageRows;
 
     public Table(String id) {
         this.id(id);
@@ -168,19 +168,19 @@ public class Table<T> extends AbstractControl<Table<T>> {
         this.label = label;
     }
 
-    public Binding<Number> getPageNumber() {
+    public Binding<? extends Number> getPageNumber() {
         return this.pageNumber;
     }
 
-    public void setPageNumber(Binding<Number> pageNumber) {
+    public void setPageNumber(Binding<? extends Number> pageNumber) {
         this.pageNumber = pageNumber;
     }
 
-    public Binding<Number> getPageRows() {
+    public Binding<? extends Number> getPageRows() {
         return this.pageRows;
     }
 
-    public void setPageRows(Binding<Number> pageRows) {
+    public void setPageRows(Binding<? extends Number> pageRows) {
         this.pageRows = pageRows;
     }
 

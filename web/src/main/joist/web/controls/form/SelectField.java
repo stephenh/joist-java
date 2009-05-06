@@ -1,6 +1,7 @@
 package joist.web.controls.form;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import joist.converter.ConverterRegistry;
@@ -9,21 +10,15 @@ import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
 import org.exigencecorp.bindgen.Binding;
+import org.exigencecorp.bindgen.ContainerBinding;
 
 public class SelectField<T> extends AbstractField<SelectField<T>> {
 
     private List<T> options = new ArrayList<T>();
     private boolean showBlank = false;
-    private Binding<List<T>> listBinding;
 
     public SelectField(Binding<?> binding) {
         super(binding);
-    }
-
-    /** For now we need a temp binding because f'ing erasure makes the listing binding contained type unavailable. */
-    public SelectField(Binding<?> tempBinding, Binding<List<T>> listBinding) {
-        super(tempBinding);
-        this.listBinding = listBinding;
     }
 
     public SelectField<T> options(List<T> options) {
@@ -57,25 +52,6 @@ public class SelectField<T> extends AbstractField<SelectField<T>> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onProcess() {
-        if (this.listBinding == null) {
-            super.onProcess();
-            return;
-        }
-
-        String[] value = this.getContext().getRequest().getParameterValues(this.getId());
-        List<T> newValues = new ArrayList<T>();
-        if (value != null) {
-            for (String part : value) {
-                // Use the text converter because this is coming from a user
-                Object converted = this.getProcessConverterRegistry().convert(part, this.getBinding().getType());
-                newValues.add((T) converted);
-            }
-        }
-        this.listBinding.set(newValues);
-    }
-
-    @Override
     public void render(HtmlWriter w) {
         w.line("<select id={} name={}{}>", this.getFullId(), this.getId(), this.attributes);
         if (this.showBlank) {
@@ -91,7 +67,9 @@ public class SelectField<T> extends AbstractField<SelectField<T>> {
             String id = this.getFullId() + "-" + i++;
             String forValue = CurrentContext.get().getWebConfig().getUrlConverterRegistry().convert(option, String.class);
             String forLabel = CurrentContext.get().getWebConfig().getTextConverterRegistry().convert(option, String.class);
-            boolean selected = (this.listBinding == null) ? option.equals(this.getBoundValue()) : this.listBinding.get().contains(option);
+            boolean selected = (this.getBinding() instanceof ContainerBinding) //
+                ? ((Collection<Object>) this.getBoundValue()).contains(option) //
+                : option.equals(this.getBoundValue());
             if (selected) {
                 w.line("<option id={} selected=\"selected\" value={}>{}</option>", id, forValue, forLabel);
             } else {

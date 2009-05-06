@@ -11,6 +11,7 @@ import joist.web.Page;
 import joist.web.WebContext;
 
 import org.exigencecorp.bindgen.Binding;
+import org.exigencecorp.bindgen.ContainerBinding;
 
 public abstract class AbstractField<T extends AbstractField<T>> extends AbstractControl<T> implements Field {
 
@@ -43,13 +44,23 @@ public abstract class AbstractField<T extends AbstractField<T>> extends Abstract
         if (value == null && this.skipBindIfParameterIsNotPresent()) {
             return; // We would have at least gotten a "" if the field was really submitted
         }
-        // Use the text converter because this is coming from a user
-        Object converted = this.getProcessConverterRegistry().convert(value, this.binding.getType());
-        // do this here or inside a Converter?
-        if ("".equals(converted)) {
-            converted = null;
+        if (this.binding instanceof ContainerBinding) {
+            // Look for List bindings
+            String[] values = this.getContext().getRequest().getParameterValues(this.getId());
+            List<Object> newValues = new ArrayList<Object>();
+            for (String v : values) {
+                Object converted = this.getProcessConverterRegistry().convert(v, ((ContainerBinding) this.binding).getContainedType());
+                newValues.add(converted);
+            }
+            ((Binding<List>) this.binding).set(newValues);
+        } else {
+            Object converted = this.getProcessConverterRegistry().convert(value, this.binding.getType());
+            // do this here or inside a Converter?
+            if ("".equals(converted)) {
+                converted = null;
+            }
+            ((Binding<Object>) this.binding).set(converted);
         }
-        ((Binding<Object>) this.binding).set(converted);
     }
 
     /** @return by default the text converter for showing objects in text fields. */
