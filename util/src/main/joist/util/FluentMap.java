@@ -1,12 +1,12 @@
 package joist.util;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /** Adds fluent helper methods to HashMap.
  *
  * Should probably be an interface.
  */
-public class FluentMap<K, V> extends HashMap<K, V> {
+public class FluentMap<K, V> extends LinkedHashMap<K, V> {
 
     private static final long serialVersionUID = 1L;
 
