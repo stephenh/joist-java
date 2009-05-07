@@ -53,7 +53,7 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
     }
 
     public Where equals(U value) {
-        return new Where(this.getQualifiedName() + " = ?", value);
+        return new Where(this.getQualifiedName() + " = ?", this.toJdbcValue(value));
     }
 
     public Where isNull() {
