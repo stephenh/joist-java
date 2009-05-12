@@ -52,6 +52,11 @@ Joist is hosted on github:
 
 [http://github.com/stephenh/joist](http://github.com/stephenh/joist)
 
+Community
+---------
+
+Joist is a new project and does not yet have an active community. If you're interested in getting involved or just being kept in the loop, feel free to email [stephen@exigencecorp.com](mailto:stephen@exigencecorp.com).
+
 Acknowledgements
 ----------------
 
