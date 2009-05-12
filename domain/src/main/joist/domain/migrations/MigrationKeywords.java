@@ -11,6 +11,7 @@ import joist.domain.migrations.columns.ForeignKeyColumn;
 import joist.domain.migrations.columns.IntColumn;
 import joist.domain.migrations.columns.PrimaryKeyColumn;
 import joist.domain.migrations.columns.SmallIntColumn;
+import joist.domain.migrations.columns.TextColumn;
 import joist.domain.migrations.columns.VarcharColumn;
 import joist.domain.migrations.commands.CreateTable;
 import joist.domain.migrations.fill.ConstantFillInStrategy;
@@ -129,6 +130,10 @@ public class MigrationKeywords {
 
     public static VarcharColumn varchar(String name) {
         return new VarcharColumn(name);
+    }
+
+    public static TextColumn text(String name) {
+        return new TextColumn(name);
     }
 
     public static BooleanColumn bool(String name) {
