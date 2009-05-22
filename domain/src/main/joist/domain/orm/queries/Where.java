@@ -13,11 +13,11 @@ public class Where {
         return new Where("NOT (\n " + clause.sql + ")", clause.parameters);
     }
 
-    private static Where makeAnd(Where... clauses) {
+    private static Where make(String operator, Where... clauses) {
         String sql = clauses[0].sql;
         List<Object> parameters = Copy.list(clauses[0].parameters);
         for (int i = 1; i < clauses.length; i++) {
-            sql += "\n AND " + clauses[i].sql;
+            sql += "\n " + operator + " " + clauses[i].sql;
             parameters.addAll(clauses[i].parameters);
         }
         return new Where(sql, parameters);
@@ -34,7 +34,11 @@ public class Where {
     }
 
     public Where and(Where other) {
-        return Where.makeAnd(this, other);
+        return Where.make("AND", this, other);
+    }
+
+    public Where or(Where other) {
+        return Where.make("OR", this, other);
     }
 
     public String toString() {
