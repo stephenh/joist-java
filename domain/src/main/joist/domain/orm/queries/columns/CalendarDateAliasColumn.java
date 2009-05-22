@@ -18,11 +18,17 @@ public class CalendarDateAliasColumn<T extends DomainObject> extends AliasColumn
 
     @Override
     public CalendarDate toDomainValue(Date jdbcValue) {
+        if (jdbcValue == null) {
+            return null;
+        }
         return CalendarDate.from(TimePoint.from(jdbcValue), TimeZone.getDefault());
     }
 
     @Override
     public Date toJdbcValue(CalendarDate domainValue) {
+        if (domainValue == null) {
+            return null;
+        }
         return new Date(domainValue.startAsTimePoint(TimeZone.getDefault()).asJavaUtilDate().getTime());
     }
 
