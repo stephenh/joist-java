@@ -21,6 +21,7 @@ public class Table<T> extends AbstractControl<Table<T>> {
     // Only set if doing paging
     private Binding<? extends Number> pageNumber;
     private Binding<? extends Number> pageRows;
+    private Binding<String> sortKey;
 
     public Table(String id) {
         this.id(id);
@@ -186,6 +187,14 @@ public class Table<T> extends AbstractControl<Table<T>> {
 
     protected Table<T> getThis() {
         return this;
+    }
+
+    public Binding<String> getSortKey() {
+        return this.sortKey;
+    }
+
+    public void setSortKey(Binding<String> sortKey) {
+        this.sortKey = sortKey;
     }
 
 }
