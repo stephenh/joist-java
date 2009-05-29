@@ -33,21 +33,21 @@ public class Repository {
         return instance;
     }
 
-    public <T extends DomainObject> void delete(T instance) {
-        Alias<? super T> current = AliasRegistry.get(instance);
+    public void delete(DomainObject instance) {
+        Alias<? super DomainObject> current = AliasRegistry.get(instance);
         while (current != null) {
             Delete.from(current).where(current.getIdColumn().equals(instance)).execute();
             current = current.getBaseClassAlias();
         }
     }
 
-    public <T extends DomainObject> void store(Set<T> instances) {
-        SortedInstances<T> sorted = new SortedInstances<T>(instances);
+    public void store(Set<DomainObject> instances) {
+        SortedInstances sorted = new SortedInstances(instances);
         new IdAssigner().assignIds(sorted.inserts);
-        for (Class<T> key : sorted.insertsByForeignKey) {
+        for (Class<DomainObject> key : sorted.insertsByForeignKey) {
             InstanceInserter.get(key).insert(sorted.inserts.get(key));
         }
-        for (Entry<Class<T>, List<T>> entry : sorted.updates.entrySet()) {
+        for (Entry<Class<DomainObject>, List<DomainObject>> entry : sorted.updates.entrySet()) {
             InstanceUpdater.get(entry.getKey()).update(entry.getValue());
         }
     }

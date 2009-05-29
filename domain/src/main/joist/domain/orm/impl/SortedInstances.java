@@ -11,14 +11,14 @@ import joist.domain.orm.AliasRegistry;
 import joist.util.MapToList;
 
 /** Sorts instances by insert/update and by class. */
-public class SortedInstances<T extends DomainObject> {
+public class SortedInstances {
 
-    public final MapToList<Class<T>, T> inserts = new MapToList<Class<T>, T>();
-    public final MapToList<Class<T>, T> updates = new MapToList<Class<T>, T>();
-    public final List<Class<T>> insertsByForeignKey = new ArrayList<Class<T>>();
+    public final MapToList<Class<DomainObject>, DomainObject> inserts = new MapToList<Class<DomainObject>, DomainObject>();
+    public final MapToList<Class<DomainObject>, DomainObject> updates = new MapToList<Class<DomainObject>, DomainObject>();
+    public final List<Class<DomainObject>> insertsByForeignKey = new ArrayList<Class<DomainObject>>();
 
-    public SortedInstances(Set<T> instances) {
-        for (T instance : instances) {
+    public SortedInstances(Set<DomainObject> instances) {
+        for (DomainObject instance : instances) {
             if (instance.isNew()) {
                 this.inserts.add(instance.getClass(), instance);
             } else {
@@ -26,8 +26,8 @@ public class SortedInstances<T extends DomainObject> {
             }
         }
         this.insertsByForeignKey.addAll(this.inserts.keySet());
-        Collections.sort(this.insertsByForeignKey, new Comparator<Class<T>>() {
-            public int compare(Class<T> o1, Class<T> o2) {
+        Collections.sort(this.insertsByForeignKey, new Comparator<Class<DomainObject>>() {
+            public int compare(Class<DomainObject> o1, Class<DomainObject> o2) {
                 return AliasRegistry.get(o1).getOrder() - AliasRegistry.get(o2).getOrder();
             }
         });
