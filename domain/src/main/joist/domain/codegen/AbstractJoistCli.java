@@ -35,6 +35,7 @@ public abstract class AbstractJoistCli {
         this.dbSaPassword = System.getProperty("db.sa.password", ".");
         this.migraterConfig.setProjectNameForDefaults(projectName);
         this.codegenConfig.setProjectNameForDefaults(projectName);
+        this.codegenConfig.saUsername = this.dbSaUsername;
         if (".".equals(this.dbSaPassword)) {
             throw new RuntimeException("You need to set db.sa.password either on the command line or in build.properties.");
         }
