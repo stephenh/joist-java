@@ -20,7 +20,7 @@ public class ConnectionSettings {
     public static ConnectionSettings forSa(String databaseName) {
         ConnectionSettings settings = new ConnectionSettings();
         settings.databaseName = System.getProperty("db.name", databaseName);
-        settings.user = System.getProperty("db.sa.username", databaseName + "_role");
+        settings.user = System.getProperty("db.sa.username", "postgres");
         settings.password = System.getProperty("db.sa.password", databaseName + "_role");
         return settings;
     }
