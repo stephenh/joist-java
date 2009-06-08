@@ -115,12 +115,12 @@ public class UoW {
     }
 
     /** Queues <code>instance</code> for validation on flush. */
-    public static <T extends DomainObject> void enqueue(T instance) {
+    public static void enqueue(DomainObject instance) {
         UoW.getCurrent().getValidator().enqueue(instance);
     }
 
     /** Queues <code>instance</code> for deletion on flush. */
-    public static <T extends DomainObject> void delete(T instance) {
+    public static void delete(DomainObject instance) {
         UoW.getCurrent().delete(instance);
     }
 
