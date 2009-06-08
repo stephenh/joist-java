@@ -12,7 +12,7 @@ public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
 
     public void setUp() throws Exception {
         super.setUp();
-        Jdbc.queryForInt(Registry.getDataSource(), "SELECT flush_test_database()");
+        Jdbc.queryForInt(Registry.getSaDataSource(), "SELECT flush_test_database()");
     }
 
 }
