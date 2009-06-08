@@ -9,6 +9,7 @@ import joist.domain.migrations.DatabaseBootstrapper;
 import joist.domain.migrations.Migrater;
 import joist.domain.migrations.MigraterConfig;
 import joist.domain.migrations.PermissionFixer;
+import joist.domain.util.ConnectionSettings;
 import joist.domain.util.Pgc3p0Factory;
 import joist.util.Inflector;
 
@@ -16,27 +17,19 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public abstract class AbstractJoistCli {
 
-    public String dbHost;
-    public String dbName;
-    public String dbAppUsername;
-    public String dbAppPassword;
-    public String dbSaUsername;
-    public String dbSaPassword;
+    public ConnectionSettings dbAppSettings;
+    public ConnectionSettings dbSaSettings;
     public CodegenConfig codegenConfig = new CodegenConfig();
     public MigraterConfig migraterConfig = new MigraterConfig();
     private final Map<String, DataSource> dss = new HashMap<String, DataSource>();
 
     public AbstractJoistCli(String projectName) {
-        this.dbHost = System.getProperty("db.host", "localhost");
-        this.dbName = System.getProperty("db.name", Inflector.underscore(projectName));
-        this.dbAppUsername = System.getProperty("db.app.username", Inflector.underscore(projectName) + "_role");
-        this.dbAppPassword = System.getProperty("db.app.password", Inflector.underscore(projectName) + "_role");
-        this.dbSaUsername = System.getProperty("db.sa.username", "postgres");
-        this.dbSaPassword = System.getProperty("db.sa.password", ".");
+        this.dbAppSettings = ConnectionSettings.forApp(Inflector.underscore(projectName));
+        this.dbSaSettings = ConnectionSettings.forSa(Inflector.underscore(projectName));
         this.migraterConfig.setProjectNameForDefaults(projectName);
         this.codegenConfig.setProjectNameForDefaults(projectName);
-        this.codegenConfig.saUsername = this.dbSaUsername;
-        if (".".equals(this.dbSaPassword)) {
+        this.codegenConfig.saUsername = this.dbSaSettings.user;
+        if (".".equals(this.dbSaSettings.password)) {
             throw new RuntimeException("You need to set db.sa.password either on the command line or in build.properties.");
         }
     }
@@ -52,9 +45,7 @@ public abstract class AbstractJoistCli {
         new DatabaseBootstrapper(//
             this.getDataSourceForSystemTableAsSaUser(),
             this.getDataSourceForAppTableAsSaUser(),
-            this.dbName,
-            this.dbAppUsername,
-            this.dbAppPassword).dropAndCreate();
+            this.dbAppSettings).dropAndCreate();
     }
 
     public void migrateDatabase() {
@@ -63,10 +54,10 @@ public abstract class AbstractJoistCli {
 
     public void fixPermissions() {
         PermissionFixer pf = new PermissionFixer(this.getDataSourceForAppTableAsSaUser());
-        pf.setOwnerOfAllTablesTo(this.dbSaUsername);
-        pf.setOwnerOfAllSequencesTo(this.dbSaUsername);
-        pf.grantAllOnAllTablesTo(this.dbAppUsername);
-        pf.grantAllOnAllSequencesTo(this.dbAppUsername);
+        pf.setOwnerOfAllTablesTo(this.dbSaSettings.user);
+        pf.setOwnerOfAllSequencesTo(this.dbSaSettings.user);
+        pf.grantAllOnAllTablesTo(this.dbAppSettings.user);
+        pf.grantAllOnAllSequencesTo(this.dbAppSettings.user);
     }
 
     public void codegen() {
@@ -74,11 +65,11 @@ public abstract class AbstractJoistCli {
     }
 
     private DataSource getDataSourceForAppTableAsSaUser() {
-        return this.getCachedDatasource(this.dbHost, this.dbName, this.dbSaUsername, this.dbSaPassword);
+        return this.getCachedDatasource(this.dbSaSettings.host, this.dbSaSettings.databaseName, this.dbSaSettings.user, this.dbSaSettings.password);
     }
 
     private DataSource getDataSourceForSystemTableAsSaUser() {
-        return this.getCachedDatasource(this.dbHost, "postgres", this.dbSaUsername, this.dbSaPassword);
+        return this.getCachedDatasource(this.dbSaSettings.host, "postgres", this.dbSaSettings.user, this.dbSaSettings.password);
     }
 
     private DataSource getCachedDatasource(String dbHost, String dbName, String username, String password) {
