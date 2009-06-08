@@ -3,25 +3,41 @@ package features;
 import javax.sql.DataSource;
 
 import joist.domain.orm.Repository;
-import joist.registry.ResourceBag;
+import joist.domain.util.ConnectionSettings;
+import joist.domain.util.PgUtilFactory;
+import joist.registry.ResourceRef;
+import joist.registry.ResourceRefs;
 import joist.util.Log;
-import features.resources.FeaturesDataSourceFactory;
 
 public class Registry {
 
-    private static final ResourceBag resourcesBag = new ResourceBag();
+    public static DataSource getDataSource() {
+        return Registry.instance.appDatasource.get();
+    }
 
     public static void start() {
-        Log.debug("Starting...");
-        Repository.datasource = Registry.resourcesBag.getLazy(FeaturesDataSourceFactory.class);
+        Registry.instance.start2();
     }
 
     public static void stop() {
-        Registry.resourcesBag.destroyResources();
+        Registry.instance.stop2();
     }
 
-    public static DataSource getDataSource() {
-        return Registry.resourcesBag.get(FeaturesDataSourceFactory.class);
+    private final static Registry instance = new Registry();
+    private final ResourceRefs refs = new ResourceRefs();
+    private final ResourceRef<DataSource> appDatasource;
+
+    private Registry() {
+        this.appDatasource = this.refs.newRef(DataSource.class).factory(new PgUtilFactory(ConnectionSettings.forApp("features"))).make();
+        Repository.datasource = this.appDatasource;
+    }
+
+    private void start2() {
+        Log.debug("Starting...");
+    }
+
+    private void stop2() {
+        this.refs.stop();
     }
 
 }

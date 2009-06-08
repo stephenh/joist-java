@@ -12,6 +12,10 @@ public class TestCounter {
         return ++this.current;
     }
 
+    public int tick() {
+        return ++this.current;
+    }
+
     public int get() {
         return this.current;
     }

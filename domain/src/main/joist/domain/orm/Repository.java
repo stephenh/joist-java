@@ -17,11 +17,11 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Delete;
 import joist.domain.orm.queries.Select;
 import joist.domain.uow.UoW;
-import joist.registry.LazyResource;
+import joist.registry.ResourceRef;
 
 public class Repository {
 
-    public static LazyResource<DataSource> datasource = null;
+    public static ResourceRef<DataSource> datasource = null;
     private Connection connection;
 
     public <T extends DomainObject> T load(Class<T> type, Integer id) {

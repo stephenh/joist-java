@@ -9,7 +9,7 @@ import joist.domain.migrations.DatabaseBootstrapper;
 import joist.domain.migrations.Migrater;
 import joist.domain.migrations.MigraterConfig;
 import joist.domain.migrations.PermissionFixer;
-import joist.domain.util.AbstractPgWithc3p0DataSourceFactory;
+import joist.domain.util.Pgc3p0Factory;
 import joist.util.Inflector;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -63,7 +63,7 @@ public abstract class AbstractJoistCli {
     public void fixPermissions() {
         PermissionFixer pf = new PermissionFixer(this.getDataSourceForAppTableAsSaUser());
         pf.setOwnerOfAllTablesTo(this.dbSaUsername);
-        pf.setOwnerOfAllSequencesTo(this.dbAppUsername); // the app user needs to own them to reset them for tests--could fix by flushing as sa user
+        pf.setOwnerOfAllSequencesTo(this.dbSaUsername);
         pf.grantAllOnAllTablesTo(this.dbAppUsername);
         pf.grantAllOnAllSequencesTo(this.dbAppUsername);
     }
@@ -81,7 +81,7 @@ public abstract class AbstractJoistCli {
     }
 
     private DataSource getCachedDatasource(String dbHost, String dbName, String username, String password) {
-        AbstractPgWithc3p0DataSourceFactory.setDefaultc3p0Flags();
+        Pgc3p0Factory.setDefaultc3p0Flags();
         String key = dbHost + "." + dbName + "." + username + "." + password;
         if (!this.dss.containsKey(key)) {
             ComboPooledDataSource ds = new ComboPooledDataSource();
