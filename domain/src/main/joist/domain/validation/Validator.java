@@ -9,8 +9,6 @@ import java.util.Set;
 import joist.domain.DomainObject;
 import joist.domain.validation.errors.ValidationError;
 
-
-
 /** Tracks validation for a UoW. */
 public class Validator {
 
@@ -18,8 +16,6 @@ public class Validator {
     private HashSet<DomainObject> queue = new LinkedHashSet<DomainObject>();
     /** Note: Keep dequeue separate so we can avoid re-enqueue's undoing a dequeue. */
     private HashSet<DomainObject> dequeue = new LinkedHashSet<DomainObject>();
-
-    /** All errors we've come across so far in this UoW. */
 
     /** @throws ValidationException if validation errors occur */
     public void validate() {
