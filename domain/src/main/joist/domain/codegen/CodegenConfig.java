@@ -42,8 +42,6 @@ public class CodegenConfig {
     /** The base class for the once-touched queries objects. */
     public String queriesBaseClass = AbstractQueries.class.getName() + "<{}>";
 
-    public String saUsername = "postgres";
-
     // Private structures
     private final Map<String, String> javaTypeByDataType = new HashMap<String, String>();
     private final Map<String, String> javaTypeByColumnName = new HashMap<String, String>();
