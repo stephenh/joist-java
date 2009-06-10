@@ -4,7 +4,6 @@ import java.util.List;
 
 import joist.domain.validation.errors.ValidationError;
 
-
 public interface DomainObject {
 
     /** @return the row id--null if the instance is new */
@@ -24,6 +23,8 @@ public interface DomainObject {
 
     /** Stub for subclasses to override to update derived values as part of the UoW.flush() process. */
     void updateDerivedValues();
+
+    void clearAssociations();
 
     List<ValidationError> validate();
 

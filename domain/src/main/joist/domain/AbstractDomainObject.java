@@ -49,6 +49,9 @@ public abstract class AbstractDomainObject implements DomainObject {
         this.validationRules.remove(rule);
     }
 
+    public void clearAssociations() {
+    }
+
     public void updateDerivedValues() {
     }
 

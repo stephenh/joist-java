@@ -45,6 +45,7 @@ public class GenerateDomainCodegenPass implements Pass {
             this.oneToManyProperties(domainCodegen, entity);
             this.manyToManyProperties(domainCodegen, entity);
             this.changed(domainCodegen, entity);
+            this.clearAssociations(domainCodegen, entity);
         }
     }
 
@@ -357,4 +358,25 @@ public class GenerateDomainCodegenPass implements Pass {
             has.body.line("return this.contains(\"{}\");", otmp.getVariableName());
         }
     }
+
+    private void clearAssociations(GClass domainCodegen, Entity entity) {
+        GMethod clearAssociations = domainCodegen.getMethod("clearAssociations");
+        clearAssociations.addAnnotation("@Override");
+        clearAssociations.body.line("super.clearAssociations();");
+
+        for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+            clearAssociations.body.line("this.set{}(null);", mtop.getCapitalVariableName());
+        }
+        for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
+            if (otmp.isOneToOne()) {
+                clearAssociations.body.line("this.set{}(null);", otmp.getCapitalVariableNameSingular());
+            } else {
+                clearAssociations.body.line("for ({} o : Copy.list(this.get{}())) {", otmp.getTargetJavaType(), otmp.getCapitalVariableName());
+                clearAssociations.body.line("    o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName());
+                clearAssociations.body.line("}");
+                domainCodegen.addImports(Copy.class, List.class);
+            }
+        }
+    }
+
 }
