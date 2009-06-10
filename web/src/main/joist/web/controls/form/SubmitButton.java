@@ -12,6 +12,7 @@ public class SubmitButton extends AbstractControl<SubmitButton> implements Butto
     private String label;
     private Runnable runnable;
     private boolean isDefaultButton;
+    private boolean isConfirm;
 
     public SubmitButton(Runnable runnable) {
         this.runnable = runnable;
@@ -34,12 +35,22 @@ public class SubmitButton extends AbstractControl<SubmitButton> implements Butto
 
     @Override
     public void render(HtmlWriter w) {
-        w.append("<input id={} name={} type={} value={}/>", this.getFullId(), "_formButton", "submit", this.getLabel());
+        w.append("<input id={} name={} type={} value={}", this.getFullId(), "_formButton", "submit", this.getLabel());
+        if (this.isConfirm) {
+            String script = "return confirm('Are you sure?');";
+            w.append(" onclick={}", script);
+        }
+        w.append("/>");
     }
 
     public SubmitButton id(String id) {
         this.setId(id);
         this.setLabel(Inflector.humanize(id));
+        return this;
+    }
+
+    public SubmitButton confirm() {
+        this.isConfirm = true;
         return this;
     }
 
