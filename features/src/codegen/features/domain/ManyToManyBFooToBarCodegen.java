@@ -95,6 +95,13 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
         return (ManyToManyBFooToBarChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        this.setBlue(null);
+        this.setGreen(null);
+    }
+
     static class Shims {
         protected static final Shim<ManyToManyBFooToBar, Integer> id = new Shim<ManyToManyBFooToBar, Integer>() {
             public void set(ManyToManyBFooToBar instance, Integer id) {

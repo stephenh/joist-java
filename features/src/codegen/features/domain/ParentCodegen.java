@@ -102,6 +102,14 @@ public abstract class ParentCodegen extends AbstractDomainObject {
         return (ParentChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        for (Child o : Copy.list(this.getChilds())) {
+            o.setParentWithoutPercolation(null);
+        }
+    }
+
     static class Shims {
         protected static final Shim<Parent, Integer> id = new Shim<Parent, Integer>() {
             public void set(Parent instance, Integer id) {

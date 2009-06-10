@@ -102,6 +102,14 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         return (OneToOneBFooChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        for (OneToOneBBar o : Copy.list(this.getOneToOneBBars())) {
+            o.setOneToOneBFooWithoutPercolation(null);
+        }
+    }
+
     static class Shims {
         protected static final Shim<OneToOneBFoo, Integer> id = new Shim<OneToOneBFoo, Integer>() {
             public void set(OneToOneBFoo instance, Integer id) {

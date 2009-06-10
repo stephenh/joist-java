@@ -45,6 +45,11 @@ public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
         return (InheritanceBMiddleChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+    }
+
     static class Shims {
         protected static final Shim<InheritanceBMiddle, String> middleName = new Shim<InheritanceBMiddle, String>() {
             public void set(InheritanceBMiddle instance, String middleName) {

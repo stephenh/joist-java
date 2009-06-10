@@ -87,6 +87,12 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
         return (ParentBChildFooChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        this.setParentBParent(null);
+    }
+
     static class Shims {
         protected static final Shim<ParentBChildFoo, Integer> id = new Shim<ParentBChildFoo, Integer>() {
             public void set(ParentBChildFoo instance, Integer id) {

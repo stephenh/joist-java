@@ -102,6 +102,14 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         return (InheritanceBRootChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        for (InheritanceBRootChild o : Copy.list(this.getInheritanceBRootChilds())) {
+            o.setInheritanceBRootWithoutPercolation(null);
+        }
+    }
+
     static class Shims {
         protected static final Shim<InheritanceBRoot, Integer> id = new Shim<InheritanceBRoot, Integer>() {
             public void set(InheritanceBRoot instance, Integer id) {

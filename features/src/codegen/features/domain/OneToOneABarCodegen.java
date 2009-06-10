@@ -88,6 +88,12 @@ public abstract class OneToOneABarCodegen extends AbstractDomainObject {
         return (OneToOneABarChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        this.setOneToOneAFoo(null);
+    }
+
     static class Shims {
         protected static final Shim<OneToOneABar, Integer> id = new Shim<OneToOneABar, Integer>() {
             public void set(OneToOneABar instance, Integer id) {

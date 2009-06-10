@@ -65,6 +65,11 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         return (InheritanceABaseChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+    }
+
     static class Shims {
         protected static final Shim<InheritanceABase, Integer> id = new Shim<InheritanceABase, Integer>() {
             public void set(InheritanceABase instance, Integer id) {

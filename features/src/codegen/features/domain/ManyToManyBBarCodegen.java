@@ -138,6 +138,14 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
         return (ManyToManyBBarChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        for (ManyToManyBFooToBar o : Copy.list(this.getGreenManyToManyBFooToBars())) {
+            o.setGreenWithoutPercolation(null);
+        }
+    }
+
     static class Shims {
         protected static final Shim<ManyToManyBBar, Integer> id = new Shim<ManyToManyBBar, Integer>() {
             public void set(ManyToManyBBar instance, Integer id) {

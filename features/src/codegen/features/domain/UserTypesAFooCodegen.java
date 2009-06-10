@@ -77,6 +77,11 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         return (UserTypesAFooChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+    }
+
     static class Shims {
         protected static final Shim<UserTypesAFoo, CalendarDate> created = new Shim<UserTypesAFoo, CalendarDate>() {
             public void set(UserTypesAFoo instance, CalendarDate created) {
