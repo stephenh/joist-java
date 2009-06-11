@@ -39,7 +39,6 @@ public class Repository {
             Delete.from(current).where(current.getIdColumn().equals(instance)).execute();
             current = current.getBaseClassAlias();
         }
-        instance.clearAssociations();
     }
 
     public void store(Set<DomainObject> instances) {

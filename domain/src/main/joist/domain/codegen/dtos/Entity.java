@@ -72,6 +72,10 @@ public class Entity {
         return this.getClassName() + "Codegen";
     }
 
+    public String getQueriesCodegenClassName() {
+        return this.getClassName() + "QueriesCodegen";
+    }
+
     public String getFullCodegenClassName() {
         return this.config.getDomainObjectPackage() + "." + this.getCodegenClassName();
     }
@@ -86,6 +90,10 @@ public class Entity {
 
     public String getFullQueriesClassName() {
         return this.config.getQueriesPackage() + "." + this.getClassName() + "Queries";
+    }
+
+    public String getFullQueriesCodegenClassName() {
+        return this.config.getQueriesPackage() + "." + this.getQueriesCodegenClassName();
     }
 
     public List<PrimitiveProperty> getPrimitiveProperties() {

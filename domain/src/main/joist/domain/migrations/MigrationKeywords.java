@@ -185,6 +185,24 @@ public class MigrationKeywords {
         MigrationKeywords.execute(sql.toString());
     }
 
+    public static void dropForeignKeyConstraint(String table, String column) {
+        String sql = "SELECT kcu.constraint_name FROM information_schema.key_column_usage kcu, information_schema.table_constraints tc"
+            + " WHERE kcu.constraint_name = tc.constraint_name"
+            + " AND kcu.table_name = '{}'"
+            + " AND kcu.column_name = '{}'"
+            + " AND tc.constraint_type = '{}'";
+        String constraint = (String) Jdbc.queryForRow(Migrater.getConnection(), sql, table, column, "FOREIGN KEY")[0];
+        MigrationKeywords.dropConstraint(table, constraint);
+    }
+
+    public static void dropConstraint(String table, String constraint) {
+        MigrationKeywords.execute("ALTER TABLE \"{}\" DROP CONSTRAINT \"{}\";", table, constraint);
+    }
+
+    public static void dropIndex(String index) {
+        MigrationKeywords.execute("DROP INDEX \"{}\";", index);
+    }
+
     public static void createUniqueConstraint(String table, String... columnNames) {
         String constraintName = Join.underscore(columnNames) + "_un";
         String constraintList = Join.commaSpace(Wrap.quotes(columnNames));

@@ -7,7 +7,6 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Select;
 import joist.domain.uow.UoW;
 
-
 public abstract class AbstractQueries<T extends DomainObject> {
 
     private final Class<T> domainType;
@@ -29,6 +28,13 @@ public abstract class AbstractQueries<T extends DomainObject> {
 
     public List<Integer> findAllIds() {
         return Select.from(this.aliasType).listIds();
+    }
+
+    public void delete(T instance) {
+        instance.clearAssociations();
+        if (UoW.isOpen()) {
+            UoW.delete(instance);
+        }
     }
 
 }
