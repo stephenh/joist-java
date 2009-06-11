@@ -51,6 +51,41 @@ public class Jdbc {
         }
     }
 
+    public static Object[] queryForRow(Connection connection, String sql, Object... args) {
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            sql = Interpolate.string(sql, args);
+            Log.trace("sql = {}", sql);
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(sql);
+            int count = rs.getMetaData().getColumnCount();
+            Object[] objects = new Object[count];
+            if (rs.next()) {
+                for (int i = 0; i < count; i++) {
+                    objects[i] = rs.getObject(i + 1);
+                }
+            }
+            return objects;
+        } catch (SQLException se) {
+            throw new JdbcException(se);
+        } finally {
+            Jdbc.closeSafely(rs, stmt);
+        }
+    }
+
+    public static Object[] queryForRow(DataSource ds, String sql, Object... args) {
+        Connection connection = null;
+        try {
+            connection = ds.getConnection();
+            return Jdbc.queryForRow(connection, sql, args);
+        } catch (SQLException se) {
+            throw new JdbcException(se);
+        } finally {
+            Jdbc.closeSafely(connection);
+        }
+    }
+
     public static int update(Connection connection, String sql, Object... args) {
         Statement stmt = null;
         try {
