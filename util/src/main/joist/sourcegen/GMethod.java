@@ -88,10 +88,14 @@ public class GMethod {
             }
             sb.append(Join.commaSpace(exceptionTypes));
         }
-        sb.line(" {");
-        sb.append(1, this.body.toString());
-        sb.lineIfNeeded(); // The body may or may not have a trailing new line on it
-        sb.line(0, "}");
+        if (this.gclass.isInterface) {
+            sb.line(";");
+        } else {
+            sb.line(" {");
+            sb.append(1, this.body.toString());
+            sb.lineIfNeeded(); // The body may or may not have a trailing new line on it
+            sb.line(0, "}");
+        }
         return sb.toString();
     }
 
