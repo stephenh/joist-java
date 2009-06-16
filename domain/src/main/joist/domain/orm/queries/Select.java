@@ -28,16 +28,18 @@ public class Select<T extends DomainObject> {
 
     private final Alias<T> from;
     private final List<JoinClause<?, ?>> joins = new ArrayList<JoinClause<?, ?>>();
-    private final List<SelectItem<T>> selectItems = new ArrayList<SelectItem<T>>();
+    private final List<SelectItem> selectItems = new ArrayList<SelectItem>();
     private Where where = null;
+    private Where having = null;
     private Order[] orderBy = null;
+    private AliasColumn<?, ?, ?>[] groupBy = null;
     private Integer limit;
     private Integer offset;
 
     private Select(Alias<T> alias) {
         this.from = alias;
         for (AliasColumn<T, ?, ?> c : alias.getColumns()) {
-            this.selectItems.add(new SelectItem<T>(c));
+            this.selectItems.add(new SelectItem(c));
         }
         this.addInnerJoinsForBaseClasses();
         this.addOuterJoinsForSubClasses();
@@ -47,13 +49,18 @@ public class Select<T extends DomainObject> {
         this.joins.add(join);
     }
 
-    public void select(SelectItem<T>... selectItems) {
+    public void select(SelectItem... selectItems) {
         this.selectItems.clear();
         this.selectItems.addAll(Copy.list(selectItems));
     }
 
     public Select<T> where(Where where) {
         this.where = where;
+        return this;
+    }
+
+    public Select<T> having(Where where) {
+        this.having = where;
         return this;
     }
 
@@ -90,7 +97,7 @@ public class Select<T extends DomainObject> {
         if (this.isLoadingDomainObjects(rowType)) {
             mapper = new DomainObjectMapper<T>(this.from, (List<T>) results);
         } else {
-            mapper = new DataTransferObjectMapper<T, R>(rowType, results);
+            mapper = new DataTransferObjectMapper<T, R>(this.selectItems, rowType, results);
         }
         Jdbc.query(UoW.getConnection(), this.toSql(), this.getParameters(), mapper);
         return results;
@@ -110,6 +117,7 @@ public class Select<T extends DomainObject> {
 
     public List<Integer> listIds() {
         List<Integer> ids = new ArrayList<Integer>();
+        this.select(((IdAliasColumn<T>) this.from.getIdColumn()).as("id"));
         this.orderBy(this.from.getIdColumn().asc()); // determinism
         Jdbc.query(UoW.getConnection(), this.toSql(), this.getParameters(), new IdsMapper<T>(this.from, ids));
         return ids;
@@ -122,7 +130,7 @@ public class Select<T extends DomainObject> {
         countQuery.where = this.where;
         countQuery.offset = this.offset;
         countQuery.limit = this.limit;
-        countQuery.select(new SelectItem<T>("count(distinct " + this.from.getIdColumn().getQualifiedName() + ") as count"));
+        countQuery.select(new SelectItem("count(distinct " + this.from.getIdColumn().getQualifiedName() + ")", "count"));
         return countQuery.unique(Count.class).count;
     }
 
@@ -138,6 +146,26 @@ public class Select<T extends DomainObject> {
         return this.orderBy;
     }
 
+    public void groupBy(AliasColumn<?, ?, ?>... columns) {
+        this.groupBy = columns;
+    }
+
+    public SelectCountBuilder count = new SelectCountBuilder();
+
+    public class SelectCountBuilder {
+        public SelectItem as(String name) {
+            return new SelectItem("count(*)", name);
+        }
+
+        public Where lessThan(int number) {
+            return new Where("count(*) < ?", number);
+        }
+
+        public Where greatherThan(int number) {
+            return new Where("count(*) > ?", number);
+        }
+    }
+
     public String toSql() {
         StringBuilderr s = new StringBuilderr();
         s.line("SELECT {}", Join.commaSpace(this.selectItems));
@@ -147,6 +175,12 @@ public class Select<T extends DomainObject> {
         }
         if (this.getWhere() != null) {
             s.line(" WHERE {}", this.getWhere());
+        }
+        if (this.groupBy != null) {
+            s.line(" GROUP BY {}", Join.comma(this.groupBy));
+        }
+        if (this.having != null) {
+            s.line(" HAVING {}", this.having);
         }
         if (this.getOrderBy() != null) {
             s.line(" ORDER BY {}", Join.commaSpace(this.getOrderBy()));
@@ -162,10 +196,14 @@ public class Select<T extends DomainObject> {
     }
 
     public List<Object> getParameters() {
+        List<Object> params = new ArrayList<Object>();
         if (this.getWhere() != null) {
-            return this.getWhere().getParameters();
+            params.addAll(this.getWhere().getParameters());
         }
-        return new ArrayList<Object>();
+        if (this.having != null) {
+            params.addAll(this.having.getParameters());
+        }
+        return params;
     }
 
     @SuppressWarnings("unchecked")
@@ -180,7 +218,7 @@ public class Select<T extends DomainObject> {
             subClassCases.add(0, "WHEN " + sub.getSubClassIdColumn().getQualifiedName() + " IS NOT NULL THEN " + (i++));
         }
         if (i > 0) {
-            this.selectItems.add(new SelectItem("CASE " + Join.space(subClassCases) + " ELSE -1 END AS _clazz"));
+            this.selectItems.add(new SelectItem("CASE " + Join.space(subClassCases) + " ELSE -1 END", "_clazz"));
         }
     }
 
