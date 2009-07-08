@@ -15,7 +15,7 @@
 	<dependencies>
 		<dependency org="joist" name="util" rev="${joist.version}" conf="main"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.4" conf="main->master,sources"/>
-		<dependency org="exigencecorp" name="bindgen" rev="1.12" conf="main->master,sources"/>
+		<dependency org="exigencecorp" name="bindgen" rev="2.0" conf="main->master,sources"/>
 		<dependency org="org.apache.velocity" name="velocity" rev="1.6.2" conf="main->default">
 			 <!-- Velocity can't just name their sources -sources like everyone else. -->
 			<artifact name="velocity" type="jar"/>
