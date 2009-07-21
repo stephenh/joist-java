@@ -33,7 +33,7 @@
 		</subant>
 	</target>
 
-	<target name="release-docs">
+	<target name="release-docs" description="release docs">
 		<jar destfile="docs.zip">
 			<fileset dir="docs/_site" includes="**/*" excludes="screencasts/*"/>
 		</jar>
