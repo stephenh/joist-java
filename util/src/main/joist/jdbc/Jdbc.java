@@ -221,9 +221,6 @@ public class Jdbc {
 
     public static void closeSafely(Object... objects) {
         for (Object o : objects) {
-            if (o == null) {
-                continue;
-            }
             try {
                 if (o instanceof ResultSet) {
                     ((ResultSet) o).close();
@@ -233,7 +230,7 @@ public class Jdbc {
                     ((PreparedStatement) o).close();
                 } else if (o instanceof Connection) {
                     ((Connection) o).close();
-                } else {
+                } else if (o != null) {
                     throw new RuntimeException("Unhandled object " + o);
                 }
             } catch (SQLException se) {
