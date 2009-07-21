@@ -33,6 +33,7 @@ public class PrimitivesGroupByTest extends AbstractFeaturesTest {
         Select<Primitives> q = Select.from(p);
         q.select(p.flag.as("flag"));
         q.groupBy(p.flag);
+        q.orderBy(p.flag.asc());
         List<ByFlag> l = q.list(ByFlag.class);
         Assert.assertEquals(2, l.size()); // now two
         Assert.assertEquals(false, l.get(0).flag.booleanValue());
