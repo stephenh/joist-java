@@ -12,9 +12,9 @@ import joist.util.SystemProperties;
 
 public class Registry {
 
-    public static DataSource getDataSource() {
-        return Registry.instance.appDatasource.get();
-    }
+    private final static Registry instance = new Registry();
+    private final ResourceRefs refs = new ResourceRefs();
+    private final ResourceRef<DataSource> appDatasource;
 
     public static void start() {
         Registry.instance.start2();
@@ -24,9 +24,9 @@ public class Registry {
         Registry.instance.stop2();
     }
 
-    private final static Registry instance = new Registry();
-    private final ResourceRefs refs = new ResourceRefs();
-    private final ResourceRef<DataSource> appDatasource;
+    public static DataSource getDataSource() {
+        return Registry.instance.appDatasource.get();
+    }
 
     private Registry() {
         SystemProperties.loadFromFileIfExists("./build.properties");
