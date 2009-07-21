@@ -28,5 +28,6 @@ Sections
 * [Examples](bindgenExamples.html)
 * [Screencasts](bindgenScreencasts.html)
 * [Performance](bindgenPerformance.html)
+* [Setup](bindgenSetup.html)
 
 
