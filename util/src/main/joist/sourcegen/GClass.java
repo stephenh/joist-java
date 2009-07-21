@@ -31,7 +31,7 @@ public class GClass {
     private boolean isStaticInnerClass = false;
     private boolean isAnonymous = false;
     private boolean isEnum = false;
-    protected boolean isInterface = true;
+    protected boolean isInterface = false;
     private String baseClassName = null;
     private GClass outerClass;
     private static final Pattern classNameWithoutGenerics = Pattern.compile("((\\w+\\.)*)(\\w+)");
