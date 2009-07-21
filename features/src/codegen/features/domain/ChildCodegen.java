@@ -1,5 +1,6 @@
 package features.domain;
 
+import bindgen.features.domain.ChildBinding;
 import features.domain.queries.ChildQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -9,15 +10,20 @@ import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.domain.validation.rules.Rule;
 
 public abstract class ChildCodegen extends AbstractDomainObject {
 
+    private static ChildBinding b = new ChildBinding();
     protected static ChildAlias alias;
     public static final ChildQueries queries;
     private Integer id = null;
     private String name = null;
+    private static Rule<Child> nameNotNull = new NotNull<Child>(b.name());
+    private static Rule<Child> nameMaxLength = new MaxLength<Child>(b.name(), 100);
     private Integer version = null;
     private ForeignKeyHolder<Parent> parent = new ForeignKeyHolder<Parent>(Parent.class);
+    private static Rule<Child> parentNotNull = new NotNull<Child>(b.parent());
     protected Changed changed;
 
     static {
@@ -31,9 +37,9 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<Child>(Shims.name));
-        this.addRule(new MaxLength<Child>(Shims.name, 100));
-        this.addRule(new NotNull<Child>(Shims.parentId));
+        this.addRule(nameNotNull);
+        this.addRule(nameMaxLength);
+        this.addRule(parentNotNull);
     }
 
     public Integer getId() {

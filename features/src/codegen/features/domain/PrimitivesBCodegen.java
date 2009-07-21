@@ -1,5 +1,6 @@
 package features.domain;
 
+import bindgen.features.domain.PrimitivesBBinding;
 import features.domain.queries.PrimitivesBQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -7,20 +8,26 @@ import joist.domain.Shim;
 import joist.domain.orm.AliasRegistry;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
+import joist.domain.validation.rules.Rule;
 
 public abstract class PrimitivesBCodegen extends AbstractDomainObject {
 
+    private static PrimitivesBBinding b = new PrimitivesBBinding();
     protected static PrimitivesBAlias alias;
     public static final PrimitivesBQueries queries;
     private Long big1 = null;
     private Long big2 = null;
+    private static Rule<PrimitivesB> big2NotNull = new NotNull<PrimitivesB>(b.big2());
     private Boolean bool1 = false;
     private Boolean bool2 = false;
+    private static Rule<PrimitivesB> bool2NotNull = new NotNull<PrimitivesB>(b.bool2());
     private Integer id = null;
     private Integer int1 = null;
     private Integer int2 = null;
+    private static Rule<PrimitivesB> int2NotNull = new NotNull<PrimitivesB>(b.int2());
     private Short small1 = null;
     private Short small2 = null;
+    private static Rule<PrimitivesB> small2NotNull = new NotNull<PrimitivesB>(b.small2());
     private Integer version = null;
     protected Changed changed;
 
@@ -35,10 +42,10 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<PrimitivesB>(Shims.big2));
-        this.addRule(new NotNull<PrimitivesB>(Shims.bool2));
-        this.addRule(new NotNull<PrimitivesB>(Shims.int2));
-        this.addRule(new NotNull<PrimitivesB>(Shims.small2));
+        this.addRule(big2NotNull);
+        this.addRule(bool2NotNull);
+        this.addRule(int2NotNull);
+        this.addRule(small2NotNull);
     }
 
     public Long getBig1() {

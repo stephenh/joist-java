@@ -3,7 +3,9 @@ package features.domain;
 import joist.domain.util.TextString;
 import joist.domain.validation.ValidationErrors;
 import joist.domain.validation.rules.Rule;
+import org.exigencecorp.bindgen.Bindable;
 
+@Bindable
 public class ValidationAFoo extends ValidationAFooCodegen {
 
     public ValidationAFoo() {

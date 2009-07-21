@@ -1,5 +1,6 @@
 package features.domain;
 
+import bindgen.features.domain.CodeADomainObjectBinding;
 import features.domain.queries.CodeADomainObjectQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -9,16 +10,22 @@ import joist.domain.orm.ForeignKeyCodeHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.domain.validation.rules.Rule;
 
 public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
 
+    private static CodeADomainObjectBinding b = new CodeADomainObjectBinding();
     protected static CodeADomainObjectAlias alias;
     public static final CodeADomainObjectQueries queries;
     private Integer id = null;
     private String name = null;
+    private static Rule<CodeADomainObject> nameNotNull = new NotNull<CodeADomainObject>(b.name());
+    private static Rule<CodeADomainObject> nameMaxLength = new MaxLength<CodeADomainObject>(b.name(), 100);
     private Integer version = null;
     private ForeignKeyCodeHolder<CodeAColor> codeAColor = new ForeignKeyCodeHolder<CodeAColor>(CodeAColor.class);
+    private static Rule<CodeADomainObject> codeAColorNotNull = new NotNull<CodeADomainObject>(b.codeAColor());
     private ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
+    private static Rule<CodeADomainObject> codeASizeNotNull = new NotNull<CodeADomainObject>(b.codeASize());
     protected Changed changed;
 
     static {
@@ -32,10 +39,10 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<CodeADomainObject>(Shims.name));
-        this.addRule(new MaxLength<CodeADomainObject>(Shims.name, 100));
-        this.addRule(new NotNull<CodeADomainObject>(Shims.codeAColorId));
-        this.addRule(new NotNull<CodeADomainObject>(Shims.codeASizeId));
+        this.addRule(nameNotNull);
+        this.addRule(nameMaxLength);
+        this.addRule(codeAColorNotNull);
+        this.addRule(codeASizeNotNull);
     }
 
     public Integer getId() {

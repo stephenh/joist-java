@@ -1,18 +1,23 @@
 package features.domain;
 
+import bindgen.features.domain.InheritanceBBottomBinding;
 import features.domain.queries.InheritanceBBottomQueries;
 import joist.domain.Shim;
 import joist.domain.orm.AliasRegistry;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.domain.validation.rules.Rule;
 
 public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
 
+    private static InheritanceBBottomBinding b = new InheritanceBBottomBinding();
     @SuppressWarnings("hiding")
     protected static InheritanceBBottomAlias alias;
     @SuppressWarnings("hiding")
     public static final InheritanceBBottomQueries queries;
     private String bottomName = null;
+    private static Rule<InheritanceBBottom> bottomNameNotNull = new NotNull<InheritanceBBottom>(b.bottomName());
+    private static Rule<InheritanceBBottom> bottomNameMaxLength = new MaxLength<InheritanceBBottom>(b.bottomName(), 100);
 
     static {
         alias = new InheritanceBBottomAlias("a");
@@ -25,8 +30,8 @@ public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<InheritanceBBottom>(Shims.bottomName));
-        this.addRule(new MaxLength<InheritanceBBottom>(Shims.bottomName, 100));
+        this.addRule(bottomNameNotNull);
+        this.addRule(bottomNameMaxLength);
     }
 
     public String getBottomName() {

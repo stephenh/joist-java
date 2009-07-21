@@ -1,18 +1,23 @@
 package features.domain;
 
+import bindgen.features.domain.InheritanceASubOneBinding;
 import features.domain.queries.InheritanceASubOneQueries;
 import joist.domain.Shim;
 import joist.domain.orm.AliasRegistry;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.domain.validation.rules.Rule;
 
 public abstract class InheritanceASubOneCodegen extends InheritanceABase {
 
+    private static InheritanceASubOneBinding b = new InheritanceASubOneBinding();
     @SuppressWarnings("hiding")
     protected static InheritanceASubOneAlias alias;
     @SuppressWarnings("hiding")
     public static final InheritanceASubOneQueries queries;
     private String one = null;
+    private static Rule<InheritanceASubOne> oneNotNull = new NotNull<InheritanceASubOne>(b.one());
+    private static Rule<InheritanceASubOne> oneMaxLength = new MaxLength<InheritanceASubOne>(b.one(), 100);
 
     static {
         alias = new InheritanceASubOneAlias("a");
@@ -25,8 +30,8 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<InheritanceASubOne>(Shims.one));
-        this.addRule(new MaxLength<InheritanceASubOne>(Shims.one, 100));
+        this.addRule(oneNotNull);
+        this.addRule(oneMaxLength);
     }
 
     public String getOne() {

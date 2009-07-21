@@ -1,7 +1,8 @@
 package features.domain;
 
-import features.domain.CodeADomainObjectCodegen;
+import org.exigencecorp.bindgen.Bindable;
 
+@Bindable
 public class CodeADomainObject extends CodeADomainObjectCodegen {
 
 }

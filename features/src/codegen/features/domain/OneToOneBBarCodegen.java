@@ -1,5 +1,6 @@
 package features.domain;
 
+import bindgen.features.domain.OneToOneBBarBinding;
 import features.domain.queries.OneToOneBBarQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -9,15 +10,20 @@ import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.domain.validation.rules.Rule;
 
 public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
 
+    private static OneToOneBBarBinding b = new OneToOneBBarBinding();
     protected static OneToOneBBarAlias alias;
     public static final OneToOneBBarQueries queries;
     private Integer id = null;
     private String name = null;
+    private static Rule<OneToOneBBar> nameNotNull = new NotNull<OneToOneBBar>(b.name());
+    private static Rule<OneToOneBBar> nameMaxLength = new MaxLength<OneToOneBBar>(b.name(), 100);
     private Integer version = null;
     private ForeignKeyHolder<OneToOneBFoo> oneToOneBFoo = new ForeignKeyHolder<OneToOneBFoo>(OneToOneBFoo.class);
+    private static Rule<OneToOneBBar> oneToOneBFooNotNull = new NotNull<OneToOneBBar>(b.oneToOneBFoo());
     protected Changed changed;
 
     static {
@@ -31,9 +37,9 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<OneToOneBBar>(Shims.name));
-        this.addRule(new MaxLength<OneToOneBBar>(Shims.name, 100));
-        this.addRule(new NotNull<OneToOneBBar>(Shims.oneToOneBFooId));
+        this.addRule(nameNotNull);
+        this.addRule(nameMaxLength);
+        this.addRule(oneToOneBFooNotNull);
     }
 
     public Integer getId() {

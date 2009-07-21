@@ -1,5 +1,6 @@
 package features.domain;
 
+import bindgen.features.domain.InheritanceABaseBinding;
 import features.domain.queries.InheritanceABaseQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -8,13 +9,17 @@ import joist.domain.orm.AliasRegistry;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.domain.validation.rules.Rule;
 
 public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
 
+    private static InheritanceABaseBinding b = new InheritanceABaseBinding();
     protected static InheritanceABaseAlias alias;
     public static final InheritanceABaseQueries queries;
     private Integer id = null;
     private String name = null;
+    private static Rule<InheritanceABase> nameNotNull = new NotNull<InheritanceABase>(b.name());
+    private static Rule<InheritanceABase> nameMaxLength = new MaxLength<InheritanceABase>(b.name(), 100);
     private Integer version = null;
     protected Changed changed;
 
@@ -29,8 +34,8 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<InheritanceABase>(Shims.name));
-        this.addRule(new MaxLength<InheritanceABase>(Shims.name, 100));
+        this.addRule(nameNotNull);
+        this.addRule(nameMaxLength);
     }
 
     public Integer getId() {

@@ -1,5 +1,6 @@
 package features.domain;
 
+import bindgen.features.domain.ParentBinding;
 import features.domain.queries.ParentQueries;
 import java.util.List;
 import joist.domain.AbstractDomainObject;
@@ -10,14 +11,18 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.domain.validation.rules.Rule;
 import joist.util.Copy;
 
 public abstract class ParentCodegen extends AbstractDomainObject {
 
+    private static ParentBinding b = new ParentBinding();
     protected static ParentAlias alias;
     public static final ParentQueries queries;
     private Integer id = null;
     private String name = null;
+    private static Rule<Parent> nameNotNull = new NotNull<Parent>(b.name());
+    private static Rule<Parent> nameMaxLength = new MaxLength<Parent>(b.name(), 100);
     private Integer version = null;
     private ForeignKeyListHolder<Parent, Child> childs = new ForeignKeyListHolder<Parent, Child>((Parent) this, ChildCodegen.alias, ChildCodegen.alias.parent);
     protected Changed changed;
@@ -33,8 +38,8 @@ public abstract class ParentCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<Parent>(Shims.name));
-        this.addRule(new MaxLength<Parent>(Shims.name, 100));
+        this.addRule(nameNotNull);
+        this.addRule(nameMaxLength);
     }
 
     public Integer getId() {

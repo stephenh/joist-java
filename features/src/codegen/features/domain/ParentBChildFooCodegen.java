@@ -1,5 +1,6 @@
 package features.domain;
 
+import bindgen.features.domain.ParentBChildFooBinding;
 import features.domain.queries.ParentBChildFooQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -9,15 +10,20 @@ import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.domain.validation.rules.Rule;
 
 public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
 
+    private static ParentBChildFooBinding b = new ParentBChildFooBinding();
     protected static ParentBChildFooAlias alias;
     public static final ParentBChildFooQueries queries;
     private Integer id = null;
     private String name = null;
+    private static Rule<ParentBChildFoo> nameNotNull = new NotNull<ParentBChildFoo>(b.name());
+    private static Rule<ParentBChildFoo> nameMaxLength = new MaxLength<ParentBChildFoo>(b.name(), 100);
     private Integer version = null;
     private ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
+    private static Rule<ParentBChildFoo> parentBParentNotNull = new NotNull<ParentBChildFoo>(b.parentBParent());
     protected Changed changed;
 
     static {
@@ -31,9 +37,9 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(new NotNull<ParentBChildFoo>(Shims.name));
-        this.addRule(new MaxLength<ParentBChildFoo>(Shims.name, 100));
-        this.addRule(new NotNull<ParentBChildFoo>(Shims.parentBParentId));
+        this.addRule(nameNotNull);
+        this.addRule(nameMaxLength);
+        this.addRule(parentBParentNotNull);
     }
 
     public Integer getId() {
