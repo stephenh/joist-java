@@ -31,7 +31,6 @@ public class Files {
         "src/main/projectName/cli/JoistCli.java",
         "src/main/projectName/migrations/m0000.java",
         "src/main/projectName/migrations/m0001.java",
-        "src/main/projectName/resources/ProjectNameDataSourceFactory.java",
         "src/main/projectName/webapp/ProjectNameServlet.java",
         "src/main/projectName/webapp/pages/AbstractProjectNamePage.java",
         "src/main/projectName/webapp/pages/IndexPage.java",
