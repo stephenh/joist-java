@@ -7,6 +7,7 @@ import joist.domain.migrations.columns.BooleanColumn;
 import joist.domain.migrations.columns.ByteaColumn;
 import joist.domain.migrations.columns.Column;
 import joist.domain.migrations.columns.DateColumn;
+import joist.domain.migrations.columns.DatetimeColumn;
 import joist.domain.migrations.columns.ForeignKeyColumn;
 import joist.domain.migrations.columns.IntColumn;
 import joist.domain.migrations.columns.PrimaryKeyColumn;
@@ -114,6 +115,10 @@ public class MigrationKeywords {
 
     public static DateColumn date(String name) {
         return new DateColumn(name);
+    }
+
+    public static DatetimeColumn datetime(String name) {
+        return new DatetimeColumn(name);
     }
 
     public static IntColumn integer(String name) {
