@@ -24,6 +24,11 @@ public class ResourceRefBuilder<T> {
         return this;
     }
 
+    public <U extends T> ResourceRefBuilder<T> impl(Class<U> impl) {
+        this.holder.factory = new ReflectionResourceFactory<T>(impl);
+        return this;
+    }
+
     public ResourceRef<T> make() {
         ResourceRef<T> ref = new SingletonResourceRef<T>(this.holder.factory);
         this.holder.ref = ref;
