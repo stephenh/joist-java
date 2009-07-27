@@ -2,6 +2,7 @@ package joist.web.controls.form;
 
 import java.util.List;
 
+import joist.util.Copy;
 import joist.web.controls.AbstractClickControlTest;
 import joist.web.fakedomain.Employee;
 import junit.framework.Assert;
@@ -35,8 +36,21 @@ public class SelectFieldTest extends AbstractClickControlTest {
         Assert.assertEquals(3, p.employees.get(1).id.intValue());
     }
 
+    public void testOptionsTakesABinding() {
+        Page p = new Page();
+        p.employees = Copy.list(new Employee(2), new Employee(3));
+
+        PageBinding b = new PageBinding(p);
+        SelectField<Employee> s = new SelectField<Employee>(b.employee()).id("employee").options(b.employees());
+
+        Assert.assertEquals(2, s.getOptionsPossiblyFromBinding().size());
+        Assert.assertEquals(2, s.getOptionsPossiblyFromBinding().get(0).id.intValue());
+        Assert.assertEquals(3, s.getOptionsPossiblyFromBinding().get(1).id.intValue());
+    }
+
     @Bindable
     public static class Page {
+        public Employee employee;
         public List<Employee> employees;
     }
 

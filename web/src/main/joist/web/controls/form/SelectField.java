@@ -15,6 +15,7 @@ import org.exigencecorp.bindgen.ContainerBinding;
 public class SelectField<T> extends AbstractField<SelectField<T>> {
 
     private List<T> options = new ArrayList<T>();
+    private Binding<List<T>> binding;
     private boolean showBlank = false;
 
     public SelectField(Binding<?> binding) {
@@ -28,6 +29,11 @@ public class SelectField<T> extends AbstractField<SelectField<T>> {
 
     public SelectField<T> options(T... options) {
         this.options = Copy.list(options);
+        return this;
+    }
+
+    public SelectField<T> options(Binding<List<T>> binding) {
+        this.binding = binding;
         return this;
     }
 
@@ -63,7 +69,7 @@ public class SelectField<T> extends AbstractField<SelectField<T>> {
             }
         }
         int i = 0;
-        for (T option : this.options) {
+        for (T option : this.getOptionsPossiblyFromBinding()) {
             String id = this.getFullId() + "-" + i++;
             String forValue = CurrentContext.get().getWebConfig().getUrlConverterRegistry().convert(option, String.class);
             String forLabel = CurrentContext.get().getWebConfig().getTextConverterRegistry().convert(option, String.class);
@@ -77,6 +83,13 @@ public class SelectField<T> extends AbstractField<SelectField<T>> {
             }
         }
         w.line("</select>");
+    }
+
+    protected List<T> getOptionsPossiblyFromBinding() {
+        if (this.options.size() == 0 && this.binding != null) {
+            this.options = this.binding.get();
+        }
+        return this.options;
     }
 
     @Override

@@ -16,4 +16,8 @@ public class SelectFieldObject extends AbstractElementObject {
         this.pageObject.driver.findElement(By.id(this.id + "-" + index)).setSelected();
     }
 
+    public void select(String value) {
+        this.pageObject.driver.findElement(By.xpath("//select[@id = '" + this.id + "']/option[text() = '" + value + "']")).setSelected();
+    }
+
 }
