@@ -4,9 +4,9 @@ import joist.util.Reflection;
 
 public class ReflectionResourceFactory<T> implements ResourceFactory<T> {
 
-    private final Class<T> type;
+    private final Class<? extends T> type;
 
-    public ReflectionResourceFactory(Class<T> type) {
+    public ReflectionResourceFactory(Class<? extends T> type) {
         this.type = type;
     }
 
