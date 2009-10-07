@@ -1,23 +1,18 @@
 package features.domain;
 
-import bindgen.features.domain.InheritanceASubTwoBinding;
 import features.domain.queries.InheritanceASubTwoQueries;
 import joist.domain.Shim;
 import joist.domain.orm.AliasRegistry;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import joist.domain.validation.rules.Rule;
 
 public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
 
-    private static InheritanceASubTwoBinding b = new InheritanceASubTwoBinding();
     @SuppressWarnings("hiding")
     protected static InheritanceASubTwoAlias alias;
     @SuppressWarnings("hiding")
     public static final InheritanceASubTwoQueries queries;
     private String two = null;
-    private static Rule<InheritanceASubTwo> twoNotNull = new NotNull<InheritanceASubTwo>(b.two());
-    private static Rule<InheritanceASubTwo> twoMaxLength = new MaxLength<InheritanceASubTwo>(b.two(), 100);
 
     static {
         alias = new InheritanceASubTwoAlias("a");
@@ -30,8 +25,8 @@ public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
     }
 
     private void addExtraRules() {
-        this.addRule(twoNotNull);
-        this.addRule(twoMaxLength);
+        this.addRule(new NotNull<InheritanceASubTwo>(Shims.two));
+        this.addRule(new MaxLength<InheritanceASubTwo>(Shims.two, 100));
     }
 
     public String getTwo() {

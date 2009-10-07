@@ -1,6 +1,5 @@
 package features.domain;
 
-import bindgen.features.domain.InheritanceBRootBinding;
 import features.domain.queries.InheritanceBRootQueries;
 import java.util.List;
 import joist.domain.AbstractDomainObject;
@@ -11,18 +10,14 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import joist.domain.validation.rules.Rule;
 import joist.util.Copy;
 
 public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
 
-    private static InheritanceBRootBinding b = new InheritanceBRootBinding();
     protected static InheritanceBRootAlias alias;
     public static final InheritanceBRootQueries queries;
     private Integer id = null;
     private String name = null;
-    private static Rule<InheritanceBRoot> nameNotNull = new NotNull<InheritanceBRoot>(b.name());
-    private static Rule<InheritanceBRoot> nameMaxLength = new MaxLength<InheritanceBRoot>(b.name(), 100);
     private Integer version = null;
     private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, InheritanceBRootChildCodegen.alias, InheritanceBRootChildCodegen.alias.inheritanceBRoot);
     protected Changed changed;
@@ -38,8 +33,8 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(nameNotNull);
-        this.addRule(nameMaxLength);
+        this.addRule(new NotNull<InheritanceBRoot>(Shims.name));
+        this.addRule(new MaxLength<InheritanceBRoot>(Shims.name, 100));
     }
 
     public Integer getId() {

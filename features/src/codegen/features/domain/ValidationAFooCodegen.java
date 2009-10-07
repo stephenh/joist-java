@@ -1,6 +1,5 @@
 package features.domain;
 
-import bindgen.features.domain.ValidationAFooBinding;
 import features.domain.queries.ValidationAFooQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -9,17 +8,13 @@ import joist.domain.orm.AliasRegistry;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import joist.domain.validation.rules.Rule;
 
 public abstract class ValidationAFooCodegen extends AbstractDomainObject {
 
-    private static ValidationAFooBinding b = new ValidationAFooBinding();
     protected static ValidationAFooAlias alias;
     public static final ValidationAFooQueries queries;
     private Integer id = null;
     private String name = null;
-    private static Rule<ValidationAFoo> nameNotNull = new NotNull<ValidationAFoo>(b.name());
-    private static Rule<ValidationAFoo> nameMaxLength = new MaxLength<ValidationAFoo>(b.name(), 100);
     private Integer version = null;
     protected Changed changed;
 
@@ -34,8 +29,8 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(nameNotNull);
-        this.addRule(nameMaxLength);
+        this.addRule(new NotNull<ValidationAFoo>(Shims.name));
+        this.addRule(new MaxLength<ValidationAFoo>(Shims.name, 100));
     }
 
     public Integer getId() {

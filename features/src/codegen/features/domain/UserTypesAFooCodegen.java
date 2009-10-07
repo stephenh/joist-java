@@ -1,6 +1,5 @@
 package features.domain;
 
-import bindgen.features.domain.UserTypesAFooBinding;
 import com.domainlanguage.time.CalendarDate;
 import features.domain.queries.UserTypesAFooQueries;
 import joist.domain.AbstractDomainObject;
@@ -10,19 +9,14 @@ import joist.domain.orm.AliasRegistry;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import joist.domain.validation.rules.Rule;
 
 public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
 
-    private static UserTypesAFooBinding b = new UserTypesAFooBinding();
     protected static UserTypesAFooAlias alias;
     public static final UserTypesAFooQueries queries;
     private CalendarDate created = null;
-    private static Rule<UserTypesAFoo> createdNotNull = new NotNull<UserTypesAFoo>(b.created());
     private Integer id = null;
     private String name = null;
-    private static Rule<UserTypesAFoo> nameNotNull = new NotNull<UserTypesAFoo>(b.name());
-    private static Rule<UserTypesAFoo> nameMaxLength = new MaxLength<UserTypesAFoo>(b.name(), 100);
     private Integer version = null;
     protected Changed changed;
 
@@ -37,9 +31,9 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(createdNotNull);
-        this.addRule(nameNotNull);
-        this.addRule(nameMaxLength);
+        this.addRule(new NotNull<UserTypesAFoo>(Shims.created));
+        this.addRule(new NotNull<UserTypesAFoo>(Shims.name));
+        this.addRule(new MaxLength<UserTypesAFoo>(Shims.name, 100));
     }
 
     public CalendarDate getCreated() {

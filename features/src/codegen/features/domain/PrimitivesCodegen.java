@@ -1,6 +1,5 @@
 package features.domain;
 
-import bindgen.features.domain.PrimitivesBinding;
 import features.domain.queries.PrimitivesQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -9,19 +8,14 @@ import joist.domain.orm.AliasRegistry;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import joist.domain.validation.rules.Rule;
 
 public abstract class PrimitivesCodegen extends AbstractDomainObject {
 
-    private static PrimitivesBinding b = new PrimitivesBinding();
     protected static PrimitivesAlias alias;
     public static final PrimitivesQueries queries;
     private Boolean flag = false;
-    private static Rule<Primitives> flagNotNull = new NotNull<Primitives>(b.flag());
     private Integer id = null;
     private String name = null;
-    private static Rule<Primitives> nameNotNull = new NotNull<Primitives>(b.name());
-    private static Rule<Primitives> nameMaxLength = new MaxLength<Primitives>(b.name(), 100);
     private Integer version = null;
     protected Changed changed;
 
@@ -36,9 +30,9 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(flagNotNull);
-        this.addRule(nameNotNull);
-        this.addRule(nameMaxLength);
+        this.addRule(new NotNull<Primitives>(Shims.flag));
+        this.addRule(new NotNull<Primitives>(Shims.name));
+        this.addRule(new MaxLength<Primitives>(Shims.name, 100));
     }
 
     public Boolean getFlag() {

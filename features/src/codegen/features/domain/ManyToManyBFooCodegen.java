@@ -1,6 +1,5 @@
 package features.domain;
 
-import bindgen.features.domain.ManyToManyBFooBinding;
 import features.domain.queries.ManyToManyBFooQueries;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +11,14 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import joist.domain.validation.rules.Rule;
 import joist.util.Copy;
 
 public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
 
-    private static ManyToManyBFooBinding b = new ManyToManyBFooBinding();
     protected static ManyToManyBFooAlias alias;
     public static final ManyToManyBFooQueries queries;
     private Integer id = null;
     private String name = null;
-    private static Rule<ManyToManyBFoo> nameNotNull = new NotNull<ManyToManyBFoo>(b.name());
-    private static Rule<ManyToManyBFoo> nameMaxLength = new MaxLength<ManyToManyBFoo>(b.name(), 100);
     private Integer version = null;
     private ForeignKeyListHolder<ManyToManyBFoo, ManyToManyBFooToBar> blueManyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBFoo, ManyToManyBFooToBar>((ManyToManyBFoo) this, ManyToManyBFooToBarCodegen.alias, ManyToManyBFooToBarCodegen.alias.blue);
     protected Changed changed;
@@ -39,8 +34,8 @@ public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(nameNotNull);
-        this.addRule(nameMaxLength);
+        this.addRule(new NotNull<ManyToManyBFoo>(Shims.name));
+        this.addRule(new MaxLength<ManyToManyBFoo>(Shims.name, 100));
     }
 
     public Integer getId() {

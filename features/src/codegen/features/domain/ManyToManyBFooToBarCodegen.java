@@ -1,6 +1,5 @@
 package features.domain;
 
-import bindgen.features.domain.ManyToManyBFooToBarBinding;
 import features.domain.queries.ManyToManyBFooToBarQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -9,19 +8,15 @@ import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
-import joist.domain.validation.rules.Rule;
 
 public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
 
-    private static ManyToManyBFooToBarBinding b = new ManyToManyBFooToBarBinding();
     protected static ManyToManyBFooToBarAlias alias;
     public static final ManyToManyBFooToBarQueries queries;
     private Integer id = null;
     private Integer version = null;
     private ForeignKeyHolder<ManyToManyBFoo> blue = new ForeignKeyHolder<ManyToManyBFoo>(ManyToManyBFoo.class);
-    private static Rule<ManyToManyBFooToBar> blueNotNull = new NotNull<ManyToManyBFooToBar>(b.blue());
     private ForeignKeyHolder<ManyToManyBBar> green = new ForeignKeyHolder<ManyToManyBBar>(ManyToManyBBar.class);
-    private static Rule<ManyToManyBFooToBar> greenNotNull = new NotNull<ManyToManyBFooToBar>(b.green());
     protected Changed changed;
 
     static {
@@ -35,8 +30,8 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(blueNotNull);
-        this.addRule(greenNotNull);
+        this.addRule(new NotNull<ManyToManyBFooToBar>(Shims.blueId));
+        this.addRule(new NotNull<ManyToManyBFooToBar>(Shims.greenId));
     }
 
     public Integer getId() {

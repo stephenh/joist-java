@@ -1,6 +1,5 @@
 package features.domain;
 
-import bindgen.features.domain.ParentBChildBarBinding;
 import features.domain.queries.ParentBChildBarQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -10,20 +9,15 @@ import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import joist.domain.validation.rules.Rule;
 
 public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
 
-    private static ParentBChildBarBinding b = new ParentBChildBarBinding();
     protected static ParentBChildBarAlias alias;
     public static final ParentBChildBarQueries queries;
     private Integer id = null;
     private String name = null;
-    private static Rule<ParentBChildBar> nameNotNull = new NotNull<ParentBChildBar>(b.name());
-    private static Rule<ParentBChildBar> nameMaxLength = new MaxLength<ParentBChildBar>(b.name(), 100);
     private Integer version = null;
     private ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
-    private static Rule<ParentBChildBar> parentBParentNotNull = new NotNull<ParentBChildBar>(b.parentBParent());
     protected Changed changed;
 
     static {
@@ -37,9 +31,9 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     }
 
     private void addExtraRules() {
-        this.addRule(nameNotNull);
-        this.addRule(nameMaxLength);
-        this.addRule(parentBParentNotNull);
+        this.addRule(new NotNull<ParentBChildBar>(Shims.name));
+        this.addRule(new MaxLength<ParentBChildBar>(Shims.name, 100));
+        this.addRule(new NotNull<ParentBChildBar>(Shims.parentBParentId));
     }
 
     public Integer getId() {

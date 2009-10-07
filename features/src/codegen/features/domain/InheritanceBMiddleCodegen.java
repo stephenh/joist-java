@@ -1,23 +1,18 @@
 package features.domain;
 
-import bindgen.features.domain.InheritanceBMiddleBinding;
 import features.domain.queries.InheritanceBMiddleQueries;
 import joist.domain.Shim;
 import joist.domain.orm.AliasRegistry;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import joist.domain.validation.rules.Rule;
 
 public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
 
-    private static InheritanceBMiddleBinding b = new InheritanceBMiddleBinding();
     @SuppressWarnings("hiding")
     protected static InheritanceBMiddleAlias alias;
     @SuppressWarnings("hiding")
     public static final InheritanceBMiddleQueries queries;
     private String middleName = null;
-    private static Rule<InheritanceBMiddle> middleNameNotNull = new NotNull<InheritanceBMiddle>(b.middleName());
-    private static Rule<InheritanceBMiddle> middleNameMaxLength = new MaxLength<InheritanceBMiddle>(b.middleName(), 100);
 
     static {
         alias = new InheritanceBMiddleAlias("a");
@@ -30,8 +25,8 @@ public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
     }
 
     private void addExtraRules() {
-        this.addRule(middleNameNotNull);
-        this.addRule(middleNameMaxLength);
+        this.addRule(new NotNull<InheritanceBMiddle>(Shims.middleName));
+        this.addRule(new MaxLength<InheritanceBMiddle>(Shims.middleName, 100));
     }
 
     public String getMiddleName() {
