@@ -19,7 +19,6 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import joist.domain.validation.rules.Rule;
 import joist.sourcegen.GClass;
 import joist.sourcegen.GField;
 import joist.sourcegen.GMethod;
@@ -39,9 +38,6 @@ public class GenerateDomainCodegenPass implements Pass {
 
             domainCodegen.getConstructor().setProtected().body.line("this.addExtraRules();");
             domainCodegen.getMethod("addExtraRules").setPrivate();
-
-            domainCodegen.getField("b").type("{}Binding", entity.getClassName()).initialValue("new {}Binding()", entity.getClassName()).setStatic();
-            domainCodegen.addImports("bindgen." + entity.getFullClassName() + "Binding");
 
             this.addAlias(domainCodegen, entity);
             this.primitiveProperties(domainCodegen, entity);
@@ -116,25 +112,18 @@ public class GenerateDomainCodegenPass implements Pass {
             shimName.body.line("return \"{}\";", p.getVariableName());
 
             if (p.shouldHaveNotNullRule()) {
-                domainCodegen.getField("{}NotNull", p.getVariableName()).type("Rule<{}>", entity.getClassName()).setStatic().initialValue(
-                    "new NotNull<{}>(b.{}())",
+                domainCodegen.getMethod("addExtraRules").body.line("this.addRule(new NotNull<{}>(Shims.{}));",//
                     entity.getClassName(),
                     p.getVariableName());
-                domainCodegen.getMethod("addExtraRules").body.line("this.addRule({}NotNull);", p.getVariableName());
                 domainCodegen.addImports(NotNull.class);
-                domainCodegen.addImports(Rule.class);
             }
 
             if (p.getMaxCharacterLength() != 0) {
-                domainCodegen.getField("{}MaxLength", p.getVariableName()).type("Rule<{}>", entity.getClassName()).setStatic().initialValue(
-                    "new MaxLength<{}>(b.{}(), {})",
+                domainCodegen.getMethod("addExtraRules").body.line("this.addRule(new MaxLength<{}>(Shims.{}, {}));",//
                     entity.getClassName(),
                     p.getVariableName(),
                     p.getMaxCharacterLength());
-
-                domainCodegen.getMethod("addExtraRules").body.line("this.addRule({}MaxLength);", p.getVariableName());
                 domainCodegen.addImports(MaxLength.class);
-                domainCodegen.addImports(Rule.class);
             }
 
             domainCodegen.addImports(Shim.class);
@@ -205,17 +194,10 @@ public class GenerateDomainCodegenPass implements Pass {
             shimName.body.line("return \"{}\";", mtop.getVariableName());
 
             if (mtop.isNotNull()) {
-                domainCodegen.getField("{}NotNull", mtop.getVariableName()).type("Rule<{}>", entity.getClassName()).setStatic().initialValue(
-                    "new NotNull<{}>(b.{}())",
-                    entity.getClassName(),
-                    mtop.getVariableName());
-                domainCodegen.getMethod("addExtraRules").body.line("this.addRule({}NotNull);",//
-                    mtop.getVariableName(),
+                domainCodegen.getMethod("addExtraRules").body.line("this.addRule(new NotNull<{}>(Shims.{}Id));",//
                     entity.getClassName(),
                     mtop.getVariableName());
                 domainCodegen.addImports(NotNull.class);
-                domainCodegen.addImports(Rule.class);
-
             }
 
             domainCodegen.addImports(Shim.class);
