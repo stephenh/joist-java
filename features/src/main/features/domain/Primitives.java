@@ -9,4 +9,9 @@ public class Primitives extends PrimitivesCodegen {
         this.setName(name);
     }
 
+    public Primitives flag(boolean flag) {
+        this.setFlag(flag);
+        return this;
+    }
+
 }

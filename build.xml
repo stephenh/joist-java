@@ -33,9 +33,9 @@
 		</subant>
 	</target>
 
-	<target name="release-docs">
+	<target name="release-docs" description="release docs">
 		<jar destfile="docs.zip">
-			<fileset dir="docs/_site" includes="**/*"/>
+			<fileset dir="docs/_site" includes="**/*" excludes="screencasts/*"/>
 		</jar>
 		<input message="password:" addproperty="joist.password"/>
 		<scp file="docs.zip" todir="root@joist.ws:/var/joist.www" password="${joist.password}" trust="true"/>

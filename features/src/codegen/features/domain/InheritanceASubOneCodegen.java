@@ -45,6 +45,11 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
         return (InheritanceASubOneChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+    }
+
     static class Shims {
         protected static final Shim<InheritanceASubOne, String> one = new Shim<InheritanceASubOne, String>() {
             public void set(InheritanceASubOne instance, String one) {

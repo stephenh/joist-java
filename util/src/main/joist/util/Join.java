@@ -11,6 +11,10 @@ public class Join {
         return Join.join(objects, "\n");
     }
 
+    public static <T extends Object> String linesCrlf(T... objects) {
+        return Join.join(objects, "\r\n");
+    }
+
     public static <T extends Object> String lines(Collection<T> objects) {
         return Join.join(objects, "\n");
     }

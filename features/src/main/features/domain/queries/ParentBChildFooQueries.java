@@ -2,17 +2,12 @@ package features.domain.queries;
 
 import java.util.List;
 
-import joist.domain.AbstractQueries;
 import joist.domain.orm.queries.Select;
 import features.domain.ParentBChildFoo;
 import features.domain.ParentBChildFooAlias;
 import features.domain.ParentBParentAlias;
 
-public class ParentBChildFooQueries extends AbstractQueries<ParentBChildFoo> {
-
-    public ParentBChildFooQueries() {
-        super(ParentBChildFoo.class);
-    }
+public class ParentBChildFooQueries extends ParentBChildFooQueriesCodegen {
 
     public List<ParentBChildFoo> findByParentName(String name) {
         ParentBParentAlias p = new ParentBParentAlias("p");

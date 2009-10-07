@@ -1,61 +1,103 @@
 package joist.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class TopologicalSort<T> {
 
-    private final List<T> nodes = new ArrayList<T>();
-    private final Map<T, T> dependencies = new HashMap<T, T>();
+    private final MapToList<T, T> dependencies = new MapToList<T, T>();
+    private List<T> cached;
 
     public void addNode(T node) {
-        this.nodes.add(node);
+        this.dependencies.add(node);
     }
 
     public void addDependency(T dependent, T parent) {
-        if (!this.nodes.contains(dependent)) {
-            throw new RuntimeException("The dependent is not yet a node: " + dependent);
+        this.ensureNodes(dependent, parent);
+        this.dependencies.add(dependent, parent);
+        if (this.hasCycles()) {
+            throw new CycleException(dependent, parent);
         }
-        if (!this.nodes.contains(parent)) {
-            throw new RuntimeException("The parent is not yet a node: " + parent);
-        }
-        this.dependencies.put(dependent, parent);
     }
 
-    public List<T> sort() {
+    public void addDependencyIfNoCycle(T dependent, T parent) {
+        this.ensureNodes(dependent, parent);
+        this.dependencies.add(dependent, parent);
+        if (this.hasCycles()) {
+            this.dependencies.remove(dependent, parent);
+        }
+    }
+
+    public List<T> get() {
+        if (this.cached == null) {
+            this.cached = this.sort();
+        }
+        return this.cached;
+    }
+
+    private List<T> sort() {
         List<T> sorted = new ArrayList<T>();
-        while (this.nodes.size() > 0) {
-            T next = this.findNodeWithNoDependencies();
-            this.removeDependenciesForParent(next);
-            this.removeNode(next);
-            sorted.add(next);
+        List<T> nodesLeft = Copy.list(this.dependencies.keySet());
+        MapToList<T, T> dependenciesLeft = Copy.map(this.dependencies);
+        while (nodesLeft.size() > 0) {
+            T nextNode = this.findNodeWithNoDependencies(nodesLeft, dependenciesLeft);
+            this.removeDependenciesForParent(dependenciesLeft, nextNode);
+            this.removeNode(nodesLeft, nextNode);
+            sorted.add(nextNode);
         }
         return sorted;
     }
 
-    private T findNodeWithNoDependencies() {
-        for (T node : this.nodes) {
-            if (!this.dependencies.keySet().contains(node)) {
+    private T findNodeWithNoDependencies(List<T> nodesLeft, MapToList<T, T> dependenciesLeft) {
+        for (T node : nodesLeft) {
+            if (dependenciesLeft.get(node).size() == 0) {
                 return node;
             }
         }
-        throw new RuntimeException("cycle");
+        throw new CycleException();
     }
 
-    private void removeDependenciesForParent(T node) {
-        for (Iterator<Entry<T, T>> i = this.dependencies.entrySet().iterator(); i.hasNext();) {
-            if (i.next().getValue().equals(node)) {
-                i.remove();
+    private void removeDependenciesForParent(MapToList<T, T> dependenciesLeft, T node) {
+        for (Map.Entry<T, List<T>> e : dependenciesLeft.entrySet()) {
+            while (e.getValue().contains(node)) {
+                e.getValue().remove(node);
             }
         }
     }
 
-    private void removeNode(T node) {
-        this.nodes.remove(node);
+    private boolean hasCycles() {
+        try {
+            this.cached = this.sort();
+            return false;
+        } catch (CycleException ce) {
+            return true;
+        }
+    }
+
+    private void removeNode(List<T> nodesLeft, T node) {
+        nodesLeft.remove(node);
+    }
+
+    private void ensureNodes(T dependent, T parent) {
+        if (!this.dependencies.containsKey(dependent)) {
+            throw new RuntimeException("The dependent is not yet a node: " + dependent);
+        }
+        if (!this.dependencies.containsKey(parent)) {
+            throw new RuntimeException("The parent is not yet a node: " + parent);
+        }
+    }
+
+    public static class CycleException extends RuntimeException {
+        private static final long serialVersionUID = 1L;
+
+        public CycleException() {
+            super("cycle");
+        }
+
+        public CycleException(Object dependent, Object parent) {
+            super("cycle occurred adding " + dependent + " -> " + parent);
+        }
     }
 
 }

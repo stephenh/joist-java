@@ -2,6 +2,7 @@ package joist.util;
 
 import java.util.List;
 
+import joist.util.TopologicalSort.CycleException;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -44,12 +45,11 @@ public class TopologicalSortTest extends TestCase {
 
     public void testOneThatDependsOnItself() {
         this.addNodes("A");
-        this.addDependencies("AA"); // um?
         try {
-            this.assertSorted("A");
+            this.addDependencies("AA"); // um?
             Assert.fail();
-        } catch (RuntimeException re) {
-            Assert.assertEquals("cycle", re.getMessage());
+        } catch (CycleException re) {
+            Assert.assertEquals("cycle occurred adding A -> A", re.getMessage());
         }
     }
 
@@ -77,6 +77,26 @@ public class TopologicalSortTest extends TestCase {
         this.assertSorted("DBAC");
     }
 
+    public void testTwoWithWeakCycle() {
+        this.addNodes("CAB");
+        this.addDependencies("AB");
+        this.assertSorted("CBA");
+        this.addWeakDependencies("CB", "BA");
+        this.assertSorted("BCA"); // CB took effect, BA was ignored
+    }
+
+    public void testMultipleDependencies() {
+        this.addNodes("ABCD");
+        this.addDependencies("BC", "BA");
+        this.assertSorted("ACBD"); // BC was not lost
+    }
+
+    public void testMultipleRedundantDependencies() {
+        this.addNodes("AB");
+        this.addDependencies("AB", "AB");
+        this.assertSorted("BA");
+    }
+
     private void addNodes(String nodes) {
         for (int i = 0; i < nodes.length(); i++) {
             this.ts.addNode(String.valueOf(nodes.charAt(i)));
@@ -89,8 +109,15 @@ public class TopologicalSortTest extends TestCase {
         }
     }
 
+    private void addWeakDependencies(String... dependencies) {
+        for (String d : dependencies) {
+            this.ts.addDependencyIfNoCycle(String.valueOf(d.charAt(0)), String.valueOf(d.charAt(1)));
+        }
+    }
+
     private void assertSorted(String expected) {
-        List<String> sorted = this.ts.sort();
+        List<String> sorted = this.ts.get();
         Assert.assertEquals(expected, Join.join(sorted, ""));
     }
+
 }

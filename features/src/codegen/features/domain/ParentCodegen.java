@@ -10,6 +10,7 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.util.Copy;
 
 public abstract class ParentCodegen extends AbstractDomainObject {
 
@@ -65,6 +66,15 @@ public abstract class ParentCodegen extends AbstractDomainObject {
         return this.childs.get();
     }
 
+    public void setChilds(List<Child> childs) {
+        for (Child o : Copy.list(this.getChilds())) {
+            this.removeChild(o);
+        }
+        for (Child o : childs) {
+            this.addChild(o);
+        }
+    }
+
     public void addChild(Child o) {
         o.setParentWithoutPercolation((Parent) this);
         this.addChildWithoutPercolation(o);
@@ -90,6 +100,14 @@ public abstract class ParentCodegen extends AbstractDomainObject {
             this.changed = new ParentChanged((Parent) this);
         }
         return (ParentChanged) this.changed;
+    }
+
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        for (Child o : Copy.list(this.getChilds())) {
+            o.setParentWithoutPercolation(null);
+        }
     }
 
     static class Shims {

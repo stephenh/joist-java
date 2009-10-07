@@ -2,17 +2,12 @@ package features.domain.queries;
 
 import java.util.List;
 
-import joist.domain.AbstractQueries;
 import joist.domain.orm.queries.Select;
 import joist.domain.orm.queries.Update;
 import features.domain.Primitives;
 import features.domain.PrimitivesAlias;
 
-public class PrimitivesQueries extends AbstractQueries<Primitives> {
-
-    public PrimitivesQueries() {
-        super(Primitives.class);
-    }
+public class PrimitivesQueries extends PrimitivesQueriesCodegen {
 
     public Primitives findByName(String name) {
         PrimitivesAlias p = new PrimitivesAlias("p");

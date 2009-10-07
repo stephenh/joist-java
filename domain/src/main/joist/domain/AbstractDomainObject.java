@@ -6,7 +6,6 @@ import java.util.List;
 import joist.domain.validation.ValidationErrors;
 import joist.domain.validation.errors.ValidationError;
 import joist.domain.validation.rules.Rule;
-import joist.util.Copy;
 import joist.util.Inflector;
 import joist.util.ToString;
 
@@ -16,7 +15,7 @@ public abstract class AbstractDomainObject implements DomainObject {
 
     public final List<ValidationError> validate() {
         ValidationErrors errors = new ValidationErrors();
-        for (Rule<?> rule : this.getValidationRules()) {
+        for (Rule<?> rule : this.validationRules) {
             ((Rule<AbstractDomainObject>) rule).validate(errors, this);
         }
         return errors.getErrors();
@@ -50,8 +49,7 @@ public abstract class AbstractDomainObject implements DomainObject {
         this.validationRules.remove(rule);
     }
 
-    public final List<Rule<?>> getValidationRules() {
-        return Copy.shallow(this.validationRules);
+    public void clearAssociations() {
     }
 
     public void updateDerivedValues() {

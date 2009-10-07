@@ -8,7 +8,7 @@
 		<artifact name="log" type="jar" ext="war" conf="main"/>
 	</publications>
 	<dependencies>
-		<dependency org="joist" name="domain" rev="SNAPSHOT" conf="main->main,sources"/>
+		<dependency org="joist" name="domain" rev="SNAPSHOT" conf="main->main,sources;testing->testing"/>
 		<dependency org="joist" name="web" rev="SNAPSHOT" conf="main->main,sources;testing->testing"/>
 	</dependencies>
 </ivy-module>

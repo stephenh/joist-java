@@ -2,18 +2,13 @@ package features.domain.queries;
 
 import java.util.List;
 
-import joist.domain.AbstractQueries;
 import joist.domain.orm.queries.PagedList;
 import joist.domain.orm.queries.Select;
 import features.domain.ChildAlias;
 import features.domain.Parent;
 import features.domain.ParentAlias;
 
-public class ParentQueries extends AbstractQueries<Parent> {
-
-    public ParentQueries() {
-        super(Parent.class);
-    }
+public class ParentQueries extends ParentQueriesCodegen {
 
     public List<Parent> all(int offset, int limit) {
         ParentAlias p = new ParentAlias("p");

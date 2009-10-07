@@ -205,7 +205,14 @@ public class GenerateAliasesPass implements Pass {
                 }
             }
         }
-        return ts.sort();
+        for (Entity entity : codegen.getEntities().values()) {
+            for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+                if (!mtop.isNotNull()) {
+                    ts.addDependencyIfNoCycle(entity, mtop.getOneSide());
+                }
+            }
+        }
+        return ts.get();
     }
 
     private void addOrderMethod(GClass aliasClass, int index) {

@@ -7,13 +7,13 @@ import joist.util.Inflector;
 import joist.util.Join;
 import joist.util.Log;
 import joist.web.AbstractControl;
-import joist.web.WebContext;
 import joist.web.CurrentContext;
+import joist.web.WebContext;
 import joist.web.util.HtmlWriter;
 
 import org.apache.commons.lang.StringUtils;
 
-public class Form extends AbstractControl {
+public class Form extends AbstractControl<Form> {
 
     private final List<Field> fields = new ArrayList<Field>();
     private final List<Button> buttons = new ArrayList<Button>();
@@ -52,7 +52,7 @@ public class Form extends AbstractControl {
 
     public Form id(String id) {
         this.setId(id);
-        this.setHeading(Inflector.humanize(id));
+        this.setHeading(Inflector.humanize(StringUtils.removeEnd(id, "Form")));
         return this;
     }
 
@@ -67,6 +67,9 @@ public class Form extends AbstractControl {
     }
 
     public void add(Button button) {
+        if (this.buttons.size() == 0) {
+            button.setDefaultButton(true);
+        }
         this.buttons.add(button);
         button.setParent(this);
     }
@@ -139,6 +142,10 @@ public class Form extends AbstractControl {
 
     private WebContext getContext() {
         return CurrentContext.get();
+    }
+
+    protected Form getThis() {
+        return this;
     }
 
 }

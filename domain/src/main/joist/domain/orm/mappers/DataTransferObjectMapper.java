@@ -6,14 +6,18 @@ import java.sql.SQLException;
 import java.util.List;
 
 import joist.domain.DomainObject;
+import joist.domain.orm.queries.SelectItem;
+import joist.domain.orm.queries.columns.AliasColumn;
 import joist.jdbc.RowMapper;
 
 public class DataTransferObjectMapper<T extends DomainObject, R> implements RowMapper {
 
+    private final List<SelectItem> selectItems;
     private final Class<R> rowType;
     private final List<R> results;
 
-    public DataTransferObjectMapper(Class<R> rowType, List<R> results) {
+    public DataTransferObjectMapper(List<SelectItem> selectItems, Class<R> rowType, List<R> results) {
+        this.selectItems = selectItems;
         this.rowType = rowType;
         this.results = results;
     }
@@ -28,12 +32,20 @@ public class DataTransferObjectMapper<T extends DomainObject, R> implements RowM
         }
 
         R row = this.newInstance();
-        for (Field field : this.rowType.getFields()) {
+
+        for (SelectItem item : this.selectItems) {
             try {
-                field.set(row, rs.getObject(field.getName()));
+                Field field = this.rowType.getField(item.getAs());
+                Object value = rs.getObject(item.getAs());
+                if (item.getColumn() != null) {
+                    value = ((AliasColumn<?, Object, Object>) item.getColumn()).toDomainValue(value);
+                }
+                field.set(row, value);
+            } catch (NoSuchFieldException nsfe) {
             } catch (IllegalAccessException iae) {
             }
         }
+
         this.results.add(row);
     }
 

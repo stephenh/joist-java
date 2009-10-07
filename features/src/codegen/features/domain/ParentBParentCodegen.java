@@ -10,6 +10,7 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.util.Copy;
 
 public abstract class ParentBParentCodegen extends AbstractDomainObject {
 
@@ -66,6 +67,15 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
         return this.parentBChildBars.get();
     }
 
+    public void setParentBChildBars(List<ParentBChildBar> parentBChildBars) {
+        for (ParentBChildBar o : Copy.list(this.getParentBChildBars())) {
+            this.removeParentBChildBar(o);
+        }
+        for (ParentBChildBar o : parentBChildBars) {
+            this.addParentBChildBar(o);
+        }
+    }
+
     public void addParentBChildBar(ParentBChildBar o) {
         o.setParentBParentWithoutPercolation((ParentBParent) this);
         this.addParentBChildBarWithoutPercolation(o);
@@ -88,6 +98,15 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
 
     public List<ParentBChildFoo> getParentBChildFoos() {
         return this.parentBChildFoos.get();
+    }
+
+    public void setParentBChildFoos(List<ParentBChildFoo> parentBChildFoos) {
+        for (ParentBChildFoo o : Copy.list(this.getParentBChildFoos())) {
+            this.removeParentBChildFoo(o);
+        }
+        for (ParentBChildFoo o : parentBChildFoos) {
+            this.addParentBChildFoo(o);
+        }
     }
 
     public void addParentBChildFoo(ParentBChildFoo o) {
@@ -115,6 +134,17 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
             this.changed = new ParentBParentChanged((ParentBParent) this);
         }
         return (ParentBParentChanged) this.changed;
+    }
+
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        for (ParentBChildBar o : Copy.list(this.getParentBChildBars())) {
+            o.setParentBParentWithoutPercolation(null);
+        }
+        for (ParentBChildFoo o : Copy.list(this.getParentBChildFoos())) {
+            o.setParentBParentWithoutPercolation(null);
+        }
     }
 
     static class Shims {

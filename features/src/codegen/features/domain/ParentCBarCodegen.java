@@ -108,6 +108,13 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
         return (ParentCBarChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        this.setFirstParent(null);
+        this.setSecondParent(null);
+    }
+
     static class Shims {
         protected static final Shim<ParentCBar, Integer> id = new Shim<ParentCBar, Integer>() {
             public void set(ParentCBar instance, Integer id) {

@@ -10,6 +10,7 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.util.Copy;
 
 public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
 
@@ -65,6 +66,15 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         return this.oneToOneBBars.get();
     }
 
+    public void setOneToOneBBars(List<OneToOneBBar> oneToOneBBars) {
+        for (OneToOneBBar o : Copy.list(this.getOneToOneBBars())) {
+            this.removeOneToOneBBar(o);
+        }
+        for (OneToOneBBar o : oneToOneBBars) {
+            this.addOneToOneBBar(o);
+        }
+    }
+
     public void addOneToOneBBar(OneToOneBBar o) {
         o.setOneToOneBFooWithoutPercolation((OneToOneBFoo) this);
         this.addOneToOneBBarWithoutPercolation(o);
@@ -90,6 +100,14 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
             this.changed = new OneToOneBFooChanged((OneToOneBFoo) this);
         }
         return (OneToOneBFooChanged) this.changed;
+    }
+
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        for (OneToOneBBar o : Copy.list(this.getOneToOneBBars())) {
+            o.setOneToOneBFooWithoutPercolation(null);
+        }
     }
 
     static class Shims {

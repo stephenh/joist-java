@@ -67,6 +67,15 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
         return this.greenManyToManyBFooToBars.get();
     }
 
+    public void setGreenManyToManyBFooToBars(List<ManyToManyBFooToBar> greenManyToManyBFooToBars) {
+        for (ManyToManyBFooToBar o : Copy.list(this.getGreenManyToManyBFooToBars())) {
+            this.removeGreenManyToManyBFooToBar(o);
+        }
+        for (ManyToManyBFooToBar o : greenManyToManyBFooToBars) {
+            this.addGreenManyToManyBFooToBar(o);
+        }
+    }
+
     public void addGreenManyToManyBFooToBar(ManyToManyBFooToBar o) {
         o.setGreenWithoutPercolation((ManyToManyBBar) this);
         this.addGreenManyToManyBFooToBarWithoutPercolation(o);
@@ -95,6 +104,15 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
         return l;
     }
 
+    public void setBlues(List<ManyToManyBFoo> blues) {
+        for (ManyToManyBFoo o : Copy.list(this.getBlues())) {
+            this.removeBlue(o);
+        }
+        for (ManyToManyBFoo o : blues) {
+            this.addBlue(o);
+        }
+    }
+
     public void addBlue(ManyToManyBFoo o) {
         ManyToManyBFooToBar a = new ManyToManyBFooToBar();
         a.setGreen((ManyToManyBBar) this);
@@ -102,7 +120,7 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
     }
 
     public void removeBlue(ManyToManyBFoo o) {
-        for (ManyToManyBFooToBar a : Copy.shallow(this.getGreenManyToManyBFooToBars())) {
+        for (ManyToManyBFooToBar a : Copy.list(this.getGreenManyToManyBFooToBars())) {
             if (a.getBlue().equals(o)) {
                 a.setBlue(null);
                 a.setGreen(null);
@@ -118,6 +136,14 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
             this.changed = new ManyToManyBBarChanged((ManyToManyBBar) this);
         }
         return (ManyToManyBBarChanged) this.changed;
+    }
+
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        for (ManyToManyBFooToBar o : Copy.list(this.getGreenManyToManyBFooToBars())) {
+            o.setGreenWithoutPercolation(null);
+        }
     }
 
     static class Shims {

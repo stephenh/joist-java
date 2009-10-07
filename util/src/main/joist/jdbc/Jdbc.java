@@ -1,5 +1,6 @@
 package joist.jdbc;
 
+import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,6 +44,41 @@ public class Jdbc {
         try {
             connection = ds.getConnection();
             return Jdbc.queryForInt(connection, sql, args);
+        } catch (SQLException se) {
+            throw new JdbcException(se);
+        } finally {
+            Jdbc.closeSafely(connection);
+        }
+    }
+
+    public static Object[] queryForRow(Connection connection, String sql, Object... args) {
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            sql = Interpolate.string(sql, args);
+            Log.trace("sql = {}", sql);
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(sql);
+            int count = rs.getMetaData().getColumnCount();
+            Object[] objects = new Object[count];
+            if (rs.next()) {
+                for (int i = 0; i < count; i++) {
+                    objects[i] = rs.getObject(i + 1);
+                }
+            }
+            return objects;
+        } catch (SQLException se) {
+            throw new JdbcException(se);
+        } finally {
+            Jdbc.closeSafely(rs, stmt);
+        }
+    }
+
+    public static Object[] queryForRow(DataSource ds, String sql, Object... args) {
+        Connection connection = null;
+        try {
+            connection = ds.getConnection();
+            return Jdbc.queryForRow(connection, sql, args);
         } catch (SQLException se) {
             throw new JdbcException(se);
         } finally {
@@ -174,6 +210,9 @@ public class Jdbc {
             }
             return changed;
         } catch (SQLException se) {
+            if (se instanceof BatchUpdateException) {
+                throw new JdbcException(((BatchUpdateException) se).getNextException());
+            }
             throw new JdbcException(se);
         } finally {
             Jdbc.closeSafely(ps);
@@ -182,9 +221,6 @@ public class Jdbc {
 
     public static void closeSafely(Object... objects) {
         for (Object o : objects) {
-            if (o == null) {
-                continue;
-            }
             try {
                 if (o instanceof ResultSet) {
                     ((ResultSet) o).close();
@@ -194,7 +230,7 @@ public class Jdbc {
                     ((PreparedStatement) o).close();
                 } else if (o instanceof Connection) {
                     ((Connection) o).close();
-                } else {
+                } else if (o != null) {
                     throw new RuntimeException("Unhandled object " + o);
                 }
             } catch (SQLException se) {

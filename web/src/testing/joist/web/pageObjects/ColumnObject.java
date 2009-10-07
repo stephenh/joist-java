@@ -1,13 +1,9 @@
 package joist.web.pageObjects;
 
-public class ColumnObject {
-
-    protected final AbstractPageObject pageObject;
-    protected final String id;
+public class ColumnObject extends AbstractElementObject {
 
     public ColumnObject(AbstractPageObject pageObject, String id) {
-        this.pageObject = pageObject;
-        this.id = id;
+        super(pageObject, id);
     }
 
     public String get(int index) {

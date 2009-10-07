@@ -6,6 +6,8 @@ import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.List;
 
+import joist.util.Log;
+
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
@@ -20,6 +22,8 @@ public class Jetty {
 
     /** @param args <code>/=./content, /foo=./bar</code> */
     public static void main(String[] args) {
+        Log.init();
+
         if (args == null || args.length == 0) {
             args = new String[] { "/=content" };
         }

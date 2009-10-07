@@ -2,6 +2,7 @@ package joist.domain.migrations;
 
 import javax.sql.DataSource;
 
+import joist.domain.util.ConnectionSettings;
 import joist.jdbc.Jdbc;
 import joist.util.Execute;
 import joist.util.Log;
@@ -11,36 +12,36 @@ public class DatabaseBootstrapper {
 
     private final DataSource systemDataSource;
     private final DataSource appDataSource;
-    private final String databaseName;
-    private final String username;
-    private final String password;
+    private final ConnectionSettings appSettings;
 
-    public DatabaseBootstrapper(DataSource systemDataSource, DataSource appDataSource, String appDatabaseName, String appUsername, String appPassword) {
+    public DatabaseBootstrapper(DataSource systemDataSource, DataSource appDataSource, ConnectionSettings appSettings) {
         this.systemDataSource = systemDataSource;
         this.appDataSource = appDataSource;
-        this.databaseName = appDatabaseName;
-        this.username = appUsername;
-        this.password = appPassword;
+        this.appSettings = appSettings;
     }
 
     public void dropAndCreate() {
-        int i = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_database where datname = '{}'", this.databaseName);
+        String databaseName = this.appSettings.databaseName;
+        String username = this.appSettings.user;
+        String password = this.appSettings.password;
+
+        int i = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_database where datname = '{}'", databaseName);
         if (i != 0) {
-            Log.debug("Dropping {}", this.databaseName);
-            Jdbc.update(this.systemDataSource, "drop database {};", this.databaseName);
+            Log.debug("Dropping {}", databaseName);
+            Jdbc.update(this.systemDataSource, "drop database {};", databaseName);
         }
 
-        int j = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_user where usename = '{}'", this.username);
+        int j = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_user where usename = '{}'", username);
         if (j != 0) {
-            Log.debug("Dropping {}", this.username);
-            Jdbc.update(this.systemDataSource, "drop user {};", this.username);
+            Log.debug("Dropping {}", username);
+            Jdbc.update(this.systemDataSource, "drop user {};", username);
         }
 
-        Log.debug("Creating {}", this.databaseName);
-        Jdbc.update(this.systemDataSource, "create database {} template template0;", this.databaseName);
+        Log.debug("Creating {}", databaseName);
+        Jdbc.update(this.systemDataSource, "create database {} template template0;", databaseName);
 
-        Log.debug("Creating {}", this.username);
-        Jdbc.update(this.systemDataSource, "create user {} password '{}';", this.username, this.password);
+        Log.debug("Creating {}", username);
+        Jdbc.update(this.systemDataSource, "create user {} password '{}';", username, password);
 
         Log.debug("Creating plpgsql");
         Jdbc.update(this.appDataSource, "create language plpgsql;");
@@ -63,7 +64,7 @@ public class DatabaseBootstrapper {
         return new Execute("pg_restore")//
             .path(pgBinPath)
             .env("PGPASSWORD", "")
-            .arg("--dbname=" + this.databaseName)
+            .arg("--dbname=" + this.appSettings.databaseName)
             .arg("--username=sa")
             .arg("--host=localhost")
             .arg("--format=c")

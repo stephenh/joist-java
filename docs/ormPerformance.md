@@ -9,14 +9,16 @@ Performance
 Startup Time
 ------------
 
-joist.orm was designed to start as quickly as possible, especially on large schemas that are typical of enterprise projects.
+joist.domain was designed to start as quickly as possible, especially on large schemas that are typical of enterprise projects.
 
 For example, running 1 JUnit test to save an `Address` object on a ~200-table schema:
 
 * Hibernate: 6.7 seconds
 * Joist: 0.4 seconds
 
-joist.orm starts 94% faster than Hibernate on this large, ~200-table schema.
+joist.domain starts 94% faster than Hibernate on this large, ~200-table schema.
+
+Most of the remaining startup time, ~0.3 seconds worth, is the database connection/pool getting established, so it is unlikely to go away.
 
 ---
 
@@ -42,7 +44,7 @@ The next test is inserting X objects-per-commit:
 
 Joist is ~60-70% faster than Hibernate when bulk-inserting items.
 
-(Technically Joist cheats here because it assigns all of the new entity ids with one bulk SQL statement instead of 1-per-entity like Hibernate does.)
+(Technically Joist cheats here because, although both Joist and Hibernate use the PostgreSQL sequences for id generation, Joist grabs all of the new entity ids with one bulk SQL statement while Hibernate uses 1-query-per-entity.)
 
 ---
 

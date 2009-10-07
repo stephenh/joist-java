@@ -2,17 +2,12 @@ package features.domain.queries;
 
 import java.util.List;
 
-import joist.domain.AbstractQueries;
 import joist.domain.orm.queries.Select;
 import features.domain.Child;
 import features.domain.ChildAlias;
 import features.domain.ParentAlias;
 
-public class ChildQueries extends AbstractQueries<Child> {
-
-    public ChildQueries() {
-        super(Child.class);
-    }
+public class ChildQueries extends ChildQueriesCodegen {
 
     public List<Child> findForParentOfName(String name) {
         // SELECT * FROM child c

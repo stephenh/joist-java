@@ -96,6 +96,13 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         return (CodeADomainObjectChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        this.setCodeAColor(null);
+        this.setCodeASize(null);
+    }
+
     static class Shims {
         protected static final Shim<CodeADomainObject, Integer> id = new Shim<CodeADomainObject, Integer>() {
             public void set(CodeADomainObject instance, Integer id) {

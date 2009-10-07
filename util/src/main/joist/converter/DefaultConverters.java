@@ -14,7 +14,11 @@ public class DefaultConverters {
 
     public static Converter<String, Integer> stringToInteger = new AbstractOneWayConverter<String, Integer>() {
         public Integer convertOneToTwo(String value, Class<? extends Integer> toType) {
-            return new Integer(value);
+            try {
+                return new Integer(value);
+            } catch (NumberFormatException nfe) {
+                return null;
+            }
         }
     };
 

@@ -2,14 +2,10 @@ package joist.web.pageObjects;
 
 import org.openqa.selenium.By;
 
-public class SelectFieldObject {
-
-    protected final AbstractPageObject pageObject;
-    protected final String id;
+public class SelectFieldObject extends AbstractElementObject {
 
     public SelectFieldObject(AbstractPageObject pageObject, String id) {
-        this.pageObject = pageObject;
-        this.id = id;
+        super(pageObject, id);
     }
 
     public String get() {
@@ -18,6 +14,10 @@ public class SelectFieldObject {
 
     public void select(int index) {
         this.pageObject.driver.findElement(By.id(this.id + "-" + index)).setSelected();
+    }
+
+    public void select(String value) {
+        this.pageObject.driver.findElement(By.xpath("//select[@id = '" + this.id + "']/option[text() = '" + value + "']")).setSelected();
     }
 
 }

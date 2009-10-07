@@ -16,11 +16,21 @@
 	</head>
 	<body>
 		<div id="container">
+			<div id="nav" style="text-align: center;">
+				<a href="/">home</a>
+				<a href="/screencasts.html">screencasts</a>
+				<a href="/gettingStarted.html">getting started</a>
+				<a href="/orm.html">domain</a>
+				<a href="/web.html">web</a>
+				<a href="/bindgen.html">bindgen</a>
+			</div>
+
 			{{ content }}
 		</div>
 		<link type="text/css" rel="stylesheet" href="/css/SyntaxHighlighter.css"></link>
 		<script type="text/javascript" src="/js/shCore.js"></script>
 		<script type="text/javascript" src="/js/shBrushJava.js"></script>
+		<script type="text/javascript" src="/js/shBrushXml.js"></script>
 		<script type="text/javascript">
 			dp.SyntaxHighlighter.ClipboardSwf = '/js/clipboard.swf';
 			dp.SyntaxHighlighter.HighlightAll('code');

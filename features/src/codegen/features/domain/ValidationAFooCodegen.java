@@ -65,6 +65,11 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
         return (ValidationAFooChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+    }
+
     static class Shims {
         protected static final Shim<ValidationAFoo, Integer> id = new Shim<ValidationAFoo, Integer>() {
             public void set(ValidationAFoo instance, Integer id) {

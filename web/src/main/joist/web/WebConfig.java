@@ -3,6 +3,8 @@ package joist.web;
 import joist.converter.ConverterRegistry;
 
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.log.Log4JLogChute;
 
 /** User configuration for {@link WebServlet}.
  *
@@ -31,6 +33,9 @@ public class WebConfig {
         VelocityEngine engine = new VelocityEngine();
         engine.setProperty("resource.loader", "class");
         engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, Log4JLogChute.class.getName());
+        engine.setProperty(Log4JLogChute.RUNTIME_LOG_LOG4J_LOGGER, "joist.web.util.velocity");
+        engine.setProperty(Log4JLogChute.RUNTIME_LOG_LOG4J_LOGGER_LEVEL, "INFO");
         try {
             engine.init();
         } catch (Exception e) {

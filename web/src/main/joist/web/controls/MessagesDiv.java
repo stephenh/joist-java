@@ -9,7 +9,7 @@ import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
 /** Stores/displays messages in the flash. */
-public class MessagesDiv extends AbstractControl {
+public class MessagesDiv extends AbstractControl<MessagesDiv> {
 
     public MessagesDiv() {
         this.setId("messages");
@@ -30,10 +30,10 @@ public class MessagesDiv extends AbstractControl {
 
     /** Does not render anything unless we have messages to display--also checks the flash. */
     public void render(HtmlWriter w) {
-        List<Message> messages = this.getMessages(false);
-        if (messages == null || messages.size() == 0) {
+        if (!this.hasMessages()) {
             return;
         }
+        List<Message> messages = this.getMessages(false);
         w.line("<div id={} class={}>", this.getId(), "messages");
         w.line("<ul>");
         int i = 0;
@@ -44,6 +44,11 @@ public class MessagesDiv extends AbstractControl {
         w.line("</div>");
     }
 
+    public boolean hasMessages() {
+        List<Message> messages = this.getMessages(false);
+        return messages != null && messages.size() > 0;
+    }
+
     @SuppressWarnings("unchecked")
     private List<Message> getMessages(boolean create) {
         List<Message> messages = (List<Message>) CurrentContext.get().getFlash().get("messages-div-" + this.getId());
@@ -52,6 +57,10 @@ public class MessagesDiv extends AbstractControl {
             CurrentContext.get().getFlash().put("messages-div-" + this.getId(), messages);
         }
         return messages;
+    }
+
+    protected MessagesDiv getThis() {
+        return this;
     }
 
     public static class Message {

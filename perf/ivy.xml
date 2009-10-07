@@ -14,5 +14,6 @@
 		</dependency>
 		<dependency org="geronimo-spec" name="geronimo-spec-jta" rev="1.0.1B-rc4"/>
 		<dependency org="com.sun.japex" name="japex" rev="1.1.7" conf="main->*"/>
+		<dependency org="org.apache.click" name="click" rev="2.1.0-RC1-incubating" conf="main->*"/>
 	</dependencies>
 </ivy-module>

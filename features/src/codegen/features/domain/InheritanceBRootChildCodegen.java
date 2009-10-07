@@ -87,6 +87,12 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
         return (InheritanceBRootChildChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        this.setInheritanceBRoot(null);
+    }
+
     static class Shims {
         protected static final Shim<InheritanceBRootChild, Integer> id = new Shim<InheritanceBRootChild, Integer>() {
             public void set(InheritanceBRootChild instance, Integer id) {

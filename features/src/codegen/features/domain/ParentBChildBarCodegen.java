@@ -87,6 +87,12 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         return (ParentBChildBarChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        this.setParentBParent(null);
+    }
+
     static class Shims {
         protected static final Shim<ParentBChildBar, Integer> id = new Shim<ParentBChildBar, Integer>() {
             public void set(ParentBChildBar instance, Integer id) {

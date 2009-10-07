@@ -45,6 +45,7 @@ public class GenerateDomainCodegenPass implements Pass {
             this.oneToManyProperties(domainCodegen, entity);
             this.manyToManyProperties(domainCodegen, entity);
             this.changed(domainCodegen, entity);
+            this.clearAssociations(domainCodegen, entity);
         }
     }
 
@@ -220,6 +221,16 @@ public class GenerateDomainCodegenPass implements Pass {
                 GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableName()).returnType(otmp.getJavaType());
                 getter.body.line("return this.{}.get();", otmp.getVariableName());
 
+                GMethod setter = domainCodegen.getMethod("set" + otmp.getCapitalVariableName()).argument(otmp.getJavaType(), otmp.getVariableName());
+                setter.body.line("for ({} o : Copy.list(this.get{}())) {",//
+                    otmp.getTargetJavaType(),
+                    otmp.getCapitalVariableName());
+                setter.body.line("    this.remove{}(o);", otmp.getCapitalVariableNameSingular());
+                setter.body.line("}");
+                setter.body.line("for ({} o : {}) {", otmp.getTargetJavaType(), otmp.getVariableName());
+                setter.body.line("    this.add{}(o);", otmp.getCapitalVariableNameSingular());
+                setter.body.line("}");
+
                 GMethod adder = domainCodegen.getMethod("add{}", otmp.getCapitalVariableNameSingular());
                 adder.argument(otmp.getTargetJavaType(), "o");
                 adder.body.line("o.set{}WithoutPercolation(({}) this);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
@@ -229,7 +240,8 @@ public class GenerateDomainCodegenPass implements Pass {
                 remover.argument(otmp.getTargetJavaType(), "o");
                 remover.body.line("o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
                 remover.body.line("this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
-                domainCodegen.addImports(List.class);
+
+                domainCodegen.addImports(Copy.class, List.class);
             } else {
                 GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableNameSingular()).returnType(otmp.getTargetJavaType());
                 getter.body.line("return (this.{}.get().size() == 0) ? null : this.{}.get().get(0);", otmp.getVariableName(), otmp.getVariableName());
@@ -274,6 +286,14 @@ public class GenerateDomainCodegenPass implements Pass {
             getter.body.line("}");
             getter.body.line("return l;");
 
+            GMethod setter = domainCodegen.getMethod("set" + mtmp.getCapitalVariableName()).argument(mtmp.getJavaType(), mtmp.getVariableName());
+            setter.body.line("for ({} o : Copy.list(this.get{}())) {", mtmp.getTargetJavaType(), mtmp.getCapitalVariableName());
+            setter.body.line("    this.remove{}(o);", mtmp.getCapitalVariableNameSingular());
+            setter.body.line("}");
+            setter.body.line("for ({} o : {}) {", mtmp.getTargetJavaType(), mtmp.getVariableName());
+            setter.body.line("    this.add{}(o);", mtmp.getCapitalVariableNameSingular());
+            setter.body.line("}");
+
             GMethod adder = domainCodegen.getMethod("add{}", mtmp.getCapitalVariableNameSingular());
             adder.argument(mtmp.getTargetTable().getClassName(), "o");
             adder.body.line("{} a = new {}();", mtmp.getJoinTable().getClassName(), mtmp.getJoinTable().getClassName());
@@ -282,7 +302,7 @@ public class GenerateDomainCodegenPass implements Pass {
 
             GMethod remover = domainCodegen.getMethod("remove{}", mtmp.getCapitalVariableNameSingular());
             remover.argument(mtmp.getTargetTable().getClassName(), "o");
-            remover.body.line("for ({} a : Copy.shallow(this.get{}())) {",//
+            remover.body.line("for ({} a : Copy.list(this.get{}())) {",//
                 mtmp.getJoinTable().getClassName(),
                 mtmp.getMySideManyToOne().getOneToManyProperty().getCapitalVariableName());
             remover.body.line("    if (a.get{}().equals(o)) {", mtmp.getCapitalVariableNameSingular());
@@ -338,4 +358,25 @@ public class GenerateDomainCodegenPass implements Pass {
             has.body.line("return this.contains(\"{}\");", otmp.getVariableName());
         }
     }
+
+    private void clearAssociations(GClass domainCodegen, Entity entity) {
+        GMethod clearAssociations = domainCodegen.getMethod("clearAssociations");
+        clearAssociations.addAnnotation("@Override");
+        clearAssociations.body.line("super.clearAssociations();");
+
+        for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+            clearAssociations.body.line("this.set{}(null);", mtop.getCapitalVariableName());
+        }
+        for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
+            if (otmp.isOneToOne()) {
+                clearAssociations.body.line("this.set{}(null);", otmp.getCapitalVariableNameSingular());
+            } else {
+                clearAssociations.body.line("for ({} o : Copy.list(this.get{}())) {", otmp.getTargetJavaType(), otmp.getCapitalVariableName());
+                clearAssociations.body.line("    o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName());
+                clearAssociations.body.line("}");
+                domainCodegen.addImports(Copy.class, List.class);
+            }
+        }
+    }
+
 }

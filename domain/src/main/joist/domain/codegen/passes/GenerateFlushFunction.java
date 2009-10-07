@@ -32,7 +32,7 @@ public class GenerateFlushFunction implements Pass {
         sql.line("$BODY$");
         sql.line("  LANGUAGE 'plpgsql' VOLATILE");
         sql.line("  COST 100;");
-        // sql.line("ALTER FUNCTION flush_test_database() OWNER TO sa;");
+        sql.line("ALTER FUNCTION flush_test_database() SECURITY DEFINER;");
 
         Jdbc.update(codegen.getDataSource(), sql.toString());
     }

@@ -12,7 +12,6 @@ import joist.util.Interpolate;
 import joist.util.Join;
 import joist.util.StringBuilderr;
 
-
 public class GClass {
 
     public final StringBuilderr staticInitializer = new StringBuilderr();
@@ -32,6 +31,7 @@ public class GClass {
     private boolean isStaticInnerClass = false;
     private boolean isAnonymous = false;
     private boolean isEnum = false;
+    protected boolean isInterface = false;
     private String baseClassName = null;
     private GClass outerClass;
     private static final Pattern classNameWithoutGenerics = Pattern.compile("((\\w+\\.)*)(\\w+)");
@@ -44,6 +44,11 @@ public class GClass {
 
     public GClass setEnum() {
         this.isEnum = true;
+        return this;
+    }
+
+    public GClass setInterface() {
+        this.isInterface = true;
         return this;
     }
 
@@ -191,6 +196,8 @@ public class GClass {
             }
             if (this.isEnum) {
                 sb.append("enum ");
+            } else if (this.isInterface) {
+                sb.append("interface ");
             } else {
                 sb.append("class ");
             }

@@ -7,10 +7,12 @@ import joist.domain.migrations.columns.BooleanColumn;
 import joist.domain.migrations.columns.ByteaColumn;
 import joist.domain.migrations.columns.Column;
 import joist.domain.migrations.columns.DateColumn;
+import joist.domain.migrations.columns.DatetimeColumn;
 import joist.domain.migrations.columns.ForeignKeyColumn;
 import joist.domain.migrations.columns.IntColumn;
 import joist.domain.migrations.columns.PrimaryKeyColumn;
 import joist.domain.migrations.columns.SmallIntColumn;
+import joist.domain.migrations.columns.TextColumn;
 import joist.domain.migrations.columns.VarcharColumn;
 import joist.domain.migrations.commands.CreateTable;
 import joist.domain.migrations.fill.ConstantFillInStrategy;
@@ -115,6 +117,10 @@ public class MigrationKeywords {
         return new DateColumn(name);
     }
 
+    public static DatetimeColumn datetime(String name) {
+        return new DatetimeColumn(name);
+    }
+
     public static IntColumn integer(String name) {
         return new IntColumn(name);
     }
@@ -129,6 +135,10 @@ public class MigrationKeywords {
 
     public static VarcharColumn varchar(String name) {
         return new VarcharColumn(name);
+    }
+
+    public static TextColumn text(String name) {
+        return new TextColumn(name);
     }
 
     public static BooleanColumn bool(String name) {
@@ -165,6 +175,10 @@ public class MigrationKeywords {
         }
     }
 
+    public static void dropColumn(String table, String column) {
+        MigrationKeywords.execute("ALTER TABLE \"{}\" DROP COLUMN \"{}\";", table, column);
+    }
+
     public static FillInStrategy constantFillIn(String fragment) {
         return new ConstantFillInStrategy(fragment);
     }
@@ -174,6 +188,24 @@ public class MigrationKeywords {
         column.setTableName(table);
         column.postInjectCommands(sql);
         MigrationKeywords.execute(sql.toString());
+    }
+
+    public static void dropForeignKeyConstraint(String table, String column) {
+        String sql = "SELECT kcu.constraint_name FROM information_schema.key_column_usage kcu, information_schema.table_constraints tc"
+            + " WHERE kcu.constraint_name = tc.constraint_name"
+            + " AND kcu.table_name = '{}'"
+            + " AND kcu.column_name = '{}'"
+            + " AND tc.constraint_type = '{}'";
+        String constraint = (String) Jdbc.queryForRow(Migrater.getConnection(), sql, table, column, "FOREIGN KEY")[0];
+        MigrationKeywords.dropConstraint(table, constraint);
+    }
+
+    public static void dropConstraint(String table, String constraint) {
+        MigrationKeywords.execute("ALTER TABLE \"{}\" DROP CONSTRAINT \"{}\";", table, constraint);
+    }
+
+    public static void dropIndex(String index) {
+        MigrationKeywords.execute("DROP INDEX \"{}\";", index);
     }
 
     public static void createUniqueConstraint(String table, String... columnNames) {

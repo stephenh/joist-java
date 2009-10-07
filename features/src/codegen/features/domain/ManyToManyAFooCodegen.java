@@ -67,6 +67,15 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
         return this.manyToManyAFooToBars.get();
     }
 
+    public void setManyToManyAFooToBars(List<ManyToManyAFooToBar> manyToManyAFooToBars) {
+        for (ManyToManyAFooToBar o : Copy.list(this.getManyToManyAFooToBars())) {
+            this.removeManyToManyAFooToBar(o);
+        }
+        for (ManyToManyAFooToBar o : manyToManyAFooToBars) {
+            this.addManyToManyAFooToBar(o);
+        }
+    }
+
     public void addManyToManyAFooToBar(ManyToManyAFooToBar o) {
         o.setManyToManyAFooWithoutPercolation((ManyToManyAFoo) this);
         this.addManyToManyAFooToBarWithoutPercolation(o);
@@ -95,6 +104,15 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
         return l;
     }
 
+    public void setManyToManyABars(List<ManyToManyABar> manyToManyABars) {
+        for (ManyToManyABar o : Copy.list(this.getManyToManyABars())) {
+            this.removeManyToManyABar(o);
+        }
+        for (ManyToManyABar o : manyToManyABars) {
+            this.addManyToManyABar(o);
+        }
+    }
+
     public void addManyToManyABar(ManyToManyABar o) {
         ManyToManyAFooToBar a = new ManyToManyAFooToBar();
         a.setManyToManyAFoo((ManyToManyAFoo) this);
@@ -102,7 +120,7 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
     }
 
     public void removeManyToManyABar(ManyToManyABar o) {
-        for (ManyToManyAFooToBar a : Copy.shallow(this.getManyToManyAFooToBars())) {
+        for (ManyToManyAFooToBar a : Copy.list(this.getManyToManyAFooToBars())) {
             if (a.getManyToManyABar().equals(o)) {
                 a.setManyToManyABar(null);
                 a.setManyToManyAFoo(null);
@@ -118,6 +136,14 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
             this.changed = new ManyToManyAFooChanged((ManyToManyAFoo) this);
         }
         return (ManyToManyAFooChanged) this.changed;
+    }
+
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        for (ManyToManyAFooToBar o : Copy.list(this.getManyToManyAFooToBars())) {
+            o.setManyToManyAFooWithoutPercolation(null);
+        }
     }
 
     static class Shims {

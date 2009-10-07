@@ -136,6 +136,11 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         return (PrimitivesBChanged) this.changed;
     }
 
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+    }
+
     static class Shims {
         protected static final Shim<PrimitivesB, Long> big1 = new Shim<PrimitivesB, Long>() {
             public void set(PrimitivesB instance, Long big1) {

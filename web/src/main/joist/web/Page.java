@@ -9,7 +9,7 @@ public interface Page extends Control {
 
     void onInit();
 
-    void addControl(Control c);
+    <T extends Control> T addControl(T c);
 
     List<Control> getControls();
 

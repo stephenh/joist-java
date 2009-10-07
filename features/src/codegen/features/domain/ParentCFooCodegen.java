@@ -10,6 +10,7 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.util.Copy;
 
 public abstract class ParentCFooCodegen extends AbstractDomainObject {
 
@@ -66,6 +67,15 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
         return this.firstParentParentCBars.get();
     }
 
+    public void setFirstParentParentCBars(List<ParentCBar> firstParentParentCBars) {
+        for (ParentCBar o : Copy.list(this.getFirstParentParentCBars())) {
+            this.removeFirstParentParentCBar(o);
+        }
+        for (ParentCBar o : firstParentParentCBars) {
+            this.addFirstParentParentCBar(o);
+        }
+    }
+
     public void addFirstParentParentCBar(ParentCBar o) {
         o.setFirstParentWithoutPercolation((ParentCFoo) this);
         this.addFirstParentParentCBarWithoutPercolation(o);
@@ -88,6 +98,15 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
 
     public List<ParentCBar> getSecondParentParentCBars() {
         return this.secondParentParentCBars.get();
+    }
+
+    public void setSecondParentParentCBars(List<ParentCBar> secondParentParentCBars) {
+        for (ParentCBar o : Copy.list(this.getSecondParentParentCBars())) {
+            this.removeSecondParentParentCBar(o);
+        }
+        for (ParentCBar o : secondParentParentCBars) {
+            this.addSecondParentParentCBar(o);
+        }
     }
 
     public void addSecondParentParentCBar(ParentCBar o) {
@@ -115,6 +134,17 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
             this.changed = new ParentCFooChanged((ParentCFoo) this);
         }
         return (ParentCFooChanged) this.changed;
+    }
+
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        for (ParentCBar o : Copy.list(this.getFirstParentParentCBars())) {
+            o.setFirstParentWithoutPercolation(null);
+        }
+        for (ParentCBar o : Copy.list(this.getSecondParentParentCBars())) {
+            o.setSecondParentWithoutPercolation(null);
+        }
     }
 
     static class Shims {

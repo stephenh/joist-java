@@ -14,7 +14,7 @@ public class PasswordField extends AbstractField<PasswordField> {
     }
 
     public void render(HtmlWriter w) {
-        w.append("<input id={} name={} type={} value={}/>", this.getFullId(), this.getId(), "password", this.getBoundValue());
+        w.append("<input id={} name={} type={} value={}{}/>", this.getFullId(), this.getId(), "password", this.getBoundValue(), this.attributes);
     }
 
     public PasswordField getThis() {

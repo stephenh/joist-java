@@ -9,18 +9,20 @@ Joist
 Overview
 --------
 
-Joist is a web application development stack. It consists of [joist.orm](orm.html), an ORM with type-safe queries (no strings) and no runtime class generation (no CGLIB), and [joist.web](web.html), a component-based web framework.
+Joist is a web application development stack. It consists of two sub-projects [joist.domain](orm.html), an ORM with type-safe queries (no strings) and no runtime class generation (no CGLIB), and [joist.web](web.html), a component-based web framework.
 
 The goal is a simple, productive environment for enterprise-scale webapps.
 
 Sections
 --------
 
+* [Screencasts](screencasts.html)
 * [Getting Started](gettingStarted.html)
-* [joist.orm](orm.html)
+* [joist.domain](orm.html)
 * [joist.web](web.html)
 * [bindgen](bindgen.html)
 * [Eclipse Tips](eclipseTips.html)
+* [Code Generation](codeGeneration.html)
 
 Opinions
 --------
@@ -35,7 +37,13 @@ Joist is tailored for projects that agree with its opinions:
 Caveats
 -------
 
-* Annotation processing (e.g. bindgen) works best in Eclipse running in a 1.6 JVM--this is difficult developers on Mac OSX until the 64-bit Eclipse 1.5 ships
+* Annotation processing (e.g. bindgen) works best in Eclipse running in a 1.6 JVM.
+
+  Just using a JDK5 JVM for running Eclipse itself with the JDK6 compiler option set is not enough--for APT to work, Eclipse needs its own JVM to have the JDK6-only annotation processing APIs.
+
+  This is difficult developers on Mac OSX because Eclipse's SWT binaries are 32-bit but the Apple JDK6 is 64-bit. Mac OSX users will either have to find a 32-bit JDK6 to install or wait until the Eclipse 3.5 ships with 64-bit support. FWIW, the Eclipse 3.5 integration releases work well on win32.
+
+* The type-safe SQL DSL currently only handles a simple subset of SQL queries. It needs flushed out by more real-world usage.
 
 Source
 ------
@@ -43,6 +51,11 @@ Source
 Joist is hosted on github:
 
 [http://github.com/stephenh/joist](http://github.com/stephenh/joist)
+
+Community
+---------
+
+Joist is a new project and does not yet have an active community. If you're interested in getting involved or just being kept in the loop, feel free to email [stephen@exigencecorp.com](mailto:stephen@exigencecorp.com).
 
 Acknowledgements
 ----------------

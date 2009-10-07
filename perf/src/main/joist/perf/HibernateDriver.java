@@ -6,6 +6,9 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import joist.domain.util.ConnectionSettings;
+import joist.domain.util.PgUtilFactory;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -81,7 +84,7 @@ public class HibernateDriver extends com.sun.japex.JapexDriverBase {
     }
 
     public static class MyConnectionProvider implements ConnectionProvider {
-        private final DataSource ds = new MyDataSourceFactory().create();
+        private final DataSource ds = new PgUtilFactory(ConnectionSettings.forApp("features")).create();
 
         public void configure(Properties props) throws HibernateException {
         }

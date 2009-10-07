@@ -36,6 +36,11 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
         return this;
     }
 
+    public ForeignKeyColumn ownerIsThem() {
+        this.owner = Owner.IsThem;
+        return this;
+    }
+
     public ForeignKeyColumn ownerIsNeither() {
         this.owner = Owner.IsNeither;
         return this;

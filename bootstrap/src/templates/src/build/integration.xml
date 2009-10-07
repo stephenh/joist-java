@@ -1,4 +1,4 @@
-<project name="foo.integration">
+<project name="@projectName@.integration">
 
 	<path id="integration.classpath">
 		<pathelement path="bin/main"/>

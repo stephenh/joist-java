@@ -10,6 +10,7 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.util.Copy;
 
 public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
 
@@ -65,6 +66,15 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         return this.inheritanceBRootChilds.get();
     }
 
+    public void setInheritanceBRootChilds(List<InheritanceBRootChild> inheritanceBRootChilds) {
+        for (InheritanceBRootChild o : Copy.list(this.getInheritanceBRootChilds())) {
+            this.removeInheritanceBRootChild(o);
+        }
+        for (InheritanceBRootChild o : inheritanceBRootChilds) {
+            this.addInheritanceBRootChild(o);
+        }
+    }
+
     public void addInheritanceBRootChild(InheritanceBRootChild o) {
         o.setInheritanceBRootWithoutPercolation((InheritanceBRoot) this);
         this.addInheritanceBRootChildWithoutPercolation(o);
@@ -90,6 +100,14 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
             this.changed = new InheritanceBRootChanged((InheritanceBRoot) this);
         }
         return (InheritanceBRootChanged) this.changed;
+    }
+
+    @Override
+    public void clearAssociations() {
+        super.clearAssociations();
+        for (InheritanceBRootChild o : Copy.list(this.getInheritanceBRootChilds())) {
+            o.setInheritanceBRootWithoutPercolation(null);
+        }
     }
 
     static class Shims {

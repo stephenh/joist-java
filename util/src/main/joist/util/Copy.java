@@ -3,27 +3,24 @@ package joist.util;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+import java.util.Map.Entry;
 
 public class Copy {
 
     private Copy() {
     }
 
-    public static <T> List<T> shallow(Collection<T> source) {
-        return new ArrayList<T>(source);
+    // List methods
+
+    public static <T> FluentList<T> list(T value) {
+        FluentList<T> list = new FluentList<T>();
+        list.add(value);
+        return list;
     }
 
-    public static <T> List<T> reverse(List<T> source) {
-        List<T> r = new ArrayList<T>(source);
-        Collections.reverse(r);
-        return r;
-    }
-
-    public static <T> List<T> list(T... array) {
-        List<T> list = new ArrayList<T>();
+    public static <T> FluentList<T> list(T... array) {
+        FluentList<T> list = new FluentList<T>();
         if (array != null) {
             for (T a : array) {
                 list.add(a);
@@ -32,18 +29,16 @@ public class Copy {
         return list;
     }
 
-    public static <T> List<T> list(Collection<T> collection) {
-        return new ArrayList<T>(collection);
+    public static <T> FluentList<T> list(Collection<T> collection) {
+        return new FluentList<T>(collection);
+    }
+
+    public static <T> FluentList<T> reverse(Collection<T> source) {
+        return new FluentList<T>(source).reverse();
     }
 
     public static <T> List<T> unique(Collection<T> source) {
-        List<T> target = new ArrayList<T>();
-        for (T s : source) {
-            if (!target.contains(s)) {
-                target.add(s);
-            }
-        }
-        return target;
+        return new FluentList<T>(source).unique();
     }
 
     public static <T> List<T> union(Collection<? extends T>... sources) {
@@ -54,14 +49,27 @@ public class Copy {
         return union;
     }
 
+    // Array methods
+
     public static <T> T[] array(Class<T> type, List<T> list) {
         T[] array = (T[]) Array.newInstance(type, list.size());
         return list.toArray(array);
     }
 
-    public static <T> T[] array(Class<T> type, Set<T> set) {
-        T[] array = (T[]) Array.newInstance(type, set.size());
-        return set.toArray(array);
+    // Map methods
+
+    public static <K, V> FluentMap<K, V> map(K key, V value) {
+        return new FluentMap<K, V>().with(key, value);
+    }
+
+    // MapToList methods
+
+    public static <T> MapToList<T, T> map(MapToList<T, T> source) {
+        MapToList<T, T> copy = new MapToList<T, T>();
+        for (Entry<T, List<T>> e : source.entrySet()) {
+            copy.put(e.getKey(), Copy.list(e.getValue()));
+        }
+        return copy;
     }
 
 }

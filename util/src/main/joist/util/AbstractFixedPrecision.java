@@ -105,7 +105,7 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
 
     public boolean equals(Object other) {
         // BigDecimal.equals() compares value and scale, so 2 != 2.00. Fuck that.
-        if (!(other instanceof AbstractFixedPrecision)) {
+        if (!(other instanceof AbstractFixedPrecision<?>)) {
             return false;
         }
         return this.value.compareTo(((T) other).value) == 0;

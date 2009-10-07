@@ -35,4 +35,8 @@ public abstract class AbstractPage extends AbstractContainer implements Page {
         return true;
     }
 
+    public boolean isPost() {
+        return CurrentContext.get().isPost();
+    }
+
 }

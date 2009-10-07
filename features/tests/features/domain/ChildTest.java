@@ -7,6 +7,11 @@ import junit.framework.Assert;
 
 public class ChildTest extends AbstractFeaturesTest {
 
+    public void testNotNull() {
+        Child c = new Child();
+        ValidationAssert.assertErrors(c, "Name is required", "Parent is required");
+    }
+
     public void testSaveAndReloadChildInSeparateUoWThanParent() {
         Parent p = new Parent();
         p.setName("parent");
