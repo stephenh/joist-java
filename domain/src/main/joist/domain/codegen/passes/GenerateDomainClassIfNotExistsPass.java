@@ -4,8 +4,6 @@ import joist.domain.codegen.Codegen;
 import joist.domain.codegen.dtos.Entity;
 import joist.sourcegen.GClass;
 
-import org.exigencecorp.bindgen.Bindable;
-
 public class GenerateDomainClassIfNotExistsPass implements Pass {
 
     public void pass(Codegen codegen) {
@@ -16,8 +14,6 @@ public class GenerateDomainClassIfNotExistsPass implements Pass {
             if (!codegen.getOutputSourceDirectory().exists(entity.getFullClassName())) {
                 GClass domain = codegen.getOutputSourceDirectory().getClass(entity.getFullClassName());
                 domain.baseClassName(entity.getFullCodegenClassName());
-                domain.addAnnotation("@Bindable");
-                domain.addImports(Bindable.class);
             }
         }
     }
