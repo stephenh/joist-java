@@ -1,8 +1,5 @@
 package features.domain;
 
-import org.exigencecorp.bindgen.Bindable;
-
-@Bindable
 public class InheritanceASubTwo extends InheritanceASubTwoCodegen {
 
     public InheritanceASubTwo() {
