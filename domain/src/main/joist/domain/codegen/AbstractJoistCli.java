@@ -10,25 +10,29 @@ import joist.domain.migrations.Migrater;
 import joist.domain.migrations.MigraterConfig;
 import joist.domain.migrations.PermissionFixer;
 import joist.domain.util.ConnectionSettings;
-import joist.domain.util.Pgc3p0Factory;
+import joist.domain.util.MySqlUtilFactory;
 import joist.util.Inflector;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public abstract class AbstractJoistCli {
 
-    public ConnectionSettings dbAppSettings;
-    public ConnectionSettings dbSaSettings;
+    public ConnectionSettings dbAppUserSettings;
+    public ConnectionSettings dbAppSaSettings;
+    public ConnectionSettings dbSystemSettings;
     public CodegenConfig codegenConfig = new CodegenConfig();
     public MigraterConfig migraterConfig = new MigraterConfig();
-    private final Map<String, DataSource> dss = new HashMap<String, DataSource>();
+    private final Map<ConnectionSettings, DataSource> dss = new HashMap<ConnectionSettings, DataSource>();
 
     public AbstractJoistCli(String projectName) {
-        this.dbAppSettings = ConnectionSettings.forApp(Inflector.underscore(projectName));
-        this.dbSaSettings = ConnectionSettings.forSa(Inflector.underscore(projectName));
+        this.dbAppUserSettings = ConnectionSettings.forApp(Inflector.underscore(projectName));
+        this.dbAppSaSettings = ConnectionSettings.forSa(Inflector.underscore(projectName));
+
+        this.dbSystemSettings = ConnectionSettings.forSa(Inflector.underscore(projectName));
+        this.dbSystemSettings.databaseName = "mysql";
+        this.dbSystemSettings.password = this.dbAppSaSettings.password;
+
         this.migraterConfig.setProjectNameForDefaults(projectName);
         this.codegenConfig.setProjectNameForDefaults(projectName);
-        if (".".equals(this.dbSaSettings.password)) {
+        if (".".equals(this.dbAppSaSettings.password)) {
             throw new RuntimeException("You need to set db.sa.password either on the command line or in build.properties.");
         }
     }
@@ -44,7 +48,7 @@ public abstract class AbstractJoistCli {
         new DatabaseBootstrapper(//
             this.getDataSourceForSystemTableAsSaUser(),
             this.getDataSourceForAppTableAsSaUser(),
-            this.dbAppSettings).dropAndCreate();
+            this.dbAppUserSettings).dropAndCreate();
     }
 
     public void migrateDatabase() {
@@ -53,10 +57,10 @@ public abstract class AbstractJoistCli {
 
     public void fixPermissions() {
         PermissionFixer pf = new PermissionFixer(this.getDataSourceForAppTableAsSaUser());
-        pf.setOwnerOfAllTablesTo(this.dbSaSettings.user);
-        pf.setOwnerOfAllSequencesTo(this.dbSaSettings.user);
-        pf.grantAllOnAllTablesTo(this.dbAppSettings.user);
-        pf.grantAllOnAllSequencesTo(this.dbAppSettings.user);
+        pf.setOwnerOfAllTablesTo(this.dbAppSaSettings.user);
+        // pf.setOwnerOfAllSequencesTo(this.dbAppSaSettings.user);
+        pf.grantAllOnAllTablesTo(this.dbAppUserSettings.user);
+        // pf.grantAllOnAllSequencesTo(this.dbAppUserSettings.user);
     }
 
     public void codegen() {
@@ -64,26 +68,19 @@ public abstract class AbstractJoistCli {
     }
 
     private DataSource getDataSourceForAppTableAsSaUser() {
-        return this.getCachedDatasource(this.dbSaSettings.host, this.dbSaSettings.databaseName, this.dbSaSettings.user, this.dbSaSettings.password);
+        return this.getCachedDatasource(this.dbAppSaSettings);
     }
 
     private DataSource getDataSourceForSystemTableAsSaUser() {
-        return this.getCachedDatasource(this.dbSaSettings.host, "postgres", this.dbSaSettings.user, this.dbSaSettings.password);
+        return this.getCachedDatasource(this.dbSystemSettings);
     }
 
-    private DataSource getCachedDatasource(String dbHost, String dbName, String username, String password) {
-        Pgc3p0Factory.setDefaultc3p0Flags();
-        String key = dbHost + "." + dbName + "." + username + "." + password;
-        if (!this.dss.containsKey(key)) {
-            ComboPooledDataSource ds = new ComboPooledDataSource();
-            ds.setJdbcUrl("jdbc:postgresql://" + dbHost + "/" + dbName);
-            ds.setUser(username);
-            ds.setPassword(password);
-            ds.setMaxPoolSize(3);
-            ds.setInitialPoolSize(1);
-            this.dss.put(key, ds);
+    private DataSource getCachedDatasource(ConnectionSettings settings) {
+        if (!this.dss.containsKey(settings)) {
+            DataSource ds = new MySqlUtilFactory(settings).create();
+            this.dss.put(settings, ds);
         }
-        return this.dss.get(key);
+        return this.dss.get(settings);
     }
 
 }

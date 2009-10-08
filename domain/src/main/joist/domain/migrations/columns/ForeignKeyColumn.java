@@ -1,7 +1,8 @@
 package joist.domain.migrations.columns;
 
+import java.util.List;
+
 import joist.util.Interpolate;
-import joist.util.StringBuilderr;
 
 public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
 
@@ -46,24 +47,26 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
     }
 
     @Override
-    public void postInjectCommands(StringBuilderr sb) {
-        super.postInjectCommands(sb);
-        String constraintName = Interpolate.string("constraint_{}_{}_owner_{}_fk",//
+    public List<String> postInjectCommands() {
+        List<String> sqls = super.postInjectCommands();
+
+        String constraintName = Interpolate.string("{}_{}_owner_{}_fk",//
             this.getName(),
             System.currentTimeMillis(),
             this.owner.toString().toLowerCase());
-        sb.append("ALTER TABLE \"{}\" ADD CONSTRAINT {} FOREIGN KEY (\"{}\") REFERENCES \"{}\" (\"{}\")",//
+        sqls.add(Interpolate.string(
+            "ALTER TABLE `{}` ADD CONSTRAINT {} FOREIGN KEY (`{}`) REFERENCES `{}` (`{}`);",
             this.getTableName(),
             constraintName,
             this.getName(),
             this.otherTable,
-            this.otherTableColumn);
+            this.otherTableColumn));
         if (this.owner == ForeignKeyColumn.Owner.IsThem) {
-            sb.append(" ON DELETE CASCADE");
+            // sb.append(" ON DELETE CASCADE");
         }
-        sb.line(" DEFERRABLE;");
-        String indexName = this.getTableName() + "_" + this.getName() + "_idx";
-        sb.line("CREATE INDEX \"{}\" ON \"{}\" USING btree ({});", indexName, this.getTableName(), this.getName());
-    }
+        // sb.line(" DEFERRABLE;");
+        // sb.line("CREATE INDEX \"{}\" ON \"{}\" USING btree ({});", indexName, this.getTableName(), this.getName());
 
+        return sqls;
+    }
 }

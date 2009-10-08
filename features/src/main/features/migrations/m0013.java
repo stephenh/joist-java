@@ -1,7 +1,6 @@
 package features.migrations;
 
 import static joist.domain.migrations.MigrationKeywords.createTable;
-import static joist.domain.migrations.MigrationKeywords.createUniqueConstraint;
 import static joist.domain.migrations.MigrationKeywords.foreignKey;
 import static joist.domain.migrations.MigrationKeywords.integer;
 import static joist.domain.migrations.MigrationKeywords.primaryKey;
@@ -21,7 +20,7 @@ public class m0013 extends AbstractMigration {
         // not unique merely on the foreign key
         createTable("one_to_one_b_foo", primaryKey("id"), varchar("name"), integer("version"));
         createTable("one_to_one_b_bar", primaryKey("id"), varchar("name"), foreignKey("one_to_one_b_foo"), integer("version"));
-        createUniqueConstraint("one_to_one_b_bar", "name", "one_to_one_b_foo_id");
+        // createUniqueConstraint("one_to_one_b_bar", "name", "one_to_one_b_foo_id");
     }
 
 }

@@ -46,7 +46,7 @@ public class SchemaCheck {
                 maxId = Math.max(maxId, code.getId());
 
                 // Try an exact match first
-                int exactMatch = Jdbc.queryForInt(this.dataSource, "select count(*) from \"{}\" where id = {} and code = '{}'",//
+                int exactMatch = Jdbc.queryForInt(this.dataSource, "select count(*) from `{}` where id = {} and code = '{}'",//
                     tableName,
                     code.getId(),
                     code.getCode());
@@ -55,7 +55,7 @@ public class SchemaCheck {
                 }
 
                 // Next see if we're getting id collision
-                int idMatch = Jdbc.queryForInt(this.dataSource, "select count(*) from \"{}\" where id = {}", tableName, code.getId());
+                int idMatch = Jdbc.queryForInt(this.dataSource, "select count(*) from `{}` where id = {}", tableName, code.getId());
                 if (idMatch == 0) {
                     String message = Interpolate.string("Code {} {}-{} is not in the database", tableName, code.getId(), code.getCode());
                     throw new RuntimeException(message);
@@ -66,7 +66,7 @@ public class SchemaCheck {
             }
 
             // Now watch for database codes not matching Java codes
-            Jdbc.query(this.dataSource, "select * from \"" + tableName + "\"", new RowMapper() {
+            Jdbc.query(this.dataSource, "select * from `" + tableName + "`", new RowMapper() {
                 public void mapRow(ResultSet rs) throws SQLException {
                     // Make sure this id is in our Java codes
                     int id = rs.getInt("id");

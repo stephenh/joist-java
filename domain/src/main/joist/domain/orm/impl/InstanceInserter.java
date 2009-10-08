@@ -2,16 +2,18 @@ package joist.domain.orm.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import joist.domain.DomainObject;
 import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.IdAliasColumn;
 import joist.domain.uow.UoW;
 import joist.jdbc.Jdbc;
+import joist.util.Log;
 import joist.util.StringBuilderr;
 import joist.util.Wrap;
 
@@ -20,8 +22,9 @@ import org.apache.commons.lang.StringUtils;
 /** A class that caches SQL for how to insert a given table, needs to be thread-safe. */
 public class InstanceInserter<T extends DomainObject> {
 
-    private static final Map<Class<?>, InstanceInserter<?>> inserters = new HashMap<Class<?>, InstanceInserter<?>>();
-    private final List<Step<T>> steps = new ArrayList<Step<T>>();
+    private static final Map<Class<?>, InstanceInserter<?>> inserters = new ConcurrentHashMap<Class<?>, InstanceInserter<?>>();
+    private final List<Step<T>> stepsNewId = new ArrayList<Step<T>>();
+    private final List<Step<T>> stepsHasId = new ArrayList<Step<T>>();
 
     public static <T extends DomainObject> InstanceInserter<T> get(Class<T> clazz) {
         InstanceInserter<T> inserter = (InstanceInserter<T>) InstanceInserter.inserters.get(clazz);
@@ -35,41 +38,68 @@ public class InstanceInserter<T extends DomainObject> {
     public InstanceInserter(Alias<T> alias) {
         Alias<? super T> current = alias;
         while (current != null) {
-            this.steps.add(new Step<T>(current));
+            this.stepsHasId.add(new Step<T>(current, true));
+            this.stepsNewId.add(new Step<T>(current, false));
             current = current.getBaseClassAlias();
         }
-        Collections.reverse(this.steps); // do base classes first
+        Collections.reverse(this.stepsHasId); // do base classes first
+        Collections.reverse(this.stepsNewId); // do base classes first
     }
 
     public void insert(List<T> instances) {
-        for (Step<T> step : this.steps) {
-            List<List<Object>> allParameters = new ArrayList<List<Object>>();
-            for (T instance : instances) {
-                step.addParametersForInstance(allParameters, instance);
+        for (T instance : instances) {
+            if (instance.getId() == null) {
+                for (Step<T> step : this.stepsNewId) {
+                    List<List<Object>> allParameters = new ArrayList<List<Object>>();
+                    step.addParametersForInstance(allParameters, instance);
+                    Jdbc.update(UoW.getConnection(), step.sql, allParameters.get(0));
+                    if (step == this.stepsNewId.get(0)) {
+                        int id = Jdbc.queryForInt(UoW.getConnection(), "SELECT LAST_INSERT_ID()");
+                        Log.debug("Got {} for {}", id, instance);
+                        AliasRegistry.get(instance).getIdColumn().setJdbcValue(instance, id);
+                        UoW.getIdentityMap().store(instance);
+                    }
+                }
+            } else {
+                for (Step<T> step : this.stepsHasId) {
+                    List<List<Object>> allParameters = new ArrayList<List<Object>>();
+                    step.addParametersForInstance(allParameters, instance);
+                    Jdbc.update(UoW.getConnection(), step.sql, allParameters.get(0));
+                }
             }
-            Jdbc.updateBatch(UoW.getConnection(), step.sql, allParameters);
         }
     }
 
     /** One step-per-inheritance table. */
     private static class Step<T extends DomainObject> {
+        private final Alias<? super T> alias;
         private final List<AliasColumn<? super T, ?, ?>> columns = new ArrayList<AliasColumn<? super T, ?, ?>>();
         private final String sql;
+        private final boolean hasId;
 
-        private Step(Alias<? super T> alias) {
+        private Step(Alias<? super T> alias, boolean hasId) {
+            this.alias = alias;
             for (AliasColumn<? super T, ?, ?> column : alias.getColumns()) {
                 this.columns.add(column);
             }
             if (!alias.isRootClass()) {
                 this.columns.add(alias.getIdColumn());
             }
+            this.hasId = hasId;
             this.sql = this.toSql(alias);
         }
 
         private void addParametersForInstance(List<List<Object>> allParameters, T instance) {
             List<Object> parameters = new ArrayList<Object>();
             for (AliasColumn<? super T, ?, ?> column : this.columns) {
-                parameters.add(column.getJdbcValue(instance));
+                if (column instanceof IdAliasColumn<?> && this.alias.isRootClass() && !this.hasId) {
+                    continue;
+                }
+                if (this.alias.isRootClass() && column.getName().equals("version")) {
+                    parameters.add(0);
+                } else {
+                    parameters.add(column.getJdbcValue(instance));
+                }
             }
             allParameters.add(parameters);
         }
@@ -77,16 +107,23 @@ public class InstanceInserter<T extends DomainObject> {
         private String toSql(Alias<?> alias) {
             StringBuilderr s = new StringBuilderr();
             s.append("INSERT INTO ");
-            s.append(Wrap.quotes(alias.getTableName()));
+            s.append(Wrap.backquotes(alias.getTableName()));
             s.append(" (");
             for (AliasColumn<?, ?, ?> column : this.columns) {
-                s.append(column.getName());
+                if (column instanceof IdAliasColumn<?> && this.alias.isRootClass() && !this.hasId) {
+                    continue;
+                }
+                s.append(Wrap.backquotes(column.getName()));
                 s.append(", ");
             }
             s.stripLastCommaSpace();
             s.append(")");
             s.append(" VALUES (");
-            s.append(StringUtils.repeat("?, ", this.columns.size()));
+            if (this.alias.isRootClass() && !this.hasId) {
+                s.append(StringUtils.repeat("?, ", this.columns.size() - 1));
+            } else {
+                s.append(StringUtils.repeat("?, ", this.columns.size()));
+            }
             s.stripLastCommaSpace();
             s.append(")");
             return s.toString();

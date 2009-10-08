@@ -16,7 +16,7 @@ public class PrimitivesUpdateTest extends AbstractFeaturesTest {
         Primitives.queries.setFlag(ids, true);
         this.commitAndReOpen();
 
-        Assert.assertTrue(Primitives.queries.find(1).getFlag());
+        Assert.assertEquals(true, Primitives.queries.find(1).getFlag().booleanValue());
     }
 
     public void testChangeFlagWithDynamicList() {

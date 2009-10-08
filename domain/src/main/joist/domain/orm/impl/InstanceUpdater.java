@@ -96,10 +96,10 @@ public class InstanceUpdater<T extends DomainObject> {
 
         private String toSql(Alias<?> alias) {
             StringBuilderr s = new StringBuilderr();
-            s.line("UPDATE {}", Wrap.quotes(alias.getTableName()));
+            s.line("UPDATE {}", Wrap.backquotes(alias.getTableName()));
             s.append(" SET ");
             for (AliasColumn<?, ?, ?> c : this.columns) {
-                s.append(Wrap.quotes(c.getName()));
+                s.append(Wrap.backquotes(c.getName()));
                 s.append(" = ?, ");
             }
             s.stripLastCommaSpace();

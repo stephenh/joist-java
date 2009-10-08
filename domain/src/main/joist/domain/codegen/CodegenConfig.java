@@ -65,6 +65,11 @@ public class CodegenConfig {
         this.setJavaType("bytea", "byte[]", ByteArrayAliasColumn.class.getName());
         this.setJavaType("date", CalendarDate.class.getName(), CalendarDateAliasColumn.class.getName());
         this.setJavaType("timestamp without time zone", TimePoint.class.getName(), TimePointAliasColumn.class.getName());
+
+        this.setJavaType("int", Integer.class.getName(), IntAliasColumn.class.getName());
+        this.setJavaType("bit", Boolean.class.getName(), BooleanAliasColumn.class.getName());
+        this.setJavaType("varchar", String.class.getName(), StringAliasColumn.class.getName());
+        this.setJavaType("tinyint", Short.class.getName(), ShortAliasColumn.class.getName());
     }
 
     public CodegenConfig doNotUseTimeAndMoney() {

@@ -1,6 +1,9 @@
 package joist.domain.migrations.columns;
 
-import joist.util.StringBuilderr;
+import java.util.ArrayList;
+import java.util.List;
+
+import joist.util.Interpolate;
 import joist.util.Wrap;
 
 public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Column {
@@ -31,7 +34,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
     }
 
     public String getQuotedName() {
-        return Wrap.quotes(this.name);
+        return Wrap.backquotes(this.name);
     }
 
     public String getTableName() {
@@ -46,17 +49,25 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
         return this.getQuotedName() + " " + this.getDataType();
     }
 
-    public void preInjectCommands(StringBuilderr sb) {
+    public List<String> preInjectCommands() {
+        return new ArrayList<String>();
     }
 
-    public void postInjectCommands(StringBuilderr sb) {
+    public List<String> postInjectCommands() {
+        List<String> sqls = new ArrayList<String>();
         if (!this.isNullable()) {
-            sb.line("ALTER TABLE \"{}\" ALTER COLUMN \"{}\" SET NOT NULL;", this.tableName, this.name);
+            if (this instanceof PrimaryKeyColumn) {
+                sqls.add(Interpolate
+                    .string("ALTER TABLE `{}` MODIFY `{}` {} AUTO_INCREMENT NOT NULL;", this.tableName, this.name, this.getDataType()));
+            } else {
+                sqls.add(Interpolate.string("ALTER TABLE `{}` MODIFY `{}` {} NOT NULL;", this.tableName, this.name, this.getDataType()));
+            }
         }
         if (this.isUnique()) {
             String constraintName = this.getTableName() + "_" + this.getName() + "_key";
-            sb.line("ALTER TABLE \"{}\" ADD CONSTRAINT \"{}\" UNIQUE (\"{}\");", this.getTableName(), constraintName, this.getName());
+            sqls.add(Interpolate.string("ALTER TABLE {} ADD CONSTRAINT {} UNIQUE ({});", this.getTableName(), constraintName, this.getName()));
         }
+        return sqls;
     }
 
     private boolean isNullable() {

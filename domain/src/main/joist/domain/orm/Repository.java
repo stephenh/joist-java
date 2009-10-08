@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import javax.sql.DataSource;
 
 import joist.domain.DomainObject;
-import joist.domain.orm.impl.IdAssigner;
 import joist.domain.orm.impl.InstanceInserter;
 import joist.domain.orm.impl.InstanceUpdater;
 import joist.domain.orm.impl.SortedInstances;
@@ -43,7 +42,7 @@ public class Repository {
 
     public void store(Set<DomainObject> instances) {
         SortedInstances sorted = new SortedInstances(instances);
-        new IdAssigner().assignIds(sorted.inserts);
+        // new IdAssigner().assignIds(sorted.inserts);
         for (Class<DomainObject> key : sorted.insertsByForeignKey) {
             InstanceInserter.get(key).insert(sorted.inserts.get(key));
         }

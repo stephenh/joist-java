@@ -1,6 +1,6 @@
 package joist.domain.migrations.columns;
 
-import joist.util.StringBuilderr;
+import java.util.List;
 
 public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
 
@@ -17,9 +17,9 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
 
     public String toSql() {
         if (this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
-            return super.toSql() + " DEFAULT nextval('" + this.getSequenceName() + "'), PRIMARY KEY (" + this.getQuotedName() + ")";
+            return super.toSql() + " AUTO_INCREMENT PRIMARY KEY";
         } else {
-            return super.toSql() + ", PRIMARY KEY (" + this.getQuotedName() + ")";
+            return super.toSql() + " PRIMARY KEY";
         }
     }
 
@@ -31,11 +31,12 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
     }
 
     @Override
-    public void preInjectCommands(StringBuilderr sb) {
-        super.preInjectCommands(sb);
+    public List<String> preInjectCommands() {
+        List<String> sqls = super.preInjectCommands();
         if (this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
-            sb.line("CREATE SEQUENCE {};", this.getSequenceName());
+            // sb.line("CREATE SEQUENCE {};", this.getSequenceName());
         }
+        return sqls;
     }
 
     public PrimaryKeyColumn noSequence() {

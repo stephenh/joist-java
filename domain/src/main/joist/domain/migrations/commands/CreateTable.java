@@ -1,5 +1,8 @@
 package joist.domain.migrations.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import joist.domain.migrations.columns.Column;
 import joist.util.StringBuilderr;
 
@@ -13,28 +16,29 @@ public class CreateTable {
         this.columns = columns;
     }
 
-    public String toSql() {
-        StringBuilderr sb = new StringBuilderr();
+    public List<String> toSql() {
+        List<String> sqls = new ArrayList<String>();
 
         for (Column column : this.columns) {
             column.setTableName(this.name);
-            column.preInjectCommands(sb);
+            sqls.addAll(column.preInjectCommands());
         }
 
-        sb.line("CREATE TABLE \"{}\" (", this.name);
+        StringBuilderr sb = new StringBuilderr();
+        sb.line("CREATE TABLE {} (", this.name);
         for (Column column : this.columns) {
             sb.line(1, column.toSql() + ",");
         }
         sb.stripLastCharacterOnPreviousLine(); // Remove the last ,
-        sb.line(");");
+        sb.line(") type = InnoDB;");
+        sb.stripTrailingNewLine();
+        sqls.add(sb.toString());
 
         for (Column column : this.columns) {
-            column.postInjectCommands(sb);
+            sqls.addAll(column.postInjectCommands());
         }
 
-        sb.stripTrailingNewLine();
-
-        return sb.toString();
+        return sqls;
     }
 
     public String getName() {

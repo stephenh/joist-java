@@ -12,6 +12,6 @@ public class BooleanAliasColumn<T extends DomainObject> extends AliasColumn<T, B
     }
 
     public SetItem<T> to(Boolean value) {
-        return new SetItem<T>(this, value);
+        return new SetItem<T>(this, value ? 1 : 0);
     }
 }

@@ -28,8 +28,8 @@ public class ChildQueryTest extends TestCase {
 
         Assert.assertEquals(Join.lines(
             "SELECT c.id, c.name, c.version, c.parent_id",
-            " FROM \"child\" c",
-            " INNER JOIN \"parent\" p ON c.parent_id = p.id",
+            " FROM `child` c",
+            " INNER JOIN `parent` p ON c.parent_id = p.id",
             " WHERE p.name = ?",
             " ORDER BY p.name, c.name"), q.toSql());
         Assert.assertEquals(Copy.list("bob"), q.getWhere().getParameters());
@@ -43,8 +43,8 @@ public class ChildQueryTest extends TestCase {
         q.join(p.on(c.parent));
         Assert.assertEquals(Join.lines(//
             "SELECT c.id, c.name, c.version, c.parent_id",
-            " FROM \"child\" c",
-            " INNER JOIN \"parent\" p ON c.parent_id = p.id"),//
+            " FROM `child` c",
+            " INNER JOIN `parent` p ON c.parent_id = p.id"),//
             q.toSql());
     }
 
@@ -56,8 +56,8 @@ public class ChildQueryTest extends TestCase {
         q.join(c.parent.on(p));
         Assert.assertEquals(Join.lines(//
             "SELECT p.id, p.name, p.version",
-            " FROM \"parent\" p",
-            " INNER JOIN \"child\" c ON p.id = c.parent_id"),//
+            " FROM `parent` p",
+            " INNER JOIN `child` c ON p.id = c.parent_id"),//
             q.toSql());
     }
 

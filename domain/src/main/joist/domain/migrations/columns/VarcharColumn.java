@@ -14,8 +14,9 @@ public class VarcharColumn extends AbstractColumn<VarcharColumn> {
         return this;
     }
 
-    public String toSql() {
-        return this.getQuotedName() + " varchar(" + this.length + ")";
+    @Override
+    public String getDataType() {
+        return super.getDataType() + "(" + this.length + ")";
     }
 
 }

@@ -1,6 +1,6 @@
 package joist.domain.migrations.columns;
 
-import joist.util.StringBuilderr;
+import java.util.List;
 
 public interface Column {
 
@@ -10,8 +10,8 @@ public interface Column {
 
     String toSql();
 
-    void preInjectCommands(StringBuilderr sb);
+    List<String> preInjectCommands();
 
-    void postInjectCommands(StringBuilderr sb);
+    List<String> postInjectCommands();
 
 }

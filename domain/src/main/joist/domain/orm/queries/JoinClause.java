@@ -34,7 +34,7 @@ public class JoinClause<E extends DomainObject, N extends DomainObject> {
     }
 
     private JoinClause(String type, String tableName, String aliasName, String existingColumn, String newColumn) {
-        this.text = Join.space(type, Wrap.quotes(tableName), aliasName, "ON", existingColumn, "=", newColumn);
+        this.text = Join.space(type, Wrap.backquotes(tableName), aliasName, "ON", existingColumn, "=", newColumn);
     }
 
     public String toString() {

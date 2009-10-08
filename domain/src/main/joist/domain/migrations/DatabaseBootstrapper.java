@@ -25,26 +25,27 @@ public class DatabaseBootstrapper {
         String username = this.appSettings.user;
         String password = this.appSettings.password;
 
-        int i = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_database where datname = '{}'", databaseName);
+        int i = Jdbc.queryForInt(this.systemDataSource, "select count(*) from information_schema.schemata where schema_name = '{}'", databaseName);
         if (i != 0) {
             Log.debug("Dropping {}", databaseName);
             Jdbc.update(this.systemDataSource, "drop database {};", databaseName);
         }
 
-        int j = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_user where usename = '{}'", username);
+        int j = Jdbc.queryForInt(this.systemDataSource, "select count(*) from mysql.user where user = '{}'", username);
         if (j != 0) {
             Log.debug("Dropping {}", username);
-            Jdbc.update(this.systemDataSource, "drop user {};", username);
+            Jdbc.update(this.systemDataSource, "revoke all privileges, grant option from {}", username);
+            Jdbc.update(this.systemDataSource, "drop user {}", username);
         }
 
         Log.debug("Creating {}", databaseName);
-        Jdbc.update(this.systemDataSource, "create database {} template template0;", databaseName);
+        Jdbc.update(this.systemDataSource, "create database {};", databaseName);
 
         Log.debug("Creating {}", username);
-        Jdbc.update(this.systemDataSource, "create user {} password '{}';", username, password);
+        Jdbc.update(this.systemDataSource, "create user {} identified by '{}';", username, password);
 
-        Log.debug("Creating plpgsql");
-        Jdbc.update(this.appDataSource, "create language plpgsql;");
+        // Log.debug("Creating plpgsql");
+        // Jdbc.update(this.appDataSource, "create language plpgsql;");
     }
 
     public void restore(String pgBinPath) {

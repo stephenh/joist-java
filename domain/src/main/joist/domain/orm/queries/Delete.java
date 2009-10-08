@@ -39,7 +39,7 @@ public class Delete<T extends DomainObject> {
     public String toSql() {
         StringBuilderr s = new StringBuilderr();
         s.append("DELETE FROM ");
-        s.line(Wrap.quotes(this.alias.getTableName()));
+        s.line(Wrap.backquotes(this.alias.getTableName()));
         if (this.where != null) {
             s.line(" WHERE {}", this.where.getSqlWithoutAliasPrefix(this.alias.getName()));
         }

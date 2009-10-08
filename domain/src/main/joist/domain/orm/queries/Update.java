@@ -38,10 +38,10 @@ public class Update<T extends DomainObject> {
 
     public String toSql() {
         StringBuilderr s = new StringBuilderr();
-        s.line("UPDATE {}", Wrap.quotes(this.alias.getTableName()));
+        s.line("UPDATE {}", Wrap.backquotes(this.alias.getTableName()));
         s.append(" SET ");
         for (SetItem<T> c : this.setItems) {
-            s.append(Wrap.quotes(c.getColumn().getName()));
+            s.append(Wrap.backquotes(c.getColumn().getName()));
             s.append(" = ?, ");
         }
         s.stripLastCommaSpace();

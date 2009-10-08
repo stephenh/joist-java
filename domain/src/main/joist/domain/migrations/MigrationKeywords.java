@@ -1,6 +1,7 @@
 package joist.domain.migrations;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import joist.domain.migrations.columns.BigIntColumn;
 import joist.domain.migrations.columns.BooleanColumn;
@@ -20,7 +21,6 @@ import joist.domain.migrations.fill.FillInStrategy;
 import joist.jdbc.Jdbc;
 import joist.jdbc.JdbcException;
 import joist.util.Join;
-import joist.util.StringBuilderr;
 import joist.util.Wrap;
 
 public class MigrationKeywords {
@@ -30,13 +30,17 @@ public class MigrationKeywords {
     }
 
     public static void createTable(String name, Column... columns) {
-        MigrationKeywords.execute(new CreateTable(name, columns).toSql());
+        for (String sql : new CreateTable(name, columns).toSql()) {
+            MigrationKeywords.execute(sql);
+        }
     }
 
     public static void createTableSubclass(String parentName, String name, Column... columns) {
         CreateTable t = new CreateTable(name, columns);
         ((PrimaryKeyColumn) t.getColumns()[0]).noSequence();
-        MigrationKeywords.execute(t.toSql());
+        for (String sql : t.toSql()) {
+            MigrationKeywords.execute(sql);
+        }
         MigrationKeywords.addForeignKeyConstraint(name, MigrationKeywords.foreignKey("id", parentName, "id"));
     }
 
@@ -66,7 +70,7 @@ public class MigrationKeywords {
 
     public static void addCode(String tableName, String code, String description) {
         int id = MigrationKeywords.getNextIdForCode(tableName);
-        MigrationKeywords.execute("INSERT INTO \"{}\" (id, code, name, version) VALUES ({}, '{}', '{}', 0)", tableName, id, code, description);
+        MigrationKeywords.execute("INSERT INTO {} (id, code, name, version) VALUES ({}, '{}', '{}', 0)", tableName, id, code, description);
     }
 
     public static void addUnique(String tableName, String... columnNames) {
@@ -152,10 +156,9 @@ public class MigrationKeywords {
     public static void addColumn(String table, Column column, FillInStrategy fill) {
         column.setTableName(table);
         // pre
-        StringBuilderr pre = new StringBuilderr();
-        column.preInjectCommands(pre);
-        if (pre.toString().length() > 0) {
-            MigrationKeywords.execute(pre.toString());
+        List<String> pre = column.preInjectCommands();
+        for (String sql : pre) {
+            MigrationKeywords.execute(sql);
         }
         // column
         MigrationKeywords.execute("ALTER TABLE \"{}\" ADD COLUMN {}", table, column.toSql());
@@ -168,10 +171,9 @@ public class MigrationKeywords {
             }
         }
         // post
-        StringBuilderr post = new StringBuilderr();
-        column.postInjectCommands(post);
-        if (post.toString().length() > 0) {
-            MigrationKeywords.execute(post.toString());
+        List<String> post = column.postInjectCommands();
+        for (String sql : post) {
+            MigrationKeywords.execute(sql);
         }
     }
 
@@ -184,10 +186,10 @@ public class MigrationKeywords {
     }
 
     public static void addForeignKeyConstraint(String table, ForeignKeyColumn column) {
-        StringBuilderr sql = new StringBuilderr();
         column.setTableName(table);
-        column.postInjectCommands(sql);
-        MigrationKeywords.execute(sql.toString());
+        for (String sql : column.postInjectCommands()) {
+            MigrationKeywords.execute(sql);
+        }
     }
 
     public static void dropForeignKeyConstraint(String table, String column) {

@@ -46,7 +46,7 @@ public class PrimitiveProperty {
     }
 
     public String getDefaultJavaString() {
-        if (this.dataType.equals("boolean")) {
+        if (this.dataType.equals("boolean") || this.dataType.equals("bit")) {
             return new Boolean(this.defaultValue).toString();
         }
         return "null";
