@@ -1,6 +1,5 @@
 package joist.domain.orm;
 
-
 import joist.domain.Code;
 import joist.domain.util.Codes;
 
@@ -23,6 +22,9 @@ public class ForeignKeyCodeHolder<T extends Enum<T>> {
     }
 
     public Integer getId() {
+        if (this.instance == null) {
+            return null;
+        }
         return ((Code) this.instance).getId();
     }
 
