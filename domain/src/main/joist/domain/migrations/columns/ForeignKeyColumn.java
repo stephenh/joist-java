@@ -1,7 +1,6 @@
 package joist.domain.migrations.columns;
 
-import joist.domain.migrations.Migrater;
-import joist.jdbc.Jdbc;
+import joist.util.Interpolate;
 import joist.util.StringBuilderr;
 
 public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
@@ -49,15 +48,11 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
     @Override
     public void postInjectCommands(StringBuilderr sb) {
         super.postInjectCommands(sb);
-
-        int constraintNumber = (Migrater.getConnection() == null) ? 1 : Jdbc.queryForInt(
-            Migrater.getConnection(),
-            "select nextval('constraint_name_seq')");
-        String constraintName = "constraint_" + constraintNumber + "_owner_" + this.owner.toString().toLowerCase() + "_fk";
-        String indexName = this.getTableName() + "_" + this.getName() + "_idx";
-
-        sb.append(
-            "ALTER TABLE \"{}\" ADD CONSTRAINT \"{}\" FOREIGN KEY (\"{}\") REFERENCES \"{}\" (\"{}\")",
+        String constraintName = Interpolate.string("constraint_{}_{}_owner_{}_fk",//
+            this.getName(),
+            System.currentTimeMillis(),
+            this.owner.toString().toLowerCase());
+        sb.append("ALTER TABLE \"{}\" ADD CONSTRAINT {} FOREIGN KEY (\"{}\") REFERENCES \"{}\" (\"{}\")",//
             this.getTableName(),
             constraintName,
             this.getName(),
@@ -67,6 +62,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
             sb.append(" ON DELETE CASCADE");
         }
         sb.line(" DEFERRABLE;");
+        String indexName = this.getTableName() + "_" + this.getName() + "_idx";
         sb.line("CREATE INDEX \"{}\" ON \"{}\" USING btree ({});", indexName, this.getTableName(), this.getName());
     }
 
