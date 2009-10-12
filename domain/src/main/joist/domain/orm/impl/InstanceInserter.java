@@ -73,6 +73,7 @@ public class InstanceInserter<T extends DomainObject> {
                 for (int i = 0; i < keys.length; i++) {
                     T instance = instances.get(i);
                     AliasRegistry.get(instance).getIdColumn().setJdbcValue(instance, keys[i]);
+                    AliasRegistry.get(instance).getVersionColumn().setJdbcValue(instance, 0);
                     UoW.getIdentityMap().store(instance);
                 }
             }
