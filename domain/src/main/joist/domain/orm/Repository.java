@@ -44,7 +44,8 @@ public class Repository {
         SortedInstances sorted = new SortedInstances(instances);
         // new IdAssigner().assignIds(sorted.inserts);
         for (Class<DomainObject> key : sorted.insertsByForeignKey) {
-            InstanceInserter.get(key).insert(sorted.inserts.get(key));
+            InstanceInserter.get(key).insertHasId(sorted.insertHasIds.get(key));
+            InstanceInserter.get(key).insertNewId(sorted.insertNewIds.get(key));
         }
         for (Entry<Class<DomainObject>, List<DomainObject>> entry : sorted.updates.entrySet()) {
             InstanceUpdater.get(entry.getKey()).update(entry.getValue());

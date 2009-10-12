@@ -13,7 +13,6 @@ import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
 import joist.domain.uow.UoW;
 import joist.jdbc.Jdbc;
-import joist.util.Log;
 import joist.util.StringBuilderr;
 import joist.util.Wrap;
 
@@ -46,25 +45,29 @@ public class InstanceInserter<T extends DomainObject> {
         Collections.reverse(this.stepsNewId); // do base classes first
     }
 
-    public void insert(List<T> instances) {
-        for (T instance : instances) {
-            if (instance.getId() == null) {
-                for (Step<T> step : this.stepsNewId) {
-                    List<List<Object>> allParameters = new ArrayList<List<Object>>();
-                    step.addParametersForInstance(allParameters, instance);
-                    Jdbc.update(UoW.getConnection(), step.sql, allParameters.get(0));
-                    if (step == this.stepsNewId.get(0)) {
-                        int id = Jdbc.queryForInt(UoW.getConnection(), "SELECT LAST_INSERT_ID()");
-                        Log.debug("Got {} for {}", id, instance);
-                        AliasRegistry.get(instance).getIdColumn().setJdbcValue(instance, id);
-                        UoW.getIdentityMap().store(instance);
-                    }
-                }
-            } else {
-                for (Step<T> step : this.stepsHasId) {
-                    List<List<Object>> allParameters = new ArrayList<List<Object>>();
-                    step.addParametersForInstance(allParameters, instance);
-                    Jdbc.update(UoW.getConnection(), step.sql, allParameters.get(0));
+    public void insertHasId(List<T> instances) {
+        for (Step<T> step : this.stepsHasId) {
+            List<List<Object>> allParameters = new ArrayList<List<Object>>();
+            for (T instance : instances) {
+                step.addParametersForInstance(allParameters, instance);
+            }
+            Jdbc.updateBatch(UoW.getConnection(), step.sql, allParameters);
+        }
+    }
+
+    public void insertNewId(List<T> instances) {
+        for (Step<T> step : this.stepsNewId) {
+            List<List<Object>> allParameters = new ArrayList<List<Object>>();
+            for (T instance : instances) {
+                step.addParametersForInstance(allParameters, instance);
+            }
+
+            Integer[] keys = Jdbc.insertBatch(UoW.getConnection(), step.sql, allParameters);
+            if (step == this.stepsNewId.get(0)) {
+                for (int i = 0; i < keys.length; i++) {
+                    T instance = instances.get(i);
+                    AliasRegistry.get(instance).getIdColumn().setJdbcValue(instance, keys[i]);
+                    UoW.getIdentityMap().store(instance);
                 }
             }
         }

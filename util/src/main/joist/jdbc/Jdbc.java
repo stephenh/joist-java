@@ -178,6 +178,34 @@ public class Jdbc {
         }
     }
 
+    public static Integer[] insertBatch(Connection connection, String sql, List<List<Object>> allParameters) {
+        PreparedStatement ps = null;
+        try {
+            Log.trace("sql = {}", sql);
+            ps = connection.prepareStatement(sql, new String[] { "id" });
+            for (List<Object> parameters : allParameters) {
+                Log.trace("parameters = {}", parameters);
+                for (int i = 0; i < parameters.size(); i++) {
+                    ps.setObject(i + 1, parameters.get(i));
+                }
+                ps.addBatch();
+            }
+            ps.executeBatch();
+
+            Integer[] keys = new Integer[allParameters.size()];
+            ResultSet ks = ps.getGeneratedKeys();
+            int i = 0;
+            while (ks.next()) {
+                keys[i++] = ks.getInt(1);
+            }
+            return keys;
+        } catch (SQLException se) {
+            throw new JdbcException(se);
+        } finally {
+            Jdbc.closeSafely(ps);
+        }
+    }
+
     public static int update(DataSource ds, String sql, List<Object> parameters) {
         Connection connection = null;
         try {
