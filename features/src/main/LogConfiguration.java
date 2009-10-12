@@ -12,7 +12,7 @@ public class LogConfiguration {
         LogManager.getRootLogger().addAppender(LogAppenderFactory.newConsoleAppender());
         LogManager.getLogger("features").setLevel(Level.DEBUG);
         LogManager.getLogger("joist").setLevel(Level.DEBUG);
-        LogManager.getLogger("joist.jdbc").setLevel(Level.TRACE);
+        // LogManager.getLogger("joist.jdbc").setLevel(Level.TRACE);
         Log.debug("Configuration reset, ConsoleAppender added");
     }
 

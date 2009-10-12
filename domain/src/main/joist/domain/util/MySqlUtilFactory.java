@@ -31,6 +31,9 @@ public final class MySqlUtilFactory implements ResourceFactory<DataSource> {
         cpds.setDatabaseName(this.settings.databaseName);
         cpds.setUser(this.settings.user);
         cpds.setPassword(this.settings.password);
+        // cpds.setRewriteBatchedStatements(true);
+        cpds.setUseServerPrepStmts(true);
+        cpds.setEmulateUnsupportedPstmts(false);
         return cpds;
     }
 
