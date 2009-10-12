@@ -46,6 +46,9 @@ public class InstanceInserter<T extends DomainObject> {
     }
 
     public void insertHasId(List<T> instances) {
+        if (instances.size() == 0) {
+            return;
+        }
         for (Step<T> step : this.stepsHasId) {
             List<List<Object>> allParameters = new ArrayList<List<Object>>();
             for (T instance : instances) {
@@ -56,6 +59,9 @@ public class InstanceInserter<T extends DomainObject> {
     }
 
     public void insertNewId(List<T> instances) {
+        if (instances.size() == 0) {
+            return;
+        }
         for (Step<T> step : this.stepsNewId) {
             List<List<Object>> allParameters = new ArrayList<List<Object>>();
             for (T instance : instances) {
