@@ -31,6 +31,8 @@ public final class PgUtilFactory implements ResourceFactory<DataSource> {
         cpds.setDatabaseName(this.settings.databaseName);
         cpds.setUser(this.settings.user);
         cpds.setPassword(this.settings.password);
+        // use server-side PREPARE if over X rows--note, means planning only done once/statement
+        cpds.setPrepareThreshold(5);
         return cpds;
     }
 
