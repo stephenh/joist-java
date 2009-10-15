@@ -56,12 +56,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
     public List<String> postInjectCommands() {
         List<String> sqls = new ArrayList<String>();
         if (!this.isNullable()) {
-            if (this instanceof PrimaryKeyColumn) {
-                sqls.add(Interpolate
-                    .string("ALTER TABLE `{}` MODIFY `{}` {} AUTO_INCREMENT NOT NULL;", this.tableName, this.name, this.getDataType()));
-            } else {
-                sqls.add(Interpolate.string("ALTER TABLE `{}` MODIFY `{}` {} NOT NULL;", this.tableName, this.name, this.getDataType()));
-            }
+            sqls.add(Interpolate.string("ALTER TABLE `{}` MODIFY `{}` {} NOT NULL;", this.tableName, this.name, this.getDataType()));
         }
         if (this.isUnique()) {
             String constraintName = this.getTableName() + "_" + this.getName() + "_key";
@@ -70,11 +65,11 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
         return sqls;
     }
 
-    private boolean isNullable() {
+    protected boolean isNullable() {
         return this.nullable;
     }
 
-    private boolean isUnique() {
+    protected boolean isUnique() {
         return this.unique;
     }
 

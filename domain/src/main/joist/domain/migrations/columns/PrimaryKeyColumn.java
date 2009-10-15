@@ -1,6 +1,8 @@
 package joist.domain.migrations.columns;
 
+import java.util.ArrayList;
 import java.util.List;
+import joist.util.Interpolate;
 
 public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
 
@@ -28,6 +30,19 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
             return this.sequenceName;
         }
         return this.getTableName() + "_" + this.getName() + "_seq";
+    }
+
+    @Override
+    public List<String> postInjectCommands() {
+        List<String> sqls = new ArrayList<String>();
+        if (!this.isNullable()) {
+            sqls.add(Interpolate.string("ALTER TABLE `{}` MODIFY `{}` {} AUTO_INCREMENT NOT NULL;", this.getTableName(), this.getName(), this.getDataType()));
+        }
+        if (this.isUnique()) {
+            String constraintName = this.getTableName() + "_" + this.getName() + "_key";
+            sqls.add(Interpolate.string("ALTER TABLE {} ADD CONSTRAINT {} UNIQUE ({});", this.getTableName(), constraintName, this.getName()));
+        }
+        return sqls;
     }
 
     @Override
