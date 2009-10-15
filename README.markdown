@@ -14,11 +14,9 @@ Todo
 
 * Composite columns (e.g. TimePoint with both time+zone), if needed
 * Group by queries
-* Execute/load hand-written SQL queries, with inheritance?
-* Convert rules to bindgen?
+* Execute/load hand-written SQL queries (with inheritance?)
 * H2 prototyping (continue spike in h2 branch)
 * Setup trac/something
 * Eager loading (continue spike in eager branch)
 * Ajax/JSON controls
-* Establish license
 
