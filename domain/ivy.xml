@@ -20,8 +20,6 @@
 		<!-- Not runtime because we ref both c3p0 and pg classes directly. -->
 		<dependency org="c3p0" name="c3p0" rev="0.9.1.2" conf="main->master,sources"/>
 		<dependency org="postgresql" name="postgresql" rev="8.3-603.jdbc3" conf="main->master;sources->sources"/>
-		<!--
 		<dependency org="mysql" name="mysql-connector-java" rev="5.1.10" conf="main->master;sources->sources"/>
-		-->
 	</dependencies>
 </ivy-module>
