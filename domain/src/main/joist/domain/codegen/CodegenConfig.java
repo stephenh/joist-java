@@ -10,17 +10,12 @@ import joist.domain.AbstractDomainObject;
 import joist.domain.AbstractQueries;
 import joist.domain.orm.queries.columns.BooleanAliasColumn;
 import joist.domain.orm.queries.columns.ByteArrayAliasColumn;
-import joist.domain.orm.queries.columns.CalendarDateAliasColumn;
 import joist.domain.orm.queries.columns.DateAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
 import joist.domain.orm.queries.columns.IntAliasColumn;
 import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.ShortAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
-import joist.domain.orm.queries.columns.TimePointAliasColumn;
-
-import com.domainlanguage.time.CalendarDate;
-import com.domainlanguage.time.TimePoint;
 
 public class CodegenConfig {
 
@@ -63,8 +58,8 @@ public class CodegenConfig {
         this.setJavaType("bigint", Long.class.getName(), LongAliasColumn.class.getName());
         this.setJavaType("boolean", Boolean.class.getName(), BooleanAliasColumn.class.getName());
         this.setJavaType("bytea", "byte[]", ByteArrayAliasColumn.class.getName());
-        this.setJavaType("date", CalendarDate.class.getName(), CalendarDateAliasColumn.class.getName());
-        this.setJavaType("timestamp without time zone", TimePoint.class.getName(), TimePointAliasColumn.class.getName());
+        this.setJavaType("date", "com.domainlanguage.time.CalendarDate", "joist.domain.orm.queries.columns.CalendarDateAliasColumn");
+        this.setJavaType("timestamp without time zone", "com.domainlanguage.time.TimePoint", "joist.domain.orm.queries.columns.TimePointAliasColumn");
 
         this.setJavaType("int", Integer.class.getName(), IntAliasColumn.class.getName());
         this.setJavaType("bit", Boolean.class.getName(), BooleanAliasColumn.class.getName());
