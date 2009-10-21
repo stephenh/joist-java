@@ -52,7 +52,7 @@ public abstract class AbstractJoistCli {
     }
 
     public void migrateDatabase() {
-        new Migrater(this.getDataSourceForAppTableAsSaUser(), this.migraterConfig).migrate();
+        new Migrater(this.dbAppUserSettings, this.getDataSourceForAppTableAsSaUser(), this.migraterConfig).migrate();
     }
 
     public void fixPermissions() {
