@@ -40,8 +40,10 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
     public List<U> get() {
         if (this.loaded == null) {
             if (UoW.isOpen() && this.parent.getId() != null) {
-                this.loaded = Select.from(this.childAlias).where(//
-                    this.childForeignKeyToParentColumn.equals(this.parent)).orderBy(this.childAlias.getIdColumn().asc()).list();
+                Select<U> q = Select.from(this.childAlias);
+                q.where(this.childForeignKeyToParentColumn.equals(this.parent));
+                q.orderBy(this.childAlias.getIdColumn().asc());
+                this.loaded = q.list();
             } else {
                 this.loaded = new ArrayList<U>();
             }
