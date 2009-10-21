@@ -23,10 +23,10 @@ public class SchemaCheck {
     /**
      * @param dataSource a non-sa datasource, as we want to SchemaCheck in production, which doesn't have sa access
      */
-    public SchemaCheck(String packageName, DataSource dataSource) {
+    public SchemaCheck(String appDbName, String packageName, DataSource dataSource) {
         this.packageName = packageName;
         this.dataSource = dataSource;
-        this.wrapper = new InformationSchemaWrapper(dataSource);
+        this.wrapper = new InformationSchemaWrapper(appDbName, dataSource);
     }
 
     public void checkStructureMatch(int code) {

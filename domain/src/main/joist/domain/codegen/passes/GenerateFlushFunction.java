@@ -57,7 +57,10 @@ public class GenerateFlushFunction implements Pass {
             sql.line("END");
             Jdbc.update(conn, sql.toString());
 
-            Jdbc.update(conn, "GRANT ALL ON PROCEDURE `flush_test_database` TO {}@'%'", "features_role");
+            Jdbc.update(//
+                conn,
+                "GRANT ALL ON PROCEDURE `flush_test_database` TO {}@'%'",
+                codegen.getAppDbSettings().user);
         } catch (SQLException se) {
             throw new RuntimeException(se);
         } finally {

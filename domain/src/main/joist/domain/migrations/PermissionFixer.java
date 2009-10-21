@@ -7,15 +7,18 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import joist.domain.util.ConnectionSettings;
 import joist.jdbc.Jdbc;
 import joist.jdbc.RowMapper;
 import joist.util.Log;
 
 public class PermissionFixer {
 
-    private DataSource ds;
+    private final ConnectionSettings dbAppSettings;
+    private final DataSource ds;
 
-    public PermissionFixer(DataSource saDatasource) {
+    public PermissionFixer(ConnectionSettings dbAppSettings, DataSource saDatasource) {
+        this.dbAppSettings = dbAppSettings;
         this.ds = saDatasource;
     }
 
@@ -51,17 +54,22 @@ public class PermissionFixer {
 
     private List<String> getTableNames() {
         final List<String> names = new ArrayList<String>();
-        Jdbc.query(this.ds, "SELECT table_name FROM information_schema.tables WHERE table_schema = 'features'", new RowMapper() {
-            public void mapRow(ResultSet rs) throws SQLException {
-                names.add(rs.getString(1));
-            }
-        });
+        Jdbc.query(
+            this.ds,
+            "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + this.dbAppSettings.databaseName + "'",
+            new RowMapper() {
+                public void mapRow(ResultSet rs) throws SQLException {
+                    names.add(rs.getString(1));
+                }
+            });
         return names;
     }
 
     private List<String> getSequenceNames() {
         final List<String> names = new ArrayList<String>();
-        Jdbc.query(this.ds, "SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = 'features'", new RowMapper() {
+        Jdbc.query(this.ds, "SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = '"
+            + this.dbAppSettings.databaseName
+            + "'", new RowMapper() {
             public void mapRow(ResultSet rs) throws SQLException {
                 names.add(rs.getString(1));
             }

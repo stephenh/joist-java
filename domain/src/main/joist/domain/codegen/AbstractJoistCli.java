@@ -56,7 +56,7 @@ public abstract class AbstractJoistCli {
     }
 
     public void fixPermissions() {
-        PermissionFixer pf = new PermissionFixer(this.getDataSourceForAppTableAsSaUser());
+        PermissionFixer pf = new PermissionFixer(this.dbAppUserSettings, this.getDataSourceForAppTableAsSaUser());
         pf.setOwnerOfAllTablesTo(this.dbAppSaSettings.user);
         // pf.setOwnerOfAllSequencesTo(this.dbAppSaSettings.user);
         pf.grantAllOnAllTablesTo(this.dbAppUserSettings.user);
@@ -64,7 +64,7 @@ public abstract class AbstractJoistCli {
     }
 
     public void codegen() {
-        new Codegen(this.getDataSourceForAppTableAsSaUser(), this.codegenConfig).generate();
+        new Codegen(this.dbAppUserSettings, this.getDataSourceForAppTableAsSaUser(), this.codegenConfig).generate();
     }
 
     private DataSource getDataSourceForAppTableAsSaUser() {

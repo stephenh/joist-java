@@ -18,26 +18,13 @@ import joist.util.MapToList;
 
 public class InformationSchemaWrapper {
 
-    private static final String columnsSql = "SELECT"
-        + " c.table_name, c.column_name, c.data_type, c.character_maximum_length, c.is_nullable, c.column_default as default_value"
-        + " FROM information_schema.columns c"
-        + " INNER JOIN information_schema.tables t on c.table_name = t.table_name"
-        + " WHERE t.table_schema = 'features'";
-    private static final String constraintSql = "SELECT"
-        + " kcu.table_name, kcu.column_name, kcu.constraint_name, kcu.referenced_table_name AS ref_table_name, kcu.referenced_column_name AS ref_column_name"
-        + " FROM information_schema.key_column_usage kcu"
-        + " WHERE kcu.table_schema = 'features'";
-    // For some reason pg is a dog if we join table_constraints into the above query, so do it separately
-    // Ugly but SchemaCheckTest went from 5.5s to 1.6s with aoviding this join
-    private static final String constraintTypeSql = "SELECT"
-        + " tc.constraint_name, tc.constraint_type"
-        + " FROM information_schema.table_constraints tc";
-
+    private final String dbName;
     private final DataSource dataSource;
     private final List<InformationSchemaColumn> columns = new ArrayList<InformationSchemaColumn>();
     private List<String> entityTables;
 
-    public InformationSchemaWrapper(DataSource dataSource) {
+    public InformationSchemaWrapper(String dbName, DataSource dataSource) {
+        this.dbName = dbName;
         this.dataSource = dataSource;
         this.findColumns();
         this.findConstraints();
@@ -134,7 +121,7 @@ public class InformationSchemaWrapper {
     }
 
     private void findColumns() {
-        Jdbc.query(this.dataSource, InformationSchemaWrapper.columnsSql, new RowMapper() {
+        Jdbc.query(this.dataSource, this.getColumnsSql(), new RowMapper() {
             public void mapRow(ResultSet rs) throws SQLException {
                 InformationSchemaColumn column = new InformationSchemaColumn();
                 column.tableName = rs.getString("table_name");
@@ -151,13 +138,13 @@ public class InformationSchemaWrapper {
 
     private void findConstraints() {
         final Map<String, String> constraintNameToType = new HashMap<String, String>();
-        Jdbc.query(this.dataSource, InformationSchemaWrapper.constraintTypeSql, new RowMapper() {
+        Jdbc.query(this.dataSource, this.getConstraintTypeSql(), new RowMapper() {
             public void mapRow(ResultSet rs) throws SQLException {
                 constraintNameToType.put(rs.getString(1), rs.getString(2));
             }
         });
         final MapToList<String, String> uniqueToTableColumn = new MapToList<String, String>();
-        Jdbc.query(this.dataSource, InformationSchemaWrapper.constraintSql, new RowMapper() {
+        Jdbc.query(this.dataSource, this.getConstraintSql(), new RowMapper() {
             public void mapRow(ResultSet rs) throws SQLException {
                 InformationSchemaColumn column = InformationSchemaWrapper.this.getColumn(rs.getString("table_name"), rs.getString("column_name"));
                 String constraintType = constraintNameToType.get(rs.getString("constraint_name"));
@@ -180,6 +167,31 @@ public class InformationSchemaWrapper {
                 this.getColumn(parts[0], parts[1]).unique = true;
             }
         }
+    }
+
+    private String getColumnsSql() {
+        return "SELECT"
+            + " c.table_name, c.column_name, c.data_type, c.character_maximum_length, c.is_nullable, c.column_default as default_value"
+            + " FROM information_schema.columns c"
+            + " INNER JOIN information_schema.tables t on c.table_name = t.table_name"
+            + " WHERE t.table_schema = '"
+            + this.dbName
+            + "'";
+    }
+
+    private String getConstraintSql() {
+        return "SELECT"
+            + " kcu.table_name, kcu.column_name, kcu.constraint_name, kcu.referenced_table_name AS ref_table_name, kcu.referenced_column_name AS ref_column_name"
+            + " FROM information_schema.key_column_usage kcu"
+            + " WHERE kcu.table_schema = '"
+            + this.dbName
+            + "'";
+    }
+
+    // For some reason pg is a dog if we join table_constraints into the above query, so do it separately
+    // Ugly but SchemaCheckTest went from 5.5s to 1.6s with aoviding this join
+    private String getConstraintTypeSql() {
+        return "SELECT" + " tc.constraint_name, tc.constraint_type" + " FROM information_schema.table_constraints tc";
     }
 
 }
