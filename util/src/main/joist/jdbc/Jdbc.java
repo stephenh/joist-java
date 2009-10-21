@@ -198,6 +198,7 @@ public class Jdbc {
             while (ks.next()) {
                 keys[i++] = ks.getInt(1);
             }
+            ks.close();
             return keys;
         } catch (SQLException se) {
             throw new JdbcException(se);
@@ -261,8 +262,8 @@ public class Jdbc {
                 } else if (o != null) {
                     throw new RuntimeException("Unhandled object " + o);
                 }
-            } catch (SQLException se) {
-                // Suppress
+            } catch (Exception e) {
+                Log.warn("Error occurred closing {}", e, o);
             }
         }
     }
