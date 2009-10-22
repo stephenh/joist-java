@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import joist.domain.AbstractDomainObject;
 import joist.domain.AbstractQueries;
@@ -40,14 +41,17 @@ public class CodegenConfig {
     // Private structures
     private final Map<String, String> javaTypeByDataType = new HashMap<String, String>();
     private final Map<String, String> javaTypeByColumnName = new HashMap<String, String>();
+    private final Map<Pattern, String> javaTypeByPattern = new HashMap<Pattern, String>();
     private final Map<String, String> aliasTypeByDataType = new HashMap<String, String>();
     private final Map<String, String> aliasTypeByColumnName = new HashMap<String, String>();
+    private final Map<Pattern, String> aliasTypeByPattern = new HashMap<Pattern, String>();
     private final Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
     private final Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
     private final List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
     private final List<String> skipCollection = new ArrayList<String>();
     private final List<String> notAbstractEvenThoughSubclassed = new ArrayList<String>();
     private final Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
+    private final Pattern amountSuffix = Pattern.compile(".+_amount");
 
     public CodegenConfig() {
         this.setJavaType("integer", Integer.class.getName(), IntAliasColumn.class.getName());
@@ -60,6 +64,7 @@ public class CodegenConfig {
         this.setJavaType("bytea", "byte[]", ByteArrayAliasColumn.class.getName());
         this.setJavaType("date", "com.domainlanguage.time.CalendarDate", "joist.domain.orm.queries.columns.CalendarDateAliasColumn");
         this.setJavaType("timestamp without time zone", "com.domainlanguage.time.TimePoint", "joist.domain.orm.queries.columns.TimePointAliasColumn");
+        this.setJavaType(this.amountSuffix, "com.domainlanguage.money.Money", "joist.domain.orm.queries.columns.MoneyAliasColumn");
 
         this.setJavaType("int", Integer.class.getName(), IntAliasColumn.class.getName());
         this.setJavaType("bit", Boolean.class.getName(), BooleanAliasColumn.class.getName());
@@ -70,6 +75,8 @@ public class CodegenConfig {
     public CodegenConfig doNotUseTimeAndMoney() {
         this.setJavaType("date", Date.class.getName(), DateAliasColumn.class.getName());
         this.setJavaType("timestamp without time zone", Date.class.getName(), DateAliasColumn.class.getName());
+        this.javaTypeByPattern.remove(this.amountSuffix);
+        this.aliasTypeByPattern.remove(this.amountSuffix);
         return this;
     }
 
@@ -88,9 +95,19 @@ public class CodegenConfig {
         this.aliasTypeByColumnName.put(tableName + "." + columnName, aliasColumnType);
     }
 
+    public void setJavaType(Pattern regex, String javaType, String aliasColumnType) {
+        this.javaTypeByPattern.put(regex, javaType);
+        this.aliasTypeByPattern.put(regex, aliasColumnType);
+    }
+
     public String getJavaType(String tableName, String columnName, String dataType) {
         if (this.javaTypeByColumnName.containsKey(tableName + "." + columnName)) {
             return this.javaTypeByColumnName.get(tableName + "." + columnName);
+        }
+        for (Map.Entry<Pattern, String> e : this.javaTypeByPattern.entrySet()) {
+            if (e.getKey().matcher(columnName).matches()) {
+                return e.getValue();
+            }
         }
         if (this.javaTypeByDataType.containsKey(dataType)) {
             return this.javaTypeByDataType.get(dataType);
@@ -104,6 +121,11 @@ public class CodegenConfig {
         }
         if (this.aliasTypeByColumnName.containsKey(tableName + "." + columnName)) {
             return this.aliasTypeByColumnName.get(tableName + "." + columnName);
+        }
+        for (Map.Entry<Pattern, String> e : this.aliasTypeByPattern.entrySet()) {
+            if (e.getKey().matcher(columnName).matches()) {
+                return e.getValue();
+            }
         }
         if (this.aliasTypeByDataType.containsKey(dataType)) {
             return this.aliasTypeByDataType.get(dataType);
