@@ -1,4 +1,8 @@
-package joist.registry;
+package joist.registry2;
+
+import joist.registry.ReflectionResourceFactory;
+import joist.registry.ResourceFactory;
+import joist.registry.ResourceRef;
 
 public class Ref<T> implements ResourceRef<T> {
 

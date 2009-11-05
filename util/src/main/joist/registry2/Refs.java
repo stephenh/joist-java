@@ -1,4 +1,4 @@
-package joist.registry;
+package joist.registry2;
 
 import java.util.ArrayList;
 import java.util.List;
