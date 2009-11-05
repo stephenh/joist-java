@@ -4,7 +4,7 @@
 
 	<target name="ivy.retrieve" depends="ivy.bootstrap" description="downloads jars for the project">
 		<ivy:resolve/>
-		<ivy:retrieve pattern="bin/lib/[conf]/[type]s/[artifact].[ext]" conf="*" type="jar"/>
+		<ivy:retrieve pattern="bin/lib/[conf]/[type]s/[artifact].[ext]" conf="*" type="*"/>
 	</target>
 
 	<target name="ivy.publish-local" depends="ivy.bootstrap" description="publishes the jar/source to your .ivy2/local/ repo">
