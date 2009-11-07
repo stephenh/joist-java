@@ -1,13 +1,13 @@
 package joist.registry2;
 
-import joist.registry.ReflectionResourceFactory;
-import joist.registry.ResourceFactory;
 import joist.registry.ResourceRef;
+import joist.registry2.factories.RefFactory;
+import joist.registry2.factories.RefReflectionFactory;
 
 public class Ref<T> implements ResourceRef<T> {
 
     private volatile T value;
-    private volatile ResourceFactory<T> factory;
+    private volatile RefFactory<T> factory;
 
     public T get() {
         if (this.value == null) {
@@ -31,12 +31,12 @@ public class Ref<T> implements ResourceRef<T> {
         this.value = null;
     }
 
-    public synchronized void set(ResourceFactory<T> factory) {
+    public synchronized void set(RefFactory<T> factory) {
         this.factory = factory;
     }
 
     public synchronized void set(Class<? extends T> impl) {
-        this.factory = new ReflectionResourceFactory<T>(impl);
+        this.factory = new RefReflectionFactory<T>(impl);
     }
 
     public synchronized void set(T value) {
