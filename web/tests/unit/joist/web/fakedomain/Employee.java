@@ -1,6 +1,6 @@
 package joist.web.fakedomain;
 
-import org.exigencecorp.bindgen.Bindable;
+import org.bindgen.Bindable;
 
 @Bindable
 public class Employee {

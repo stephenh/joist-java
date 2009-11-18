@@ -2,7 +2,7 @@ package joist.web.util;
 
 import joist.web.CurrentContext;
 
-import org.exigencecorp.bindgen.Binding;
+import org.bindgen.Binding;
 
 /** A wrapper for content to show the user--could be just a string, a binding, etc. */
 public class TextContent {

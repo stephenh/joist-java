@@ -7,7 +7,7 @@ import joist.web.controls.AbstractClickControlTest;
 import joist.web.fakedomain.Employee;
 import junit.framework.Assert;
 
-import org.exigencecorp.bindgen.Bindable;
+import org.bindgen.Bindable;
 
 import bindgen.joist.web.controls.form.selectFieldTest.PageBinding;
 import bindgen.joist.web.fakedomain.EmployeeBinding;

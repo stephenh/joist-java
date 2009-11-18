@@ -6,7 +6,7 @@ import joist.web.controls.form.HiddenField;
 import joist.web.controls.form.SubmitButton;
 import joist.web.fakedomain.Employee;
 
-import org.exigencecorp.bindgen.Bindable;
+import org.bindgen.Bindable;
 
 import bindgen.joist.web.pages.controls.form.HiddenFieldPageBinding;
 

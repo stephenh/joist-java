@@ -1,7 +1,6 @@
 package joist.web.controls.form;
 
 import joist.web.controls.AbstractClickControlTest;
-import joist.web.controls.form.TextField;
 import junit.framework.Assert;
 import bindgen.java.lang.IntegerBinding;
 import bindgen.java.lang.StringBinding;

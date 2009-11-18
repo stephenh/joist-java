@@ -4,7 +4,7 @@ import joist.web.AbstractPage;
 import joist.web.controls.form.Form;
 import joist.web.controls.form.TextField;
 
-import org.exigencecorp.bindgen.Bindable;
+import org.bindgen.Bindable;
 
 import bindgen.joist.web.pages.controls.form.TwoFormsPageBinding;
 

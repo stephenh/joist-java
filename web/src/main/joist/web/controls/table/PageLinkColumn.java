@@ -6,7 +6,7 @@ import joist.web.controls.PageLink;
 import joist.web.util.HtmlWriter;
 
 import org.apache.commons.lang.StringUtils;
-import org.exigencecorp.bindgen.Binding;
+import org.bindgen.Binding;
 
 public class PageLinkColumn extends AbstractColumn<PageLinkColumn> {
 

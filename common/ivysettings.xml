@@ -16,6 +16,11 @@
 			<artifact pattern="http://repo.joist.ws/${ivy.local.default.artifact.pattern}" />
 		</url>
 
+		<url name="joist-m2" m2compatible="true">
+			<ivy pattern="http://repo.joist.ws/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+			<artifact pattern="http://repo.joist.ws/[organization]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
+		</url>
+
 		<!-- For uploading releases. -->
 		<ssh name="joist-upload" user="root" host="repo.joist.ws" publishPermissions="0644">
 			<ivy pattern="/var/joist.repo/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" />
@@ -32,6 +37,7 @@
 			<!-- Check just-published local before our joist repo. -->
 			<resolver ref="local-checkmodified"/>
 			<resolver ref="joist"/>
+			<resolver ref="joist-m2"/>
 			<resolver ref="public"/>
 			<resolver ref="openqa"/>
 			<resolver ref="java.net"/>

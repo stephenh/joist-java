@@ -7,7 +7,7 @@ import joist.web.AbstractPage;
 import joist.web.controls.table.Table;
 import joist.web.controls.table.TextColumn;
 
-import org.exigencecorp.bindgen.Bindable;
+import org.bindgen.Bindable;
 
 import bindgen.joist.web.pages.controls.table.PagedTablePageBinding;
 

@@ -4,7 +4,7 @@ import joist.util.Inflector;
 import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
-import org.exigencecorp.bindgen.Binding;
+import org.bindgen.Binding;
 
 public class TextColumn extends AbstractColumn<TextColumn> {
 

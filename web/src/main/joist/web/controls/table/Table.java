@@ -9,7 +9,7 @@ import joist.web.controls.PageLink;
 import joist.web.util.HtmlWriter;
 
 import org.apache.commons.lang.StringUtils;
-import org.exigencecorp.bindgen.Binding;
+import org.bindgen.Binding;
 
 // Should extend AbstractContainer?
 public class Table<T> extends AbstractControl<Table<T>> {

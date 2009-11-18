@@ -5,7 +5,7 @@ import joist.web.AbstractControl;
 import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
-import org.exigencecorp.bindgen.NamedBinding;
+import org.bindgen.NamedBinding;
 
 public class SubmitButton extends AbstractControl<SubmitButton> implements Button {
 

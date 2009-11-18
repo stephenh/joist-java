@@ -9,7 +9,7 @@ import java.util.List;
 import joist.web.CurrentContext;
 import joist.web.Page;
 
-import org.exigencecorp.bindgen.Binding;
+import org.bindgen.Binding;
 
 public class SessionVariable<T> implements Binding<T> {
 
