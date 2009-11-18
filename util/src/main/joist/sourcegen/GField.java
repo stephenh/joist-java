@@ -7,7 +7,6 @@ import joist.util.Inflector;
 import joist.util.Interpolate;
 import joist.util.StringBuilderr;
 
-
 public class GField {
 
     private final GClass gclass;
@@ -15,7 +14,7 @@ public class GField {
     private String typeClassName;
     private String initialValue;
     private GClass initialAnonymousClass;
-    private String access = "private";
+    private Access access = Access.PRIVATE;
     private boolean isStatic;
     private boolean isFinal;
     private final List<String> annotations = new ArrayList<String>();
@@ -30,15 +29,15 @@ public class GField {
         for (String annotation : this.annotations) {
             s.line(annotation);
         }
-        s.append(this.access);
+        s.append(this.access.asPrefix());
         if (this.isStatic) {
-            s.append(" static");
+            s.append("static ");
         }
         if (this.isFinal) {
-            s.append(" final");
+            s.append("final ");
         }
-        s.append(" {}", this.typeClassName);
-        s.append(" {}", this.name);
+        s.append("{} ", this.typeClassName);
+        s.append("{}", this.name);
         if (this.initialValue != null) {
             s.append(" = {}", this.initialValue);
         }
@@ -89,12 +88,17 @@ public class GField {
     }
 
     public GField setPublic() {
-        this.access = "public";
+        this.access = Access.PUBLIC;
         return this;
     }
 
     public GField setProtected() {
-        this.access = "protected";
+        this.access = Access.PROTECTED;
+        return this;
+    }
+
+    public GField setAccess(Access access) {
+        this.access = access;
         return this;
     }
 

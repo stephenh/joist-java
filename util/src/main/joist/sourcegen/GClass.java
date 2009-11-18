@@ -25,7 +25,7 @@ public class GClass {
     private final List<String> enumValues = new ArrayList<String>();
     private final List<String> implementsInterfaces = new ArrayList<String>();
     private final List<String> annotations = new ArrayList<String>();
-    private String access = "public ";
+    private Access access = Access.PUBLIC;
     private boolean isAbstract = false;
     private boolean isInnerClass = false;
     private boolean isStaticInnerClass = false;
@@ -187,7 +187,7 @@ public class GClass {
                 sb.line(annotation);
             }
 
-            sb.append(this.access);
+            sb.append(this.access.asPrefix());
             if (this.isStaticInnerClass) {
                 sb.append("static ");
             }
@@ -267,7 +267,12 @@ public class GClass {
     }
 
     public GClass setPackagePrivate() {
-        this.access = "";
+        this.access = Access.PACKAGE;
+        return this;
+    }
+
+    public GClass setAccess(Access access) {
+        this.access = access;
         return this;
     }
 

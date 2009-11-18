@@ -17,7 +17,7 @@ public class GMethod {
     private final List<String> exceptions = new ArrayList<String>();
     private String returnClassName = "void";
     private String constructorFor = null;
-    private String access = "public ";
+    private Access access = Access.PUBLIC;
     private boolean isStatic;
     private String typeParameters = null;
 
@@ -67,7 +67,7 @@ public class GMethod {
             sb.line(annotation);
         }
 
-        sb.append(this.access);
+        sb.append(this.access.asPrefix());
         if (this.isStatic) {
             sb.append("static ");
         }
@@ -104,12 +104,17 @@ public class GMethod {
     }
 
     public GMethod setPrivate() {
-        this.access = "private ";
+        this.access = Access.PRIVATE;
         return this;
     }
 
     public GMethod setProtected() {
-        this.access = "protected ";
+        this.access = Access.PROTECTED;
+        return this;
+    }
+
+    public GMethod setAccess(Access access) {
+        this.access = access;
         return this;
     }
 
