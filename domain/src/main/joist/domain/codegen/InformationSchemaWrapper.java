@@ -176,6 +176,8 @@ public class InformationSchemaWrapper {
             + " INNER JOIN information_schema.tables t on c.table_name = t.table_name"
             + " WHERE t.table_schema = '"
             + this.dbName
+            + "' AND c.table_schema = '"
+            + this.dbName
             + "'";
     }
 
