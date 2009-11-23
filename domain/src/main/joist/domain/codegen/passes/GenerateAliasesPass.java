@@ -43,7 +43,7 @@ public class GenerateAliasesPass implements Pass {
             this.addManyToOneColumns(codegen, aliasClass, entity);
             this.addInheritedColumns(aliasClass, entity);
 
-            this.addOrderMethod(aliasClass, sorted.indexOf(entity));
+            this.addOrderMethod(aliasClass, this.getMinOrder(sorted, entity));
         }
     }
 
@@ -202,6 +202,7 @@ public class GenerateAliasesPass implements Pass {
             for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
                 if (mtop.isNotNull()) {
                     ts.addDependency(entity, mtop.getOneSide());
+                    // child classes of entity should go here too
                 }
             }
         }
@@ -209,6 +210,7 @@ public class GenerateAliasesPass implements Pass {
             for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
                 if (!mtop.isNotNull()) {
                     ts.addDependencyIfNoCycle(entity, mtop.getOneSide());
+                    // child classes of entity should go here too
                 }
             }
         }
@@ -218,6 +220,16 @@ public class GenerateAliasesPass implements Pass {
     private void addOrderMethod(GClass aliasClass, int index) {
         GMethod order = aliasClass.getMethod("getOrder").returnType(int.class);
         order.body.line("return {};", index);
+    }
+
+    private int getMinOrder(List<Entity> sorted, Entity entity) {
+        int min = sorted.indexOf(entity);
+        Entity current = entity;
+        while (current.getBaseEntity() != null) {
+            current = current.getBaseEntity();
+            min = Math.min(min, sorted.indexOf(current));
+        }
+        return min;
     }
 
 }
