@@ -1,9 +1,7 @@
 package joist.util;
 
-import java.util.Arrays;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Log {
 
@@ -29,41 +27,72 @@ public class Log {
     }
 
     public static void error(String message, Object... args) {
-        Log.log(Stack.getCallersClassName(), Level.ERROR, message, args);
+        Logger log = LoggerFactory.getLogger(Stack.getCallersClassName());
+        if (log.isErrorEnabled()) {
+            if (Log.firstIsThrowable(args)) {
+                log.error(Log.interpolate(1, message, args), (Throwable) args[0]);
+            } else {
+                log.error(Log.interpolate(0, message, args));
+            }
+        }
     }
 
     public static void warn(String message, Object... args) {
-        Log.log(Stack.getCallersClassName(), Level.WARN, message, args);
+        Logger log = LoggerFactory.getLogger(Stack.getCallersClassName());
+        if (log.isWarnEnabled()) {
+            if (Log.firstIsThrowable(args)) {
+                log.warn(Log.interpolate(1, message, args), (Throwable) args[0]);
+            } else {
+                log.warn(Log.interpolate(0, message, args));
+            }
+        }
     }
 
     public static void info(String message, Object... args) {
-        Log.log(Stack.getCallersClassName(), Level.INFO, message, args);
+        Logger log = LoggerFactory.getLogger(Stack.getCallersClassName());
+        if (log.isInfoEnabled()) {
+            if (Log.firstIsThrowable(args)) {
+                log.info(Log.interpolate(1, message, args), (Throwable) args[0]);
+            } else {
+                log.info(Log.interpolate(0, message, args));
+            }
+        }
     }
 
     public static void debug(String message, Object... args) {
-        Log.log(Stack.getCallersClassName(), Level.DEBUG, message, args);
+        Logger log = LoggerFactory.getLogger(Stack.getCallersClassName());
+        if (log.isDebugEnabled()) {
+            if (Log.firstIsThrowable(args)) {
+                log.debug(Log.interpolate(1, message, args), (Throwable) args[0]);
+            } else {
+                log.debug(Log.interpolate(0, message, args));
+            }
+        }
     }
 
     public static void trace(String message, Object... args) {
-        Log.log(Stack.getCallersClassName(), Level.TRACE, message, args);
+        Logger log = LoggerFactory.getLogger(Stack.getCallersClassName());
+        if (log.isTraceEnabled()) {
+            if (Log.firstIsThrowable(args)) {
+                log.trace(Log.interpolate(1, message, args), (Throwable) args[0]);
+            } else {
+                log.trace(Log.interpolate(0, message, args));
+            }
+        }
     }
 
-    public static void log(Level level, String message, Object... args) {
-        Log.log(Stack.getCallersClassName(), level, message, args);
+    private static boolean firstIsThrowable(Object[] args) {
+        return args.length > 0 && args[0] instanceof Throwable;
     }
 
-    private static void log(String callersClassName, Level level, String message, Object... args) {
-        Logger logger = Logger.getLogger(callersClassName);
-        if (!logger.isEnabledFor(level)) {
-            return;
+    private static String interpolate(int start, String message, Object... args) {
+        for (int i = start; i < args.length; i++) {
+            int j = message.indexOf("{}");
+            if (j != -1) {
+                message = message.substring(0, j) + String.valueOf(args[i]) + message.substring(j + 2);
+            }
         }
-        if (args.length > 0 && args[0] instanceof Throwable) {
-            Throwable t = (Throwable) args[0];
-            args = Arrays.copyOfRange(args, 1, args.length);
-            logger.log(level, Interpolate.string(message, args), t);
-        } else {
-            logger.log(level, Interpolate.string(message, args));
-        }
+        return message;
     }
 
 }

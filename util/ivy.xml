@@ -1,6 +1,6 @@
 <ivy-module version="2.0">
 	<info organisation="joist" module="util" revision="${joist.version}"/>
-	<configurations defaultconfmapping="main->main(default),sources();unit->main(default),sources()">
+	<configurations>
 		<conf name="main"/>
 		<conf name="unit" extends="main" visibility="private"/>
 		<conf name="sources"/>
@@ -10,7 +10,9 @@
 		<artifact name="joist.util" type="source" ext="jar" conf="sources"/>
 	</publications>
 	<dependencies>
-		<dependency org="log4j" name="log4j" rev="1.2.15" conf="main->master,sources()"/>
-		<dependency org="junit" name="junit" rev="3.8.2" conf="unit"/>
+		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.8" conf="main->master;sources->sources()"/>
+
+		<dependency org="junit" name="junit" rev="3.8.2" conf="unit->default,sources"/>
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" conf="unit->default,sources"/>
 	</dependencies>
 </ivy-module>
