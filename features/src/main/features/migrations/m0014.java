@@ -1,11 +1,11 @@
 package features.migrations;
 
-import static joist.domain.migrations.MigrationKeywords.bigint;
-import static joist.domain.migrations.MigrationKeywords.createTable;
-import static joist.domain.migrations.MigrationKeywords.integer;
-import static joist.domain.migrations.MigrationKeywords.primaryKey;
-import static joist.domain.migrations.MigrationKeywords.varchar;
-import joist.domain.migrations.AbstractMigration;
+import static joist.migrations.MigrationKeywords.bigint;
+import static joist.migrations.MigrationKeywords.createTable;
+import static joist.migrations.MigrationKeywords.integer;
+import static joist.migrations.MigrationKeywords.primaryKey;
+import static joist.migrations.MigrationKeywords.varchar;
+import joist.migrations.AbstractMigration;
 
 public class m0014 extends AbstractMigration {
 

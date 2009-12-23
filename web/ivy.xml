@@ -27,5 +27,6 @@
 		<!-- testing -->
 		<dependency org="org.openqa.selenium.webdriver" name="webdriver-firefox" rev="0.6.870" conf="testing->*"/>
 		<dependency org="org.mortbay.jetty" name="jetty" rev="6.1.9" conf="testing->default,sources"/>
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" conf="unit->default,sources"/>
 	</dependencies>
 </ivy-module>

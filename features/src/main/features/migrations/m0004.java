@@ -1,13 +1,13 @@
 package features.migrations;
 
-import static joist.domain.migrations.MigrationKeywords.addCode;
-import static joist.domain.migrations.MigrationKeywords.createCodeTable;
-import static joist.domain.migrations.MigrationKeywords.createTable;
-import static joist.domain.migrations.MigrationKeywords.foreignKey;
-import static joist.domain.migrations.MigrationKeywords.integer;
-import static joist.domain.migrations.MigrationKeywords.primaryKey;
-import static joist.domain.migrations.MigrationKeywords.varchar;
-import joist.domain.migrations.AbstractMigration;
+import static joist.migrations.MigrationKeywords.addCode;
+import static joist.migrations.MigrationKeywords.createCodeTable;
+import static joist.migrations.MigrationKeywords.createTable;
+import static joist.migrations.MigrationKeywords.foreignKey;
+import static joist.migrations.MigrationKeywords.integer;
+import static joist.migrations.MigrationKeywords.primaryKey;
+import static joist.migrations.MigrationKeywords.varchar;
+import joist.migrations.AbstractMigration;
 
 public class m0004 extends AbstractMigration {
 

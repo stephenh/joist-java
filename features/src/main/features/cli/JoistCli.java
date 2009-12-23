@@ -1,6 +1,6 @@
 package features.cli;
 
-import joist.domain.codegen.AbstractJoistCli;
+import joist.AbstractJoistCli;
 
 public class JoistCli extends AbstractJoistCli {
 
