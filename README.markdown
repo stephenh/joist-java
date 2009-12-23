@@ -21,4 +21,5 @@ Todo
 * Eager loading (continue spike in eager branch)
 * Ajax/JSON controls
 * Establish license
+* Handle type enums with helper methods, e.g. `isXxx`/`isYyyy`
 
