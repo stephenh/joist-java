@@ -6,7 +6,12 @@ import org.slf4j.LoggerFactory;
 public class Log {
 
     static {
-        Log.init();
+        try {
+            Object config = Class.forName("LogConfiguration").newInstance();
+            config.getClass().getMethod("setup").invoke(null);
+        } catch (Exception e) {
+            System.err.println("Failed looking for a LogConfiguration: " + e.getMessage());
+        }
     }
 
     /** Looks for a LogConfiguration class.
@@ -15,12 +20,7 @@ public class Log {
      * we need to explicitly init() it.
      */
     public static void init() {
-        try {
-            Object config = Class.forName("LogConfiguration").newInstance();
-            config.getClass().getMethod("setup").invoke(null);
-        } catch (Exception e) {
-            System.err.println("Failed looking for a LogConfiguration: " + e.getMessage());
-        }
+        // Dummy method so callers can force the static block initializer block to be called
     }
 
     private Log() {
