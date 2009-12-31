@@ -11,5 +11,6 @@
 	<dependencies>
 		<dependency org="joist" name="domain" rev="${joist.version}" conf="main;testing;sources"/>
 		<dependency org="joist" name="migrations" rev="${joist.version}" conf="main;sources"/>
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" conf="main->default,sources"/>
 	</dependencies>
 </ivy-module>

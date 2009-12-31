@@ -10,14 +10,7 @@
 		<artifact name="joist.migrations" type="source" ext="jar" conf="sources"/>
 	</publications>
 	<dependencies>
-		<dependency org="joist" name="util" rev="${joist.version}" conf="main"/>
 		<dependency org="joist" name="domain" rev="${joist.version}" conf="main"/>
-		<dependency org="commons-lang" name="commons-lang" rev="2.4" conf="main->*"/>
-		<dependency org="timeandmoney" name="timeandmoney" rev="0.5.1" conf="main->default"/>
 		<dependency org="junit" name="junit" rev="3.8.2" conf="unit->master,sources"/>
-		<!-- Not runtime because we ref both c3p0 and pg classes directly. -->
-		<dependency org="c3p0" name="c3p0" rev="0.9.1.2" conf="main->master,sources"/>
-		<dependency org="postgresql" name="postgresql" rev="8.3-603.jdbc3" conf="main->master;sources->sources"/>
-		<dependency org="mysql" name="mysql-connector-java" rev="5.1.10" conf="main->master;sources->sources"/>
 	</dependencies>
 </ivy-module>
