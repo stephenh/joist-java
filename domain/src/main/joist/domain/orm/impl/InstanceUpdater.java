@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import joist.domain.DomainObject;
+import joist.domain.exceptions.OpLockException;
 import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Where;
@@ -53,7 +54,7 @@ public class InstanceUpdater<T extends DomainObject> {
     private void assertUpdatesAreAllOne(List<T> instances, List<Integer> changed) {
         for (int i = 0; i < changed.size(); i++) {
             if (changed.get(i).intValue() != 1) {
-                throw new RuntimeException("Op lock failed for " + instances.get(i));
+                throw new OpLockException(instances.get(i));
             }
         }
     }

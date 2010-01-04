@@ -1,5 +1,6 @@
 package features.domain;
 
+import joist.domain.exceptions.OpLockException;
 import joist.jdbc.Jdbc;
 import junit.framework.Assert;
 import features.Registry;
@@ -19,8 +20,8 @@ public class OpLockATest extends AbstractFeaturesTest {
         try {
             this.commitAndReOpen();
             Assert.fail();
-        } catch (RuntimeException re) {
-            Assert.assertEquals("Op lock failed for Parent[1]", re.getMessage());
+        } catch (OpLockException ole) {
+            Assert.assertEquals("Op lock failed for Parent[1]", ole.getMessage());
         }
     }
 
