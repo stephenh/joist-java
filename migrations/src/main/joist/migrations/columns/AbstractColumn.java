@@ -57,6 +57,8 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
         List<String> sqls = new ArrayList<String>();
         if (!this.isNullable()) {
             sqls.add(Interpolate.string("ALTER TABLE `{}` MODIFY `{}` {} NOT NULL;", this.tableName, this.name, this.getDataType()));
+        } else {
+            sqls.add(Interpolate.string("ALTER TABLE `{}` MODIFY `{}` {} NULL;", this.tableName, this.name, this.getDataType()));
         }
         if (this.isUnique()) {
             String constraintName = this.getTableName() + "_" + this.getName() + "_key";
