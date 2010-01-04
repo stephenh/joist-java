@@ -16,12 +16,12 @@ public class TimePointAliasColumn<T extends DomainObject> extends AliasColumn<T,
 
     @Override
     public TimePoint toDomainValue(Date jdbcValue) {
-        return TimePoint.from(jdbcValue);
+        return jdbcValue == null ? null : TimePoint.from(jdbcValue);
     }
 
     @Override
     public Date toJdbcValue(TimePoint domainValue) {
-        return new Date(domainValue.asJavaUtilDate().getTime());
+        return domainValue == null ? null : new Date(domainValue.asJavaUtilDate().getTime());
     }
 
 }
