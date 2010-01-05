@@ -1,48 +1,85 @@
 package joist.domain.orm.queries;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import joist.util.Copy;
 
 public class Where {
 
-    private final String sql;
-    private final List<Object> parameters;
+    private enum Type {
+        AND, OR, SIMPLE, NOT
+    };
 
-    public static Where not(Where clause) {
-        return new Where("NOT (\n " + clause.sql + ")", clause.parameters);
+    private final Clauses clauses = new Clauses();
+    private final List<Object> parameters;
+    private Type type = Type.SIMPLE;
+
+    public static Where not(Where other) {
+        Where w = new Where();
+        w.clauses.add("NOT (");
+        w.clauses.add(other.clauses);
+        w.clauses.add(")");
+        w.parameters.addAll(other.parameters);
+        w.type = Type.NOT;
+        return w;
     }
 
-    private static Where make(String operator, Where... clauses) {
-        String sql = clauses[0].sql;
-        List<Object> parameters = Copy.list(clauses[0].parameters);
-        for (int i = 1; i < clauses.length; i++) {
-            sql += "\n " + operator + " " + clauses[i].sql;
-            parameters.addAll(clauses[i].parameters);
+    private static Where make(String operator, Type newType, Where w1, Where w2) {
+        boolean bothSimple = w1.type == Type.SIMPLE && w2.type == Type.SIMPLE;
+        boolean moreSimple = w1.type == newType && w2.type == Type.SIMPLE;
+        boolean firstSimple = w1.type == Type.SIMPLE && w2.type != Type.SIMPLE;
+
+        Where w = new Where();
+        if (bothSimple || moreSimple) {
+            w.clauses.addNoIndent(w1.clauses);
+            w.clauses.add(operator + " " + w2.getSql()); // simple
+        } else if (firstSimple) {
+            w.clauses.add(w1.getSql()); // simple
+            w.clauses.add(operator + " (");
+            w.clauses.add(w2.clauses);
+            w.clauses.add(")");
+        } else {
+            w.clauses.add("(");
+            w.clauses.add(w1.clauses);
+            w.clauses.add(") " + operator + " (");
+            w.clauses.add(w2.clauses);
+            w.clauses.add(")");
         }
-        return new Where(sql, parameters);
+        w.type = newType;
+        w.parameters.addAll(w1.getParameters());
+        w.parameters.addAll(w2.parameters);
+        return w;
+    }
+
+    private Where() {
+        this.parameters = new ArrayList<Object>();
     }
 
     public Where(String sql, Object... parameters) {
-        this.sql = sql;
+        this.clauses.add(sql);
         this.parameters = Copy.list(parameters);
     }
 
     public Where(String sql, List<Object> parameters) {
-        this.sql = sql;
+        this.clauses.add(sql);
         this.parameters = parameters;
     }
 
     public Where and(Where other) {
-        return Where.make("AND", this, other);
+        return Where.make("AND", Type.AND, this, other);
     }
 
     public Where or(Where other) {
-        return Where.make("OR", this, other);
+        return Where.make("OR", Type.OR, this, other);
     }
 
     public String toString() {
-        return this.sql;
+        StringBuilder sb = new StringBuilder();
+        this.clauses.append(sb);
+        sb.deleteCharAt(0); // first space
+        sb.deleteCharAt(sb.length() - 1); // last new line
+        return sb.toString();
     }
 
     public List<Object> getParameters() {
@@ -50,11 +87,11 @@ public class Where {
     }
 
     public String getSql() {
-        return this.sql;
+        return this.toString();
     }
 
     public String getSqlWithoutAliasPrefix(String aliasName) {
-        return this.sql.replaceAll(aliasName + "\\.", "");
+        return this.getSql().replaceAll(aliasName + "\\.", "");
     }
 
 }
