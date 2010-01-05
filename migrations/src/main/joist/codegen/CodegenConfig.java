@@ -64,6 +64,7 @@ public class CodegenConfig {
         this.setJavaType("bytea", "byte[]", ByteArrayAliasColumn.class.getName());
         this.setJavaType("date", "com.domainlanguage.time.CalendarDate", "joist.domain.orm.queries.columns.CalendarDateAliasColumn");
         this.setJavaType("timestamp without time zone", "com.domainlanguage.time.TimePoint", "joist.domain.orm.queries.columns.TimePointAliasColumn");
+        this.setJavaType("timestamp", "com.domainlanguage.time.TimePoint", "joist.domain.orm.queries.columns.TimePointAliasColumn"); // mysql
         this.setJavaType(this.amountSuffix, "com.domainlanguage.money.Money", "joist.domain.orm.queries.columns.MoneyAliasColumn");
 
         this.setJavaType("int", Integer.class.getName(), IntAliasColumn.class.getName());

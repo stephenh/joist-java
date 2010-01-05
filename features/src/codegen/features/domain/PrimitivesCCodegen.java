@@ -1,6 +1,7 @@
 package features.domain;
 
 import com.domainlanguage.money.Money;
+import com.domainlanguage.time.TimePoint;
 import features.domain.queries.PrimitivesCQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -17,6 +18,7 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
     private Money dollarAmount = null;
     private Integer id = null;
     private String name = null;
+    private TimePoint timestamp = null;
     private Integer version = null;
     protected Changed changed;
 
@@ -34,6 +36,7 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
         this.addRule(new NotNull<PrimitivesC>(Shims.dollarAmount));
         this.addRule(new NotNull<PrimitivesC>(Shims.name));
         this.addRule(new MaxLength<PrimitivesC>(Shims.name, 100));
+        this.addRule(new NotNull<PrimitivesC>(Shims.timestamp));
     }
 
     public Money getDollarAmount() {
@@ -64,6 +67,15 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
     public void setName(String name) {
         this.getChanged().record("name", this.name, name);
         this.name = name;
+    }
+
+    public TimePoint getTimestamp() {
+        return this.timestamp;
+    }
+
+    public void setTimestamp(TimePoint timestamp) {
+        this.getChanged().record("timestamp", this.timestamp, timestamp);
+        this.timestamp = timestamp;
     }
 
     public Integer getVersion() {
@@ -116,6 +128,17 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
+        protected static final Shim<PrimitivesC, TimePoint> timestamp = new Shim<PrimitivesC, TimePoint>() {
+            public void set(PrimitivesC instance, TimePoint timestamp) {
+                ((PrimitivesCCodegen) instance).timestamp = timestamp;
+            }
+            public TimePoint get(PrimitivesC instance) {
+                return ((PrimitivesCCodegen) instance).timestamp;
+            }
+            public String getName() {
+                return "timestamp";
+            }
+        };
         protected static final Shim<PrimitivesC, Integer> version = new Shim<PrimitivesC, Integer>() {
             public void set(PrimitivesC instance, Integer version) {
                 ((PrimitivesCCodegen) instance).version = version;
@@ -150,6 +173,12 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
         }
         public String getOriginalName() {
             return (java.lang.String) this.getOriginal("name");
+        }
+        public boolean hasTimestamp() {
+            return this.contains("timestamp");
+        }
+        public TimePoint getOriginalTimestamp() {
+            return (com.domainlanguage.time.TimePoint) this.getOriginal("timestamp");
         }
         public boolean hasVersion() {
             return this.contains("version");

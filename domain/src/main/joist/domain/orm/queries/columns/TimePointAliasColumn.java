@@ -1,6 +1,6 @@
 package joist.domain.orm.queries.columns;
 
-import java.sql.Date;
+import java.util.Date;
 
 import joist.domain.DomainObject;
 import joist.domain.Shim;
