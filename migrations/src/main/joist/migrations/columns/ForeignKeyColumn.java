@@ -18,7 +18,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
         super(otherTable + "_id", "int");
         this.otherTable = otherTable;
         this.otherTableColumn = "id";
-        this.owner = Owner.IsThem;
+        this.owner = Owner.IsNeither;
     }
 
     public ForeignKeyColumn(String columnName, String otherTable, String otherTableColumn) {
@@ -28,7 +28,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
         }
         this.otherTable = otherTable;
         this.otherTableColumn = otherTableColumn;
-        this.owner = Owner.IsThem;
+        this.owner = Owner.IsNeither;
     }
 
     public ForeignKeyColumn ownerIsMe() {

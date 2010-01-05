@@ -58,7 +58,7 @@ public class InheritanceBMiddleAlias extends Alias<InheritanceBMiddle> {
     }
 
     public int getOrder() {
-        return 7;
+        return 6;
     }
 
 }
