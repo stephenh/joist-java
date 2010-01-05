@@ -27,7 +27,7 @@ public class FrozenClock implements TimeSource {
         FrozenClock.isFrozen = false;
     }
 
-    private FrozenClock(TimePoint frozen) {
+    public FrozenClock(TimePoint frozen) {
         this.frozen = frozen;
     }
 
