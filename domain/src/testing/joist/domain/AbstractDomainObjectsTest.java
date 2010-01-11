@@ -17,7 +17,9 @@ public abstract class AbstractDomainObjectsTest extends TestCase {
     }
 
     public void tearDown() throws Exception {
-        UoW.close();
+        if (UoW.isOpen()) {
+            UoW.close();
+        }
         super.tearDown();
     }
 
