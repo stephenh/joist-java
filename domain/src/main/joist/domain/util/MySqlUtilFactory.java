@@ -34,6 +34,7 @@ public final class MySqlUtilFactory implements ResourceFactory<DataSource> {
         // cpds.setRewriteBatchedStatements(true);
         cpds.setUseServerPrepStmts(true);
         cpds.setEmulateUnsupportedPstmts(false);
+        cpds.setAutoReconnect(true);
         return cpds;
     }
 
