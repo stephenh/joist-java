@@ -4,7 +4,7 @@ import javax.sql.DataSource;
 
 import joist.domain.orm.Repository;
 import joist.domain.util.ConnectionSettings;
-import joist.domain.util.MySqlUtilFactory;
+import joist.domain.util.MySqlC3p0Factory;
 import joist.registry.ResourceRef;
 import joist.registry.ResourceRefs;
 import joist.util.Log;
@@ -30,7 +30,7 @@ public class Registry {
 
     private Registry() {
         SystemProperties.loadFromFileIfExists("./build.properties");
-        this.appDatasource = this.refs.newRef(DataSource.class).factory(new MySqlUtilFactory(ConnectionSettings.forApp("features"))).make();
+        this.appDatasource = this.refs.newRef(DataSource.class).factory(new MySqlC3p0Factory(ConnectionSettings.forApp("features"))).make();
         Repository.datasource = this.appDatasource;
     }
 

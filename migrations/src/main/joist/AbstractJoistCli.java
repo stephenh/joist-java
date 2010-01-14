@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 import joist.codegen.Codegen;
 import joist.codegen.CodegenConfig;
 import joist.domain.util.ConnectionSettings;
-import joist.domain.util.MySqlUtilFactory;
+import joist.domain.util.MySqlC3p0Factory;
 import joist.migrations.DatabaseBootstrapper;
 import joist.migrations.Migrater;
 import joist.migrations.MigraterConfig;
@@ -79,7 +79,7 @@ public abstract class AbstractJoistCli {
 
     private DataSource getCachedDatasource(ConnectionSettings settings) {
         if (!this.dss.containsKey(settings)) {
-            DataSource ds = new MySqlUtilFactory(settings).create();
+            DataSource ds = new MySqlC3p0Factory(settings).create();
             this.dss.put(settings, ds);
         }
         return this.dss.get(settings);
