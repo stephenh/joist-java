@@ -46,6 +46,7 @@ public class GenerateDomainCodegenPass implements Pass {
             this.manyToManyProperties(domainCodegen, entity);
             this.changed(domainCodegen, entity);
             this.clearAssociations(domainCodegen, entity);
+            this.addAliasPercolation(domainCodegen, entity);
         }
     }
 
@@ -379,4 +380,20 @@ public class GenerateDomainCodegenPass implements Pass {
         }
     }
 
+    private void addAliasPercolation(GClass domainCodegen, Entity entity) {
+        for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+            this.addStaticClassForName(domainCodegen, mtop.getOneSide().getFullClassName());
+        }
+        for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
+            this.addStaticClassForName(domainCodegen, otmp.getManySide().getFullClassName());
+        }
+    }
+
+    private void addStaticClassForName(GClass domainCodegen, String className) {
+        domainCodegen.staticInitializer.line("try {");
+        domainCodegen.staticInitializer.line("   Class.forName(\"{}\");", className);
+        domainCodegen.staticInitializer.line("} catch (ClassNotFoundException cnfe) {");
+        domainCodegen.staticInitializer.line("    throw new RuntimeException(cnfe);");
+        domainCodegen.staticInitializer.line("}");
+    }
 }
