@@ -24,6 +24,11 @@ public abstract class OneToOneABarCodegen extends AbstractDomainObject {
         alias = new OneToOneABarAlias("a");
         AliasRegistry.register(OneToOneABar.class, alias);
         queries = new OneToOneABarQueries();
+        try {
+           Class.forName("features.domain.OneToOneAFoo");
+        } catch (ClassNotFoundException cnfe) {
+            throw new RuntimeException(cnfe);
+        }
     }
 
     protected OneToOneABarCodegen() {

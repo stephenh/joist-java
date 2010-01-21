@@ -26,6 +26,11 @@ public abstract class ParentCodegen extends AbstractDomainObject {
         alias = new ParentAlias("a");
         AliasRegistry.register(Parent.class, alias);
         queries = new ParentQueries();
+        try {
+           Class.forName("features.domain.Child");
+        } catch (ClassNotFoundException cnfe) {
+            throw new RuntimeException(cnfe);
+        }
     }
 
     protected ParentCodegen() {

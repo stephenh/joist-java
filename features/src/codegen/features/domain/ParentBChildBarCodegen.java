@@ -24,6 +24,11 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         alias = new ParentBChildBarAlias("a");
         AliasRegistry.register(ParentBChildBar.class, alias);
         queries = new ParentBChildBarQueries();
+        try {
+           Class.forName("features.domain.ParentBParent");
+        } catch (ClassNotFoundException cnfe) {
+            throw new RuntimeException(cnfe);
+        }
     }
 
     protected ParentBChildBarCodegen() {

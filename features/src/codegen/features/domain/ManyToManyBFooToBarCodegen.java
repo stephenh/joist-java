@@ -23,6 +23,16 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
         alias = new ManyToManyBFooToBarAlias("a");
         AliasRegistry.register(ManyToManyBFooToBar.class, alias);
         queries = new ManyToManyBFooToBarQueries();
+        try {
+           Class.forName("features.domain.ManyToManyBFoo");
+        } catch (ClassNotFoundException cnfe) {
+            throw new RuntimeException(cnfe);
+        }
+        try {
+           Class.forName("features.domain.ManyToManyBBar");
+        } catch (ClassNotFoundException cnfe) {
+            throw new RuntimeException(cnfe);
+        }
     }
 
     protected ManyToManyBFooToBarCodegen() {
