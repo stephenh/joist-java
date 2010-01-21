@@ -22,4 +22,8 @@ Todo
 * Ajax/JSON controls
 * Establish license
 * Handle type enums with helper methods, e.g. `isXxx`/`isYyyy`
+* Don't muck with system properties
+* Put db behavior in after uow
+* Remove statics Repository/UoW/etc.
+* Allow collection add/remove, delegate to addXxx/removeXxx
 
