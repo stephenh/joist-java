@@ -31,4 +31,28 @@ public class GInterfaceTest extends TestCase {
             ""), gc.toCode());
     }
 
+    public void testBaseWithGenerics() {
+        GClass gc = new GClass("foo.Foo").setInterface().baseClassName("foo.Bar<foo.zazZaz.SomeClass>");
+        Assert.assertEquals(Join.lines(//
+            "package foo;",
+            "",
+            "import foo.zazZaz.SomeClass;",
+            "",
+            "public interface Foo extends Bar<SomeClass> {",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
+
+    public void testBaseWithInnerClassIsNotMistookForAPackage() {
+        GClass gc = new GClass("foo.Foo").setInterface().baseClassName("Foo.Inner");
+        Assert.assertEquals(Join.lines(//
+            "package foo;",
+            "",
+            "public interface Foo extends Foo.Inner {",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
+
 }
