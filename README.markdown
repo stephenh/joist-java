@@ -31,4 +31,6 @@ Todo
 * Disconnect/reconnect, e.g. eagerly letting go of connection
 * Fix _amount regex
 * Getting a collection outside UoW should fail, not empty list
+* Add DO.hasUncommittedChanges to denote flushed .vs comitted
+* Provide offset alternative due to perf
 
