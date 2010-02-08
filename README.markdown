@@ -26,4 +26,9 @@ Todo
 * Put db behavior in after uow
 * Remove statics Repository/UoW/etc.
 * Allow collection add/remove, delegate to addXxx/removeXxx
+* Fix joist.util.Log to make its own LogRecord
+* Have domain objects track the repo they are for (e.g. FooQueries takes a UoW instance, is in your given Registry, no static data source)
+* Disconnect/reconnect, e.g. eagerly letting go of connection
+* Fix _amount regex
+* Getting a collection outside UoW should fail, not empty list
 
