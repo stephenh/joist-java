@@ -2,7 +2,7 @@ package joist.web.controls.form;
 
 import joist.web.util.HtmlWriter;
 
-import org.exigencecorp.bindgen.Binding;
+import org.bindgen.Binding;
 
 public class TextAreaField extends AbstractField<TextAreaField> {
 

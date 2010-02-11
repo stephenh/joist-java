@@ -13,7 +13,7 @@ import joist.web.util.HtmlWriter;
 import joist.web.util.TextContent;
 
 import org.apache.commons.lang.StringUtils;
-import org.exigencecorp.bindgen.Binding;
+import org.bindgen.Binding;
 
 public class PageLink extends AbstractControl<PageLink> {
 

@@ -3,10 +3,10 @@ package joist.web.controls;
 import java.io.StringWriter;
 
 import joist.web.AbstractClickTest;
-import joist.web.WebConfig;
-import joist.web.WebContext;
 import joist.web.Control;
 import joist.web.CurrentContext;
+import joist.web.WebConfig;
+import joist.web.WebContext;
 import joist.web.fakedomain.EmployeeToFriendlyStringConverter;
 import joist.web.fakedomain.EmployeeToStringConverter;
 import joist.web.util.HtmlWriter;

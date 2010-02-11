@@ -5,7 +5,7 @@ import joist.web.AbstractControl;
 import joist.web.controls.PageLink;
 import joist.web.util.HtmlWriter;
 
-import org.exigencecorp.bindgen.Binding;
+import org.bindgen.Binding;
 
 public abstract class AbstractColumn<T extends AbstractColumn<T>> extends AbstractControl<T> implements Column {
 

@@ -4,7 +4,7 @@ import joist.converter.ConverterRegistry;
 import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
-import org.exigencecorp.bindgen.Binding;
+import org.bindgen.Binding;
 
 public class HiddenField extends AbstractField<HiddenField> {
 

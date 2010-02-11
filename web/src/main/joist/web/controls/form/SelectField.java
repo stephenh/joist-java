@@ -9,8 +9,8 @@ import joist.util.Copy;
 import joist.web.CurrentContext;
 import joist.web.util.HtmlWriter;
 
-import org.exigencecorp.bindgen.Binding;
-import org.exigencecorp.bindgen.ContainerBinding;
+import org.bindgen.Binding;
+import org.bindgen.ContainerBinding;
 
 public class SelectField<T> extends AbstractField<SelectField<T>> {
 

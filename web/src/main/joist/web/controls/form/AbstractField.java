@@ -10,8 +10,8 @@ import joist.web.CurrentContext;
 import joist.web.Page;
 import joist.web.WebContext;
 
-import org.exigencecorp.bindgen.Binding;
-import org.exigencecorp.bindgen.ContainerBinding;
+import org.bindgen.Binding;
+import org.bindgen.ContainerBinding;
 
 public abstract class AbstractField<T extends AbstractField<T>> extends AbstractControl<T> implements Field {
 
