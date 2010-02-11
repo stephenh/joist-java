@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import joist.domain.DomainObject;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.IdentityMap;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
@@ -37,10 +36,20 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
     }
 
     private void hydrate(T instance, ResultSet rs) throws SQLException {
-        Alias<? super T> current = AliasRegistry.get(instance);
+        Alias<? super T> current;
+        if (this.from.getSubClassAliases().size() == 0) {
+            current = this.from;
+        } else {
+            int offset = rs.getInt("_clazz");
+            if (offset == -1) {
+                current = this.from;
+            } else {
+                current = (Alias<T>) this.from.getSubClassAliases().get(offset);
+            }
+        }
         while (current != null) {
             for (AliasColumn<? super T, ?, ?> c : current.getColumns()) {
-                Object jdbcValue = rs.getObject(c.getName());
+                Object jdbcValue = rs.getObject(c.getQualifiedName());
                 ((AliasColumn<T, ?, Object>) c).setJdbcValue(instance, jdbcValue);
             }
             current = current.getBaseClassAlias();
@@ -50,7 +59,11 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
     private T newInstance(ResultSet rs) throws SQLException {
         if (this.from.getSubClassAliases().size() > 0) {
             int offset = rs.getInt("_clazz");
-            return this.newInstance(this.from.getSubClassAliases().get(offset));
+            if (offset == -1) {
+                return this.newInstance(this.from);
+            } else {
+                return this.newInstance(this.from.getSubClassAliases().get(offset));
+            }
         }
         return this.newInstance(this.from);
     }

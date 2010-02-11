@@ -18,7 +18,6 @@ import joist.domain.orm.queries.columns.IntAliasColumn;
 import joist.sourcegen.GClass;
 import joist.sourcegen.GField;
 import joist.sourcegen.GMethod;
-import joist.util.Copy;
 import joist.util.Interpolate;
 import joist.util.TopologicalSort;
 
@@ -64,10 +63,7 @@ public class GenerateAliasesPass implements Pass {
             for (PrimitiveProperty p : baseEntity.getPrimitiveProperties()) {
                 GField field = aliasClass.getField(p.getVariableName()).setPublic().setFinal();
                 field.type("{}<{}>", p.getAliasColumnClassName(), baseEntity.getClassName());
-
-                this.appendToConstructors(aliasClass, "this.{} = (this.baseAlias == null) ? null : this.baseAlias.{};",//
-                    p.getVariableName(),
-                    p.getVariableName());
+                this.appendToConstructors(aliasClass, "this.{} = this.baseAlias.{};", p.getVariableName(), p.getVariableName());
             }
 
             aliasClass.addImports(entity.getConfig().getDomainObjectPackage() + "." + baseEntity.getClassName());
@@ -116,12 +112,19 @@ public class GenerateAliasesPass implements Pass {
 
         // If any sub-classes, we want to know about their sub-aliases to instantiate during SELECTs
         int i = 0;
-        List<Entity> subEntities = Copy.list(entity.getSubEntities());
-        while (subEntities.size() != 0) {
-            Entity subEntity = subEntities.remove(0);
-            constructor.body.line("this.addSubClassAlias(new {}Alias(this, alias + \"_{}\"));", subEntity.getClassName(), i++);
+        if (entity.getSubEntities().size() > 0) {
+            constructor.body.line("{} {} = this;", entity.getAliasName(), entity.getVariableName());
+        }
+        for (Entity subEntity : entity.getSubEntitiesRecursively()) {
+            constructor.body.line("{} {} = new {}({}, alias + \"_{}\");",//
+                subEntity.getAliasName(),
+                subEntity.getVariableName(),
+                subEntity.getAliasName(),
+                subEntity.getBaseEntity().getVariableName(),
+                i++);
+            constructor.body.line("this.addSubClassAlias({});", subEntity.getVariableName());
+            // constructor.body.line("this.addSubClassAlias(new {}Alias(this, alias + \"_{}\"));", subEntity.getClassName(), i++);
             aliasClass.addImports(subEntity.getFullAliasClassName());
-            subEntities.addAll(subEntity.getSubEntities());
         }
 
         // If a base class, we'll need another constructor for the bootstrap call we added above
@@ -129,9 +132,9 @@ public class GenerateAliasesPass implements Pass {
             Entity baseEntity = entity.getBaseEntity();
             constructor.body.line("this.baseAlias = new {}Alias(alias + \"_b\");", baseEntity.getClassName());
 
-            GMethod otherConstructor = aliasClass.getConstructor("Alias<?> rootAlias", "String alias");
+            GMethod otherConstructor = aliasClass.getConstructor(baseEntity.getClassName() + "Alias baseAlias", "String alias");
             otherConstructor.body.line("super({}.class, \"{}\", alias);", entity.getClassName(), entity.getTableName());
-            otherConstructor.body.line("this.baseAlias = null;");
+            otherConstructor.body.line("this.baseAlias = baseAlias;");
         }
 
         aliasClass.addImports(ArrayList.class, List.class, Alias.class, AliasColumn.class, IdAliasColumn.class, IntAliasColumn.class);

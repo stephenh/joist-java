@@ -8,7 +8,10 @@ import java.util.TreeSet;
 
 import joist.codegen.Codegen;
 import joist.codegen.CodegenConfig;
+import joist.util.Copy;
 import joist.util.Inflector;
+
+import org.apache.commons.lang.StringUtils;
 
 /** Represents a domain object we will generate code for. */
 public class Entity {
@@ -66,6 +69,14 @@ public class Entity {
 
     public String getClassName() {
         return Inflector.camelize(this.getTableName());
+    }
+
+    public String getAliasName() {
+        return this.getClassName() + "Alias";
+    }
+
+    public String getVariableName() {
+        return StringUtils.uncapitalize(this.getClassName());
     }
 
     public String getCodegenClassName() {
@@ -148,6 +159,17 @@ public class Entity {
 
     public List<Entity> getSubEntities() {
         return this.subEntities;
+    }
+
+    public List<Entity> getSubEntitiesRecursively() {
+        List<Entity> ret = new ArrayList<Entity>();
+        List<Entity> walk = Copy.list(this.getSubEntities());
+        while (walk.size() != 0) {
+            Entity sub = walk.remove(0);
+            ret.add(sub);
+            walk.addAll(sub.getSubEntities());
+        }
+        return ret;
     }
 
     public String toString() {
