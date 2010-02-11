@@ -10,8 +10,6 @@
 		<javac srcdir="src/main" destdir="bin/main" classpathref="main.classpath" debug="true" nowarn="yes" source="1.6" target="1.6" encoding="utf8">
 			<compilerarg value="-s"/>
 			<compilerarg value="${basedir}/bin/apt-javac"/>
-			<compilerarg value="-processor"/>
-			<compilerarg value="org.exigencecorp.bindgen.processor.BindgenAnnotationProcessor"/>
 			<compilerarg value="-Abindgen.skipExistingBindingCheck=true"/> <!-- for javac -->
 			<compilerarg value="-Abindgen.skipBindKeyword=true"/>
 			<compilerarg value="-XprintRounds"/>
@@ -24,8 +22,6 @@
 			</classpath>
 			<compilerarg value="-s"/>
 			<compilerarg value="${basedir}/bin/apt-javac"/>
-			<compilerarg value="-processor"/>
-			<compilerarg value="org.exigencecorp.bindgen.processor.BindgenAnnotationProcessor"/>
 			<compilerarg value="-Abindgen.skipExistingBindingCheck=true"/> <!-- for javac -->
 			<compilerarg value="-XprintRounds"/>
 		</javac>
