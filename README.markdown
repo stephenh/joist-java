@@ -29,7 +29,6 @@ Todo
 * Have domain objects track the repo they are for (e.g. FooQueries takes a UoW instance, is in your given Registry, no static data source)
 * Disconnect/reconnect, e.g. eagerly letting go of connection
 * Fix _amount regex
-* Getting a collection outside UoW should fail, not empty list
 * Add DO.hasUncommittedChanges to denote flushed .vs comitted
 * Provide offset alternative due to perf
 

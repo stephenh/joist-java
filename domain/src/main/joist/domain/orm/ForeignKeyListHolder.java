@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import joist.domain.DomainObject;
+import joist.domain.exceptions.DisconnectedException;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Select;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
@@ -39,7 +40,10 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
 
     public List<U> get() {
         if (this.loaded == null) {
-            if (UoW.isOpen() && this.parent.getId() != null) {
+            if (this.parent.getId() != null) {
+                if (!UoW.isOpen()) {
+                    throw new DisconnectedException();
+                }
                 Select<U> q = Select.from(this.childAlias);
                 q.where(this.childForeignKeyToParentColumn.equals(this.parent));
                 q.orderBy(this.childAlias.getIdColumn().asc());

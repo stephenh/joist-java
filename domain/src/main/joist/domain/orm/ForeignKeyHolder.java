@@ -1,6 +1,7 @@
 package joist.domain.orm;
 
 import joist.domain.DomainObject;
+import joist.domain.exceptions.DisconnectedException;
 import joist.domain.uow.UoW;
 import joist.util.Default;
 
@@ -16,8 +17,12 @@ public class ForeignKeyHolder<T extends DomainObject> {
     }
 
     public T get() {
-        if (this.instance == null && this.id != null && UoW.isOpen()) {
-            this.instance = UoW.load(this.domainClass, this.id);
+        if (this.instance == null && this.id != null) {
+            if (UoW.isOpen()) {
+                this.instance = UoW.load(this.domainClass, this.id);
+            } else {
+                throw new DisconnectedException();
+            }
         }
         return this.instance;
     }
