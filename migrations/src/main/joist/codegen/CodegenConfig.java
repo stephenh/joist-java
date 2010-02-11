@@ -51,7 +51,7 @@ public class CodegenConfig {
     private final List<String> skipCollection = new ArrayList<String>();
     private final List<String> notAbstractEvenThoughSubclassed = new ArrayList<String>();
     private final Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
-    private final Pattern amountSuffix = Pattern.compile(".+_amount");
+    private final Pattern amountSuffix = Pattern.compile(".*amount$");
 
     public CodegenConfig() {
         this.setJavaType("integer", Integer.class.getName(), IntAliasColumn.class.getName());
