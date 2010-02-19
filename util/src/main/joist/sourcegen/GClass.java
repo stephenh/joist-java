@@ -141,6 +141,7 @@ public class GClass {
             return method;
         } else {
             String typesAndNames = name.substring(name.indexOf('(') + 1, name.length() - 1);
+            typesAndNames = this.stripAndImportPackageIfPossible(typesAndNames);
             name = name.substring(0, name.indexOf('('));
             for (GMethod method : this.methods) {
                 if (method.getName().equals(name) && method.hasSameArguments(typesAndNames)) {

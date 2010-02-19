@@ -2,12 +2,9 @@ package joist.sourcegen;
 
 import java.util.List;
 
-import joist.sourcegen.GClass;
-import joist.sourcegen.GMethod;
 import joist.util.Join;
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
 
 public class GClassTest extends TestCase {
 
@@ -176,6 +173,20 @@ public class GClassTest extends TestCase {
             "",
             "}",
             "" }), gc.toCode());
+    }
+
+    public void testGetMethodMatchesArguments() {
+        GClass gc = new GClass("Foo");
+        GMethod m1 = gc.getMethod("foo(java.lang.String arg)");
+        GMethod m2 = gc.getMethod("foo(java.lang.String arg)");
+        Assert.assertSame(m1, m2);
+
+        GMethod m3 = gc.getMethod("foo(String arg1)");
+        Assert.assertSame(m1, m3);
+
+        GMethod m4 = gc.getMethod("bar()");
+        GMethod m5 = gc.getMethod("bar()");
+        Assert.assertSame(m4, m5);
     }
 
 }

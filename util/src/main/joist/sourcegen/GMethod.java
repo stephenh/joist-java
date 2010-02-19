@@ -12,7 +12,7 @@ public class GMethod {
     public final StringBuilderr body = new StringBuilderr();
     private final GClass gclass;
     private final String name;
-    private final List<String> arguments = new ArrayList<String>();
+    private final List<Argument> arguments = new ArrayList<Argument>();
     private final List<String> annotations = new ArrayList<String>();
     private final List<String> exceptions = new ArrayList<String>();
     private String returnClassName = "void";
@@ -37,17 +37,15 @@ public class GMethod {
 
     public GMethod argument(String typeClassName, String name) {
         typeClassName = this.gclass.stripAndImportPackageIfPossible(typeClassName);
-        this.arguments.add(typeClassName + " " + name);
+        this.arguments.add(new Argument(typeClassName, name));
         return this;
     }
 
+    /** @param typeAndNames could be either "Foo f, Bar b" or "Foo f", "Bar b" */
     public GMethod arguments(String... typeAndNames) {
-        for (String typeAndName : typeAndNames) {
-            int lastSpace = typeAndName.lastIndexOf(' ');
-            if (lastSpace != -1) {
-                this.argument(typeAndName.substring(0, lastSpace), typeAndName.substring(lastSpace + 1));
-            }
-        }
+        String line = Join.commaSpace(typeAndNames);
+        line = this.gclass.stripAndImportPackageIfPossible(line);
+        this.arguments.addAll(Argument.split(line));
         return this;
     }
 
@@ -124,7 +122,16 @@ public class GMethod {
     }
 
     public boolean hasSameArguments(String... typeAndNames) {
-        return Join.comma(typeAndNames).equals(Join.comma(this.arguments));
+        List<Argument> other = Argument.split(typeAndNames);
+        if (other.size() != this.arguments.size()) {
+            return false;
+        }
+        for (int i = 0; i < other.size(); i++) {
+            if (!(other.get(i).type.equals(this.arguments.get(i).type))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public GMethod addAnnotation(String annotation) {
