@@ -27,6 +27,11 @@
 			<artifact pattern="/var/joist.repo/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" />
 		</ssh>
 
+		<!-- for publishing via an sshfs share -->
+		<filesystem name="maven-share" m2compatible="true">
+			<artifact pattern="${user.home}/repo/[organization]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
+		</filesystem>
+
 		<!-- they have webdriver -->
 		<ibiblio name="openqa" root="http://nexus.openqa.org/content/repositories/releases/" m2compatible="true"/>
 		<!-- For japex. -->
