@@ -1,13 +1,14 @@
 package joist.domain.orm;
 
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
-import joist.domain.Changed;
 
 public class DummyDomainObject extends AbstractDomainObject {
     private Integer id;
+    private final DummyChanged changed = new DummyChanged();
 
-    public Changed getChanged() {
-        return null;
+    public DummyChanged getChanged() {
+        return this.changed;
     }
 
     public Integer getVersion() {
@@ -19,6 +20,13 @@ public class DummyDomainObject extends AbstractDomainObject {
     }
 
     public void setId(Integer id) {
+        this.changed.record("id", this.id, id);
         this.id = id;
+    }
+
+    public class DummyChanged extends AbstractChanged {
+        protected DummyChanged() {
+            super(DummyDomainObject.this);
+        }
     }
 }

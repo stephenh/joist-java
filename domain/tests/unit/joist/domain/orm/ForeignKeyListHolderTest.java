@@ -13,11 +13,20 @@ public class ForeignKeyListHolderTest extends TestCase {
         Assert.assertEquals(0, h.get().size());
     }
 
+    public void testLoadOutsideUoWWithNewIdIsOkay() {
+        DummyDomainObject parent = new DummyDomainObject();
+        ForeignKeyListHolder<DummyDomainObject, DummyDomainObject> h = //
+        new ForeignKeyListHolder<DummyDomainObject, DummyDomainObject>(parent, null, null);
+        parent.setId(1);
+        Assert.assertEquals(0, h.get().size());
+    }
+
     public void testLoadOutsideUoWFails() {
         DummyDomainObject parent = new DummyDomainObject();
         ForeignKeyListHolder<DummyDomainObject, DummyDomainObject> h = //
         new ForeignKeyListHolder<DummyDomainObject, DummyDomainObject>(parent, null, null);
         parent.setId(1);
+        parent.getChanged().clear(); // don't want the id seen as changed
         try {
             h.get();
             Assert.fail();

@@ -40,7 +40,7 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
 
     public List<U> get() {
         if (this.loaded == null) {
-            if (this.parent.getId() != null) {
+            if (!this.parent.isNew()) {
                 if (!UoW.isOpen()) {
                     throw new DisconnectedException();
                 }
