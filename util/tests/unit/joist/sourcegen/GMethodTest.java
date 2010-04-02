@@ -56,6 +56,21 @@ public class GMethodTest extends TestCase {
             ""), gc.toCode());
     }
 
+    public void testAutoImportWithPackagesWithNumbers() {
+        GClass gc = new GClass("Foo");
+        gc.getMethod("method").arguments("foo2.zaz.Bar bar");
+        Assert.assertEquals(Join.lines(//
+            "import foo2.zaz.Bar;",
+            "",
+            "public class Foo {",
+            "",
+            "    public void method(Bar bar) {",
+            "    }",
+            "",
+            "}",
+            ""), gc.toCode());
+    }
+
     public void testAutoImportWithCrazyGenerics() {
         GClass gc = new GClass("Foo");
         gc.getMethod("method1").argument("Bar<java.lang.Integer>", "bar");

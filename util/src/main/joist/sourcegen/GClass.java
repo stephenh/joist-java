@@ -34,7 +34,7 @@ public class GClass {
     protected boolean isInterface = false;
     private String baseClassName = null;
     private GClass outerClass;
-    private static final Pattern classNameWithoutGenerics = Pattern.compile("(([a-z][a-zA-Z_]*\\.)*)([A-Z][a-zA-Z0-9_]+)");
+    private static final Pattern classNameWithoutGenerics = Pattern.compile("(([a-z][a-zA-Z0-9_]*\\.)*)([A-Z][a-zA-Z0-9_]+)");
 
     public GClass(String fullClassName) {
         String[] name = this.parseClassName(fullClassName);
