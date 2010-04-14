@@ -382,18 +382,14 @@ public class GenerateDomainCodegenPass implements Pass {
 
     private void addAliasPercolation(GClass domainCodegen, Entity entity) {
         for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
-            this.addStaticClassForName(domainCodegen, mtop.getOneSide().getFullClassName());
+            this.addStaticClassForName(domainCodegen, mtop.getOneSide().getClassName());
         }
         for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
-            this.addStaticClassForName(domainCodegen, otmp.getManySide().getFullClassName());
+            this.addStaticClassForName(domainCodegen, otmp.getManySide().getClassName());
         }
     }
 
     private void addStaticClassForName(GClass domainCodegen, String className) {
-        domainCodegen.staticInitializer.line("try {");
-        domainCodegen.staticInitializer.line("   Class.forName(\"{}\");", className);
-        domainCodegen.staticInitializer.line("} catch (ClassNotFoundException cnfe) {");
-        domainCodegen.staticInitializer.line("    throw new RuntimeException(cnfe);");
-        domainCodegen.staticInitializer.line("}");
+        domainCodegen.staticInitializer.line("{}.class.getName();", className);
     }
 }
