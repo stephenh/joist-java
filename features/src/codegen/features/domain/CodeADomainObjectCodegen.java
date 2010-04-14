@@ -25,16 +25,8 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         alias = new CodeADomainObjectAlias("a");
         AliasRegistry.register(CodeADomainObject.class, alias);
         queries = new CodeADomainObjectQueries();
-        try {
-           Class.forName("features.domain.CodeAColor");
-        } catch (ClassNotFoundException cnfe) {
-            throw new RuntimeException(cnfe);
-        }
-        try {
-           Class.forName("features.domain.CodeASize");
-        } catch (ClassNotFoundException cnfe) {
-            throw new RuntimeException(cnfe);
-        }
+        CodeAColor.class.getName();
+        CodeASize.class.getName();
     }
 
     protected CodeADomainObjectCodegen() {

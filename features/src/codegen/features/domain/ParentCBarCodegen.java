@@ -25,16 +25,8 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
         alias = new ParentCBarAlias("a");
         AliasRegistry.register(ParentCBar.class, alias);
         queries = new ParentCBarQueries();
-        try {
-           Class.forName("features.domain.ParentCFoo");
-        } catch (ClassNotFoundException cnfe) {
-            throw new RuntimeException(cnfe);
-        }
-        try {
-           Class.forName("features.domain.ParentCFoo");
-        } catch (ClassNotFoundException cnfe) {
-            throw new RuntimeException(cnfe);
-        }
+        ParentCFoo.class.getName();
+        ParentCFoo.class.getName();
     }
 
     protected ParentCBarCodegen() {

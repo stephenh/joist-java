@@ -24,11 +24,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
         alias = new InheritanceBRootChildAlias("a");
         AliasRegistry.register(InheritanceBRootChild.class, alias);
         queries = new InheritanceBRootChildQueries();
-        try {
-           Class.forName("features.domain.InheritanceBRoot");
-        } catch (ClassNotFoundException cnfe) {
-            throw new RuntimeException(cnfe);
-        }
+        InheritanceBRoot.class.getName();
     }
 
     protected InheritanceBRootChildCodegen() {
