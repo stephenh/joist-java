@@ -5,7 +5,6 @@ import java.util.List;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
@@ -14,19 +13,16 @@ import joist.util.Copy;
 
 public abstract class ParentCodegen extends AbstractDomainObject {
 
-    protected static ParentAlias alias;
     public static final ParentQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<Parent, Child> childs = new ForeignKeyListHolder<Parent, Child>((Parent) this, ChildCodegen.alias, ChildCodegen.alias.parent);
+    private ForeignKeyListHolder<Parent, Child> childs = new ForeignKeyListHolder<Parent, Child>((Parent) this, Aliases.child, Aliases.child.parent);
     protected Changed changed;
 
     static {
-        alias = new ParentAlias("a");
-        AliasRegistry.register(Parent.class, alias);
+        Aliases.init();
         queries = new ParentQueries();
-        Child.class.getName();
     }
 
     protected ParentCodegen() {

@@ -6,14 +6,12 @@ import features.domain.queries.PrimitivesCQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
 public abstract class PrimitivesCCodegen extends AbstractDomainObject {
 
-    protected static PrimitivesCAlias alias;
     public static final PrimitivesCQueries queries;
     private Money dollarAmount = null;
     private Integer id = null;
@@ -23,8 +21,7 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        alias = new PrimitivesCAlias("a");
-        AliasRegistry.register(PrimitivesC.class, alias);
+        Aliases.init();
         queries = new PrimitivesCQueries();
     }
 

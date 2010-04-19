@@ -4,14 +4,12 @@ import features.domain.queries.InheritanceCQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
 public abstract class InheritanceCCodegen extends AbstractDomainObject {
 
-    protected static InheritanceCAlias alias;
     public static final InheritanceCQueries queries;
     private Integer id = null;
     private String name = null;
@@ -19,8 +17,7 @@ public abstract class InheritanceCCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        alias = new InheritanceCAlias("a");
-        AliasRegistry.register(InheritanceC.class, alias);
+        Aliases.init();
         queries = new InheritanceCQueries();
     }
 

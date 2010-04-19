@@ -4,7 +4,6 @@ import features.domain.queries.OneToOneBBarQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
@@ -12,19 +11,16 @@ import joist.domain.validation.rules.NotNull;
 
 public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
 
-    protected static OneToOneBBarAlias alias;
     public static final OneToOneBBarQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyHolder<OneToOneBFoo> oneToOneBFoo = new ForeignKeyHolder<OneToOneBFoo>(OneToOneBFoo.class);
+    private final ForeignKeyHolder<OneToOneBFoo> oneToOneBFoo = new ForeignKeyHolder<OneToOneBFoo>(OneToOneBFoo.class);
     protected Changed changed;
 
     static {
-        alias = new OneToOneBBarAlias("a");
-        AliasRegistry.register(OneToOneBBar.class, alias);
+        Aliases.init();
         queries = new OneToOneBBarQueries();
-        OneToOneBFoo.class.getName();
     }
 
     protected OneToOneBBarCodegen() {

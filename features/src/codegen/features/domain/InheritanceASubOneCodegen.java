@@ -2,21 +2,17 @@ package features.domain;
 
 import features.domain.queries.InheritanceASubOneQueries;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
 public abstract class InheritanceASubOneCodegen extends InheritanceABase {
 
     @SuppressWarnings("hiding")
-    protected static InheritanceASubOneAlias alias;
-    @SuppressWarnings("hiding")
     public static final InheritanceASubOneQueries queries;
     private String one = null;
 
     static {
-        alias = new InheritanceASubOneAlias("a");
-        AliasRegistry.register(InheritanceASubOne.class, alias);
+        Aliases.init();
         queries = new InheritanceASubOneQueries();
     }
 

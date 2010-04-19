@@ -6,7 +6,6 @@ import java.util.List;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
@@ -15,19 +14,16 @@ import joist.util.Copy;
 
 public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
 
-    protected static ManyToManyBBarAlias alias;
     public static final ManyToManyBBarQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar> greenManyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar>((ManyToManyBBar) this, ManyToManyBFooToBarCodegen.alias, ManyToManyBFooToBarCodegen.alias.green);
+    private ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar> greenManyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar>((ManyToManyBBar) this, Aliases.manyToManyBFooToBar, Aliases.manyToManyBFooToBar.green);
     protected Changed changed;
 
     static {
-        alias = new ManyToManyBBarAlias("a");
-        AliasRegistry.register(ManyToManyBBar.class, alias);
+        Aliases.init();
         queries = new ManyToManyBBarQueries();
-        ManyToManyBFooToBar.class.getName();
     }
 
     protected ManyToManyBBarCodegen() {

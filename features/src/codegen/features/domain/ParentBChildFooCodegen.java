@@ -4,7 +4,6 @@ import features.domain.queries.ParentBChildFooQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
@@ -12,19 +11,16 @@ import joist.domain.validation.rules.NotNull;
 
 public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
 
-    protected static ParentBChildFooAlias alias;
     public static final ParentBChildFooQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
+    private final ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
     protected Changed changed;
 
     static {
-        alias = new ParentBChildFooAlias("a");
-        AliasRegistry.register(ParentBChildFoo.class, alias);
+        Aliases.init();
         queries = new ParentBChildFooQueries();
-        ParentBParent.class.getName();
     }
 
     protected ParentBChildFooCodegen() {

@@ -4,7 +4,6 @@ import features.domain.queries.OneToOneAFooQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
@@ -12,19 +11,16 @@ import joist.domain.validation.rules.NotNull;
 
 public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
 
-    protected static OneToOneAFooAlias alias;
     public static final OneToOneAFooQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<OneToOneAFoo, OneToOneABar> oneToOneABars = new ForeignKeyListHolder<OneToOneAFoo, OneToOneABar>((OneToOneAFoo) this, OneToOneABarCodegen.alias, OneToOneABarCodegen.alias.oneToOneAFoo);
+    private ForeignKeyListHolder<OneToOneAFoo, OneToOneABar> oneToOneABars = new ForeignKeyListHolder<OneToOneAFoo, OneToOneABar>((OneToOneAFoo) this, Aliases.oneToOneABar, Aliases.oneToOneABar.oneToOneAFoo);
     protected Changed changed;
 
     static {
-        alias = new OneToOneAFooAlias("a");
-        AliasRegistry.register(OneToOneAFoo.class, alias);
+        Aliases.init();
         queries = new OneToOneAFooQueries();
-        OneToOneABar.class.getName();
     }
 
     protected OneToOneAFooCodegen() {

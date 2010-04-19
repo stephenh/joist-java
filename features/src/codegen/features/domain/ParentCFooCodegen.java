@@ -5,7 +5,6 @@ import java.util.List;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
@@ -14,21 +13,17 @@ import joist.util.Copy;
 
 public abstract class ParentCFooCodegen extends AbstractDomainObject {
 
-    protected static ParentCFooAlias alias;
     public static final ParentCFooQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<ParentCFoo, ParentCBar> firstParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, ParentCBarCodegen.alias, ParentCBarCodegen.alias.firstParent);
-    private ForeignKeyListHolder<ParentCFoo, ParentCBar> secondParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, ParentCBarCodegen.alias, ParentCBarCodegen.alias.secondParent);
+    private ForeignKeyListHolder<ParentCFoo, ParentCBar> firstParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar, Aliases.parentCBar.firstParent);
+    private ForeignKeyListHolder<ParentCFoo, ParentCBar> secondParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar, Aliases.parentCBar.secondParent);
     protected Changed changed;
 
     static {
-        alias = new ParentCFooAlias("a");
-        AliasRegistry.register(ParentCFoo.class, alias);
+        Aliases.init();
         queries = new ParentCFooQueries();
-        ParentCBar.class.getName();
-        ParentCBar.class.getName();
     }
 
     protected ParentCFooCodegen() {

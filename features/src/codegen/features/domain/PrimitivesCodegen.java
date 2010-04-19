@@ -4,14 +4,12 @@ import features.domain.queries.PrimitivesQueries;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
 public abstract class PrimitivesCodegen extends AbstractDomainObject {
 
-    protected static PrimitivesAlias alias;
     public static final PrimitivesQueries queries;
     private Boolean flag = false;
     private Integer id = null;
@@ -20,8 +18,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        alias = new PrimitivesAlias("a");
-        AliasRegistry.register(Primitives.class, alias);
+        Aliases.init();
         queries = new PrimitivesQueries();
     }
 

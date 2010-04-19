@@ -2,21 +2,17 @@ package features.domain;
 
 import features.domain.queries.InheritanceCFoo1Queries;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
 public abstract class InheritanceCFoo1Codegen extends InheritanceC {
 
     @SuppressWarnings("hiding")
-    protected static InheritanceCFoo1Alias alias;
-    @SuppressWarnings("hiding")
     public static final InheritanceCFoo1Queries queries;
     private String foo = null;
 
     static {
-        alias = new InheritanceCFoo1Alias("a");
-        AliasRegistry.register(InheritanceCFoo1.class, alias);
+        Aliases.init();
         queries = new InheritanceCFoo1Queries();
     }
 

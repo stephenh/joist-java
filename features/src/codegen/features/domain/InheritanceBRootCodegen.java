@@ -5,7 +5,6 @@ import java.util.List;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
@@ -14,19 +13,16 @@ import joist.util.Copy;
 
 public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
 
-    protected static InheritanceBRootAlias alias;
     public static final InheritanceBRootQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, InheritanceBRootChildCodegen.alias, InheritanceBRootChildCodegen.alias.inheritanceBRoot);
+    private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, Aliases.inheritanceBRootChild, Aliases.inheritanceBRootChild.inheritanceBRoot);
     protected Changed changed;
 
     static {
-        alias = new InheritanceBRootAlias("a");
-        AliasRegistry.register(InheritanceBRoot.class, alias);
+        Aliases.init();
         queries = new InheritanceBRootQueries();
-        InheritanceBRootChild.class.getName();
     }
 
     protected InheritanceBRootCodegen() {
