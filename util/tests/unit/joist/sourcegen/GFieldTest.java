@@ -1,11 +1,8 @@
 package joist.sourcegen;
 
-import joist.sourcegen.GClass;
-import joist.sourcegen.GField;
 import joist.util.Join;
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
 
 public class GFieldTest extends TestCase {
 
@@ -165,5 +162,22 @@ public class GFieldTest extends TestCase {
             "",
             "}",
             "" }), gc.toCode());
+    }
+
+    public void testAutoImportInitialValue() {
+        GClass gc = new GClass("foo.Foo");
+        gc.getField("bar").type("bar.IBar<zaz.Zaz>").initialValue("new bar.BarImpl<zaz.Zaz>()").autoImportInitialValue();
+        Assert.assertEquals(Join.lines("package foo;",//
+            "",
+            "import bar.BarImpl;",
+            "import bar.IBar;",
+            "import zaz.Zaz;",
+            "",
+            "public class Foo {",
+            "",
+            "    private IBar<Zaz> bar = new BarImpl<Zaz>();",
+            "",
+            "}",
+            ""), gc.toCode());
     }
 }

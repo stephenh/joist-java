@@ -71,6 +71,11 @@ public class GField {
         return this;
     }
 
+    public GField autoImportInitialValue() {
+        this.initialValue = this.gclass.stripAndImportPackageIfPossible(this.initialValue);
+        return this;
+    }
+
     public GClass initialAnonymousClass() {
         GClass gc = new GClass(this.typeClassName).setAnonymous();
         this.initialAnonymousClass = gc;
