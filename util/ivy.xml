@@ -1,5 +1,5 @@
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
-	<info organisation="joist" module="joist.util" revision="${joist.version}"/>
+	<info organisation="joist" module="util" revision="${joist.version}"/>
 	<configurations>
 		<conf name="main"/>
 		<conf name="unit" extends="main" visibility="private"/>
