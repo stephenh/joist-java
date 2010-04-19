@@ -12,7 +12,6 @@ import joist.codegen.dtos.PrimitiveProperty;
 import joist.domain.AbstractChanged;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyCodeHolder;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.orm.ForeignKeyListHolder;
@@ -39,39 +38,26 @@ public class GenerateDomainCodegenPass implements Pass {
             domainCodegen.getConstructor().setProtected().body.line("this.addExtraRules();");
             domainCodegen.getMethod("addExtraRules").setPrivate();
 
-            this.addAlias(domainCodegen, entity);
+            this.addQueries(domainCodegen, entity);
             this.primitiveProperties(domainCodegen, entity);
             this.manyToOneProperties(domainCodegen, entity);
             this.oneToManyProperties(domainCodegen, entity);
             this.manyToManyProperties(domainCodegen, entity);
             this.changed(domainCodegen, entity);
             this.clearAssociations(domainCodegen, entity);
-            this.addAliasPercolation(domainCodegen, entity);
         }
     }
 
-    private void addAlias(GClass domainCodegen, Entity entity) {
+    private void addQueries(GClass domainCodegen, Entity entity) {
         if (!entity.isCodeEntity()) {
-            GField alias = domainCodegen.getField("alias") //
-                .setStatic()
-                .setProtected()
-                .type("{}Alias", entity.getClassName());
-            if (entity.isSubclass()) {
-                alias.addAnnotation("@SuppressWarnings(\"hiding\")");
-            }
-
             GField query = domainCodegen.getField("queries").setPublic().setStatic().setFinal();
-            query.type("{}Queries", entity.getClassName());
+            query.type(entity.getFullQueriesClassName());
             if (entity.isSubclass()) {
                 query.addAnnotation("@SuppressWarnings(\"hiding\")");
             }
-            domainCodegen.addImports(entity.getFullQueriesClassName());
 
-            domainCodegen.staticInitializer.line("alias = new {}Alias(\"a\");", entity.getClassName());
-            domainCodegen.staticInitializer.line("AliasRegistry.register({}.class, alias);", entity.getClassName());
+            domainCodegen.staticInitializer.line("Aliases.init();");
             domainCodegen.staticInitializer.line("queries = new {}Queries();", entity.getClassName());
-            domainCodegen.addImports(AliasRegistry.class);
-            domainCodegen.addImports(entity.getFullAliasClassName());
         }
     }
 
@@ -133,7 +119,7 @@ public class GenerateDomainCodegenPass implements Pass {
 
     private void manyToOneProperties(GClass domainCodegen, Entity entity) {
         for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
-            GField field = domainCodegen.getField(mtop.getVariableName());
+            GField field = domainCodegen.getField(mtop.getVariableName()).setFinal();
             if (mtop.getOneSide().isCodeEntity()) {
                 field.type("ForeignKeyCodeHolder<" + mtop.getJavaType() + ">");
                 field.initialValue("new ForeignKeyCodeHolder<" + mtop.getJavaType() + ">(" + mtop.getJavaType() + ".class)");
@@ -209,12 +195,12 @@ public class GenerateDomainCodegenPass implements Pass {
         for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
             GField collection = domainCodegen.getField(otmp.getVariableName());
             collection.type("ForeignKeyListHolder<{}, {}>", entity.getClassName(), otmp.getTargetJavaType());
-            collection.initialValue("new ForeignKeyListHolder<{}, {}>(({}) this, {}.alias, {}.alias.{})",//
+            collection.initialValue("new ForeignKeyListHolder<{}, {}>(({}) this, Aliases.{}, Aliases.{}.{})",//
                 entity.getClassName(),
                 otmp.getTargetJavaType(),
                 entity.getClassName(),
-                otmp.getTargetJavaType() + "Codegen",
-                otmp.getTargetJavaType() + "Codegen",
+                otmp.getManySide().getVariableName(),
+                otmp.getManySide().getVariableName(),
                 otmp.getKeyFieldName());
             domainCodegen.addImports(ForeignKeyListHolder.class);
 
@@ -380,16 +366,4 @@ public class GenerateDomainCodegenPass implements Pass {
         }
     }
 
-    private void addAliasPercolation(GClass domainCodegen, Entity entity) {
-        for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
-            this.addStaticClassForName(domainCodegen, mtop.getOneSide().getClassName());
-        }
-        for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
-            this.addStaticClassForName(domainCodegen, otmp.getManySide().getClassName());
-        }
-    }
-
-    private void addStaticClassForName(GClass domainCodegen, String className) {
-        domainCodegen.staticInitializer.line("{}.class.getName();", className);
-    }
 }

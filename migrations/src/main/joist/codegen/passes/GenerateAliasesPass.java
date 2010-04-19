@@ -8,6 +8,7 @@ import joist.codegen.dtos.Entity;
 import joist.codegen.dtos.ManyToOneProperty;
 import joist.codegen.dtos.PrimitiveProperty;
 import joist.domain.DomainObject;
+import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.JoinClause;
 import joist.domain.orm.queries.columns.AliasColumn;
@@ -24,6 +25,10 @@ import joist.util.TopologicalSort;
 public class GenerateAliasesPass implements Pass {
 
     public void pass(Codegen codegen) {
+        GClass aliasesClass = codegen.getOutputCodegenDirectory().getClass(codegen.getConfig().getDomainObjectPackage() + ".Aliases");
+        aliasesClass.addImports(AliasRegistry.class);
+        aliasesClass.getMethod("init").setStatic();
+
         List<Entity> sorted = this.getEntitiesSortedByForeignKeys(codegen);
         for (Entity entity : codegen.getEntities().values()) {
             if (entity.isCodeEntity()) {
@@ -43,6 +48,8 @@ public class GenerateAliasesPass implements Pass {
             this.addInheritedColumns(aliasClass, entity);
 
             this.addOrderMethod(aliasClass, this.getMinOrder(sorted, entity));
+
+            this.addAliasesField(aliasesClass, entity);
         }
     }
 
@@ -233,6 +240,12 @@ public class GenerateAliasesPass implements Pass {
             min = Math.min(min, sorted.indexOf(current));
         }
         return min;
+    }
+
+    private void addAliasesField(GClass aliasesClass, Entity entity) {
+        GField field = aliasesClass.getField(entity.getVariableName()).setPublic().setStatic().setFinal();
+        field.type(entity.getAliasName()).initialValue("new {}(\"a\")", entity.getAliasName());
+        aliasesClass.staticInitializer.line("AliasRegistry.register({}.class, {});", entity.getClassName(), entity.getVariableName());
     }
 
 }
