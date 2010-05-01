@@ -314,8 +314,7 @@ public class GClass {
     }
 
     public GClass baseClass(Class<?> type) {
-        this.baseClassName = type.getName();
-        return this;
+        return this.baseClassName(type.getName());
     }
 
     public GClass baseClassName(String baseClassName, Object... args) {
