@@ -1,5 +1,6 @@
 package joist.sourcegen;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -376,6 +377,10 @@ public class GClass {
     public GClass addAnnotation(String annotation, Object... args) {
         this.annotations.add(Interpolate.string(annotation, args));
         return this;
+    }
+
+    public String getFileName() {
+        return this.getFullClassNameWithoutGeneric().replace(".", File.separator) + ".java";
     }
 
     /** @return a tuple of package name, simple name, and simple name with generics */

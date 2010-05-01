@@ -189,4 +189,7 @@ public class GClassTest extends TestCase {
         Assert.assertSame(m4, m5);
     }
 
+    public void testFileName() {
+        Assert.assertEquals(Join.path("foo", "bar", "Foo.java"), new GClass("foo.bar.Foo").getFileName());
+    }
 }

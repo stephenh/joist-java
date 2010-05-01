@@ -1,5 +1,6 @@
 package joist.util;
 
+import java.io.File;
 import java.util.Collection;
 
 public class Join {
@@ -25,6 +26,10 @@ public class Join {
 
     public static <T extends Object> String comma(T... objects) {
         return Join.join(objects, ",");
+    }
+
+    public static <T extends Object> String path(T... objects) {
+        return Join.join(objects, File.separator);
     }
 
     public static <T extends Object> String comma(Collection<T> objects) {
