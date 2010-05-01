@@ -134,8 +134,8 @@ public class GMethod {
         return true;
     }
 
-    public GMethod addAnnotation(String annotation) {
-        this.annotations.add(annotation);
+    public GMethod addAnnotation(String annotation, Object... args) {
+        this.annotations.add(Interpolate.string(annotation, args));
         return this;
     }
 

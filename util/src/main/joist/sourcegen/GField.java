@@ -120,8 +120,8 @@ public class GField {
         return getter;
     }
 
-    public GField addAnnotation(String annotation) {
-        this.annotations.add(annotation);
+    public GField addAnnotation(String annotation, Object... args) {
+        this.annotations.add(Interpolate.string(annotation, args));
         return this;
     }
 

@@ -374,8 +374,8 @@ public class GClass {
         return this;
     }
 
-    public GClass addAnnotation(String annotation) {
-        this.annotations.add(annotation);
+    public GClass addAnnotation(String annotation, Object... args) {
+        this.annotations.add(Interpolate.string(annotation, args));
         return this;
     }
 
