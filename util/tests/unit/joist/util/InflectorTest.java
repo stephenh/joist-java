@@ -1,6 +1,5 @@
 package joist.util;
 
-import joist.util.Inflector;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -25,6 +24,9 @@ public class InflectorTest extends TestCase {
     public void testHumanize() {
         Assert.assertEquals("Test One", Inflector.humanize("testOne"));
         Assert.assertEquals("Test One", Inflector.humanize("TestOne"));
+        Assert.assertEquals("Test One O", Inflector.humanize("TestOneO"));
+        Assert.assertEquals("Test One 9", Inflector.humanize("TestOne9"));
+        Assert.assertEquals("Test URL9", Inflector.humanize("TestURL9"));
         Assert.assertEquals("Test One", Inflector.humanize("test_one"));
         Assert.assertEquals("Test 12", Inflector.humanize("test12"));
     }
@@ -37,6 +39,8 @@ public class InflectorTest extends TestCase {
 
     public void testUnderscore() {
         Assert.assertEquals("test_one_two", Inflector.underscore("testOneTwo"));
+        Assert.assertEquals("test_one_two_1", Inflector.underscore("testOneTwo1"));
+        Assert.assertEquals("test_one_two_a", Inflector.underscore("testOneTwoA"));
         Assert.assertEquals("test_one_two", Inflector.underscore("TestOneTwo"));
         Assert.assertEquals("test_one_two", Inflector.underscore("test_one_two"));
     }

@@ -1,24 +1,23 @@
 package joist.util;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
 public class Inflector {
 
-    private static String lowerToUpper = "(?<=[a-z])(?=[A-Z]|[0-9])";
-    private static String underscore = "_";
-    private static String camelCaseSplit = "(" + Inflector.lowerToUpper + ")|(" + Inflector.underscore + ")";
+    private static final Pattern lower = Pattern.compile("[a-z]");
+    private static final Pattern upper = Pattern.compile("[A-Z0-9]");
 
     private Inflector() {
     }
 
     public static String underscore(String camelCased) {
-        String name = "";
-        String[] parts = camelCased.split(Inflector.camelCaseSplit);
-        for (int i = 0; i < parts.length; i++) {
-            name += parts[i].toLowerCase();
-            if (i != parts.length - 1) {
-                name += "_";
-            }
+        List<String> parts = Inflector.split(camelCased);
+        for (int i = 0; i < parts.size(); i++) {
+            parts.set(i, parts.get(i).toLowerCase());
         }
-        return name;
+        return Join.underscore(parts);
     }
 
     public static String camelize(String s) {
@@ -30,15 +29,11 @@ public class Inflector {
     }
 
     public static String humanize(String camelCased) {
-        String name = "";
-        String[] parts = camelCased.split(Inflector.camelCaseSplit);
-        for (int i = 0; i < parts.length; i++) {
-            name += Inflector.capitalize(parts[i]);
-            if (i != parts.length - 1) {
-                name += " ";
-            }
+        List<String> parts = Inflector.split(camelCased);
+        for (int i = 0; i < parts.size(); i++) {
+            parts.set(i, Inflector.capitalize(parts.get(i)));
         }
-        return name;
+        return Join.space(parts);
     }
 
     public static String capitalize(String str) {
@@ -53,6 +48,31 @@ public class Inflector {
             return str;
         }
         return Character.toLowerCase(str.charAt(0)) + str.substring(1);
+    }
+
+    /** Splits word into groups based on where underscores and case changes are. */
+    private static List<String> split(String word) {
+        List<String> parts = new ArrayList<String>();
+        boolean wasLower = false;
+        int at = 0;
+        int length = word.length();
+        for (int i = 0; i < length; i++) {
+            String c = word.substring(i, i + 1);
+            if ("_".equals(c)) {
+                parts.add(word.substring(at, i));
+                at = i + 1;
+            } else if (wasLower && Inflector.upper.matcher(c).matches()) {
+                parts.add(word.substring(at, i));
+                at = i;
+                wasLower = false;
+            } else if (!wasLower && Inflector.lower.matcher(c).matches()) {
+                wasLower = true;
+            }
+        }
+        if (at != length) {
+            parts.add(word.substring(at));
+        }
+        return parts;
     }
 
 }
