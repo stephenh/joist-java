@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.OneToOneBBarQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -137,7 +138,7 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class OneToOneBBarChanged extends joist.domain.AbstractChanged {
+    public static class OneToOneBBarChanged extends AbstractChanged {
         public OneToOneBBarChanged(OneToOneBBar instance) {
             super(instance);
         }

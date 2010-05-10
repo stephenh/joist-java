@@ -3,6 +3,7 @@ package features.domain;
 import features.domain.queries.ManyToManyBFooQueries;
 import java.util.ArrayList;
 import java.util.List;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -179,7 +180,7 @@ public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ManyToManyBFooChanged extends joist.domain.AbstractChanged {
+    public static class ManyToManyBFooChanged extends AbstractChanged {
         public ManyToManyBFooChanged(ManyToManyBFoo instance) {
             super(instance);
         }

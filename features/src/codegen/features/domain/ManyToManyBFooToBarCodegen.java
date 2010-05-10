@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.ManyToManyBFooToBarQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -146,7 +147,7 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ManyToManyBFooToBarChanged extends joist.domain.AbstractChanged {
+    public static class ManyToManyBFooToBarChanged extends AbstractChanged {
         public ManyToManyBFooToBarChanged(ManyToManyBFooToBar instance) {
             super(instance);
         }

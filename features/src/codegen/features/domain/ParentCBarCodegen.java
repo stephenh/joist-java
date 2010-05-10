@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.ParentCBarQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -170,7 +171,7 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ParentCBarChanged extends joist.domain.AbstractChanged {
+    public static class ParentCBarChanged extends AbstractChanged {
         public ParentCBarChanged(ParentCBar instance) {
             super(instance);
         }

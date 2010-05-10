@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.ValidationAFooQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -103,7 +104,7 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ValidationAFooChanged extends joist.domain.AbstractChanged {
+    public static class ValidationAFooChanged extends AbstractChanged {
         public ValidationAFooChanged(ValidationAFoo instance) {
             super(instance);
         }

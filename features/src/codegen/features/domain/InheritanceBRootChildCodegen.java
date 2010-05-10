@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.InheritanceBRootChildQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -137,7 +138,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
         };
     }
 
-    public static class InheritanceBRootChildChanged extends joist.domain.AbstractChanged {
+    public static class InheritanceBRootChildChanged extends AbstractChanged {
         public InheritanceBRootChildChanged(InheritanceBRootChild instance) {
             super(instance);
         }

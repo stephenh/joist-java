@@ -2,6 +2,7 @@ package features.domain;
 
 import com.domainlanguage.time.CalendarDate;
 import features.domain.queries.UserTypesAFooQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -126,7 +127,7 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class UserTypesAFooChanged extends joist.domain.AbstractChanged {
+    public static class UserTypesAFooChanged extends AbstractChanged {
         public UserTypesAFooChanged(UserTypesAFoo instance) {
             super(instance);
         }

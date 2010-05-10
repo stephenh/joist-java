@@ -2,6 +2,7 @@ package features.domain;
 
 import features.domain.queries.OneToOneBFooQueries;
 import java.util.List;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -143,7 +144,7 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class OneToOneBFooChanged extends joist.domain.AbstractChanged {
+    public static class OneToOneBFooChanged extends AbstractChanged {
         public OneToOneBFooChanged(OneToOneBFoo instance) {
             super(instance);
         }

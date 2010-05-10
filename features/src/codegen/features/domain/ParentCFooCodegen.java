@@ -2,6 +2,7 @@ package features.domain;
 
 import features.domain.queries.ParentCFooQueries;
 import java.util.List;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -180,7 +181,7 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ParentCFooChanged extends joist.domain.AbstractChanged {
+    public static class ParentCFooChanged extends AbstractChanged {
         public ParentCFooChanged(ParentCFoo instance) {
             super(instance);
         }

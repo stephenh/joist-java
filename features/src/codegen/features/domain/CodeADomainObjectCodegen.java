@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.CodeADomainObjectQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -158,7 +159,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class CodeADomainObjectChanged extends joist.domain.AbstractChanged {
+    public static class CodeADomainObjectChanged extends AbstractChanged {
         public CodeADomainObjectChanged(CodeADomainObject instance) {
             super(instance);
         }

@@ -2,6 +2,7 @@ package features.domain;
 
 import features.domain.queries.InheritanceBRootQueries;
 import java.util.List;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -143,7 +144,7 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class InheritanceBRootChanged extends joist.domain.AbstractChanged {
+    public static class InheritanceBRootChanged extends AbstractChanged {
         public InheritanceBRootChanged(InheritanceBRoot instance) {
             super(instance);
         }

@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.PrimitivesQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -125,7 +126,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class PrimitivesChanged extends joist.domain.AbstractChanged {
+    public static class PrimitivesChanged extends AbstractChanged {
         public PrimitivesChanged(Primitives instance) {
             super(instance);
         }

@@ -2,6 +2,7 @@ package features.domain;
 
 import features.domain.queries.ParentBParentQueries;
 import java.util.List;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -180,7 +181,7 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ParentBParentChanged extends joist.domain.AbstractChanged {
+    public static class ParentBParentChanged extends AbstractChanged {
         public ParentBParentChanged(ParentBParent instance) {
             super(instance);
         }

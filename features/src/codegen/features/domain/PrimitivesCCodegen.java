@@ -3,6 +3,7 @@ package features.domain;
 import com.domainlanguage.money.Money;
 import com.domainlanguage.time.TimePoint;
 import features.domain.queries.PrimitivesCQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -149,7 +150,7 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class PrimitivesCChanged extends joist.domain.AbstractChanged {
+    public static class PrimitivesCChanged extends AbstractChanged {
         public PrimitivesCChanged(PrimitivesC instance) {
             super(instance);
         }

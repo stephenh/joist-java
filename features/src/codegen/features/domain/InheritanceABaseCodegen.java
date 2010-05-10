@@ -1,6 +1,7 @@
 package features.domain;
 
 import features.domain.queries.InheritanceABaseQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
@@ -103,7 +104,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class InheritanceABaseChanged extends joist.domain.AbstractChanged {
+    public static class InheritanceABaseChanged extends AbstractChanged {
         public InheritanceABaseChanged(InheritanceABase instance) {
             super(instance);
         }
