@@ -22,6 +22,7 @@ public class GenerateCodesPass implements Pass {
             this.addFieldsAndConstructor(code);
             this.addValues((CodeEntity) entity, code);
             this.addFromId((CodeEntity) entity, code);
+            this.addFromCode((CodeEntity) entity, code);
         }
     }
 
@@ -45,6 +46,11 @@ public class GenerateCodesPass implements Pass {
     private void addFromId(CodeEntity entity, GClass code) {
         GMethod from = code.getMethod("fromId").returnType(entity.getClassName()).arguments("Integer id").setStatic();
         from.body.line("return {}.fromInt({}.values(), id);", Codes.class.getName(), entity.getClassName());
+    }
+
+    private void addFromCode(CodeEntity entity, GClass code) {
+        GMethod from = code.getMethod("fromCode").returnType(entity.getClassName()).arguments("String code").setStatic();
+        from.body.line("return {}.fromCode({}.values(), code);", Codes.class.getName(), entity.getClassName());
     }
 
 }
