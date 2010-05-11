@@ -50,8 +50,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
     public List<String> postInjectCommands() {
         List<String> sqls = super.postInjectCommands();
 
-        String constraintName = Interpolate.string("{}_{}_owner_{}_fk",//
-            this.getName(),
+        String constraintName = Interpolate.string("{}_owner_{}_fk",//
             System.currentTimeMillis(),
             this.owner.toString().toLowerCase());
         sqls.add(Interpolate.string(
