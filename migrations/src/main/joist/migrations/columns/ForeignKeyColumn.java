@@ -6,6 +6,9 @@ import joist.util.Interpolate;
 
 public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
 
+    // We need something short (64 char max constraint names), different, and
+    // that will change each time we apply a new column. nanos might also work.
+    private static long hackyNextId = System.currentTimeMillis();
     private String otherTable;
     private String otherTableColumn;
     private Owner owner;
@@ -50,8 +53,8 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
     public List<String> postInjectCommands() {
         List<String> sqls = super.postInjectCommands();
 
-        String constraintName = Interpolate.string("{}_owner_{}_fk",//
-            System.currentTimeMillis(),
+        String constraintName = Interpolate.string("{}_{}_fk",//
+            (ForeignKeyColumn.hackyNextId++),
             this.owner.toString().toLowerCase());
         sqls.add(Interpolate.string(
             "ALTER TABLE `{}` ADD CONSTRAINT {} FOREIGN KEY (`{}`) REFERENCES `{}` (`{}`);",
