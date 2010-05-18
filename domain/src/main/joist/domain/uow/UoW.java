@@ -4,15 +4,16 @@ import java.sql.Connection;
 
 import joist.domain.DomainObject;
 import joist.domain.orm.IdentityMap;
+import joist.domain.orm.Updater;
 import joist.util.Log;
 
 public class UoW {
 
     private static final ThreadLocal<UnitOfWork> uowForThread = new ThreadLocal<UnitOfWork>();
 
-    public static void go(Block block) {
+    public static void go(Updater updater, Block block) {
         boolean committed = false;
-        UoW.open();
+        UoW.open(updater);
         try {
             block.go();
             UoW.commit();
@@ -22,9 +23,9 @@ public class UoW {
         }
     }
 
-    public static <T> T go(BlockWithReturn<T> block) {
+    public static <T> T go(Updater updater, BlockWithReturn<T> block) {
         boolean committed = false;
-        UoW.open();
+        UoW.open(updater);
         try {
             T value = block.go();
             UoW.commit();
@@ -35,9 +36,18 @@ public class UoW {
         }
     }
 
-    public static void go(BlockWithSafety block) {
+    public static <T> T read(BlockWithReturn<T> block) {
+        UoW.open(null);
+        try {
+            return block.go();
+        } finally {
+            UoW.safelyRollbackAndCloseIfNeeded(true);
+        }
+    }
+
+    public static void go(Updater updater, BlockWithSafety block) {
         boolean committed = false;
-        UoW.open();
+        UoW.open(updater);
         try {
             block.go();
             UoW.commit();
@@ -49,9 +59,9 @@ public class UoW {
         }
     }
 
-    public static <T> T go(BlockWithReturnAndSafety<T> block) {
+    public static <T> T go(Updater updater, BlockWithReturnAndSafety<T> block) {
         boolean committed = false;
-        UoW.open();
+        UoW.open(updater);
         try {
             T value = block.go();
             UoW.commit();
@@ -71,10 +81,10 @@ public class UoW {
     /**
      * Opens a new {@link UnitOfWork} and database connection.
      */
-    public static void open() {
+    public static void open(final Updater updater) {
         UoW.assertClosed();
         UoW.uowForThread.set(new UnitOfWork());
-        UoW.getCurrent().open();
+        UoW.getCurrent().open(updater);
     }
 
     /**
@@ -109,9 +119,10 @@ public class UoW {
     }
 
     public static void commitAndReOpen() {
+        final Updater updater = UoW.getCurrent().getUpdater();
         UoW.commit();
         UoW.close();
-        UoW.open();
+        UoW.open(updater);
     }
 
     /** Queues <code>instance</code> for validation on flush. */

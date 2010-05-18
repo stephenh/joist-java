@@ -1,8 +1,11 @@
 package joist.domain.uow;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import joist.domain.DomainObject;
 import joist.domain.orm.IdentityMap;
 import joist.domain.orm.Repository;
+import joist.domain.orm.Updater;
 import joist.domain.validation.Validator;
 
 /** Coordinates validation, object identity, and storing/retrieving domain objects.
@@ -15,9 +18,11 @@ public class UnitOfWork {
     private final Validator validator = new Validator();
     private final IdentityMap identityMap = new IdentityMap();
     private final Repository repository = new Repository();
+    private final AtomicReference<Updater> updater = new AtomicReference<Updater>();
 
-    void open() {
-        this.repository.open();
+    void open(final Updater updater) {
+        this.updater.set(updater);
+        this.repository.open(updater);
     }
 
     void close() {
@@ -56,4 +61,11 @@ public class UnitOfWork {
         return this.repository;
     }
 
+    void setUpdater(final Updater updater) {
+        this.updater.set(updater);
+    }
+
+    Updater getUpdater() {
+        return this.updater.get();
+    }
 }

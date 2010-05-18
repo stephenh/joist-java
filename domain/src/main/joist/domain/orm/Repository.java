@@ -16,6 +16,7 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Delete;
 import joist.domain.orm.queries.Select;
 import joist.domain.uow.UoW;
+import joist.jdbc.Jdbc;
 import joist.registry.ResourceRef;
 
 public class Repository {
@@ -52,13 +53,17 @@ public class Repository {
         }
     }
 
-    public void open() {
+    public void open(final Updater updater) {
         if (Repository.datasource == null) {
             throw new RuntimeException("The repository database has not been configured.");
         }
         try {
             this.connection = Repository.datasource.get().getConnection();
             this.connection.setAutoCommit(false);
+
+            if (updater != null) {
+                Jdbc.update(this.connection, "set @updater=\"{}\"", updater.getUpdaterId());
+            }
         } catch (SQLException se) {
             throw new RuntimeException(se);
         }

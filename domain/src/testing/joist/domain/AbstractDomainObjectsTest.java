@@ -1,5 +1,6 @@
 package joist.domain;
 
+import joist.domain.orm.NamedUpdater;
 import joist.domain.uow.UoW;
 import joist.util.TestCounters;
 import junit.framework.TestCase;
@@ -13,7 +14,7 @@ public abstract class AbstractDomainObjectsTest extends TestCase {
         if (UoW.isOpen()) {
             UoW.close();
         }
-        UoW.open();
+        UoW.open(new NamedUpdater("testing"));
     }
 
     public void tearDown() throws Exception {
