@@ -91,4 +91,14 @@ public class InheritanceATest extends AbstractFeaturesTest {
         Assert.assertTrue(otherA == a);
     }
 
+    public void testDelete() {
+        InheritanceASubOne a = new InheritanceASubOne();
+        a.setName("name");
+        a.setOne("one");
+        this.commitAndReOpen();
+
+        InheritanceASubOne.queries.delete(a);
+        this.commitAndReOpen();
+    }
+
 }

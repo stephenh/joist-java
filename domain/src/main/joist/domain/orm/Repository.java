@@ -36,7 +36,12 @@ public class Repository {
     public void delete(DomainObject instance) {
         Alias<? super DomainObject> current = AliasRegistry.get(instance);
         while (current != null) {
-            Delete.from(current).where(current.getIdColumn().equals(instance)).execute();
+            // ugly hack
+            if (current.isRootClass()) {
+                Delete.from(current).where(current.getIdColumn().equals(instance)).execute();
+            } else {
+                Delete.from(current).where(current.getSubClassIdColumn().equals(instance)).execute();
+            }
             current = current.getBaseClassAlias();
         }
     }
