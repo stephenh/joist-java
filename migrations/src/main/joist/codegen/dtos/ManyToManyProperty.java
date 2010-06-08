@@ -75,6 +75,15 @@ public class ManyToManyProperty {
         throw new RuntimeException("No ManyToOne found for " + this.myKeyColumnName);
     }
 
+    public OneToManyProperty getMySideOneToMany() {
+        for (OneToManyProperty otom : this.mySide.getOneToManyProperties()) {
+            if (otom.getManySide().equals(this.joinTable)) {
+                return otom;
+            }
+        }
+        throw new RuntimeException("No OneToMany found for " + this.myKeyColumnName);
+    }
+
     public boolean getNoTicking() {
         return this.config.isDoNotIncrementParentsOpLock(this.mySide.getClassName(), this.getVariableName());
     }
@@ -83,4 +92,7 @@ public class ManyToManyProperty {
         return this.joinTable;
     }
 
+    public String toString() {
+        return this.mySide.getClassName() + "." + this.getVariableName() + " -> " + this.joinTable.getClassName() + "." + this.myKeyColumnName;
+    }
 }

@@ -268,6 +268,10 @@ public class GenerateDomainCodegenPass implements Pass {
 
     private void manyToManyProperties(GClass domainCodegen, Entity entity) {
         for (ManyToManyProperty mtmp : entity.getManyToManyProperties()) {
+            if (mtmp.getMySideOneToMany().isCollectionSkipped()) {
+                continue;
+            }
+
             GMethod getter = domainCodegen.getMethod("get" + mtmp.getCapitalVariableName()).returnType(mtmp.getJavaType());
             getter.body.line("{} l = {};", mtmp.getJavaType(), mtmp.getDefaultJavaString());
             getter.body.line("for ({} o : this.get{}()) {",//
