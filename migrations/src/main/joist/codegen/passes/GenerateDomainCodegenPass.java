@@ -136,7 +136,7 @@ public class GenerateDomainCodegenPass implements Pass {
 
             GMethod setter = domainCodegen.getMethod("set{}", mtop.getCapitalVariableName());
             setter.argument(mtop.getJavaType(), mtop.getVariableName());
-            if (!mtop.getOneSide().isCodeEntity()) {
+            if (!mtop.getOneSide().isCodeEntity() && !mtop.getOneToManyProperty().isCollectionSkipped()) {
                 setter.body.line("if (this.{}.get() != null) {", mtop.getVariableName());
                 setter.body.line("   this.{}.get().remove{}WithoutPercolation(({}) this);",//
                     mtop.getVariableName(),
@@ -148,7 +148,7 @@ public class GenerateDomainCodegenPass implements Pass {
                 }
             }
             setter.body.line("this.set{}WithoutPercolation({});", mtop.getCapitalVariableName(), mtop.getVariableName());
-            if (!mtop.getOneSide().isCodeEntity()) {
+            if (!mtop.getOneSide().isCodeEntity() && !mtop.getOneToManyProperty().isCollectionSkipped()) {
                 setter.body.line("if (this.{}.get() != null) {", mtop.getVariableName());
                 setter.body.line("   this.{}.get().add{}WithoutPercolation(({}) this);",//
                     mtop.getVariableName(),
@@ -193,6 +193,10 @@ public class GenerateDomainCodegenPass implements Pass {
 
     private void oneToManyProperties(GClass domainCodegen, Entity entity) {
         for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
+            if (otmp.isCollectionSkipped()) {
+                continue;
+            }
+
             GField collection = domainCodegen.getField(otmp.getVariableName());
             collection.type("ForeignKeyListHolder<{}, {}>", entity.getClassName(), otmp.getTargetJavaType());
             collection.initialValue("new ForeignKeyListHolder<{}, {}>(({}) this, Aliases.{}, Aliases.{}.{})",//
@@ -341,6 +345,9 @@ public class GenerateDomainCodegenPass implements Pass {
         }
 
         for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
+            if (otmp.isCollectionSkipped()) {
+                continue;
+            }
             GMethod has = changedClass.getMethod("has{}", otmp.getCapitalVariableName()).returnType(boolean.class);
             has.body.line("return this.contains(\"{}\");", otmp.getVariableName());
         }
@@ -355,6 +362,9 @@ public class GenerateDomainCodegenPass implements Pass {
             clearAssociations.body.line("this.set{}(null);", mtop.getCapitalVariableName());
         }
         for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
+            if (otmp.isCollectionSkipped()) {
+                continue;
+            }
             if (otmp.isOneToOne()) {
                 clearAssociations.body.line("this.set{}(null);", otmp.getCapitalVariableNameSingular());
             } else {
