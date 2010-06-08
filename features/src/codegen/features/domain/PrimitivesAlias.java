@@ -42,7 +42,7 @@ public class PrimitivesAlias extends Alias<Primitives> {
     }
 
     public int getOrder() {
-        return 33;
+        return 35;
     }
 
 }

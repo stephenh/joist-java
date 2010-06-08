@@ -35,6 +35,8 @@ public class Aliases {
     public static final ParentDAlias parentD = new ParentDAlias("a");
     public static final ParentDChildAAlias parentDChildA = new ParentDChildAAlias("a");
     public static final ParentDChildBAlias parentDChildB = new ParentDChildBAlias("a");
+    public static final ParentDChildCAlias parentDChildC = new ParentDChildCAlias("a");
+    public static final ParentDToChildCAlias parentDToChildC = new ParentDToChildCAlias("a");
     public static final PrimitivesAlias primitives = new PrimitivesAlias("a");
     public static final PrimitivesBAlias primitivesB = new PrimitivesBAlias("a");
     public static final PrimitivesCAlias primitivesC = new PrimitivesCAlias("a");
@@ -73,6 +75,8 @@ public class Aliases {
         AliasRegistry.register(ParentD.class, parentD);
         AliasRegistry.register(ParentDChildA.class, parentDChildA);
         AliasRegistry.register(ParentDChildB.class, parentDChildB);
+        AliasRegistry.register(ParentDChildC.class, parentDChildC);
+        AliasRegistry.register(ParentDToChildC.class, parentDToChildC);
         AliasRegistry.register(Primitives.class, primitives);
         AliasRegistry.register(PrimitivesB.class, primitivesB);
         AliasRegistry.register(PrimitivesC.class, primitivesC);

@@ -55,7 +55,7 @@ public class PrimitivesBAlias extends Alias<PrimitivesB> {
     }
 
     public int getOrder() {
-        return 34;
+        return 36;
     }
 
 }
