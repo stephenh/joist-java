@@ -23,7 +23,7 @@
 
 		<dependency org="c3p0" name="c3p0" rev="0.9.1.2" conf="main,sources"/>
 		<!-- This is odd, but ibiblio doesn't have sources, so use our own joist driver jars. -->
-		<dependency org="joist" name="db-postgres" rev="8.4-701" conf="db-postgres->main;sources"/>
-		<dependency org="joist" name="db-mysql" rev="5.1.10" conf="db-mysql->main;sources"/>
+		<dependency org="joist" name="db-postgres" rev="8.4-701" conf="db-postgres->default;sources"/>
+		<dependency org="joist" name="db-mysql" rev="5.1.10" conf="db-mysql->default;sources"/>
 	</dependencies>
 </ivy-module>
