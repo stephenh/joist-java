@@ -18,7 +18,7 @@ public class SessionStub implements HttpSession {
         return this.values.get(arg0);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     @Override
     public Enumeration getAttributeNames() {
         return null;

@@ -38,7 +38,7 @@ public abstract class AbstractField<T extends AbstractField<T>> extends Abstract
         return false;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void onProcess() {
         String value = this.getContext().getRequest().getParameter(this.getId());
         if (value == null && this.skipBindIfParameterIsNotPresent()) {

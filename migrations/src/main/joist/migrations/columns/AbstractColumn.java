@@ -19,11 +19,13 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
         this.dataType = dataType;
     }
 
+    @SuppressWarnings("unchecked")
     public T nullable() {
         this.nullable = true;
         return (T) this;
     }
 
+    @SuppressWarnings("unchecked")
     public T unique() {
         this.unique = true;
         return (T) this;

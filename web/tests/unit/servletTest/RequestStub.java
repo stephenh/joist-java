@@ -200,7 +200,7 @@ public class RequestStub implements HttpServletRequest {
         return this.parameters;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public Enumeration<String> getParameterNames() {
         return new Vector(this.parameters.keySet()).elements();
     }

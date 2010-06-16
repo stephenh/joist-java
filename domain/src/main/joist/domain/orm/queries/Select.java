@@ -206,7 +206,7 @@ public class Select<T extends DomainObject> {
         return params;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     private void addOuterJoinsForSubClasses() {
         int i = 0;
         List<String> subClassCases = new ArrayList<String>();
@@ -222,7 +222,7 @@ public class Select<T extends DomainObject> {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     private void addInnerJoinsForBaseClasses() {
         Alias<?> base = this.from.getBaseClassAlias();
         while (base != null) {
