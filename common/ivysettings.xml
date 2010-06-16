@@ -10,22 +10,11 @@
 			<artifact pattern="${ivy.local.default.root}/${ivy.local.default.artifact.pattern}" />
 		</filesystem>
 
-		<!-- For downloading our own jars, e.g. bindgen, timeandmoney, etc. -->
-		<url name="joist">
-			<ivy pattern="http://repo.joist.ws/${ivy.local.default.ivy.pattern}" />
-			<artifact pattern="http://repo.joist.ws/${ivy.local.default.artifact.pattern}" />
-		</url>
-
+		<!-- repo.joist.ws is a maven repo. -->
 		<url name="joist-m2" m2compatible="true">
 			<ivy pattern="http://repo.joist.ws/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
 			<artifact pattern="http://repo.joist.ws/[organization]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
 		</url>
-
-		<!-- For uploading releases. -->
-		<ssh name="joist-upload" user="root" host="repo.joist.ws" publishPermissions="0644">
-			<ivy pattern="/var/joist.repo/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" />
-			<artifact pattern="/var/joist.repo/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" />
-		</ssh>
 
 		<!-- for publishing via an sshfs share -->
 		<filesystem name="maven-share" m2compatible="true">
@@ -41,7 +30,6 @@
 		<chain name="default" checkmodified="true" changingPattern=".*SNAPSHOT">
 			<!-- Check just-published local before our joist repo. -->
 			<resolver ref="local-checkmodified"/>
-			<resolver ref="joist"/>
 			<resolver ref="joist-m2"/>
 			<resolver ref="public"/>
 			<resolver ref="openqa"/>
