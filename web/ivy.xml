@@ -17,7 +17,7 @@
 		<dependency org="commons-lang" name="commons-lang" rev="2.4" conf="main->master,sources"/>
 		<dependency org="org.bindgen" name="bindgen" rev="2.3" conf="main->default,sources"/>
 		<dependency org="org.apache.velocity" name="velocity" rev="1.6.2" conf="main->default">
-			 <!-- Velocity can't just name their sources -sources like everyone else. -->
+			<!-- Velocity can't just name their sources -sources like everyone else. -->
 			<artifact name="velocity" type="jar"/>
 			<artifact name="velocity" type="source" ext="jar" m:classifier="src"/>
 		</dependency>
@@ -27,6 +27,7 @@
 		<!-- testing -->
 		<dependency org="org.openqa.selenium.webdriver" name="webdriver-firefox" rev="0.6.870" conf="testing->*"/>
 		<dependency org="org.mortbay.jetty" name="jetty" rev="6.1.9" conf="testing->default,sources"/>
+		<dependency org="org.mortbay.jetty" name="jetty-util" rev="6.1.9" conf="testing->default,sources"/>
 		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" conf="unit->default,sources"/>
 	</dependencies>
 </ivy-module>
