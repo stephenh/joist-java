@@ -28,7 +28,7 @@ public class Repository {
         T instance = (T) UoW.getIdentityMap().findOrNull(type, id);
         if (instance == null) {
             Alias<T> a = AliasRegistry.get(type);
-            instance = Select.from(a).where(a.getIdColumn().equals(id)).unique();
+            instance = Select.from(a).where(a.getIdColumn().eq(id)).unique();
         }
         return instance;
     }

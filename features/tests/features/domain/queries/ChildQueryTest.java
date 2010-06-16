@@ -23,7 +23,7 @@ public class ChildQueryTest extends TestCase {
 
         Select<Child> q = Select.from(c);
         q.join(p.on(c.parent));
-        q.where(p.name.equals("bob"));
+        q.where(p.name.eq("bob"));
         q.orderBy(p.name.asc(), c.name.asc());
 
         Assert.assertEquals(Join.lines(

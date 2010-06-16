@@ -108,9 +108,9 @@ public class InstanceUpdater<T extends DomainObject> {
             Where where;
             if (alias.isRootClass()) {
                 // We throw away the Where.parameters for our allParameters, so just use dummy values
-                where = alias.getIdColumn().equals(0).and(alias.getVersionColumn().equals(0));
+                where = alias.getIdColumn().eq(0).and(alias.getVersionColumn().eq(0));
             } else {
-                where = alias.getSubClassIdColumn().equals(0);
+                where = alias.getSubClassIdColumn().eq(0);
             }
             s.line(" WHERE {}", where.getSqlWithoutAliasPrefix(alias.getName()));
             s.stripTrailingNewLine();

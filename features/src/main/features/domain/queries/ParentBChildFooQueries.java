@@ -15,7 +15,7 @@ public class ParentBChildFooQueries extends ParentBChildFooQueriesCodegen {
 
         Select<ParentBChildFoo> q = Select.from(f);
         q.join(p.on(f.parentBParent));
-        q.where(p.name.equals(name));
+        q.where(p.name.eq(name));
         return q.list();
     }
 

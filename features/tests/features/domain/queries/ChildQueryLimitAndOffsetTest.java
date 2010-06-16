@@ -27,7 +27,7 @@ public class ChildQueryLimitAndOffsetTest extends TestCase {
 
         Select<Child> q = Select.from(c);
         q.join(p.on(c.parent));
-        q.where(p.name.equals("bob"));
+        q.where(p.name.eq("bob"));
         q.orderBy(p.name.asc(), c.name.asc());
         q.limit(10);
         q.offset(20);

@@ -19,7 +19,7 @@ public class ChildQueries extends ChildQueriesCodegen {
         ParentAlias p = new ParentAlias("p");
         Select<Child> q = Select.from(c);
         q.join(p.on(c.parent));
-        q.where(p.name.equals(name));
+        q.where(p.name.eq(name));
         q.orderBy(c.name.asc());
         return q.list();
     }

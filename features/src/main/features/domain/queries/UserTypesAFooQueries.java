@@ -11,7 +11,7 @@ public class UserTypesAFooQueries extends UserTypesAFooQueriesCodegen {
 
     public UserTypesAFoo findByCreated(CalendarDate on) {
         UserTypesAFooAlias utaf = new UserTypesAFooAlias("utaf");
-        return Select.from(utaf).where(utaf.created.equals(on)).unique();
+        return Select.from(utaf).where(utaf.created.eq(on)).unique();
     }
 
 }

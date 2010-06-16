@@ -27,7 +27,7 @@ public class InheritanceAQueryTest extends TestCase {
 
         InheritanceABaseAlias b = new InheritanceABaseAlias("b");
         Select<InheritanceABase> q = Select.from(b);
-        q.where(b.name.equals("b"));
+        q.where(b.name.eq("b"));
 
         Assert.assertEquals(Join.lines(
             "SELECT b.id, b.name, b.version, b_0.one, b_1.two,"
@@ -42,7 +42,7 @@ public class InheritanceAQueryTest extends TestCase {
     public void testFindSubOnelsoFindsBase() {
         InheritanceASubOneAlias sa = new InheritanceASubOneAlias("sa");
         Select<InheritanceASubOne> q = Select.from(sa);
-        q.where(sa.one.equals("one"));
+        q.where(sa.one.eq("one"));
 
         Assert.assertEquals(Join.lines(
             "SELECT sa.one, sa_b.id, sa_b.name, sa_b.version",

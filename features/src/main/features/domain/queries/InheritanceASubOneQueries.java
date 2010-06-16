@@ -16,7 +16,7 @@ public class InheritanceASubOneQueries extends InheritanceASubOneQueriesCodegen 
     public InheritanceASubOne findByName(String name) {
         InheritanceASubOneAlias sa = new InheritanceASubOneAlias("sa");
         Select<InheritanceASubOne> q = Select.from(sa);
-        q.where(sa.name.equals(name));
+        q.where(sa.name.eq(name));
         return q.unique();
     }
 

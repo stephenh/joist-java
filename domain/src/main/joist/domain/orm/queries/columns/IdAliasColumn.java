@@ -17,7 +17,7 @@ public class IdAliasColumn<T extends DomainObject> extends AliasColumn<T, Intege
         super(alias, name, shim);
     }
 
-    public Where equals(Integer value) {
+    public Where eq(Integer value) {
         return new Where(this.getQualifiedName() + " = ?", value);
     }
 

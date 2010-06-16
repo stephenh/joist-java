@@ -12,7 +12,7 @@ public class PrimitivesQueries extends PrimitivesQueriesCodegen {
     public Primitives findByName(String name) {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
-        q.where(p.name.equals(name));
+        q.where(p.name.eq(name));
         return q.unique();
     }
 
@@ -26,14 +26,14 @@ public class PrimitivesQueries extends PrimitivesQueriesCodegen {
     public long countWhereFlagIs(boolean flag) {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
-        q.where(p.flag.equals(flag));
+        q.where(p.flag.eq(flag));
         return q.count();
     }
 
     public Primitives find(int id) {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
-        q.where(p.id.equals(id));
+        q.where(p.id.eq(id));
         return q.unique();
     }
 
@@ -49,7 +49,7 @@ public class PrimitivesQueries extends PrimitivesQueriesCodegen {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
         q.select(p.name.as("name"));
-        q.where(p.id.equals(id));
+        q.where(p.id.eq(id));
         return q.unique(String.class);
     }
 

@@ -52,7 +52,7 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
         return new Order(this.getQualifiedName() + " desc");
     }
 
-    public Where equals(U value) {
+    public Where eq(U value) {
         return new Where(this.getQualifiedName() + " = ?", this.toJdbcValue(value));
     }
 

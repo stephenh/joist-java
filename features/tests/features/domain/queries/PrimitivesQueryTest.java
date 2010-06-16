@@ -15,7 +15,7 @@ public class PrimitivesQueryTest extends TestCase {
     public void testFindForIdEqualsSql() {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
-        q.where(p.id.equals(1));
+        q.where(p.id.eq(1));
         Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM `primitives` p\n WHERE p.id = ?", q.toSql());
         Assert.assertEquals(Copy.list(1), q.getParameters());
     }
@@ -23,7 +23,7 @@ public class PrimitivesQueryTest extends TestCase {
     public void testFindForNameEqualsSql() {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
-        q.where(p.name.equals("bob"));
+        q.where(p.name.eq("bob"));
         Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM `primitives` p\n WHERE p.name = ?", q.toSql());
         Assert.assertEquals(Copy.list("bob"), q.getParameters());
     }
@@ -31,7 +31,7 @@ public class PrimitivesQueryTest extends TestCase {
     public void testFindForNameEqualsOrderByNameSql() {
         PrimitivesAlias p = new PrimitivesAlias("p");
         Select<Primitives> q = Select.from(p);
-        q.where(p.name.equals("bob"));
+        q.where(p.name.eq("bob"));
         q.orderBy(p.name.asc());
         Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM `primitives` p\n WHERE p.name = ?\n ORDER BY p.name", q.toSql());
         Assert.assertEquals(Copy.list("bob"), q.getParameters());

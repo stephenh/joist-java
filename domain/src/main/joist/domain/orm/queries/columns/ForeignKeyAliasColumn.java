@@ -20,7 +20,7 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
         return new Where(this.getQualifiedName() + " = ?", value.getId());
     }
 
-    public Where equals(Integer value) {
+    public Where eq(Integer value) {
         return new Where(this.getQualifiedName() + " = ?", value);
     }
 
