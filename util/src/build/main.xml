@@ -11,11 +11,11 @@
 
 	<target name="main.jar" depends="main.compile" description="create binary and source jars of bin/main/ and src/main/">
 		<mkdir dir="bin/jars"/>
-		<jar destfile="bin/jars/joist.util.jar">
+		<jar destfile="bin/jars/joist-util.jar">
 			<fileset dir="bin/main" includes="**/*.class"/>
 		</jar>
 		<mkdir dir="bin/sources"/>
-		<zip destfile="bin/sources/joist.util.jar">
+		<zip destfile="bin/sources/joist-util.jar">
 			<fileset dir="src/main" includes="**/*.java"/>
 		</zip>
 	</target>

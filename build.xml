@@ -29,7 +29,7 @@
 		<subant buildpathref="modules" verbose="true">
 			<target name="main.jar"/>
 			<target name="ivy.publish-local"/>
-			<target name="ivy.publish-joist"/>
+			<target name="ivy.publish-maven-share"/>
 		</subant>
 	</target>
 

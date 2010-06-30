@@ -14,22 +14,10 @@
 		</ivy:publish>
 	</target>
 
-	<target name="ivy.publish-joist" depends="ivy.bootstrap" description="publishes the jar/source to joist.ws">
-		<ivy:resolve/>
-		<ivy:publish resolver="joist-upload" conf="main,sources,testing" status="release" forcedeliver="true">
-			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
-		</ivy:publish>
-	</target>
-
-	<target name="ivy.update-joist-repo" depends="ivy.bootstrap" description="installs all our library dependencies into the joist repo">
-		<ivy:resolve/>
-		<ivy:install organisation="${ivy.organisation}" module="${ivy.module}" revision="${ivy.revision}" from="default" to="joist" overwrite="true"/>
-	</target>
-
 	<target name="ivy.publish-maven-share" depends="ivy.bootstrap" description="publish jar/source to maven repo mounted at ~/repo">
 		<ivy:resolve/>
-		<ivy:makepom ivyfile="ivy.xml" pomfile="bin/poms/${ivy.module}.pom"/>
-		<ivy:publish status="release" resolver="maven-share" update="true" overwrite="true" forcedeliver="true">
+		<ivy:makepom ivyfile="ivy.xml" pomfile="bin/poms/joist-${ivy.module}.pom"/>
+		<ivy:publish status="release" resolver="maven-share" update="true" overwrite="true" forcedeliver="true" publishivy="false">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]" />
 		</ivy:publish>
 	</target>
