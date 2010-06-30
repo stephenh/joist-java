@@ -9,13 +9,13 @@
 		<javac srcdir="src/testing" destdir="bin/testing" classpathref="testing.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8"/>
 	</target>
 
-	<target name="testing.jar" depends="testing.compile" description="create the joist.web jar">
+	<target name="testing.jar" depends="testing.compile" description="create the joist-web jar">
 		<mkdir dir="bin/jars"/>
-		<jar destfile="bin/jars/joist.web-testing.jar">
+		<jar destfile="bin/jars/joist-web-testing.jar">
 			<fileset dir="bin/testing" includes="**/*.class"/>
 		</jar>
 		<mkdir dir="bin/sources"/>
-		<zip destfile="bin/sources/joist.web-testing.jar">
+		<zip destfile="bin/sources/joist-web-testing.jar">
 			<fileset dir="src/testing" includes="**/*.java"/>
 		</zip>
 	</target>

@@ -1,14 +1,16 @@
 <ivy-module version="2.0">
-	<info organisation="joist" module="bootstrap" revision="${joist.version}"/>
+	<info organisation="joist" module="joist-bootstrap" revision="${joist.version}"/>
 	<configurations>
 		<conf name="main"/>
 		<conf name="sources"/>
+		<conf name="build"/>
 	</configurations>
 	<publications>
-		<artifact name="joist.bootstrap" type="jar" ext="jar" conf="main"/>
-		<artifact name="joist.bootstrap" type="source" ext="jar" conf="sources"/>
+		<artifact type="pom" ext="pom" conf="build"/>
+		<artifact type="jar" ext="jar" conf="main"/>
+		<artifact type="source" ext="jar" conf="sources"/>
 	</publications>
 	<dependencies>
-		<dependency org="joist" name="util" rev="${joist.version}" conf="main"/>
+		<dependency org="joist" name="joist-util" rev="${joist.version}" conf="main"/>
 	</dependencies>
 </ivy-module>

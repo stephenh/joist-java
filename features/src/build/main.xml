@@ -12,9 +12,9 @@
 		</javac>
 	</target>
 
-	<target name="main.jar" depends="main.compile" description="create joist.features.jar">
+	<target name="main.jar" depends="main.compile" description="create joist-features.jar">
 		<mkdir dir="bin/jars"/>
-		<jar destfile="bin/jars/joist.features.jar">
+		<jar destfile="bin/jars/joist-features.jar">
 			<fileset dir="bin/main" includes="**/*.class"/>
 		</jar>
 	</target>

@@ -27,13 +27,13 @@
 		</javac>
 	</target>
 
-	<target name="main.jar" depends="main.compile,testing.jar" description="create the joist.web jar">
+	<target name="main.jar" depends="main.compile,testing.jar" description="create the joist-web jar">
 		<mkdir dir="bin/jars"/>
-		<jar destfile="bin/jars/joist.web.jar">
+		<jar destfile="bin/jars/joist-web.jar">
 			<fileset dir="bin/main" includes="**/*.class"/>
 		</jar>
 		<mkdir dir="bin/sources"/>
-		<zip destfile="bin/sources/joist.web.jar">
+		<zip destfile="bin/sources/joist-web.jar">
 			<fileset dir="src/main" includes="**/*.java"/>
 		</zip>
 	</target>

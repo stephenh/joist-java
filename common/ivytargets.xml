@@ -9,6 +9,7 @@
 
 	<target name="ivy.publish-local" depends="ivy.bootstrap" description="publishes the jar/source to your .ivy2/local/ repo">
 		<ivy:resolve/>
+		<ivy:makepom ivyfile="ivy.xml" pomfile="bin/poms/${ivy.module}.pom"/>
 		<ivy:publish resolver="local" forcedeliver="true" overwrite="true">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]"/>
 		</ivy:publish>
@@ -16,7 +17,7 @@
 
 	<target name="ivy.publish-maven-share" depends="ivy.bootstrap" description="publish jar/source to maven repo mounted at ~/repo">
 		<ivy:resolve/>
-		<ivy:makepom ivyfile="ivy.xml" pomfile="bin/poms/joist-${ivy.module}.pom"/>
+		<ivy:makepom ivyfile="ivy.xml" pomfile="bin/poms/${ivy.module}.pom"/>
 		<ivy:publish status="release" resolver="maven-share" update="true" overwrite="true" forcedeliver="true" publishivy="false">
 			<artifacts pattern="bin/[type]s/[artifact].[ext]" />
 		</ivy:publish>
