@@ -8,6 +8,6 @@ Bundle-ActivationPolicy: lazy
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: joist.web;singleton:=true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: bin/lib/main/jars/commons-lang.jar,
+Bundle-ClassPath: bin/lib/default/jars/commons-lang.jar,
  src/main/
 

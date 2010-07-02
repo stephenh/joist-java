@@ -8,8 +8,10 @@
 	<target name="unit.compile" depends="main.compile" description="compile tests/unit">
 		<mkdir dir="bin/tests/unit"/>
 		<javac srcdir="tests/unit" destdir="bin/tests/unit" classpathref="unit.classpath" debug="true" nowarn="yes" source="1.5" target="1.5" encoding="utf8">
-			<compilerarg value="-processor"/>
-			<compilerarg value="org.exigencecorp.bindgen.processor.BindgenAnnotationProcessor"/>
+			<compilerarg value="-s"/>
+			<compilerarg value="${basedir}/bin/apt-javac"/>
+			<compilerarg value="-Abindgen.skipExistingBindingCheck=true"/> <!-- for javac -->
+			<compilerarg value="-XprintRounds"/>
 		</javac>
 		<copy todir="bin/tests/unit">
 			<fileset dir="tests/unit" includes="**/*" excludes="**/*.java"/>

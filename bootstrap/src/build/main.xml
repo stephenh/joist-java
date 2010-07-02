@@ -1,7 +1,7 @@
 <project name="bootstrap.main">
 
 	<path id="main.classpath">
-		<fileset dir="bin/lib/main/jars" includes="*.jar"/>
+		<fileset dir="bin/lib/default/jars" includes="*.jar"/>
 	</path>
 
 	<target name="main.compile" depends="ivy.retrieve" description="compile src/main">
@@ -18,7 +18,7 @@
 		<jar destfile="bin/jars/joist-bootstrap.jar" manifest="bin/MANIFEST.MF">
 			<fileset dir="bin/main" includes="**/*.class"/>
 			<zipfileset dir="src/templates" includes="**/*" prefix="templates/"/>
-			<zipfileset src="bin/lib/main/jars/joist-util.jar" includes="joist/util/**/*.class"/>
+			<zipfileset src="bin/lib/default/jars/joist-util.jar" includes="joist/util/**/*.class"/>
 		</jar>
 		<mkdir dir="bin/sources"/>
 		<zip destfile="bin/sources/joist-bootstrap.jar">

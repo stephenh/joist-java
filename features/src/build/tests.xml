@@ -1,7 +1,7 @@
 <project name="features.tests">
 
 	<path id="tests.classpath">
-		<fileset dir="bin/lib/tests/jars" includes="*.jar"/>
+		<fileset dir="bin/lib/unit/jars" includes="*.jar"/>
 		<pathelement path="bin/main"/>
 	</path>
 

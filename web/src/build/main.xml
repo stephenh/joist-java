@@ -1,7 +1,8 @@
 <project name="web.main">
 
 	<path id="main.classpath">
-		<fileset dir="bin/lib/main/jars" includes="*.jar"/>
+		<fileset dir="bin/lib/default/jars" includes="*.jar"/>
+		<fileset dir="bin/lib/provided/jars" includes="*.jar"/>
 	</path>
 
 	<target name="main.compile" depends="ivy.retrieve" description="compile src/main">
@@ -14,20 +15,9 @@
 			<compilerarg value="-Abindgen.skipBindKeyword=true"/>
 			<compilerarg value="-XprintRounds"/>
 		</javac>
-		<mkdir dir="bin/unit"/>
-		<javac srcdir="tests/unit" destdir="bin/unit" classpathref="main.classpath" debug="true" nowarn="yes" source="1.6" target="1.6" encoding="utf8">
-			<classpath>
-				<pathelement location="bin/main"/>
-				<fileset dir="bin/lib/unit/jars" includes="*.jar"/>
-			</classpath>
-			<compilerarg value="-s"/>
-			<compilerarg value="${basedir}/bin/apt-javac"/>
-			<compilerarg value="-Abindgen.skipExistingBindingCheck=true"/> <!-- for javac -->
-			<compilerarg value="-XprintRounds"/>
-		</javac>
 	</target>
 
-	<target name="main.jar" depends="main.compile,testing.jar" description="create the joist-web jar">
+	<target name="main.jar" depends="main.compile" description="create the joist-web jar">
 		<mkdir dir="bin/jars"/>
 		<jar destfile="bin/jars/joist-web.jar">
 			<fileset dir="bin/main" includes="**/*.class"/>

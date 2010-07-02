@@ -1,7 +1,7 @@
 <project name="migrations.main">
 
 	<path id="main.classpath">
-		<fileset dir="bin/lib/main/jars" includes="*.jar"/>
+		<fileset dir="bin/lib/default/jars" includes="*.jar"/>
 	</path>
 
 	<target name="main.compile" depends="ivy.retrieve" description="compile src/main">

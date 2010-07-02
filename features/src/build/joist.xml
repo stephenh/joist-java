@@ -13,7 +13,7 @@
 	<target name="joist.cycle" depends="main.compile" description="recreate local database">
 		<java classname="features.cli.Cli" dir="${basedir}" fork="true">
 			<classpath>
-				<fileset dir="bin/lib/main/jars" includes="**/*.jar"/>
+				<fileset dir="bin/lib/default/jars" includes="**/*.jar"/>
 				<pathelement location="bin/main"/>
 			</classpath>
 			<arg value="JoistCli.cycle"/>

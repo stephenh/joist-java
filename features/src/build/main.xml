@@ -1,7 +1,7 @@
 <project name="features.main">
 
 	<path id="main.classpath">
-		<fileset dir="bin/lib/main/jars" includes="*.jar"/>
+		<fileset dir="bin/lib/default/jars" includes="*.jar"/>
 	</path>
 
 	<target name="main.compile" description="compile src/main/ and src/codegen/ to bin/main/" depends="ivy.retrieve">

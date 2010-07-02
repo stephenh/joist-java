@@ -1,19 +1,18 @@
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
 	<info organisation="joist" module="joist-util" revision="${joist.version}"/>
 	<configurations>
-		<conf name="main"/>
-		<conf name="unit" extends="main" visibility="private"/>
+		<conf name="default"/>
+		<conf name="unit" extends="default" visibility="private"/>
 		<conf name="sources"/>
-		<conf name="build"/>
 	</configurations>
 	<publications>
-		<artifact type="pom" ext="pom" conf="build"/>
-		<artifact type="jar" ext="jar" conf="main"/>
+		<artifact type="pom" ext="pom" conf="default"/>
+		<artifact type="jar" ext="jar" conf="default"/>
 		<artifact type="source" ext="jar" conf="sources" m:classifier="sources"/>
 	</publications>
-	<dependencies defaultconfmapping="main->main(master),sources;unit->master,sources">
-		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.8" conf="main->master;sources->sources()"/>
-		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" conf="unit->default,sources"/>
-		<dependency org="junit" name="junit" rev="3.8.2" conf="unit->default,sources"/>
+	<dependencies defaultconfmapping="default->default,sources();unit->default,sources()">
+		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.8" conf="default"/>
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" conf="unit"/>
+		<dependency org="junit" name="junit" rev="3.8.2" conf="unit"/>
 	</dependencies>
 </ivy-module>
