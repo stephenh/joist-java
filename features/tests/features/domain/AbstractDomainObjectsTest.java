@@ -1,5 +1,6 @@
-package joist.domain;
+package features.domain;
 
+import joist.domain.DomainObject;
 import joist.domain.orm.NamedUpdater;
 import joist.domain.uow.UoW;
 import joist.util.TestCounters;

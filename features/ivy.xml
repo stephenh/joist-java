@@ -2,14 +2,14 @@
 	<info organisation="joist" module="joist-features" revision="${joist.version}"/>
 	<configurations>
 		<conf name="main"/>
-		<conf name="testing" extends="main" visibility="private"/>
+		<conf name="tests" extends="main" visibility="private"/>
 		<conf name="sources"/>
 	</configurations>
 	<publications>
 		<artifact type="jar" ext="jar" conf="main"/>
 	</publications>
 	<dependencies>
-		<dependency org="joist" name="joist-domain" rev="${joist.version}" conf="main->main,db-mysql;testing;sources"/>
+		<dependency org="joist" name="joist-domain" rev="${joist.version}" conf="main->main,db-mysql;sources"/>
 		<dependency org="joist" name="joist-migrations" rev="${joist.version}" conf="main;sources"/>
 		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" conf="main->default,sources"/>
 	</dependencies>

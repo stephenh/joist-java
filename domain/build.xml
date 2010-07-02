@@ -3,7 +3,6 @@
 <project name="joist.domain" default="main.jar">
 	<import file="../common/ivytargets.xml"/>
 	<import file="src/build/main.xml"/>
-	<import file="src/build/testing.xml"/>
 	<import file="src/build/unit.xml"/>
 
 	<target name="test" description="run all domain tests">
