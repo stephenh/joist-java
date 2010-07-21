@@ -5,24 +5,6 @@ import org.slf4j.LoggerFactory;
 
 public class Log {
 
-    static {
-        try {
-            Object config = Class.forName("LogConfiguration").newInstance();
-            config.getClass().getMethod("setup").invoke(null);
-        } catch (Exception e) {
-            System.err.println("Failed looking for a LogConfiguration: " + e.getMessage());
-        }
-    }
-
-    /** Looks for a LogConfiguration class.
-     *
-     * Kind of like log4j.properties, except log4j does not know about it, so
-     * we need to explicitly init() it.
-     */
-    public static void init() {
-        // Dummy method so callers can force the static block initializer block to be called
-    }
-
     private Log() {
     }
 

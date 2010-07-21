@@ -12,7 +12,6 @@
 	</publications>
 	<dependencies defaultconfmapping="default->default,sources();unit->default,sources()">
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.8" conf="default"/>
-		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" conf="unit"/>
 		<dependency org="junit" name="junit" rev="3.8.2" conf="unit"/>
 	</dependencies>
 </ivy-module>
