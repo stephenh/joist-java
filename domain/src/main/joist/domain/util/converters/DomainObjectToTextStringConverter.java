@@ -1,4 +1,4 @@
-package joist.domain.util;
+package joist.domain.util.converters;
 
 import joist.converter.AbstractOneWayConverter;
 import joist.domain.DomainObject;

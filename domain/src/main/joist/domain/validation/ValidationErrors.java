@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joist.domain.DomainObject;
-import joist.domain.util.TextString;
+import joist.domain.util.converters.TextString;
 import joist.domain.validation.errors.GeneralError;
 import joist.domain.validation.errors.ObjectError;
 import joist.domain.validation.errors.PropertyError;

@@ -1,6 +1,6 @@
 package features.domain;
 
-import joist.domain.util.TextString;
+import joist.domain.util.converters.TextString;
 import joist.domain.validation.ValidationErrors;
 import joist.domain.validation.rules.Rule;
 
