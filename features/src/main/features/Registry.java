@@ -31,7 +31,7 @@ public class Registry {
     private Registry() {
         SystemProperties.loadFromFileIfExists("./build.properties");
         this.appDatasource = this.refs.newRef(DataSource.class).factory(new MySqlC3p0Factory(ConnectionSettings.forApp("features"))).make();
-        Repository.datasource = this.appDatasource;
+        Repository.datasource = this.appDatasource.get();
     }
 
     private void start2() {

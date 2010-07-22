@@ -17,11 +17,10 @@ import joist.domain.orm.queries.Delete;
 import joist.domain.orm.queries.Select;
 import joist.domain.uow.UoW;
 import joist.jdbc.Jdbc;
-import joist.registry.ResourceRef;
 
 public class Repository {
 
-    public static ResourceRef<DataSource> datasource = null;
+    public static DataSource datasource = null;
     private Connection connection;
 
     public <T extends DomainObject> T load(Class<T> type, Integer id) {
@@ -63,7 +62,7 @@ public class Repository {
             throw new RuntimeException("The repository database has not been configured.");
         }
         try {
-            this.connection = Repository.datasource.get().getConnection();
+            this.connection = Repository.datasource.getConnection();
             this.connection.setAutoCommit(false);
 
             if (updater != null) {
