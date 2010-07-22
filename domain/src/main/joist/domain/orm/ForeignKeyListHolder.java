@@ -45,7 +45,7 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
                     throw new DisconnectedException();
                 }
                 Select<U> q = Select.from(this.childAlias);
-                q.where(this.childForeignKeyToParentColumn.equals(this.parent));
+                q.where(this.childForeignKeyToParentColumn.eq(this.parent));
                 q.orderBy(this.childAlias.getIdColumn().asc());
                 this.loaded = q.list();
             } else {
