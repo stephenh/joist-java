@@ -3,8 +3,8 @@ package joist.domain.orm;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -38,9 +38,9 @@ public class Repository {
         while (current != null) {
             // ugly hack
             if (current.isRootClass()) {
-                Delete.from(current).where(current.getIdColumn().equals(instance)).execute();
+                Delete.from(current).where(current.getIdColumn().eq(instance)).execute();
             } else {
-                Delete.from(current).where(current.getSubClassIdColumn().equals(instance)).execute();
+                Delete.from(current).where(current.getSubClassIdColumn().eq(instance)).execute();
             }
             current = current.getBaseClassAlias();
         }

@@ -21,7 +21,7 @@ public class IdAliasColumn<T extends DomainObject> extends AliasColumn<T, Intege
         return new Where(this.getQualifiedName() + " = ?", value);
     }
 
-    public Where equals(T value) {
+    public Where eq(T value) {
         return new Where(this.getQualifiedName() + " = ?", value.getId());
     }
 
