@@ -9,6 +9,8 @@ import joist.domain.orm.queries.columns.IdAliasColumn;
 import joist.domain.orm.queries.columns.IntAliasColumn;
 
 /**
+ * The base class that the code-generated, type-safe aliases extend.
+ *
  * @param T the domain class to query against
  */
 public abstract class Alias<T extends DomainObject> {
