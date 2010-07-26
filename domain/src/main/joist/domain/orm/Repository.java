@@ -66,7 +66,7 @@ public class Repository {
             this.connection.setAutoCommit(false);
 
             if (updater != null) {
-                Jdbc.update(this.connection, "set @updater=\"{}\"", updater.getUpdaterId());
+                Jdbc.update(this.connection, "set @updater='{}'", updater.getUpdaterId());
             }
         } catch (SQLException se) {
             throw new RuntimeException(se);
