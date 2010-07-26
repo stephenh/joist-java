@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import joist.util.Log;
 import joist.util.Reflection;
 import joist.web.exceptions.IoException;
 
@@ -21,7 +20,6 @@ public abstract class WebServlet extends HttpServlet {
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         super.init(servletConfig);
-        Log.init();
         this.servletConfig = servletConfig;
         this.clickConfig = this.createWebConfig();
     }
