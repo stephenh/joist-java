@@ -1,5 +1,6 @@
 package features.domain;
 
+import joist.domain.AbstractDomainObjectsTest;
 import joist.jdbc.Jdbc;
 import features.Registry;
 

@@ -1,4 +1,4 @@
-package features.domain;
+package joist.domain;
 
 import joist.domain.DomainObject;
 import joist.domain.orm.NamedUpdater;
@@ -37,7 +37,8 @@ public abstract class AbstractDomainObjectsTest extends TestCase {
         UoW.flush();
     }
 
-    protected <T extends DomainObject> T reload(T instance) {
+    @SuppressWarnings("unchecked")
+	protected <T extends DomainObject> T reload(T instance) {
         return (T) UoW.load(instance.getClass(), instance.getId());
     }
 

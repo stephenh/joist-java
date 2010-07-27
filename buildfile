@@ -12,7 +12,7 @@ TIMEANDMONEY = 'timeandmoney:timeandmoney:jar:0.5.1'
 MYSQL = 'mysql:mysql-connector-java:jar:5.1.13'
 VELOCITY = transitive('org.apache.velocity:velocity:jar:1.6.2').reject { |a| a.group == 'ant' }
 BINDGEN = 'org.bindgen:bindgen:jar:2.3'
-SERVLET_API = 'javax.servlet:servlet-api:jar:2.4'
+SERVLET_API = 'javax.servlet:servlet-api:jar:2.5'
 
 define 'joist' do
   project.version = 'SNAPSHOT'
@@ -25,6 +25,12 @@ define 'joist' do
     package :sources
     compile.with projects('util'), COMMONS_LANG, TIMEANDMONEY, C3P0
     test.with SLF4J_JDK, JUNIT
+  end
+
+  define 'domain-testing' do
+    package :jar
+    package :sources
+    compile.with projects('domain', 'util'), JUNIT
   end
 
   define 'util' do
@@ -46,7 +52,7 @@ define 'joist' do
     package :sources
     compile.from _('src/codegen')
     compile.with projects('domain', 'migrations', 'util'), COMMONS_LANG, TIMEANDMONEY
-    test.with JUNIT, MYSQL, C3P0, SLF4J_API, SLF4J_JDK
+    test.with projects('domain-testing'), JUNIT, MYSQL, C3P0, SLF4J_API, SLF4J_JDK
   end
 
   define 'web' do
