@@ -4,6 +4,8 @@ repositories.remote << 'http://www.ibiblio.org/maven2'
 repositories.remote << 'http://repo.joist.ws'
 # http://download.java.net/maven/1/
 
+THIS_VERSION = "0.4-SNAPSHOT"
+
 C3P0 = 'c3p0:c3p0:jar:0.9.1.2'
 COMMONS_LANG = 'commons-lang:commons-lang:jar:2.4'
 JUNIT = 'junit:junit:jar:3.8.2'
@@ -16,7 +18,7 @@ BINDGEN = 'org.bindgen:bindgen:jar:2.3'
 SERVLET_API = 'javax.servlet:servlet-api:jar:2.5'
 
 define 'joist' do
-  project.version = 'SNAPSHOT'
+  project.version = THIS_VERSION
   project.compile.options.target = '1.6'
   project.compile.options.source = '1.6'
   project.compile.options.XprintRounds
