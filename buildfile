@@ -52,6 +52,7 @@ define 'joist' do
   define 'web' do
     package :jar
     package :sources
+    compile.from _('target/apt')
     compile.with projects('util'), VELOCITY, BINDGEN, COMMONS_LANG, SERVLET_API
     test.with BINDGEN, SLF4J_API, SLF4J_JDK
   end
