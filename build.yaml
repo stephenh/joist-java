@@ -1,0 +1,19 @@
+
+gems:
+  ivy4r
+ivy:
+  settings.file: common/ivysettings.xml
+  publish.options:
+    resolver: maven-share
+    artifactspattern: ./[module]/target/[artifact]-[revision](-[classifier]).[ext]
+    publishivy: false
+  makepom.options:
+    nested:
+      mapping_1:
+        conf: default
+        scope: compile
+      mapping_2:
+        conf: unit
+        scope: test
+
+
