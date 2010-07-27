@@ -1,4 +1,5 @@
 
+repositories.release_to = "file://#{ENV['HOME']}/repo"
 repositories.remote << 'http://www.ibiblio.org/maven2'
 repositories.remote << 'http://repo.joist.ws'
 # http://download.java.net/maven/1/
