@@ -16,7 +16,9 @@ SERVLET_API = 'javax.servlet:servlet-api:jar:2.4'
 
 define 'joist' do
   project.version = 'SNAPSHOT'
-  project.compile.options = :target => '1.6', :source => '1.6', :XprintRounds => 'true'
+  project.compile.options.target = '1.6'
+  project.compile.options.source = '1.6'
+  project.compile.options.XprintRounds = 'true'
 
   define 'domain' do
     package :jar
