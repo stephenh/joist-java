@@ -1,6 +1,0 @@
-<project name="@projectName@.ivy" xmlns:ivy="antlib:org.apache.ivy.ant">
-	<target name="ivy.retrieve" depends="ivy.bootstrap" description="downloads the dependencies to bin/lib/">
-		<!-- Outputting jar and source to the same directory had bindgen source stomping on the jar. -->
-		<ivy:retrieve pattern="bin/lib/[conf]/[type]s/[artifact].[ext]" conf="*" type="*"/>
-	</target>
-</project>
