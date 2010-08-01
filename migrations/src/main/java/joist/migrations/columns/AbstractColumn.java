@@ -52,10 +52,6 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
         return this.getQuotedName() + " " + this.getDataType();
     }
 
-    public List<String> preInjectCommands() {
-        return new ArrayList<String>();
-    }
-
     public List<String> postInjectCommands() {
         List<String> sqls = new ArrayList<String>();
         if (!this.isNullable()) {

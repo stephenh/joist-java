@@ -158,11 +158,6 @@ public class MigrationKeywords {
 
     public static void addColumn(String table, Column column, FillInStrategy fill) {
         column.setTableName(table);
-        // pre
-        List<String> pre = column.preInjectCommands();
-        for (String sql : pre) {
-            MigrationKeywords.execute(sql);
-        }
         // column
         MigrationKeywords.execute("ALTER TABLE `{}` ADD COLUMN {}", table, column.toSql());
         // fill

@@ -22,7 +22,6 @@ public class CreateTable {
 
         for (Column column : this.columns) {
             column.setTableName(this.name);
-            sqls.addAll(column.preInjectCommands());
         }
 
         StringBuilderr sb = new StringBuilderr();

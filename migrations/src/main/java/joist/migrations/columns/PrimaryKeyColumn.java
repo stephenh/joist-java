@@ -1,7 +1,5 @@
 package joist.migrations.columns;
 
-import java.util.List;
-
 import joist.migrations.MigrationKeywords;
 
 public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
@@ -30,15 +28,6 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
             return this.sequenceName;
         }
         return this.getTableName() + "_" + this.getName() + "_seq";
-    }
-
-    @Override
-    public List<String> preInjectCommands() {
-        List<String> sqls = super.preInjectCommands();
-        if (this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
-            // sb.line("CREATE SEQUENCE {};", this.getSequenceName());
-        }
-        return sqls;
     }
 
     public PrimaryKeyColumn noSequence() {

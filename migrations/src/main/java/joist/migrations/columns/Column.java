@@ -10,8 +10,6 @@ public interface Column {
 
     String toSql();
 
-    List<String> preInjectCommands();
-
     List<String> postInjectCommands();
 
 }
