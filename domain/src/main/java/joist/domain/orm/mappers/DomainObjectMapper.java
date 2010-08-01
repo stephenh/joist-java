@@ -49,7 +49,8 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
         }
         while (current != null) {
             for (AliasColumn<? super T, ?, ?> c : current.getColumns()) {
-                Object jdbcValue = rs.getObject(c.getQualifiedName());
+                // Object jdbcValue = rs.getObject(c.getQualifiedName());
+                Object jdbcValue = rs.getObject(c.getName());
                 ((AliasColumn<T, ?, Object>) c).setJdbcValue(instance, jdbcValue);
             }
             current = current.getBaseClassAlias();

@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import joist.domain.DomainObject;
 import joist.domain.orm.impl.InstanceInserter;
 import joist.domain.orm.impl.InstanceUpdater;
+import joist.domain.orm.impl.SequenceIdAssigner;
 import joist.domain.orm.impl.SortedInstances;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Delete;
@@ -20,6 +21,7 @@ import joist.jdbc.Jdbc;
 
 public class Repository {
 
+    public static Db db = null;
     public static DataSource datasource = null;
     private Connection connection;
 
@@ -47,10 +49,17 @@ public class Repository {
 
     public void store(Set<DomainObject> instances) {
         SortedInstances sorted = new SortedInstances(instances);
-        // new IdAssigner().assignIds(sorted.inserts);
+        if (Repository.db.isPg()) {
+            new SequenceIdAssigner().assignIds(sorted.insertNewIds);
+        }
         for (Class<DomainObject> key : sorted.insertsByForeignKey) {
-            InstanceInserter.get(key).insertHasId(sorted.insertHasIds.get(key));
-            InstanceInserter.get(key).insertNewId(sorted.insertNewIds.get(key));
+            if (Repository.db.isMySQL()) {
+                InstanceInserter.get(key).insertHasId(sorted.insertHasIds.get(key));
+                InstanceInserter.get(key).insertNewId(sorted.insertNewIds.get(key));
+            } else {
+                InstanceInserter.get(key).insertHasId(sorted.insertHasIds.get(key));
+                InstanceInserter.get(key).insertHasId(sorted.insertNewIds.get(key)); // got ids from SequenceIdAssigner
+            }
         }
         for (Entry<Class<DomainObject>, List<DomainObject>> entry : sorted.updates.entrySet()) {
             InstanceUpdater.get(entry.getKey()).update(entry.getValue());
@@ -65,7 +74,8 @@ public class Repository {
             this.connection = Repository.datasource.getConnection();
             this.connection.setAutoCommit(false);
 
-            if (updater != null) {
+            if (updater != null && Repository.db.isMySQL()) {
+                // pg doesn't have session variables
                 Jdbc.update(this.connection, "set @updater='{}'", updater.getUpdaterId());
             }
         } catch (SQLException se) {

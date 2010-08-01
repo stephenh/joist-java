@@ -13,6 +13,7 @@ SLF4J_API = 'org.slf4j:slf4j-api:jar:1.5.8'
 SLF4J_JDK = 'org.slf4j:slf4j-jdk14:jar:1.5.8'
 TIMEANDMONEY = 'timeandmoney:timeandmoney:jar:0.5.1'
 MYSQL = 'mysql:mysql-connector-java:jar:5.1.13'
+PG = 'postgresql:postgresql:jar:8.4-701.jdbc4'
 VELOCITY = transitive('org.apache.velocity:velocity:jar:1.6.2').reject { |a| a.group == 'ant' or a.group == 'javax.servlet' }
 BINDGEN = 'org.bindgen:bindgen:jar:2.3'
 SERVLET_API = 'javax.servlet:servlet-api:jar:2.5'
@@ -55,7 +56,7 @@ define 'joist' do
     package :sources
     compile.from _('src/codegen')
     compile.with projects('domain', 'migrations', 'util'), COMMONS_LANG, TIMEANDMONEY
-    test.with projects('domain-testing'), JUNIT, MYSQL, C3P0, SLF4J_API, SLF4J_JDK
+    test.with projects('domain-testing'), JUNIT, MYSQL, PG, C3P0, SLF4J_API, SLF4J_JDK
   end
 
   define 'web' do

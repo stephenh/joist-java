@@ -2,6 +2,7 @@ package joist.domain.orm.queries.columns;
 
 import joist.domain.DomainObject;
 import joist.domain.Shim;
+import joist.domain.orm.Repository;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.SetItem;
 
@@ -12,6 +13,7 @@ public class BooleanAliasColumn<T extends DomainObject> extends AliasColumn<T, B
     }
 
     public SetItem<T> to(Boolean value) {
-        return new SetItem<T>(this, value ? 1 : 0);
+        Object o = Repository.db.isMySQL() ? (value ? 1 : 0) : value;
+        return new SetItem<T>(this, o);
     }
 }
