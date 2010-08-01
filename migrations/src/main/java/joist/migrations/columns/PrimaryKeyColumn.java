@@ -1,8 +1,8 @@
 package joist.migrations.columns;
 
-import java.util.ArrayList;
 import java.util.List;
-import joist.util.Interpolate;
+
+import joist.migrations.MigrationKeywords;
 
 public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
 
@@ -18,8 +18,8 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
     }
 
     public String toSql() {
-        if (this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
-            return super.toSql() + " AUTO_INCREMENT PRIMARY KEY";
+        if (MigrationKeywords.db.isPg() && this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
+            return super.getQuotedName() + " SERIAL PRIMARY KEY";
         } else {
             return super.toSql() + " PRIMARY KEY";
         }
@@ -30,19 +30,6 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
             return this.sequenceName;
         }
         return this.getTableName() + "_" + this.getName() + "_seq";
-    }
-
-    @Override
-    public List<String> postInjectCommands() {
-        List<String> sqls = new ArrayList<String>();
-        if (!this.isNullable()) {
-            sqls.add(Interpolate.string("ALTER TABLE `{}` MODIFY `{}` {} AUTO_INCREMENT NOT NULL;", this.getTableName(), this.getName(), this.getDataType()));
-        }
-        if (this.isUnique()) {
-            String constraintName = this.getTableName() + "_" + this.getName() + "_key";
-            sqls.add(Interpolate.string("ALTER TABLE {} ADD CONSTRAINT {} UNIQUE ({});", this.getTableName(), constraintName, this.getName()));
-        }
-        return sqls;
     }
 
     @Override
@@ -57,6 +44,16 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
     public PrimaryKeyColumn noSequence() {
         this.useSequence = UseSequence.No;
         return this;
+    }
+
+    @Override
+    public String getDataType() {
+        if (MigrationKeywords.db.isMySQL() && this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
+            // Add AUTO_INCREMENT here so it gets used for add/remove not null
+            return "int AUTO_INCREMENT";
+        } else {
+            return super.getDataType();
+        }
     }
 
 }

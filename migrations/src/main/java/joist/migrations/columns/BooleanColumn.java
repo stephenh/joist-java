@@ -1,11 +1,13 @@
 package joist.migrations.columns;
 
+import joist.migrations.MigrationKeywords;
+
 public class BooleanColumn extends AbstractColumn<BooleanColumn> {
 
     private Boolean defaultValue = null;
 
     public BooleanColumn(String name) {
-        super(name, "bit");
+        super(name, MigrationKeywords.db.isMySQL() ? "bit" : "boolean");
     }
 
     public BooleanColumn defaultTrue() {
@@ -19,9 +21,11 @@ public class BooleanColumn extends AbstractColumn<BooleanColumn> {
     }
 
     public String toSql() {
-        String sql = this.getQuotedName() + " bit";
+        String sql = this.getQuotedName() + " " + (MigrationKeywords.db.isMySQL() ? "bit" : "boolean");
         if (this.defaultValue != null) {
-            sql += " DEFAULT " + ((this.defaultValue) ? "1" : "0");
+            String defaultTrue = MigrationKeywords.db.isMySQL() ? "1" : "true";
+            String defaultFalse = MigrationKeywords.db.isMySQL() ? "0" : "false";
+            sql += " DEFAULT " + (this.defaultValue ? defaultTrue : defaultFalse);
         }
         return sql;
     }

@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import joist.codegen.InformationSchemaWrapper;
 import joist.domain.Code;
+import joist.domain.orm.Db;
 import joist.jdbc.Jdbc;
 import joist.jdbc.RowMapper;
 import joist.util.Inflector;
@@ -24,10 +25,10 @@ public class SchemaCheck {
     /**
      * @param dataSource a non-sa datasource, as we want to SchemaCheck in production, which doesn't have sa access
      */
-    public SchemaCheck(String appDbName, String packageName, DataSource dataSource) {
+    public SchemaCheck(Db db, String appDbName, String packageName, DataSource dataSource) {
         this.packageName = packageName;
         this.dataSource = dataSource;
-        this.wrapper = new InformationSchemaWrapper(appDbName, dataSource);
+        this.wrapper = new InformationSchemaWrapper(db, appDbName, dataSource);
     }
 
     public void checkStructureMatch(int code) {

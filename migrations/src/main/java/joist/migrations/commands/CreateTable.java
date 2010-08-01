@@ -3,6 +3,7 @@ package joist.migrations.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import joist.migrations.MigrationKeywords;
 import joist.migrations.columns.Column;
 import joist.util.StringBuilderr;
 
@@ -30,7 +31,11 @@ public class CreateTable {
             sb.line(1, column.toSql() + ",");
         }
         sb.stripLastCharacterOnPreviousLine(); // Remove the last ,
-        sb.line(") type = InnoDB;");
+        if (MigrationKeywords.db.isMySQL()) {
+            sb.line(") type = InnoDB;");
+        } else {
+            sb.line(")");
+        }
         sb.stripTrailingNewLine();
         sqls.add(sb.toString());
 

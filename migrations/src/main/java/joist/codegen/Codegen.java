@@ -22,6 +22,7 @@ import joist.codegen.passes.GenerateQueriesIfNotExistsPass;
 import joist.codegen.passes.GenerateSchemaHash;
 import joist.codegen.passes.OutputPass;
 import joist.codegen.passes.Pass;
+import joist.domain.orm.Db;
 import joist.domain.util.ConnectionSettings;
 import joist.sourcegen.GDirectory;
 import joist.util.Copy;
@@ -29,6 +30,7 @@ import joist.util.Copy;
 /** Generates our domain objects from the database schema. */
 public class Codegen {
 
+    private final Db db;
     private final CodegenConfig config;
     private final ConnectionSettings appDbSettings;
     private final DataSource dataSource;
@@ -40,13 +42,14 @@ public class Codegen {
     private final List<String> manyToManyTables;
 
     /** @param saDataSource should be sa so we can see the information schema stuff */
-    public Codegen(ConnectionSettings appDbSettings, DataSource saDataSource, CodegenConfig config) {
+    public Codegen(Db db, ConnectionSettings appDbSettings, DataSource saDataSource, CodegenConfig config) {
+        this.db = db;
         this.config = config;
         this.appDbSettings = appDbSettings;
         this.dataSource = saDataSource;
         this.outputCodegenDirectory = new GDirectory(config.getOutputCodegenDirectory());
         this.outputSourceDirectory = new GDirectory(config.getOutputSourceDirectory());
-        this.informationSchema = new InformationSchemaWrapper(appDbSettings.databaseName, saDataSource);
+        this.informationSchema = new InformationSchemaWrapper(db, appDbSettings.databaseName, saDataSource);
         this.codeTables = this.informationSchema.getCodeTables();
         this.manyToManyTables = this.informationSchema.getManyToManyTables();
     }
@@ -121,6 +124,10 @@ public class Codegen {
 
     public ConnectionSettings getAppDbSettings() {
         return this.appDbSettings;
+    }
+
+    public Db getDb() {
+        return this.db;
     }
 
 }

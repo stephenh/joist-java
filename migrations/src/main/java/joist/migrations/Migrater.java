@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import joist.domain.orm.Db;
 import joist.domain.util.ConnectionSettings;
 import joist.jdbc.Jdbc;
 import joist.util.Log;
@@ -21,11 +22,12 @@ public class Migrater {
         return Migrater.current.get();
     }
 
-    public Migrater(ConnectionSettings dbAppSettings, DataSource saDataSource, MigraterConfig config) {
+    public Migrater(Db db, ConnectionSettings dbAppSettings, DataSource saDataSource, MigraterConfig config) {
         this.config = config;
         this.dataSource = saDataSource;
-        this.schemaInfoTable = new SchemaVersionTable(dbAppSettings, saDataSource);
+        this.schemaInfoTable = new SchemaVersionTable(db, dbAppSettings, saDataSource);
         this.migrationClasses = new MigrationLoader(this.config.packageNamesContainingMigrations);
+        MigrationKeywords.db = db;
     }
 
     public void migrate() {

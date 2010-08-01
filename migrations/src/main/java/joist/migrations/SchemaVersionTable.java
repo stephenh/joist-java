@@ -5,18 +5,19 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import joist.domain.orm.Db;
 import joist.domain.util.ConnectionSettings;
 import joist.jdbc.Jdbc;
 
 /** A simple wrapper around the <code>schema_version</code> table for the {@link Migrater} class. */
 public class SchemaVersionTable {
 
-    private final ConnectionSettings dbAppSettings;
     private final DataSource dataSource;
+    private final String schemaName;
 
-    public SchemaVersionTable(ConnectionSettings dbAppSettings, DataSource dataSource) {
-        this.dbAppSettings = dbAppSettings;
+    public SchemaVersionTable(Db db, ConnectionSettings dbAppSettings, DataSource dataSource) {
         this.dataSource = dataSource;
+        this.schemaName = db.isPg() ? "public" : dbAppSettings.databaseName;
     }
 
     public boolean tryToLock() {
@@ -54,6 +55,6 @@ public class SchemaVersionTable {
         return Jdbc.queryForInt(
             this.dataSource,
             "select count(*) from information_schema.tables where table_name = 'schema_version' and table_schema = '{}'",
-            this.dbAppSettings.databaseName) > 0;
+            this.schemaName) > 0;
     }
 }

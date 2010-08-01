@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
+import joist.domain.orm.Db;
 import joist.jdbc.Jdbc;
 import joist.jdbc.RowMapper;
 import joist.util.Copy;
@@ -18,13 +19,15 @@ import joist.util.MapToList;
 
 public class InformationSchemaWrapper {
 
-    private final String dbName;
+    private final Db db;
+    private final String schemaName;
     private final DataSource dataSource;
     private final List<InformationSchemaColumn> columns = new ArrayList<InformationSchemaColumn>();
     private List<String> entityTables;
 
-    public InformationSchemaWrapper(String dbName, DataSource dataSource) {
-        this.dbName = dbName;
+    public InformationSchemaWrapper(Db db, String dbName, DataSource dataSource) {
+        this.db = db;
+        this.schemaName = db.isPg() ? "public" : dbName;
         this.dataSource = dataSource;
         this.findColumns();
         this.findConstraints();
@@ -175,19 +178,29 @@ public class InformationSchemaWrapper {
             + " FROM information_schema.columns c"
             + " INNER JOIN information_schema.tables t on c.table_name = t.table_name"
             + " WHERE t.table_schema = '"
-            + this.dbName
+            + this.schemaName
             + "' AND c.table_schema = '"
-            + this.dbName
+            + this.schemaName
             + "'";
     }
 
     private String getConstraintSql() {
-        return "SELECT"
-            + " kcu.table_name, kcu.column_name, kcu.constraint_name, kcu.referenced_table_name AS ref_table_name, kcu.referenced_column_name AS ref_column_name"
-            + " FROM information_schema.key_column_usage kcu"
-            + " WHERE kcu.table_schema = '"
-            + this.dbName
-            + "'";
+        if (this.db.isPg()) {
+            return "SELECT"
+                + " kcu.table_name, kcu.column_name, kcu.constraint_name, ccu.table_name AS ref_table_name, ccu.column_name AS ref_column_name"
+                + " FROM information_schema.key_column_usage kcu"
+                + " INNER JOIN information_schema.constraint_column_usage ccu ON kcu.constraint_name = ccu.constraint_name"
+                + " WHERE kcu.table_schema = 'public'";
+        } else if (this.db.isMySQL()) {
+            return "SELECT"
+                + " kcu.table_name, kcu.column_name, kcu.constraint_name, kcu.referenced_table_name AS ref_table_name, kcu.referenced_column_name AS ref_column_name"
+                + " FROM information_schema.key_column_usage kcu"
+                + " WHERE kcu.table_schema = '"
+                + this.schemaName
+                + "'";
+        } else {
+            throw new IllegalStateException("Unhandled db " + this.db);
+        }
     }
 
     // For some reason pg is a dog if we join table_constraints into the above query, so do it separately

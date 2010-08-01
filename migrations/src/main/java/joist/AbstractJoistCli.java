@@ -7,8 +7,10 @@ import javax.sql.DataSource;
 
 import joist.codegen.Codegen;
 import joist.codegen.CodegenConfig;
+import joist.domain.orm.Db;
 import joist.domain.util.ConnectionSettings;
 import joist.domain.util.MySqlC3p0Factory;
+import joist.domain.util.Pgc3p0Factory;
 import joist.migrations.DatabaseBootstrapper;
 import joist.migrations.Migrater;
 import joist.migrations.MigraterConfig;
@@ -17,6 +19,7 @@ import joist.util.Inflector;
 
 public abstract class AbstractJoistCli {
 
+    public Db db;
     public ConnectionSettings dbAppUserSettings;
     public ConnectionSettings dbAppSaSettings;
     public ConnectionSettings dbSystemSettings;
@@ -24,12 +27,13 @@ public abstract class AbstractJoistCli {
     public MigraterConfig migraterConfig = new MigraterConfig();
     private final Map<ConnectionSettings, DataSource> dss = new HashMap<ConnectionSettings, DataSource>();
 
-    public AbstractJoistCli(String projectName) {
+    public AbstractJoistCli(String projectName, Db db) {
+        this.db = db;
         this.dbAppUserSettings = ConnectionSettings.forApp(Inflector.underscore(projectName));
         this.dbAppSaSettings = ConnectionSettings.forSa(Inflector.underscore(projectName));
 
         this.dbSystemSettings = ConnectionSettings.forSa(Inflector.underscore(projectName));
-        this.dbSystemSettings.databaseName = "mysql";
+        this.dbSystemSettings.databaseName = db.isPg() ? "postgres" : "mysql";
         this.dbSystemSettings.password = this.dbAppSaSettings.password;
 
         this.migraterConfig.setProjectNameForDefaults(projectName);
@@ -48,25 +52,28 @@ public abstract class AbstractJoistCli {
 
     public void createDatabase() {
         new DatabaseBootstrapper(//
+            this.db,
             this.getDataSourceForSystemTableAsSaUser(),
             this.getDataSourceForAppTableAsSaUser(),
             this.dbAppUserSettings).dropAndCreate();
     }
 
     public void migrateDatabase() {
-        new Migrater(this.dbAppUserSettings, this.getDataSourceForAppTableAsSaUser(), this.migraterConfig).migrate();
+        new Migrater(this.db, this.dbAppUserSettings, this.getDataSourceForAppTableAsSaUser(), this.migraterConfig).migrate();
     }
 
     public void fixPermissions() {
-        PermissionFixer pf = new PermissionFixer(this.dbAppUserSettings, this.getDataSourceForAppTableAsSaUser());
-        pf.setOwnerOfAllTablesTo(this.dbAppSaSettings.user);
-        // pf.setOwnerOfAllSequencesTo(this.dbAppSaSettings.user);
+        PermissionFixer pf = new PermissionFixer(this.db, this.dbAppUserSettings, this.getDataSourceForAppTableAsSaUser());
         pf.grantAllOnAllTablesTo(this.dbAppUserSettings.user);
-        // pf.grantAllOnAllSequencesTo(this.dbAppUserSettings.user);
+        if (this.db.isPg()) {
+            pf.setOwnerOfAllTablesTo(this.dbAppSaSettings.user); // mysql doesn't have ownership
+            pf.setOwnerOfAllSequencesTo(this.dbAppSaSettings.user);
+            pf.grantAllOnAllSequencesTo(this.dbAppUserSettings.user);
+        }
     }
 
     public void codegen() {
-        new Codegen(this.dbAppUserSettings, this.getDataSourceForAppTableAsSaUser(), this.codegenConfig).generate();
+        new Codegen(this.db, this.dbAppUserSettings, this.getDataSourceForAppTableAsSaUser(), this.codegenConfig).generate();
     }
 
     private DataSource getDataSourceForAppTableAsSaUser() {
@@ -79,7 +86,7 @@ public abstract class AbstractJoistCli {
 
     private DataSource getCachedDatasource(ConnectionSettings settings) {
         if (!this.dss.containsKey(settings)) {
-            DataSource ds = new MySqlC3p0Factory(settings).create();
+            DataSource ds = (this.db.isPg() ? new Pgc3p0Factory(settings) : new MySqlC3p0Factory(settings)).create();
             this.dss.put(settings, ds);
         }
         return this.dss.get(settings);

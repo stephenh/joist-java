@@ -3,6 +3,7 @@ package joist.migrations;
 import java.sql.SQLException;
 import java.util.List;
 
+import joist.domain.orm.Db;
 import joist.jdbc.Jdbc;
 import joist.jdbc.JdbcException;
 import joist.migrations.columns.BigIntColumn;
@@ -24,6 +25,8 @@ import joist.util.Join;
 import joist.util.Wrap;
 
 public class MigrationKeywords {
+
+    public static Db db;
 
     public static void execute(String sql, Object... args) {
         Jdbc.update(Migrater.getConnection(), sql, args);
