@@ -33,4 +33,8 @@ public enum CodeASize implements Code {
         return joist.domain.util.Codes.fromInt(CodeASize.values(), id);
     }
 
+    public static CodeASize fromCode(String code) {
+        return joist.domain.util.Codes.fromCode(CodeASize.values(), code);
+    }
+
 }

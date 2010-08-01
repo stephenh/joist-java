@@ -9,7 +9,7 @@ Bindgen
 Overview
 --------
 
-The separate [Bindgen](http://github.com/stephenh/bindgen) project is joist.web's type-safe alternative to expression languages like UL and OGNL. 
+The separate [Bindgen](http://github.com/stephenh/bindgen) project is joist-web's type-safe alternative to expression languages like UL and OGNL. 
 
 Bindgen uses code generation, but is built on top of the JDK6 annotation processor API to provide (in Eclipse) a seamless editing/generation experience. The generated code is kept up to date as soon as "save" is hit.
 

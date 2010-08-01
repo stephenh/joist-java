@@ -20,21 +20,23 @@ public class InheritanceBMiddleAlias extends Alias<InheritanceBMiddle> {
 
     public InheritanceBMiddleAlias(String alias) {
         super(InheritanceBMiddle.class, "inheritance_b_middle", alias);
-        this.addSubClassAlias(new InheritanceBBottomAlias(this, alias + "_0"));
+        InheritanceBMiddleAlias inheritanceBMiddle = this;
+        InheritanceBBottomAlias inheritanceBBottom = new InheritanceBBottomAlias(inheritanceBMiddle, alias + "_0");
+        this.addSubClassAlias(inheritanceBBottom);
         this.baseAlias = new InheritanceBRootAlias(alias + "_b");
         this.columns.add(this.middleName);
-        this.id = (this.baseAlias == null) ? null : this.baseAlias.id;
-        this.name = (this.baseAlias == null) ? null : this.baseAlias.name;
-        this.version = (this.baseAlias == null) ? null : this.baseAlias.version;
+        this.id = this.baseAlias.id;
+        this.name = this.baseAlias.name;
+        this.version = this.baseAlias.version;
     }
 
-    public InheritanceBMiddleAlias(Alias<?> rootAlias, String alias) {
+    public InheritanceBMiddleAlias(InheritanceBRootAlias baseAlias, String alias) {
         super(InheritanceBMiddle.class, "inheritance_b_middle", alias);
-        this.baseAlias = null;
+        this.baseAlias = baseAlias;
         this.columns.add(this.middleName);
-        this.id = (this.baseAlias == null) ? null : this.baseAlias.id;
-        this.name = (this.baseAlias == null) ? null : this.baseAlias.name;
-        this.version = (this.baseAlias == null) ? null : this.baseAlias.version;
+        this.id = this.baseAlias.id;
+        this.name = this.baseAlias.name;
+        this.version = this.baseAlias.version;
     }
 
     public List<AliasColumn<InheritanceBMiddle, ?, ?>> getColumns() {
@@ -58,7 +60,7 @@ public class InheritanceBMiddleAlias extends Alias<InheritanceBMiddle> {
     }
 
     public int getOrder() {
-        return 7;
+        return 6;
     }
 
 }

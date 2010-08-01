@@ -1,10 +1,10 @@
 package features.domain;
 
 import features.domain.queries.ChildQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
@@ -12,17 +12,15 @@ import joist.domain.validation.rules.NotNull;
 
 public abstract class ChildCodegen extends AbstractDomainObject {
 
-    protected static ChildAlias alias;
     public static final ChildQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyHolder<Parent> parent = new ForeignKeyHolder<Parent>(Parent.class);
+    private final ForeignKeyHolder<Parent> parent = new ForeignKeyHolder<Parent>(Parent.class);
     protected Changed changed;
 
     static {
-        alias = new ChildAlias("a");
-        AliasRegistry.register(Child.class, alias);
+        Aliases.init();
         queries = new ChildQueries();
     }
 
@@ -140,7 +138,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ChildChanged extends joist.domain.AbstractChanged {
+    public static class ChildChanged extends AbstractChanged {
         public ChildChanged(Child instance) {
             super(instance);
         }

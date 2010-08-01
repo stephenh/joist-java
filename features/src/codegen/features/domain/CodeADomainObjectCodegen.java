@@ -1,10 +1,10 @@
 package features.domain;
 
 import features.domain.queries.CodeADomainObjectQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyCodeHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
@@ -12,18 +12,16 @@ import joist.domain.validation.rules.NotNull;
 
 public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
 
-    protected static CodeADomainObjectAlias alias;
     public static final CodeADomainObjectQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyCodeHolder<CodeAColor> codeAColor = new ForeignKeyCodeHolder<CodeAColor>(CodeAColor.class);
-    private ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
+    private final ForeignKeyCodeHolder<CodeAColor> codeAColor = new ForeignKeyCodeHolder<CodeAColor>(CodeAColor.class);
+    private final ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
     protected Changed changed;
 
     static {
-        alias = new CodeADomainObjectAlias("a");
-        AliasRegistry.register(CodeADomainObject.class, alias);
+        Aliases.init();
         queries = new CodeADomainObjectQueries();
     }
 
@@ -161,7 +159,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class CodeADomainObjectChanged extends joist.domain.AbstractChanged {
+    public static class CodeADomainObjectChanged extends AbstractChanged {
         public CodeADomainObjectChanged(CodeADomainObject instance) {
             super(instance);
         }

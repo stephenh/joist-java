@@ -3,3 +3,7 @@ bin
 build.properties
 newproject
 docs.zip
+target
+reports
+.classpath
+.project

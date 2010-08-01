@@ -1,27 +1,25 @@
 package features.domain;
 
 import features.domain.queries.ManyToManyAFooToBarQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
 
 public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
 
-    protected static ManyToManyAFooToBarAlias alias;
     public static final ManyToManyAFooToBarQueries queries;
     private Integer id = null;
     private Integer version = null;
-    private ForeignKeyHolder<ManyToManyABar> manyToManyABar = new ForeignKeyHolder<ManyToManyABar>(ManyToManyABar.class);
-    private ForeignKeyHolder<ManyToManyAFoo> manyToManyAFoo = new ForeignKeyHolder<ManyToManyAFoo>(ManyToManyAFoo.class);
+    private final ForeignKeyHolder<ManyToManyABar> manyToManyABar = new ForeignKeyHolder<ManyToManyABar>(ManyToManyABar.class);
+    private final ForeignKeyHolder<ManyToManyAFoo> manyToManyAFoo = new ForeignKeyHolder<ManyToManyAFoo>(ManyToManyAFoo.class);
     protected Changed changed;
 
     static {
-        alias = new ManyToManyAFooToBarAlias("a");
-        AliasRegistry.register(ManyToManyAFooToBar.class, alias);
+        Aliases.init();
         queries = new ManyToManyAFooToBarQueries();
     }
 
@@ -149,7 +147,7 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ManyToManyAFooToBarChanged extends joist.domain.AbstractChanged {
+    public static class ManyToManyAFooToBarChanged extends AbstractChanged {
         public ManyToManyAFooToBarChanged(ManyToManyAFooToBar instance) {
             super(instance);
         }

@@ -1,6 +1,5 @@
 package features.domain.queries;
 
-import features.domain.OneToOneABar;
 import features.domain.OneToOneAFoo;
 import joist.domain.AbstractQueries;
 
@@ -11,7 +10,6 @@ public abstract class OneToOneAFooQueriesCodegen extends AbstractQueries<OneToOn
     }
 
     public void delete(OneToOneAFoo instance) {
-        OneToOneABar.queries.delete(instance.getOneToOneABar());
         super.delete(instance);
     }
 

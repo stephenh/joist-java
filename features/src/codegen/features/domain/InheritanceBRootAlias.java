@@ -20,8 +20,11 @@ public class InheritanceBRootAlias extends Alias<InheritanceBRoot> {
 
     public InheritanceBRootAlias(String alias) {
         super(InheritanceBRoot.class, "inheritance_b_root", alias);
-        this.addSubClassAlias(new InheritanceBMiddleAlias(this, alias + "_0"));
-        this.addSubClassAlias(new InheritanceBBottomAlias(this, alias + "_1"));
+        InheritanceBRootAlias inheritanceBRoot = this;
+        InheritanceBMiddleAlias inheritanceBMiddle = new InheritanceBMiddleAlias(inheritanceBRoot, alias + "_0");
+        this.addSubClassAlias(inheritanceBMiddle);
+        InheritanceBBottomAlias inheritanceBBottom = new InheritanceBBottomAlias(inheritanceBMiddle, alias + "_1");
+        this.addSubClassAlias(inheritanceBBottom);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

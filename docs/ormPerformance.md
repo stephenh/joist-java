@@ -9,14 +9,14 @@ Performance
 Startup Time
 ------------
 
-joist.domain was designed to start as quickly as possible, especially on large schemas that are typical of enterprise projects.
+joist-domain was designed to start as quickly as possible, especially on large schemas that are typical of enterprise projects.
 
 For example, running 1 JUnit test to save an `Address` object on a ~200-table schema:
 
 * Hibernate: 6.7 seconds
 * Joist: 0.4 seconds
 
-joist.domain starts 94% faster than Hibernate on this large, ~200-table schema.
+joist-domain starts 94% faster than Hibernate on this large, ~200-table schema.
 
 Most of the remaining startup time, ~0.3 seconds worth, is the database connection/pool getting established, so it is unlikely to go away.
 

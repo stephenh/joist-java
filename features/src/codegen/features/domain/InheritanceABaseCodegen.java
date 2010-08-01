@@ -1,17 +1,16 @@
 package features.domain;
 
 import features.domain.queries.InheritanceABaseQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
 public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
 
-    protected static InheritanceABaseAlias alias;
     public static final InheritanceABaseQueries queries;
     private Integer id = null;
     private String name = null;
@@ -19,8 +18,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        alias = new InheritanceABaseAlias("a");
-        AliasRegistry.register(InheritanceABase.class, alias);
+        Aliases.init();
         queries = new InheritanceABaseQueries();
     }
 
@@ -106,7 +104,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class InheritanceABaseChanged extends joist.domain.AbstractChanged {
+    public static class InheritanceABaseChanged extends AbstractChanged {
         public InheritanceABaseChanged(InheritanceABase instance) {
             super(instance);
         }

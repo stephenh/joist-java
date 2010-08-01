@@ -43,7 +43,7 @@ Framework Example
 
 The benefit of `fooBinding.bar().zaz()` over `foo.getBar().setZaz()` is that we can pass `zazBinding` around like an UL/OGNL expression for frameworks to put data in/out of.
 
-An example from the Bindgen [github site](http://github.com/stephenh/bindge) of pseudo-code for a potential framework (such as [joist.web](./web.html)):
+An example from the Bindgen [github site](http://github.com/stephenh/bindgen) of pseudo-code for a potential framework (such as [joist-web](./web.html)):
 
 <pre name="code" class="java">
     @Bindable

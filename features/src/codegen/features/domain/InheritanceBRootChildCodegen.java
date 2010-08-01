@@ -1,10 +1,10 @@
 package features.domain;
 
 import features.domain.queries.InheritanceBRootChildQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
@@ -12,17 +12,15 @@ import joist.domain.validation.rules.NotNull;
 
 public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject {
 
-    protected static InheritanceBRootChildAlias alias;
     public static final InheritanceBRootChildQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyHolder<InheritanceBRoot> inheritanceBRoot = new ForeignKeyHolder<InheritanceBRoot>(InheritanceBRoot.class);
+    private final ForeignKeyHolder<InheritanceBRoot> inheritanceBRoot = new ForeignKeyHolder<InheritanceBRoot>(InheritanceBRoot.class);
     protected Changed changed;
 
     static {
-        alias = new InheritanceBRootChildAlias("a");
-        AliasRegistry.register(InheritanceBRootChild.class, alias);
+        Aliases.init();
         queries = new InheritanceBRootChildQueries();
     }
 
@@ -140,7 +138,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
         };
     }
 
-    public static class InheritanceBRootChildChanged extends joist.domain.AbstractChanged {
+    public static class InheritanceBRootChildChanged extends AbstractChanged {
         public InheritanceBRootChildChanged(InheritanceBRootChild instance) {
             super(instance);
         }

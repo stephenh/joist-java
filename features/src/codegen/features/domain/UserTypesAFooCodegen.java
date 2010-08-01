@@ -2,17 +2,16 @@ package features.domain;
 
 import com.domainlanguage.time.CalendarDate;
 import features.domain.queries.UserTypesAFooQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
 public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
 
-    protected static UserTypesAFooAlias alias;
     public static final UserTypesAFooQueries queries;
     private CalendarDate created = null;
     private Integer id = null;
@@ -21,8 +20,7 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        alias = new UserTypesAFooAlias("a");
-        AliasRegistry.register(UserTypesAFoo.class, alias);
+        Aliases.init();
         queries = new UserTypesAFooQueries();
     }
 
@@ -129,7 +127,7 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class UserTypesAFooChanged extends joist.domain.AbstractChanged {
+    public static class UserTypesAFooChanged extends AbstractChanged {
         public UserTypesAFooChanged(UserTypesAFoo instance) {
             super(instance);
         }

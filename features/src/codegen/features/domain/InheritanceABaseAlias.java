@@ -17,8 +17,11 @@ public class InheritanceABaseAlias extends Alias<InheritanceABase> {
 
     public InheritanceABaseAlias(String alias) {
         super(InheritanceABase.class, "inheritance_a_base", alias);
-        this.addSubClassAlias(new InheritanceASubOneAlias(this, alias + "_0"));
-        this.addSubClassAlias(new InheritanceASubTwoAlias(this, alias + "_1"));
+        InheritanceABaseAlias inheritanceABase = this;
+        InheritanceASubOneAlias inheritanceASubOne = new InheritanceASubOneAlias(inheritanceABase, alias + "_0");
+        this.addSubClassAlias(inheritanceASubOne);
+        InheritanceASubTwoAlias inheritanceASubTwo = new InheritanceASubTwoAlias(inheritanceABase, alias + "_1");
+        this.addSubClassAlias(inheritanceASubTwo);
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);
