@@ -36,7 +36,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
     }
 
     public String getQuotedName() {
-        return Wrap.backquotes(this.name);
+        return Wrap.quotes(this.name);
     }
 
     public String getTableName() {

@@ -13,6 +13,7 @@ import joist.jdbc.RowMapper;
 import joist.util.Inflector;
 import joist.util.Interpolate;
 import joist.util.Reflection;
+import joist.util.Wrap;
 
 public class SchemaCheck {
 
@@ -46,8 +47,10 @@ public class SchemaCheck {
                 maxId = Math.max(maxId, code.getId());
 
                 // Try an exact match first
-                int exactMatch = Jdbc.queryForInt(this.dataSource, "select count(*) from `{}` where id = {} and code = '{}'",//
-                    tableName,
+                int exactMatch = Jdbc.queryForInt(//
+                    this.dataSource,
+                    "select count(*) from {} where id = {} and code = '{}'",//
+                    Wrap.quotes(tableName),
                     code.getId(),
                     code.getCode());
                 if (exactMatch == 1) {
@@ -55,7 +58,11 @@ public class SchemaCheck {
                 }
 
                 // Next see if we're getting id collision
-                int idMatch = Jdbc.queryForInt(this.dataSource, "select count(*) from `{}` where id = {}", tableName, code.getId());
+                int idMatch = Jdbc.queryForInt(//
+                    this.dataSource,
+                    "select count(*) from {} where id = {}",
+                    Wrap.quotes(tableName),
+                    code.getId());
                 if (idMatch == 0) {
                     String message = Interpolate.string("Code {} {}-{} is not in the database", tableName, code.getId(), code.getCode());
                     throw new RuntimeException(message);
@@ -66,7 +73,7 @@ public class SchemaCheck {
             }
 
             // Now watch for database codes not matching Java codes
-            Jdbc.query(this.dataSource, "select * from `" + tableName + "`", new RowMapper() {
+            Jdbc.query(this.dataSource, "select * from " + Wrap.quotes(tableName), new RowMapper() {
                 public void mapRow(ResultSet rs) throws SQLException {
                     // Make sure this id is in our Java codes
                     int id = rs.getInt("id");
