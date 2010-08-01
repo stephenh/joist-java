@@ -21,7 +21,7 @@ import joist.domain.orm.queries.columns.StringAliasColumn;
 public class CodegenConfig {
 
     /** Where the generated-once subclasses (e.g. Employee) that you add business logic go. @return E.g. <code>src/main</code> */
-    public String outputSourceDirectory = "./src/main";
+    public String outputSourceDirectory = "./src/main/java";
 
     /** Where the re-generated base classes (e.g. EmployeeCodegen) that you do not edit go. @return E.g. <code>src/codegen</code> */
     public String outputCodegenDirectory = "./src/codegen";
