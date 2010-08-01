@@ -33,12 +33,12 @@ public class Registry {
         // mysql
         // SystemProperties.loadFromFileIfExists("./build.properties");
         // Repository.db = Db.MYSQL;
-        // this.appDatasource = this.refs.newRef(DataSource.class).factory(new MySqlC3p0Factory(ConnectionSettings.forApp("features"))).make();
+        // this.appDatasource = this.refs.newRef(DataSource.class).factory(new MySqlC3p0Factory(ConnectionSettings.forApp(Db.MYSQL, "features"))).make();
 
         // pg
         SystemProperties.loadFromFileIfExists("./build-pg.properties");
         Repository.db = Db.PG;
-        this.appDatasource = this.refs.newRef(DataSource.class).factory(new Pgc3p0Factory(ConnectionSettings.forApp("features"))).make();
+        this.appDatasource = this.refs.newRef(DataSource.class).factory(new Pgc3p0Factory(ConnectionSettings.forApp(Db.PG, "features"))).make();
 
         Repository.datasource = this.appDatasource.get();
     }

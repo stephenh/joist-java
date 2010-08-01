@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import joist.domain.orm.Db;
 import joist.domain.util.ConnectionSettings;
 import joist.jdbc.Jdbc;
 import joist.jdbc.RowMapper;
@@ -17,13 +16,11 @@ import joist.util.Wrap;
 
 public class PermissionFixer {
 
-    private final Db db;
-    private final String schemaName;
+    private final ConnectionSettings dbAppSettings;
     private final DataSource ds;
 
-    public PermissionFixer(Db db, ConnectionSettings dbAppSettings, DataSource saDatasource) {
-        this.db = db;
-        this.schemaName = db.isPg() ? "public" : dbAppSettings.databaseName;
+    public PermissionFixer(ConnectionSettings dbAppSettings, DataSource saDatasource) {
+        this.dbAppSettings = dbAppSettings;
         this.ds = saDatasource;
     }
 
@@ -44,7 +41,10 @@ public class PermissionFixer {
     public void grantAllOnAllTablesTo(String role) {
         Log.debug("Granting ALL on all tables to {}", role);
         for (String tableName : this.getTableNames()) {
-            Jdbc.update(this.ds, "GRANT ALL ON TABLE {} TO {}{}", Wrap.quotes(tableName), role, this.db.isMySQL() ? "@'%'" : "");
+            Jdbc.update(this.ds, "GRANT ALL ON TABLE {} TO {}{}",//
+                Wrap.quotes(tableName),
+                role,
+                this.dbAppSettings.db.isMySQL() ? "@'%'" : "");
         }
     }
 
@@ -60,7 +60,7 @@ public class PermissionFixer {
         Jdbc.query(
             this.ds,
             "SELECT table_name FROM information_schema.tables WHERE table_schema = ?",
-            Copy.<Object> list(this.schemaName),
+            Copy.<Object> list(this.dbAppSettings.schemaName),
             new RowMapper() {
                 public void mapRow(ResultSet rs) throws SQLException {
                     names.add(rs.getString(1));
@@ -74,7 +74,7 @@ public class PermissionFixer {
         Jdbc.query(
             this.ds,
             "SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = ?",
-            Copy.<Object> list(this.schemaName),
+            Copy.<Object> list(this.dbAppSettings.schemaName),
             new RowMapper() {
                 public void mapRow(ResultSet rs) throws SQLException {
                     names.add(rs.getString(1));

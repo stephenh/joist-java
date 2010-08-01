@@ -2,6 +2,7 @@ package joist.codegen.passes;
 
 import joist.codegen.Codegen;
 import joist.codegen.dtos.Entity;
+import joist.domain.orm.Db;
 import joist.jdbc.Jdbc;
 import joist.util.StringBuilderr;
 import joist.util.Wrap;
@@ -9,12 +10,13 @@ import joist.util.Wrap;
 public class GenerateFlushFunction implements Pass {
 
     public void pass(Codegen codegen) {
-        if (codegen.getDb().isPg()) {
+        Db db = codegen.getAppDbSettings().db;
+        if (db.isPg()) {
             this.generatePg(codegen);
-        } else if (codegen.getDb().isMySQL()) {
+        } else if (db.isMySQL()) {
             this.generateMySQL(codegen);
         } else {
-            throw new IllegalStateException("Unhandled db " + codegen.getDb());
+            throw new IllegalStateException("Unhandled db " + db);
         }
     }
 

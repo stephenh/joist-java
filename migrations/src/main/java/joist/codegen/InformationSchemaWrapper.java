@@ -25,9 +25,9 @@ public class InformationSchemaWrapper {
     private final List<InformationSchemaColumn> columns = new ArrayList<InformationSchemaColumn>();
     private List<String> entityTables;
 
-    public InformationSchemaWrapper(Db db, String dbName, DataSource dataSource) {
+    public InformationSchemaWrapper(Db db, String schemaName, DataSource dataSource) {
         this.db = db;
-        this.schemaName = db.isPg() ? "public" : dbName;
+        this.schemaName = schemaName;
         this.dataSource = dataSource;
         this.findColumns();
         this.findConstraints();

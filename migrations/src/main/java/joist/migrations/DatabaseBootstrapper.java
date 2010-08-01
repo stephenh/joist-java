@@ -11,25 +11,24 @@ import joist.util.Log;
 
 public class DatabaseBootstrapper {
 
-    private final Db db;
     private final DataSource systemDataSource;
     private final DataSource appDataSource;
     private final ConnectionSettings appSettings;
 
-    public DatabaseBootstrapper(Db db, DataSource systemDataSource, DataSource appDataSource, ConnectionSettings appSettings) {
-        this.db = db;
+    public DatabaseBootstrapper(DataSource systemDataSource, DataSource appDataSource, ConnectionSettings appSettings) {
         this.systemDataSource = systemDataSource;
         this.appDataSource = appDataSource;
         this.appSettings = appSettings;
     }
 
     public void dropAndCreate() {
-        if (this.db.isPg()) {
+        Db db = this.appSettings.db;
+        if (db.isPg()) {
             this.dropAndCreatePg();
-        } else if (this.db.isMySQL()) {
+        } else if (db.isMySQL()) {
             this.dropAndCreateMySQL();
         } else {
-            throw new IllegalStateException("Unhandled db " + this.db);
+            throw new IllegalStateException("Unhandled db " + db);
         }
     }
 

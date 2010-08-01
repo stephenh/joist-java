@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import joist.domain.orm.Db;
 import joist.domain.util.ConnectionSettings;
 import joist.jdbc.Jdbc;
 
@@ -15,9 +14,9 @@ public class SchemaVersionTable {
     private final DataSource dataSource;
     private final String schemaName;
 
-    public SchemaVersionTable(Db db, ConnectionSettings dbAppSettings, DataSource dataSource) {
+    public SchemaVersionTable(ConnectionSettings dbAppSettings, DataSource dataSource) {
         this.dataSource = dataSource;
-        this.schemaName = db.isPg() ? "public" : dbAppSettings.databaseName;
+        this.schemaName = dbAppSettings.schemaName;
     }
 
     public boolean tryToLock() {
