@@ -41,7 +41,7 @@ public class MigrationKeywords {
         for (String sql : t.toSql()) {
             MigrationKeywords.execute(sql);
         }
-        MigrationKeywords.addForeignKeyConstraint(name, MigrationKeywords.foreignKey("id", parentName, "id"));
+        MigrationKeywords.addForeignKeyConstraint(name, MigrationKeywords.foreignKey("id", parentName, "id").ownerIsThem());
     }
 
     public static void createCodeTable(String name) {
