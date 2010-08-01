@@ -117,13 +117,13 @@ public class InstanceInserter<T extends DomainObject> {
         private String toSql(Alias<?> alias) {
             StringBuilderr s = new StringBuilderr();
             s.append("INSERT INTO ");
-            s.append(Wrap.backquotes(alias.getTableName()));
+            s.append(Wrap.quotes(alias.getTableName()));
             s.append(" (");
             for (AliasColumn<?, ?, ?> column : this.columns) {
                 if (column instanceof IdAliasColumn<?> && this.alias.isRootClass() && !this.hasId) {
                     continue;
                 }
-                s.append(Wrap.backquotes(column.getName()));
+                s.append(Wrap.quotes(column.getName()));
                 s.append(", ");
             }
             s.stripLastCommaSpace();

@@ -169,7 +169,7 @@ public class Select<T extends DomainObject> {
     public String toSql() {
         StringBuilderr s = new StringBuilderr();
         s.line("SELECT {}", Join.commaSpace(this.selectItems));
-        s.line(" FROM {} {}", Wrap.backquotes(this.from.getTableName()), this.from.getName());
+        s.line(" FROM {} {}", Wrap.quotes(this.from.getTableName()), this.from.getName());
         for (JoinClause<?, ?> join : this.joins) {
             s.line(" {}", join);
         }

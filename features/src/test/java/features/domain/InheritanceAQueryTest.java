@@ -32,9 +32,9 @@ public class InheritanceAQueryTest extends TestCase {
         Assert.assertEquals(Join.lines(
             "SELECT b.id, b.name, b.version, b_0.one, b_1.two,"
                 + " CASE WHEN b_1.id IS NOT NULL THEN 1 WHEN b_0.id IS NOT NULL THEN 0 ELSE -1 END as _clazz",
-            " FROM `inheritance_a_base` b",
-            " LEFT OUTER JOIN `inheritance_a_sub_one` b_0 ON b.id = b_0.id",
-            " LEFT OUTER JOIN `inheritance_a_sub_two` b_1 ON b.id = b_1.id",
+            " FROM \"inheritance_a_base\" b",
+            " LEFT OUTER JOIN \"inheritance_a_sub_one\" b_0 ON b.id = b_0.id",
+            " LEFT OUTER JOIN \"inheritance_a_sub_two\" b_1 ON b.id = b_1.id",
             " WHERE b.name = ?"), q.toSql());
         Assert.assertEquals(Copy.list("b"), q.getWhere().getParameters());
     }
@@ -46,8 +46,8 @@ public class InheritanceAQueryTest extends TestCase {
 
         Assert.assertEquals(Join.lines(
             "SELECT sa.one, sa_b.id, sa_b.name, sa_b.version",
-            " FROM `inheritance_a_sub_one` sa",
-            " INNER JOIN `inheritance_a_base` sa_b ON sa.id = sa_b.id",
+            " FROM \"inheritance_a_sub_one\" sa",
+            " INNER JOIN \"inheritance_a_base\" sa_b ON sa.id = sa_b.id",
             " WHERE sa.one = ?"), q.toSql());
         Assert.assertEquals(Copy.list("one"), q.getWhere().getParameters());
     }
