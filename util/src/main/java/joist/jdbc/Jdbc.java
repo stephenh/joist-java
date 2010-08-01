@@ -141,6 +141,18 @@ public class Jdbc {
         }
     }
 
+    public static void query(DataSource ds, String sql, List<Object> parameters, RowMapper rse) {
+        Connection connection = null;
+        try {
+            connection = ds.getConnection();
+            Jdbc.query(connection, sql, parameters, rse);
+        } catch (SQLException se) {
+            throw new JdbcException(se);
+        } finally {
+            Jdbc.closeSafely(connection);
+        }
+    }
+
     public static void query(Connection connection, String sql, List<Object> parameters, RowMapper rse) {
         PreparedStatement s = null;
         ResultSet rs = null;
