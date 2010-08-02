@@ -117,7 +117,7 @@ public class Select<T extends DomainObject> {
 
   public List<Integer> listIds() {
     List<Integer> ids = new ArrayList<Integer>();
-    this.select(((IdAliasColumn<T>) this.from.getIdColumn()).as("id"));
+    this.select(this.from.getIdColumn().as("id"));
     this.orderBy(this.from.getIdColumn().asc()); // determinism
     Jdbc.query(UoW.getConnection(), this.toSql(), this.getParameters(), new IdsMapper<T>(this.from, ids));
     return ids;
