@@ -68,7 +68,7 @@ public class MigrationKeywords {
   }
 
   public static void alterColumnType(String tableName, String columName, String type) {
-    MigrationKeywords.execute("ALTER TABLE `{}` ALTER COLUMN `{}` TYPE {}", tableName, columName, type);
+    MigrationKeywords.execute("ALTER TABLE {} ALTER COLUMN {} TYPE {}", Wrap.quotes(tableName), Wrap.quotes(columName), type);
   }
 
   public static void addCode(String tableName, String code, String description) {
@@ -79,9 +79,9 @@ public class MigrationKeywords {
   public static void addUnique(String tableName, String... columnNames) {
     String constraintName = tableName + "_" + Join.underscore(columnNames) + "_key";
     MigrationKeywords.execute(//
-      "ALTER TABLE `{}` ADD CONSTRAINT `{}` UNIQUE ({});",
-      tableName,
-      constraintName,
+      "ALTER TABLE {} ADD CONSTRAINT {} UNIQUE ({});",
+      Wrap.quotes(tableName),
+      Wrap.quotes(constraintName),
       Join.commaSpace(Wrap.quotes(columnNames)));
   }
 
@@ -97,7 +97,8 @@ public class MigrationKeywords {
   }
 
   public static void dropNotNull(String tableName, String columnName) {
-    Jdbc.update(Migrater.getConnection(), "alter table `{}` alter column `{}` drop not null", tableName, columnName);
+    // note: mysql is going to need the data type
+    Jdbc.update(Migrater.getConnection(), "ALTER TABLE {} ALTER COLUMN {} DROP NOT NULL", Wrap.quotes(tableName), Wrap.quotes(columnName));
   }
 
   public static PrimaryKeyColumn primaryKey(String name) {
@@ -159,7 +160,7 @@ public class MigrationKeywords {
   public static void addColumn(String table, Column column, FillInStrategy fill) {
     column.setTableName(table);
     // column
-    MigrationKeywords.execute("ALTER TABLE `{}` ADD COLUMN {}", table, column.toSql());
+    MigrationKeywords.execute("ALTER TABLE {} ADD COLUMN {}", Wrap.quotes(table), column.toSql());
     // fill
     if (fill != null) {
       try {
@@ -176,7 +177,7 @@ public class MigrationKeywords {
   }
 
   public static void dropColumn(String table, String column) {
-    MigrationKeywords.execute("ALTER TABLE `{}` DROP COLUMN `{}`;", table, column);
+    MigrationKeywords.execute("ALTER TABLE {} DROP COLUMN {};", Wrap.quotes(table), Wrap.quotes(column));
   }
 
   public static FillInStrategy constantFillIn(String fragment) {
@@ -201,17 +202,17 @@ public class MigrationKeywords {
   }
 
   public static void dropConstraint(String table, String constraint) {
-    MigrationKeywords.execute("ALTER TABLE `{}` DROP CONSTRAINT `{}`;", table, constraint);
+    MigrationKeywords.execute("ALTER TABLE {} DROP CONSTRAINT {};", Wrap.quotes(table), Wrap.quotes(constraint));
   }
 
   public static void dropIndex(String index) {
-    MigrationKeywords.execute("DROP INDEX `{}`;", index);
+    MigrationKeywords.execute("DROP INDEX {};", Wrap.quotes(index));
   }
 
   public static void createUniqueConstraint(String table, String... columnNames) {
     String constraintName = Join.underscore(columnNames) + "_un";
     String constraintList = Join.commaSpace(Wrap.quotes(columnNames));
-    MigrationKeywords.execute("ALTER TABLE `{}` ADD CONSTRAINT {} UNIQUE ({})", table, constraintName, constraintList);
+    MigrationKeywords.execute("ALTER TABLE {} ADD CONSTRAINT {} UNIQUE ({})", Wrap.quotes(table), constraintName, constraintList);
   }
 
 }
