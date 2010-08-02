@@ -60,7 +60,7 @@ public class GenerateFlushFunction implements Pass {
     sql.line("END");
     Jdbc.update(codegen.getDataSource(), "DROP PROCEDURE IF EXISTS flush_test_database;");
     Jdbc.update(codegen.getDataSource(), sql.toString());
-    Jdbc.update(codegen.getDataSource(), "GRANT ALL ON PROCEDURE `flush_test_database` TO {}@'%'", codegen.getAppDbSettings().user);
+    Jdbc.update(codegen.getDataSource(), "GRANT ALL ON PROCEDURE flush_test_database TO {}@'%'", codegen.getAppDbSettings().user);
   }
 
 }
