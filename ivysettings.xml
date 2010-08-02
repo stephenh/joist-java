@@ -1,0 +1,18 @@
+<ivysettings>
+	<settings defaultResolver="default" defaultResolveMode="dynamic"/>
+	<include url="${ivy.default.settings.dir}/ivysettings-public.xml"/>
+	<property name="joist.version" value="0.5-SNAPSHOT" override="false"/>
+	<resolvers>
+		<ibiblio name="local-m2" m2compatible="true" root="file://${user.home}/.m2/repository"/>
+		<ibiblio name="joist-m2" m2compatible="true" root="http://repo.joist.ws"/>
+		<!-- they have webdriver -->
+		<ibiblio name="openqa" root="http://nexus.openqa.org/content/repositories/releases/" m2compatible="true"/>
+		<!-- For japex. -->
+		<ibiblio name="java.net" root="http://download.java.net/maven/1/" pattern="[organization]/jars/[module]-[revision].[ext]" />
+		<chain name="default" changingPattern=".*SNAPSHOT" checkmodified="true">
+			<resolver ref="local-m2"/>
+			<resolver ref="joist-m2"/>
+			<resolver ref="public"/>
+		</chain>
+	</resolvers>
+</ivysettings>

@@ -1,0 +1,15 @@
+
+require '../build.rb'
+
+define 'joist-web' do
+  project.group = 'joist'
+  project.version = THIS_VERSION
+  package_with_ivy_pom project
+  ivy.compile_conf('default,provided').test_conf('test')
+  compile.from _('target/apt')
+  resources.from(_('src/test/java')).include('**/*.htm')
+  file(_('target/apt') => FileList[_('src/main/java/**.*java')]) do |dir|
+    mkdir_p dir.to_s
+  end
+end
+
