@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 import joist.domain.orm.Db;
 import joist.domain.orm.Repository;
 import joist.domain.util.ConnectionSettings;
-import joist.domain.util.Pgc3p0Factory;
+import joist.domain.util.pools.Pgc3p0Factory;
 import joist.registry.ResourceRef;
 import joist.registry.ResourceRefs;
 import joist.util.Log;

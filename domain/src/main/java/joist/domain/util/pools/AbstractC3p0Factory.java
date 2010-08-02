@@ -1,9 +1,10 @@
-package joist.domain.util;
+package joist.domain.util.pools;
 
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import joist.domain.util.ConnectionSettings;
 import joist.registry.ResourceFactory;
 import joist.util.Log;
 

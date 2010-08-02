@@ -1,4 +1,6 @@
-package joist.domain.util;
+package joist.domain.util.pools;
+
+import joist.domain.util.ConnectionSettings;
 
 public class Pgc3p0Factory extends AbstractC3p0Factory {
 
