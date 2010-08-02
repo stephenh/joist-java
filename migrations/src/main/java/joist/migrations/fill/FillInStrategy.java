@@ -5,6 +5,6 @@ import java.sql.SQLException;
 
 public interface FillInStrategy {
 
-    void fillIn(Connection connection, String tableName, String columnName) throws SQLException;
+  void fillIn(Connection connection, String tableName, String columnName) throws SQLException;
 
 }

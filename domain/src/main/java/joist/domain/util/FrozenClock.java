@@ -10,29 +10,29 @@ import com.domainlanguage.timeutil.Clock;
  */
 public class FrozenClock implements TimeSource {
 
-    private static boolean isFrozen;
-    private final TimePoint frozen;
+  private static boolean isFrozen;
+  private final TimePoint frozen;
 
-    public static boolean isFrozen() {
-        return FrozenClock.isFrozen;
-    }
+  public static boolean isFrozen() {
+    return FrozenClock.isFrozen;
+  }
 
-    public static void freeze(TimePoint frozen) {
-        Clock.setTimeSource(new FrozenClock(frozen));
-        FrozenClock.isFrozen = true;
-    }
+  public static void freeze(TimePoint frozen) {
+    Clock.setTimeSource(new FrozenClock(frozen));
+    FrozenClock.isFrozen = true;
+  }
 
-    public static void unfreeze() {
-        Clock.setTimeSource(null);
-        FrozenClock.isFrozen = false;
-    }
+  public static void unfreeze() {
+    Clock.setTimeSource(null);
+    FrozenClock.isFrozen = false;
+  }
 
-    public FrozenClock(TimePoint frozen) {
-        this.frozen = frozen;
-    }
+  public FrozenClock(TimePoint frozen) {
+    this.frozen = frozen;
+  }
 
-    public TimePoint now() {
-        return this.frozen;
-    }
+  public TimePoint now() {
+    return this.frozen;
+  }
 
 }

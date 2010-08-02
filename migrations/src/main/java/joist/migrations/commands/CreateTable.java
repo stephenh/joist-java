@@ -9,48 +9,48 @@ import joist.util.StringBuilderr;
 
 public class CreateTable {
 
-    private String name;
-    private Column[] columns;
+  private String name;
+  private Column[] columns;
 
-    public CreateTable(String name, Column... columns) {
-        this.name = name;
-        this.columns = columns;
+  public CreateTable(String name, Column... columns) {
+    this.name = name;
+    this.columns = columns;
+  }
+
+  public List<String> toSql() {
+    List<String> sqls = new ArrayList<String>();
+
+    for (Column column : this.columns) {
+      column.setTableName(this.name);
     }
 
-    public List<String> toSql() {
-        List<String> sqls = new ArrayList<String>();
+    StringBuilderr sb = new StringBuilderr();
+    sb.line("CREATE TABLE {} (", this.name);
+    for (Column column : this.columns) {
+      sb.line(1, column.toSql() + ",");
+    }
+    sb.stripLastCharacterOnPreviousLine(); // Remove the last ,
+    if (MigrationKeywords.db.isMySQL()) {
+      sb.line(") type = InnoDB;");
+    } else {
+      sb.line(")");
+    }
+    sb.stripTrailingNewLine();
+    sqls.add(sb.toString());
 
-        for (Column column : this.columns) {
-            column.setTableName(this.name);
-        }
-
-        StringBuilderr sb = new StringBuilderr();
-        sb.line("CREATE TABLE {} (", this.name);
-        for (Column column : this.columns) {
-            sb.line(1, column.toSql() + ",");
-        }
-        sb.stripLastCharacterOnPreviousLine(); // Remove the last ,
-        if (MigrationKeywords.db.isMySQL()) {
-            sb.line(") type = InnoDB;");
-        } else {
-            sb.line(")");
-        }
-        sb.stripTrailingNewLine();
-        sqls.add(sb.toString());
-
-        for (Column column : this.columns) {
-            sqls.addAll(column.postInjectCommands());
-        }
-
-        return sqls;
+    for (Column column : this.columns) {
+      sqls.addAll(column.postInjectCommands());
     }
 
-    public String getName() {
-        return this.name;
-    }
+    return sqls;
+  }
 
-    public Column[] getColumns() {
-        return this.columns;
-    }
+  public String getName() {
+    return this.name;
+  }
+
+  public Column[] getColumns() {
+    return this.columns;
+  }
 
 }

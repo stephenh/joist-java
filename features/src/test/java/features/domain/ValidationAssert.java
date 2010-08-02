@@ -10,21 +10,21 @@ import junit.framework.Assert;
 
 public class ValidationAssert {
 
-    public static void assertValid(DomainObject instance) {
-        List<ValidationError> errors = instance.validate();
-        Assert.assertEquals("", Join.lines(ValidationAssert.toMessages(errors)));
-    }
+  public static void assertValid(DomainObject instance) {
+    List<ValidationError> errors = instance.validate();
+    Assert.assertEquals("", Join.lines(ValidationAssert.toMessages(errors)));
+  }
 
-    public static void assertErrors(DomainObject instance, String... messages) {
-        List<ValidationError> errors = instance.validate();
-        Assert.assertEquals(Join.lines(messages), Join.lines(ValidationAssert.toMessages(errors)));
-    }
+  public static void assertErrors(DomainObject instance, String... messages) {
+    List<ValidationError> errors = instance.validate();
+    Assert.assertEquals(Join.lines(messages), Join.lines(ValidationAssert.toMessages(errors)));
+  }
 
-    private static List<String> toMessages(List<ValidationError> errors) {
-        List<String> messages = new ArrayList<String>();
-        for (ValidationError error : errors) {
-            messages.add(error.getMessage());
-        }
-        return messages;
+  private static List<String> toMessages(List<ValidationError> errors) {
+    List<String> messages = new ArrayList<String>();
+    for (ValidationError error : errors) {
+      messages.add(error.getMessage());
     }
+    return messages;
+  }
 }

@@ -2,16 +2,16 @@ package joist.domain;
 
 public interface Changed {
 
-    void clear();
+  void clear();
 
-    int size();
+  int size();
 
-    boolean contains(String propertyName);
+  boolean contains(String propertyName);
 
-    Object getOriginal(String propertyName);
+  Object getOriginal(String propertyName);
 
-    void record(String primitveProperty, Object oldValue, Object newValue);
+  void record(String primitveProperty, Object oldValue, Object newValue);
 
-    void record(String collectionProperty);
+  void record(String collectionProperty);
 
 }

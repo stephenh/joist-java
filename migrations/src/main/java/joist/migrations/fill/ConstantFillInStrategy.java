@@ -8,18 +8,18 @@ import joist.util.Wrap;
 
 public class ConstantFillInStrategy implements FillInStrategy {
 
-    private String fragment;
+  private String fragment;
 
-    public ConstantFillInStrategy(String fragment) {
-        this.fragment = fragment;
-    }
+  public ConstantFillInStrategy(String fragment) {
+    this.fragment = fragment;
+  }
 
-    public ConstantFillInStrategy(int i) {
-        this.fragment = String.valueOf(i);
-    }
+  public ConstantFillInStrategy(int i) {
+    this.fragment = String.valueOf(i);
+  }
 
-    public void fillIn(Connection connection, String tableName, String columnName) throws SQLException {
-        Jdbc.update(connection, "update {} set {} = {}", Wrap.backquotes(tableName), columnName, this.fragment);
-    }
+  public void fillIn(Connection connection, String tableName, String columnName) throws SQLException {
+    Jdbc.update(connection, "update {} set {} = {}", Wrap.backquotes(tableName), columnName, this.fragment);
+  }
 
 }

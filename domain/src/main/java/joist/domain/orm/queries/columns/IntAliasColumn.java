@@ -10,12 +10,12 @@ import joist.util.Join;
 
 public class IntAliasColumn<T extends DomainObject> extends AliasColumn<T, Integer, Integer> {
 
-    public IntAliasColumn(Alias<T> alias, String name, Shim<T, Integer> shim) {
-        super(alias, name, shim);
-    }
+  public IntAliasColumn(Alias<T> alias, String name, Shim<T, Integer> shim) {
+    super(alias, name, shim);
+  }
 
-    public Where in(List<Integer> ids) {
-        return new Where(this.getQualifiedName() + " in (" + Join.comma(ids) + ")");
-    }
+  public Where in(List<Integer> ids) {
+    return new Where(this.getQualifiedName() + " in (" + Join.comma(ids) + ")");
+  }
 
 }

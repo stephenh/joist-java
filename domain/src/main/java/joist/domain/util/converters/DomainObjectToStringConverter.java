@@ -6,15 +6,15 @@ import joist.domain.uow.UoW;
 
 public class DomainObjectToStringConverter extends AbstractConverter<DomainObject, String> {
 
-    public String convertOneToTwo(DomainObject value, Class<? extends String> toType) {
-        return value.getId() == null ? "" : value.getId().toString();
-    }
+  public String convertOneToTwo(DomainObject value, Class<? extends String> toType) {
+    return value.getId() == null ? "" : value.getId().toString();
+  }
 
-    public DomainObject convertTwoToOne(String value, Class<? extends DomainObject> toType) {
-        if ("".equals(value)) {
-            return null;
-        }
-        return UoW.load(toType, new Integer(value));
+  public DomainObject convertTwoToOne(String value, Class<? extends DomainObject> toType) {
+    if ("".equals(value)) {
+      return null;
     }
+    return UoW.load(toType, new Integer(value));
+  }
 
 }

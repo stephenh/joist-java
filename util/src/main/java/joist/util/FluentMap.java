@@ -8,11 +8,11 @@ import java.util.LinkedHashMap;
  */
 public class FluentMap<K, V> extends LinkedHashMap<K, V> {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public FluentMap<K, V> with(K key, V value) {
-        this.put(key, value);
-        return this;
-    }
+  public FluentMap<K, V> with(K key, V value) {
+    this.put(key, value);
+    return this;
+  }
 
 }

@@ -4,6 +4,6 @@ import joist.domain.validation.ValidationErrors;
 
 public interface Rule<T> {
 
-    void validate(ValidationErrors errors, T object);
+  void validate(ValidationErrors errors, T object);
 
 }

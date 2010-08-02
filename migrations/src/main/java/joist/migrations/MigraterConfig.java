@@ -5,14 +5,14 @@ import java.util.List;
 
 public class MigraterConfig {
 
-    public List<String> packageNamesContainingMigrations = new ArrayList<String>();
+  public List<String> packageNamesContainingMigrations = new ArrayList<String>();
 
-    public String getInitialConnectionSetupCommand() {
-        return null;
-    }
+  public String getInitialConnectionSetupCommand() {
+    return null;
+  }
 
-    public void setProjectNameForDefaults(String projectName) {
-        this.packageNamesContainingMigrations.add(projectName + ".migrations");
-    }
+  public void setProjectNameForDefaults(String projectName) {
+    this.packageNamesContainingMigrations.add(projectName + ".migrations");
+  }
 
 }

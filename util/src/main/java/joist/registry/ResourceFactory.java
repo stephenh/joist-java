@@ -2,8 +2,8 @@ package joist.registry;
 
 public interface ResourceFactory<T> {
 
-    T create();
+  T create();
 
-    void destroy(T resource);
+  void destroy(T resource);
 
 }

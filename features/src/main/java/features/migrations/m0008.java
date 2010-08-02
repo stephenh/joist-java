@@ -9,12 +9,12 @@ import joist.migrations.AbstractMigration;
 
 public class m0008 extends AbstractMigration {
 
-    public m0008() {
-        super("User types with timeandmoney.");
-    }
+  public m0008() {
+    super("User types with timeandmoney.");
+  }
 
-    public void apply() {
-        createTable("user_types_a_foo", primaryKey("id"), varchar("name"), date("created"), integer("version"));
-    }
+  public void apply() {
+    createTable("user_types_a_foo", primaryKey("id"), varchar("name"), date("created"), integer("version"));
+  }
 
 }

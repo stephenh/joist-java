@@ -2,11 +2,11 @@ package features.domain;
 
 public class OneToOneBBar extends OneToOneBBarCodegen {
 
-    public OneToOneBBar() {
-    }
+  public OneToOneBBar() {
+  }
 
-    public OneToOneBBar(String name) {
-        this.setName(name);
-    }
+  public OneToOneBBar(String name) {
+    this.setName(name);
+  }
 
 }

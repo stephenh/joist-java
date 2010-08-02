@@ -10,16 +10,16 @@ import joist.jdbc.RowMapper;
 
 public class IdsMapper<T extends DomainObject> implements RowMapper {
 
-    private final Alias<T> from;
-    private final List<Integer> ids;
+  private final Alias<T> from;
+  private final List<Integer> ids;
 
-    public IdsMapper(Alias<T> from, List<Integer> ids) {
-        this.from = from;
-        this.ids = ids;
-    }
+  public IdsMapper(Alias<T> from, List<Integer> ids) {
+    this.from = from;
+    this.ids = ids;
+  }
 
-    public void mapRow(ResultSet rs) throws SQLException {
-        this.ids.add(new Integer(rs.getInt(this.from.getIdColumn().getName())));
-    }
+  public void mapRow(ResultSet rs) throws SQLException {
+    this.ids.add(new Integer(rs.getInt(this.from.getIdColumn().getName())));
+  }
 
 }

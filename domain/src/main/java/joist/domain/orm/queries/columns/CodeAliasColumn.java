@@ -12,12 +12,12 @@ import joist.domain.orm.queries.Where;
  */
 public class CodeAliasColumn<T extends DomainObject, W extends Code> extends AliasColumn<T, Integer, Integer> {
 
-    public CodeAliasColumn(Alias<T> alias, String name, Shim<T, Integer> shim) {
-        super(alias, name, shim);
-    }
+  public CodeAliasColumn(Alias<T> alias, String name, Shim<T, Integer> shim) {
+    super(alias, name, shim);
+  }
 
-    public Where eq(W value) {
-        return new Where(this.getQualifiedName() + " = ?", value.getId());
-    }
+  public Where eq(W value) {
+    return new Where(this.getQualifiedName() + " = ?", value.getId());
+  }
 
 }

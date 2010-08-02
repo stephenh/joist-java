@@ -2,8 +2,8 @@ package joist.registry2.factories;
 
 public interface RefFactory<T> {
 
-    T create();
+  T create();
 
-    void destroy(T resource);
+  void destroy(T resource);
 
 }

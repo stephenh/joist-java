@@ -12,51 +12,51 @@ import joist.jdbc.RowMapper;
 
 public class DataTransferObjectMapper<T extends DomainObject, R> implements RowMapper {
 
-    private final List<SelectItem> selectItems;
-    private final Class<R> rowType;
-    private final List<R> results;
+  private final List<SelectItem> selectItems;
+  private final Class<R> rowType;
+  private final List<R> results;
 
-    public DataTransferObjectMapper(List<SelectItem> selectItems, Class<R> rowType, List<R> results) {
-        this.selectItems = selectItems;
-        this.rowType = rowType;
-        this.results = results;
+  public DataTransferObjectMapper(List<SelectItem> selectItems, Class<R> rowType, List<R> results) {
+    this.selectItems = selectItems;
+    this.rowType = rowType;
+    this.results = results;
+  }
+
+  public void mapRow(ResultSet rs) throws SQLException {
+    if (rs.getMetaData().getColumnCount() == 1) {
+      Object value = rs.getObject(1);
+      if (this.rowType.isAssignableFrom(value.getClass())) {
+        this.results.add((R) value);
+        return;
+      }
     }
 
-    public void mapRow(ResultSet rs) throws SQLException {
-        if (rs.getMetaData().getColumnCount() == 1) {
-            Object value = rs.getObject(1);
-            if (this.rowType.isAssignableFrom(value.getClass())) {
-                this.results.add((R) value);
-                return;
-            }
+    R row = this.newInstance();
+
+    for (SelectItem item : this.selectItems) {
+      try {
+        Field field = this.rowType.getField(item.getAs());
+        Object value = rs.getObject(item.getAs());
+        if (item.getColumn() != null) {
+          value = ((AliasColumn<?, Object, Object>) item.getColumn()).toDomainValue(value);
         }
-
-        R row = this.newInstance();
-
-        for (SelectItem item : this.selectItems) {
-            try {
-                Field field = this.rowType.getField(item.getAs());
-                Object value = rs.getObject(item.getAs());
-                if (item.getColumn() != null) {
-                    value = ((AliasColumn<?, Object, Object>) item.getColumn()).toDomainValue(value);
-                }
-                field.set(row, value);
-            } catch (NoSuchFieldException nsfe) {
-            } catch (IllegalAccessException iae) {
-            }
-        }
-
-        this.results.add(row);
+        field.set(row, value);
+      } catch (NoSuchFieldException nsfe) {
+      } catch (IllegalAccessException iae) {
+      }
     }
 
-    private R newInstance() {
-        try {
-            return this.rowType.newInstance();
-        } catch (IllegalAccessException iae) {
-            throw new RuntimeException(iae);
-        } catch (InstantiationException ie) {
-            throw new RuntimeException(ie);
-        }
+    this.results.add(row);
+  }
+
+  private R newInstance() {
+    try {
+      return this.rowType.newInstance();
+    } catch (IllegalAccessException iae) {
+      throw new RuntimeException(iae);
+    } catch (InstantiationException ie) {
+      throw new RuntimeException(ie);
     }
+  }
 
 }

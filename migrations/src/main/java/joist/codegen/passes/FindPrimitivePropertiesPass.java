@@ -7,19 +7,19 @@ import joist.codegen.dtos.PrimitiveProperty;
 
 public class FindPrimitivePropertiesPass implements Pass {
 
-    public void pass(Codegen codegen) {
-        for (InformationSchemaColumn column : codegen.getColumns()) {
-            if (column.foreignKeyConstraintName != null) {
-                continue;
-            }
+  public void pass(Codegen codegen) {
+    for (InformationSchemaColumn column : codegen.getColumns()) {
+      if (column.foreignKeyConstraintName != null) {
+        continue;
+      }
 
-            Entity entity = codegen.getEntity(column);
-            if (entity == null) {
-                continue;
-            }
+      Entity entity = codegen.getEntity(column);
+      if (entity == null) {
+        continue;
+      }
 
-            entity.getPrimitiveProperties().add(new PrimitiveProperty(codegen, entity, column));
-        }
+      entity.getPrimitiveProperties().add(new PrimitiveProperty(codegen, entity, column));
     }
+  }
 
 }

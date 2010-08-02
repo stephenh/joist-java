@@ -5,9 +5,9 @@ import junit.framework.TestCase;
 
 public class CopyTest extends TestCase {
 
-    public void testUnique() {
-        FluentList<String> l = Copy.list("one", "one", "two");
-        Assert.assertEquals(Copy.list("one", "two"), l.unique());
-    }
+  public void testUnique() {
+    FluentList<String> l = Copy.list("one", "one", "two");
+    Assert.assertEquals(Copy.list("one", "two"), l.unique());
+  }
 
 }

@@ -8,12 +8,12 @@ import joist.domain.orm.queries.SetItem;
 
 public class BooleanAliasColumn<T extends DomainObject> extends AliasColumn<T, Boolean, Boolean> {
 
-    public BooleanAliasColumn(Alias<T> alias, String name, Shim<T, Boolean> shim) {
-        super(alias, name, shim);
-    }
+  public BooleanAliasColumn(Alias<T> alias, String name, Shim<T, Boolean> shim) {
+    super(alias, name, shim);
+  }
 
-    public SetItem<T> to(Boolean value) {
-        Object o = Repository.db.isMySQL() ? (value ? 1 : 0) : value;
-        return new SetItem<T>(this, o);
-    }
+  public SetItem<T> to(Boolean value) {
+    Object o = Repository.db.isMySQL() ? (value ? 1 : 0) : value;
+    return new SetItem<T>(this, o);
+  }
 }

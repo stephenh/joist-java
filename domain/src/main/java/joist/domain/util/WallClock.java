@@ -8,8 +8,8 @@ import com.domainlanguage.time.TimeSource;
 /** A {@link TimeSource} for the current time. */
 public class WallClock implements TimeSource {
 
-    public TimePoint now() {
-        return TimePoint.from(new Date());
-    }
+  public TimePoint now() {
+    return TimePoint.from(new Date());
+  }
 
 }

@@ -4,12 +4,12 @@ import java.util.List;
 
 public interface Column {
 
-    String getName();
+  String getName();
 
-    void setTableName(String tableName);
+  void setTableName(String tableName);
 
-    String toSql();
+  String toSql();
 
-    List<String> postInjectCommands();
+  List<String> postInjectCommands();
 
 }

@@ -2,10 +2,10 @@ package joist.domain.exceptions;
 
 public class TooManyException extends DomainObjectsException {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public TooManyException() {
-        super("Too many");
-    }
+  public TooManyException() {
+    super("Too many");
+  }
 
 }

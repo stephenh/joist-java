@@ -9,13 +9,13 @@ import joist.migrations.AbstractMigration;
 
 public class m0002 extends AbstractMigration {
 
-    public m0002() {
-        super("Parent/child.");
-    }
+  public m0002() {
+    super("Parent/child.");
+  }
 
-    public void apply() {
-        createTable("parent", primaryKey("id"), varchar("name"), integer("version"));
-        createTable("child", primaryKey("id"), foreignKey("parent"), varchar("name"), integer("version"));
-    }
+  public void apply() {
+    createTable("parent", primaryKey("id"), varchar("name"), integer("version"));
+    createTable("child", primaryKey("id"), foreignKey("parent"), varchar("name"), integer("version"));
+  }
 
 }

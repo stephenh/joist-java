@@ -4,6 +4,6 @@ import java.sql.SQLException;
 
 public interface Migration {
 
-    void apply() throws SQLException;
+  void apply() throws SQLException;
 
 }

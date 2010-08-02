@@ -9,12 +9,12 @@ import joist.migrations.AbstractMigration;
 
 public class m0001 extends AbstractMigration {
 
-    public m0001() {
-        super("Table with primitives.");
-    }
+  public m0001() {
+    super("Table with primitives.");
+  }
 
-    public void apply() {
-        createTable("primitives", primaryKey("id"), bool("flag"), varchar("name"), integer("version"));
-    }
+  public void apply() {
+    createTable("primitives", primaryKey("id"), bool("flag"), varchar("name"), integer("version"));
+  }
 
 }

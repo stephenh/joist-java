@@ -10,17 +10,17 @@ import joist.migrations.AbstractMigration;
 
 public class m0014 extends AbstractMigration {
 
-    public m0014() {
-        super("PrimitivesC with amount.");
-    }
+  public m0014() {
+    super("PrimitivesC with amount.");
+  }
 
-    public void apply() {
-        createTable("primitives_c",//
-            primaryKey("id"),
-            varchar("name"),
-            bigint("dollar_amount"),
-            datetime("timestamp"),
-            integer("version"));
-    }
+  public void apply() {
+    createTable("primitives_c",//
+      primaryKey("id"),
+      varchar("name"),
+      bigint("dollar_amount"),
+      datetime("timestamp"),
+      integer("version"));
+  }
 
 }

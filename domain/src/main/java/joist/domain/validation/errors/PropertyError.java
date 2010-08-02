@@ -6,26 +6,26 @@ import joist.util.Inflector;
 /** An error that applies to just a property. */
 public class PropertyError implements ValidationError {
 
-    private final DomainObject instance;
-    private final String property;
-    private final String message;
+  private final DomainObject instance;
+  private final String property;
+  private final String message;
 
-    public PropertyError(DomainObject instance, String property, String message) {
-        this.instance = instance;
-        this.property = property;
-        this.message = message;
-    }
+  public PropertyError(DomainObject instance, String property, String message) {
+    this.instance = instance;
+    this.property = property;
+    this.message = message;
+  }
 
-    public DomainObject getInstance() {
-        return this.instance;
-    }
+  public DomainObject getInstance() {
+    return this.instance;
+  }
 
-    public String getMessage() {
-        return Inflector.humanize(this.property) + " " + this.message;
-    }
+  public String getMessage() {
+    return Inflector.humanize(this.property) + " " + this.message;
+  }
 
-    public String toString() {
-        return this.getMessage() + " - " + this.instance;
-    }
+  public String toString() {
+    return this.getMessage() + " - " + this.instance;
+  }
 
 }

@@ -6,28 +6,28 @@ import joist.domain.validation.errors.ValidationError;
 
 public interface DomainObject {
 
-    /** @return the row id--null if the instance is new */
-    Integer getId();
+  /** @return the row id--null if the instance is new */
+  Integer getId();
 
-    /** the id if specified manually--or when auto-assigned */
-    void setId(Integer id);
+  /** the id if specified manually--or when auto-assigned */
+  void setId(Integer id);
 
-    /** @return the version for the optimistic lock--null if the instance is new */
-    Integer getVersion();
+  /** @return the version for the optimistic lock--null if the instance is new */
+  Integer getVersion();
 
-    boolean isNew();
+  boolean isNew();
 
-    boolean isDirty();
+  boolean isDirty();
 
-    Changed getChanged();
+  Changed getChanged();
 
-    /** Stub for subclasses to override to update derived values as part of the UoW.flush() process. */
-    void updateDerivedValues();
+  /** Stub for subclasses to override to update derived values as part of the UoW.flush() process. */
+  void updateDerivedValues();
 
-    void clearAssociations();
+  void clearAssociations();
 
-    List<ValidationError> validate();
+  List<ValidationError> validate();
 
-    String toTextString();
+  String toTextString();
 
 }

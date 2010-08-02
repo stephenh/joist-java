@@ -15,32 +15,32 @@ import joist.util.Join;
  */
 public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObject> extends AliasColumn<T, Integer, Integer> {
 
-    public ForeignKeyAliasColumn(Alias<T> alias, String name, Shim<T, Integer> shim) {
-        super(alias, name, shim);
-    }
+  public ForeignKeyAliasColumn(Alias<T> alias, String name, Shim<T, Integer> shim) {
+    super(alias, name, shim);
+  }
 
-    public Where eq(W value) {
-        return new Where(this.getQualifiedName() + " = ?", value.getId());
-    }
+  public Where eq(W value) {
+    return new Where(this.getQualifiedName() + " = ?", value.getId());
+  }
 
-    public Where in(Collection<Integer> ids) {
-        return new Where(this.getQualifiedName() + " in (" + Join.comma(ids) + ")");
-    }
+  public Where in(Collection<Integer> ids) {
+    return new Where(this.getQualifiedName() + " in (" + Join.comma(ids) + ")");
+  }
 
-    public Where eq(Integer value) {
-        return new Where(this.getQualifiedName() + " = ?", value);
-    }
+  public Where eq(Integer value) {
+    return new Where(this.getQualifiedName() + " = ?", value);
+  }
 
-    public JoinClause<T, W> on(Alias<W> on) {
-        return new JoinClause<T, W>("INNER JOIN", this.getAlias(), on.getIdColumn(), this);
-    }
+  public JoinClause<T, W> on(Alias<W> on) {
+    return new JoinClause<T, W>("INNER JOIN", this.getAlias(), on.getIdColumn(), this);
+  }
 
-    public JoinClause<T, W> onLeftOuter(Alias<W> on) {
-        return new JoinClause<T, W>("LEFT OUTER JOIN", this.getAlias(), on.getIdColumn(), this);
-    }
+  public JoinClause<T, W> onLeftOuter(Alias<W> on) {
+    return new JoinClause<T, W>("LEFT OUTER JOIN", this.getAlias(), on.getIdColumn(), this);
+  }
 
-    public JoinClause<T, W> on(IdAliasColumn<W> on) {
-        return new JoinClause<T, W>("INNER JOIN", this.getAlias(), on, this);
-    }
+  public JoinClause<T, W> on(IdAliasColumn<W> on) {
+    return new JoinClause<T, W>("INNER JOIN", this.getAlias(), on, this);
+  }
 
 }

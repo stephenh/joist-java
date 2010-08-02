@@ -2,10 +2,10 @@ package joist.domain;
 
 public interface Code {
 
-    Integer getId();
+  Integer getId();
 
-    String getCode();
+  String getCode();
 
-    String getName();
+  String getName();
 
 }

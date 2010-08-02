@@ -5,8 +5,8 @@ import joist.domain.Code;
 
 public class CodeToTextStringConverter extends AbstractOneWayConverter<Code, String> {
 
-    public String convertOneToTwo(Code value, Class<? extends String> toType) {
-        return value.getName();
-    }
+  public String convertOneToTwo(Code value, Class<? extends String> toType) {
+    return value.getName();
+  }
 
 }

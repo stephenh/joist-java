@@ -2,14 +2,14 @@ package joist.domain.orm;
 
 public enum Db {
 
-    MYSQL, PG;
+  MYSQL, PG;
 
-    public boolean isPg() {
-        return this == PG;
-    }
+  public boolean isPg() {
+    return this == PG;
+  }
 
-    public boolean isMySQL() {
-        return this == MYSQL;
-    }
+  public boolean isMySQL() {
+    return this == MYSQL;
+  }
 
 }

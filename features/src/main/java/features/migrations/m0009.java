@@ -8,12 +8,12 @@ import joist.migrations.AbstractMigration;
 
 public class m0009 extends AbstractMigration {
 
-    public m0009() {
-        super("ValidationA.");
-    }
+  public m0009() {
+    super("ValidationA.");
+  }
 
-    public void apply() {
-        createTable("validation_a_foo", primaryKey("id"), varchar("name"), integer("version"));
-    }
+  public void apply() {
+    createTable("validation_a_foo", primaryKey("id"), varchar("name"), integer("version"));
+  }
 
 }

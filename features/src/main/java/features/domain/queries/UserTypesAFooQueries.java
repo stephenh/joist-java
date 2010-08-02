@@ -9,9 +9,9 @@ import features.domain.UserTypesAFooAlias;
 
 public class UserTypesAFooQueries extends UserTypesAFooQueriesCodegen {
 
-    public UserTypesAFoo findByCreated(CalendarDate on) {
-        UserTypesAFooAlias utaf = new UserTypesAFooAlias("utaf");
-        return Select.from(utaf).where(utaf.created.eq(on)).unique();
-    }
+  public UserTypesAFoo findByCreated(CalendarDate on) {
+    UserTypesAFooAlias utaf = new UserTypesAFooAlias("utaf");
+    return Select.from(utaf).where(utaf.created.eq(on)).unique();
+  }
 
 }

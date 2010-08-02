@@ -8,8 +8,8 @@ import joist.domain.orm.queries.Alias;
 
 public class DateAliasColumn<T extends DomainObject> extends AliasColumn<T, Date, Date> {
 
-    public DateAliasColumn(Alias<T> alias, String name, Shim<T, Date> shim) {
-        super(alias, name, shim);
-    }
+  public DateAliasColumn(Alias<T> alias, String name, Shim<T, Date> shim) {
+    super(alias, name, shim);
+  }
 
 }

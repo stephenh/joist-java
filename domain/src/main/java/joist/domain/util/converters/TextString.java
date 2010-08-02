@@ -33,27 +33,27 @@ import org.apache.commons.lang.StringUtils;
  */
 public class TextString {
 
-    private static final ConverterRegistry textConverterRegistry = ConverterRegistry.newRegistryWithDefaultConverters();
+  private static final ConverterRegistry textConverterRegistry = ConverterRegistry.newRegistryWithDefaultConverters();
 
-    static {
-        TextString.textConverterRegistry.addConverter(new DomainObjectToTextStringConverter());
-        TextString.textConverterRegistry.addConverter(new CodeToTextStringConverter());
-    }
+  static {
+    TextString.textConverterRegistry.addConverter(new DomainObjectToTextStringConverter());
+    TextString.textConverterRegistry.addConverter(new CodeToTextStringConverter());
+  }
 
-    public static void addConverter(Converter<?, ?> c) {
-        TextString.textConverterRegistry.addConverter(c);
-    }
+  public static void addConverter(Converter<?, ?> c) {
+    TextString.textConverterRegistry.addConverter(c);
+  }
 
-    public static String interpolate(String message, Object... args) {
-        return Interpolate.string(message, TextString.textConverterRegistry, args);
-    }
+  public static String interpolate(String message, Object... args) {
+    return Interpolate.string(message, TextString.textConverterRegistry, args);
+  }
 
-    public static String join(Object... args) {
-        String message = StringUtils.removeEnd(StringUtils.repeat("{} ", args.length), " ");
-        return TextString.interpolate(message, args);
-    }
+  public static String join(Object... args) {
+    String message = StringUtils.removeEnd(StringUtils.repeat("{} ", args.length), " ");
+    return TextString.interpolate(message, args);
+  }
 
-    private TextString() {
-    }
+  private TextString() {
+  }
 
 }

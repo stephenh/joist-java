@@ -15,57 +15,57 @@ import joist.domain.validation.Validator;
  */
 public class UnitOfWork {
 
-    private final Validator validator = new Validator();
-    private final IdentityMap identityMap = new IdentityMap();
-    private final Repository repository = new Repository();
-    private final AtomicReference<Updater> updater = new AtomicReference<Updater>();
+  private final Validator validator = new Validator();
+  private final IdentityMap identityMap = new IdentityMap();
+  private final Repository repository = new Repository();
+  private final AtomicReference<Updater> updater = new AtomicReference<Updater>();
 
-    void open(final Updater updater) {
-        this.updater.set(updater);
-        this.repository.open(updater);
-    }
+  void open(final Updater updater) {
+    this.updater.set(updater);
+    this.repository.open(updater);
+  }
 
-    void close() {
-        this.repository.close();
-    }
+  void close() {
+    this.repository.close();
+  }
 
-    void flush() {
-        this.validator.validate();
-        this.repository.store(this.validator.getQueue());
-        this.validator.resetQueueAndChangedProperties();
-    }
+  void flush() {
+    this.validator.validate();
+    this.repository.store(this.validator.getQueue());
+    this.validator.resetQueueAndChangedProperties();
+  }
 
-    void delete(DomainObject instance) {
-        this.validator.dequeue(instance);
-        this.repository.delete(instance);
-    }
+  void delete(DomainObject instance) {
+    this.validator.dequeue(instance);
+    this.repository.delete(instance);
+  }
 
-    void commit() {
-        this.flush();
-        this.repository.commit();
-    }
+  void commit() {
+    this.flush();
+    this.repository.commit();
+  }
 
-    void rollback() {
-        this.repository.rollback();
-    }
+  void rollback() {
+    this.repository.rollback();
+  }
 
-    IdentityMap getIdentityMap() {
-        return this.identityMap;
-    }
+  IdentityMap getIdentityMap() {
+    return this.identityMap;
+  }
 
-    Validator getValidator() {
-        return this.validator;
-    }
+  Validator getValidator() {
+    return this.validator;
+  }
 
-    Repository getRepository() {
-        return this.repository;
-    }
+  Repository getRepository() {
+    return this.repository;
+  }
 
-    void setUpdater(final Updater updater) {
-        this.updater.set(updater);
-    }
+  void setUpdater(final Updater updater) {
+    this.updater.set(updater);
+  }
 
-    Updater getUpdater() {
-        return this.updater.get();
-    }
+  Updater getUpdater() {
+    return this.updater.get();
+  }
 }

@@ -4,6 +4,6 @@ import joist.codegen.Codegen;
 
 public interface Pass {
 
-    void pass(Codegen codegen);
+  void pass(Codegen codegen);
 
 }
