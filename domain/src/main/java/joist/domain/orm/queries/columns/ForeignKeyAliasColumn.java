@@ -1,10 +1,13 @@
 package joist.domain.orm.queries.columns;
 
+import java.util.Collection;
+
 import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.JoinClause;
 import joist.domain.orm.queries.Where;
+import joist.util.Join;
 
 /**
  * @param T the domain object the column is within
@@ -18,6 +21,10 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
 
     public Where eq(W value) {
         return new Where(this.getQualifiedName() + " = ?", value.getId());
+    }
+
+    public Where in(Collection<Integer> ids) {
+        return new Where(this.getQualifiedName() + " in (" + Join.comma(ids) + ")");
     }
 
     public Where eq(Integer value) {
