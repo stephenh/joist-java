@@ -6,10 +6,7 @@ define 'joist-util' do
   project.version = THIS_VERSION
   package_with_ivy_pom project
   ivy.compile_conf('default').test_conf('test')
-  file _("target/#{project.name}-#{project.version}.pom") => [
-    _("target/#{project.name}-#{project.version}.jar"),
-    task('ivy:makepom')
-  ] do
-  end
+
+  task :package => task('ivy:makepom')
 end
 
