@@ -12,7 +12,8 @@ import joist.domain.DomainObject;
 import joist.domain.orm.impl.InstanceInserter;
 import joist.domain.orm.impl.InstanceUpdater;
 import joist.domain.orm.impl.SequenceIdAssigner;
-import joist.domain.orm.impl.SortedInstances;
+import joist.domain.orm.impl.SortInstancesMySQL;
+import joist.domain.orm.impl.SortInstancesPg;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Delete;
 import joist.domain.orm.queries.Select;
@@ -48,21 +49,28 @@ public class Repository {
     }
 
     public void store(Set<DomainObject> instances) {
-        SortedInstances sorted = new SortedInstances(instances);
         if (Repository.db.isPg()) {
-            new SequenceIdAssigner().assignIds(sorted.insertNewIds);
-        }
-        for (Class<DomainObject> key : sorted.insertsByForeignKey) {
-            if (Repository.db.isMySQL()) {
+            // pg can bulk assign ids, then just do insert+update, unsorted thanks to initially deferred
+            SortInstancesPg sorted = new SortInstancesPg(instances);
+            new SequenceIdAssigner().assignIds(sorted.inserts);
+            for (Entry<Class<DomainObject>, List<DomainObject>> entry : sorted.inserts.entrySet()) {
+                InstanceInserter.get(entry.getKey()).insertHasId(entry.getValue());
+            }
+            for (Entry<Class<DomainObject>, List<DomainObject>> entry : sorted.updates.entrySet()) {
+                InstanceUpdater.get(entry.getKey()).update(entry.getValue());
+            }
+        } else if (Repository.db.isMySQL()) {
+            // mysql assigns ids as you go, and needs sorting around foreign keys
+            SortInstancesMySQL sorted = new SortInstancesMySQL(instances);
+            for (Class<DomainObject> key : sorted.insertsByForeignKey) {
                 InstanceInserter.get(key).insertHasId(sorted.insertHasIds.get(key));
                 InstanceInserter.get(key).insertNewId(sorted.insertNewIds.get(key));
-            } else {
-                InstanceInserter.get(key).insertHasId(sorted.insertHasIds.get(key));
-                InstanceInserter.get(key).insertHasId(sorted.insertNewIds.get(key)); // got ids from SequenceIdAssigner
             }
-        }
-        for (Entry<Class<DomainObject>, List<DomainObject>> entry : sorted.updates.entrySet()) {
-            InstanceUpdater.get(entry.getKey()).update(entry.getValue());
+            for (Entry<Class<DomainObject>, List<DomainObject>> entry : sorted.updates.entrySet()) {
+                InstanceUpdater.get(entry.getKey()).update(entry.getValue());
+            }
+        } else {
+            throw new IllegalStateException("Unhandled db " + Repository.db);
         }
     }
 

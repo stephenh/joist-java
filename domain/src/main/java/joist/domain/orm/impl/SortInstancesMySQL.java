@@ -10,21 +10,21 @@ import joist.domain.DomainObject;
 import joist.domain.orm.AliasRegistry;
 import joist.util.MapToList;
 
-/** Sorts instances by insert/update and by class. */
-public class SortedInstances {
+/** Sorts instances by insert/update and by class, then foreign key order. */
+public class SortInstancesMySQL {
 
     public final MapToList<Class<DomainObject>, DomainObject> insertNewIds = new MapToList<Class<DomainObject>, DomainObject>();
     public final MapToList<Class<DomainObject>, DomainObject> insertHasIds = new MapToList<Class<DomainObject>, DomainObject>();
     public final MapToList<Class<DomainObject>, DomainObject> updates = new MapToList<Class<DomainObject>, DomainObject>();
     public final List<Class<DomainObject>> insertsByForeignKey = new ArrayList<Class<DomainObject>>();
 
-    public SortedInstances(Set<DomainObject> instances) {
+    public SortInstancesMySQL(Set<DomainObject> instances) {
         for (DomainObject instance : instances) {
             if (instance.isNew()) {
                 if (instance.getId() == null) {
                     this.insertNewIds.add(instance.getClass(), instance);
                 } else {
-                    this.insertHasIds.add(instance.getClass(), instance);
+                    this.insertHasIds.add(instance.getClass(), instance); // the user provided an id
                 }
             } else {
                 this.updates.add(instance.getClass(), instance);

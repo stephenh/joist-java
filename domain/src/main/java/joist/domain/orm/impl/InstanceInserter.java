@@ -45,6 +45,7 @@ public class InstanceInserter<T extends DomainObject> {
         Collections.reverse(this.stepsNewId); // do base classes first
     }
 
+    /** Uses a batch update to insert instances that already have ids from sequences. */
     public void insertHasId(List<T> instances) {
         if (instances.size() == 0) {
             return;
@@ -58,6 +59,7 @@ public class InstanceInserter<T extends DomainObject> {
         }
     }
 
+    /** Uses a batch insert to get back the auto-assigned ids for {@code instances}. */
     public void insertNewId(List<T> instances) {
         if (instances.size() == 0) {
             return;
@@ -67,7 +69,6 @@ public class InstanceInserter<T extends DomainObject> {
             for (T instance : instances) {
                 step.addParametersForInstance(allParameters, instance);
             }
-
             Integer[] keys = Jdbc.insertBatch(UoW.getConnection(), step.sql, allParameters);
             if (step == this.stepsNewId.get(0)) {
                 for (int i = 0; i < keys.length; i++) {
