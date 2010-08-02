@@ -1,6 +1,5 @@
 package joist.jdbc;
 
-import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -213,10 +212,9 @@ public class Jdbc {
             }
             ks.close();
             return keys;
-        } catch (BatchUpdateException bue) {
-            throw new JdbcException(bue.getNextException());
         } catch (SQLException se) {
-            throw new JdbcException(se);
+            // note that MySQL's BatchUpdateException.getNextException is null and so unreliable
+            throw new JdbcException(Jdbc.nextUntilNotNull(se));
         } finally {
             Jdbc.closeSafely(ps);
         }
@@ -252,18 +250,19 @@ public class Jdbc {
                 changed.add(i);
             }
             return changed;
-        } catch (BatchUpdateException bue) {
-            throw new JdbcException(bue.getNextException());
         } catch (SQLException se) {
-            SQLException current = se;
-            // is this needed now that BatchUpdateException is handled above?
-            while (current.getNextException() != null) {
-                current = current.getNextException();
-            }
-            throw new JdbcException(current);
+            // note that MySQL's BatchUpdateException.getNextException is null and so unreliable
+            throw new JdbcException(Jdbc.nextUntilNotNull(se));
         } finally {
             Jdbc.closeSafely(ps);
         }
+    }
+
+    public static SQLException nextUntilNotNull(SQLException current) {
+        while (current.getNextException() != null) {
+            current = current.getNextException();
+        }
+        return current;
     }
 
     public static void closeSafely(Object... objects) {
