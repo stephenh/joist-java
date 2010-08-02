@@ -34,6 +34,5 @@ def package_with_ivy_pom(project)
   project.package :jar
   project.package :sources
   project.package(:jar).pom.from _("target/#{project.name}-#{project.version}.pom")
-  project.file "target/#{project.name}-#{project.version}.pom" => project.task('ivy:makepom')
 end
 
