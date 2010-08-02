@@ -38,10 +38,10 @@ public class Insert<T extends DomainObject> {
   public String toSql() {
     StringBuilderr s = new StringBuilderr();
     s.append("INSERT INTO ");
-    s.append(Wrap.backquotes(this.alias.getTableName()));
+    s.append(Wrap.quotes(this.alias.getTableName()));
     s.append(" (");
     for (AliasColumn<T, ?, ?> c : this.columns) {
-      s.append(Wrap.backquotes(c.getName()));
+      s.append(Wrap.quotes(c.getName()));
       s.append(", ");
     }
     s.stripLastCommaSpace();
