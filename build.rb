@@ -31,7 +31,9 @@ i['makepom.options']['nested']['mapping_3'] = {}
 i['makepom.options']['nested']['mapping_3']['conf'] = 'provided'
 i['makepom.options']['nested']['mapping_3']['scope'] = 'provided'
 
-def package_with_ivy_pom(project)
+def package_with_ivy(project)
+  project.group = 'joist'
+  project.version = THIS_VERSION
   package(:jar)
   package(:jar, :classifier => 'sources').clean.include :from => compile.sources
 

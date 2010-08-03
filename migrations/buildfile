@@ -2,9 +2,7 @@
 require '../build.rb'
 
 define 'joist-migrations' do
-  project.group = 'joist'
-  project.version = THIS_VERSION
-  package_with_ivy_pom project
+  package_with_ivy project
   ivy.compile_conf('default')
 end
 
