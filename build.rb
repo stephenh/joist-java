@@ -12,6 +12,7 @@ i = Buildr.settings.build['ivy'] = {}
 i['home.dir'] = "#{ENV['HOME']}/.ivy2"
 i['settings.file'] = './ivysettings.xml'
 
+# A hack to share build.yaml settings across projects
 i['publish.options'] = {}
 i['publish.options']['resolver'] = 'maven-share'
 i['publish.options']['artifactspattern'] = 'target/[artifact]-[revision](-[classifier]).[ext]'
@@ -31,8 +32,8 @@ i['makepom.options']['nested']['mapping_3']['conf'] = 'provided'
 i['makepom.options']['nested']['mapping_3']['scope'] = 'provided'
 
 def package_with_ivy_pom(project)
-  package :jar
-  package :sources
+  package(:jar)
+  package(:jar, :classifier => 'sources').clean.include :from => compile.sources
 
   file _("target/#{project.name}-#{project.version}.pom") => task('ivy:makepom')
 
