@@ -6,6 +6,7 @@ import java.util.List;
 import joist.migrations.MigrationKeywords;
 import joist.migrations.columns.Column;
 import joist.util.StringBuilderr;
+import joist.util.Wrap;
 
 public class CreateTable {
 
@@ -25,7 +26,7 @@ public class CreateTable {
     }
 
     StringBuilderr sb = new StringBuilderr();
-    sb.line("CREATE TABLE {} (", this.name);
+    sb.line("CREATE TABLE {} (", Wrap.quotes(this.name));
     for (Column column : this.columns) {
       sb.line(1, column.toSql() + ",");
     }
