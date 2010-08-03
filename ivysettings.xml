@@ -10,9 +10,9 @@
 		<!-- For japex. -->
 		<ibiblio name="java.net" root="http://download.java.net/maven/1/" pattern="[organization]/jars/[module]-[revision].[ext]" />
 		<chain name="default" changingPattern=".*SNAPSHOT" checkmodified="true">
-			<resolver ref="local-m2"/>
-			<resolver ref="joist-m2"/>
 			<resolver ref="public"/>
+			<resolver ref="joist-m2"/>
+			<resolver ref="local-m2"/>
 		</chain>
 	</resolvers>
 </ivysettings>
