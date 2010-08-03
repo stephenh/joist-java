@@ -31,8 +31,22 @@ i['makepom.options']['nested']['mapping_3']['conf'] = 'provided'
 i['makepom.options']['nested']['mapping_3']['scope'] = 'provided'
 
 def package_with_ivy_pom(project)
-  project.package :jar
-  project.package :sources
-  project.package(:jar).pom.from _("target/#{project.name}-#{project.version}.pom")
+  package :jar
+  package :sources
+
+  file _("target/#{project.name}-#{project.version}.pom") => task('ivy:makepom')
+
+  # monkey patch the pom to always go out, courtesy of Alex
+  package(:jar).pom.tap do |pom|
+    class << pom
+      def needed?
+        true
+      end
+    end
+    _("target/#{project.name}-#{project.version}.pom").tap do |xml|
+      pom.enhance [xml]
+      pom.enhance { cp xml, pom.name }
+    end
+  end
 end
 
