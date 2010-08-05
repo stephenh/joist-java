@@ -29,7 +29,13 @@ public class GenerateAliasesPass implements Pass {
     aliasesClass.addImports(AliasRegistry.class);
     aliasesClass.getMethod("init").setStatic();
 
-    List<Entity> sorted = this.getEntitiesSortedByForeignKeys(codegen);
+    List<Entity> sorted;
+    if (codegen.getAppDbSettings().db.isMySQL()) {
+      sorted = this.getEntitiesSortedByForeignKeys(codegen);
+    } else {
+      sorted = new ArrayList<Entity>(); // pg doesn't need fk order
+    }
+
     for (Entity entity : codegen.getEntities().values()) {
       if (entity.isCodeEntity()) {
         continue;
