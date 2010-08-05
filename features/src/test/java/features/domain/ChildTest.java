@@ -2,6 +2,7 @@ package features.domain;
 
 import java.util.List;
 
+import joist.domain.ValidationAssert;
 import junit.framework.Assert;
 
 public class ChildTest extends AbstractFeaturesTest {

@@ -1,5 +1,6 @@
 package features.domain;
 
+import joist.domain.ValidationAssert;
 import junit.framework.Assert;
 
 public class CodeTests extends AbstractFeaturesTest {
