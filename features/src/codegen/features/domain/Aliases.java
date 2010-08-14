@@ -6,6 +6,7 @@ public class Aliases {
 
     public static final ChildAlias child = new ChildAlias("a");
     public static final CodeADomainObjectAlias codeADomainObject = new CodeADomainObjectAlias("a");
+    public static final GrandChildAlias grandChild = new GrandChildAlias("a");
     public static final InheritanceABaseAlias inheritanceABase = new InheritanceABaseAlias("a");
     public static final InheritanceASubOneAlias inheritanceASubOne = new InheritanceASubOneAlias("a");
     public static final InheritanceASubTwoAlias inheritanceASubTwo = new InheritanceASubTwoAlias("a");
@@ -46,6 +47,7 @@ public class Aliases {
     static {
         AliasRegistry.register(Child.class, child);
         AliasRegistry.register(CodeADomainObject.class, codeADomainObject);
+        AliasRegistry.register(GrandChild.class, grandChild);
         AliasRegistry.register(InheritanceABase.class, inheritanceABase);
         AliasRegistry.register(InheritanceASubOne.class, inheritanceASubOne);
         AliasRegistry.register(InheritanceASubTwo.class, inheritanceASubTwo);

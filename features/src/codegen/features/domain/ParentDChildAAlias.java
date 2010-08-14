@@ -42,7 +42,7 @@ public class ParentDChildAAlias extends Alias<ParentDChildA> {
     }
 
     public int getOrder() {
-        return 31;
+        return 32;
     }
 
 }

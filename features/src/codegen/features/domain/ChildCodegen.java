@@ -1,14 +1,17 @@
 package features.domain;
 
 import features.domain.queries.ChildQueries;
+import java.util.List;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyHolder;
+import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.util.Copy;
 
 public abstract class ChildCodegen extends AbstractDomainObject {
 
@@ -17,6 +20,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     private String name = null;
     private Integer version = null;
     private final ForeignKeyHolder<Parent> parent = new ForeignKeyHolder<Parent>(Parent.class);
+    private ForeignKeyListHolder<Child, GrandChild> grandChilds = new ForeignKeyListHolder<Child, GrandChild>((Child) this, Aliases.grandChild, Aliases.grandChild.child);
     protected Changed changed;
 
     static {
@@ -78,6 +82,39 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         this.parent.set(parent);
     }
 
+    public List<GrandChild> getGrandChilds() {
+        return this.grandChilds.get();
+    }
+
+    public void setGrandChilds(List<GrandChild> grandChilds) {
+        for (GrandChild o : Copy.list(this.getGrandChilds())) {
+            this.removeGrandChild(o);
+        }
+        for (GrandChild o : grandChilds) {
+            this.addGrandChild(o);
+        }
+    }
+
+    public void addGrandChild(GrandChild o) {
+        o.setChildWithoutPercolation((Child) this);
+        this.addGrandChildWithoutPercolation(o);
+    }
+
+    public void removeGrandChild(GrandChild o) {
+        o.setChildWithoutPercolation(null);
+        this.removeGrandChildWithoutPercolation(o);
+    }
+
+    protected void addGrandChildWithoutPercolation(GrandChild o) {
+        this.getChanged().record("grandChilds");
+        this.grandChilds.add(o);
+    }
+
+    protected void removeGrandChildWithoutPercolation(GrandChild o) {
+        this.getChanged().record("grandChilds");
+        this.grandChilds.remove(o);
+    }
+
     public ChildChanged getChanged() {
         if (this.changed == null) {
             this.changed = new ChildChanged((Child) this);
@@ -89,6 +126,9 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     public void clearAssociations() {
         super.clearAssociations();
         this.setParent(null);
+        for (GrandChild o : Copy.list(this.getGrandChilds())) {
+            o.setChildWithoutPercolation(null);
+        }
     }
 
     static class Shims {
@@ -165,6 +205,9 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         }
         public Parent getOriginalParent() {
             return (Parent) this.getOriginal("parent");
+        }
+        public boolean hasGrandChilds() {
+            return this.contains("grandChilds");
         }
     }
 
