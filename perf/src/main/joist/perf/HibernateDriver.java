@@ -6,8 +6,9 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import joist.domain.orm.Db;
 import joist.domain.util.ConnectionSettings;
-import joist.domain.util.PgUtilFactory;
+import joist.domain.util.pools.Pgc3p0Factory;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -38,7 +39,7 @@ public class HibernateDriver extends com.sun.japex.JapexDriverBase {
             c.setProperty("hibernate.connection.provider_class", MyConnectionProvider.class.getName());
             c.setProperty("hibernate.dialect", PostgreSQLDialect.class.getName());
             c.setProperty("hibernate.transaction.factory_class", JDBCTransactionFactory.class.getName());
-            c.addResource("joist/perf/Parent.hbm.xml");
+            c.addResource("joist/perf/hibernate/Parent.hbm.xml");
             HibernateDriver.sessionFactory = c.buildSessionFactory();
         }
     }
@@ -84,7 +85,7 @@ public class HibernateDriver extends com.sun.japex.JapexDriverBase {
     }
 
     public static class MyConnectionProvider implements ConnectionProvider {
-        private final DataSource ds = new PgUtilFactory(ConnectionSettings.forApp("features")).create();
+        private final DataSource ds = new Pgc3p0Factory(ConnectionSettings.forApp(Db.PG, "features")).create();
 
         public void configure(Properties props) throws HibernateException {
         }

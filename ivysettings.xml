@@ -7,12 +7,14 @@
 		<ibiblio name="joist-m2" m2compatible="true" root="http://repo.joist.ws"/>
 		<!-- they have webdriver -->
 		<ibiblio name="openqa" root="http://nexus.openqa.org/content/repositories/releases/" m2compatible="true"/>
-		<!-- For japex. -->
-		<ibiblio name="java.net" root="http://download.java.net/maven/1/" pattern="[organization]/jars/[module]-[revision].[ext]" />
+		<ibiblio name="java.net.1" root="http://download.java.net/maven/1/" pattern="[organization]/jars/[module]-[revision].[ext]" /> <!-- For japex. -->
+		<ibiblio name="java.net.2" root="http://download.java.net/maven/2/" m2compatible="true" /> <!-- For jta. -->
 		<chain name="default" changingPattern=".*SNAPSHOT" checkmodified="true">
+			<resolver ref="java.net.1"/>
+			<resolver ref="java.net.2"/>
 			<resolver ref="public"/>
-			<resolver ref="joist-m2"/>
 			<resolver ref="local-m2"/>
+			<resolver ref="joist-m2"/>
 		</chain>
 	</resolvers>
 </ivysettings>

@@ -8,16 +8,19 @@ import junit.framework.TestCase;
 
 import org.apache.click.util.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.exigencecorp.bindgen.Binding;
-import org.exigencecorp.bindgen.BindingRoot;
+import org.bindgen.Bindable;
+import org.bindgen.Binding;
+import org.bindgen.BindingRoot;
 
-import bindgen.features.domain.ChildBinding;
 import features.domain.Child;
+import features.domain.ChildBinding;
 import features.domain.Parent;
 
+@Bindable
 public class BindgenPerfTest extends TestCase {
 
     private static final int loops = 1000000;
+    public Child child;
 
     public void testOgnlWithCachingByClickPropertyUtils() throws Exception {
         Parent p = new Parent("p");

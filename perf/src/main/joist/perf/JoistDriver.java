@@ -1,12 +1,10 @@
 package joist.perf;
 
-import javax.sql.DataSource;
-
+import joist.domain.orm.Db;
 import joist.domain.orm.Repository;
 import joist.domain.uow.UoW;
 import joist.domain.util.ConnectionSettings;
-import joist.domain.util.PgUtilFactory;
-import joist.registry.ResourceRef;
+import joist.domain.util.pools.Pgc3p0Factory;
 
 import com.sun.japex.TestCase;
 
@@ -17,16 +15,7 @@ public class JoistDriver extends com.sun.japex.JapexDriverBase {
     @Override
     public void initializeDriver() {
         if (Repository.datasource == null) {
-            final DataSource ds = new PgUtilFactory(ConnectionSettings.forApp("features")).create();
-            Repository.datasource = new ResourceRef<DataSource>() {
-                public DataSource get() {
-                    return ds;
-                }
-
-                public boolean isStarted() {
-                    return true;
-                }
-            };
+            Repository.datasource = new Pgc3p0Factory(ConnectionSettings.forApp(Db.PG, "features")).create();
         }
     }
 
@@ -36,12 +25,12 @@ public class JoistDriver extends com.sun.japex.JapexDriverBase {
         boolean commitOnEach = testCase.getBooleanParam("commitOnEach");
         boolean insert = testCase.getParam("type").equals("insert");
         if (!commitOnEach) {
-            UoW.open();
+            UoW.open(null);
         }
 
         for (int i = 0; i < number; i++) {
             if (commitOnEach) {
-                UoW.open();
+                UoW.open(null);
             }
 
             if (insert) {
