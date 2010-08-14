@@ -16,6 +16,7 @@ public class m0002 extends AbstractMigration {
   public void apply() {
     createTable("parent", primaryKey("id"), varchar("name"), integer("version"));
     createTable("child", primaryKey("id"), foreignKey("parent"), varchar("name"), integer("version"));
+    createTable("grand_child", primaryKey("id"), foreignKey("child"), varchar("name"), integer("version"));
   }
 
 }
