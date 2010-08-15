@@ -5,40 +5,40 @@ import java.util.TreeSet;
 
 public class Parent {
 
-    private Integer id;
-    private String name;
-    private Integer version;
-    private Set<Child> childs = new TreeSet<Child>();
+  private Integer id;
+  private String name;
+  private Integer version;
+  private Set<Child> childs = new TreeSet<Child>();
 
-    public Set<Child> getChilds() {
-        return this.childs;
-    }
+  public Set<Child> getChilds() {
+    return this.childs;
+  }
 
-    public void setChilds(Set<Child> childs) {
-        this.childs = childs;
-    }
+  public void setChilds(Set<Child> childs) {
+    this.childs = childs;
+  }
 
-    public Integer getId() {
-        return this.id;
-    }
+  public Integer getId() {
+    return this.id;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return this.name;
-    }
+  public String getName() {
+    return this.name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Integer getVersion() {
-        return this.version;
-    }
+  public Integer getVersion() {
+    return this.version;
+  }
 
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
+  public void setVersion(Integer version) {
+    this.version = version;
+  }
 }
