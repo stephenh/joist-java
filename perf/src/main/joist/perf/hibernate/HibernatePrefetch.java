@@ -25,6 +25,9 @@ public class HibernatePrefetch {
     c.setProperty("hibernate.connection.provider_class", MyConnectionProvider.class.getName());
     c.setProperty("hibernate.dialect", PostgreSQLDialect.class.getName());
     c.setProperty("hibernate.transaction.factory_class", JDBCTransactionFactory.class.getName());
+    c.setProperty("hibernate.jdbc.batch_size", "20");
+    c.setProperty("hibernate.order_inserts", "true");
+    c.setProperty("hibernate.jdbc.use_get_generated_keys", "true");
     c.setProperty("hibernate.show_sql", "true");
     c.addResource("joist/perf/hibernate/objects.hbm.xml");
     return c.buildSessionFactory();
