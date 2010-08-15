@@ -20,7 +20,6 @@ Todo
 * Eager loading (continue spike in eager branch)
 * Ajax/JSON controls
 * Establish license
-* Handle type enums with helper methods, e.g. `isXxx`/`isYyyy`
 * Don't muck with system properties
 * Put db behavior in after uow
 * Remove statics Repository/UoW/etc.

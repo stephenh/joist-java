@@ -1,5 +1,7 @@
 package joist.codegen.dtos;
 
+import joist.util.Inflector;
+
 public class CodeValue {
 
   public String id;
@@ -10,6 +12,10 @@ public class CodeValue {
     this.id = id;
     this.code = code;
     this.name = name;
+  }
+
+  public String getNameCamelCased() {
+    return Inflector.capitalize(Inflector.camelize(this.name.toLowerCase()));
   }
 
   public String getEnumName() {

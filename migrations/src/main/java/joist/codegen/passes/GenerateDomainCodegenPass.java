@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joist.codegen.Codegen;
+import joist.codegen.dtos.CodeEntity;
+import joist.codegen.dtos.CodeValue;
 import joist.codegen.dtos.Entity;
 import joist.codegen.dtos.ManyToManyProperty;
 import joist.codegen.dtos.ManyToOneProperty;
@@ -184,6 +186,14 @@ public class GenerateDomainCodegenPass implements Pass {
           entity.getClassName(),
           mtop.getVariableName());
         domainCodegen.addImports(NotNull.class);
+      }
+
+      if (mtop.getOneSide().isCodeEntity()) {
+        CodeEntity c = (CodeEntity) mtop.getOneSide();
+        for (CodeValue v : c.getCodes()) {
+          GMethod m = domainCodegen.getMethod("is{}", v.getNameCamelCased()).returnType(boolean.class);
+          m.body.line("return get{}() == {}.{};", mtop.getCapitalVariableName(), c.getClassName(), v.getEnumName());
+        }
       }
 
       domainCodegen.addImports(Shim.class);

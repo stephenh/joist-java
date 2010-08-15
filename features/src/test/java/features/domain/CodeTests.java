@@ -24,4 +24,15 @@ public class CodeTests extends AbstractFeaturesTest {
     ValidationAssert.assertErrors(d, "Code AColor is required");
   }
 
+  public void testIsMethods() {
+    CodeADomainObject d = new CodeADomainObject();
+    d.setCodeASize(CodeASize.ONE);
+    Assert.assertTrue(d.isOne());
+    Assert.assertFalse(d.isTwo());
+
+    d.setCodeASize(CodeASize.TWO);
+    Assert.assertTrue(d.isTwo());
+    Assert.assertFalse(d.isOne());
+  }
+
 }
