@@ -21,6 +21,7 @@ import joist.sourcegen.GField;
 import joist.sourcegen.GMethod;
 import joist.util.Interpolate;
 import joist.util.TopologicalSort;
+import joist.util.Wrap;
 
 public class GenerateAliasesPass implements Pass {
 
@@ -250,7 +251,7 @@ public class GenerateAliasesPass implements Pass {
 
   private void addAliasesField(GClass aliasesClass, Entity entity) {
     GField field = aliasesClass.getField(entity.getVariableName()).setPublic().setStatic().setFinal();
-    field.type(entity.getAliasName()).initialValue("new {}(\"a\")", entity.getAliasName());
+    field.type(entity.getAliasName()).initialValue("new {}({})", entity.getAliasName(), Wrap.quotes(entity.getAliasAlias()));
     aliasesClass.staticInitializer.line("AliasRegistry.register({}.class, {});", entity.getClassName(), entity.getVariableName());
   }
 

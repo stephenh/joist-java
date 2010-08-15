@@ -71,6 +71,15 @@ public class Entity {
     return Inflector.camelize(this.getTableName());
   }
 
+  /** @return {@code st} for a table {@code some_table} */
+  public String getAliasAlias() {
+    String a = "";
+    for (String part : this.getTableName().split("_")) {
+      a += part.substring(0, 1);
+    }
+    return a;
+  }
+
   public String getAliasName() {
     return this.getClassName() + "Alias";
   }
