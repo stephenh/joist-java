@@ -49,6 +49,7 @@ public class CodegenConfig {
   private final Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
   private final List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
   private final List<String> skipCollection = new ArrayList<String>();
+  private final List<String> skipTable = new ArrayList<String>();
   private final List<String> notAbstractEvenThoughSubclassed = new ArrayList<String>();
   private final Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
   private final Pattern amountSuffix = Pattern.compile(".*amount$");
@@ -174,6 +175,14 @@ public class CodegenConfig {
 
   public boolean isCollectionSkipped(String objectName, String variableName) {
     return this.skipCollection.contains(objectName + "." + variableName);
+  }
+
+  public void setTableSkipped(String tableName) {
+    this.skipTable.add(tableName);
+  }
+
+  public boolean isTableSkipped(String tableName) {
+    return this.skipTable.contains(tableName);
   }
 
   public void setDoNotIncrementParentsOpLock(String objectName, String variableName) {
