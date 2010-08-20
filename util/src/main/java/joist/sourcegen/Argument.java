@@ -41,7 +41,7 @@ public class Argument {
   public Argument(String typeAndName) {
     int lastSpace = typeAndName.lastIndexOf(' ');
     if (lastSpace == -1) {
-      throw new RuntimeException("No space in typeAndName" + typeAndName);
+      throw new IllegalArgumentException("No space in typeAndName " + typeAndName);
     }
     this.type = typeAndName.substring(0, lastSpace).trim();
     this.name = typeAndName.substring(lastSpace + 1).trim();
