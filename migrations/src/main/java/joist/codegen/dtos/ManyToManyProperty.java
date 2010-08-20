@@ -63,6 +63,9 @@ public class ManyToManyProperty {
   }
 
   public void setOther(ManyToManyProperty other) {
+    if (other == this) {
+      throw new IllegalStateException("Wrong other");
+    }
     this.other = other;
   }
 
