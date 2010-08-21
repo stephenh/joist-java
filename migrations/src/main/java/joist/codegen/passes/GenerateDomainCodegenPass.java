@@ -36,6 +36,7 @@ public class GenerateDomainCodegenPass implements Pass {
       GClass domainCodegen = codegen.getOutputCodegenDirectory().getClass(entity.getFullCodegenClassName());
       domainCodegen.setAbstract();
       domainCodegen.baseClassName(entity.getParentClassName());
+      domainCodegen.addAnnotation("@SuppressWarnings(\"all\")");
 
       domainCodegen.getConstructor().setProtected().body.line("this.addExtraRules();");
       domainCodegen.getMethod("addExtraRules").setPrivate();
@@ -54,10 +55,6 @@ public class GenerateDomainCodegenPass implements Pass {
     if (!entity.isCodeEntity()) {
       GField query = domainCodegen.getField("queries").setPublic().setStatic().setFinal();
       query.type(entity.getFullQueriesClassName());
-      if (entity.isSubclass()) {
-        query.addAnnotation("@SuppressWarnings(\"hiding\")");
-      }
-
       domainCodegen.staticInitializer.line("Aliases.init();");
       domainCodegen.staticInitializer.line("queries = new {}Queries();", entity.getClassName());
     }
