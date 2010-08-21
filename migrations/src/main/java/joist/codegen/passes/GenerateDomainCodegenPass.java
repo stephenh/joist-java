@@ -55,7 +55,7 @@ public class GenerateDomainCodegenPass implements Pass {
     if (!entity.isCodeEntity()) {
       GField query = domainCodegen.getField("queries").setPublic().setStatic().setFinal();
       query.type(entity.getFullQueriesClassName());
-      domainCodegen.staticInitializer.line("Aliases.init();");
+      domainCodegen.staticInitializer.line("Aliases.{}();", entity.getVariableName());
       domainCodegen.staticInitializer.line("queries = new {}Queries();", entity.getClassName());
     }
   }
@@ -205,7 +205,7 @@ public class GenerateDomainCodegenPass implements Pass {
 
       GField collection = domainCodegen.getField(otmp.getVariableName());
       collection.type("ForeignKeyListHolder<{}, {}>", entity.getClassName(), otmp.getTargetJavaType());
-      collection.initialValue("new ForeignKeyListHolder<{}, {}>(({}) this, Aliases.{}, Aliases.{}.{})",//
+      collection.initialValue("new ForeignKeyListHolder<{}, {}>(({}) this, Aliases.{}(), Aliases.{}().{})",//
         entity.getClassName(),
         otmp.getTargetJavaType(),
         entity.getClassName(),

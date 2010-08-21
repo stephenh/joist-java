@@ -255,9 +255,14 @@ public class GenerateAliasesPass implements Pass {
   }
 
   private void addAliasesField(GClass aliasesClass, Entity entity) {
-    GField field = aliasesClass.getField(entity.getVariableName()).setPublic().setStatic().setFinal();
-    field.type(entity.getAliasName()).initialValue("new {}({})", entity.getAliasName(), Wrap.quotes(entity.getAliasAlias()));
-    aliasesClass.staticInitializer.line("AliasRegistry.register({}.class, {});", entity.getClassName(), entity.getVariableName());
+    aliasesClass.getField(entity.getVariableName()).type(entity.getAliasName()).setStatic();
+
+    GMethod method = aliasesClass.getMethod(entity.getVariableName()).returnType(entity.getAliasName()).setStatic();
+    method.body.line("if ({} == null) {", entity.getVariableName());
+    method.body.line("    {} = new {}({});", entity.getVariableName(), entity.getAliasName(), Wrap.quotes(entity.getAliasAlias()));
+    method.body.line("    AliasRegistry.register({}.class, {});", entity.getClassName(), entity.getVariableName());
+    method.body.line("}");
+    method.body.line("return {};", entity.getVariableName());
   }
 
 }
