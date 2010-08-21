@@ -21,7 +21,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.inheritanceBRootChild();
         queries = new InheritanceBRootChildQueries();
     }
 

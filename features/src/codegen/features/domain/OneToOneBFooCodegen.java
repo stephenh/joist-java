@@ -19,11 +19,11 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar> oneToOneBBars = new ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar>((OneToOneBFoo) this, Aliases.oneToOneBBar, Aliases.oneToOneBBar.oneToOneBFoo);
+    private ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar> oneToOneBBars = new ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar>((OneToOneBFoo) this, Aliases.oneToOneBBar(), Aliases.oneToOneBBar().oneToOneBFoo);
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.oneToOneBFoo();
         queries = new OneToOneBFooQueries();
     }
 

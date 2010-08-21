@@ -12,7 +12,7 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
     private String one = null;
 
     static {
-        Aliases.init();
+        Aliases.inheritanceASubOne();
         queries = new InheritanceASubOneQueries();
     }
 

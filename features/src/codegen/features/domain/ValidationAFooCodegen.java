@@ -19,7 +19,7 @@ public abstract class ValidationAFooCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.validationAFoo();
         queries = new ValidationAFooQueries();
     }
 

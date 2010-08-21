@@ -19,11 +19,11 @@ public abstract class ParentCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<Parent, Child> childs = new ForeignKeyListHolder<Parent, Child>((Parent) this, Aliases.child, Aliases.child.parent);
+    private ForeignKeyListHolder<Parent, Child> childs = new ForeignKeyListHolder<Parent, Child>((Parent) this, Aliases.child(), Aliases.child().parent);
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.parent();
         queries = new ParentQueries();
     }
 

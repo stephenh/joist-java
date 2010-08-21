@@ -19,7 +19,7 @@ public abstract class InheritanceCCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.inheritanceC();
         queries = new InheritanceCQueries();
     }
 

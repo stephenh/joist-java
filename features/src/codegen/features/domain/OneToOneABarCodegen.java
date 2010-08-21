@@ -21,7 +21,7 @@ public abstract class OneToOneABarCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.oneToOneABar();
         queries = new OneToOneABarQueries();
     }
 

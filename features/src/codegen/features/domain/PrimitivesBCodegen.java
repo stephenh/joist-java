@@ -25,7 +25,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.primitivesB();
         queries = new PrimitivesBQueries();
     }
 

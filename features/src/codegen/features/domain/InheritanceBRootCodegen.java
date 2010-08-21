@@ -19,11 +19,11 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, Aliases.inheritanceBRootChild, Aliases.inheritanceBRootChild.inheritanceBRoot);
+    private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, Aliases.inheritanceBRootChild(), Aliases.inheritanceBRootChild().inheritanceBRoot);
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.inheritanceBRoot();
         queries = new InheritanceBRootQueries();
     }
 

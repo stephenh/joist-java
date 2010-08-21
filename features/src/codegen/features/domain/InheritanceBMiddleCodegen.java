@@ -12,7 +12,7 @@ public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
     private String middleName = null;
 
     static {
-        Aliases.init();
+        Aliases.inheritanceBMiddle();
         queries = new InheritanceBMiddleQueries();
     }
 

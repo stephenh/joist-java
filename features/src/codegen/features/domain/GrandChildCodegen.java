@@ -21,7 +21,7 @@ public abstract class GrandChildCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.grandChild();
         queries = new GrandChildQueries();
     }
 

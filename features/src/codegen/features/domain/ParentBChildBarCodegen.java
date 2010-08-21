@@ -21,7 +21,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.parentBChildBar();
         queries = new ParentBChildBarQueries();
     }
 

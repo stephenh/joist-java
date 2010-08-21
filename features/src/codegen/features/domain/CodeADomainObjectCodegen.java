@@ -22,7 +22,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.codeADomainObject();
         queries = new CodeADomainObjectQueries();
     }
 

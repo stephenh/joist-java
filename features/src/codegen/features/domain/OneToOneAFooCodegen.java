@@ -17,11 +17,11 @@ public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<OneToOneAFoo, OneToOneABar> oneToOneABars = new ForeignKeyListHolder<OneToOneAFoo, OneToOneABar>((OneToOneAFoo) this, Aliases.oneToOneABar, Aliases.oneToOneABar.oneToOneAFoo);
+    private ForeignKeyListHolder<OneToOneAFoo, OneToOneABar> oneToOneABars = new ForeignKeyListHolder<OneToOneAFoo, OneToOneABar>((OneToOneAFoo) this, Aliases.oneToOneABar(), Aliases.oneToOneABar().oneToOneAFoo);
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.oneToOneAFoo();
         queries = new OneToOneAFooQueries();
     }
 

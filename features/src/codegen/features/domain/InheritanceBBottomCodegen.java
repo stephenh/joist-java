@@ -12,7 +12,7 @@ public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
     private String bottomName = null;
 
     static {
-        Aliases.init();
+        Aliases.inheritanceBBottom();
         queries = new InheritanceBBottomQueries();
     }
 

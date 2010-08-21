@@ -21,7 +21,7 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.userTypesAFoo();
         queries = new UserTypesAFooQueries();
     }
 

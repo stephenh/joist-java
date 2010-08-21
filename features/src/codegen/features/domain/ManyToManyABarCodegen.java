@@ -20,11 +20,11 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar>((ManyToManyABar) this, Aliases.manyToManyAFooToBar, Aliases.manyToManyAFooToBar.manyToManyABar);
+    private ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar>((ManyToManyABar) this, Aliases.manyToManyAFooToBar(), Aliases.manyToManyAFooToBar().manyToManyABar);
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.manyToManyABar();
         queries = new ManyToManyABarQueries();
     }
 

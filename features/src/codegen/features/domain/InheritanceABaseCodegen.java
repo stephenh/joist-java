@@ -19,7 +19,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.inheritanceABase();
         queries = new InheritanceABaseQueries();
     }
 

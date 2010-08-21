@@ -19,12 +19,12 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<ParentCFoo, ParentCBar> firstParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar, Aliases.parentCBar.firstParent);
-    private ForeignKeyListHolder<ParentCFoo, ParentCBar> secondParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar, Aliases.parentCBar.secondParent);
+    private ForeignKeyListHolder<ParentCFoo, ParentCBar> firstParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar(), Aliases.parentCBar().firstParent);
+    private ForeignKeyListHolder<ParentCFoo, ParentCBar> secondParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar(), Aliases.parentCBar().secondParent);
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.parentCFoo();
         queries = new ParentCFooQueries();
     }
 

@@ -21,7 +21,7 @@ public abstract class ParentDChildACodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.parentDChildA();
         queries = new ParentDChildAQueries();
     }
 

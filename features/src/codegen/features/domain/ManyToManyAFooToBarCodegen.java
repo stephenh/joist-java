@@ -20,7 +20,7 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.manyToManyAFooToBar();
         queries = new ManyToManyAFooToBarQueries();
     }
 

@@ -20,7 +20,7 @@ public abstract class ParentDToChildCCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.parentDToChildC();
         queries = new ParentDToChildCQueries();
     }
 

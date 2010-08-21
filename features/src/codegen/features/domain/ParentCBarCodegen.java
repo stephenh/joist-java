@@ -22,7 +22,7 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        Aliases.init();
+        Aliases.parentCBar();
         queries = new ParentCBarQueries();
     }
 

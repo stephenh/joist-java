@@ -12,7 +12,7 @@ public abstract class InheritanceCFoo2Codegen extends InheritanceC {
     private String foo = null;
 
     static {
-        Aliases.init();
+        Aliases.inheritanceCFoo2();
         queries = new InheritanceCFoo2Queries();
     }
 

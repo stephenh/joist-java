@@ -4,89 +4,359 @@ import joist.domain.orm.AliasRegistry;
 
 public class Aliases {
 
-    public static final ChildAlias child = new ChildAlias("c");
-    public static final CodeADomainObjectAlias codeADomainObject = new CodeADomainObjectAlias("cado");
-    public static final GrandChildAlias grandChild = new GrandChildAlias("gc");
-    public static final InheritanceABaseAlias inheritanceABase = new InheritanceABaseAlias("iab");
-    public static final InheritanceASubOneAlias inheritanceASubOne = new InheritanceASubOneAlias("iaso");
-    public static final InheritanceASubTwoAlias inheritanceASubTwo = new InheritanceASubTwoAlias("iast");
-    public static final InheritanceBBottomAlias inheritanceBBottom = new InheritanceBBottomAlias("ibb");
-    public static final InheritanceBMiddleAlias inheritanceBMiddle = new InheritanceBMiddleAlias("ibm");
-    public static final InheritanceBRootAlias inheritanceBRoot = new InheritanceBRootAlias("ibr");
-    public static final InheritanceBRootChildAlias inheritanceBRootChild = new InheritanceBRootChildAlias("ibrc");
-    public static final InheritanceCAlias inheritanceC = new InheritanceCAlias("ic");
-    public static final InheritanceCFoo1Alias inheritanceCFoo1 = new InheritanceCFoo1Alias("icf");
-    public static final InheritanceCFoo2Alias inheritanceCFoo2 = new InheritanceCFoo2Alias("icf");
-    public static final ManyToManyABarAlias manyToManyABar = new ManyToManyABarAlias("mtmab");
-    public static final ManyToManyAFooAlias manyToManyAFoo = new ManyToManyAFooAlias("mtmaf");
-    public static final ManyToManyAFooToBarAlias manyToManyAFooToBar = new ManyToManyAFooToBarAlias("mtmaftb");
-    public static final ManyToManyBBarAlias manyToManyBBar = new ManyToManyBBarAlias("mtmbb");
-    public static final ManyToManyBFooAlias manyToManyBFoo = new ManyToManyBFooAlias("mtmbf");
-    public static final ManyToManyBFooToBarAlias manyToManyBFooToBar = new ManyToManyBFooToBarAlias("mtmbftb");
-    public static final OneToOneABarAlias oneToOneABar = new OneToOneABarAlias("otoab");
-    public static final OneToOneAFooAlias oneToOneAFoo = new OneToOneAFooAlias("otoaf");
-    public static final OneToOneBBarAlias oneToOneBBar = new OneToOneBBarAlias("otobb");
-    public static final OneToOneBFooAlias oneToOneBFoo = new OneToOneBFooAlias("otobf");
-    public static final ParentAlias parent = new ParentAlias("p");
-    public static final ParentBChildBarAlias parentBChildBar = new ParentBChildBarAlias("pbcb");
-    public static final ParentBChildFooAlias parentBChildFoo = new ParentBChildFooAlias("pbcf");
-    public static final ParentBParentAlias parentBParent = new ParentBParentAlias("pbp");
-    public static final ParentCBarAlias parentCBar = new ParentCBarAlias("pcb");
-    public static final ParentCFooAlias parentCFoo = new ParentCFooAlias("pcf");
-    public static final ParentDAlias parentD = new ParentDAlias("pd");
-    public static final ParentDChildAAlias parentDChildA = new ParentDChildAAlias("pdca");
-    public static final ParentDChildBAlias parentDChildB = new ParentDChildBAlias("pdcb");
-    public static final ParentDChildCAlias parentDChildC = new ParentDChildCAlias("pdcc");
-    public static final ParentDToChildCAlias parentDToChildC = new ParentDToChildCAlias("pdtcc");
-    public static final PrimitivesAlias primitives = new PrimitivesAlias("p");
-    public static final PrimitivesBAlias primitivesB = new PrimitivesBAlias("pb");
-    public static final PrimitivesCAlias primitivesC = new PrimitivesCAlias("pc");
-    public static final UserTypesAFooAlias userTypesAFoo = new UserTypesAFooAlias("utaf");
-    public static final ValidationAFooAlias validationAFoo = new ValidationAFooAlias("vaf");
-
-    static {
-        AliasRegistry.register(Child.class, child);
-        AliasRegistry.register(CodeADomainObject.class, codeADomainObject);
-        AliasRegistry.register(GrandChild.class, grandChild);
-        AliasRegistry.register(InheritanceABase.class, inheritanceABase);
-        AliasRegistry.register(InheritanceASubOne.class, inheritanceASubOne);
-        AliasRegistry.register(InheritanceASubTwo.class, inheritanceASubTwo);
-        AliasRegistry.register(InheritanceBBottom.class, inheritanceBBottom);
-        AliasRegistry.register(InheritanceBMiddle.class, inheritanceBMiddle);
-        AliasRegistry.register(InheritanceBRoot.class, inheritanceBRoot);
-        AliasRegistry.register(InheritanceBRootChild.class, inheritanceBRootChild);
-        AliasRegistry.register(InheritanceC.class, inheritanceC);
-        AliasRegistry.register(InheritanceCFoo1.class, inheritanceCFoo1);
-        AliasRegistry.register(InheritanceCFoo2.class, inheritanceCFoo2);
-        AliasRegistry.register(ManyToManyABar.class, manyToManyABar);
-        AliasRegistry.register(ManyToManyAFoo.class, manyToManyAFoo);
-        AliasRegistry.register(ManyToManyAFooToBar.class, manyToManyAFooToBar);
-        AliasRegistry.register(ManyToManyBBar.class, manyToManyBBar);
-        AliasRegistry.register(ManyToManyBFoo.class, manyToManyBFoo);
-        AliasRegistry.register(ManyToManyBFooToBar.class, manyToManyBFooToBar);
-        AliasRegistry.register(OneToOneABar.class, oneToOneABar);
-        AliasRegistry.register(OneToOneAFoo.class, oneToOneAFoo);
-        AliasRegistry.register(OneToOneBBar.class, oneToOneBBar);
-        AliasRegistry.register(OneToOneBFoo.class, oneToOneBFoo);
-        AliasRegistry.register(Parent.class, parent);
-        AliasRegistry.register(ParentBChildBar.class, parentBChildBar);
-        AliasRegistry.register(ParentBChildFoo.class, parentBChildFoo);
-        AliasRegistry.register(ParentBParent.class, parentBParent);
-        AliasRegistry.register(ParentCBar.class, parentCBar);
-        AliasRegistry.register(ParentCFoo.class, parentCFoo);
-        AliasRegistry.register(ParentD.class, parentD);
-        AliasRegistry.register(ParentDChildA.class, parentDChildA);
-        AliasRegistry.register(ParentDChildB.class, parentDChildB);
-        AliasRegistry.register(ParentDChildC.class, parentDChildC);
-        AliasRegistry.register(ParentDToChildC.class, parentDToChildC);
-        AliasRegistry.register(Primitives.class, primitives);
-        AliasRegistry.register(PrimitivesB.class, primitivesB);
-        AliasRegistry.register(PrimitivesC.class, primitivesC);
-        AliasRegistry.register(UserTypesAFoo.class, userTypesAFoo);
-        AliasRegistry.register(ValidationAFoo.class, validationAFoo);
-    }
+    private static ChildAlias child;
+    private static CodeADomainObjectAlias codeADomainObject;
+    private static GrandChildAlias grandChild;
+    private static InheritanceABaseAlias inheritanceABase;
+    private static InheritanceASubOneAlias inheritanceASubOne;
+    private static InheritanceASubTwoAlias inheritanceASubTwo;
+    private static InheritanceBBottomAlias inheritanceBBottom;
+    private static InheritanceBMiddleAlias inheritanceBMiddle;
+    private static InheritanceBRootAlias inheritanceBRoot;
+    private static InheritanceBRootChildAlias inheritanceBRootChild;
+    private static InheritanceCAlias inheritanceC;
+    private static InheritanceCFoo1Alias inheritanceCFoo1;
+    private static InheritanceCFoo2Alias inheritanceCFoo2;
+    private static ManyToManyABarAlias manyToManyABar;
+    private static ManyToManyAFooAlias manyToManyAFoo;
+    private static ManyToManyAFooToBarAlias manyToManyAFooToBar;
+    private static ManyToManyBBarAlias manyToManyBBar;
+    private static ManyToManyBFooAlias manyToManyBFoo;
+    private static ManyToManyBFooToBarAlias manyToManyBFooToBar;
+    private static OneToOneABarAlias oneToOneABar;
+    private static OneToOneAFooAlias oneToOneAFoo;
+    private static OneToOneBBarAlias oneToOneBBar;
+    private static OneToOneBFooAlias oneToOneBFoo;
+    private static ParentAlias parent;
+    private static ParentBChildBarAlias parentBChildBar;
+    private static ParentBChildFooAlias parentBChildFoo;
+    private static ParentBParentAlias parentBParent;
+    private static ParentCBarAlias parentCBar;
+    private static ParentCFooAlias parentCFoo;
+    private static ParentDAlias parentD;
+    private static ParentDChildAAlias parentDChildA;
+    private static ParentDChildBAlias parentDChildB;
+    private static ParentDChildCAlias parentDChildC;
+    private static ParentDToChildCAlias parentDToChildC;
+    private static PrimitivesAlias primitives;
+    private static PrimitivesBAlias primitivesB;
+    private static PrimitivesCAlias primitivesC;
+    private static UserTypesAFooAlias userTypesAFoo;
+    private static ValidationAFooAlias validationAFoo;
 
     public static void init() {
+    }
+
+    public static ChildAlias child() {
+        if (child == null) {
+            child = new ChildAlias("c");
+            AliasRegistry.register(Child.class, child);
+        }
+        return child;
+    }
+
+    public static CodeADomainObjectAlias codeADomainObject() {
+        if (codeADomainObject == null) {
+            codeADomainObject = new CodeADomainObjectAlias("cado");
+            AliasRegistry.register(CodeADomainObject.class, codeADomainObject);
+        }
+        return codeADomainObject;
+    }
+
+    public static GrandChildAlias grandChild() {
+        if (grandChild == null) {
+            grandChild = new GrandChildAlias("gc");
+            AliasRegistry.register(GrandChild.class, grandChild);
+        }
+        return grandChild;
+    }
+
+    public static InheritanceABaseAlias inheritanceABase() {
+        if (inheritanceABase == null) {
+            inheritanceABase = new InheritanceABaseAlias("iab");
+            AliasRegistry.register(InheritanceABase.class, inheritanceABase);
+        }
+        return inheritanceABase;
+    }
+
+    public static InheritanceASubOneAlias inheritanceASubOne() {
+        if (inheritanceASubOne == null) {
+            inheritanceASubOne = new InheritanceASubOneAlias("iaso");
+            AliasRegistry.register(InheritanceASubOne.class, inheritanceASubOne);
+        }
+        return inheritanceASubOne;
+    }
+
+    public static InheritanceASubTwoAlias inheritanceASubTwo() {
+        if (inheritanceASubTwo == null) {
+            inheritanceASubTwo = new InheritanceASubTwoAlias("iast");
+            AliasRegistry.register(InheritanceASubTwo.class, inheritanceASubTwo);
+        }
+        return inheritanceASubTwo;
+    }
+
+    public static InheritanceBBottomAlias inheritanceBBottom() {
+        if (inheritanceBBottom == null) {
+            inheritanceBBottom = new InheritanceBBottomAlias("ibb");
+            AliasRegistry.register(InheritanceBBottom.class, inheritanceBBottom);
+        }
+        return inheritanceBBottom;
+    }
+
+    public static InheritanceBMiddleAlias inheritanceBMiddle() {
+        if (inheritanceBMiddle == null) {
+            inheritanceBMiddle = new InheritanceBMiddleAlias("ibm");
+            AliasRegistry.register(InheritanceBMiddle.class, inheritanceBMiddle);
+        }
+        return inheritanceBMiddle;
+    }
+
+    public static InheritanceBRootAlias inheritanceBRoot() {
+        if (inheritanceBRoot == null) {
+            inheritanceBRoot = new InheritanceBRootAlias("ibr");
+            AliasRegistry.register(InheritanceBRoot.class, inheritanceBRoot);
+        }
+        return inheritanceBRoot;
+    }
+
+    public static InheritanceBRootChildAlias inheritanceBRootChild() {
+        if (inheritanceBRootChild == null) {
+            inheritanceBRootChild = new InheritanceBRootChildAlias("ibrc");
+            AliasRegistry.register(InheritanceBRootChild.class, inheritanceBRootChild);
+        }
+        return inheritanceBRootChild;
+    }
+
+    public static InheritanceCAlias inheritanceC() {
+        if (inheritanceC == null) {
+            inheritanceC = new InheritanceCAlias("ic");
+            AliasRegistry.register(InheritanceC.class, inheritanceC);
+        }
+        return inheritanceC;
+    }
+
+    public static InheritanceCFoo1Alias inheritanceCFoo1() {
+        if (inheritanceCFoo1 == null) {
+            inheritanceCFoo1 = new InheritanceCFoo1Alias("icf");
+            AliasRegistry.register(InheritanceCFoo1.class, inheritanceCFoo1);
+        }
+        return inheritanceCFoo1;
+    }
+
+    public static InheritanceCFoo2Alias inheritanceCFoo2() {
+        if (inheritanceCFoo2 == null) {
+            inheritanceCFoo2 = new InheritanceCFoo2Alias("icf");
+            AliasRegistry.register(InheritanceCFoo2.class, inheritanceCFoo2);
+        }
+        return inheritanceCFoo2;
+    }
+
+    public static ManyToManyABarAlias manyToManyABar() {
+        if (manyToManyABar == null) {
+            manyToManyABar = new ManyToManyABarAlias("mtmab");
+            AliasRegistry.register(ManyToManyABar.class, manyToManyABar);
+        }
+        return manyToManyABar;
+    }
+
+    public static ManyToManyAFooAlias manyToManyAFoo() {
+        if (manyToManyAFoo == null) {
+            manyToManyAFoo = new ManyToManyAFooAlias("mtmaf");
+            AliasRegistry.register(ManyToManyAFoo.class, manyToManyAFoo);
+        }
+        return manyToManyAFoo;
+    }
+
+    public static ManyToManyAFooToBarAlias manyToManyAFooToBar() {
+        if (manyToManyAFooToBar == null) {
+            manyToManyAFooToBar = new ManyToManyAFooToBarAlias("mtmaftb");
+            AliasRegistry.register(ManyToManyAFooToBar.class, manyToManyAFooToBar);
+        }
+        return manyToManyAFooToBar;
+    }
+
+    public static ManyToManyBBarAlias manyToManyBBar() {
+        if (manyToManyBBar == null) {
+            manyToManyBBar = new ManyToManyBBarAlias("mtmbb");
+            AliasRegistry.register(ManyToManyBBar.class, manyToManyBBar);
+        }
+        return manyToManyBBar;
+    }
+
+    public static ManyToManyBFooAlias manyToManyBFoo() {
+        if (manyToManyBFoo == null) {
+            manyToManyBFoo = new ManyToManyBFooAlias("mtmbf");
+            AliasRegistry.register(ManyToManyBFoo.class, manyToManyBFoo);
+        }
+        return manyToManyBFoo;
+    }
+
+    public static ManyToManyBFooToBarAlias manyToManyBFooToBar() {
+        if (manyToManyBFooToBar == null) {
+            manyToManyBFooToBar = new ManyToManyBFooToBarAlias("mtmbftb");
+            AliasRegistry.register(ManyToManyBFooToBar.class, manyToManyBFooToBar);
+        }
+        return manyToManyBFooToBar;
+    }
+
+    public static OneToOneABarAlias oneToOneABar() {
+        if (oneToOneABar == null) {
+            oneToOneABar = new OneToOneABarAlias("otoab");
+            AliasRegistry.register(OneToOneABar.class, oneToOneABar);
+        }
+        return oneToOneABar;
+    }
+
+    public static OneToOneAFooAlias oneToOneAFoo() {
+        if (oneToOneAFoo == null) {
+            oneToOneAFoo = new OneToOneAFooAlias("otoaf");
+            AliasRegistry.register(OneToOneAFoo.class, oneToOneAFoo);
+        }
+        return oneToOneAFoo;
+    }
+
+    public static OneToOneBBarAlias oneToOneBBar() {
+        if (oneToOneBBar == null) {
+            oneToOneBBar = new OneToOneBBarAlias("otobb");
+            AliasRegistry.register(OneToOneBBar.class, oneToOneBBar);
+        }
+        return oneToOneBBar;
+    }
+
+    public static OneToOneBFooAlias oneToOneBFoo() {
+        if (oneToOneBFoo == null) {
+            oneToOneBFoo = new OneToOneBFooAlias("otobf");
+            AliasRegistry.register(OneToOneBFoo.class, oneToOneBFoo);
+        }
+        return oneToOneBFoo;
+    }
+
+    public static ParentAlias parent() {
+        if (parent == null) {
+            parent = new ParentAlias("p");
+            AliasRegistry.register(Parent.class, parent);
+        }
+        return parent;
+    }
+
+    public static ParentBChildBarAlias parentBChildBar() {
+        if (parentBChildBar == null) {
+            parentBChildBar = new ParentBChildBarAlias("pbcb");
+            AliasRegistry.register(ParentBChildBar.class, parentBChildBar);
+        }
+        return parentBChildBar;
+    }
+
+    public static ParentBChildFooAlias parentBChildFoo() {
+        if (parentBChildFoo == null) {
+            parentBChildFoo = new ParentBChildFooAlias("pbcf");
+            AliasRegistry.register(ParentBChildFoo.class, parentBChildFoo);
+        }
+        return parentBChildFoo;
+    }
+
+    public static ParentBParentAlias parentBParent() {
+        if (parentBParent == null) {
+            parentBParent = new ParentBParentAlias("pbp");
+            AliasRegistry.register(ParentBParent.class, parentBParent);
+        }
+        return parentBParent;
+    }
+
+    public static ParentCBarAlias parentCBar() {
+        if (parentCBar == null) {
+            parentCBar = new ParentCBarAlias("pcb");
+            AliasRegistry.register(ParentCBar.class, parentCBar);
+        }
+        return parentCBar;
+    }
+
+    public static ParentCFooAlias parentCFoo() {
+        if (parentCFoo == null) {
+            parentCFoo = new ParentCFooAlias("pcf");
+            AliasRegistry.register(ParentCFoo.class, parentCFoo);
+        }
+        return parentCFoo;
+    }
+
+    public static ParentDAlias parentD() {
+        if (parentD == null) {
+            parentD = new ParentDAlias("pd");
+            AliasRegistry.register(ParentD.class, parentD);
+        }
+        return parentD;
+    }
+
+    public static ParentDChildAAlias parentDChildA() {
+        if (parentDChildA == null) {
+            parentDChildA = new ParentDChildAAlias("pdca");
+            AliasRegistry.register(ParentDChildA.class, parentDChildA);
+        }
+        return parentDChildA;
+    }
+
+    public static ParentDChildBAlias parentDChildB() {
+        if (parentDChildB == null) {
+            parentDChildB = new ParentDChildBAlias("pdcb");
+            AliasRegistry.register(ParentDChildB.class, parentDChildB);
+        }
+        return parentDChildB;
+    }
+
+    public static ParentDChildCAlias parentDChildC() {
+        if (parentDChildC == null) {
+            parentDChildC = new ParentDChildCAlias("pdcc");
+            AliasRegistry.register(ParentDChildC.class, parentDChildC);
+        }
+        return parentDChildC;
+    }
+
+    public static ParentDToChildCAlias parentDToChildC() {
+        if (parentDToChildC == null) {
+            parentDToChildC = new ParentDToChildCAlias("pdtcc");
+            AliasRegistry.register(ParentDToChildC.class, parentDToChildC);
+        }
+        return parentDToChildC;
+    }
+
+    public static PrimitivesAlias primitives() {
+        if (primitives == null) {
+            primitives = new PrimitivesAlias("p");
+            AliasRegistry.register(Primitives.class, primitives);
+        }
+        return primitives;
+    }
+
+    public static PrimitivesBAlias primitivesB() {
+        if (primitivesB == null) {
+            primitivesB = new PrimitivesBAlias("pb");
+            AliasRegistry.register(PrimitivesB.class, primitivesB);
+        }
+        return primitivesB;
+    }
+
+    public static PrimitivesCAlias primitivesC() {
+        if (primitivesC == null) {
+            primitivesC = new PrimitivesCAlias("pc");
+            AliasRegistry.register(PrimitivesC.class, primitivesC);
+        }
+        return primitivesC;
+    }
+
+    public static UserTypesAFooAlias userTypesAFoo() {
+        if (userTypesAFoo == null) {
+            userTypesAFoo = new UserTypesAFooAlias("utaf");
+            AliasRegistry.register(UserTypesAFoo.class, userTypesAFoo);
+        }
+        return userTypesAFoo;
+    }
+
+    public static ValidationAFooAlias validationAFoo() {
+        if (validationAFoo == null) {
+            validationAFoo = new ValidationAFooAlias("vaf");
+            AliasRegistry.register(ValidationAFoo.class, validationAFoo);
+        }
+        return validationAFoo;
     }
 
 }
