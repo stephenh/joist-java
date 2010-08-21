@@ -15,6 +15,9 @@ public abstract class AbstractQueries<T extends DomainObject> {
   protected AbstractQueries(Class<T> type) {
     this.domainType = type;
     this.aliasType = AliasRegistry.get(type);
+    if (this.aliasType == null) {
+      throw new IllegalStateException(type + " was not available in the AliasRegistry");
+    }
   }
 
   public T find(Integer id) {
