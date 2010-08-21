@@ -18,6 +18,10 @@ public class UserTypesAFooAlias extends Alias<UserTypesAFoo> {
     public final IntAliasColumn<UserTypesAFoo> version = new IntAliasColumn<UserTypesAFoo>(this, "version", UserTypesAFooCodegen.Shims.version);
 
     public UserTypesAFooAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public UserTypesAFooAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(UserTypesAFoo.class, "user_types_a_foo", alias);
         this.columns.add(this.created);
         this.columns.add(this.id);

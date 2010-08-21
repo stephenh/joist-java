@@ -19,6 +19,10 @@ public class ManyToManyBBarAlias extends Alias<ManyToManyBBar> {
     public final IntAliasColumn<ManyToManyBBar> version = new IntAliasColumn<ManyToManyBBar>(this, "version", ManyToManyBBarCodegen.Shims.version);
 
     public ManyToManyBBarAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public ManyToManyBBarAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(ManyToManyBBar.class, "many_to_many_b_bar", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);

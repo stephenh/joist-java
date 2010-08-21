@@ -18,6 +18,10 @@ public class ParentDChildAAlias extends Alias<ParentDChildA> {
     public final ForeignKeyAliasColumn<ParentDChildA, ParentD> parentD = new ForeignKeyAliasColumn<ParentDChildA, ParentD>(this, "parent_d_id", ParentDChildACodegen.Shims.parentDId);
 
     public ParentDChildAAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public ParentDChildAAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(ParentDChildA.class, "parent_d_child_a", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);

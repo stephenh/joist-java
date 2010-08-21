@@ -18,6 +18,10 @@ public class InheritanceBRootChildAlias extends Alias<InheritanceBRootChild> {
     public final ForeignKeyAliasColumn<InheritanceBRootChild, InheritanceBRoot> inheritanceBRoot = new ForeignKeyAliasColumn<InheritanceBRootChild, InheritanceBRoot>(this, "inheritance_b_root_id", InheritanceBRootChildCodegen.Shims.inheritanceBRootId);
 
     public InheritanceBRootChildAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public InheritanceBRootChildAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(InheritanceBRootChild.class, "inheritance_b_root_child", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);

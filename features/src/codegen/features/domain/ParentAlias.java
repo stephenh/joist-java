@@ -19,6 +19,10 @@ public class ParentAlias extends Alias<Parent> {
     public final IntAliasColumn<Parent> version = new IntAliasColumn<Parent>(this, "version", ParentCodegen.Shims.version);
 
     public ParentAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public ParentAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(Parent.class, "parent", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);

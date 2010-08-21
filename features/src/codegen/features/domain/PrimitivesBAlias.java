@@ -25,6 +25,10 @@ public class PrimitivesBAlias extends Alias<PrimitivesB> {
     public final IntAliasColumn<PrimitivesB> version = new IntAliasColumn<PrimitivesB>(this, "version", PrimitivesBCodegen.Shims.version);
 
     public PrimitivesBAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public PrimitivesBAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(PrimitivesB.class, "primitives_b", alias);
         this.columns.add(this.big1);
         this.columns.add(this.big2);

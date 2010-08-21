@@ -20,6 +20,10 @@ public class PrimitivesCAlias extends Alias<PrimitivesC> {
     public final IntAliasColumn<PrimitivesC> version = new IntAliasColumn<PrimitivesC>(this, "version", PrimitivesCCodegen.Shims.version);
 
     public PrimitivesCAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public PrimitivesCAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(PrimitivesC.class, "primitives_c", alias);
         this.columns.add(this.dollarAmount);
         this.columns.add(this.id);

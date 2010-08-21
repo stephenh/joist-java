@@ -19,6 +19,10 @@ public class OneToOneAFooAlias extends Alias<OneToOneAFoo> {
     public final IntAliasColumn<OneToOneAFoo> version = new IntAliasColumn<OneToOneAFoo>(this, "version", OneToOneAFooCodegen.Shims.version);
 
     public OneToOneAFooAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public OneToOneAFooAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(OneToOneAFoo.class, "one_to_one_a_foo", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);

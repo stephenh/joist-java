@@ -19,17 +19,12 @@ public class InheritanceCFoo2Alias extends Alias<InheritanceCFoo2> {
     public final IntAliasColumn<InheritanceC> version;
 
     public InheritanceCFoo2Alias(String alias) {
-        super(InheritanceCFoo2.class, "inheritance_c_foo2", alias);
-        this.baseAlias = new InheritanceCAlias(alias + "_b");
-        this.columns.add(this.foo);
-        this.id = this.baseAlias.id;
-        this.name = this.baseAlias.name;
-        this.version = this.baseAlias.version;
+        this(alias, null, true);
     }
 
-    public InheritanceCFoo2Alias(InheritanceCAlias baseAlias, String alias) {
+    public InheritanceCFoo2Alias(String alias, InheritanceCAlias baseAlias, boolean addSubClasses) {
         super(InheritanceCFoo2.class, "inheritance_c_foo2", alias);
-        this.baseAlias = baseAlias;
+        this.baseAlias = (baseAlias != null) ? baseAlias : new InheritanceCAlias(alias + "_b", null, false);
         this.columns.add(this.foo);
         this.id = this.baseAlias.id;
         this.name = this.baseAlias.name;

@@ -16,12 +16,18 @@ public class InheritanceABaseAlias extends Alias<InheritanceABase> {
     public final IntAliasColumn<InheritanceABase> version = new IntAliasColumn<InheritanceABase>(this, "version", InheritanceABaseCodegen.Shims.version);
 
     public InheritanceABaseAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public InheritanceABaseAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(InheritanceABase.class, "inheritance_a_base", alias);
         InheritanceABaseAlias inheritanceABase = this;
-        InheritanceASubOneAlias inheritanceASubOne = new InheritanceASubOneAlias(inheritanceABase, alias + "_0");
-        this.addSubClassAlias(inheritanceASubOne);
-        InheritanceASubTwoAlias inheritanceASubTwo = new InheritanceASubTwoAlias(inheritanceABase, alias + "_1");
-        this.addSubClassAlias(inheritanceASubTwo);
+        if (addSubClasses) {
+          InheritanceASubOneAlias inheritanceASubOne = new InheritanceASubOneAlias(alias + "_0", inheritanceABase, false);
+          this.addSubClassAlias(inheritanceASubOne);
+          InheritanceASubTwoAlias inheritanceASubTwo = new InheritanceASubTwoAlias(alias + "_1", inheritanceABase, false);
+          this.addSubClassAlias(inheritanceASubTwo);
+        }
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

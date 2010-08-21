@@ -16,12 +16,18 @@ public class InheritanceCAlias extends Alias<InheritanceC> {
     public final IntAliasColumn<InheritanceC> version = new IntAliasColumn<InheritanceC>(this, "version", InheritanceCCodegen.Shims.version);
 
     public InheritanceCAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public InheritanceCAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(InheritanceC.class, "inheritance_c", alias);
         InheritanceCAlias inheritanceC = this;
-        InheritanceCFoo1Alias inheritanceCFoo1 = new InheritanceCFoo1Alias(inheritanceC, alias + "_0");
-        this.addSubClassAlias(inheritanceCFoo1);
-        InheritanceCFoo2Alias inheritanceCFoo2 = new InheritanceCFoo2Alias(inheritanceC, alias + "_1");
-        this.addSubClassAlias(inheritanceCFoo2);
+        if (addSubClasses) {
+          InheritanceCFoo1Alias inheritanceCFoo1 = new InheritanceCFoo1Alias(alias + "_0", inheritanceC, false);
+          this.addSubClassAlias(inheritanceCFoo1);
+          InheritanceCFoo2Alias inheritanceCFoo2 = new InheritanceCFoo2Alias(alias + "_1", inheritanceC, false);
+          this.addSubClassAlias(inheritanceCFoo2);
+        }
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);
