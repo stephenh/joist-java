@@ -12,6 +12,7 @@ import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
 
+@SuppressWarnings("all")
 public abstract class ParentCFooCodegen extends AbstractDomainObject {
 
     public static final ParentCFooQueries queries;

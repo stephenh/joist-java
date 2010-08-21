@@ -5,9 +5,9 @@ import joist.domain.Shim;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
 
-    @SuppressWarnings("hiding")
     public static final InheritanceASubTwoQueries queries;
     private String two = null;
 

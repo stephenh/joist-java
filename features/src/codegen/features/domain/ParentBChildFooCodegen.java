@@ -10,6 +10,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
 
     public static final ParentBChildFooQueries queries;

@@ -9,6 +9,7 @@ import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
 
     public static final ManyToManyAFooToBarQueries queries;

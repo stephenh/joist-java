@@ -9,6 +9,7 @@ import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class ParentDToChildCCodegen extends AbstractDomainObject {
 
     public static final ParentDToChildCQueries queries;

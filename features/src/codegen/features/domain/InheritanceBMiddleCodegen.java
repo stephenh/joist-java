@@ -5,9 +5,9 @@ import joist.domain.Shim;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
 
-    @SuppressWarnings("hiding")
     public static final InheritanceBMiddleQueries queries;
     private String middleName = null;
 

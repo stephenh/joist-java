@@ -5,9 +5,9 @@ import joist.domain.Shim;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class InheritanceCFoo1Codegen extends InheritanceC {
 
-    @SuppressWarnings("hiding")
     public static final InheritanceCFoo1Queries queries;
     private String foo = null;
 

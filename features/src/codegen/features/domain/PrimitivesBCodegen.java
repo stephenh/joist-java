@@ -8,6 +8,7 @@ import joist.domain.Shim;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class PrimitivesBCodegen extends AbstractDomainObject {
 
     public static final PrimitivesBQueries queries;

@@ -10,6 +10,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
 
     public static final OneToOneAFooQueries queries;
