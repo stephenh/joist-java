@@ -1,14 +1,13 @@
 package joist.sourcegen;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import joist.util.Copy;
 import joist.util.Log;
+import joist.util.Read;
+import joist.util.Write;
 
 public class GDirectory {
 
@@ -36,18 +35,21 @@ public class GDirectory {
   }
 
   public void output() {
-    try {
-      for (GClass gc : this.classes) {
-        File file = this.getFile(gc);
-        file.getParentFile().mkdirs();
-        Log.debug("Saving {}", file);
-        OutputStream out = new FileOutputStream(file);
-        out.write(gc.toCode().getBytes());
-        out.close();
-        this.touched.add(file);
+    for (GClass gc : this.classes) {
+      String newCode = gc.toCode();
+
+      File file = this.getFile(gc);
+      if (file.exists()) {
+        String existingCode = Read.fromFile(file);
+        if (newCode.equals(existingCode)) {
+          continue;
+        }
       }
-    } catch (IOException io) {
-      throw new RuntimeException(io);
+
+      file.getParentFile().mkdirs();
+      Log.debug("Saving {}", file);
+      Write.toFile(file, newCode);
+      this.touched.add(file);
     }
   }
 
