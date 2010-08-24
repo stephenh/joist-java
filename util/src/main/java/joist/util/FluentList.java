@@ -1,6 +1,7 @@
 package joist.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -16,12 +17,21 @@ public class FluentList<V> extends ArrayList<V> {
   public FluentList() {
   }
 
+  public FluentList(int initialCapacity) {
+    super(initialCapacity);
+  }
+
   public FluentList(Collection<V> values) {
     super(values);
   }
 
   public FluentList<V> with(V value) {
     this.add(value);
+    return this;
+  }
+
+  public FluentList<V> with(V... values) {
+    this.addAll(Arrays.asList(values));
     return this;
   }
 
@@ -44,6 +54,14 @@ public class FluentList<V> extends ArrayList<V> {
       }
     }
     return this;
+  }
+
+  public <V2> FluentList<V2> map(Function1<V2, V> f) {
+    FluentList<V2> l = new FluentList<V2>(this.size());
+    for (V value : this) {
+      l.add(f.apply(value));
+    }
+    return l;
   }
 
 }

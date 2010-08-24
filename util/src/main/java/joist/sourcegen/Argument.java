@@ -8,6 +8,10 @@ public class Argument {
   public final String type;
   public final String name;
 
+  public static Argument arg(String type, String name) {
+    return new Argument(type, name);
+  }
+
   /** @param typesAndNames can be one "Foo f, Bar b" or multiple "Foo f", "Bar b" */
   public static List<Argument> split(String... typesAndNames) {
     List<Argument> arguments = new ArrayList<Argument>();
@@ -50,6 +54,10 @@ public class Argument {
   public Argument(String type, String name) {
     this.type = type;
     this.name = name;
+  }
+
+  public Argument importIfPossible(GClass gclass) {
+    return new Argument(gclass.stripAndImportPackageIfPossible(this.type), this.name);
   }
 
   public String toString() {

@@ -49,6 +49,11 @@ public class GMethod {
     return this;
   }
 
+  public GMethod arguments(List<Argument> args) {
+    this.arguments.addAll(args);
+    return this;
+  }
+
   public GMethod constructorFor(String shortClassName) {
     this.constructorFor = shortClassName;
     return this;
@@ -121,8 +126,13 @@ public class GMethod {
     return this;
   }
 
+  /** @return if we have the same arguments (based on types, not named) */
   public boolean hasSameArguments(String... typeAndNames) {
-    List<Argument> other = Argument.split(typeAndNames);
+    return this.hasSameArguments(Argument.split(typeAndNames));
+  }
+
+  /** @return if we have the same arguments (based on types, not named) */
+  public boolean hasSameArguments(List<Argument> other) {
     if (other.size() != this.arguments.size()) {
       return false;
     }

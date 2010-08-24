@@ -9,6 +9,8 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import joist.util.Copy;
+import joist.util.Function1;
 import joist.util.Interpolate;
 import joist.util.Join;
 import joist.util.StringBuilderr;
@@ -129,6 +131,7 @@ public class GClass {
     return false;
   }
 
+  // this is weird, but you can call getMethod("methodFoo(String arg1)") and we'll try to do the right thing
   public GMethod getMethod(String name, Object... args) {
     name = Interpolate.string(name, args);
     if (name.indexOf('(') == -1) {
@@ -141,8 +144,7 @@ public class GClass {
       this.methods.add(method);
       return method;
     } else {
-      String typesAndNames = name.substring(name.indexOf('(') + 1, name.length() - 1);
-      typesAndNames = this.stripAndImportPackageIfPossible(typesAndNames);
+      String typesAndNames = this.stripAndImportPackageIfPossible(name.substring(name.indexOf('(') + 1, name.length() - 1));
       name = name.substring(0, name.indexOf('('));
       for (GMethod method : this.methods) {
         if (method.getName().equals(name) && method.hasSameArguments(typesAndNames)) {
@@ -154,6 +156,24 @@ public class GClass {
       this.methods.add(method);
       return method;
     }
+  }
+
+  // use arg0 + _args to differentiate between this and getMethod(String, Object...) with only 1 arg
+  public GMethod getMethod(String name, Argument arg0, Argument... _args) {
+    List<Argument> args = Copy.list(arg0).with(_args).map(new Function1<Argument, Argument>() {
+      public Argument apply(Argument p1) {
+        return p1.importIfPossible(GClass.this);
+      }
+    });
+    for (GMethod method : this.methods) {
+      if (method.getName().equals(name) && method.hasSameArguments(args)) {
+        return method;
+      }
+    }
+    GMethod method = new GMethod(this, name);
+    method.arguments(args);
+    this.methods.add(method);
+    return method;
   }
 
   public GField getField(String name, Object... args) {

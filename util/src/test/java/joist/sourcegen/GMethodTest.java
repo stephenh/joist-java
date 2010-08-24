@@ -25,6 +25,23 @@ public class GMethodTest extends TestCase {
       ""), gc.toCode());
   }
 
+  public void testOverloadedMethodsWithArguments() {
+    GClass gc = new GClass("Foo");
+    gc.getMethod("method", Argument.arg("String", "one"));
+    gc.getMethod("method", Argument.arg("Integer", "two"));
+    Assert.assertEquals(Join.lines(//
+      "public class Foo {",
+      "",
+      "    public void method(String one) {",
+      "    }",
+      "",
+      "    public void method(Integer two) {",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
   public void testAutoImport() {
     GClass gc = new GClass("Foo");
     gc.getMethod("method").argument("foo.zaz.Bar", "bar").returnType("foo.zaz.Foo");
