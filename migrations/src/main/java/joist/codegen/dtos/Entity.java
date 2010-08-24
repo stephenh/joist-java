@@ -92,6 +92,14 @@ public class Entity {
     return this.getClassName() + "Codegen";
   }
 
+  public String getBuilderClassName() {
+    return this.getClassName() + "Builder";
+  }
+
+  public String getBuilderCodegenClassName() {
+    return this.getClassName() + "BuilderCodegen";
+  }
+
   public String getQueriesCodegenClassName() {
     return this.getClassName() + "QueriesCodegen";
   }
@@ -114,6 +122,14 @@ public class Entity {
 
   public String getFullQueriesCodegenClassName() {
     return this.config.getQueriesPackage() + "." + this.getQueriesCodegenClassName();
+  }
+
+  public String getFullBuilderCodegenClassName() {
+    return this.config.getBuildersPackage() + "." + this.getBuilderCodegenClassName();
+  }
+
+  public String getFullBuilderClassName() {
+    return this.config.getBuildersPackage() + "." + this.getBuilderClassName();
   }
 
   public List<PrimitiveProperty> getPrimitiveProperties() {

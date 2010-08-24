@@ -13,6 +13,9 @@ import joist.codegen.passes.FindManyToManyPropertiesPass;
 import joist.codegen.passes.FindPrimitivePropertiesPass;
 import joist.codegen.passes.FindTablesPass;
 import joist.codegen.passes.GenerateAliasesPass;
+import joist.codegen.passes.GenerateBuilderClassIfNotExistsPass;
+import joist.codegen.passes.GenerateBuilderCodegenPass;
+import joist.codegen.passes.GenerateBuildersClassPass;
 import joist.codegen.passes.GenerateCodesPass;
 import joist.codegen.passes.GenerateDomainClassIfNotExistsPass;
 import joist.codegen.passes.GenerateDomainCodegenPass;
@@ -72,6 +75,9 @@ public class Codegen {
       new GenerateAliasesPass(),
       new GenerateFlushFunction(),
       new GenerateSchemaHash(),
+      new GenerateBuilderClassIfNotExistsPass(),
+      new GenerateBuilderCodegenPass(),
+      new GenerateBuildersClassPass(),
       new OutputPass());
   }
 

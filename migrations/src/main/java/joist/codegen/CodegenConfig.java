@@ -26,11 +26,14 @@ public class CodegenConfig {
   /** Where the re-generated base classes (e.g. EmployeeCodegen) that you do not edit go. @return E.g. <code>src/codegen</code> */
   public String outputCodegenDirectory = "./src/codegen";
 
-  /** The package name of your domain objects. @return E.g. <code>cbas.domain</code> */
+  /** The package name of your domain objects. @return E.g. <code>app.domain</code> */
   public String domainObjectPackage = "project.domain";
 
-  /** The package name of your query objects. @return E.g. <code>cbas.domain.queries</code> */
+  /** The package name of your query objects. @return E.g. <code>app.domain.queries</code> */
   public String queriesPackage = "project.domain.queries";
+
+  /** The package name of your builder objects. @return E.g. <code>app.domain.builders</code> */
+  public String buildersPackage = "project.domain.builders";
 
   /** The base class for all the generated base classes (e.g. EmployeeCodegen). @return E.g. <code>YourAbstractDomainObject</code> */
   public String domainObjectBaseClass = AbstractDomainObject.class.getName();
@@ -88,6 +91,7 @@ public class CodegenConfig {
   public void setProjectNameForDefaults(String projectName) {
     this.domainObjectPackage = projectName + ".domain";
     this.queriesPackage = projectName + ".domain.queries";
+    this.buildersPackage = projectName + ".domain.builders";
   }
 
   public void setJavaType(String jdbcDataType, String javaType, String aliasColumnType) {
@@ -222,6 +226,10 @@ public class CodegenConfig {
 
   public String getDomainObjectPackage() {
     return this.domainObjectPackage;
+  }
+
+  public String getBuildersPackage() {
+    return this.buildersPackage;
   }
 
   public String getQueriesPackage() {

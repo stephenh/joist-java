@@ -1,4 +1,4 @@
-package joist.domain.util;
+package joist.domain.builders;
 
 import joist.domain.DomainObject;
 import joist.domain.uow.UoW;
