@@ -349,7 +349,7 @@ public class GClass {
     while (m.find()) {
       String packageName = m.group(1).replaceAll("\\.$", "");
       String simpleName = m.group(3);
-      if (packageName != null && !"".equals(packageName) && !this.isImportAlreadyTakenByDifferentPackage(packageName, simpleName)) {
+      if (!"".equals(packageName) && !this.isImportAlreadyTakenByDifferentPackage(packageName, simpleName)) {
         fullClassName = fullClassName.replaceFirst(packageName + "\\." + simpleName, simpleName);
         this.addImports(packageName + "." + simpleName);
       }
