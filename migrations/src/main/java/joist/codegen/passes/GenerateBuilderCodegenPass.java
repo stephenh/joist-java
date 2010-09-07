@@ -8,6 +8,7 @@ import joist.domain.builders.AbstractBuilder;
 import joist.sourcegen.Argument;
 import joist.sourcegen.GClass;
 import joist.sourcegen.GMethod;
+import joist.util.Inflector;
 import joist.util.MapToList;
 
 public class GenerateBuilderCodegenPass implements Pass {
@@ -44,7 +45,7 @@ public class GenerateBuilderCodegenPass implements Pass {
     builderCodegen.getMethod("get").returnType(entity.getFullClassName()).body.line("return ({}) super.get();", entity.getFullClassName());
   }
 
-  private void primitiveProperties(GClass builderCodegen, Entity entity) {
+  private void primitiveProperties(GClass c, Entity entity) {
     // first pass to get the types
     MapToList<String, String> perType = new MapToList<String, String>();
     for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
@@ -55,17 +56,11 @@ public class GenerateBuilderCodegenPass implements Pass {
       if (p.getVariableName().equals("version")) {
         continue;
       }
-      // the regular foo(value) setter
-      GMethod m = builderCodegen.getMethod(p.getVariableName(), Argument.arg(p.getJavaType(), p.getVariableName()));
-      m.returnType(entity.getBuilderClassName());
-      m.body.line("get().set{}({});", p.getCapitalVariableName(), p.getVariableName());
-      m.body.line("return ({}) this;", entity.getBuilderClassName());
-      // whether we can include a with 1-arg overload
+      // regular foo(value) setter
+      this.addFluentSetter(c, entity, p.getVariableName(), p.getVariableName(), p.getJavaType());
+      // overload with(value) setter
       if (perType.get(p.getJavaType()).size() == 1) {
-        GMethod w = builderCodegen.getMethod("with", Argument.arg(p.getJavaType(), p.getVariableName()));
-        w.returnType(entity.getBuilderClassName());
-        w.body.line("get().set{}({});", p.getCapitalVariableName(), p.getVariableName());
-        w.body.line("return ({}) this;", entity.getBuilderClassName());
+        this.addFluentSetter(c, entity, "with", p.getVariableName(), p.getJavaType());
       }
     }
   }
@@ -78,32 +73,36 @@ public class GenerateBuilderCodegenPass implements Pass {
     }
 
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
-      GMethod m1 = c.getMethod(mtop.getVariableName(), Argument.arg(mtop.getOneSide().getFullClassName(), mtop.getVariableName()));
-      m1.returnType(entity.getBuilderClassName());
-      m1.body.line("get().set{}({});", mtop.getCapitalVariableName(), mtop.getVariableName());
-      m1.body.line("return ({}) this;", entity.getBuilderClassName());
-      // whether we can use the with 1-arg overload
+      // regular foo(value) setter
+      this.addFluentSetter(c, entity, mtop.getVariableName(), mtop.getVariableName(), mtop.getOneSide().getFullClassName());
+      // overload with(value) setter
       if (perType.get(mtop.getJavaType()).size() == 1) {
-        GMethod w1 = c.getMethod("with", Argument.arg(mtop.getOneSide().getFullClassName(), mtop.getVariableName()));
-        w1.returnType(entity.getBuilderClassName());
-        w1.body.line("get().set{}({});", mtop.getCapitalVariableName(), mtop.getVariableName());
-        w1.body.line("return ({}) this;", entity.getBuilderClassName());
+        this.addFluentSetter(c, entity, "with", mtop.getVariableName(), mtop.getOneSide().getFullClassName());
       }
 
       if (!mtop.getOneSide().isCodeEntity()) {
-        GMethod m2 = c.getMethod(mtop.getVariableName(), Argument.arg(mtop.getOneSide().getBuilderClassName(), mtop.getVariableName()));
-        m2.returnType(entity.getBuilderClassName());
-        m2.body.line("get().set{}({}.get());", mtop.getCapitalVariableName(), mtop.getVariableName());
-        m2.body.line("return ({}) this;", entity.getBuilderClassName());
-        // whether we can use the with 1-arg overload
+        // regular foo(valueBuilder) setter
+        this.addFluentBuilderSetter(c, entity, mtop.getVariableName(), mtop.getVariableName(), mtop.getOneSide().getBuilderClassName());
+        // overload with(valueBuilder) setter
         if (perType.get(mtop.getJavaType()).size() == 1) {
-          GMethod w2 = c.getMethod("with", Argument.arg(mtop.getOneSide().getBuilderClassName(), mtop.getVariableName()));
-          w2.returnType(entity.getBuilderClassName());
-          w2.body.line("get().set{}({}.get());", mtop.getCapitalVariableName(), mtop.getVariableName());
-          w2.body.line("return ({}) this;", entity.getBuilderClassName());
+          this.addFluentBuilderSetter(c, entity, "with", mtop.getVariableName(), mtop.getOneSide().getBuilderClassName());
         }
       }
     }
+  }
+
+  private void addFluentSetter(GClass builderCodegen, Entity entity, String methodName, String variableName, String javaType) {
+    GMethod m = builderCodegen.getMethod(methodName, Argument.arg(javaType, variableName));
+    m.returnType(entity.getBuilderClassName());
+    m.body.line("get().set{}({});", Inflector.capitalize(variableName), variableName);
+    m.body.line("return ({}) this;", entity.getBuilderClassName());
+  }
+
+  private void addFluentBuilderSetter(GClass builderCodegen, Entity entity, String methodName, String variableName, String javaType) {
+    GMethod m = builderCodegen.getMethod(methodName, Argument.arg(javaType, variableName));
+    m.returnType(entity.getBuilderClassName());
+    m.body.line("get().set{}({}.get());", Inflector.capitalize(variableName), variableName);
+    m.body.line("return ({}) this;", entity.getBuilderClassName());
   }
 
 }
