@@ -76,7 +76,9 @@ public class Repository {
 
   public void open(final Updater updater) {
     if (Repository.datasource == null) {
-      throw new RuntimeException("The repository database has not been configured.");
+      throw new RuntimeException("The Repository datasource has not been configured");
+    } else if (Repository.db == null) {
+      throw new RuntimeException("The Repository db has not been configured");
     }
     try {
       this.connection = Repository.datasource.getConnection();
