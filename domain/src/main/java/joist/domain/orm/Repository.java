@@ -18,13 +18,30 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Delete;
 import joist.domain.orm.queries.Select;
 import joist.domain.uow.UoW;
+import joist.domain.util.ConnectionSettings;
+import joist.domain.util.pools.MySqlC3p0Factory;
+import joist.domain.util.pools.Pgc3p0Factory;
 import joist.jdbc.Jdbc;
+import joist.util.Reflection;
 
 public class Repository {
 
   public static Db db = null;
   public static DataSource datasource = null;
   private Connection connection;
+
+  public static void configure(Db db, String projectName) {
+    Repository.db = Db.PG;
+    final ConnectionSettings cs = ConnectionSettings.forApp(db, projectName);
+    if (db.isPg()) {
+      Repository.datasource = new Pgc3p0Factory(cs).create();
+      Reflection.forName("org.postgresql.Driver");
+    } else if (db.isMySQL()) {
+      Repository.datasource = new MySqlC3p0Factory(cs).create();
+    } else {
+      throw new IllegalStateException("Unhandled db " + db);
+    }
+  }
 
   public <T extends DomainObject> T load(Class<T> type, Integer id) {
     T instance = (T) UoW.getIdentityMap().findOrNull(type, id);
