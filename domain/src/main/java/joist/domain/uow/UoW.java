@@ -96,6 +96,15 @@ public class UoW {
   }
 
   /**
+   * Closes the current {@link UnitOfWork}, without any flush or txn commit/rollback, only if it is currently open.
+   */
+  public static void closeIfOpen() {
+    if (UoW.isOpen()) {
+      UoW.close();
+    }
+  }
+
+  /**
    * Flushes changes to the database without committing the transaction.
    *
    * @throws ValidationException if validation errors occur
