@@ -1,0 +1,3 @@
+#Sun Oct 10 21:39:52 MDT 2010
+eclipse.preferences.version=1
+org.apache.ivyde.eclipse.standlaoneretrieve=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><setuplist><setup name\="dependencies"><ivysettings loadondemand\="false" path\="${workspace_loc\:joist-web/ivysettings.xml}"/><ivyxml path\="ivy.xml"/><retrieve confs\="*" pattern\="target/lib/[conf]/[type]s/[artifact].[ext]" sync\="false" types\="*"/></setup></setuplist>
