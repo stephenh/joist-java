@@ -1,0 +1,8 @@
+
+require '../build.rb'
+
+define 'joist-domain-testing' do
+  package_with_ivy project
+  ivy.compile_conf('default').test_conf('test')
+end
+

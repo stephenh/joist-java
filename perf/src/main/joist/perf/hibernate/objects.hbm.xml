@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="joist.perf.hibernate">
+  <class name="Parent" table="`parent`">
+    <id name="id" type="integer" access="field">
+      <generator class="sequence">
+        <param name="sequence">parent_id_seq</param>
+      </generator>
+    </id>
+    <version name="version" column="version" type="integer" access="field"/>
+    <property name="name" column="`name`" type="string" access="field"/>
+    <set name="childs" fetch="subselect" inverse="true">
+        <key column="parent_id" not-null="true"/>
+        <one-to-many class="Child"/>
+    </set>
+  </class>
+
+  <class name="Child" table="`child`">
+    <id name="id" type="integer" access="field">
+      <generator class="sequence">
+        <param name="sequence">child_id_seq</param>
+      </generator>
+    </id>
+    <version name="version" column="version" type="integer" access="field"/>
+    <many-to-one name="parent" column="`parent_id`" class="Parent" access="field" /> 
+    <property name="name" column="`name`" type="string" access="field"/>
+    <set name="grandchilds" fetch="subselect" inverse="true">
+        <key column="child_id" not-null="true"/>
+        <one-to-many class="GrandChild"/>
+    </set>
+  </class>
+
+  <class name="GrandChild" table="`grand_child`">
+    <id name="id" type="integer" access="field">
+      <generator class="sequence">
+        <param name="sequence">grand_child_id_seq</param>
+      </generator>
+    </id>
+    <version name="version" column="version" type="integer" access="field"/>
+    <many-to-one name="child" column="`child_id`" class="Child" access="field" /> 
+    <property name="name" column="`name`" type="string" access="field"/>
+  </class>
+</hibernate-mapping>

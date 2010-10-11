@@ -1,29 +1,28 @@
 package features.domain;
 
 import features.domain.queries.ParentCBarQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class ParentCBarCodegen extends AbstractDomainObject {
 
-    protected static ParentCBarAlias alias;
     public static final ParentCBarQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyHolder<ParentCFoo> firstParent = new ForeignKeyHolder<ParentCFoo>(ParentCFoo.class);
-    private ForeignKeyHolder<ParentCFoo> secondParent = new ForeignKeyHolder<ParentCFoo>(ParentCFoo.class);
+    private final ForeignKeyHolder<ParentCFoo> firstParent = new ForeignKeyHolder<ParentCFoo>(ParentCFoo.class);
+    private final ForeignKeyHolder<ParentCFoo> secondParent = new ForeignKeyHolder<ParentCFoo>(ParentCFoo.class);
     protected Changed changed;
 
     static {
-        alias = new ParentCBarAlias("a");
-        AliasRegistry.register(ParentCBar.class, alias);
+        Aliases.parentCBar();
         queries = new ParentCBarQueries();
     }
 
@@ -173,7 +172,7 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ParentCBarChanged extends joist.domain.AbstractChanged {
+    public static class ParentCBarChanged extends AbstractChanged {
         public ParentCBarChanged(ParentCBar instance) {
             super(instance);
         }

@@ -2,29 +2,28 @@ package features.domain;
 
 import features.domain.queries.OneToOneBFooQueries;
 import java.util.List;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
 
+@SuppressWarnings("all")
 public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
 
-    protected static OneToOneBFooAlias alias;
     public static final OneToOneBFooQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar> oneToOneBBars = new ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar>((OneToOneBFoo) this, OneToOneBBarCodegen.alias, OneToOneBBarCodegen.alias.oneToOneBFoo);
+    private ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar> oneToOneBBars = new ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar>((OneToOneBFoo) this, Aliases.oneToOneBBar(), Aliases.oneToOneBBar().oneToOneBFoo);
     protected Changed changed;
 
     static {
-        alias = new OneToOneBFooAlias("a");
-        AliasRegistry.register(OneToOneBFoo.class, alias);
+        Aliases.oneToOneBFoo();
         queries = new OneToOneBFooQueries();
     }
 
@@ -146,7 +145,7 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class OneToOneBFooChanged extends joist.domain.AbstractChanged {
+    public static class OneToOneBFooChanged extends AbstractChanged {
         public OneToOneBFooChanged(OneToOneBFoo instance) {
             super(instance);
         }

@@ -19,6 +19,10 @@ public class ParentBParentAlias extends Alias<ParentBParent> {
     public final IntAliasColumn<ParentBParent> version = new IntAliasColumn<ParentBParent>(this, "version", ParentBParentCodegen.Shims.version);
 
     public ParentBParentAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public ParentBParentAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(ParentBParent.class, "parent_b_parent", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
@@ -46,7 +50,7 @@ public class ParentBParentAlias extends Alias<ParentBParent> {
     }
 
     public int getOrder() {
-        return 22;
+        return 26;
     }
 
 }

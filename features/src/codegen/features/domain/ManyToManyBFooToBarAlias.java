@@ -17,6 +17,10 @@ public class ManyToManyBFooToBarAlias extends Alias<ManyToManyBFooToBar> {
     public final ForeignKeyAliasColumn<ManyToManyBFooToBar, ManyToManyBBar> green = new ForeignKeyAliasColumn<ManyToManyBFooToBar, ManyToManyBBar>(this, "green_id", ManyToManyBFooToBarCodegen.Shims.greenId);
 
     public ManyToManyBFooToBarAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public ManyToManyBFooToBarAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(ManyToManyBFooToBar.class, "many_to_many_b_foo_to_bar", alias);
         this.columns.add(this.id);
         this.columns.add(this.version);
@@ -41,7 +45,7 @@ public class ManyToManyBFooToBarAlias extends Alias<ManyToManyBFooToBar> {
     }
 
     public int getOrder() {
-        return 15;
+        return 18;
     }
 
 }

@@ -2,30 +2,29 @@ package features.domain;
 
 import features.domain.queries.ParentBParentQueries;
 import java.util.List;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
 
+@SuppressWarnings("all")
 public abstract class ParentBParentCodegen extends AbstractDomainObject {
 
-    protected static ParentBParentAlias alias;
     public static final ParentBParentQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<ParentBParent, ParentBChildBar> parentBChildBars = new ForeignKeyListHolder<ParentBParent, ParentBChildBar>((ParentBParent) this, ParentBChildBarCodegen.alias, ParentBChildBarCodegen.alias.parentBParent);
-    private ForeignKeyListHolder<ParentBParent, ParentBChildFoo> parentBChildFoos = new ForeignKeyListHolder<ParentBParent, ParentBChildFoo>((ParentBParent) this, ParentBChildFooCodegen.alias, ParentBChildFooCodegen.alias.parentBParent);
+    private ForeignKeyListHolder<ParentBParent, ParentBChildBar> parentBChildBars = new ForeignKeyListHolder<ParentBParent, ParentBChildBar>((ParentBParent) this, Aliases.parentBChildBar(), Aliases.parentBChildBar().parentBParent);
+    private ForeignKeyListHolder<ParentBParent, ParentBChildFoo> parentBChildFoos = new ForeignKeyListHolder<ParentBParent, ParentBChildFoo>((ParentBParent) this, Aliases.parentBChildFoo(), Aliases.parentBChildFoo().parentBParent);
     protected Changed changed;
 
     static {
-        alias = new ParentBParentAlias("a");
-        AliasRegistry.register(ParentBParent.class, alias);
+        Aliases.parentBParent();
         queries = new ParentBParentQueries();
     }
 
@@ -183,7 +182,7 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ParentBParentChanged extends joist.domain.AbstractChanged {
+    public static class ParentBParentChanged extends AbstractChanged {
         public ParentBParentChanged(ParentBParent instance) {
             super(instance);
         }

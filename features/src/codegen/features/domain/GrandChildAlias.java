@@ -1,0 +1,52 @@
+package features.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
+import joist.domain.orm.queries.columns.IdAliasColumn;
+import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.StringAliasColumn;
+
+public class GrandChildAlias extends Alias<GrandChild> {
+
+    private final List<AliasColumn<GrandChild, ?, ?>> columns = new ArrayList<AliasColumn<GrandChild, ?, ?>>();
+    public final IdAliasColumn<GrandChild> id = new IdAliasColumn<GrandChild>(this, "id", GrandChildCodegen.Shims.id);
+    public final StringAliasColumn<GrandChild> name = new StringAliasColumn<GrandChild>(this, "name", GrandChildCodegen.Shims.name);
+    public final IntAliasColumn<GrandChild> version = new IntAliasColumn<GrandChild>(this, "version", GrandChildCodegen.Shims.version);
+    public final ForeignKeyAliasColumn<GrandChild, Child> child = new ForeignKeyAliasColumn<GrandChild, Child>(this, "child_id", GrandChildCodegen.Shims.childId);
+
+    public GrandChildAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public GrandChildAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
+        super(GrandChild.class, "grand_child", alias);
+        this.columns.add(this.id);
+        this.columns.add(this.name);
+        this.columns.add(this.version);
+        this.columns.add(this.child);
+    }
+
+    public List<AliasColumn<GrandChild, ?, ?>> getColumns() {
+        return this.columns;
+    }
+
+    public IdAliasColumn<GrandChild> getIdColumn() {
+        return this.id;
+    }
+
+    public IntAliasColumn<GrandChild> getVersionColumn() {
+        return this.version;
+    }
+
+    public IdAliasColumn<GrandChild> getSubClassIdColumn() {
+        return null;
+    }
+
+    public int getOrder() {
+        return 25;
+    }
+
+}

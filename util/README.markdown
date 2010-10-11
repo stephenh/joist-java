@@ -1,5 +1,5 @@
 
-`exigence-utilities` is a collection of small libraries and utility classes.
+`joist-util` is a collection of small libraries and utility classes.
 
 Conversion
 ==========
@@ -23,8 +23,8 @@ If you do have a one-way-only conversion, you can extend [AbstractOneWayConverte
 
 Conversion doesn't do any fancy list/array stuff yet, nor have many default converters, but the core seems solid.
 
-Gen
-===
+sourcegen
+=========
 
 A object-oriented, Java-specific source code generation library.
 
@@ -87,4 +87,8 @@ Util
 
 * `Log.debug` reads your stack trace
 
+Todo
+====
+
+* sourcegen: Add user-configurable tab output, i.e. `__foo` turns into 8 spaces, 4 spaces, 2 tabs, etc. Via system property/something.
 

@@ -11,7 +11,7 @@ Overview
 
 Domain objects are generated from the local database schema. This means domain objects always match the schema, much like the Rails/Fowler [ActiveRecord](http://www.martinfowler.com/eaaCatalog/activeRecord.html) pattern.
 
-joist.domain uses the [Generation Gap](http://martinfowler.com/dslwip/) pattern to separate boilerplate getters/setters from business logic. For each table `foo`, the generated code created both a `Foo` and `FooCodegen` class. `Foo` is never touched again, so you can add domain logic without fear of it being overwritten.
+joist-domain uses the [Generation Gap](http://martinfowler.com/dslwip/) pattern to separate boilerplate getters/setters from business logic. For each table `foo`, the generated code created both a `Foo` and `FooCodegen` class. `Foo` is never touched again, so you can add domain logic without fear of it being overwritten.
 
 Example
 -------

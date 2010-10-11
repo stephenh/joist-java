@@ -1,16 +1,16 @@
 package features.domain;
 
 import features.domain.queries.PrimitivesBQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class PrimitivesBCodegen extends AbstractDomainObject {
 
-    protected static PrimitivesBAlias alias;
     public static final PrimitivesBQueries queries;
     private Long big1 = null;
     private Long big2 = null;
@@ -25,8 +25,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
     protected Changed changed;
 
     static {
-        alias = new PrimitivesBAlias("a");
-        AliasRegistry.register(PrimitivesB.class, alias);
+        Aliases.primitivesB();
         queries = new PrimitivesBQueries();
     }
 
@@ -254,7 +253,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class PrimitivesBChanged extends joist.domain.AbstractChanged {
+    public static class PrimitivesBChanged extends AbstractChanged {
         public PrimitivesBChanged(PrimitivesB instance) {
             super(instance);
         }

@@ -2,21 +2,17 @@ package features.domain;
 
 import features.domain.queries.InheritanceBBottomQueries;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
 
-    @SuppressWarnings("hiding")
-    protected static InheritanceBBottomAlias alias;
-    @SuppressWarnings("hiding")
     public static final InheritanceBBottomQueries queries;
     private String bottomName = null;
 
     static {
-        alias = new InheritanceBBottomAlias("a");
-        AliasRegistry.register(InheritanceBBottom.class, alias);
+        Aliases.inheritanceBBottom();
         queries = new InheritanceBBottomQueries();
     }
 

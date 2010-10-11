@@ -1,6 +1,6 @@
 ---
 layout: default
-title: joist.web Request Cycle
+title: joist-web Request Cycle
 ---
 
 Request Cycle
@@ -9,7 +9,7 @@ Request Cycle
 Overview
 --------
 
-joist.web follows a simple request cycle that is driven by the [`PageProcessor`](http://github.com/stephenh/joist/blob/master/web/src/main/joist/web/PageProcessor.java) interface.
+joist-web follows a simple request cycle that is driven by the [`PageProcessor`](http://github.com/stephenh/joist/blob/master/web/src/main/joist/web/PageProcessor.java) interface.
 
 Each `Page`, but implementing the `Page` interface, has a `getProcessor()` method that allows the page to choose its own page processor and enable per-page processing logic.
 

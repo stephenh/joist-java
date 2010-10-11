@@ -19,9 +19,18 @@ public class InheritanceBRootAlias extends Alias<InheritanceBRoot> {
     public final IntAliasColumn<InheritanceBRoot> version = new IntAliasColumn<InheritanceBRoot>(this, "version", InheritanceBRootCodegen.Shims.version);
 
     public InheritanceBRootAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public InheritanceBRootAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(InheritanceBRoot.class, "inheritance_b_root", alias);
-        this.addSubClassAlias(new InheritanceBMiddleAlias(this, alias + "_0"));
-        this.addSubClassAlias(new InheritanceBBottomAlias(this, alias + "_1"));
+        InheritanceBRootAlias inheritanceBRoot = this;
+        if (addSubClasses) {
+          InheritanceBMiddleAlias inheritanceBMiddle = new InheritanceBMiddleAlias(alias + "_0", inheritanceBRoot, false);
+          this.addSubClassAlias(inheritanceBMiddle);
+          InheritanceBBottomAlias inheritanceBBottom = new InheritanceBBottomAlias(alias + "_1", inheritanceBMiddle, false);
+          this.addSubClassAlias(inheritanceBBottom);
+        }
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);

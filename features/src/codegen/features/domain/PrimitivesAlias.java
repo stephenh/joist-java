@@ -18,6 +18,10 @@ public class PrimitivesAlias extends Alias<Primitives> {
     public final IntAliasColumn<Primitives> version = new IntAliasColumn<Primitives>(this, "version", PrimitivesCodegen.Shims.version);
 
     public PrimitivesAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public PrimitivesAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(Primitives.class, "primitives", alias);
         this.columns.add(this.flag);
         this.columns.add(this.id);
@@ -42,7 +46,7 @@ public class PrimitivesAlias extends Alias<Primitives> {
     }
 
     public int getOrder() {
-        return 27;
+        return 36;
     }
 
 }

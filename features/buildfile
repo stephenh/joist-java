@@ -1,0 +1,9 @@
+
+require '../build.rb'
+
+define 'joist-features' do
+  package_with_ivy project
+  ivy.compile_conf('default').test_conf('test')
+  compile.from _('src/codegen')
+end
+

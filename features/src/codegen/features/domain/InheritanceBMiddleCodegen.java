@@ -2,21 +2,17 @@ package features.domain;
 
 import features.domain.queries.InheritanceBMiddleQueries;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
 
-    @SuppressWarnings("hiding")
-    protected static InheritanceBMiddleAlias alias;
-    @SuppressWarnings("hiding")
     public static final InheritanceBMiddleQueries queries;
     private String middleName = null;
 
     static {
-        alias = new InheritanceBMiddleAlias("a");
-        AliasRegistry.register(InheritanceBMiddle.class, alias);
+        Aliases.inheritanceBMiddle();
         queries = new InheritanceBMiddleQueries();
     }
 

@@ -18,6 +18,10 @@ public class OneToOneABarAlias extends Alias<OneToOneABar> {
     public final ForeignKeyAliasColumn<OneToOneABar, OneToOneAFoo> oneToOneAFoo = new ForeignKeyAliasColumn<OneToOneABar, OneToOneAFoo>(this, "one_to_one_a_foo_id", OneToOneABarCodegen.Shims.oneToOneAFooId);
 
     public OneToOneABarAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public OneToOneABarAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(OneToOneABar.class, "one_to_one_a_bar", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
@@ -42,7 +46,7 @@ public class OneToOneABarAlias extends Alias<OneToOneABar> {
     }
 
     public int getOrder() {
-        return 17;
+        return 20;
     }
 
 }

@@ -2,7 +2,9 @@ package features.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.JoinClause;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
@@ -18,6 +20,10 @@ public class ChildAlias extends Alias<Child> {
     public final ForeignKeyAliasColumn<Child, Parent> parent = new ForeignKeyAliasColumn<Child, Parent>(this, "parent_id", ChildCodegen.Shims.parentId);
 
     public ChildAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public ChildAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(Child.class, "child", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);
@@ -42,7 +48,11 @@ public class ChildAlias extends Alias<Child> {
     }
 
     public int getOrder() {
-        return 21;
+        return 24;
+    }
+
+    public <T extends DomainObject> JoinClause<T, Child> on(ForeignKeyAliasColumn<T, Child> on) {
+        return new JoinClause<T, Child>("INNER JOIN", this, on);
     }
 
 }

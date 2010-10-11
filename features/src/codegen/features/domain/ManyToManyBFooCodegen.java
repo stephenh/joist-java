@@ -3,29 +3,28 @@ package features.domain;
 import features.domain.queries.ManyToManyBFooQueries;
 import java.util.ArrayList;
 import java.util.List;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
 
+@SuppressWarnings("all")
 public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
 
-    protected static ManyToManyBFooAlias alias;
     public static final ManyToManyBFooQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyListHolder<ManyToManyBFoo, ManyToManyBFooToBar> blueManyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBFoo, ManyToManyBFooToBar>((ManyToManyBFoo) this, ManyToManyBFooToBarCodegen.alias, ManyToManyBFooToBarCodegen.alias.blue);
+    private ForeignKeyListHolder<ManyToManyBFoo, ManyToManyBFooToBar> blueManyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBFoo, ManyToManyBFooToBar>((ManyToManyBFoo) this, Aliases.manyToManyBFooToBar(), Aliases.manyToManyBFooToBar().blue);
     protected Changed changed;
 
     static {
-        alias = new ManyToManyBFooAlias("a");
-        AliasRegistry.register(ManyToManyBFoo.class, alias);
+        Aliases.manyToManyBFoo();
         queries = new ManyToManyBFooQueries();
     }
 
@@ -182,7 +181,7 @@ public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ManyToManyBFooChanged extends joist.domain.AbstractChanged {
+    public static class ManyToManyBFooChanged extends AbstractChanged {
         public ManyToManyBFooChanged(ManyToManyBFoo instance) {
             super(instance);
         }

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: joist.web
+title: joist-web
 ---
 
 Url Security
@@ -9,14 +9,14 @@ Url Security
 Overview
 --------
 
-joist.web auto-binds request parameters to a `Page`'s public fields.
+joist-web auto-binds request parameters to a `Page`'s public fields.
 
 This is a convenient way to access request parameters, but also a potential security hole, e.g. if the user starts changing `creditCard.htm?card=1` to `creditCard.htm?card=10` just to see what will happen.
 
 Approach
 --------
 
-joist.web's [`Page`](http://github.com/stephenh/joist/blob/master/web/src/main/joist/web/Page.java) interface has a method hook, `isAllowedViaUrl(Object)` to address this issue.
+joist-web's [`Page`](http://github.com/stephenh/joist/blob/master/web/src/main/joist/web/Page.java) interface has a method hook, `isAllowedViaUrl(Object)` to address this issue.
 
 Out of the box, any `Object` is allowed to be bound from the URL--`isAllowedViaUrl` always returns `true`.
 

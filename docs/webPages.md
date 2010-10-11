@@ -1,6 +1,6 @@
 ---
 layout: default
-title: joist.web Pages
+title: joist-web Pages
 ---
 
 Pages
@@ -9,14 +9,14 @@ Pages
 Overview
 --------
 
-joist.web pages are objects that implement the [`Page`](http://github.com/stephenh/joist/blob/master/web/src/main/joist/web/Page.java) interface.
+joist-web pages are objects that implement the [`Page`](http://github.com/stephenh/joist/blob/master/web/src/main/joist/web/Page.java) interface.
 
 Pages are responsible for initializing controls to render the page and handle any user interaction on form submissions.
 
 Mapping
 -------
 
-joist.web maps class names from URLs simply:
+joist-web maps class names from URLs simply:
 
 * `/dir/file.htm` to `com.yourmap.basepackage.dir.FilePage`
 

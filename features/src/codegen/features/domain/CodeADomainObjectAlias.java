@@ -19,6 +19,10 @@ public class CodeADomainObjectAlias extends Alias<CodeADomainObject> {
     public final CodeAliasColumn<CodeADomainObject, CodeASize> codeASize = new CodeAliasColumn<CodeADomainObject, CodeASize>(this, "code_a_size_id", CodeADomainObjectCodegen.Shims.codeASizeId);
 
     public CodeADomainObjectAlias(String alias) {
+        this(alias, null, true);
+    }
+
+    public CodeADomainObjectAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
         super(CodeADomainObject.class, "code_a_domain_object", alias);
         this.columns.add(this.id);
         this.columns.add(this.name);

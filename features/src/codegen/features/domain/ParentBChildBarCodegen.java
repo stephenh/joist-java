@@ -1,28 +1,27 @@
 package features.domain;
 
 import features.domain.queries.ParentBChildBarQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
 
-    protected static ParentBChildBarAlias alias;
     public static final ParentBChildBarQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
+    private final ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
     protected Changed changed;
 
     static {
-        alias = new ParentBChildBarAlias("a");
-        AliasRegistry.register(ParentBChildBar.class, alias);
+        Aliases.parentBChildBar();
         queries = new ParentBChildBarQueries();
     }
 
@@ -140,7 +139,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class ParentBChildBarChanged extends joist.domain.AbstractChanged {
+    public static class ParentBChildBarChanged extends AbstractChanged {
         public ParentBChildBarChanged(ParentBChildBar instance) {
             super(instance);
         }

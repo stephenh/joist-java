@@ -33,4 +33,8 @@ public enum CodeAColor implements Code {
         return joist.domain.util.Codes.fromInt(CodeAColor.values(), id);
     }
 
+    public static CodeAColor fromCode(String code) {
+        return joist.domain.util.Codes.fromCode(CodeAColor.values(), code);
+    }
+
 }

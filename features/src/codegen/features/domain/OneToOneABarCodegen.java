@@ -1,28 +1,27 @@
 package features.domain;
 
 import features.domain.queries.OneToOneABarQueries;
+import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
-import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
+@SuppressWarnings("all")
 public abstract class OneToOneABarCodegen extends AbstractDomainObject {
 
-    protected static OneToOneABarAlias alias;
     public static final OneToOneABarQueries queries;
     private Integer id = null;
     private String name = null;
     private Integer version = null;
-    private ForeignKeyHolder<OneToOneAFoo> oneToOneAFoo = new ForeignKeyHolder<OneToOneAFoo>(OneToOneAFoo.class);
+    private final ForeignKeyHolder<OneToOneAFoo> oneToOneAFoo = new ForeignKeyHolder<OneToOneAFoo>(OneToOneAFoo.class);
     protected Changed changed;
 
     static {
-        alias = new OneToOneABarAlias("a");
-        AliasRegistry.register(OneToOneABar.class, alias);
+        Aliases.oneToOneABar();
         queries = new OneToOneABarQueries();
     }
 
@@ -141,7 +140,7 @@ public abstract class OneToOneABarCodegen extends AbstractDomainObject {
         };
     }
 
-    public static class OneToOneABarChanged extends joist.domain.AbstractChanged {
+    public static class OneToOneABarChanged extends AbstractChanged {
         public OneToOneABarChanged(OneToOneABar instance) {
             super(instance);
         }
