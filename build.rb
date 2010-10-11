@@ -1,7 +1,7 @@
 
 require 'buildr/ivy_extension'
 
-THIS_VERSION = '0.5-SNAPSHOT'
+THIS_VERSION = ENV['version'] || '0.5-SNAPSHOT'
 
 # just for buildr to get trax, then everything else is ivy
 repositories.remote << 'http://www.ibiblio.org/maven2'
