@@ -6,8 +6,6 @@ import joist.web.controls.form.TextField;
 
 import org.bindgen.Bindable;
 
-import bindgen.joist.web.pages.controls.form.TwoFormsPageBinding;
-
 @Bindable
 public class TwoFormsPage extends AbstractPage {
 

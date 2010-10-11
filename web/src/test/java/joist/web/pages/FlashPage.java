@@ -7,8 +7,6 @@ import joist.web.controls.form.SubmitButton;
 
 import org.bindgen.Bindable;
 
-import bindgen.joist.web.pages.FlashPageBinding;
-
 @Bindable
 public class FlashPage extends AbstractPage {
 

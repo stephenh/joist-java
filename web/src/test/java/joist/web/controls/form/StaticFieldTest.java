@@ -2,7 +2,8 @@ package joist.web.controls.form;
 
 import joist.web.controls.AbstractClickControlTest;
 import junit.framework.Assert;
-import bindgen.java.lang.IntegerBinding;
+
+import org.bindgen.java.lang.IntegerBinding;
 
 public class StaticFieldTest extends AbstractClickControlTest {
 

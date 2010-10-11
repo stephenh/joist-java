@@ -8,8 +8,6 @@ import joist.web.controls.form.TextField;
 
 import org.bindgen.Bindable;
 
-import bindgen.joist.web.pages.controls.form.TextFieldPageBinding;
-
 @Bindable
 public class TextFieldPage extends AbstractPage {
 

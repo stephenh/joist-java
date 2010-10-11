@@ -2,7 +2,8 @@ package joist.web.controls.form;
 
 import joist.web.controls.AbstractClickControlTest;
 import junit.framework.Assert;
-import bindgen.java.lang.StringBinding;
+
+import org.bindgen.java.lang.StringBinding;
 
 public class TextAreaFieldTest extends AbstractClickControlTest {
 

@@ -3,9 +3,9 @@ package joist.web.controls.table;
 import joist.web.AbstractPage;
 import joist.web.controls.AbstractClickControlTest;
 import joist.web.fakedomain.Employee;
+import joist.web.fakedomain.EmployeeBinding;
 import joist.web.pages.HelloWorldPage;
 import junit.framework.Assert;
-import bindgen.joist.web.fakedomain.EmployeeBinding;
 
 public class PageLinkColumnTest extends AbstractClickControlTest {
 

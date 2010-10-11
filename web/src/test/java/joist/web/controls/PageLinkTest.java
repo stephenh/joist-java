@@ -2,10 +2,10 @@ package joist.web.controls;
 
 import joist.web.AbstractPage;
 import joist.web.fakedomain.Employee;
+import joist.web.fakedomain.EmployeeBinding;
 import joist.web.pages.AddModelPublicFieldPage;
 import joist.web.pages.HelloWorldPage;
 import junit.framework.Assert;
-import bindgen.joist.web.fakedomain.EmployeeBinding;
 
 public class PageLinkTest extends AbstractClickControlTest {
 

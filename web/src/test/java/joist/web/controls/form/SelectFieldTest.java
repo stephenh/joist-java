@@ -4,13 +4,12 @@ import java.util.List;
 
 import joist.util.Copy;
 import joist.web.controls.AbstractClickControlTest;
+import joist.web.controls.form.selectFieldTest.PageBinding;
 import joist.web.fakedomain.Employee;
+import joist.web.fakedomain.EmployeeBinding;
 import junit.framework.Assert;
 
 import org.bindgen.Bindable;
-
-import bindgen.joist.web.controls.form.selectFieldTest.PageBinding;
-import bindgen.joist.web.fakedomain.EmployeeBinding;
 
 public class SelectFieldTest extends AbstractClickControlTest {
 

@@ -8,8 +8,6 @@ import joist.web.fakedomain.Employee;
 
 import org.bindgen.Bindable;
 
-import bindgen.joist.web.pages.controls.form.HiddenFieldPageBinding;
-
 @Bindable
 public class HiddenFieldPage extends AbstractPage {
 

@@ -9,8 +9,6 @@ import joist.web.controls.table.TextColumn;
 
 import org.bindgen.Bindable;
 
-import bindgen.joist.web.pages.controls.table.PagedTablePageBinding;
-
 @Bindable
 public class PagedTablePage extends AbstractPage {
 

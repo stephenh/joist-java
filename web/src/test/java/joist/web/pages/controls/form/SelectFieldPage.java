@@ -8,8 +8,6 @@ import joist.web.controls.form.SubmitButton;
 
 import org.bindgen.Bindable;
 
-import bindgen.joist.web.pages.controls.form.SelectFieldPageBinding;
-
 @Bindable
 public class SelectFieldPage extends AbstractPage {
 

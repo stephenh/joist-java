@@ -9,8 +9,6 @@ import joist.web.util.HtmlWriter;
 
 import org.bindgen.Bindable;
 
-import bindgen.joist.web.pages.RedirectOnClickPageBinding;
-
 @Bindable
 public class RedirectOnClickPage extends AbstractPage {
 

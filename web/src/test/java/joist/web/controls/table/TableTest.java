@@ -3,7 +3,8 @@ package joist.web.controls.table;
 import joist.util.Copy;
 import joist.web.controls.AbstractClickControlTest;
 import junit.framework.Assert;
-import bindgen.java.lang.StringBinding;
+
+import org.bindgen.java.lang.StringBinding;
 
 public class TableTest extends AbstractClickControlTest {
 
