@@ -12,25 +12,25 @@ import org.bindgen.Bindable;
 @Bindable
 public class RedirectOnClickPage extends AbstractPage {
 
-    public static final TestCounter rendered = new TestCounter();
-    public static final TestCounter lineAfterRedirect = new TestCounter();
-    public Form form = new Form("form");
+  public static final TestCounter rendered = new TestCounter();
+  public static final TestCounter lineAfterRedirect = new TestCounter();
+  public Form form = new Form("form");
 
-    @Override
-    public void onInit() {
-        RedirectOnClickPageBinding b = new RedirectOnClickPageBinding(this);
-        this.form.add(new SubmitButton(b.submit()));
-    }
+  @Override
+  public void onInit() {
+    RedirectOnClickPageBinding b = new RedirectOnClickPageBinding(this);
+    this.form.add(new SubmitButton(b.submit()));
+  }
 
-    @Override
-    public void render(HtmlWriter w) {
-        super.render(w);
-        RedirectOnClickPage.rendered.next();
-    }
+  @Override
+  public void render(HtmlWriter w) {
+    super.render(w);
+    RedirectOnClickPage.rendered.next();
+  }
 
-    public void submit() {
-        WebKeywords.redirect("/foo.htm");
-        RedirectOnClickPage.lineAfterRedirect.next();
-    }
+  public void submit() {
+    WebKeywords.redirect("/foo.htm");
+    RedirectOnClickPage.lineAfterRedirect.next();
+  }
 
 }

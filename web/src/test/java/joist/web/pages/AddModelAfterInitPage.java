@@ -4,11 +4,11 @@ import joist.web.AbstractPage;
 
 public class AddModelAfterInitPage extends AbstractPage {
 
-    public String value;
+  public String value;
 
-    @Override
-    public void onInit() {
-        this.value = "init";
-    }
+  @Override
+  public void onInit() {
+    this.value = "init";
+  }
 
 }

@@ -4,18 +4,18 @@ import joist.web.util.HtmlWriter;
 
 public interface Control {
 
-    String getId();
+  String getId();
 
-    String getFullId();
+  String getFullId();
 
-    void onProcess();
+  void onProcess();
 
-    void onRender();
+  void onRender();
 
-    void render(HtmlWriter w);
+  void render(HtmlWriter w);
 
-    Control getParent();
+  Control getParent();
 
-    void setParent(Control c);
+  void setParent(Control c);
 
 }

@@ -5,11 +5,11 @@ import joist.web.util.HtmlWriter;
 
 public interface Column extends Control {
 
-    // Should be on Control?
-    String getFullId();
+  // Should be on Control?
+  String getFullId();
 
-    void renderHeader(HtmlWriter sb);
+  void renderHeader(HtmlWriter sb);
 
-    void setCurrentRowIndex(Integer index);
+  void setCurrentRowIndex(Integer index);
 
 }

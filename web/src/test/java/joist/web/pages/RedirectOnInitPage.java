@@ -7,17 +7,17 @@ import joist.web.util.HtmlWriter;
 
 public class RedirectOnInitPage extends AbstractPage {
 
-    public static final TestCounter rendered = new TestCounter();
+  public static final TestCounter rendered = new TestCounter();
 
-    @Override
-    public void onInit() {
-        WebKeywords.redirect(RedirectOnInitPage.class);
-    }
+  @Override
+  public void onInit() {
+    WebKeywords.redirect(RedirectOnInitPage.class);
+  }
 
-    @Override
-    public void render(HtmlWriter w) {
-        super.render(w);
-        RedirectOnInitPage.rendered.next();
-    }
+  @Override
+  public void render(HtmlWriter w) {
+    super.render(w);
+    RedirectOnInitPage.rendered.next();
+  }
 
 }

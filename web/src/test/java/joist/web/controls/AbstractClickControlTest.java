@@ -17,27 +17,27 @@ import servletTest.RequestStub;
 
 public abstract class AbstractClickControlTest extends AbstractClickTest {
 
-    protected WebConfig config;
-    protected RequestStub request;
+  protected WebConfig config;
+  protected RequestStub request;
 
-    public void setUp() throws Exception {
-        super.setUp();
-        this.config = new WebConfig("joist.web.pages") {
-            @Override
-            protected VelocityEngine createVelocityEngine() {
-                return testEngine;
-            }
-        };
-        this.config.getUrlConverterRegistry().addConverter(new EmployeeToStringConverter());
-        this.config.getTextConverterRegistry().addConverter(new EmployeeToFriendlyStringConverter());
-        this.request = new RequestStub();
-        CurrentContext.set(new WebContext(null, this.config, this.request, null));
-    }
+  public void setUp() throws Exception {
+    super.setUp();
+    this.config = new WebConfig("joist.web.pages") {
+      @Override
+      protected VelocityEngine createVelocityEngine() {
+        return testEngine;
+      }
+    };
+    this.config.getUrlConverterRegistry().addConverter(new EmployeeToStringConverter());
+    this.config.getTextConverterRegistry().addConverter(new EmployeeToFriendlyStringConverter());
+    this.request = new RequestStub();
+    CurrentContext.set(new WebContext(null, this.config, this.request, null));
+  }
 
-    protected String render(Control c) {
-        StringWriter s = new StringWriter();
-        c.render(new HtmlWriter(s));
-        return s.toString();
-    }
+  protected String render(Control c) {
+    StringWriter s = new StringWriter();
+    c.render(new HtmlWriter(s));
+    return s.toString();
+  }
 
 }

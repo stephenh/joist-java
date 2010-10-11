@@ -6,14 +6,14 @@ import joist.web.util.HtmlWriter;
 
 public class WidgetControl extends AbstractContainer {
 
-    public TextField firstName;
-    public TextField lastName;
+  public TextField firstName;
+  public TextField lastName;
 
-    public String getId() {
-        return null;
-    }
+  public String getId() {
+    return null;
+  }
 
-    public void render(HtmlWriter w) {
-    }
+  public void render(HtmlWriter w) {
+  }
 
 }

@@ -10,17 +10,17 @@ import org.bindgen.Bindable;
 @Bindable
 public class FlashPage extends AbstractPage {
 
-    public Form form = new Form("form");
+  public Form form = new Form("form");
 
-    @Override
-    public void onInit() {
-        FlashPageBinding b = new FlashPageBinding(this);
-        this.form.add(new SubmitButton(b.submit()));
-    }
+  @Override
+  public void onInit() {
+    FlashPageBinding b = new FlashPageBinding(this);
+    this.form.add(new SubmitButton(b.submit()));
+  }
 
-    public void submit() {
-        WebKeywords.flash("message", "success");
-        WebKeywords.redirect("/flash.htm");
-    }
+  public void submit() {
+    WebKeywords.flash("message", "success");
+    WebKeywords.redirect("/flash.htm");
+  }
 
 }

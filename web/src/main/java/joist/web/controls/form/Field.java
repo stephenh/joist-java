@@ -6,10 +6,10 @@ import joist.web.Control;
 
 public interface Field extends Control {
 
-    String getLabel();
+  String getLabel();
 
-    List<String> getErrors();
+  List<String> getErrors();
 
-    boolean isHidden();
+  boolean isHidden();
 
 }

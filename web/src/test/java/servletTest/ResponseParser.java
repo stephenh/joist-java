@@ -2,18 +2,18 @@ package servletTest;
 
 public class ResponseParser {
 
-    private ResponseStub response;
+  private ResponseStub response;
 
-    public ResponseParser(ResponseStub response) {
-        this.response = response;
-    }
+  public ResponseParser(ResponseStub response) {
+    this.response = response;
+  }
 
-    public String getBody() {
-        return this.response.getWriterOutput();
-    }
+  public String getBody() {
+    return this.response.getWriterOutput();
+  }
 
-    public String getRedirect() {
-        return this.response.getRedirect();
-    }
+  public String getRedirect() {
+    return this.response.getRedirect();
+  }
 
 }

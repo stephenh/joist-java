@@ -8,27 +8,27 @@ import org.bindgen.Binding;
 
 public class TextColumn extends AbstractColumn<TextColumn> {
 
-    private Binding<?> binding;
+  private Binding<?> binding;
 
-    public TextColumn(Binding<?> binding) {
-        super(binding.getName());
-        this.binding = binding;
-        this.setLabel(Inflector.humanize(this.binding.getName()));
-    }
+  public TextColumn(Binding<?> binding) {
+    super(binding.getName());
+    this.binding = binding;
+    this.setLabel(Inflector.humanize(this.binding.getName()));
+  }
 
-    @Override
-    public void render(HtmlWriter sb) {
-        String asText = CurrentContext.get().getWebConfig().getTextConverterRegistry().convert(this.binding.get(), String.class);
-        sb.append(asText);
-    }
+  @Override
+  public void render(HtmlWriter sb) {
+    String asText = CurrentContext.get().getWebConfig().getTextConverterRegistry().convert(this.binding.get(), String.class);
+    sb.append(asText);
+  }
 
-    public String getName() {
-        return this.binding.getName();
-    }
+  public String getName() {
+    return this.binding.getName();
+  }
 
-    @Override
-    protected TextColumn getThis() {
-        return this;
-    }
+  @Override
+  protected TextColumn getThis() {
+    return this;
+  }
 
 }

@@ -11,16 +11,16 @@ import org.bindgen.Bindable;
 @Bindable
 public class HiddenFieldPage extends AbstractPage {
 
-    public Form form = new Form("form");
-    public Employee employee;
+  public Form form = new Form("form");
+  public Employee employee;
 
-    public void onInit() {
-        HiddenFieldPageBinding b = new HiddenFieldPageBinding(this);
-        this.form.add(new HiddenField(b.employee()));
-        this.form.add(new SubmitButton(b.submit()));
-    }
+  public void onInit() {
+    HiddenFieldPageBinding b = new HiddenFieldPageBinding(this);
+    this.form.add(new HiddenField(b.employee()));
+    this.form.add(new SubmitButton(b.submit()));
+  }
 
-    public void submit() {
-    }
+  public void submit() {
+  }
 
 }

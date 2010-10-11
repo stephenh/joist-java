@@ -5,14 +5,14 @@ import joist.web.RedirectException;
 
 public class SetPublicFieldPage extends AbstractPage {
 
-    public String value;
+  public String value;
 
-    @Override
-    public boolean isAllowedViaUrl(Object converted) {
-        if (converted instanceof String && ((String) converted).contains("foo")) {
-            return true;
-        }
-        throw new RedirectException("/rejected");
+  @Override
+  public boolean isAllowedViaUrl(Object converted) {
+    if (converted instanceof String && ((String) converted).contains("foo")) {
+      return true;
     }
+    throw new RedirectException("/rejected");
+  }
 
 }

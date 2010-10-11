@@ -13,34 +13,34 @@ import servletTest.SessionStub;
 
 public abstract class AbstractClickPageTest extends AbstractClickTest {
 
-    protected WebConfig config;
-    protected WebServlet clickServlet;
-    private SessionStub sessionStub = new SessionStub();
+  protected WebConfig config;
+  protected WebServlet clickServlet;
+  private SessionStub sessionStub = new SessionStub();
 
-    public void setUp() throws Exception {
-        super.setUp();
-        this.clickServlet = new WebServlet() {
-            private static final long serialVersionUID = 1;
+  public void setUp() throws Exception {
+    super.setUp();
+    this.clickServlet = new WebServlet() {
+      private static final long serialVersionUID = 1;
 
-            protected WebConfig createWebConfig() {
-                return AbstractClickPageTest.this.config;
-            }
-        };
-        this.config = new WebConfig("joist.web.pages") {
-            @Override
-            protected VelocityEngine createVelocityEngine() {
-                return testEngine;
-            }
-        };
-        this.config.getUrlConverterRegistry().addConverter(new EmployeeToStringConverter());
-        this.config.getTextConverterRegistry().addConverter(new EmployeeToFriendlyStringConverter());
-        this.clickServlet.init();
-    }
+      protected WebConfig createWebConfig() {
+        return AbstractClickPageTest.this.config;
+      }
+    };
+    this.config = new WebConfig("joist.web.pages") {
+      @Override
+      protected VelocityEngine createVelocityEngine() {
+        return testEngine;
+      }
+    };
+    this.config.getUrlConverterRegistry().addConverter(new EmployeeToStringConverter());
+    this.config.getTextConverterRegistry().addConverter(new EmployeeToFriendlyStringConverter());
+    this.clickServlet.init();
+  }
 
-    public RequestBuilder request(String url) throws Exception {
-        RequestBuilder request = new RequestBuilder(this.clickServlet, url);
-        request.getRequest().setSessionStub(this.sessionStub);
-        return request;
-    }
+  public RequestBuilder request(String url) throws Exception {
+    RequestBuilder request = new RequestBuilder(this.clickServlet, url);
+    request.getRequest().setSessionStub(this.sessionStub);
+    return request;
+  }
 
 }

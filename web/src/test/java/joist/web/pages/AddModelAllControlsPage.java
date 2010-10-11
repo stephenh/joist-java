@@ -6,11 +6,11 @@ import joist.web.controls.form.TextField;
 
 public class AddModelAllControlsPage extends AbstractPage {
 
-    public Boolean onlyField = false;
+  public Boolean onlyField = false;
 
-    public void onInit() {
-        Form f = new Form("foo");
-        f.add(new TextField().id("bar"));
-    }
+  public void onInit() {
+    Form f = new Form("foo");
+    f.add(new TextField().id("bar"));
+  }
 
 }

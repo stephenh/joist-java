@@ -4,17 +4,17 @@ import java.util.List;
 
 public interface Page extends Control {
 
-    /** Called immediately after the page is instantiated to get its processor. */
-    PageProcessor getProcessor();
+  /** Called immediately after the page is instantiated to get its processor. */
+  PageProcessor getProcessor();
 
-    void onInit();
+  void onInit();
 
-    <T extends Control> T addControl(T c);
+  <T extends Control> T addControl(T c);
 
-    List<Control> getControls();
+  List<Control> getControls();
 
-    Control getLayout();
+  Control getLayout();
 
-    boolean isAllowedViaUrl(Object converted);
+  boolean isAllowedViaUrl(Object converted);
 
 }

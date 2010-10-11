@@ -4,6 +4,6 @@ import joist.web.AbstractPage;
 
 public class AddModelSkipsPrivateFieldPage extends AbstractPage {
 
-    protected String value = "foo";
+  protected String value = "foo";
 
 }

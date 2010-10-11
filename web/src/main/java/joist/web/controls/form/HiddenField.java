@@ -8,30 +8,30 @@ import org.bindgen.Binding;
 
 public class HiddenField extends AbstractField<HiddenField> {
 
-    public HiddenField() {
-    }
+  public HiddenField() {
+  }
 
-    public HiddenField(Binding<?> binding) {
-        super(binding);
-    }
+  public HiddenField(Binding<?> binding) {
+    super(binding);
+  }
 
-    @Override
-    public boolean isHidden() {
-        return true;
-    }
+  @Override
+  public boolean isHidden() {
+    return true;
+  }
 
-    public void render(HtmlWriter w) {
-        String valueForUrl = CurrentContext.get().getWebConfig().getUrlConverterRegistry().convert(this.getBoundValue(), String.class);
-        w.append("<input id={} name={} type={} value={}{}/>", this.getFullId(), this.getId(), "hidden", valueForUrl, this.attributes);
-    }
+  public void render(HtmlWriter w) {
+    String valueForUrl = CurrentContext.get().getWebConfig().getUrlConverterRegistry().convert(this.getBoundValue(), String.class);
+    w.append("<input id={} name={} type={} value={}{}/>", this.getFullId(), this.getId(), "hidden", valueForUrl, this.attributes);
+  }
 
-    public HiddenField getThis() {
-        return this;
-    }
+  public HiddenField getThis() {
+    return this;
+  }
 
-    @Override
-    protected ConverterRegistry getProcessConverterRegistry() {
-        return CurrentContext.get().getWebConfig().getUrlConverterRegistry();
-    }
+  @Override
+  protected ConverterRegistry getProcessConverterRegistry() {
+    return CurrentContext.get().getWebConfig().getUrlConverterRegistry();
+  }
 
 }
