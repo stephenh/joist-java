@@ -1,17 +1,18 @@
 <ivy-module version="2.0">
 	<info organisation="joist" module="joist-features" revision="${joist.version}"/>
 	<configurations>
-		<conf name="default"/>
-		<conf name="test" extends="default" visibility="private"/>
+		<conf name="default" extends="compile"/>
 		<conf name="sources"/>
+		<conf name="compile" visibility="private"/>
+		<conf name="test" extends="compile" visibility="private"/>
 	</configurations>
 	<publications>
 		<artifact type="jar" ext="jar" conf="default"/>
 	</publications>
 	<dependencies defaultconfmapping="%->default,sources()">
-		<dependency org="joist" name="joist-domain" rev="${joist.version}" conf="default"/>
-		<dependency org="joist" name="joist-migrations" rev="${joist.version}" conf="default"/>
-		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" conf="default"/>
+		<dependency org="joist" name="joist-domain" rev="${joist.version}" conf="compile"/>
+		<dependency org="joist" name="joist-migrations" rev="${joist.version}" conf="compile"/>
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" conf="compile"/>
 
 		<dependency org="joist" name="joist-domain-testing" rev="${joist.version}" conf="test"/>
 		<dependency org="postgresql" name="postgresql" rev="8.4-701.jdbc4" conf="test"/>

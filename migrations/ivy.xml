@@ -1,9 +1,10 @@
 <ivy-module version="2.0">
 	<info organisation="joist" module="joist-migrations" revision="${joist.version}"/>
 	<configurations>
-		<conf name="default"/>
+		<conf name="default" extends="compile"/>
 		<conf name="sources"/>
-		<conf name="unit" extends="default" visibility="private"/>
+		<conf name="compile" visibility="private"/>
+		<conf name="test" extends="default" visibility="private"/>
 	</configurations>
 	<publications>
 		<artifact type="pom" ext="pom" conf="default"/>
@@ -11,7 +12,7 @@
 		<artifact type="source" ext="jar" conf="sources"/>
 	</publications>
 	<dependencies defaultconfmapping="%->default,sources()">
-		<dependency org="joist" name="joist-domain" rev="${joist.version}" conf="default"/>
-		<dependency org="junit" name="junit" rev="3.8.2" conf="unit"/>
+		<dependency org="joist" name="joist-domain" rev="${joist.version}" conf="compile"/>
+		<dependency org="junit" name="junit" rev="3.8.2" conf="test"/>
 	</dependencies>
 </ivy-module>
