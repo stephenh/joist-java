@@ -1,7 +1,10 @@
 
 require 'buildr/ivy_extension'
 
-THIS_VERSION = ENV['version'] || '0.5-SNAPSHOT'
+THIS_VERSION = ENV['version'] || '0.6-SNAPSHOT'
+
+# to resolve the ${joist.version} in the ivy.xml
+Java.java.lang.System.setProperty("joist.version", THIS_VERSION)
 
 # just for buildr to get trax, then everything else is ivy
 repositories.remote << 'http://www.ibiblio.org/maven2'
