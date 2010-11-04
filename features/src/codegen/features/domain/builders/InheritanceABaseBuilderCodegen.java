@@ -20,6 +20,11 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
         return (InheritanceABaseBuilder) this;
     }
 
+    public InheritanceABaseBuilder with(String name) {
+        get().setName(name);
+        return (InheritanceABaseBuilder) this;
+    }
+
     public InheritanceABase get() {
         return (features.domain.InheritanceABase) super.get();
     }

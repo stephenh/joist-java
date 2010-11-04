@@ -21,8 +21,28 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
         return (InheritanceBRootChildBuilder) this;
     }
 
+    public InheritanceBRootChildBuilder with(String name) {
+        get().setName(name);
+        return (InheritanceBRootChildBuilder) this;
+    }
+
     public InheritanceBRootChildBuilder inheritanceBRoot(InheritanceBRoot inheritanceBRoot) {
         get().setInheritanceBRoot(inheritanceBRoot);
+        return (InheritanceBRootChildBuilder) this;
+    }
+
+    public InheritanceBRootChildBuilder with(InheritanceBRoot inheritanceBRoot) {
+        get().setInheritanceBRoot(inheritanceBRoot);
+        return (InheritanceBRootChildBuilder) this;
+    }
+
+    public InheritanceBRootChildBuilder inheritanceBRoot(InheritanceBRootBuilder inheritanceBRoot) {
+        get().setInheritanceBRoot(inheritanceBRoot.get());
+        return (InheritanceBRootChildBuilder) this;
+    }
+
+    public InheritanceBRootChildBuilder with(InheritanceBRootBuilder inheritanceBRoot) {
+        get().setInheritanceBRoot(inheritanceBRoot.get());
         return (InheritanceBRootChildBuilder) this;
     }
 

@@ -16,12 +16,22 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
         return (UserTypesAFooBuilder) this;
     }
 
+    public UserTypesAFooBuilder with(CalendarDate created) {
+        get().setCreated(created);
+        return (UserTypesAFooBuilder) this;
+    }
+
     public UserTypesAFooBuilder id(Integer id) {
         get().setId(id);
         return (UserTypesAFooBuilder) this;
     }
 
     public UserTypesAFooBuilder name(String name) {
+        get().setName(name);
+        return (UserTypesAFooBuilder) this;
+    }
+
+    public UserTypesAFooBuilder with(String name) {
         get().setName(name);
         return (UserTypesAFooBuilder) this;
     }

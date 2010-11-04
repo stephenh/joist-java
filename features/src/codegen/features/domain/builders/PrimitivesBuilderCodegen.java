@@ -15,12 +15,22 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
         return (PrimitivesBuilder) this;
     }
 
+    public PrimitivesBuilder with(Boolean flag) {
+        get().setFlag(flag);
+        return (PrimitivesBuilder) this;
+    }
+
     public PrimitivesBuilder id(Integer id) {
         get().setId(id);
         return (PrimitivesBuilder) this;
     }
 
     public PrimitivesBuilder name(String name) {
+        get().setName(name);
+        return (PrimitivesBuilder) this;
+    }
+
+    public PrimitivesBuilder with(String name) {
         get().setName(name);
         return (PrimitivesBuilder) this;
     }

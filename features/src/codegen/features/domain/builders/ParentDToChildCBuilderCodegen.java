@@ -22,8 +22,38 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
         return (ParentDToChildCBuilder) this;
     }
 
+    public ParentDToChildCBuilder with(ParentDChildC parentDChildC) {
+        get().setParentDChildC(parentDChildC);
+        return (ParentDToChildCBuilder) this;
+    }
+
+    public ParentDToChildCBuilder parentDChildC(ParentDChildCBuilder parentDChildC) {
+        get().setParentDChildC(parentDChildC.get());
+        return (ParentDToChildCBuilder) this;
+    }
+
+    public ParentDToChildCBuilder with(ParentDChildCBuilder parentDChildC) {
+        get().setParentDChildC(parentDChildC.get());
+        return (ParentDToChildCBuilder) this;
+    }
+
     public ParentDToChildCBuilder parentD(ParentD parentD) {
         get().setParentD(parentD);
+        return (ParentDToChildCBuilder) this;
+    }
+
+    public ParentDToChildCBuilder with(ParentD parentD) {
+        get().setParentD(parentD);
+        return (ParentDToChildCBuilder) this;
+    }
+
+    public ParentDToChildCBuilder parentD(ParentDBuilder parentD) {
+        get().setParentD(parentD.get());
+        return (ParentDToChildCBuilder) this;
+    }
+
+    public ParentDToChildCBuilder with(ParentDBuilder parentD) {
+        get().setParentD(parentD.get());
         return (ParentDToChildCBuilder) this;
     }
 

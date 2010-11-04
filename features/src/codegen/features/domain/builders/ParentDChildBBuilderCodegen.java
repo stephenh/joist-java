@@ -21,8 +21,28 @@ public abstract class ParentDChildBBuilderCodegen extends AbstractBuilder<Parent
         return (ParentDChildBBuilder) this;
     }
 
+    public ParentDChildBBuilder with(String name) {
+        get().setName(name);
+        return (ParentDChildBBuilder) this;
+    }
+
     public ParentDChildBBuilder parentD(ParentD parentD) {
         get().setParentD(parentD);
+        return (ParentDChildBBuilder) this;
+    }
+
+    public ParentDChildBBuilder with(ParentD parentD) {
+        get().setParentD(parentD);
+        return (ParentDChildBBuilder) this;
+    }
+
+    public ParentDChildBBuilder parentD(ParentDBuilder parentD) {
+        get().setParentD(parentD.get());
+        return (ParentDChildBBuilder) this;
+    }
+
+    public ParentDChildBBuilder with(ParentDBuilder parentD) {
+        get().setParentD(parentD.get());
         return (ParentDChildBBuilder) this;
     }
 

@@ -21,8 +21,28 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
         return (ChildBuilder) this;
     }
 
+    public ChildBuilder with(String name) {
+        get().setName(name);
+        return (ChildBuilder) this;
+    }
+
     public ChildBuilder parent(Parent parent) {
         get().setParent(parent);
+        return (ChildBuilder) this;
+    }
+
+    public ChildBuilder with(Parent parent) {
+        get().setParent(parent);
+        return (ChildBuilder) this;
+    }
+
+    public ChildBuilder parent(ParentBuilder parent) {
+        get().setParent(parent.get());
+        return (ChildBuilder) this;
+    }
+
+    public ChildBuilder with(ParentBuilder parent) {
+        get().setParent(parent.get());
         return (ChildBuilder) this;
     }
 

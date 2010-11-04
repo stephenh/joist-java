@@ -20,6 +20,11 @@ public abstract class OneToOneBFooBuilderCodegen extends AbstractBuilder<OneToOn
         return (OneToOneBFooBuilder) this;
     }
 
+    public OneToOneBFooBuilder with(String name) {
+        get().setName(name);
+        return (OneToOneBFooBuilder) this;
+    }
+
     public OneToOneBFoo get() {
         return (features.domain.OneToOneBFoo) super.get();
     }

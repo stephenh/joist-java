@@ -20,6 +20,11 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
         return (InheritanceCBuilder) this;
     }
 
+    public InheritanceCBuilder with(String name) {
+        get().setName(name);
+        return (InheritanceCBuilder) this;
+    }
+
     public InheritanceC get() {
         return (features.domain.InheritanceC) super.get();
     }

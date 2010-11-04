@@ -20,6 +20,11 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
         return (ValidationAFooBuilder) this;
     }
 
+    public ValidationAFooBuilder with(String name) {
+        get().setName(name);
+        return (ValidationAFooBuilder) this;
+    }
+
     public ValidationAFoo get() {
         return (features.domain.ValidationAFoo) super.get();
     }

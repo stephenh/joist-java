@@ -14,6 +14,11 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
         return (InheritanceASubOneBuilder) this;
     }
 
+    public InheritanceASubOneBuilder with(String one) {
+        get().setOne(one);
+        return (InheritanceASubOneBuilder) this;
+    }
+
     public InheritanceASubOne get() {
         return (features.domain.InheritanceASubOne) super.get();
     }
