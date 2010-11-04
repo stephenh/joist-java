@@ -9,7 +9,7 @@ import joist.sourcegen.GMethod;
 public class GenerateBuildersClassPass implements Pass {
 
   public void pass(Codegen codegen) {
-    GClass builders = codegen.getOutputSourceDirectory().getClass(codegen.getConfig().getBuildersPackage() + ".Builders");
+    GClass builders = codegen.getOutputCodegenDirectory().getClass(codegen.getConfig().getBuildersPackage() + ".Builders");
 
     for (Entity entity : codegen.getEntities().values()) {
       if (entity.isCodeEntity()) {

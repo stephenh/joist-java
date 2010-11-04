@@ -22,8 +22,38 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
         return (ManyToManyAFooToBarBuilder) this;
     }
 
+    public ManyToManyAFooToBarBuilder with(ManyToManyABar manyToManyABar) {
+        get().setManyToManyABar(manyToManyABar);
+        return (ManyToManyAFooToBarBuilder) this;
+    }
+
+    public ManyToManyAFooToBarBuilder manyToManyABar(ManyToManyABarBuilder manyToManyABar) {
+        get().setManyToManyABar(manyToManyABar.get());
+        return (ManyToManyAFooToBarBuilder) this;
+    }
+
+    public ManyToManyAFooToBarBuilder with(ManyToManyABarBuilder manyToManyABar) {
+        get().setManyToManyABar(manyToManyABar.get());
+        return (ManyToManyAFooToBarBuilder) this;
+    }
+
     public ManyToManyAFooToBarBuilder manyToManyAFoo(ManyToManyAFoo manyToManyAFoo) {
         get().setManyToManyAFoo(manyToManyAFoo);
+        return (ManyToManyAFooToBarBuilder) this;
+    }
+
+    public ManyToManyAFooToBarBuilder with(ManyToManyAFoo manyToManyAFoo) {
+        get().setManyToManyAFoo(manyToManyAFoo);
+        return (ManyToManyAFooToBarBuilder) this;
+    }
+
+    public ManyToManyAFooToBarBuilder manyToManyAFoo(ManyToManyAFooBuilder manyToManyAFoo) {
+        get().setManyToManyAFoo(manyToManyAFoo.get());
+        return (ManyToManyAFooToBarBuilder) this;
+    }
+
+    public ManyToManyAFooToBarBuilder with(ManyToManyAFooBuilder manyToManyAFoo) {
+        get().setManyToManyAFoo(manyToManyAFoo.get());
         return (ManyToManyAFooToBarBuilder) this;
     }
 

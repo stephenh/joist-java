@@ -21,8 +21,28 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
         return (GrandChildBuilder) this;
     }
 
+    public GrandChildBuilder with(String name) {
+        get().setName(name);
+        return (GrandChildBuilder) this;
+    }
+
     public GrandChildBuilder child(Child child) {
         get().setChild(child);
+        return (GrandChildBuilder) this;
+    }
+
+    public GrandChildBuilder with(Child child) {
+        get().setChild(child);
+        return (GrandChildBuilder) this;
+    }
+
+    public GrandChildBuilder child(ChildBuilder child) {
+        get().setChild(child.get());
+        return (GrandChildBuilder) this;
+    }
+
+    public GrandChildBuilder with(ChildBuilder child) {
+        get().setChild(child.get());
         return (GrandChildBuilder) this;
     }
 

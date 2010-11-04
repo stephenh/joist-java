@@ -20,6 +20,11 @@ public abstract class ParentBuilderCodegen extends AbstractBuilder<Parent> {
         return (ParentBuilder) this;
     }
 
+    public ParentBuilder with(String name) {
+        get().setName(name);
+        return (ParentBuilder) this;
+    }
+
     public Parent get() {
         return (features.domain.Parent) super.get();
     }

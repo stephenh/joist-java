@@ -20,6 +20,11 @@ public abstract class ManyToManyBFooBuilderCodegen extends AbstractBuilder<ManyT
         return (ManyToManyBFooBuilder) this;
     }
 
+    public ManyToManyBFooBuilder with(String name) {
+        get().setName(name);
+        return (ManyToManyBFooBuilder) this;
+    }
+
     public ManyToManyBFoo get() {
         return (features.domain.ManyToManyBFoo) super.get();
     }

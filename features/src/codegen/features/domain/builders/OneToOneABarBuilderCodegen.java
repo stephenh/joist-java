@@ -21,8 +21,28 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
         return (OneToOneABarBuilder) this;
     }
 
+    public OneToOneABarBuilder with(String name) {
+        get().setName(name);
+        return (OneToOneABarBuilder) this;
+    }
+
     public OneToOneABarBuilder oneToOneAFoo(OneToOneAFoo oneToOneAFoo) {
         get().setOneToOneAFoo(oneToOneAFoo);
+        return (OneToOneABarBuilder) this;
+    }
+
+    public OneToOneABarBuilder with(OneToOneAFoo oneToOneAFoo) {
+        get().setOneToOneAFoo(oneToOneAFoo);
+        return (OneToOneABarBuilder) this;
+    }
+
+    public OneToOneABarBuilder oneToOneAFoo(OneToOneAFooBuilder oneToOneAFoo) {
+        get().setOneToOneAFoo(oneToOneAFoo.get());
+        return (OneToOneABarBuilder) this;
+    }
+
+    public OneToOneABarBuilder with(OneToOneAFooBuilder oneToOneAFoo) {
+        get().setOneToOneAFoo(oneToOneAFoo.get());
         return (OneToOneABarBuilder) this;
     }
 

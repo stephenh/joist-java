@@ -14,6 +14,11 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
         return (InheritanceASubTwoBuilder) this;
     }
 
+    public InheritanceASubTwoBuilder with(String two) {
+        get().setTwo(two);
+        return (InheritanceASubTwoBuilder) this;
+    }
+
     public InheritanceASubTwo get() {
         return (features.domain.InheritanceASubTwo) super.get();
     }

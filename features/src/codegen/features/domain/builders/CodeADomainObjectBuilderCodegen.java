@@ -22,12 +22,27 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
         return (CodeADomainObjectBuilder) this;
     }
 
+    public CodeADomainObjectBuilder with(String name) {
+        get().setName(name);
+        return (CodeADomainObjectBuilder) this;
+    }
+
     public CodeADomainObjectBuilder codeAColor(CodeAColor codeAColor) {
         get().setCodeAColor(codeAColor);
         return (CodeADomainObjectBuilder) this;
     }
 
+    public CodeADomainObjectBuilder with(CodeAColor codeAColor) {
+        get().setCodeAColor(codeAColor);
+        return (CodeADomainObjectBuilder) this;
+    }
+
     public CodeADomainObjectBuilder codeASize(CodeASize codeASize) {
+        get().setCodeASize(codeASize);
+        return (CodeADomainObjectBuilder) this;
+    }
+
+    public CodeADomainObjectBuilder with(CodeASize codeASize) {
         get().setCodeASize(codeASize);
         return (CodeADomainObjectBuilder) this;
     }

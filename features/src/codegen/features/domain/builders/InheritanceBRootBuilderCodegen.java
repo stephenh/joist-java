@@ -20,6 +20,11 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
         return (InheritanceBRootBuilder) this;
     }
 
+    public InheritanceBRootBuilder with(String name) {
+        get().setName(name);
+        return (InheritanceBRootBuilder) this;
+    }
+
     public InheritanceBRoot get() {
         return (features.domain.InheritanceBRoot) super.get();
     }

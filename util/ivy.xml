@@ -1,8 +1,9 @@
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
 	<info organisation="joist" module="joist-util" revision="${joist.version}"/>
 	<configurations>
-		<conf name="default"/>
-		<conf name="test" extends="default" visibility="private"/>
+		<conf name="default" extends="compile"/>
+		<conf name="compile" visibility="private"/>
+		<conf name="test" extends="compile" visibility="private"/>
 		<conf name="sources"/>
 	</configurations>
 	<publications>
@@ -11,7 +12,7 @@
 		<artifact type="source" ext="zip" conf="sources" m:classifier="sources"/>
 	</publications>
 	<dependencies defaultconfmapping="%->default,sources()">
-		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.8" conf="default"/>
+		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.8" conf="compile"/>
 
 		<dependency org="junit" name="junit" rev="3.8.2" conf="test"/>
 		<dependency org="org.slf4j" name="slf4j-jdk14" rev="1.5.8" conf="test"/>

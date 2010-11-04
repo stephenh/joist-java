@@ -1,7 +1,6 @@
 <ivysettings>
 	<settings defaultResolver="default" defaultResolveMode="dynamic"/>
 	<include url="${ivy.default.settings.dir}/ivysettings-public.xml"/>
-	<property name="joist.version" value="0.5" override="false"/>
 	<resolvers>
 		<ibiblio name="local-m2" m2compatible="true" root="file://${user.home}/.m2/repository"/>
 		<ibiblio name="joist-m2" m2compatible="true" root="http://repo.joist.ws"/>
