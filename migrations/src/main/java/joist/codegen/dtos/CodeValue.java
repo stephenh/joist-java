@@ -15,7 +15,7 @@ public class CodeValue {
   }
 
   public String getNameCamelCased() {
-    return Inflector.capitalize(Inflector.camelize(this.name.toLowerCase()));
+    return Inflector.capitalize(Inflector.camelize(this.code.toLowerCase()));
   }
 
   public String getEnumName() {
