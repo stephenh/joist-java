@@ -12,9 +12,17 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public ParentDToChildCBuilder id(Integer id) {
         get().setId(id);
         return (ParentDToChildCBuilder) this;
+    }
+
+    public ParentDChildCBuilder parentDChildC() {
+        return Builders.existing(get().getParentDChildC());
     }
 
     public ParentDToChildCBuilder parentDChildC(ParentDChildC parentDChildC) {
@@ -35,6 +43,10 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
     public ParentDToChildCBuilder with(ParentDChildCBuilder parentDChildC) {
         get().setParentDChildC(parentDChildC.get());
         return (ParentDToChildCBuilder) this;
+    }
+
+    public ParentDBuilder parentD() {
+        return Builders.existing(get().getParentD());
     }
 
     public ParentDToChildCBuilder parentD(ParentD parentD) {

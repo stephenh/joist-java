@@ -9,6 +9,10 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
         super(instance);
     }
 
+    public String one() {
+        return get().getOne();
+    }
+
     public InheritanceASubOneBuilder one(String one) {
         get().setOne(one);
         return (InheritanceASubOneBuilder) this;

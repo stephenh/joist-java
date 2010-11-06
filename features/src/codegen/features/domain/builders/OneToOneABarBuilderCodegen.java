@@ -11,9 +11,17 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public OneToOneABarBuilder id(Integer id) {
         get().setId(id);
         return (OneToOneABarBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public OneToOneABarBuilder name(String name) {
@@ -24,6 +32,10 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
     public OneToOneABarBuilder with(String name) {
         get().setName(name);
         return (OneToOneABarBuilder) this;
+    }
+
+    public OneToOneAFooBuilder oneToOneAFoo() {
+        return Builders.existing(get().getOneToOneAFoo());
     }
 
     public OneToOneABarBuilder oneToOneAFoo(OneToOneAFoo oneToOneAFoo) {

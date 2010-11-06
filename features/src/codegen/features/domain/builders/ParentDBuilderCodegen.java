@@ -10,9 +10,17 @@ public abstract class ParentDBuilderCodegen extends AbstractBuilder<ParentD> {
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public ParentDBuilder id(Integer id) {
         get().setId(id);
         return (ParentDBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public ParentDBuilder name(String name) {

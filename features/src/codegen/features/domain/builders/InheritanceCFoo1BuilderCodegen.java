@@ -9,6 +9,10 @@ public abstract class InheritanceCFoo1BuilderCodegen extends InheritanceCBuilder
         super(instance);
     }
 
+    public String foo() {
+        return get().getFoo();
+    }
+
     public InheritanceCFoo1Builder foo(String foo) {
         get().setFoo(foo);
         return (InheritanceCFoo1Builder) this;

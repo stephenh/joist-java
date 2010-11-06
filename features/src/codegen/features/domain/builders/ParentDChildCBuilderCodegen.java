@@ -10,9 +10,17 @@ public abstract class ParentDChildCBuilderCodegen extends AbstractBuilder<Parent
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public ParentDChildCBuilder id(Integer id) {
         get().setId(id);
         return (ParentDChildCBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public ParentDChildCBuilder name(String name) {

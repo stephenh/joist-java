@@ -11,9 +11,17 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public ParentBChildBarBuilder id(Integer id) {
         get().setId(id);
         return (ParentBChildBarBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public ParentBChildBarBuilder name(String name) {
@@ -24,6 +32,10 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
     public ParentBChildBarBuilder with(String name) {
         get().setName(name);
         return (ParentBChildBarBuilder) this;
+    }
+
+    public ParentBParentBuilder parentBParent() {
+        return Builders.existing(get().getParentBParent());
     }
 
     public ParentBChildBarBuilder parentBParent(ParentBParent parentBParent) {

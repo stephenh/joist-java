@@ -10,9 +10,17 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public ParentCFooBuilder id(Integer id) {
         get().setId(id);
         return (ParentCFooBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public ParentCFooBuilder name(String name) {

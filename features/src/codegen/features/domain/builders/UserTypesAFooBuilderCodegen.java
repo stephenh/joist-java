@@ -11,6 +11,10 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
         super(instance);
     }
 
+    public CalendarDate created() {
+        return get().getCreated();
+    }
+
     public UserTypesAFooBuilder created(CalendarDate created) {
         get().setCreated(created);
         return (UserTypesAFooBuilder) this;
@@ -21,9 +25,17 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
         return (UserTypesAFooBuilder) this;
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public UserTypesAFooBuilder id(Integer id) {
         get().setId(id);
         return (UserTypesAFooBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public UserTypesAFooBuilder name(String name) {

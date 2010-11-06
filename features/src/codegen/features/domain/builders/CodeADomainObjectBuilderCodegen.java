@@ -12,9 +12,17 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public CodeADomainObjectBuilder id(Integer id) {
         get().setId(id);
         return (CodeADomainObjectBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public CodeADomainObjectBuilder name(String name) {
@@ -27,6 +35,10 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
         return (CodeADomainObjectBuilder) this;
     }
 
+    public CodeAColor codeAColor() {
+        return get().getCodeAColor();
+    }
+
     public CodeADomainObjectBuilder codeAColor(CodeAColor codeAColor) {
         get().setCodeAColor(codeAColor);
         return (CodeADomainObjectBuilder) this;
@@ -35,6 +47,10 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
     public CodeADomainObjectBuilder with(CodeAColor codeAColor) {
         get().setCodeAColor(codeAColor);
         return (CodeADomainObjectBuilder) this;
+    }
+
+    public CodeASize codeASize() {
+        return get().getCodeASize();
     }
 
     public CodeADomainObjectBuilder codeASize(CodeASize codeASize) {

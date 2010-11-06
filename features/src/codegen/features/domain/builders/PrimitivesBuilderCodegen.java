@@ -10,6 +10,10 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
         super(instance);
     }
 
+    public Boolean flag() {
+        return get().getFlag();
+    }
+
     public PrimitivesBuilder flag(Boolean flag) {
         get().setFlag(flag);
         return (PrimitivesBuilder) this;
@@ -20,9 +24,17 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
         return (PrimitivesBuilder) this;
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public PrimitivesBuilder id(Integer id) {
         get().setId(id);
         return (PrimitivesBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public PrimitivesBuilder name(String name) {
