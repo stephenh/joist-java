@@ -12,9 +12,17 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public ManyToManyBFooToBarBuilder id(Integer id) {
         get().setId(id);
         return (ManyToManyBFooToBarBuilder) this;
+    }
+
+    public ManyToManyBFooBuilder blue() {
+        return Builders.existing(get().getBlue());
     }
 
     public ManyToManyBFooToBarBuilder blue(ManyToManyBFoo blue) {
@@ -35,6 +43,10 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
     public ManyToManyBFooToBarBuilder with(ManyToManyBFooBuilder blue) {
         get().setBlue(blue.get());
         return (ManyToManyBFooToBarBuilder) this;
+    }
+
+    public ManyToManyBBarBuilder green() {
+        return Builders.existing(get().getGreen());
     }
 
     public ManyToManyBFooToBarBuilder green(ManyToManyBBar green) {

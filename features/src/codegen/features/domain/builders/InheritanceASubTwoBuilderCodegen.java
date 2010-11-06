@@ -9,6 +9,10 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
         super(instance);
     }
 
+    public String two() {
+        return get().getTwo();
+    }
+
     public InheritanceASubTwoBuilder two(String two) {
         get().setTwo(two);
         return (InheritanceASubTwoBuilder) this;

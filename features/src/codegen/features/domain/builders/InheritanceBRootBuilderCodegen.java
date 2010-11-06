@@ -10,9 +10,17 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public InheritanceBRootBuilder id(Integer id) {
         get().setId(id);
         return (InheritanceBRootBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public InheritanceBRootBuilder name(String name) {

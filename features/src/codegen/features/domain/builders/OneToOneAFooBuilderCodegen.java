@@ -10,9 +10,17 @@ public abstract class OneToOneAFooBuilderCodegen extends AbstractBuilder<OneToOn
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public OneToOneAFooBuilder id(Integer id) {
         get().setId(id);
         return (OneToOneAFooBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public OneToOneAFooBuilder name(String name) {

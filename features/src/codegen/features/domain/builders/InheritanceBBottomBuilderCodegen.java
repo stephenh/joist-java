@@ -9,6 +9,10 @@ public abstract class InheritanceBBottomBuilderCodegen extends InheritanceBMiddl
         super(instance);
     }
 
+    public String bottomName() {
+        return get().getBottomName();
+    }
+
     public InheritanceBBottomBuilder bottomName(String bottomName) {
         get().setBottomName(bottomName);
         return (InheritanceBBottomBuilder) this;

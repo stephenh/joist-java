@@ -11,9 +11,17 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public ChildBuilder id(Integer id) {
         get().setId(id);
         return (ChildBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public ChildBuilder name(String name) {
@@ -24,6 +32,10 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
     public ChildBuilder with(String name) {
         get().setName(name);
         return (ChildBuilder) this;
+    }
+
+    public ParentBuilder parent() {
+        return Builders.existing(get().getParent());
     }
 
     public ChildBuilder parent(Parent parent) {

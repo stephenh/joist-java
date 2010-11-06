@@ -10,9 +10,17 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public InheritanceCBuilder id(Integer id) {
         get().setId(id);
         return (InheritanceCBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public InheritanceCBuilder name(String name) {

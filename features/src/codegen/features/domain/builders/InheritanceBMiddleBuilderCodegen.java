@@ -9,6 +9,10 @@ public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootB
         super(instance);
     }
 
+    public String middleName() {
+        return get().getMiddleName();
+    }
+
     public InheritanceBMiddleBuilder middleName(String middleName) {
         get().setMiddleName(middleName);
         return (InheritanceBMiddleBuilder) this;

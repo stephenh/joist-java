@@ -10,9 +10,17 @@ public abstract class ManyToManyAFooBuilderCodegen extends AbstractBuilder<ManyT
         super(instance);
     }
 
+    public Integer id() {
+        return get().getId();
+    }
+
     public ManyToManyAFooBuilder id(Integer id) {
         get().setId(id);
         return (ManyToManyAFooBuilder) this;
+    }
+
+    public String name() {
+        return get().getName();
     }
 
     public ManyToManyAFooBuilder name(String name) {
