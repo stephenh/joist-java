@@ -3,8 +3,6 @@ package joist.codegen.dtos;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import joist.codegen.Codegen;
 import joist.codegen.CodegenConfig;
@@ -24,7 +22,6 @@ public class Entity {
   private List<ManyToOneProperty> manyToOneProperties = new ArrayList<ManyToOneProperty>();
   private List<OneToManyProperty> oneToManyProperties = new ArrayList<OneToManyProperty>();
   private List<ManyToManyProperty> manyToManyProperties = new ArrayList<ManyToManyProperty>();
-  private Set<String> imports = new TreeSet<String>();
 
   public Entity(Codegen codegen, String tableName) {
     this.config = codegen.getConfig();
@@ -150,10 +147,6 @@ public class Entity {
 
   public String getTableName() {
     return this.tableName;
-  }
-
-  public Set<String> getImports() {
-    return this.imports;
   }
 
   public Entity getBaseEntity() {
