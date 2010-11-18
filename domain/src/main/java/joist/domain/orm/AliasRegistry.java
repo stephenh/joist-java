@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import joist.domain.DomainObject;
 import joist.domain.orm.queries.Alias;
+import joist.util.Reflection;
 
 public class AliasRegistry {
 
@@ -17,7 +18,13 @@ public class AliasRegistry {
   }
 
   public static <T extends DomainObject> Alias<T> get(Class<T> domainClass) {
-    return (Alias<T>) AliasRegistry.aliases.get(domainClass);
+    Alias<T> a = (Alias<T>) AliasRegistry.aliases.get(domainClass);
+    if (a == null) {
+      // The static initializer for domainClass's codegen may not have been ran yet
+      Reflection.forName(domainClass.getName());
+      a = AliasRegistry.get(domainClass);
+    }
+    return a;
   }
 
   public static <T extends DomainObject> Alias<T> get(T instance) {
