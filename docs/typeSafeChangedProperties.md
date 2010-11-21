@@ -1,6 +1,6 @@
 ---
 layout: default
-title: joist-domain
+title: Type-safe Changed Properties
 ---
 
 Type-safe Changed Properties
@@ -9,7 +9,7 @@ Type-safe Changed Properties
 Overview
 --------
 
-joist-domain automatically tracks dirty and original values in domain objects.
+Joist automatically tracks dirty and original values in domain objects.
 
 Besides knowing what has changed, it also exposes them in a type-safe API.
 

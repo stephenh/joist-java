@@ -9,7 +9,7 @@ Type-Safe Queries
 Overview
 --------
 
-joist-domain uses the schema information available at build-time to generate [Alias](ormAliases.html) classes that form a kind of type-safe DSL for SQL queries.
+Joist uses the schema information available at build-time to generate [Alias](aliases.html) classes that form a kind of type-safe DSL for SQL queries.
 
 Example
 -------

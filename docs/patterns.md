@@ -3,12 +3,12 @@ layout: default
 title: Patterns
 ---
 
-joist-domain Patterns
-=====================
+Patterns
+========
 
-Fowler's [PoEAA](http://martinfowler.com/books.html#eaa) provided a lot of guidance to drive joist via its patterns.
+Fowler's [PoEAA](http://martinfowler.com/books.html#eaa) provided a lot of guidance to drive Joist via its patterns.
 
-Specifically, with the links to their implementation in joist:
+Specifically, with the links to their implementation in Joist:
 
 * Registry--coordinates app start/shutdown and resource management
 

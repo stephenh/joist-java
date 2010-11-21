@@ -9,7 +9,7 @@ Aliases
 Overview
 --------
 
-Aliases are code-generated classes the hold the column meta-data for tables. This meta-data is then used for both building [Type-Safe Queries](ormTypeSafeQueries.html) and also the meta-data-driven loading/saving of primitives into `ResultSet`s and `PreparedStatement`s.
+Aliases are code-generated classes the hold the column meta-data for tables. This meta-data is then used for both building [Type-Safe Queries](typeSafeQueries.html) and also the meta-data-driven loading/saving of primitives into `ResultSet`s and `PreparedStatement`s.
 
 Example
 -------
