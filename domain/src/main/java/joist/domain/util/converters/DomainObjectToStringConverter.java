@@ -14,7 +14,7 @@ public class DomainObjectToStringConverter extends AbstractConverter<DomainObjec
     if ("".equals(value)) {
       return null;
     }
-    return UoW.load(toType, new Integer(value));
+    return UoW.load(toType, new Long(value));
   }
 
 }

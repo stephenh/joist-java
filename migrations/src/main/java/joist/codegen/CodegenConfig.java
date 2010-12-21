@@ -110,6 +110,9 @@ public class CodegenConfig {
   }
 
   public String getJavaType(String tableName, String columnName, String dataType) {
+    if ("id".equals(columnName) || "version".equals(columnName)) {
+      return "Long";
+    }
     if (this.javaTypeByColumnName.containsKey(tableName + "." + columnName)) {
       return this.javaTypeByColumnName.get(tableName + "." + columnName);
     }
@@ -127,6 +130,9 @@ public class CodegenConfig {
   public String getAliasType(String tableName, String columnName, String dataType) {
     if ("id".equals(columnName)) {
       return IdAliasColumn.class.getName();
+    }
+    if ("version".equals(columnName)) {
+      return LongAliasColumn.class.getName();
     }
     if (this.aliasTypeByColumnName.containsKey(tableName + "." + columnName)) {
       return this.aliasTypeByColumnName.get(tableName + "." + columnName);

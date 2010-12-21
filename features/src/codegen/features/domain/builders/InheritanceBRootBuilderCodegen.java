@@ -10,11 +10,11 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
         super(instance);
     }
 
-    public Integer id() {
+    public Long id() {
         return get().getId();
     }
 
-    public InheritanceBRootBuilder id(Integer id) {
+    public InheritanceBRootBuilder id(Long id) {
         get().setId(id);
         return (InheritanceBRootBuilder) this;
     }

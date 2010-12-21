@@ -1,5 +1,7 @@
 package joist.domain.orm.queries.columns;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import joist.domain.DomainObject;
@@ -11,9 +13,9 @@ import joist.util.Join;
 /**
  * @param T should always be the root class--I think so
  */
-public class IdAliasColumn<T extends DomainObject> extends AliasColumn<T, Integer, Integer> {
+public class IdAliasColumn<T extends DomainObject> extends AliasColumn<T, Long, Long> {
 
-  public IdAliasColumn(final Alias<T> alias, String name, Shim<T, Integer> shim) {
+  public IdAliasColumn(final Alias<T> alias, String name, Shim<T, Long> shim) {
     super(alias, name, shim);
   }
 
@@ -27,6 +29,11 @@ public class IdAliasColumn<T extends DomainObject> extends AliasColumn<T, Intege
 
   public Where in(List<Integer> ids) {
     return new Where(this.getQualifiedName() + " in (" + Join.comma(ids) + ")");
+  }
+
+  @Override
+  public void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException {
+    this.setJdbcValue(instance, rs.getLong(name));
   }
 
 }

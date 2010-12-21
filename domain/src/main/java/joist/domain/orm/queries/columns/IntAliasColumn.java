@@ -1,5 +1,7 @@
 package joist.domain.orm.queries.columns;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import joist.domain.DomainObject;
@@ -16,6 +18,11 @@ public class IntAliasColumn<T extends DomainObject> extends AliasColumn<T, Integ
 
   public Where in(List<Integer> ids) {
     return new Where(this.getQualifiedName() + " in (" + Join.comma(ids) + ")");
+  }
+
+  @Override
+  public void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException {
+    this.setJdbcValue(instance, rs.getInt(name));
   }
 
 }

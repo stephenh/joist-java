@@ -16,9 +16,9 @@ import joist.util.Copy;
 public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
 
     public static final OneToOneBFooQueries queries;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     private ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar> oneToOneBBars = new ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar>((OneToOneBFoo) this, Aliases.oneToOneBBar(), Aliases.oneToOneBBar().oneToOneBFoo);
     protected Changed changed;
 
@@ -36,11 +36,11 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<OneToOneBFoo>(Shims.name, 100));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -57,7 +57,7 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -110,11 +110,11 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<OneToOneBFoo, Integer> id = new Shim<OneToOneBFoo, Integer>() {
-            public void set(OneToOneBFoo instance, Integer id) {
+        protected static final Shim<OneToOneBFoo, Long> id = new Shim<OneToOneBFoo, Long>() {
+            public void set(OneToOneBFoo instance, Long id) {
                 ((OneToOneBFooCodegen) instance).id = id;
             }
-            public Integer get(OneToOneBFoo instance) {
+            public Long get(OneToOneBFoo instance) {
                 return ((OneToOneBFooCodegen) instance).id;
             }
             public String getName() {
@@ -132,11 +132,11 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<OneToOneBFoo, Integer> version = new Shim<OneToOneBFoo, Integer>() {
-            public void set(OneToOneBFoo instance, Integer version) {
+        protected static final Shim<OneToOneBFoo, Long> version = new Shim<OneToOneBFoo, Long>() {
+            public void set(OneToOneBFoo instance, Long version) {
                 ((OneToOneBFooCodegen) instance).version = version;
             }
-            public Integer get(OneToOneBFoo instance) {
+            public Long get(OneToOneBFoo instance) {
                 return ((OneToOneBFooCodegen) instance).version;
             }
             public String getName() {
@@ -152,8 +152,8 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -164,8 +164,8 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
         public boolean hasOneToOneBBars() {
             return this.contains("oneToOneBBars");

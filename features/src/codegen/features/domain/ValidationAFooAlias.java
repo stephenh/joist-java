@@ -5,7 +5,7 @@ import java.util.List;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class ValidationAFooAlias extends Alias<ValidationAFoo> {
@@ -13,7 +13,7 @@ public class ValidationAFooAlias extends Alias<ValidationAFoo> {
     private final List<AliasColumn<ValidationAFoo, ?, ?>> columns = new ArrayList<AliasColumn<ValidationAFoo, ?, ?>>();
     public final IdAliasColumn<ValidationAFoo> id = new IdAliasColumn<ValidationAFoo>(this, "id", ValidationAFooCodegen.Shims.id);
     public final StringAliasColumn<ValidationAFoo> name = new StringAliasColumn<ValidationAFoo>(this, "name", ValidationAFooCodegen.Shims.name);
-    public final IntAliasColumn<ValidationAFoo> version = new IntAliasColumn<ValidationAFoo>(this, "version", ValidationAFooCodegen.Shims.version);
+    public final LongAliasColumn<ValidationAFoo> version = new LongAliasColumn<ValidationAFoo>(this, "version", ValidationAFooCodegen.Shims.version);
 
     public ValidationAFooAlias(String alias) {
         this(alias, null, true);
@@ -34,7 +34,7 @@ public class ValidationAFooAlias extends Alias<ValidationAFoo> {
         return this.id;
     }
 
-    public IntAliasColumn<ValidationAFoo> getVersionColumn() {
+    public LongAliasColumn<ValidationAFoo> getVersionColumn() {
         return this.version;
     }
 

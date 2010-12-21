@@ -16,9 +16,9 @@ import joist.util.Copy;
 public abstract class ParentDCodegen extends AbstractDomainObject {
 
     public static final ParentDQueries queries;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     private ForeignKeyListHolder<ParentD, ParentDChildB> parentDChildBs = new ForeignKeyListHolder<ParentD, ParentDChildB>((ParentD) this, Aliases.parentDChildB(), Aliases.parentDChildB().parentD);
     protected Changed changed;
 
@@ -36,11 +36,11 @@ public abstract class ParentDCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<ParentD>(Shims.name, 100));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -57,7 +57,7 @@ public abstract class ParentDCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -110,11 +110,11 @@ public abstract class ParentDCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<ParentD, Integer> id = new Shim<ParentD, Integer>() {
-            public void set(ParentD instance, Integer id) {
+        protected static final Shim<ParentD, Long> id = new Shim<ParentD, Long>() {
+            public void set(ParentD instance, Long id) {
                 ((ParentDCodegen) instance).id = id;
             }
-            public Integer get(ParentD instance) {
+            public Long get(ParentD instance) {
                 return ((ParentDCodegen) instance).id;
             }
             public String getName() {
@@ -132,11 +132,11 @@ public abstract class ParentDCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<ParentD, Integer> version = new Shim<ParentD, Integer>() {
-            public void set(ParentD instance, Integer version) {
+        protected static final Shim<ParentD, Long> version = new Shim<ParentD, Long>() {
+            public void set(ParentD instance, Long version) {
                 ((ParentDCodegen) instance).version = version;
             }
-            public Integer get(ParentD instance) {
+            public Long get(ParentD instance) {
                 return ((ParentDCodegen) instance).version;
             }
             public String getName() {
@@ -152,8 +152,8 @@ public abstract class ParentDCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -164,8 +164,8 @@ public abstract class ParentDCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
         public boolean hasParentDChildBs() {
             return this.contains("parentDChildBs");

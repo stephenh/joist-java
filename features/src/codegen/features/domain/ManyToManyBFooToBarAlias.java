@@ -6,13 +6,13 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 
 public class ManyToManyBFooToBarAlias extends Alias<ManyToManyBFooToBar> {
 
     private final List<AliasColumn<ManyToManyBFooToBar, ?, ?>> columns = new ArrayList<AliasColumn<ManyToManyBFooToBar, ?, ?>>();
     public final IdAliasColumn<ManyToManyBFooToBar> id = new IdAliasColumn<ManyToManyBFooToBar>(this, "id", ManyToManyBFooToBarCodegen.Shims.id);
-    public final IntAliasColumn<ManyToManyBFooToBar> version = new IntAliasColumn<ManyToManyBFooToBar>(this, "version", ManyToManyBFooToBarCodegen.Shims.version);
+    public final LongAliasColumn<ManyToManyBFooToBar> version = new LongAliasColumn<ManyToManyBFooToBar>(this, "version", ManyToManyBFooToBarCodegen.Shims.version);
     public final ForeignKeyAliasColumn<ManyToManyBFooToBar, ManyToManyBFoo> blue = new ForeignKeyAliasColumn<ManyToManyBFooToBar, ManyToManyBFoo>(this, "blue_id", ManyToManyBFooToBarCodegen.Shims.blueId);
     public final ForeignKeyAliasColumn<ManyToManyBFooToBar, ManyToManyBBar> green = new ForeignKeyAliasColumn<ManyToManyBFooToBar, ManyToManyBBar>(this, "green_id", ManyToManyBFooToBarCodegen.Shims.greenId);
 
@@ -36,7 +36,7 @@ public class ManyToManyBFooToBarAlias extends Alias<ManyToManyBFooToBar> {
         return this.id;
     }
 
-    public IntAliasColumn<ManyToManyBFooToBar> getVersionColumn() {
+    public LongAliasColumn<ManyToManyBFooToBar> getVersionColumn() {
         return this.version;
     }
 

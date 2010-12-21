@@ -17,9 +17,9 @@ import joist.util.Copy;
 public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
 
     public static final ManyToManyABarQueries queries;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     private ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyABar, ManyToManyAFooToBar>((ManyToManyABar) this, Aliases.manyToManyAFooToBar(), Aliases.manyToManyAFooToBar().manyToManyABar);
     protected Changed changed;
 
@@ -37,11 +37,11 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<ManyToManyABar>(Shims.name, 100));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -58,7 +58,7 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -146,11 +146,11 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<ManyToManyABar, Integer> id = new Shim<ManyToManyABar, Integer>() {
-            public void set(ManyToManyABar instance, Integer id) {
+        protected static final Shim<ManyToManyABar, Long> id = new Shim<ManyToManyABar, Long>() {
+            public void set(ManyToManyABar instance, Long id) {
                 ((ManyToManyABarCodegen) instance).id = id;
             }
-            public Integer get(ManyToManyABar instance) {
+            public Long get(ManyToManyABar instance) {
                 return ((ManyToManyABarCodegen) instance).id;
             }
             public String getName() {
@@ -168,11 +168,11 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<ManyToManyABar, Integer> version = new Shim<ManyToManyABar, Integer>() {
-            public void set(ManyToManyABar instance, Integer version) {
+        protected static final Shim<ManyToManyABar, Long> version = new Shim<ManyToManyABar, Long>() {
+            public void set(ManyToManyABar instance, Long version) {
                 ((ManyToManyABarCodegen) instance).version = version;
             }
-            public Integer get(ManyToManyABar instance) {
+            public Long get(ManyToManyABar instance) {
                 return ((ManyToManyABarCodegen) instance).version;
             }
             public String getName() {
@@ -188,8 +188,8 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -200,8 +200,8 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
         public boolean hasManyToManyAFooToBars() {
             return this.contains("manyToManyAFooToBars");

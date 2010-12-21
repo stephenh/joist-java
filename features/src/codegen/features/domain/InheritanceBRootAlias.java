@@ -8,7 +8,7 @@ import joist.domain.orm.queries.JoinClause;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class InheritanceBRootAlias extends Alias<InheritanceBRoot> {
@@ -16,7 +16,7 @@ public class InheritanceBRootAlias extends Alias<InheritanceBRoot> {
     private final List<AliasColumn<InheritanceBRoot, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceBRoot, ?, ?>>();
     public final IdAliasColumn<InheritanceBRoot> id = new IdAliasColumn<InheritanceBRoot>(this, "id", InheritanceBRootCodegen.Shims.id);
     public final StringAliasColumn<InheritanceBRoot> name = new StringAliasColumn<InheritanceBRoot>(this, "name", InheritanceBRootCodegen.Shims.name);
-    public final IntAliasColumn<InheritanceBRoot> version = new IntAliasColumn<InheritanceBRoot>(this, "version", InheritanceBRootCodegen.Shims.version);
+    public final LongAliasColumn<InheritanceBRoot> version = new LongAliasColumn<InheritanceBRoot>(this, "version", InheritanceBRootCodegen.Shims.version);
 
     public InheritanceBRootAlias(String alias) {
         this(alias, null, true);
@@ -44,7 +44,7 @@ public class InheritanceBRootAlias extends Alias<InheritanceBRoot> {
         return this.id;
     }
 
-    public IntAliasColumn<InheritanceBRoot> getVersionColumn() {
+    public LongAliasColumn<InheritanceBRoot> getVersionColumn() {
         return this.version;
     }
 

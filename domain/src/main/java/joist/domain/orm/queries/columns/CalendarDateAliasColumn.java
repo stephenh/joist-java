@@ -1,6 +1,8 @@
 package joist.domain.orm.queries.columns;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.TimeZone;
 
 import joist.domain.DomainObject;
@@ -30,6 +32,11 @@ public class CalendarDateAliasColumn<T extends DomainObject> extends AliasColumn
       return null;
     }
     return new Date(domainValue.startAsTimePoint(TimeZone.getDefault()).asJavaUtilDate().getTime());
+  }
+
+  @Override
+  public void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException {
+    this.setJdbcValue(instance, rs.getDate(name));
   }
 
 }

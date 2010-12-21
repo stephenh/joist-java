@@ -6,7 +6,7 @@ import java.util.List;
 import joist.domain.DomainObject;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 
 /**
  * The base class that the code-generated, type-safe aliases extend.
@@ -30,7 +30,7 @@ public abstract class Alias<T extends DomainObject> {
 
   public abstract IdAliasColumn<? super T> getIdColumn();
 
-  public abstract IntAliasColumn<? super T> getVersionColumn();
+  public abstract LongAliasColumn<? super T> getVersionColumn();
 
   public abstract IdAliasColumn<T> getSubClassIdColumn();
 

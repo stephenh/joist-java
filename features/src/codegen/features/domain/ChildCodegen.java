@@ -17,9 +17,9 @@ import joist.util.Copy;
 public abstract class ChildCodegen extends AbstractDomainObject {
 
     public static final ChildQueries queries;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     private final ForeignKeyHolder<Parent> parent = new ForeignKeyHolder<Parent>(Parent.class);
     private ForeignKeyListHolder<Child, GrandChild> grandChilds = new ForeignKeyListHolder<Child, GrandChild>((Child) this, Aliases.grandChild(), Aliases.grandChild().child);
     protected Changed changed;
@@ -39,11 +39,11 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         this.addRule(new NotNull<Child>(Shims.parentId));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -60,7 +60,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -133,11 +133,11 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<Child, Integer> id = new Shim<Child, Integer>() {
-            public void set(Child instance, Integer id) {
+        protected static final Shim<Child, Long> id = new Shim<Child, Long>() {
+            public void set(Child instance, Long id) {
                 ((ChildCodegen) instance).id = id;
             }
-            public Integer get(Child instance) {
+            public Long get(Child instance) {
                 return ((ChildCodegen) instance).id;
             }
             public String getName() {
@@ -155,22 +155,22 @@ public abstract class ChildCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<Child, Integer> version = new Shim<Child, Integer>() {
-            public void set(Child instance, Integer version) {
+        protected static final Shim<Child, Long> version = new Shim<Child, Long>() {
+            public void set(Child instance, Long version) {
                 ((ChildCodegen) instance).version = version;
             }
-            public Integer get(Child instance) {
+            public Long get(Child instance) {
                 return ((ChildCodegen) instance).version;
             }
             public String getName() {
                 return "version";
             }
         };
-        protected static final Shim<Child, Integer> parentId = new Shim<Child, Integer>() {
-            public void set(Child instance, Integer parentId) {
+        protected static final Shim<Child, Long> parentId = new Shim<Child, Long>() {
+            public void set(Child instance, Long parentId) {
                 ((ChildCodegen) instance).parent.setId(parentId);
             }
-            public Integer get(Child instance) {
+            public Long get(Child instance) {
                 return ((ChildCodegen) instance).parent.getId();
             }
             public String getName() {
@@ -186,8 +186,8 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -198,8 +198,8 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
         public boolean hasParent() {
             return this.contains("parent");

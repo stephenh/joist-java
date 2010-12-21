@@ -5,7 +5,7 @@ import java.util.List;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
@@ -16,7 +16,7 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
     private final InheritanceABaseAlias baseAlias;
     public final IdAliasColumn<InheritanceABase> id;
     public final StringAliasColumn<InheritanceABase> name;
-    public final IntAliasColumn<InheritanceABase> version;
+    public final LongAliasColumn<InheritanceABase> version;
 
     public InheritanceASubTwoAlias(String alias) {
         this(alias, null, true);
@@ -39,7 +39,7 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
         return this.id;
     }
 
-    public IntAliasColumn<InheritanceABase> getVersionColumn() {
+    public LongAliasColumn<InheritanceABase> getVersionColumn() {
         return this.version;
     }
 

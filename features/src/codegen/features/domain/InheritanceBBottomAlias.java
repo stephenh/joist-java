@@ -5,7 +5,7 @@ import java.util.List;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class InheritanceBBottomAlias extends Alias<InheritanceBBottom> {
@@ -17,7 +17,7 @@ public class InheritanceBBottomAlias extends Alias<InheritanceBBottom> {
     public final StringAliasColumn<InheritanceBMiddle> middleName;
     public final IdAliasColumn<InheritanceBRoot> id;
     public final StringAliasColumn<InheritanceBRoot> name;
-    public final IntAliasColumn<InheritanceBRoot> version;
+    public final LongAliasColumn<InheritanceBRoot> version;
 
     public InheritanceBBottomAlias(String alias) {
         this(alias, null, true);
@@ -41,7 +41,7 @@ public class InheritanceBBottomAlias extends Alias<InheritanceBBottom> {
         return this.id;
     }
 
-    public IntAliasColumn<InheritanceBRoot> getVersionColumn() {
+    public LongAliasColumn<InheritanceBRoot> getVersionColumn() {
         return this.version;
     }
 

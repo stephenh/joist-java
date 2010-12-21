@@ -15,9 +15,9 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
 
     public static final UserTypesAFooQueries queries;
     private CalendarDate created = null;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     protected Changed changed;
 
     static {
@@ -44,11 +44,11 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         this.created = created;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -65,7 +65,7 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -93,11 +93,11 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
                 return "created";
             }
         };
-        protected static final Shim<UserTypesAFoo, Integer> id = new Shim<UserTypesAFoo, Integer>() {
-            public void set(UserTypesAFoo instance, Integer id) {
+        protected static final Shim<UserTypesAFoo, Long> id = new Shim<UserTypesAFoo, Long>() {
+            public void set(UserTypesAFoo instance, Long id) {
                 ((UserTypesAFooCodegen) instance).id = id;
             }
-            public Integer get(UserTypesAFoo instance) {
+            public Long get(UserTypesAFoo instance) {
                 return ((UserTypesAFooCodegen) instance).id;
             }
             public String getName() {
@@ -115,11 +115,11 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<UserTypesAFoo, Integer> version = new Shim<UserTypesAFoo, Integer>() {
-            public void set(UserTypesAFoo instance, Integer version) {
+        protected static final Shim<UserTypesAFoo, Long> version = new Shim<UserTypesAFoo, Long>() {
+            public void set(UserTypesAFoo instance, Long version) {
                 ((UserTypesAFooCodegen) instance).version = version;
             }
-            public Integer get(UserTypesAFoo instance) {
+            public Long get(UserTypesAFoo instance) {
                 return ((UserTypesAFooCodegen) instance).version;
             }
             public String getName() {
@@ -141,8 +141,8 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -153,8 +153,8 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
     }
 

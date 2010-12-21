@@ -23,7 +23,7 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
   }
 
   public void mapRow(ResultSet rs) throws SQLException {
-    Integer id = new Integer(rs.getInt(this.from.getIdColumn().getName()));
+    Long id = new Long(rs.getLong(this.from.getIdColumn().getName()));
     T instance = (T) this.cache.findOrNull(this.from.getDomainRootClass(), id);
 
     if (instance == null) {
@@ -50,8 +50,11 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
     while (current != null) {
       for (AliasColumn<? super T, ?, ?> c : current.getColumns()) {
         // Object jdbcValue = rs.getObject(c.getQualifiedName());
-        Object jdbcValue = rs.getObject(c.getName());
-        ((AliasColumn<T, ?, Object>) c).setJdbcValue(instance, jdbcValue);
+        // Object jdbcValue = rs.getObject(c.getName());
+        // ((AliasColumn<T, ?, Object>) c).setJdbcValue(instance, jdbcValue);
+        if (rs.getObject(c.getName()) != null) {
+          ((AliasColumn<T, ?, Object>) c).setJdbcValue(instance, rs, c.getName());
+        }
       }
       current = current.getBaseClassAlias();
     }

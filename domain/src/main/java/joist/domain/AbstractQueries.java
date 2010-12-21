@@ -21,6 +21,10 @@ public abstract class AbstractQueries<T extends DomainObject> {
   }
 
   public T find(Integer id) {
+    return this.find(id == null ? ((Long) null) : new Long(id.longValue()));
+  }
+
+  public T find(Long id) {
     // Use load as it hits the IdentityMap and could avoid an unneeded query
     return UoW.load(this.domainType, id);
   }

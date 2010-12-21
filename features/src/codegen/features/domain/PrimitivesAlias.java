@@ -6,7 +6,7 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.BooleanAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class PrimitivesAlias extends Alias<Primitives> {
@@ -15,7 +15,7 @@ public class PrimitivesAlias extends Alias<Primitives> {
     public final BooleanAliasColumn<Primitives> flag = new BooleanAliasColumn<Primitives>(this, "flag", PrimitivesCodegen.Shims.flag);
     public final IdAliasColumn<Primitives> id = new IdAliasColumn<Primitives>(this, "id", PrimitivesCodegen.Shims.id);
     public final StringAliasColumn<Primitives> name = new StringAliasColumn<Primitives>(this, "name", PrimitivesCodegen.Shims.name);
-    public final IntAliasColumn<Primitives> version = new IntAliasColumn<Primitives>(this, "version", PrimitivesCodegen.Shims.version);
+    public final LongAliasColumn<Primitives> version = new LongAliasColumn<Primitives>(this, "version", PrimitivesCodegen.Shims.version);
 
     public PrimitivesAlias(String alias) {
         this(alias, null, true);
@@ -37,7 +37,7 @@ public class PrimitivesAlias extends Alias<Primitives> {
         return this.id;
     }
 
-    public IntAliasColumn<Primitives> getVersionColumn() {
+    public LongAliasColumn<Primitives> getVersionColumn() {
         return this.version;
     }
 

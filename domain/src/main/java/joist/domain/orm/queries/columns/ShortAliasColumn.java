@@ -1,5 +1,8 @@
 package joist.domain.orm.queries.columns;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.orm.queries.Alias;
@@ -25,6 +28,11 @@ public class ShortAliasColumn<T extends DomainObject> extends AliasColumn<T, Sho
 
   public Where lessThan(Short value) {
     return new Where(this.getQualifiedName() + " < ?", value);
+  }
+
+  @Override
+  public void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException {
+    this.setJdbcValue(instance, rs.getInt(name));
   }
 
 }

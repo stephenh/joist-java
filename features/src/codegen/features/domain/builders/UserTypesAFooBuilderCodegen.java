@@ -25,11 +25,11 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
         return (UserTypesAFooBuilder) this;
     }
 
-    public Integer id() {
+    public Long id() {
         return get().getId();
     }
 
-    public UserTypesAFooBuilder id(Integer id) {
+    public UserTypesAFooBuilder id(Long id) {
         get().setId(id);
         return (UserTypesAFooBuilder) this;
     }

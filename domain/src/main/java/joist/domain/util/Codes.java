@@ -31,18 +31,18 @@ public class Codes {
     return copy;
   }
 
-  public static <T extends Enum<T>> T fromInt(Class<T> codeClass, int i) {
+  public static <T extends Enum<T>> T fromLong(Class<T> codeClass, long i) {
     for (Enum<T> value : EnumSet.allOf(codeClass)) {
-      if (((Code) value).getId().intValue() == i) {
+      if (((Code) value).getId().longValue() == i) {
         return (T) value;
       }
     }
     return null;
   }
 
-  public static <T extends Code> T fromInt(T[] codes, int i) {
+  public static <T extends Code> T fromLong(T[] codes, long i) {
     for (T code : codes) {
-      if (code.getId().intValue() == i) {
+      if (code.getId().longValue() == i) {
         return code;
       }
     }

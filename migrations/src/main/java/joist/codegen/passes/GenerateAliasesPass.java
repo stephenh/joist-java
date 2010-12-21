@@ -15,7 +15,7 @@ import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.CodeAliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.sourcegen.GClass;
 import joist.sourcegen.GField;
 import joist.sourcegen.GMethod;
@@ -102,7 +102,7 @@ public class GenerateAliasesPass implements Pass {
     idColumnMethod.body.line("return this.id;");
 
     GMethod versionColumnMethod = aliasClass.getMethod("getVersionColumn");
-    versionColumnMethod.returnType("IntAliasColumn<{}>", rootEntity.getClassName());
+    versionColumnMethod.returnType("LongAliasColumn<{}>", rootEntity.getClassName());
     versionColumnMethod.body.line("return this.version;");
 
     if (entity.getBaseEntity() == null) {
@@ -154,7 +154,7 @@ public class GenerateAliasesPass implements Pass {
       cstr2.body.line("}");
     }
 
-    aliasClass.addImports(ArrayList.class, List.class, Alias.class, AliasColumn.class, IdAliasColumn.class, IntAliasColumn.class);
+    aliasClass.addImports(ArrayList.class, List.class, Alias.class, AliasColumn.class, IdAliasColumn.class, LongAliasColumn.class);
     aliasClass.addImports(entity.getFullClassName());
   }
 

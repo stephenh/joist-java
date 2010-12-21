@@ -17,14 +17,19 @@ Todo
 * Execute/load hand-written SQL queries (with inheritance?)
 * H2 prototyping
 * Eager loading
-* Ajax/JSON controls
+  * `UoW.load(Foo.class, prefetch(Foo.Child, Foo.Child.GrandChild)`
+  * Use JDBC spy to assert correct SQL is being used
+  * Eager threshold? If N parent objects:
+    * First child fetch gets children for 1st parent
+    * Second child fetch gets children for remaining parents
 * Don't muck with system properties
-* Put db behavior in after uow
 * Remove statics Repository/UoW/etc.
-* Allow collection add/remove, delegate to addXxx/removeXxx
-* Fix joist.util.Log to make its own LogRecord
-* Have domain objects track the repo they are for (e.g. FooQueries takes a UoW instance, is in your given Registry, no static data source)
+  * Have domain objects track the repository they are for (e.g. `FooQueries` takes a `UoW` instance, is in your given Registry, no static data source)
+* Allow collection add/remove, delegate to `addXxx`/`removeXxx`
+* Fix `joist.util.Log` to make its own LogRecord
 * Disconnect/reconnect, e.g. eagerly letting go of connection
-* Add DO.hasUncommittedChanges to denote flushed .vs comitted
-* Provide offset alternative due to perf
+* Add `DomainObject.hasUncommittedChanges` to denote flushed .vs committed
+* Provide offset alternative due to performance
+* Extract joist-web
+
 

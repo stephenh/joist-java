@@ -6,7 +6,7 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.CodeAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class CodeADomainObjectAlias extends Alias<CodeADomainObject> {
@@ -14,7 +14,7 @@ public class CodeADomainObjectAlias extends Alias<CodeADomainObject> {
     private final List<AliasColumn<CodeADomainObject, ?, ?>> columns = new ArrayList<AliasColumn<CodeADomainObject, ?, ?>>();
     public final IdAliasColumn<CodeADomainObject> id = new IdAliasColumn<CodeADomainObject>(this, "id", CodeADomainObjectCodegen.Shims.id);
     public final StringAliasColumn<CodeADomainObject> name = new StringAliasColumn<CodeADomainObject>(this, "name", CodeADomainObjectCodegen.Shims.name);
-    public final IntAliasColumn<CodeADomainObject> version = new IntAliasColumn<CodeADomainObject>(this, "version", CodeADomainObjectCodegen.Shims.version);
+    public final LongAliasColumn<CodeADomainObject> version = new LongAliasColumn<CodeADomainObject>(this, "version", CodeADomainObjectCodegen.Shims.version);
     public final CodeAliasColumn<CodeADomainObject, CodeAColor> codeAColor = new CodeAliasColumn<CodeADomainObject, CodeAColor>(this, "code_a_color_id", CodeADomainObjectCodegen.Shims.codeAColorId);
     public final CodeAliasColumn<CodeADomainObject, CodeASize> codeASize = new CodeAliasColumn<CodeADomainObject, CodeASize>(this, "code_a_size_id", CodeADomainObjectCodegen.Shims.codeASizeId);
 
@@ -39,7 +39,7 @@ public class CodeADomainObjectAlias extends Alias<CodeADomainObject> {
         return this.id;
     }
 
-    public IntAliasColumn<CodeADomainObject> getVersionColumn() {
+    public LongAliasColumn<CodeADomainObject> getVersionColumn() {
         return this.version;
     }
 

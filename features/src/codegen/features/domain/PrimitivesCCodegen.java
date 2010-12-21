@@ -16,10 +16,10 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
 
     public static final PrimitivesCQueries queries;
     private Money dollarAmount = null;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
     private TimePoint timestamp = null;
-    private Integer version = null;
+    private Long version = null;
     protected Changed changed;
 
     static {
@@ -47,11 +47,11 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
         this.dollarAmount = dollarAmount;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -77,7 +77,7 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
         this.timestamp = timestamp;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -105,11 +105,11 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
                 return "dollarAmount";
             }
         };
-        protected static final Shim<PrimitivesC, Integer> id = new Shim<PrimitivesC, Integer>() {
-            public void set(PrimitivesC instance, Integer id) {
+        protected static final Shim<PrimitivesC, Long> id = new Shim<PrimitivesC, Long>() {
+            public void set(PrimitivesC instance, Long id) {
                 ((PrimitivesCCodegen) instance).id = id;
             }
-            public Integer get(PrimitivesC instance) {
+            public Long get(PrimitivesC instance) {
                 return ((PrimitivesCCodegen) instance).id;
             }
             public String getName() {
@@ -138,11 +138,11 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
                 return "timestamp";
             }
         };
-        protected static final Shim<PrimitivesC, Integer> version = new Shim<PrimitivesC, Integer>() {
-            public void set(PrimitivesC instance, Integer version) {
+        protected static final Shim<PrimitivesC, Long> version = new Shim<PrimitivesC, Long>() {
+            public void set(PrimitivesC instance, Long version) {
                 ((PrimitivesCCodegen) instance).version = version;
             }
-            public Integer get(PrimitivesC instance) {
+            public Long get(PrimitivesC instance) {
                 return ((PrimitivesCCodegen) instance).version;
             }
             public String getName() {
@@ -164,8 +164,8 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -182,8 +182,8 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
     }
 

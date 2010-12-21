@@ -38,11 +38,6 @@ Database Bootstrap
 * From Eclipse, run `MyAppCycle`--this will create the `my_app` database and user in postgres, apply the two default migrations `m0000` and `m0001`, and run the code generation
 * Hit Refresh and the compile errors should be resolved
 
-Start Jetty
------------
-
-* From Eclipse, run `MyAppJetty`--this will start up Jetty on port 8080, you can start editing `index.htm` and `IndexPage`.
-
 Running Tests
 -------------
 

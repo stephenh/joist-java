@@ -1,6 +1,8 @@
 package joist.domain.orm.queries.columns;
 
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import joist.domain.DomainObject;
 import joist.domain.Shim;
@@ -28,6 +30,11 @@ public class MoneyAliasColumn<T extends DomainObject> extends AliasColumn<T, Mon
       return null;
     }
     return domainValue.breachEncapsulationOfAmount().multiply(new BigDecimal(100)).toBigIntegerExact().longValue();
+  }
+
+  @Override
+  public void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException {
+    this.setJdbcValue(instance, rs.getLong(name));
   }
 
 }

@@ -1,5 +1,7 @@
 package joist.domain.orm.queries.columns;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 
 import joist.domain.DomainObject;
@@ -13,9 +15,9 @@ import joist.util.Join;
  * @param T the domain object the column is within
  * @param W the domain object the column points to
  */
-public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObject> extends AliasColumn<T, Integer, Integer> {
+public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObject> extends AliasColumn<T, Long, Long> {
 
-  public ForeignKeyAliasColumn(Alias<T> alias, String name, Shim<T, Integer> shim) {
+  public ForeignKeyAliasColumn(Alias<T> alias, String name, Shim<T, Long> shim) {
     super(alias, name, shim);
   }
 
@@ -41,6 +43,11 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
 
   public JoinClause<T, W> on(IdAliasColumn<W> on) {
     return new JoinClause<T, W>("INNER JOIN", this.getAlias(), on, this);
+  }
+
+  @Override
+  public void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException {
+    this.setJdbcValue(instance, rs.getLong(name));
   }
 
 }

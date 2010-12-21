@@ -6,7 +6,7 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class OneToOneABarAlias extends Alias<OneToOneABar> {
@@ -14,7 +14,7 @@ public class OneToOneABarAlias extends Alias<OneToOneABar> {
     private final List<AliasColumn<OneToOneABar, ?, ?>> columns = new ArrayList<AliasColumn<OneToOneABar, ?, ?>>();
     public final IdAliasColumn<OneToOneABar> id = new IdAliasColumn<OneToOneABar>(this, "id", OneToOneABarCodegen.Shims.id);
     public final StringAliasColumn<OneToOneABar> name = new StringAliasColumn<OneToOneABar>(this, "name", OneToOneABarCodegen.Shims.name);
-    public final IntAliasColumn<OneToOneABar> version = new IntAliasColumn<OneToOneABar>(this, "version", OneToOneABarCodegen.Shims.version);
+    public final LongAliasColumn<OneToOneABar> version = new LongAliasColumn<OneToOneABar>(this, "version", OneToOneABarCodegen.Shims.version);
     public final ForeignKeyAliasColumn<OneToOneABar, OneToOneAFoo> oneToOneAFoo = new ForeignKeyAliasColumn<OneToOneABar, OneToOneAFoo>(this, "one_to_one_a_foo_id", OneToOneABarCodegen.Shims.oneToOneAFooId);
 
     public OneToOneABarAlias(String alias) {
@@ -37,7 +37,7 @@ public class OneToOneABarAlias extends Alias<OneToOneABar> {
         return this.id;
     }
 
-    public IntAliasColumn<OneToOneABar> getVersionColumn() {
+    public LongAliasColumn<OneToOneABar> getVersionColumn() {
         return this.version;
     }
 
