@@ -16,12 +16,12 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
     private Long big2 = null;
     private Boolean bool1 = false;
     private Boolean bool2 = false;
-    private Integer id = null;
+    private Long id = null;
     private Integer int1 = null;
     private Integer int2 = null;
     private Short small1 = null;
     private Short small2 = null;
-    private Integer version = null;
+    private Long version = null;
     protected Changed changed;
 
     static {
@@ -76,11 +76,11 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         this.bool2 = bool2;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -124,7 +124,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         this.small2 = small2;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -185,11 +185,11 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return "bool2";
             }
         };
-        protected static final Shim<PrimitivesB, Integer> id = new Shim<PrimitivesB, Integer>() {
-            public void set(PrimitivesB instance, Integer id) {
+        protected static final Shim<PrimitivesB, Long> id = new Shim<PrimitivesB, Long>() {
+            public void set(PrimitivesB instance, Long id) {
                 ((PrimitivesBCodegen) instance).id = id;
             }
-            public Integer get(PrimitivesB instance) {
+            public Long get(PrimitivesB instance) {
                 return ((PrimitivesBCodegen) instance).id;
             }
             public String getName() {
@@ -240,11 +240,11 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
                 return "small2";
             }
         };
-        protected static final Shim<PrimitivesB, Integer> version = new Shim<PrimitivesB, Integer>() {
-            public void set(PrimitivesB instance, Integer version) {
+        protected static final Shim<PrimitivesB, Long> version = new Shim<PrimitivesB, Long>() {
+            public void set(PrimitivesB instance, Long version) {
                 ((PrimitivesBCodegen) instance).version = version;
             }
-            public Integer get(PrimitivesB instance) {
+            public Long get(PrimitivesB instance) {
                 return ((PrimitivesBCodegen) instance).version;
             }
             public String getName() {
@@ -284,8 +284,8 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasInt1() {
             return this.contains("int1");
@@ -314,8 +314,8 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
     }
 

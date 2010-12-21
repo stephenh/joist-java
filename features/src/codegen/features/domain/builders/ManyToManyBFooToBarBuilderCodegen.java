@@ -12,11 +12,11 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
         super(instance);
     }
 
-    public Integer id() {
+    public Long id() {
         return get().getId();
     }
 
-    public ManyToManyBFooToBarBuilder id(Integer id) {
+    public ManyToManyBFooToBarBuilder id(Long id) {
         get().setId(id);
         return (ManyToManyBFooToBarBuilder) this;
     }

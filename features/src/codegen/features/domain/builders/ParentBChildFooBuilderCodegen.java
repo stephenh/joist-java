@@ -11,11 +11,11 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
         super(instance);
     }
 
-    public Integer id() {
+    public Long id() {
         return get().getId();
     }
 
-    public ParentBChildFooBuilder id(Integer id) {
+    public ParentBChildFooBuilder id(Long id) {
         get().setId(id);
         return (ParentBChildFooBuilder) this;
     }

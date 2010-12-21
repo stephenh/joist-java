@@ -6,7 +6,7 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.CalendarDateAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class UserTypesAFooAlias extends Alias<UserTypesAFoo> {
@@ -15,7 +15,7 @@ public class UserTypesAFooAlias extends Alias<UserTypesAFoo> {
     public final CalendarDateAliasColumn<UserTypesAFoo> created = new CalendarDateAliasColumn<UserTypesAFoo>(this, "created", UserTypesAFooCodegen.Shims.created);
     public final IdAliasColumn<UserTypesAFoo> id = new IdAliasColumn<UserTypesAFoo>(this, "id", UserTypesAFooCodegen.Shims.id);
     public final StringAliasColumn<UserTypesAFoo> name = new StringAliasColumn<UserTypesAFoo>(this, "name", UserTypesAFooCodegen.Shims.name);
-    public final IntAliasColumn<UserTypesAFoo> version = new IntAliasColumn<UserTypesAFoo>(this, "version", UserTypesAFooCodegen.Shims.version);
+    public final LongAliasColumn<UserTypesAFoo> version = new LongAliasColumn<UserTypesAFoo>(this, "version", UserTypesAFooCodegen.Shims.version);
 
     public UserTypesAFooAlias(String alias) {
         this(alias, null, true);
@@ -37,7 +37,7 @@ public class UserTypesAFooAlias extends Alias<UserTypesAFoo> {
         return this.id;
     }
 
-    public IntAliasColumn<UserTypesAFoo> getVersionColumn() {
+    public LongAliasColumn<UserTypesAFoo> getVersionColumn() {
         return this.version;
     }
 

@@ -9,7 +9,7 @@ public class ValidationATest extends AbstractFeaturesTest {
 
   public void testNotNull() {
     ValidationAFoo foo = new ValidationAFoo();
-    foo.setId(1);
+    foo.setId(1l);
     try {
       this.commitAndReOpen();
       Assert.fail();

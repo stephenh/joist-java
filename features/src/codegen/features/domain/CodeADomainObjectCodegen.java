@@ -14,9 +14,9 @@ import joist.domain.validation.rules.NotNull;
 public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
 
     public static final CodeADomainObjectQueries queries;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     private final ForeignKeyCodeHolder<CodeAColor> codeAColor = new ForeignKeyCodeHolder<CodeAColor>(CodeAColor.class);
     private final ForeignKeyCodeHolder<CodeASize> codeASize = new ForeignKeyCodeHolder<CodeASize>(CodeASize.class);
     protected Changed changed;
@@ -37,11 +37,11 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         this.addRule(new NotNull<CodeADomainObject>(Shims.codeASizeId));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -58,7 +58,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -119,11 +119,11 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<CodeADomainObject, Integer> id = new Shim<CodeADomainObject, Integer>() {
-            public void set(CodeADomainObject instance, Integer id) {
+        protected static final Shim<CodeADomainObject, Long> id = new Shim<CodeADomainObject, Long>() {
+            public void set(CodeADomainObject instance, Long id) {
                 ((CodeADomainObjectCodegen) instance).id = id;
             }
-            public Integer get(CodeADomainObject instance) {
+            public Long get(CodeADomainObject instance) {
                 return ((CodeADomainObjectCodegen) instance).id;
             }
             public String getName() {
@@ -141,33 +141,33 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<CodeADomainObject, Integer> version = new Shim<CodeADomainObject, Integer>() {
-            public void set(CodeADomainObject instance, Integer version) {
+        protected static final Shim<CodeADomainObject, Long> version = new Shim<CodeADomainObject, Long>() {
+            public void set(CodeADomainObject instance, Long version) {
                 ((CodeADomainObjectCodegen) instance).version = version;
             }
-            public Integer get(CodeADomainObject instance) {
+            public Long get(CodeADomainObject instance) {
                 return ((CodeADomainObjectCodegen) instance).version;
             }
             public String getName() {
                 return "version";
             }
         };
-        protected static final Shim<CodeADomainObject, Integer> codeAColorId = new Shim<CodeADomainObject, Integer>() {
-            public void set(CodeADomainObject instance, Integer codeAColorId) {
+        protected static final Shim<CodeADomainObject, Long> codeAColorId = new Shim<CodeADomainObject, Long>() {
+            public void set(CodeADomainObject instance, Long codeAColorId) {
                 ((CodeADomainObjectCodegen) instance).codeAColor.setId(codeAColorId);
             }
-            public Integer get(CodeADomainObject instance) {
+            public Long get(CodeADomainObject instance) {
                 return ((CodeADomainObjectCodegen) instance).codeAColor.getId();
             }
             public String getName() {
                 return "codeAColor";
             }
         };
-        protected static final Shim<CodeADomainObject, Integer> codeASizeId = new Shim<CodeADomainObject, Integer>() {
-            public void set(CodeADomainObject instance, Integer codeASizeId) {
+        protected static final Shim<CodeADomainObject, Long> codeASizeId = new Shim<CodeADomainObject, Long>() {
+            public void set(CodeADomainObject instance, Long codeASizeId) {
                 ((CodeADomainObjectCodegen) instance).codeASize.setId(codeASizeId);
             }
-            public Integer get(CodeADomainObject instance) {
+            public Long get(CodeADomainObject instance) {
                 return ((CodeADomainObjectCodegen) instance).codeASize.getId();
             }
             public String getName() {
@@ -183,8 +183,8 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -195,8 +195,8 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
         public boolean hasCodeAColor() {
             return this.contains("codeAColor");

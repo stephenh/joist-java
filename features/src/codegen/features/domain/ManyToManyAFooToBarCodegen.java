@@ -13,8 +13,8 @@ import joist.domain.validation.rules.NotNull;
 public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
 
     public static final ManyToManyAFooToBarQueries queries;
-    private Integer id = null;
-    private Integer version = null;
+    private Long id = null;
+    private Long version = null;
     private final ForeignKeyHolder<ManyToManyABar> manyToManyABar = new ForeignKeyHolder<ManyToManyABar>(ManyToManyABar.class);
     private final ForeignKeyHolder<ManyToManyAFoo> manyToManyAFoo = new ForeignKeyHolder<ManyToManyAFoo>(ManyToManyAFoo.class);
     protected Changed changed;
@@ -33,11 +33,11 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
         this.addRule(new NotNull<ManyToManyAFooToBar>(Shims.manyToManyAFooId));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -45,7 +45,7 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
         }
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -102,44 +102,44 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<ManyToManyAFooToBar, Integer> id = new Shim<ManyToManyAFooToBar, Integer>() {
-            public void set(ManyToManyAFooToBar instance, Integer id) {
+        protected static final Shim<ManyToManyAFooToBar, Long> id = new Shim<ManyToManyAFooToBar, Long>() {
+            public void set(ManyToManyAFooToBar instance, Long id) {
                 ((ManyToManyAFooToBarCodegen) instance).id = id;
             }
-            public Integer get(ManyToManyAFooToBar instance) {
+            public Long get(ManyToManyAFooToBar instance) {
                 return ((ManyToManyAFooToBarCodegen) instance).id;
             }
             public String getName() {
                 return "id";
             }
         };
-        protected static final Shim<ManyToManyAFooToBar, Integer> version = new Shim<ManyToManyAFooToBar, Integer>() {
-            public void set(ManyToManyAFooToBar instance, Integer version) {
+        protected static final Shim<ManyToManyAFooToBar, Long> version = new Shim<ManyToManyAFooToBar, Long>() {
+            public void set(ManyToManyAFooToBar instance, Long version) {
                 ((ManyToManyAFooToBarCodegen) instance).version = version;
             }
-            public Integer get(ManyToManyAFooToBar instance) {
+            public Long get(ManyToManyAFooToBar instance) {
                 return ((ManyToManyAFooToBarCodegen) instance).version;
             }
             public String getName() {
                 return "version";
             }
         };
-        protected static final Shim<ManyToManyAFooToBar, Integer> manyToManyABarId = new Shim<ManyToManyAFooToBar, Integer>() {
-            public void set(ManyToManyAFooToBar instance, Integer manyToManyABarId) {
+        protected static final Shim<ManyToManyAFooToBar, Long> manyToManyABarId = new Shim<ManyToManyAFooToBar, Long>() {
+            public void set(ManyToManyAFooToBar instance, Long manyToManyABarId) {
                 ((ManyToManyAFooToBarCodegen) instance).manyToManyABar.setId(manyToManyABarId);
             }
-            public Integer get(ManyToManyAFooToBar instance) {
+            public Long get(ManyToManyAFooToBar instance) {
                 return ((ManyToManyAFooToBarCodegen) instance).manyToManyABar.getId();
             }
             public String getName() {
                 return "manyToManyABar";
             }
         };
-        protected static final Shim<ManyToManyAFooToBar, Integer> manyToManyAFooId = new Shim<ManyToManyAFooToBar, Integer>() {
-            public void set(ManyToManyAFooToBar instance, Integer manyToManyAFooId) {
+        protected static final Shim<ManyToManyAFooToBar, Long> manyToManyAFooId = new Shim<ManyToManyAFooToBar, Long>() {
+            public void set(ManyToManyAFooToBar instance, Long manyToManyAFooId) {
                 ((ManyToManyAFooToBarCodegen) instance).manyToManyAFoo.setId(manyToManyAFooId);
             }
-            public Integer get(ManyToManyAFooToBar instance) {
+            public Long get(ManyToManyAFooToBar instance) {
                 return ((ManyToManyAFooToBarCodegen) instance).manyToManyAFoo.getId();
             }
             public String getName() {
@@ -155,14 +155,14 @@ public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
         public boolean hasManyToManyABar() {
             return this.contains("manyToManyABar");

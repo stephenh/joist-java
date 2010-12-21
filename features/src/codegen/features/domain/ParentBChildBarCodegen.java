@@ -14,9 +14,9 @@ import joist.domain.validation.rules.NotNull;
 public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
 
     public static final ParentBChildBarQueries queries;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     private final ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
     protected Changed changed;
 
@@ -35,11 +35,11 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         this.addRule(new NotNull<ParentBChildBar>(Shims.parentBParentId));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -56,7 +56,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -93,11 +93,11 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<ParentBChildBar, Integer> id = new Shim<ParentBChildBar, Integer>() {
-            public void set(ParentBChildBar instance, Integer id) {
+        protected static final Shim<ParentBChildBar, Long> id = new Shim<ParentBChildBar, Long>() {
+            public void set(ParentBChildBar instance, Long id) {
                 ((ParentBChildBarCodegen) instance).id = id;
             }
-            public Integer get(ParentBChildBar instance) {
+            public Long get(ParentBChildBar instance) {
                 return ((ParentBChildBarCodegen) instance).id;
             }
             public String getName() {
@@ -115,22 +115,22 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<ParentBChildBar, Integer> version = new Shim<ParentBChildBar, Integer>() {
-            public void set(ParentBChildBar instance, Integer version) {
+        protected static final Shim<ParentBChildBar, Long> version = new Shim<ParentBChildBar, Long>() {
+            public void set(ParentBChildBar instance, Long version) {
                 ((ParentBChildBarCodegen) instance).version = version;
             }
-            public Integer get(ParentBChildBar instance) {
+            public Long get(ParentBChildBar instance) {
                 return ((ParentBChildBarCodegen) instance).version;
             }
             public String getName() {
                 return "version";
             }
         };
-        protected static final Shim<ParentBChildBar, Integer> parentBParentId = new Shim<ParentBChildBar, Integer>() {
-            public void set(ParentBChildBar instance, Integer parentBParentId) {
+        protected static final Shim<ParentBChildBar, Long> parentBParentId = new Shim<ParentBChildBar, Long>() {
+            public void set(ParentBChildBar instance, Long parentBParentId) {
                 ((ParentBChildBarCodegen) instance).parentBParent.setId(parentBParentId);
             }
-            public Integer get(ParentBChildBar instance) {
+            public Long get(ParentBChildBar instance) {
                 return ((ParentBChildBarCodegen) instance).parentBParent.getId();
             }
             public String getName() {
@@ -146,8 +146,8 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -158,8 +158,8 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
         public boolean hasParentBParent() {
             return this.contains("parentBParent");

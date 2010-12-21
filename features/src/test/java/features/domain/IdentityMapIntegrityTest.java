@@ -9,12 +9,12 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
   public void testInsertsGoIntoTheIdentityMap() {
     new Parent("p");
     this.flush();
-    Assert.assertTrue(UoW.getIdentityMap().findOrNull(Parent.class, 1) != null);
+    Assert.assertTrue(UoW.getIdentityMap().findOrNull(Parent.class, 1l) != null);
   }
 
   public void testExplicitlySettingTheIdOfANewObject() {
     Parent p = new Parent("p");
-    p.setId(10);
+    p.setId(10l);
     this.commitAndReOpen();
 
     p = Parent.queries.find(10);
@@ -28,7 +28,7 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
     p2 = this.reload(p2);
     Parent pFake = new Parent("pFake");
     try {
-      pFake.setId(1);
+      pFake.setId(1l);
       Assert.fail();
     } catch (RuntimeException re) {
       Assert.assertEquals("Domain object conflicts with an existing id Parent[1]", re.getMessage());
@@ -41,7 +41,7 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
 
     // p2 = this.reload(p2);
     Parent pFake = new Parent("pFake");
-    pFake.setId(1);
+    pFake.setId(1l);
     p2 = this.reload(p2);
     Assert.assertSame(pFake, p2);
 

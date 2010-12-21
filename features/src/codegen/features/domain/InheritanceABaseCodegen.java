@@ -13,9 +13,9 @@ import joist.domain.validation.rules.NotNull;
 public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
 
     public static final InheritanceABaseQueries queries;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     protected Changed changed;
 
     static {
@@ -32,11 +32,11 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<InheritanceABase>(Shims.name, 100));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -53,7 +53,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -70,11 +70,11 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<InheritanceABase, Integer> id = new Shim<InheritanceABase, Integer>() {
-            public void set(InheritanceABase instance, Integer id) {
+        protected static final Shim<InheritanceABase, Long> id = new Shim<InheritanceABase, Long>() {
+            public void set(InheritanceABase instance, Long id) {
                 ((InheritanceABaseCodegen) instance).id = id;
             }
-            public Integer get(InheritanceABase instance) {
+            public Long get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).id;
             }
             public String getName() {
@@ -92,11 +92,11 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<InheritanceABase, Integer> version = new Shim<InheritanceABase, Integer>() {
-            public void set(InheritanceABase instance, Integer version) {
+        protected static final Shim<InheritanceABase, Long> version = new Shim<InheritanceABase, Long>() {
+            public void set(InheritanceABase instance, Long version) {
                 ((InheritanceABaseCodegen) instance).version = version;
             }
-            public Integer get(InheritanceABase instance) {
+            public Long get(InheritanceABase instance) {
                 return ((InheritanceABaseCodegen) instance).version;
             }
             public String getName() {
@@ -112,8 +112,8 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -124,8 +124,8 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
     }
 

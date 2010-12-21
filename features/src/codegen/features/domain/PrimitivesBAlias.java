@@ -22,7 +22,7 @@ public class PrimitivesBAlias extends Alias<PrimitivesB> {
     public final IntAliasColumn<PrimitivesB> int2 = new IntAliasColumn<PrimitivesB>(this, "int2", PrimitivesBCodegen.Shims.int2);
     public final ShortAliasColumn<PrimitivesB> small1 = new ShortAliasColumn<PrimitivesB>(this, "small1", PrimitivesBCodegen.Shims.small1);
     public final ShortAliasColumn<PrimitivesB> small2 = new ShortAliasColumn<PrimitivesB>(this, "small2", PrimitivesBCodegen.Shims.small2);
-    public final IntAliasColumn<PrimitivesB> version = new IntAliasColumn<PrimitivesB>(this, "version", PrimitivesBCodegen.Shims.version);
+    public final LongAliasColumn<PrimitivesB> version = new LongAliasColumn<PrimitivesB>(this, "version", PrimitivesBCodegen.Shims.version);
 
     public PrimitivesBAlias(String alias) {
         this(alias, null, true);
@@ -50,7 +50,7 @@ public class PrimitivesBAlias extends Alias<PrimitivesB> {
         return this.id;
     }
 
-    public IntAliasColumn<PrimitivesB> getVersionColumn() {
+    public LongAliasColumn<PrimitivesB> getVersionColumn() {
         return this.version;
     }
 

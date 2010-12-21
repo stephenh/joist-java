@@ -11,11 +11,11 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
         super(instance);
     }
 
-    public Integer id() {
+    public Long id() {
         return get().getId();
     }
 
-    public ChildBuilder id(Integer id) {
+    public ChildBuilder id(Long id) {
         get().setId(id);
         return (ChildBuilder) this;
     }

@@ -5,7 +5,7 @@ import java.util.List;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class InheritanceCAlias extends Alias<InheritanceC> {
@@ -13,7 +13,7 @@ public class InheritanceCAlias extends Alias<InheritanceC> {
     private final List<AliasColumn<InheritanceC, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceC, ?, ?>>();
     public final IdAliasColumn<InheritanceC> id = new IdAliasColumn<InheritanceC>(this, "id", InheritanceCCodegen.Shims.id);
     public final StringAliasColumn<InheritanceC> name = new StringAliasColumn<InheritanceC>(this, "name", InheritanceCCodegen.Shims.name);
-    public final IntAliasColumn<InheritanceC> version = new IntAliasColumn<InheritanceC>(this, "version", InheritanceCCodegen.Shims.version);
+    public final LongAliasColumn<InheritanceC> version = new LongAliasColumn<InheritanceC>(this, "version", InheritanceCCodegen.Shims.version);
 
     public InheritanceCAlias(String alias) {
         this(alias, null, true);
@@ -41,7 +41,7 @@ public class InheritanceCAlias extends Alias<InheritanceC> {
         return this.id;
     }
 
-    public IntAliasColumn<InheritanceC> getVersionColumn() {
+    public LongAliasColumn<InheritanceC> getVersionColumn() {
         return this.version;
     }
 

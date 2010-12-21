@@ -11,11 +11,11 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
         super(instance);
     }
 
-    public Integer id() {
+    public Long id() {
         return get().getId();
     }
 
-    public GrandChildBuilder id(Integer id) {
+    public GrandChildBuilder id(Long id) {
         get().setId(id);
         return (GrandChildBuilder) this;
     }

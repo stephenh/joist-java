@@ -11,11 +11,11 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
         super(instance);
     }
 
-    public Integer id() {
+    public Long id() {
         return get().getId();
     }
 
-    public OneToOneABarBuilder id(Integer id) {
+    public OneToOneABarBuilder id(Long id) {
         get().setId(id);
         return (OneToOneABarBuilder) this;
     }

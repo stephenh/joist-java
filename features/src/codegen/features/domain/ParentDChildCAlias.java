@@ -8,7 +8,7 @@ import joist.domain.orm.queries.JoinClause;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class ParentDChildCAlias extends Alias<ParentDChildC> {
@@ -16,7 +16,7 @@ public class ParentDChildCAlias extends Alias<ParentDChildC> {
     private final List<AliasColumn<ParentDChildC, ?, ?>> columns = new ArrayList<AliasColumn<ParentDChildC, ?, ?>>();
     public final IdAliasColumn<ParentDChildC> id = new IdAliasColumn<ParentDChildC>(this, "id", ParentDChildCCodegen.Shims.id);
     public final StringAliasColumn<ParentDChildC> name = new StringAliasColumn<ParentDChildC>(this, "name", ParentDChildCCodegen.Shims.name);
-    public final IntAliasColumn<ParentDChildC> version = new IntAliasColumn<ParentDChildC>(this, "version", ParentDChildCCodegen.Shims.version);
+    public final LongAliasColumn<ParentDChildC> version = new LongAliasColumn<ParentDChildC>(this, "version", ParentDChildCCodegen.Shims.version);
 
     public ParentDChildCAlias(String alias) {
         this(alias, null, true);
@@ -37,7 +37,7 @@ public class ParentDChildCAlias extends Alias<ParentDChildC> {
         return this.id;
     }
 
-    public IntAliasColumn<ParentDChildC> getVersionColumn() {
+    public LongAliasColumn<ParentDChildC> getVersionColumn() {
         return this.version;
     }
 

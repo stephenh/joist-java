@@ -4,20 +4,20 @@ import joist.domain.Code;
 
 public enum CodeASize implements Code {
 
-    ONE(1, "ONE", "One"),
-    TWO(2, "TWO", "Two");
+    ONE(1l, "ONE", "One"),
+    TWO(2l, "TWO", "Two");
 
-    private Integer id;
+    private Long id;
     private String code;
     private String name;
 
-    private CodeASize(Integer id, String code, String name) {
+    private CodeASize(Long id, String code, String name) {
         this.id = id;
         this.code = code;
         this.name = name;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
@@ -29,8 +29,8 @@ public enum CodeASize implements Code {
         return this.name;
     }
 
-    public static CodeASize fromId(Integer id) {
-        return joist.domain.util.Codes.fromInt(CodeASize.values(), id);
+    public static CodeASize fromId(long id) {
+        return joist.domain.util.Codes.fromLong(CodeASize.values(), id);
     }
 
     public static CodeASize fromCode(String code) {

@@ -8,7 +8,7 @@ import joist.domain.orm.queries.JoinClause;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class OneToOneAFooAlias extends Alias<OneToOneAFoo> {
@@ -16,7 +16,7 @@ public class OneToOneAFooAlias extends Alias<OneToOneAFoo> {
     private final List<AliasColumn<OneToOneAFoo, ?, ?>> columns = new ArrayList<AliasColumn<OneToOneAFoo, ?, ?>>();
     public final IdAliasColumn<OneToOneAFoo> id = new IdAliasColumn<OneToOneAFoo>(this, "id", OneToOneAFooCodegen.Shims.id);
     public final StringAliasColumn<OneToOneAFoo> name = new StringAliasColumn<OneToOneAFoo>(this, "name", OneToOneAFooCodegen.Shims.name);
-    public final IntAliasColumn<OneToOneAFoo> version = new IntAliasColumn<OneToOneAFoo>(this, "version", OneToOneAFooCodegen.Shims.version);
+    public final LongAliasColumn<OneToOneAFoo> version = new LongAliasColumn<OneToOneAFoo>(this, "version", OneToOneAFooCodegen.Shims.version);
 
     public OneToOneAFooAlias(String alias) {
         this(alias, null, true);
@@ -41,7 +41,7 @@ public class OneToOneAFooAlias extends Alias<OneToOneAFoo> {
         return this.id;
     }
 
-    public IntAliasColumn<OneToOneAFoo> getVersionColumn() {
+    public LongAliasColumn<OneToOneAFoo> getVersionColumn() {
         return this.version;
     }
 

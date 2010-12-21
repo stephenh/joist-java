@@ -5,7 +5,7 @@ import java.util.List;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.MoneyAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 import joist.domain.orm.queries.columns.TimePointAliasColumn;
@@ -17,7 +17,7 @@ public class PrimitivesCAlias extends Alias<PrimitivesC> {
     public final IdAliasColumn<PrimitivesC> id = new IdAliasColumn<PrimitivesC>(this, "id", PrimitivesCCodegen.Shims.id);
     public final StringAliasColumn<PrimitivesC> name = new StringAliasColumn<PrimitivesC>(this, "name", PrimitivesCCodegen.Shims.name);
     public final TimePointAliasColumn<PrimitivesC> timestamp = new TimePointAliasColumn<PrimitivesC>(this, "timestamp", PrimitivesCCodegen.Shims.timestamp);
-    public final IntAliasColumn<PrimitivesC> version = new IntAliasColumn<PrimitivesC>(this, "version", PrimitivesCCodegen.Shims.version);
+    public final LongAliasColumn<PrimitivesC> version = new LongAliasColumn<PrimitivesC>(this, "version", PrimitivesCCodegen.Shims.version);
 
     public PrimitivesCAlias(String alias) {
         this(alias, null, true);
@@ -40,7 +40,7 @@ public class PrimitivesCAlias extends Alias<PrimitivesC> {
         return this.id;
     }
 
-    public IntAliasColumn<PrimitivesC> getVersionColumn() {
+    public LongAliasColumn<PrimitivesC> getVersionColumn() {
         return this.version;
     }
 

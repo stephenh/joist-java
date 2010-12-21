@@ -6,7 +6,7 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class InheritanceBRootChildAlias extends Alias<InheritanceBRootChild> {
@@ -14,7 +14,7 @@ public class InheritanceBRootChildAlias extends Alias<InheritanceBRootChild> {
     private final List<AliasColumn<InheritanceBRootChild, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceBRootChild, ?, ?>>();
     public final IdAliasColumn<InheritanceBRootChild> id = new IdAliasColumn<InheritanceBRootChild>(this, "id", InheritanceBRootChildCodegen.Shims.id);
     public final StringAliasColumn<InheritanceBRootChild> name = new StringAliasColumn<InheritanceBRootChild>(this, "name", InheritanceBRootChildCodegen.Shims.name);
-    public final IntAliasColumn<InheritanceBRootChild> version = new IntAliasColumn<InheritanceBRootChild>(this, "version", InheritanceBRootChildCodegen.Shims.version);
+    public final LongAliasColumn<InheritanceBRootChild> version = new LongAliasColumn<InheritanceBRootChild>(this, "version", InheritanceBRootChildCodegen.Shims.version);
     public final ForeignKeyAliasColumn<InheritanceBRootChild, InheritanceBRoot> inheritanceBRoot = new ForeignKeyAliasColumn<InheritanceBRootChild, InheritanceBRoot>(this, "inheritance_b_root_id", InheritanceBRootChildCodegen.Shims.inheritanceBRootId);
 
     public InheritanceBRootChildAlias(String alias) {
@@ -37,7 +37,7 @@ public class InheritanceBRootChildAlias extends Alias<InheritanceBRootChild> {
         return this.id;
     }
 
-    public IntAliasColumn<InheritanceBRootChild> getVersionColumn() {
+    public LongAliasColumn<InheritanceBRootChild> getVersionColumn() {
         return this.version;
     }
 

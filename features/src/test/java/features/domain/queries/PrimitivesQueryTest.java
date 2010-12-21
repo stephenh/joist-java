@@ -41,9 +41,9 @@ public class PrimitivesQueryTest extends AbstractFeaturesTest {
   public void testFindForIdLessThanMoreThanSql() {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
-    q.where(p.id.lessThan(10).and(p.id.greaterThan(1)));
+    q.where(p.id.lessThan(10l).and(p.id.greaterThan(1l)));
     Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM \"primitives\" p\n WHERE p.id < ?\n AND p.id > ?", q.toSql());
-    Assert.assertEquals(Copy.list(10, 1), q.getParameters());
+    Assert.assertEquals(Copy.list(10l, 1l), q.getParameters());
   }
 
   public void testFindForNameDtoSql() {

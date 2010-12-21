@@ -16,9 +16,9 @@ import joist.util.Copy;
 public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
 
     public static final InheritanceBRootQueries queries;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, Aliases.inheritanceBRootChild(), Aliases.inheritanceBRootChild().inheritanceBRoot);
     protected Changed changed;
 
@@ -36,11 +36,11 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<InheritanceBRoot>(Shims.name, 100));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -57,7 +57,7 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -110,11 +110,11 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<InheritanceBRoot, Integer> id = new Shim<InheritanceBRoot, Integer>() {
-            public void set(InheritanceBRoot instance, Integer id) {
+        protected static final Shim<InheritanceBRoot, Long> id = new Shim<InheritanceBRoot, Long>() {
+            public void set(InheritanceBRoot instance, Long id) {
                 ((InheritanceBRootCodegen) instance).id = id;
             }
-            public Integer get(InheritanceBRoot instance) {
+            public Long get(InheritanceBRoot instance) {
                 return ((InheritanceBRootCodegen) instance).id;
             }
             public String getName() {
@@ -132,11 +132,11 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<InheritanceBRoot, Integer> version = new Shim<InheritanceBRoot, Integer>() {
-            public void set(InheritanceBRoot instance, Integer version) {
+        protected static final Shim<InheritanceBRoot, Long> version = new Shim<InheritanceBRoot, Long>() {
+            public void set(InheritanceBRoot instance, Long version) {
                 ((InheritanceBRootCodegen) instance).version = version;
             }
-            public Integer get(InheritanceBRoot instance) {
+            public Long get(InheritanceBRoot instance) {
                 return ((InheritanceBRootCodegen) instance).version;
             }
             public String getName() {
@@ -152,8 +152,8 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -164,8 +164,8 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
         public boolean hasInheritanceBRootChilds() {
             return this.contains("inheritanceBRootChilds");

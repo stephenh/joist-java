@@ -14,9 +14,9 @@ import joist.domain.validation.rules.NotNull;
 public abstract class ParentCBarCodegen extends AbstractDomainObject {
 
     public static final ParentCBarQueries queries;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     private final ForeignKeyHolder<ParentCFoo> firstParent = new ForeignKeyHolder<ParentCFoo>(ParentCFoo.class);
     private final ForeignKeyHolder<ParentCFoo> secondParent = new ForeignKeyHolder<ParentCFoo>(ParentCFoo.class);
     protected Changed changed;
@@ -37,11 +37,11 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
         this.addRule(new NotNull<ParentCBar>(Shims.secondParentId));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -58,7 +58,7 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -115,11 +115,11 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<ParentCBar, Integer> id = new Shim<ParentCBar, Integer>() {
-            public void set(ParentCBar instance, Integer id) {
+        protected static final Shim<ParentCBar, Long> id = new Shim<ParentCBar, Long>() {
+            public void set(ParentCBar instance, Long id) {
                 ((ParentCBarCodegen) instance).id = id;
             }
-            public Integer get(ParentCBar instance) {
+            public Long get(ParentCBar instance) {
                 return ((ParentCBarCodegen) instance).id;
             }
             public String getName() {
@@ -137,33 +137,33 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<ParentCBar, Integer> version = new Shim<ParentCBar, Integer>() {
-            public void set(ParentCBar instance, Integer version) {
+        protected static final Shim<ParentCBar, Long> version = new Shim<ParentCBar, Long>() {
+            public void set(ParentCBar instance, Long version) {
                 ((ParentCBarCodegen) instance).version = version;
             }
-            public Integer get(ParentCBar instance) {
+            public Long get(ParentCBar instance) {
                 return ((ParentCBarCodegen) instance).version;
             }
             public String getName() {
                 return "version";
             }
         };
-        protected static final Shim<ParentCBar, Integer> firstParentId = new Shim<ParentCBar, Integer>() {
-            public void set(ParentCBar instance, Integer firstParentId) {
+        protected static final Shim<ParentCBar, Long> firstParentId = new Shim<ParentCBar, Long>() {
+            public void set(ParentCBar instance, Long firstParentId) {
                 ((ParentCBarCodegen) instance).firstParent.setId(firstParentId);
             }
-            public Integer get(ParentCBar instance) {
+            public Long get(ParentCBar instance) {
                 return ((ParentCBarCodegen) instance).firstParent.getId();
             }
             public String getName() {
                 return "firstParent";
             }
         };
-        protected static final Shim<ParentCBar, Integer> secondParentId = new Shim<ParentCBar, Integer>() {
-            public void set(ParentCBar instance, Integer secondParentId) {
+        protected static final Shim<ParentCBar, Long> secondParentId = new Shim<ParentCBar, Long>() {
+            public void set(ParentCBar instance, Long secondParentId) {
                 ((ParentCBarCodegen) instance).secondParent.setId(secondParentId);
             }
-            public Integer get(ParentCBar instance) {
+            public Long get(ParentCBar instance) {
                 return ((ParentCBarCodegen) instance).secondParent.getId();
             }
             public String getName() {
@@ -179,8 +179,8 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -191,8 +191,8 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
         public boolean hasFirstParent() {
             return this.contains("firstParent");

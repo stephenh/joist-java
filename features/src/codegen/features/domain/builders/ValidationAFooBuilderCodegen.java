@@ -10,11 +10,11 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
         super(instance);
     }
 
-    public Integer id() {
+    public Long id() {
         return get().getId();
     }
 
-    public ValidationAFooBuilder id(Integer id) {
+    public ValidationAFooBuilder id(Long id) {
         get().setId(id);
         return (ValidationAFooBuilder) this;
     }

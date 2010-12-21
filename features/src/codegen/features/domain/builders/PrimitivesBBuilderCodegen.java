@@ -46,11 +46,11 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
         return (PrimitivesBBuilder) this;
     }
 
-    public Integer id() {
+    public Long id() {
         return get().getId();
     }
 
-    public PrimitivesBBuilder id(Integer id) {
+    public PrimitivesBBuilder id(Long id) {
         get().setId(id);
         return (PrimitivesBBuilder) this;
     }

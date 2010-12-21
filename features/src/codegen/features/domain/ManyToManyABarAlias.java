@@ -8,7 +8,7 @@ import joist.domain.orm.queries.JoinClause;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class ManyToManyABarAlias extends Alias<ManyToManyABar> {
@@ -16,7 +16,7 @@ public class ManyToManyABarAlias extends Alias<ManyToManyABar> {
     private final List<AliasColumn<ManyToManyABar, ?, ?>> columns = new ArrayList<AliasColumn<ManyToManyABar, ?, ?>>();
     public final IdAliasColumn<ManyToManyABar> id = new IdAliasColumn<ManyToManyABar>(this, "id", ManyToManyABarCodegen.Shims.id);
     public final StringAliasColumn<ManyToManyABar> name = new StringAliasColumn<ManyToManyABar>(this, "name", ManyToManyABarCodegen.Shims.name);
-    public final IntAliasColumn<ManyToManyABar> version = new IntAliasColumn<ManyToManyABar>(this, "version", ManyToManyABarCodegen.Shims.version);
+    public final LongAliasColumn<ManyToManyABar> version = new LongAliasColumn<ManyToManyABar>(this, "version", ManyToManyABarCodegen.Shims.version);
 
     public ManyToManyABarAlias(String alias) {
         this(alias, null, true);
@@ -37,7 +37,7 @@ public class ManyToManyABarAlias extends Alias<ManyToManyABar> {
         return this.id;
     }
 
-    public IntAliasColumn<ManyToManyABar> getVersionColumn() {
+    public LongAliasColumn<ManyToManyABar> getVersionColumn() {
         return this.version;
     }
 

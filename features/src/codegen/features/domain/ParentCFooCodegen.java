@@ -16,9 +16,9 @@ import joist.util.Copy;
 public abstract class ParentCFooCodegen extends AbstractDomainObject {
 
     public static final ParentCFooQueries queries;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     private ForeignKeyListHolder<ParentCFoo, ParentCBar> firstParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar(), Aliases.parentCBar().firstParent);
     private ForeignKeyListHolder<ParentCFoo, ParentCBar> secondParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar(), Aliases.parentCBar().secondParent);
     protected Changed changed;
@@ -37,11 +37,11 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
         this.addRule(new MaxLength<ParentCFoo>(Shims.name, 100));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -58,7 +58,7 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -147,11 +147,11 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<ParentCFoo, Integer> id = new Shim<ParentCFoo, Integer>() {
-            public void set(ParentCFoo instance, Integer id) {
+        protected static final Shim<ParentCFoo, Long> id = new Shim<ParentCFoo, Long>() {
+            public void set(ParentCFoo instance, Long id) {
                 ((ParentCFooCodegen) instance).id = id;
             }
-            public Integer get(ParentCFoo instance) {
+            public Long get(ParentCFoo instance) {
                 return ((ParentCFooCodegen) instance).id;
             }
             public String getName() {
@@ -169,11 +169,11 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<ParentCFoo, Integer> version = new Shim<ParentCFoo, Integer>() {
-            public void set(ParentCFoo instance, Integer version) {
+        protected static final Shim<ParentCFoo, Long> version = new Shim<ParentCFoo, Long>() {
+            public void set(ParentCFoo instance, Long version) {
                 ((ParentCFooCodegen) instance).version = version;
             }
-            public Integer get(ParentCFoo instance) {
+            public Long get(ParentCFoo instance) {
                 return ((ParentCFooCodegen) instance).version;
             }
             public String getName() {
@@ -189,8 +189,8 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -201,8 +201,8 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
         public boolean hasFirstParentParentCBars() {
             return this.contains("firstParentParentCBars");

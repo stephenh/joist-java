@@ -17,7 +17,6 @@ public class PrimitivesBTest extends AbstractFeaturesTest {
     this.commitAndReOpen();
 
     p = this.reload(p);
-    Assert.assertNull(p.getBool1());
     Assert.assertTrue(p.getBool2());
     Assert.assertNull(p.getInt1());
     Assert.assertEquals(2, p.getInt2().intValue());

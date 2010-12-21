@@ -14,9 +14,9 @@ import joist.domain.validation.rules.NotNull;
 public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
 
     public static final OneToOneBBarQueries queries;
-    private Integer id = null;
+    private Long id = null;
     private String name = null;
-    private Integer version = null;
+    private Long version = null;
     private final ForeignKeyHolder<OneToOneBFoo> oneToOneBFoo = new ForeignKeyHolder<OneToOneBFoo>(OneToOneBFoo.class);
     protected Changed changed;
 
@@ -35,11 +35,11 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
         this.addRule(new NotNull<OneToOneBBar>(Shims.oneToOneBFooId));
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.getChanged().record("id", this.id, id);
         this.id = id;
         if (UoW.isOpen()) {
@@ -56,7 +56,7 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
-    public Integer getVersion() {
+    public Long getVersion() {
         return this.version;
     }
 
@@ -93,11 +93,11 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
     }
 
     static class Shims {
-        protected static final Shim<OneToOneBBar, Integer> id = new Shim<OneToOneBBar, Integer>() {
-            public void set(OneToOneBBar instance, Integer id) {
+        protected static final Shim<OneToOneBBar, Long> id = new Shim<OneToOneBBar, Long>() {
+            public void set(OneToOneBBar instance, Long id) {
                 ((OneToOneBBarCodegen) instance).id = id;
             }
-            public Integer get(OneToOneBBar instance) {
+            public Long get(OneToOneBBar instance) {
                 return ((OneToOneBBarCodegen) instance).id;
             }
             public String getName() {
@@ -115,22 +115,22 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
                 return "name";
             }
         };
-        protected static final Shim<OneToOneBBar, Integer> version = new Shim<OneToOneBBar, Integer>() {
-            public void set(OneToOneBBar instance, Integer version) {
+        protected static final Shim<OneToOneBBar, Long> version = new Shim<OneToOneBBar, Long>() {
+            public void set(OneToOneBBar instance, Long version) {
                 ((OneToOneBBarCodegen) instance).version = version;
             }
-            public Integer get(OneToOneBBar instance) {
+            public Long get(OneToOneBBar instance) {
                 return ((OneToOneBBarCodegen) instance).version;
             }
             public String getName() {
                 return "version";
             }
         };
-        protected static final Shim<OneToOneBBar, Integer> oneToOneBFooId = new Shim<OneToOneBBar, Integer>() {
-            public void set(OneToOneBBar instance, Integer oneToOneBFooId) {
+        protected static final Shim<OneToOneBBar, Long> oneToOneBFooId = new Shim<OneToOneBBar, Long>() {
+            public void set(OneToOneBBar instance, Long oneToOneBFooId) {
                 ((OneToOneBBarCodegen) instance).oneToOneBFoo.setId(oneToOneBFooId);
             }
-            public Integer get(OneToOneBBar instance) {
+            public Long get(OneToOneBBar instance) {
                 return ((OneToOneBBarCodegen) instance).oneToOneBFoo.getId();
             }
             public String getName() {
@@ -146,8 +146,8 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
         public boolean hasId() {
             return this.contains("id");
         }
-        public Integer getOriginalId() {
-            return (java.lang.Integer) this.getOriginal("id");
+        public Long getOriginalId() {
+            return (Long) this.getOriginal("id");
         }
         public boolean hasName() {
             return this.contains("name");
@@ -158,8 +158,8 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
         public boolean hasVersion() {
             return this.contains("version");
         }
-        public Integer getOriginalVersion() {
-            return (java.lang.Integer) this.getOriginal("version");
+        public Long getOriginalVersion() {
+            return (Long) this.getOriginal("version");
         }
         public boolean hasOneToOneBFoo() {
             return this.contains("oneToOneBFoo");

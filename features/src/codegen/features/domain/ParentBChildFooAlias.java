@@ -6,7 +6,7 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
-import joist.domain.orm.queries.columns.IntAliasColumn;
+import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class ParentBChildFooAlias extends Alias<ParentBChildFoo> {
@@ -14,7 +14,7 @@ public class ParentBChildFooAlias extends Alias<ParentBChildFoo> {
     private final List<AliasColumn<ParentBChildFoo, ?, ?>> columns = new ArrayList<AliasColumn<ParentBChildFoo, ?, ?>>();
     public final IdAliasColumn<ParentBChildFoo> id = new IdAliasColumn<ParentBChildFoo>(this, "id", ParentBChildFooCodegen.Shims.id);
     public final StringAliasColumn<ParentBChildFoo> name = new StringAliasColumn<ParentBChildFoo>(this, "name", ParentBChildFooCodegen.Shims.name);
-    public final IntAliasColumn<ParentBChildFoo> version = new IntAliasColumn<ParentBChildFoo>(this, "version", ParentBChildFooCodegen.Shims.version);
+    public final LongAliasColumn<ParentBChildFoo> version = new LongAliasColumn<ParentBChildFoo>(this, "version", ParentBChildFooCodegen.Shims.version);
     public final ForeignKeyAliasColumn<ParentBChildFoo, ParentBParent> parentBParent = new ForeignKeyAliasColumn<ParentBChildFoo, ParentBParent>(this, "parent_b_parent_id", ParentBChildFooCodegen.Shims.parentBParentId);
 
     public ParentBChildFooAlias(String alias) {
@@ -37,7 +37,7 @@ public class ParentBChildFooAlias extends Alias<ParentBChildFoo> {
         return this.id;
     }
 
-    public IntAliasColumn<ParentBChildFoo> getVersionColumn() {
+    public LongAliasColumn<ParentBChildFoo> getVersionColumn() {
         return this.version;
     }
 
