@@ -190,7 +190,7 @@ public class Jdbc {
     }
   }
 
-  public static Integer[] insertBatch(Connection connection, String sql, List<List<Object>> allParameters) {
+  public static Long[] insertBatch(Connection connection, String sql, List<List<Object>> allParameters) {
     PreparedStatement ps = null;
     try {
       Log.trace("sql = {}", sql);
@@ -204,11 +204,11 @@ public class Jdbc {
       }
       ps.executeBatch();
 
-      Integer[] keys = new Integer[allParameters.size()];
+      Long[] keys = new Long[allParameters.size()];
       ResultSet ks = ps.getGeneratedKeys();
       int i = 0;
       while (ks.next()) {
-        keys[i++] = ks.getInt(1);
+        keys[i++] = ks.getLong(1);
       }
       ks.close();
       return keys;

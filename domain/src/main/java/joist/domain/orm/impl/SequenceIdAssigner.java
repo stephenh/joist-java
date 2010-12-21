@@ -25,7 +25,7 @@ public class SequenceIdAssigner {
     if ("".equals(allSql)) {
       return;
     }
-    List<Integer> ids = this.fetchIds(allSql);
+    List<Long> ids = this.fetchIds(allSql);
     this.setIds(byClassInserts, ids);
   }
 
@@ -36,7 +36,7 @@ public class SequenceIdAssigner {
       for (int i = 0; i < entry.getValue().size(); i++) {
         if (entry.getValue().get(i).getId() != null) {
           // Skip new objects that got manually assigned an id, but assign version=0 first
-          AliasRegistry.get(entry.getKey()).getVersionColumn().setJdbcValue(entry.getValue().get(i), 0);
+          AliasRegistry.get(entry.getKey()).getVersionColumn().setJdbcValue(entry.getValue().get(i), 0l);
           continue;
         }
         allSql.add(sql);
@@ -46,25 +46,24 @@ public class SequenceIdAssigner {
   }
 
   // Get all of the nextvals at once
-  private List<Integer> fetchIds(String sql) {
-    final List<Integer> ids = new ArrayList<Integer>();
+  private List<Long> fetchIds(String sql) {
+    final List<Long> ids = new ArrayList<Long>();
     Jdbc.query(UoW.getConnection(), sql, new RowMapper() {
       public void mapRow(ResultSet rs) throws SQLException {
-        ids.add(rs.getInt(1));
+        ids.add(rs.getLong(1));
       }
     });
     return ids;
   }
 
   // Assign them back to the instances in order
-  private <T extends DomainObject> void setIds(MapToList<Class<T>, T> byClassInserts, List<Integer> ids) {
+  private <T extends DomainObject> void setIds(MapToList<Class<T>, T> byClassInserts, List<Long> ids) {
     int i = 0;
     for (Entry<Class<T>, List<T>> entry : byClassInserts.entrySet()) {
       Alias<T> t = AliasRegistry.get(entry.getKey());
       for (T instance : entry.getValue()) {
-        int id = ids.get(i++);
-        instance.setId(id);
-        t.getVersionColumn().setJdbcValue(instance, 0);
+        instance.setId(ids.get(i++));
+        t.getVersionColumn().setJdbcValue(instance, 0l);
       }
     }
   }

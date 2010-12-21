@@ -145,7 +145,7 @@ public class UoW {
   }
 
   /** @return the instance of <code>type</code> for <code>id</code>, checking the identity map */
-  public static <T extends DomainObject> T load(Class<T> type, Integer id) {
+  public static <T extends DomainObject> T load(Class<T> type, Long id) {
     return UoW.getCurrent().getRepository().load(type, id);
   }
 

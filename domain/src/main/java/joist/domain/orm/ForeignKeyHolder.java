@@ -9,7 +9,7 @@ import joist.util.Default;
 public class ForeignKeyHolder<T extends DomainObject> {
 
   private Class<T> domainClass;
-  private Integer id;
+  private Long id;
   private T instance;
 
   public ForeignKeyHolder(Class<T> domainClass) {
@@ -34,17 +34,17 @@ public class ForeignKeyHolder<T extends DomainObject> {
     }
   }
 
-  public Integer getId() {
+  public Long getId() {
     if (this.instance != null) {
       // Return -1 as the dummy value that we have a value, but do not
       // know its id yet. So far this is only for the NotNull rule so
       // it can still use the xxxId shim
-      return Default.value(this.instance.getId(), -1);
+      return Default.value(this.instance.getId(), -1l);
     }
     return this.id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

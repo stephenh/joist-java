@@ -21,15 +21,15 @@ public class ForeignKeyCodeHolder<T extends Enum<T>> {
     this.instance = instance;
   }
 
-  public Integer getId() {
+  public Long getId() {
     if (this.instance == null) {
       return null;
     }
     return ((Code) this.instance).getId();
   }
 
-  public void setId(Integer id) {
-    this.instance = (id == null) ? null : Codes.fromInt(this.codeClass, id);
+  public void setId(Long id) {
+    this.instance = (id == null) ? null : Codes.fromLong(this.codeClass, id);
   }
 
 }

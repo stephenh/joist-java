@@ -4,22 +4,22 @@ import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 
 public class DummyDomainObject extends AbstractDomainObject {
-  private Integer id;
+  private Long id;
   private final DummyChanged changed = new DummyChanged();
 
   public DummyChanged getChanged() {
     return this.changed;
   }
 
-  public Integer getVersion() {
+  public Long getVersion() {
     return null;
   }
 
-  public Integer getId() {
+  public Long getId() {
     return this.id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.changed.record("id", this.id, id);
     this.id = id;
   }

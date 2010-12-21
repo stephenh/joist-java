@@ -1,5 +1,7 @@
 package joist.domain.orm.queries.columns;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import joist.domain.DomainObject;
@@ -22,6 +24,11 @@ public class TimePointAliasColumn<T extends DomainObject> extends AliasColumn<T,
   @Override
   public Timestamp toJdbcValue(TimePoint domainValue) {
     return domainValue == null ? null : new Timestamp(domainValue.asJavaUtilDate().getTime());
+  }
+
+  @Override
+  public void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException {
+    this.setJdbcValue(instance, rs.getTimestamp(name));
   }
 
 }

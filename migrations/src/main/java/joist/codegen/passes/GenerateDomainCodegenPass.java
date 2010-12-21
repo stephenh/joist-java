@@ -163,16 +163,16 @@ public class GenerateDomainCodegenPass implements Pass {
 
       GClass shims = domainCodegen.getInnerClass("Shims");
       GField shimField = shims.getField(mtop.getVariableName() + "Id").setProtected().setStatic().setFinal();
-      shimField.type("Shim<" + entity.getClassName() + ", Integer>");
+      shimField.type("Shim<" + entity.getClassName() + ", Long>");
       GClass shimClass = shimField.initialAnonymousClass();
 
       GMethod shimSetter = shimClass.getMethod("set");
-      shimSetter.argument(entity.getClassName(), "instance").argument("Integer", mtop.getVariableName() + "Id");
+      shimSetter.argument(entity.getClassName(), "instance").argument("Long", mtop.getVariableName() + "Id");
       shimSetter.body.line("(({}) instance).{}.setId({}Id);", entity.getCodegenClassName(), mtop.getVariableName(), mtop.getVariableName());
 
       GMethod shimGetter = shimClass.getMethod("get");
       shimGetter.argument(entity.getClassName(), "instance");
-      shimGetter.returnType("Integer");
+      shimGetter.returnType("Long");
       shimGetter.body.line(0, "return (({}) instance).{}.getId();", entity.getCodegenClassName(), mtop.getVariableName());
 
       GMethod shimName = shimClass.getMethod("getName").returnType(String.class);

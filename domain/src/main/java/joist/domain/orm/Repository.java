@@ -43,7 +43,7 @@ public class Repository {
     }
   }
 
-  public <T extends DomainObject> T load(Class<T> type, Integer id) {
+  public <T extends DomainObject> T load(Class<T> type, Long id) {
     T instance = (T) UoW.getIdentityMap().findOrNull(type, id);
     if (instance == null) {
       Alias<T> a = AliasRegistry.get(type);

@@ -1,5 +1,8 @@
 package joist.domain.orm.queries.columns;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.orm.queries.Alias;
@@ -35,6 +38,8 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
   public void setJdbcValue(T instance, V jdbcValue) {
     this.shim.set(instance, this.toDomainValue(jdbcValue));
   }
+
+  public abstract void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException;
 
   public U toDomainValue(V jdbcValue) {
     return (U) jdbcValue;

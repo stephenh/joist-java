@@ -7,7 +7,7 @@ public class ForeignKeyHolderTest extends TestCase {
 
   public void testLoadOutsideUoWFails() {
     ForeignKeyHolder<DummyDomainObject> h = new ForeignKeyHolder<DummyDomainObject>(DummyDomainObject.class);
-    h.setId(1);
+    h.setId(1l);
     try {
       h.get();
       Assert.fail();

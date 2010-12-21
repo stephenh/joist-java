@@ -27,11 +27,11 @@ public class GenerateCodesPass implements Pass {
   }
 
   private void addFieldsAndConstructor(GClass code) {
-    code.getField("id").type(Integer.class).makeGetter();
+    code.getField("id").type(Long.class).makeGetter();
     code.getField("code").type(String.class).makeGetter();
     code.getField("name").type(String.class).makeGetter();
 
-    GMethod c = code.getConstructor("Integer id", "String code", "String name").setPrivate();
+    GMethod c = code.getConstructor("Long id", "String code", "String name").setPrivate();
     c.body.line("this.id = id;");
     c.body.line("this.code = code;");
     c.body.line("this.name = name;");
@@ -39,13 +39,13 @@ public class GenerateCodesPass implements Pass {
 
   private void addValues(CodeEntity entity, GClass code) {
     for (CodeValue value : entity.getCodes()) {
-      code.addEnumValue("{}({}, \"{}\", \"{}\")", value.getEnumName(), value.id, value.code, value.name);
+      code.addEnumValue("{}({}l, \"{}\", \"{}\")", value.getEnumName(), value.id, value.code, value.name);
     }
   }
 
   private void addFromId(CodeEntity entity, GClass code) {
-    GMethod from = code.getMethod("fromId").returnType(entity.getClassName()).arguments("Integer id").setStatic();
-    from.body.line("return {}.fromInt({}.values(), id);", Codes.class.getName(), entity.getClassName());
+    GMethod from = code.getMethod("fromId").returnType(entity.getClassName()).arguments("long id").setStatic();
+    from.body.line("return {}.fromLong({}.values(), id);", Codes.class.getName(), entity.getClassName());
   }
 
   private void addFromCode(CodeEntity entity, GClass code) {

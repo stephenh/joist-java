@@ -7,13 +7,13 @@ import joist.domain.validation.errors.ValidationError;
 public interface DomainObject {
 
   /** @return the row id--null if the instance is new */
-  Integer getId();
+  Long getId();
 
   /** the id if specified manually--or when auto-assigned */
-  void setId(Integer id);
+  void setId(Long id);
 
   /** @return the version for the optimistic lock--null if the instance is new */
-  Integer getVersion();
+  Long getVersion();
 
   boolean isNew();
 

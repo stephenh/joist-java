@@ -19,7 +19,7 @@ public class IdentityMap {
     }
   }
 
-  public Object findOrNull(Class<?> type, Integer id) {
+  public Object findOrNull(Class<?> type, Long id) {
     Class<?> rootType = AliasRegistry.getRootClass(type);
     Object o = this.objects.get(rootType + "#" + id);
     if (o != null) {

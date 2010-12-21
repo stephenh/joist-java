@@ -77,7 +77,7 @@ public class InstanceUpdater<T extends DomainObject> {
 
     private void tickVersionIfRootClass(T instance) {
       if (this.alias.isRootClass()) {
-        this.alias.getVersionColumn().setJdbcValue(instance, instance.getVersion() + 1);
+        this.alias.getVersionColumn().setJdbcValue(instance, instance.getVersion() + 1l);
       }
     }
 
@@ -108,7 +108,7 @@ public class InstanceUpdater<T extends DomainObject> {
       Where where;
       if (alias.isRootClass()) {
         // We throw away the Where.parameters for our allParameters, so just use dummy values
-        where = alias.getIdColumn().eq(0).and(alias.getVersionColumn().eq(0));
+        where = alias.getIdColumn().eq(0).and(alias.getVersionColumn().eq(0l));
       } else {
         where = alias.getSubClassIdColumn().eq(0);
       }

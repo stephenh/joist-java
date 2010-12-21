@@ -39,7 +39,7 @@ public class SchemaCheck {
 
   public void checkCodesMatch() {
     for (final String tableName : this.wrapper.getCodeTables()) {
-      int maxId = -1;
+      long maxId = -1l;
       final Code[] codes = this.getCodes(Inflector.camelize(tableName));
 
       // Look for Java codes not matching database codes first
