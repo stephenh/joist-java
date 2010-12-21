@@ -24,6 +24,7 @@ public class InstanceInserter<T extends DomainObject> {
   private static final Map<Class<?>, InstanceInserter<?>> inserters = new ConcurrentHashMap<Class<?>, InstanceInserter<?>>();
   private final List<Step<T>> stepsNewId = new ArrayList<Step<T>>();
   private final List<Step<T>> stepsHasId = new ArrayList<Step<T>>();
+  private final Alias<? super T> alias;
 
   public static <T extends DomainObject> InstanceInserter<T> get(Class<T> clazz) {
     InstanceInserter<T> inserter = (InstanceInserter<T>) InstanceInserter.inserters.get(clazz);
@@ -35,6 +36,7 @@ public class InstanceInserter<T extends DomainObject> {
   }
 
   public InstanceInserter(Alias<T> alias) {
+    this.alias = alias;
     Alias<? super T> current = alias;
     while (current != null) {
       this.stepsHasId.add(new Step<T>(current, true));
@@ -53,6 +55,7 @@ public class InstanceInserter<T extends DomainObject> {
     for (Step<T> step : this.stepsHasId) {
       List<List<Object>> allParameters = new ArrayList<List<Object>>();
       for (T instance : instances) {
+        this.alias.getVersionColumn().setJdbcValue(instance, 0l);
         step.addParametersForInstance(allParameters, instance);
       }
       Jdbc.updateBatch(UoW.getConnection(), step.sql, allParameters);
@@ -67,14 +70,14 @@ public class InstanceInserter<T extends DomainObject> {
     for (Step<T> step : this.stepsNewId) {
       List<List<Object>> allParameters = new ArrayList<List<Object>>();
       for (T instance : instances) {
+        this.alias.getVersionColumn().setJdbcValue(instance, 0l);
         step.addParametersForInstance(allParameters, instance);
       }
       Long[] keys = Jdbc.insertBatch(UoW.getConnection(), step.sql, allParameters);
       if (step == this.stepsNewId.get(0)) {
         for (int i = 0; i < keys.length; i++) {
           T instance = instances.get(i);
-          AliasRegistry.get(instance).getIdColumn().setJdbcValue(instance, keys[i]);
-          AliasRegistry.get(instance).getVersionColumn().setJdbcValue(instance, 0l);
+          this.alias.getIdColumn().setJdbcValue(instance, keys[i]);
           UoW.getIdentityMap().store(instance);
         }
       }
@@ -106,11 +109,7 @@ public class InstanceInserter<T extends DomainObject> {
         if (column instanceof IdAliasColumn<?> && this.alias.isRootClass() && !this.hasId) {
           continue;
         }
-        if (this.alias.isRootClass() && column.getName().equals("version")) {
-          parameters.add(0);
-        } else {
-          parameters.add(column.getJdbcValue(instance));
-        }
+        parameters.add(column.getJdbcValue(instance));
       }
       allParameters.add(parameters);
     }

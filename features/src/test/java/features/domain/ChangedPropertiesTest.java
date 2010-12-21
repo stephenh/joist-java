@@ -27,4 +27,12 @@ public class ChangedPropertiesTest extends AbstractFeaturesTest {
     Assert.assertEquals("foo", p.getChanged().getOriginalName());
   }
 
+  public void testExistingIdAssignsVersion() {
+    Parent p = new Parent();
+    p.setId(1l);
+    p.setName("foo");
+    this.commitAndReOpen();
+    Assert.assertEquals(0l, p.getVersion().longValue());
+  }
+
 }
