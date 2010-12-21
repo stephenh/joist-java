@@ -8,6 +8,7 @@ import features.Registry;
 public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
 
   static {
+    System.setProperty("log4j.configuration", "log4j-test.properties");
     Registry.start();
   }
 
