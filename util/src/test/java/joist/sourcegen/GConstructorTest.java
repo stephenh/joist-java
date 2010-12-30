@@ -1,7 +1,5 @@
 package joist.sourcegen;
 
-import joist.sourcegen.GClass;
-import joist.sourcegen.GMethod;
 import joist.util.Join;
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -66,6 +64,22 @@ public class GConstructorTest extends TestCase {
       "    }",
       "",
       "}",
+      ""), gc.toCode());
+  }
+
+  public void testStaticConstructor() {
+    GClass gc = new GClass("foo.bar.Foo");
+    GMethod c = gc.getConstructor().setStatic();
+    c.body.line("System.out.println(\"foo\");");
+    Assert.assertEquals(Join.lines("package foo.bar;",//
+      "",//
+      "public class Foo {",//
+      "",//
+      "    static  {",//
+      "        System.out.println(\"foo\");",//
+      "    }",//
+      "",//
+      "}",//
       ""), gc.toCode());
   }
 

@@ -70,7 +70,11 @@ public class GMethod {
       sb.line(annotation);
     }
 
-    sb.append(this.access.asPrefix());
+    boolean isStaticBlock = this.isStatic && this.constructorFor != null;
+
+    if (!isStaticBlock) {
+      sb.append(this.access.asPrefix());
+    }
     if (this.isStatic) {
       sb.append("static ");
     }
@@ -78,11 +82,15 @@ public class GMethod {
       sb.append("<{}> ", this.typeParameters);
     }
     if (this.constructorFor != null) {
-      sb.append(this.constructorFor);
+      if (!isStaticBlock) {
+        sb.append(this.constructorFor);
+      }
     } else {
       sb.append("{} {}", this.returnClassName, this.getName());
     }
-    sb.append("({})", Join.commaSpace(this.arguments));
+    if (!isStaticBlock) {
+      sb.append("({})", Join.commaSpace(this.arguments));
+    }
     if (this.exceptions.size() > 0) {
       sb.append(" throws ");
       List<String> exceptionTypes = new ArrayList<String>();
