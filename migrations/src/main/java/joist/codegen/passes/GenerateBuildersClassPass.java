@@ -16,15 +16,45 @@ public class GenerateBuildersClassPass implements Pass {
         continue;
       }
 
-      GMethod m = builders.getMethod("a" + entity.getClassName()).returnType(entity.getBuilderClassName()).setStatic();
-      m.body.line("return new {}(new {}());", entity.getBuilderClassName(), entity.getClassName());
       builders.addImports(entity.getFullClassName());
 
-      GMethod m2 = builders
-        .getMethod("existing", Argument.arg(entity.getFullClassName(), entity.getVariableName()))
-        .returnType(entity.getBuilderClassName())
-        .setStatic();
-      m2.body.line("return new {}({});", entity.getBuilderClassName(), entity.getVariableName());
+      this.aMethod(builders, entity);
+      this.existingMethod(builders, entity);
+      this.theMethodWithLong(builders, entity);
+      this.theMethodWithInt(builders, entity);
     }
   }
+
+  private void aMethod(GClass builders, Entity entity) {
+    GMethod m = builders//
+      .getMethod("a" + entity.getClassName())
+      .returnType(entity.getBuilderClassName())
+      .setStatic();
+    m.body.line("return new {}(new {}());", entity.getBuilderClassName(), entity.getClassName());
+  }
+
+  private void existingMethod(GClass builders, Entity entity) {
+    GMethod m = builders
+      .getMethod("existing", Argument.arg(entity.getFullClassName(), entity.getVariableName()))
+      .returnType(entity.getBuilderClassName())
+      .setStatic();
+    m.body.line("return new {}({});", entity.getBuilderClassName(), entity.getVariableName());
+  }
+
+  private void theMethodWithInt(GClass builders, Entity entity) {
+    GMethod m = builders.//
+      getMethod("the" + entity.getClassName(), Argument.arg("int", "id"))
+      .returnType(entity.getBuilderClassName())
+      .setStatic();
+    m.body.line("return new {}({}.queries.find((long) id));", entity.getBuilderClassName(), entity.getClassName());
+  }
+
+  private void theMethodWithLong(GClass builders, Entity entity) {
+    GMethod m = builders//
+      .getMethod("the" + entity.getClassName(), Argument.arg("long", "id"))
+      .returnType(entity.getBuilderClassName())
+      .setStatic();
+    m.body.line("return new {}({}.queries.find(id));", entity.getBuilderClassName(), entity.getClassName());
+  }
+
 }
