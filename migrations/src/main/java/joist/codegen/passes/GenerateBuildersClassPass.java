@@ -18,7 +18,9 @@ public class GenerateBuildersClassPass implements Pass {
 
       builders.addImports(entity.getFullClassName());
 
-      this.aMethod(builders, entity);
+      if (entity.isConcrete()) {
+        this.aMethod(builders, entity);
+      }
       this.existingMethod(builders, entity);
       this.theMethodWithLong(builders, entity);
       this.theMethodWithInt(builders, entity);
