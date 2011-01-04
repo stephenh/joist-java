@@ -44,6 +44,10 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
         this.created = created;
     }
 
+    protected void defaultCreated(CalendarDate created) {
+        this.created = created;
+    }
+
     public Long getId() {
         return this.id;
     }
@@ -62,6 +66,10 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
 
     public void setName(String name) {
         this.getChanged().record("name", this.name, name);
+        this.name = name;
+    }
+
+    protected void defaultName(String name) {
         this.name = name;
     }
 

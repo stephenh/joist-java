@@ -49,12 +49,20 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         this.big1 = big1;
     }
 
+    protected void defaultBig1(Long big1) {
+        this.big1 = big1;
+    }
+
     public Long getBig2() {
         return this.big2;
     }
 
     public void setBig2(Long big2) {
         this.getChanged().record("big2", this.big2, big2);
+        this.big2 = big2;
+    }
+
+    protected void defaultBig2(Long big2) {
         this.big2 = big2;
     }
 
@@ -67,12 +75,20 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         this.bool1 = bool1;
     }
 
+    protected void defaultBool1(Boolean bool1) {
+        this.bool1 = bool1;
+    }
+
     public Boolean getBool2() {
         return this.bool2;
     }
 
     public void setBool2(Boolean bool2) {
         this.getChanged().record("bool2", this.bool2, bool2);
+        this.bool2 = bool2;
+    }
+
+    protected void defaultBool2(Boolean bool2) {
         this.bool2 = bool2;
     }
 
@@ -97,12 +113,20 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         this.int1 = int1;
     }
 
+    protected void defaultInt1(Integer int1) {
+        this.int1 = int1;
+    }
+
     public Integer getInt2() {
         return this.int2;
     }
 
     public void setInt2(Integer int2) {
         this.getChanged().record("int2", this.int2, int2);
+        this.int2 = int2;
+    }
+
+    protected void defaultInt2(Integer int2) {
         this.int2 = int2;
     }
 
@@ -115,12 +139,20 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         this.small1 = small1;
     }
 
+    protected void defaultSmall1(Short small1) {
+        this.small1 = small1;
+    }
+
     public Short getSmall2() {
         return this.small2;
     }
 
     public void setSmall2(Short small2) {
         this.getChanged().record("small2", this.small2, small2);
+        this.small2 = small2;
+    }
+
+    protected void defaultSmall2(Short small2) {
         this.small2 = small2;
     }
 

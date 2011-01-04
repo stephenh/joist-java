@@ -57,6 +57,10 @@ public abstract class ParentDCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
+    protected void defaultName(String name) {
+        this.name = name;
+    }
+
     public Long getVersion() {
         return this.version;
     }

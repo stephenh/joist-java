@@ -55,6 +55,10 @@ public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
+    protected void defaultName(String name) {
+        this.name = name;
+    }
+
     public Long getVersion() {
         return this.version;
     }

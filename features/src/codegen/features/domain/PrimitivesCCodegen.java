@@ -47,6 +47,10 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
         this.dollarAmount = dollarAmount;
     }
 
+    protected void defaultDollarAmount(Money dollarAmount) {
+        this.dollarAmount = dollarAmount;
+    }
+
     public Long getId() {
         return this.id;
     }
@@ -68,12 +72,20 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
         this.name = name;
     }
 
+    protected void defaultName(String name) {
+        this.name = name;
+    }
+
     public TimePoint getTimestamp() {
         return this.timestamp;
     }
 
     public void setTimestamp(TimePoint timestamp) {
         this.getChanged().record("timestamp", this.timestamp, timestamp);
+        this.timestamp = timestamp;
+    }
+
+    protected void defaultTimestamp(TimePoint timestamp) {
         this.timestamp = timestamp;
     }
 

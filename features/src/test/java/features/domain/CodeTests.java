@@ -5,6 +5,16 @@ import junit.framework.Assert;
 
 public class CodeTests extends AbstractFeaturesTest {
 
+  public void testDefaults() {
+    CodeADomainObject d = new CodeADomainObject();
+
+    Assert.assertEquals("the default name", d.getName());
+    Assert.assertEquals(false, d.getChanged().hasName());
+
+    Assert.assertEquals(CodeAColor.BLUE, d.getCodeAColor());
+    Assert.assertEquals(false, d.getChanged().hasCodeAColor());
+  }
+
   public void testSave() {
     CodeADomainObject d = new CodeADomainObject();
     d.setCodeAColor(CodeAColor.BLUE);
@@ -21,6 +31,7 @@ public class CodeTests extends AbstractFeaturesTest {
     CodeADomainObject d = new CodeADomainObject();
     d.setName("name");
     d.setCodeASize(CodeASize.ONE);
+    d.setCodeAColor(null);
     ValidationAssert.assertErrors(d, "Code AColor is required");
   }
 
