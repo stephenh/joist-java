@@ -33,8 +33,8 @@ public class MoneyAliasColumn<T extends DomainObject> extends AliasColumn<T, Mon
   }
 
   @Override
-  public void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException {
-    this.setJdbcValue(instance, rs.getLong(name));
+  public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
+    this.setJdbcValue(instance, rs.getLong(i));
   }
 
 }

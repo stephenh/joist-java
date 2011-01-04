@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 import joist.domain.orm.Db;
 import joist.domain.orm.Repository;
 import joist.domain.util.ConnectionSettings;
-import joist.domain.util.pools.Pgc3p0Factory;
+import joist.domain.util.pools.MySqlC3p0Factory;
 import joist.registry.ResourceRef;
 import joist.registry.ResourceRefs;
 import joist.util.Log;
@@ -31,14 +31,14 @@ public class Registry {
 
   private Registry() {
     // mysql
-    // SystemProperties.loadFromFileIfExists("./build.properties");
-    // Repository.db = Db.MYSQL;
-    // this.appDatasource = this.refs.newRef(DataSource.class).factory(new MySqlC3p0Factory(ConnectionSettings.forApp(Db.MYSQL, "features"))).make();
+    SystemProperties.loadFromFileIfExists("./build.properties");
+    Repository.db = Db.MYSQL;
+    this.appDatasource = this.refs.newRef(DataSource.class).factory(new MySqlC3p0Factory(ConnectionSettings.forApp(Db.MYSQL, "features"))).make();
 
     // pg
-    SystemProperties.loadFromFileIfExists("./build-pg.properties");
-    Repository.db = Db.PG;
-    this.appDatasource = this.refs.newRef(DataSource.class).factory(new Pgc3p0Factory(ConnectionSettings.forApp(Db.PG, "features"))).make();
+    // SystemProperties.loadFromFileIfExists("./build-pg.properties");
+    // Repository.db = Db.PG;
+    // this.appDatasource = this.refs.newRef(DataSource.class).factory(new Pgc3p0Factory(ConnectionSettings.forApp(Db.PG, "features"))).make();
 
     Repository.datasource = this.appDatasource.get();
   }

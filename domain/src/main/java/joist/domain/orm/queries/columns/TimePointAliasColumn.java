@@ -27,8 +27,8 @@ public class TimePointAliasColumn<T extends DomainObject> extends AliasColumn<T,
   }
 
   @Override
-  public void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException {
-    this.setJdbcValue(instance, rs.getTimestamp(name));
+  public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
+    this.setJdbcValue(instance, rs.getTimestamp(i));
   }
 
 }

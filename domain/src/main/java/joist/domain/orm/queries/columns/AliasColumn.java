@@ -39,7 +39,7 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
     this.shim.set(instance, this.toDomainValue(jdbcValue));
   }
 
-  public abstract void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException;
+  public abstract void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException;
 
   public U toDomainValue(V jdbcValue) {
     return (U) jdbcValue;

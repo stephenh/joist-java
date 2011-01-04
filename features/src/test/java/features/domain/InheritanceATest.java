@@ -1,8 +1,13 @@
 package features.domain;
 
+import static features.domain.builders.Builders.aInheritanceAOwner;
+import static features.domain.builders.Builders.aInheritanceAThing;
+
 import java.util.List;
 
 import junit.framework.Assert;
+import features.domain.builders.InheritanceAOwnerBuilder;
+import features.domain.builders.InheritanceAThingBuilder;
 
 public class InheritanceATest extends AbstractFeaturesTest {
 
@@ -99,6 +104,24 @@ public class InheritanceATest extends AbstractFeaturesTest {
 
     InheritanceASubOne.queries.delete(a);
     this.commitAndReOpen();
+  }
+
+  public void testLoadFromOwner() {
+    InheritanceAOwnerBuilder owner = aInheritanceAOwner().name("owner");
+    InheritanceAThingBuilder thing = aInheritanceAThing().name("thing");
+    this.commitAndReOpen();
+
+    InheritanceASubTwo a = new InheritanceASubTwo();
+    a.setName("name");
+    a.setTwo("two");
+    a.setInheritanceAOwner(owner.get());
+    a.setInheritanceAThing(thing.get());
+    this.commitAndReOpen();
+
+    InheritanceASubTwo a2 = (InheritanceASubTwo) owner.get().getInheritanceABases().get(0);
+    Assert.assertEquals("name", a2.getName());
+    Assert.assertEquals("two", a2.getTwo());
+    Assert.assertEquals(1l, a2.getInheritanceAThing().getId().longValue());
   }
 
 }
