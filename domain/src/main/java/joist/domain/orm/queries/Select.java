@@ -38,10 +38,10 @@ public class Select<T extends DomainObject> {
 
   private Select(Alias<T> alias) {
     this.from = alias;
+    this.addInnerJoinsForBaseClasses();
     for (AliasColumn<T, ?, ?> c : alias.getColumns()) {
       this.selectItems.add(new SelectItem(c));
     }
-    this.addInnerJoinsForBaseClasses();
     this.addOuterJoinsForSubClasses();
   }
 
@@ -226,12 +226,14 @@ public class Select<T extends DomainObject> {
   private void addInnerJoinsForBaseClasses() {
     Alias<?> base = this.from.getBaseClassAlias();
     while (base != null) {
+      List<SelectItem> selectItems = new ArrayList<SelectItem>();
       IdAliasColumn<?> id = base.getSubClassIdColumn() == null ? base.getIdColumn() : base.getSubClassIdColumn();
       this.join(new JoinClause("INNER JOIN", base, this.from.getSubClassIdColumn(), id));
       for (AliasColumn<?, ?, ?> c : base.getColumns()) {
-        this.selectItems.add(new SelectItem(c));
+        selectItems.add(new SelectItem(c));
       }
       base = base.getBaseClassAlias();
+      this.selectItems.addAll(0, selectItems);
     }
   }
 

@@ -4,8 +4,10 @@ import features.domain.Child;
 import features.domain.CodeADomainObject;
 import features.domain.GrandChild;
 import features.domain.InheritanceABase;
+import features.domain.InheritanceAOwner;
 import features.domain.InheritanceASubOne;
 import features.domain.InheritanceASubTwo;
+import features.domain.InheritanceAThing;
 import features.domain.InheritanceBBottom;
 import features.domain.InheritanceBMiddle;
 import features.domain.InheritanceBRoot;
@@ -102,6 +104,22 @@ public class Builders {
         return new InheritanceABaseBuilder(InheritanceABase.queries.find((long) id));
     }
 
+    public static InheritanceAOwnerBuilder aInheritanceAOwner() {
+        return new InheritanceAOwnerBuilder(new InheritanceAOwner());
+    }
+
+    public static InheritanceAOwnerBuilder existing(InheritanceAOwner inheritanceAOwner) {
+        return new InheritanceAOwnerBuilder(inheritanceAOwner);
+    }
+
+    public static InheritanceAOwnerBuilder theInheritanceAOwner(long id) {
+        return new InheritanceAOwnerBuilder(InheritanceAOwner.queries.find(id));
+    }
+
+    public static InheritanceAOwnerBuilder theInheritanceAOwner(int id) {
+        return new InheritanceAOwnerBuilder(InheritanceAOwner.queries.find((long) id));
+    }
+
     public static InheritanceASubOneBuilder aInheritanceASubOne() {
         return new InheritanceASubOneBuilder(new InheritanceASubOne());
     }
@@ -132,6 +150,22 @@ public class Builders {
 
     public static InheritanceASubTwoBuilder theInheritanceASubTwo(int id) {
         return new InheritanceASubTwoBuilder(InheritanceASubTwo.queries.find((long) id));
+    }
+
+    public static InheritanceAThingBuilder aInheritanceAThing() {
+        return new InheritanceAThingBuilder(new InheritanceAThing());
+    }
+
+    public static InheritanceAThingBuilder existing(InheritanceAThing inheritanceAThing) {
+        return new InheritanceAThingBuilder(inheritanceAThing);
+    }
+
+    public static InheritanceAThingBuilder theInheritanceAThing(long id) {
+        return new InheritanceAThingBuilder(InheritanceAThing.queries.find(id));
+    }
+
+    public static InheritanceAThingBuilder theInheritanceAThing(int id) {
+        return new InheritanceAThingBuilder(InheritanceAThing.queries.find((long) id));
     }
 
     public static InheritanceBBottomBuilder aInheritanceBBottom() {

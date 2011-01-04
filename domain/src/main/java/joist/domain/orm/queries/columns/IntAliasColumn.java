@@ -21,8 +21,8 @@ public class IntAliasColumn<T extends DomainObject> extends AliasColumn<T, Integ
   }
 
   @Override
-  public void setJdbcValue(T instance, ResultSet rs, String name) throws SQLException {
-    this.setJdbcValue(instance, rs.getInt(name));
+  public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
+    this.setJdbcValue(instance, rs.getInt(i));
   }
 
 }

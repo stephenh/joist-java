@@ -46,7 +46,7 @@ public class GrandChildAlias extends Alias<GrandChild> {
     }
 
     public int getOrder() {
-        return 25;
+        return 27;
     }
 
 }

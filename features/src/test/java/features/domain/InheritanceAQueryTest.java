@@ -30,7 +30,10 @@ public class InheritanceAQueryTest extends TestCase {
     q.where(b.name.eq("b"));
 
     Assert.assertEquals(Join.lines(
-      "SELECT b.id, b.name, b.version, b_0.one, b_1.two,"
+      "SELECT"
+        + " b.id, b.name, b.version, b.inheritance_a_owner_id,"
+        + " b_0.one, b_0.inheritance_a_thing_id,"
+        + " b_1.two, b_1.inheritance_a_thing_id,"
         + " CASE WHEN b_1.id IS NOT NULL THEN 1 WHEN b_0.id IS NOT NULL THEN 0 ELSE -1 END as _clazz",
       " FROM \"inheritance_a_base\" b",
       " LEFT OUTER JOIN \"inheritance_a_sub_one\" b_0 ON b.id = b_0.id",
@@ -44,8 +47,10 @@ public class InheritanceAQueryTest extends TestCase {
     Select<InheritanceASubOne> q = Select.from(sa);
     q.where(sa.one.eq("one"));
 
-    Assert.assertEquals(Join.lines(
-      "SELECT sa.one, sa_b.id, sa_b.name, sa_b.version",
+    Assert.assertEquals(Join.lines(//
+      "SELECT"//
+        + " sa_b.id, sa_b.name, sa_b.version, sa_b.inheritance_a_owner_id,"
+        + " sa.one, sa.inheritance_a_thing_id",
       " FROM \"inheritance_a_sub_one\" sa",
       " INNER JOIN \"inheritance_a_base\" sa_b ON sa.id = sa_b.id",
       " WHERE sa.one = ?"), q.toSql());

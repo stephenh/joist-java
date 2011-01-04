@@ -46,7 +46,7 @@ public class OneToOneABarAlias extends Alias<OneToOneABar> {
     }
 
     public int getOrder() {
-        return 20;
+        return 22;
     }
 
 }
