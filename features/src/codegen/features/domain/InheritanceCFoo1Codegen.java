@@ -34,6 +34,10 @@ public abstract class InheritanceCFoo1Codegen extends InheritanceC {
         this.foo = foo;
     }
 
+    protected void defaultFoo(String foo) {
+        this.foo = foo;
+    }
+
     public InheritanceCFoo1Changed getChanged() {
         if (this.changed == null) {
             this.changed = new InheritanceCFoo1Changed((InheritanceCFoo1) this);

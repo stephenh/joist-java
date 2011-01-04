@@ -34,6 +34,10 @@ public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
         this.bottomName = bottomName;
     }
 
+    protected void defaultBottomName(String bottomName) {
+        this.bottomName = bottomName;
+    }
+
     public InheritanceBBottomChanged getChanged() {
         if (this.changed == null) {
             this.changed = new InheritanceBBottomChanged((InheritanceBBottom) this);

@@ -34,6 +34,10 @@ public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
         this.middleName = middleName;
     }
 
+    protected void defaultMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
     public InheritanceBMiddleChanged getChanged() {
         if (this.changed == null) {
             this.changed = new InheritanceBMiddleChanged((InheritanceBMiddle) this);

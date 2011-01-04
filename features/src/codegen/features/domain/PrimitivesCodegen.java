@@ -43,6 +43,10 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
         this.flag = flag;
     }
 
+    protected void defaultFlag(Boolean flag) {
+        this.flag = flag;
+    }
+
     public Long getId() {
         return this.id;
     }
@@ -61,6 +65,10 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
 
     public void setName(String name) {
         this.getChanged().record("name", this.name, name);
+        this.name = name;
+    }
+
+    protected void defaultName(String name) {
         this.name = name;
     }
 

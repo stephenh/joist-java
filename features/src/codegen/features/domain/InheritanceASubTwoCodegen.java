@@ -34,6 +34,10 @@ public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
         this.two = two;
     }
 
+    protected void defaultTwo(String two) {
+        this.two = two;
+    }
+
     public InheritanceASubTwoChanged getChanged() {
         if (this.changed == null) {
             this.changed = new InheritanceASubTwoChanged((InheritanceASubTwo) this);

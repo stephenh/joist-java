@@ -34,6 +34,10 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
         this.one = one;
     }
 
+    protected void defaultOne(String one) {
+        this.one = one;
+    }
+
     public InheritanceASubOneChanged getChanged() {
         if (this.changed == null) {
             this.changed = new InheritanceASubOneChanged((InheritanceASubOne) this);
