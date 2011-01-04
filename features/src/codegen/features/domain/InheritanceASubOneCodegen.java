@@ -2,6 +2,7 @@ package features.domain;
 
 import features.domain.queries.InheritanceASubOneQueries;
 import joist.domain.Shim;
+import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
@@ -10,6 +11,7 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
 
     public static final InheritanceASubOneQueries queries;
     private String one = null;
+    private final ForeignKeyHolder<InheritanceAThing> inheritanceAThing = new ForeignKeyHolder<InheritanceAThing>(InheritanceAThing.class);
 
     static {
         Aliases.inheritanceASubOne();
@@ -38,6 +40,25 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
         this.one = one;
     }
 
+    public InheritanceAThing getInheritanceAThing() {
+        return this.inheritanceAThing.get();
+    }
+
+    public void setInheritanceAThing(InheritanceAThing inheritanceAThing) {
+        if (this.inheritanceAThing.get() != null) {
+           this.inheritanceAThing.get().removeInheritanceASubOneWithoutPercolation((InheritanceASubOne) this);
+        }
+        this.setInheritanceAThingWithoutPercolation(inheritanceAThing);
+        if (this.inheritanceAThing.get() != null) {
+           this.inheritanceAThing.get().addInheritanceASubOneWithoutPercolation((InheritanceASubOne) this);
+        }
+    }
+
+    protected void setInheritanceAThingWithoutPercolation(InheritanceAThing inheritanceAThing) {
+        this.getChanged().record("inheritanceAThing", this.inheritanceAThing, inheritanceAThing);
+        this.inheritanceAThing.set(inheritanceAThing);
+    }
+
     public InheritanceASubOneChanged getChanged() {
         if (this.changed == null) {
             this.changed = new InheritanceASubOneChanged((InheritanceASubOne) this);
@@ -48,6 +69,7 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
     @Override
     public void clearAssociations() {
         super.clearAssociations();
+        this.setInheritanceAThing(null);
     }
 
     static class Shims {
@@ -62,6 +84,17 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
                 return "one";
             }
         };
+        protected static final Shim<InheritanceASubOne, Long> inheritanceAThingId = new Shim<InheritanceASubOne, Long>() {
+            public void set(InheritanceASubOne instance, Long inheritanceAThingId) {
+                ((InheritanceASubOneCodegen) instance).inheritanceAThing.setId(inheritanceAThingId);
+            }
+            public Long get(InheritanceASubOne instance) {
+                return ((InheritanceASubOneCodegen) instance).inheritanceAThing.getId();
+            }
+            public String getName() {
+                return "inheritanceAThing";
+            }
+        };
     }
 
     public static class InheritanceASubOneChanged extends InheritanceABaseChanged {
@@ -73,6 +106,12 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
         }
         public String getOriginalOne() {
             return (java.lang.String) this.getOriginal("one");
+        }
+        public boolean hasInheritanceAThing() {
+            return this.contains("inheritanceAThing");
+        }
+        public InheritanceAThing getOriginalInheritanceAThing() {
+            return (InheritanceAThing) this.getOriginal("inheritanceAThing");
         }
     }
 

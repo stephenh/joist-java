@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.InheritanceABase;
+import features.domain.InheritanceAOwner;
 import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
@@ -30,6 +31,30 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
 
     public InheritanceABaseBuilder with(String name) {
         get().setName(name);
+        return (InheritanceABaseBuilder) this;
+    }
+
+    public InheritanceAOwnerBuilder inheritanceAOwner() {
+        return Builders.existing(get().getInheritanceAOwner());
+    }
+
+    public InheritanceABaseBuilder inheritanceAOwner(InheritanceAOwner inheritanceAOwner) {
+        get().setInheritanceAOwner(inheritanceAOwner);
+        return (InheritanceABaseBuilder) this;
+    }
+
+    public InheritanceABaseBuilder with(InheritanceAOwner inheritanceAOwner) {
+        get().setInheritanceAOwner(inheritanceAOwner);
+        return (InheritanceABaseBuilder) this;
+    }
+
+    public InheritanceABaseBuilder inheritanceAOwner(InheritanceAOwnerBuilder inheritanceAOwner) {
+        get().setInheritanceAOwner(inheritanceAOwner.get());
+        return (InheritanceABaseBuilder) this;
+    }
+
+    public InheritanceABaseBuilder with(InheritanceAOwnerBuilder inheritanceAOwner) {
+        get().setInheritanceAOwner(inheritanceAOwner.get());
         return (InheritanceABaseBuilder) this;
     }
 

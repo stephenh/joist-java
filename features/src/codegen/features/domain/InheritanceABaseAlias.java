@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
 import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
@@ -14,6 +15,7 @@ public class InheritanceABaseAlias extends Alias<InheritanceABase> {
     public final IdAliasColumn<InheritanceABase> id = new IdAliasColumn<InheritanceABase>(this, "id", InheritanceABaseCodegen.Shims.id);
     public final StringAliasColumn<InheritanceABase> name = new StringAliasColumn<InheritanceABase>(this, "name", InheritanceABaseCodegen.Shims.name);
     public final LongAliasColumn<InheritanceABase> version = new LongAliasColumn<InheritanceABase>(this, "version", InheritanceABaseCodegen.Shims.version);
+    public final ForeignKeyAliasColumn<InheritanceABase, InheritanceAOwner> inheritanceAOwner = new ForeignKeyAliasColumn<InheritanceABase, InheritanceAOwner>(this, "inheritance_a_owner_id", InheritanceABaseCodegen.Shims.inheritanceAOwnerId);
 
     public InheritanceABaseAlias(String alias) {
         this(alias, null, true);
@@ -31,6 +33,7 @@ public class InheritanceABaseAlias extends Alias<InheritanceABase> {
         this.columns.add(this.id);
         this.columns.add(this.name);
         this.columns.add(this.version);
+        this.columns.add(this.inheritanceAOwner);
     }
 
     public List<AliasColumn<InheritanceABase, ?, ?>> getColumns() {
@@ -50,7 +53,7 @@ public class InheritanceABaseAlias extends Alias<InheritanceABase> {
     }
 
     public int getOrder() {
-        return 3;
+        return 4;
     }
 
 }

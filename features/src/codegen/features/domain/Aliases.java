@@ -8,8 +8,10 @@ public class Aliases {
     private static CodeADomainObjectAlias codeADomainObject;
     private static GrandChildAlias grandChild;
     private static InheritanceABaseAlias inheritanceABase;
+    private static InheritanceAOwnerAlias inheritanceAOwner;
     private static InheritanceASubOneAlias inheritanceASubOne;
     private static InheritanceASubTwoAlias inheritanceASubTwo;
+    private static InheritanceAThingAlias inheritanceAThing;
     private static InheritanceBBottomAlias inheritanceBBottom;
     private static InheritanceBMiddleAlias inheritanceBMiddle;
     private static InheritanceBRootAlias inheritanceBRoot;
@@ -79,6 +81,14 @@ public class Aliases {
         return inheritanceABase;
     }
 
+    public static InheritanceAOwnerAlias inheritanceAOwner() {
+        if (inheritanceAOwner == null) {
+            inheritanceAOwner = new InheritanceAOwnerAlias("iao");
+            AliasRegistry.register(InheritanceAOwner.class, inheritanceAOwner);
+        }
+        return inheritanceAOwner;
+    }
+
     public static InheritanceASubOneAlias inheritanceASubOne() {
         if (inheritanceASubOne == null) {
             inheritanceASubOne = new InheritanceASubOneAlias("iaso");
@@ -93,6 +103,14 @@ public class Aliases {
             AliasRegistry.register(InheritanceASubTwo.class, inheritanceASubTwo);
         }
         return inheritanceASubTwo;
+    }
+
+    public static InheritanceAThingAlias inheritanceAThing() {
+        if (inheritanceAThing == null) {
+            inheritanceAThing = new InheritanceAThingAlias("iat");
+            AliasRegistry.register(InheritanceAThing.class, inheritanceAThing);
+        }
+        return inheritanceAThing;
     }
 
     public static InheritanceBBottomAlias inheritanceBBottom() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
 import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
@@ -13,6 +14,7 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
     private final List<AliasColumn<InheritanceASubTwo, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceASubTwo, ?, ?>>();
     private final IdAliasColumn<InheritanceASubTwo> subClassId = new IdAliasColumn<InheritanceASubTwo>(this, "id", null);
     public final StringAliasColumn<InheritanceASubTwo> two = new StringAliasColumn<InheritanceASubTwo>(this, "two", InheritanceASubTwoCodegen.Shims.two);
+    public final ForeignKeyAliasColumn<InheritanceASubTwo, InheritanceAThing> inheritanceAThing = new ForeignKeyAliasColumn<InheritanceASubTwo, InheritanceAThing>(this, "inheritance_a_thing_id", InheritanceASubTwoCodegen.Shims.inheritanceAThingId);
     private final InheritanceABaseAlias baseAlias;
     public final IdAliasColumn<InheritanceABase> id;
     public final StringAliasColumn<InheritanceABase> name;
@@ -26,6 +28,7 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
         super(InheritanceASubTwo.class, "inheritance_a_sub_two", alias);
         this.baseAlias = (baseAlias != null) ? baseAlias : new InheritanceABaseAlias(alias + "_b", null, false);
         this.columns.add(this.two);
+        this.columns.add(this.inheritanceAThing);
         this.id = this.baseAlias.id;
         this.name = this.baseAlias.name;
         this.version = this.baseAlias.version;
@@ -52,7 +55,7 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
     }
 
     public int getOrder() {
-        return 3;
+        return 4;
     }
 
 }

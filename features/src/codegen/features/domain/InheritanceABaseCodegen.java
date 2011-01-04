@@ -5,6 +5,7 @@ import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
+import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
@@ -16,6 +17,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     private Long id = null;
     private String name = null;
     private Long version = null;
+    private final ForeignKeyHolder<InheritanceAOwner> inheritanceAOwner = new ForeignKeyHolder<InheritanceAOwner>(InheritanceAOwner.class);
     protected Changed changed;
 
     static {
@@ -61,6 +63,25 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         return this.version;
     }
 
+    public InheritanceAOwner getInheritanceAOwner() {
+        return this.inheritanceAOwner.get();
+    }
+
+    public void setInheritanceAOwner(InheritanceAOwner inheritanceAOwner) {
+        if (this.inheritanceAOwner.get() != null) {
+           this.inheritanceAOwner.get().removeInheritanceABaseWithoutPercolation((InheritanceABase) this);
+        }
+        this.setInheritanceAOwnerWithoutPercolation(inheritanceAOwner);
+        if (this.inheritanceAOwner.get() != null) {
+           this.inheritanceAOwner.get().addInheritanceABaseWithoutPercolation((InheritanceABase) this);
+        }
+    }
+
+    protected void setInheritanceAOwnerWithoutPercolation(InheritanceAOwner inheritanceAOwner) {
+        this.getChanged().record("inheritanceAOwner", this.inheritanceAOwner, inheritanceAOwner);
+        this.inheritanceAOwner.set(inheritanceAOwner);
+    }
+
     public InheritanceABaseChanged getChanged() {
         if (this.changed == null) {
             this.changed = new InheritanceABaseChanged((InheritanceABase) this);
@@ -71,6 +92,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
     @Override
     public void clearAssociations() {
         super.clearAssociations();
+        this.setInheritanceAOwner(null);
     }
 
     static class Shims {
@@ -107,6 +129,17 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
                 return "version";
             }
         };
+        protected static final Shim<InheritanceABase, Long> inheritanceAOwnerId = new Shim<InheritanceABase, Long>() {
+            public void set(InheritanceABase instance, Long inheritanceAOwnerId) {
+                ((InheritanceABaseCodegen) instance).inheritanceAOwner.setId(inheritanceAOwnerId);
+            }
+            public Long get(InheritanceABase instance) {
+                return ((InheritanceABaseCodegen) instance).inheritanceAOwner.getId();
+            }
+            public String getName() {
+                return "inheritanceAOwner";
+            }
+        };
     }
 
     public static class InheritanceABaseChanged extends AbstractChanged {
@@ -130,6 +163,12 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
         }
         public Long getOriginalVersion() {
             return (Long) this.getOriginal("version");
+        }
+        public boolean hasInheritanceAOwner() {
+            return this.contains("inheritanceAOwner");
+        }
+        public InheritanceAOwner getOriginalInheritanceAOwner() {
+            return (InheritanceAOwner) this.getOriginal("inheritanceAOwner");
         }
     }
 
