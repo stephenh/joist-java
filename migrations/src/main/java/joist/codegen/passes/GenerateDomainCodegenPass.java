@@ -78,6 +78,12 @@ public class GenerateDomainCodegenPass implements Pass {
           setter.body.line("}");
           domainCodegen.addImports(UoW.class);
         }
+
+        if (!"id".equals(p.getColumnName())) {
+          GMethod defaultSetter = domainCodegen.getMethod("default{}", p.getCapitalVariableName()).setProtected();
+          defaultSetter.argument(p.getJavaType(), p.getVariableName());
+          defaultSetter.body.line("this.{} = {};", p.getVariableName(), p.getVariableName());
+        }
       }
 
       GClass shims = domainCodegen.getInnerClass("Shims").setPackagePrivate();
@@ -160,6 +166,12 @@ public class GenerateDomainCodegenPass implements Pass {
       setter2.argument(mtop.getJavaType(), mtop.getVariableName());
       setter2.body.line("this.getChanged().record(\"{}\", this.{}, {});", mtop.getVariableName(), mtop.getVariableName(), mtop.getVariableName());
       setter2.body.line("this.{}.set({});", mtop.getVariableName(), mtop.getVariableName());
+
+      if (mtop.getOneSide().isCodeEntity()) {
+        GMethod defaultSetter = domainCodegen.getMethod("default{}", mtop.getCapitalVariableName()).setProtected();
+        defaultSetter.argument(mtop.getJavaType(), mtop.getVariableName());
+        defaultSetter.body.line("this.{}.set({});", mtop.getVariableName(), mtop.getVariableName());
+      }
 
       GClass shims = domainCodegen.getInnerClass("Shims");
       GField shimField = shims.getField(mtop.getVariableName() + "Id").setProtected().setStatic().setFinal();
