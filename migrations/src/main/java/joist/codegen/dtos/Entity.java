@@ -74,7 +74,8 @@ public class Entity {
     for (String part : this.getTableName().split("_")) {
       a += part.substring(0, 1);
     }
-    return a;
+    // add trailing 0 to avoid using keywords (like AdStat == as)
+    return a + "0";
   }
 
   public String getAliasName() {
