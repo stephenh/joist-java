@@ -65,11 +65,11 @@ public class ManyToOneProperty {
   }
 
   public boolean isOwnerMe() {
-    return this.constraintName.contains("owner_isme");
+    return this.constraintName.contains("_isme");
   }
 
   public boolean isOwnerThem() {
-    return this.constraintName.contains("owner_isthem");
+    return this.constraintName.contains("_isthem");
   }
 
   public boolean isOwnerNeither() {
@@ -77,9 +77,9 @@ public class ManyToOneProperty {
   }
 
   private void assertValidConstraintName() {
-    boolean ownerOkay = this.constraintName.contains("owner_isme")
-      || this.constraintName.contains("owner_isthem")
-      || this.constraintName.contains("owner_isneither");
+    boolean ownerOkay = this.constraintName.contains("_isme")
+      || this.constraintName.contains("_isthem")
+      || this.constraintName.contains("_isneither");
     if (!ownerOkay) {
       // throw new RuntimeException("Invalid constraint name " + this.constraintName);
     }
