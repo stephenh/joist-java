@@ -24,4 +24,17 @@ public abstract class AbstractBuilder<T extends DomainObject> {
     return this.instance;
   }
 
+  @Override
+  public int hashCode() {
+    return this.instance.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other instanceof AbstractBuilder<?>) {
+      return this.get().equals(((AbstractBuilder<?>) other).get());
+    }
+    return false;
+  }
+
 }

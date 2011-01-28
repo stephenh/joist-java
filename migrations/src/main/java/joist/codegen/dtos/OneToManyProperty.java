@@ -82,11 +82,11 @@ public class OneToManyProperty {
   }
 
   public boolean isOwnerMe() {
-    return this.constraintName.contains("owner_isthem"); // Since we're incoming, "them" means us
+    return this.constraintName.contains("_isthem"); // Since we're incoming, "them" means us
   }
 
   public boolean isOwnerThem() {
-    return this.constraintName.contains("owner_isme"); // Since we're incoming, "me" means them
+    return this.constraintName.contains("_isme"); // Since we're incoming, "me" means them
   }
 
   public boolean getNoTicking() {

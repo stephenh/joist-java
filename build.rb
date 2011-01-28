@@ -11,10 +11,6 @@ repositories.remote << 'http://www.ibiblio.org/maven2'
 repositories.release_to = 'sftp://joist.ws/var/joist.repo'
 repositories.release_to[:permissions] = 0644
 
-i = Buildr.settings.build['ivy'] = {}
-i['home.dir'] = "#{ENV['HOME']}/.ivy2"
-i['settings.file'] = './ivysettings.xml'
-
 def package_with_ivy(project)
   project.group = 'joist'
   project.version = THIS_VERSION
