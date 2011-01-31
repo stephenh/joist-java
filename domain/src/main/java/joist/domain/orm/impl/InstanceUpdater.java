@@ -77,7 +77,8 @@ public class InstanceUpdater<T extends DomainObject> {
 
     private void tickVersionIfRootClass(T instance) {
       if (this.alias.isRootClass()) {
-        this.alias.getVersionColumn().setJdbcValue(instance, instance.getVersion() + 1l);
+        Long nextVersion = instance.getVersion() == null ? 1 : instance.getVersion() + 1;
+        this.alias.getVersionColumn().setJdbcValue(instance, nextVersion);
       }
     }
 
