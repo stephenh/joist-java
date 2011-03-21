@@ -157,6 +157,12 @@ public class MigrationKeywords {
     MigrationKeywords.addColumn(table, column, null);
   }
 
+  public static void addColumns(String table, Column... columns) {
+    for (Column column : columns) {
+      MigrationKeywords.addColumn(table, column, null);
+    }
+  }
+
   public static void addColumn(String table, Column column, FillInStrategy fill) {
     column.setTableName(table);
     // column

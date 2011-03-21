@@ -122,6 +122,24 @@ public class GClass {
     return constructor;
   }
 
+  /** Takes arg0 + _args to differentiate from getConstructor(String... typeAndNames) */
+  public GMethod getConstructor(Argument arg0, Argument... _args) {
+    List<Argument> args = Copy.list(arg0).with(_args).map(new Function1<Argument, Argument>() {
+      public Argument apply(Argument p1) {
+        return p1.importIfPossible(GClass.this);
+      }
+    });
+    for (GMethod cstr : this.constructors) {
+      if (cstr.hasSameArguments(args)) {
+        return cstr;
+      }
+    }
+    GMethod cstr = new GMethod(this, "constructor").constructorFor(this.getSimpleClassNameWithoutGeneric());
+    cstr.arguments(args);
+    this.constructors.add(cstr);
+    return cstr;
+  }
+
   public boolean hasMethod(String name) {
     for (GMethod method : this.methods) {
       if (method.getName().equals(name)) {
