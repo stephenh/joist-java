@@ -23,6 +23,23 @@ public class GConstructorTest extends TestCase {
       ""), gc.toCode());
   }
 
+  public void testOneConstructorWithArgumentOverload() {
+    GClass gc = new GClass("foo.bar.Foo");
+    GMethod c = gc.getConstructor(Argument.arg("String", "foo"));
+    c.body.line("System.out.println(foo);");
+    Assert.assertEquals(Join.lines(
+      "package foo.bar;",
+      "",
+      "public class Foo {",
+      "",
+      "    public Foo(String foo) {",
+      "        System.out.println(foo);",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
   public void testOneFieldOneConstructorAndOneMethod() {
     GClass gc = new GClass("foo.bar.Foo");
     GMethod c = gc.getConstructor();
