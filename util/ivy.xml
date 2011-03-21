@@ -2,7 +2,7 @@
 	<info organisation="joist" module="joist-util" revision="${joist.version}"/>
 	<configurations>
 		<conf name="default" extends="compile"/>
-		<conf name="compile" visibility="private"/>
+		<conf name="compile"/>
 		<conf name="test" extends="compile" visibility="private"/>
 		<conf name="sources"/>
 	</configurations>
