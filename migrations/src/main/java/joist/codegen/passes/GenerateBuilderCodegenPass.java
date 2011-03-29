@@ -76,24 +76,37 @@ public class GenerateBuilderCodegenPass implements Pass {
 
   private void oneToManyProperties(GClass c, Entity entity) {
     for (OneToManyProperty otom : entity.getOneToManyProperties()) {
-      // childs() -> List<ChildBuilder>
-      {
-        GMethod m = c.getMethod(otom.getVariableName());
-        m.returnType("List<{}Builder>", otom.getTargetJavaType());
-        m.body.line("List<{}Builder> b = new ArrayList<{}Builder>();", otom.getTargetJavaType(), otom.getTargetJavaType());
-        m.body.line("for ({} e : get().get{}()) {", otom.getTargetJavaType(), otom.getCapitalVariableName());
-        m.body.line("    b.add(Builders.existing(e));");
-        m.body.line("}");
-        m.body.line("return b;");
-        c.addImports(List.class, ArrayList.class);
-        c.addImports(otom.getManySide().getFullClassName());
+      if (otom.isCollectionSkipped()) {
+        continue;
       }
-
-      // child(i) -> ChildBuilder
-      {
-        GMethod m = c.getMethod(StringUtils.uncapitalize(otom.getCapitalVariableNameSingular()), Argument.arg("int", "i"));
+      if (otom.isOneToOne()) {
+        // child() -> ChildBuilder
+        GMethod m = c.getMethod(otom.getVariableNameSingular());
         m.returnType("{}Builder", otom.getTargetJavaType());
-        m.body.line("return Builders.existing(get().get{}().get(i));", otom.getCapitalVariableName());
+        m.body.line("if (get().get{}() == null) {", otom.getCapitalVariableNameSingular());
+        m.body.line("    return null;");
+        m.body.line("}");
+        m.body.line("return Builders.existing(get().get{}());", otom.getCapitalVariableNameSingular());
+      } else {
+        // childs() -> List<ChildBuilder>
+        {
+          GMethod m = c.getMethod(otom.getVariableName());
+          m.returnType("List<{}Builder>", otom.getTargetJavaType());
+          m.body.line("List<{}Builder> b = new ArrayList<{}Builder>();", otom.getTargetJavaType(), otom.getTargetJavaType());
+          m.body.line("for ({} e : get().get{}()) {", otom.getTargetJavaType(), otom.getCapitalVariableName());
+          m.body.line("    b.add(Builders.existing(e));");
+          m.body.line("}");
+          m.body.line("return b;");
+          c.addImports(List.class, ArrayList.class);
+          c.addImports(otom.getManySide().getFullClassName());
+        }
+
+        // child(i) -> ChildBuilder
+        {
+          GMethod m = c.getMethod(StringUtils.uncapitalize(otom.getCapitalVariableNameSingular()), Argument.arg("int", "i"));
+          m.returnType("{}Builder", otom.getTargetJavaType());
+          m.body.line("return Builders.existing(get().get{}().get(i));", otom.getCapitalVariableName());
+        }
       }
     }
   }

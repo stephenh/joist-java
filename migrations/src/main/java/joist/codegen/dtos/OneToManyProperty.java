@@ -77,6 +77,10 @@ public class OneToManyProperty {
     return StringUtils.uncapitalize(this.getCapitalVariableName());
   }
 
+  public String getVariableNameSingular() {
+    return StringUtils.uncapitalize(this.getCapitalVariableNameSingular());
+  }
+
   public String getTargetJavaType() {
     return this.getManySide().getClassName();
   }
