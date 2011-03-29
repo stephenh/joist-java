@@ -1,8 +1,12 @@
 package joist.codegen.passes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import joist.codegen.Codegen;
 import joist.codegen.dtos.Entity;
 import joist.codegen.dtos.ManyToOneProperty;
+import joist.codegen.dtos.OneToManyProperty;
 import joist.codegen.dtos.PrimitiveProperty;
 import joist.domain.builders.AbstractBuilder;
 import joist.sourcegen.Argument;
@@ -10,6 +14,8 @@ import joist.sourcegen.GClass;
 import joist.sourcegen.GMethod;
 import joist.util.Inflector;
 import joist.util.MapToList;
+
+import org.apache.commons.lang.StringUtils;
 
 public class GenerateBuilderCodegenPass implements Pass {
 
@@ -32,6 +38,7 @@ public class GenerateBuilderCodegenPass implements Pass {
       this.constructor(builderCodegen, entity);
       this.primitiveProperties(builderCodegen, entity);
       this.manyToOneProperties(builderCodegen, entity);
+      this.oneToManyProperties(builderCodegen, entity);
       this.overrideGet(builderCodegen, entity);
     }
   }
@@ -67,8 +74,32 @@ public class GenerateBuilderCodegenPass implements Pass {
     }
   }
 
+  private void oneToManyProperties(GClass c, Entity entity) {
+    for (OneToManyProperty otom : entity.getOneToManyProperties()) {
+      // childs() -> List<ChildBuilder>
+      {
+        GMethod m = c.getMethod(otom.getVariableName());
+        m.returnType("List<{}Builder>", otom.getTargetJavaType());
+        m.body.line("List<{}Builder> b = new ArrayList<{}Builder>();", otom.getTargetJavaType(), otom.getTargetJavaType());
+        m.body.line("for ({} e : get().get{}()) {", otom.getTargetJavaType(), otom.getCapitalVariableName());
+        m.body.line("    b.add(Builders.existing(e));");
+        m.body.line("}");
+        m.body.line("return b;");
+        c.addImports(List.class, ArrayList.class);
+        c.addImports(otom.getManySide().getFullClassName());
+      }
+
+      // child(i) -> ChildBuilder
+      {
+        GMethod m = c.getMethod(StringUtils.uncapitalize(otom.getCapitalVariableNameSingular()), Argument.arg("int", "i"));
+        m.returnType("{}Builder", otom.getTargetJavaType());
+        m.body.line("return Builders.existing(get().get{}().get(i));", otom.getCapitalVariableName());
+      }
+    }
+  }
+
   private void manyToOneProperties(GClass c, Entity entity) {
-    // first pass to get the types
+    // first pass to get the types so we can add "with(Type)" if there is only 1 property of Type
     MapToList<String, String> perType = new MapToList<String, String>();
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       perType.get(mtop.getJavaType()).add(mtop.getVariableName());
