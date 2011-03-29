@@ -29,6 +29,11 @@ public class Copy {
     return list;
   }
 
+  /** @return a copy of {@code collection}, same thing as Copy.list but with a name more amenable to static imports. */
+  public static <T> FluentList<T> copy(Collection<T> collection) {
+    return Copy.list(collection);
+  }
+
   public static <T> FluentList<T> list(Collection<T> collection) {
     return new FluentList<T>(collection);
   }
