@@ -61,15 +61,10 @@ Joist is hosted on github:
 
 [http://github.com/stephenh/joist](http://github.com/stephenh/joist)
 
-Community
----------
-
-Joist is a new project and does not yet have an active community. If you're interested in getting involved or just being kept in the loop, feel free to email [stephen@exigencecorp.com](mailto:stephen@exigencecorp.com).
-
 Acknowledgements
 ----------------
 
-Joist borrows ideas mainly from [Rail's][1] ([migrations](migrations.html) and database-reflected-[domain objects](domainObjects.html)) and [JaQu][4] ([type-safe SQL queries](typeSafeQueries.html)).
+Joist borrows ideas mainly from [Rails][1] ([migrations](migrations.html) and database-reflected-[domain objects](domainObjects.html)) and [JaQu][4] ([type-safe SQL queries](typeSafeQueries.html)).
 
 [1]: http://rubyonrails.org
 [4]: http://www.h2database.com/html/jaqu.html
