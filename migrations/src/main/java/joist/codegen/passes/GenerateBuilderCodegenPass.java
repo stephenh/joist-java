@@ -123,6 +123,9 @@ public class GenerateBuilderCodegenPass implements Pass {
   private void addFluentBuilderGetter(GClass builderCodegen, String variableName, String javaType) {
     GMethod m = builderCodegen.getMethod(variableName);
     m.returnType(javaType + "Builder");
+    m.body.line("if (get().get{}() == null) {", Inflector.capitalize(variableName));
+    m.body.line("    return null;");
+    m.body.line("}");
     m.body.line("return Builders.existing(get().get{}());", Inflector.capitalize(variableName));
   }
 

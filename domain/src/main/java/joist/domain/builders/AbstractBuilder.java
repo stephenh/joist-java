@@ -12,6 +12,9 @@ public abstract class AbstractBuilder<T extends DomainObject> {
   private T instance;
 
   protected AbstractBuilder(T instance) {
+    if (instance == null) {
+      throw new NullPointerException("Builders cannot wrap null instances");
+    }
     this.instance = instance;
   }
 
