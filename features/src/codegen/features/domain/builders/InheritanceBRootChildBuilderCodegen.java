@@ -35,6 +35,9 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
     }
 
     public InheritanceBRootBuilder inheritanceBRoot() {
+        if (get().getInheritanceBRoot() == null) {
+            return null;
+        }
         return Builders.existing(get().getInheritanceBRoot());
     }
 

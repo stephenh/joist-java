@@ -35,6 +35,9 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
     }
 
     public ParentBParentBuilder parentBParent() {
+        if (get().getParentBParent() == null) {
+            return null;
+        }
         return Builders.existing(get().getParentBParent());
     }
 

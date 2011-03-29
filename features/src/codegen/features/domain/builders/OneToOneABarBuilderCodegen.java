@@ -35,6 +35,9 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
     }
 
     public OneToOneAFooBuilder oneToOneAFoo() {
+        if (get().getOneToOneAFoo() == null) {
+            return null;
+        }
         return Builders.existing(get().getOneToOneAFoo());
     }
 

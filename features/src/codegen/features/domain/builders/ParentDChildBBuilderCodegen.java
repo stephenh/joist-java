@@ -35,6 +35,9 @@ public abstract class ParentDChildBBuilderCodegen extends AbstractBuilder<Parent
     }
 
     public ParentDBuilder parentD() {
+        if (get().getParentD() == null) {
+            return null;
+        }
         return Builders.existing(get().getParentD());
     }
 

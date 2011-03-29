@@ -1,6 +1,9 @@
 package features.domain.builders;
 
+import features.domain.ParentCBar;
 import features.domain.ParentCFoo;
+import java.util.ArrayList;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
@@ -31,6 +34,30 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
     public ParentCFooBuilder with(String name) {
         get().setName(name);
         return (ParentCFooBuilder) this;
+    }
+
+    public List<ParentCBarBuilder> firstParentParentCBars() {
+        List<ParentCBarBuilder> b = new ArrayList<ParentCBarBuilder>();
+        for (ParentCBar e : get().getFirstParentParentCBars()) {
+            b.add(Builders.existing(e));
+        }
+        return b;
+    }
+
+    public ParentCBarBuilder firstParentParentCBar(int i) {
+        return Builders.existing(get().getFirstParentParentCBars().get(i));
+    }
+
+    public List<ParentCBarBuilder> secondParentParentCBars() {
+        List<ParentCBarBuilder> b = new ArrayList<ParentCBarBuilder>();
+        for (ParentCBar e : get().getSecondParentParentCBars()) {
+            b.add(Builders.existing(e));
+        }
+        return b;
+    }
+
+    public ParentCBarBuilder secondParentParentCBar(int i) {
+        return Builders.existing(get().getSecondParentParentCBars().get(i));
     }
 
     public ParentCFoo get() {

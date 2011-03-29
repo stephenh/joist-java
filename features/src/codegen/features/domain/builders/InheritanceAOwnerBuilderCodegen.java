@@ -1,6 +1,9 @@
 package features.domain.builders;
 
+import features.domain.InheritanceABase;
 import features.domain.InheritanceAOwner;
+import java.util.ArrayList;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
@@ -31,6 +34,18 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
     public InheritanceAOwnerBuilder with(String name) {
         get().setName(name);
         return (InheritanceAOwnerBuilder) this;
+    }
+
+    public List<InheritanceABaseBuilder> inheritanceABases() {
+        List<InheritanceABaseBuilder> b = new ArrayList<InheritanceABaseBuilder>();
+        for (InheritanceABase e : get().getInheritanceABases()) {
+            b.add(Builders.existing(e));
+        }
+        return b;
+    }
+
+    public InheritanceABaseBuilder inheritanceABase(int i) {
+        return Builders.existing(get().getInheritanceABases().get(i));
     }
 
     public InheritanceAOwner get() {
