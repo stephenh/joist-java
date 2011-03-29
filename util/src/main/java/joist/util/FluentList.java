@@ -30,6 +30,11 @@ public class FluentList<V> extends ArrayList<V> {
     return this;
   }
 
+  public FluentList<V> without(V value) {
+    this.remove(value);
+    return this;
+  }
+
   public FluentList<V> with(V... values) {
     this.addAll(Arrays.asList(values));
     return this;
