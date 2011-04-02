@@ -8,6 +8,9 @@ import joist.util.Log;
 
 public class IdentityMap {
 
+  // TODO: Use a weak value so that, once the user does not reference to
+  // a domain object any more (and it's been flushed from the validate queue),
+  // the GC can delete it?
   private final Map<String, DomainObject> objects = new HashMap<String, DomainObject>();
 
   public void store(DomainObject o) {
