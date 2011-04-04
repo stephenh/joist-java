@@ -172,6 +172,11 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
     return new Initializer(new BigDecimal(value), false);
   }
 
+  /** @param value the actual value. */
+  protected static Initializer fromBigDecimalUtil(BigDecimal value) {
+    return new Initializer(value, false);
+  }
+
   /** @param representation The serialized value, represented as actual value * 10^9 */
   protected static Initializer fromSerializedLongUtil(long representation) {
     return new Initializer(AbstractFixedPrecision.fromSerializedLongUtilAsBigDecimal(representation), true);
