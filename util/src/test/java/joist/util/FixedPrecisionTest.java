@@ -151,7 +151,7 @@ public class FixedPrecisionTest extends TestCase {
     // But display rounding is nice sometimes.
 
     // This will zero-extend the value (if necessary) to force the specified precision level
-    Assert.assertEquals("1899.000006", value.toExplicitPrecisionString(7));
+    Assert.assertEquals("1899.0000060", value.toExplicitPrecisionString(7));
 
     // ...and will round to even if you stipulate a lower precision level than the internal representation
     Assert.assertEquals("1899.00001", value.toExplicitPrecisionString(5));

@@ -78,7 +78,7 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
   }
 
   public String toExplicitPrecisionString(int decimalPlacesToDisplay) {
-    return this.round(decimalPlacesToDisplay).toString();
+    return this.round(decimalPlacesToDisplay).value.toPlainString();
   }
 
   // Logical operation methods
