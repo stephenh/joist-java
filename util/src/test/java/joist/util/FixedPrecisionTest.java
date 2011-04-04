@@ -156,6 +156,9 @@ public class FixedPrecisionTest extends TestCase {
     // ...and will round to even if you stipulate a lower precision level than the internal representation
     Assert.assertEquals("1899.00001", value.toExplicitPrecisionString(5));
     Assert.assertEquals("1899", value.toExplicitPrecisionString(0));
+
+    Assert.assertEquals("1899", Foo.from("1899.0").toString());
+    Assert.assertEquals("1890", Foo.from("1890.0").toString());
   }
 
   public void testArithmeticOperations() {

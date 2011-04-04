@@ -121,8 +121,13 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
 
   public String toString() {
     String plain = this.value.toPlainString();
-    while (plain.endsWith("0")) {
-      plain = plain.substring(0, plain.length() - 1);
+    if (plain.indexOf('.') > -1) {
+      while (plain.endsWith("0")) {
+        plain = plain.substring(0, plain.length() - 1);
+      }
+      if (plain.endsWith(".")) {
+        plain = plain.substring(0, plain.length() - 1);
+      }
     }
     return plain;
   }
