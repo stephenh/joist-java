@@ -163,8 +163,16 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
   // Serialization methods
 
   /** @param value the string value, assumed to be unsafe */
-  protected static Initializer fromStringUtil(final String value) {
-    return new Initializer(new BigDecimal(value), false);
+  protected static Initializer fromStringUtil(final String _value) {
+    if (_value == null) {
+      return null;
+    }
+    String value = _value.replace(",", "");
+    try {
+      return new Initializer(new BigDecimal(value), false);
+    } catch (NumberFormatException nfe) {
+      throw new RuntimeException("Invalid number " + value, nfe);
+    }
   }
 
   /** @param long the actual value (not serialized like {@link AbstractFixedPrecision#fromSerializedLongUtil}. */
