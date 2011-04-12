@@ -35,6 +35,9 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
     }
 
     public ChildBuilder child() {
+        if (get().getChild() == null) {
+            return null;
+        }
         return Builders.existing(get().getChild());
     }
 

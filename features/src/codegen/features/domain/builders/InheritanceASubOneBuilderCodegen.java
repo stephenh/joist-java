@@ -25,6 +25,9 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
     }
 
     public InheritanceAThingBuilder inheritanceAThing() {
+        if (get().getInheritanceAThing() == null) {
+            return null;
+        }
         return Builders.existing(get().getInheritanceAThing());
     }
 

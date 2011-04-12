@@ -5,6 +5,8 @@ import joist.domain.exceptions.DisconnectedException;
 import joist.domain.uow.UoW;
 import joist.util.Default;
 
+import org.apache.commons.lang.ObjectUtils;
+
 /** A value holder that will lazy load the foreign key. */
 public class ForeignKeyHolder<T extends DomainObject> {
 
@@ -46,6 +48,11 @@ public class ForeignKeyHolder<T extends DomainObject> {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  @Override
+  public String toString() {
+    return this.instance != null ? this.instance.toString() : ObjectUtils.toString(this.id, null);
   }
 
 }

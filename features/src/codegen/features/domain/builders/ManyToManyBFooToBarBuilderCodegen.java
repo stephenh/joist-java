@@ -22,6 +22,9 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
     }
 
     public ManyToManyBFooBuilder blue() {
+        if (get().getBlue() == null) {
+            return null;
+        }
         return Builders.existing(get().getBlue());
     }
 
@@ -46,6 +49,9 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
     }
 
     public ManyToManyBBarBuilder green() {
+        if (get().getGreen() == null) {
+            return null;
+        }
         return Builders.existing(get().getGreen());
     }
 

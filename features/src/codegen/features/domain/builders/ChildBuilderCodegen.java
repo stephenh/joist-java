@@ -1,7 +1,10 @@
 package features.domain.builders;
 
 import features.domain.Child;
+import features.domain.GrandChild;
 import features.domain.Parent;
+import java.util.ArrayList;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
@@ -35,6 +38,9 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
     }
 
     public ParentBuilder parent() {
+        if (get().getParent() == null) {
+            return null;
+        }
         return Builders.existing(get().getParent());
     }
 
@@ -56,6 +62,18 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
     public ChildBuilder with(ParentBuilder parent) {
         get().setParent(parent.get());
         return (ChildBuilder) this;
+    }
+
+    public List<GrandChildBuilder> grandChilds() {
+        List<GrandChildBuilder> b = new ArrayList<GrandChildBuilder>();
+        for (GrandChild e : get().getGrandChilds()) {
+            b.add(Builders.existing(e));
+        }
+        return b;
+    }
+
+    public GrandChildBuilder grandChild(int i) {
+        return Builders.existing(get().getGrandChilds().get(i));
     }
 
     public Child get() {

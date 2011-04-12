@@ -1,6 +1,9 @@
 package features.domain.builders;
 
 import features.domain.InheritanceBRoot;
+import features.domain.InheritanceBRootChild;
+import java.util.ArrayList;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
@@ -31,6 +34,18 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
     public InheritanceBRootBuilder with(String name) {
         get().setName(name);
         return (InheritanceBRootBuilder) this;
+    }
+
+    public List<InheritanceBRootChildBuilder> inheritanceBRootChilds() {
+        List<InheritanceBRootChildBuilder> b = new ArrayList<InheritanceBRootChildBuilder>();
+        for (InheritanceBRootChild e : get().getInheritanceBRootChilds()) {
+            b.add(Builders.existing(e));
+        }
+        return b;
+    }
+
+    public InheritanceBRootChildBuilder inheritanceBRootChild(int i) {
+        return Builders.existing(get().getInheritanceBRootChilds().get(i));
     }
 
     public InheritanceBRoot get() {

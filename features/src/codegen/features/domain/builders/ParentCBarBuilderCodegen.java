@@ -35,6 +35,9 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
     }
 
     public ParentCFooBuilder firstParent() {
+        if (get().getFirstParent() == null) {
+            return null;
+        }
         return Builders.existing(get().getFirstParent());
     }
 
@@ -49,6 +52,9 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
     }
 
     public ParentCFooBuilder secondParent() {
+        if (get().getSecondParent() == null) {
+            return null;
+        }
         return Builders.existing(get().getSecondParent());
     }
 

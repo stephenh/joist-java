@@ -88,6 +88,14 @@ public class CodegenConfig {
     return this;
   }
 
+  public CodegenConfig doNotUseMoney() {
+    this.javaTypeByPattern.remove(new TypeAndPattern("integer", this.amountSuffix));
+    this.javaTypeByPattern.remove(new TypeAndPattern("bigint", this.amountSuffix));
+    this.aliasTypeByPattern.remove(new TypeAndPattern("integer", this.amountSuffix));
+    this.aliasTypeByPattern.remove(new TypeAndPattern("bigint", this.amountSuffix));
+    return this;
+  }
+
   public void setProjectNameForDefaults(String projectName) {
     this.domainObjectPackage = projectName + ".domain";
     this.queriesPackage = projectName + ".domain.queries";

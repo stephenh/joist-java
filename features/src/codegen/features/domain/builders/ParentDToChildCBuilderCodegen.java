@@ -22,6 +22,9 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
     }
 
     public ParentDChildCBuilder parentDChildC() {
+        if (get().getParentDChildC() == null) {
+            return null;
+        }
         return Builders.existing(get().getParentDChildC());
     }
 
@@ -46,6 +49,9 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
     }
 
     public ParentDBuilder parentD() {
+        if (get().getParentD() == null) {
+            return null;
+        }
         return Builders.existing(get().getParentD());
     }
 

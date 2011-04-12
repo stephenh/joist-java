@@ -21,7 +21,7 @@ public class FixedPrecisionTest extends TestCase {
     }
 
     public static Foo from(String value) {
-      return new Foo(AbstractFixedPrecision.fromStringUtil(value));
+      return value == null ? null : new Foo(AbstractFixedPrecision.fromStringUtil(value));
     }
 
     public static Foo from(long value) {
@@ -64,6 +64,18 @@ public class FixedPrecisionTest extends TestCase {
   }
 
   public void testStringConstructionIsUnsafeWithExcessivePrecisionAsWell() {
+    Assert.assertEquals(Foo.from("1,234"), Foo.from("1234"));
+    Assert.assertEquals(Foo.from("1,234.00"), Foo.from("1234"));
+    Assert.assertEquals(Foo.from(null), null);
+    try {
+      Foo.from("asdf");
+      Assert.fail();
+    } catch (RuntimeException re) {
+      Assert.assertEquals("Invalid number asdf", re.getMessage());
+    }
+  }
+
+  public void testStringConstructionWithVariousInput() {
     Foo excessivePrecision = Foo.from("4.1234567895");
     this.assertNotSerializable(excessivePrecision);
     this.assertNotSerializable(excessivePrecision.round(10)); // still unsafe
@@ -151,11 +163,14 @@ public class FixedPrecisionTest extends TestCase {
     // But display rounding is nice sometimes.
 
     // This will zero-extend the value (if necessary) to force the specified precision level
-    Assert.assertEquals("1899.000006", value.toExplicitPrecisionString(7));
+    Assert.assertEquals("1899.0000060", value.toExplicitPrecisionString(7));
 
     // ...and will round to even if you stipulate a lower precision level than the internal representation
     Assert.assertEquals("1899.00001", value.toExplicitPrecisionString(5));
     Assert.assertEquals("1899", value.toExplicitPrecisionString(0));
+
+    Assert.assertEquals("1899", Foo.from("1899.0").toString());
+    Assert.assertEquals("1890", Foo.from("1890.0").toString());
   }
 
   public void testArithmeticOperations() {

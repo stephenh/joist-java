@@ -3,7 +3,7 @@
 	<configurations>
 		<conf name="default" extends="compile"/>
 		<conf name="sources"/>
-		<conf name="compile" visibility="private"/>
+		<conf name="compile"/>
 		<conf name="test" extends="default" visibility="private"/>
 	</configurations>
 	<publications>

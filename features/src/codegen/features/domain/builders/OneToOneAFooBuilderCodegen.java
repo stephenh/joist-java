@@ -33,6 +33,13 @@ public abstract class OneToOneAFooBuilderCodegen extends AbstractBuilder<OneToOn
         return (OneToOneAFooBuilder) this;
     }
 
+    public OneToOneABarBuilder oneToOneABar() {
+        if (get().getOneToOneABar() == null) {
+            return null;
+        }
+        return Builders.existing(get().getOneToOneABar());
+    }
+
     public OneToOneAFoo get() {
         return (features.domain.OneToOneAFoo) super.get();
     }

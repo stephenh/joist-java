@@ -47,12 +47,13 @@ public class MigrationKeywords {
     MigrationKeywords.addForeignKeyConstraint(name, MigrationKeywords.foreignKey("id", parentName, "id").ownerIsThem());
   }
 
-  public static void createCodeTable(String name) {
+  public static void createCodeTable(String name, String... codePlusDescriptions) {
     MigrationKeywords.createTable(name,//
       MigrationKeywords.primaryKey("id").noSequence(),
       MigrationKeywords.varchar("code").unique(),
       MigrationKeywords.varchar("name").unique(),
       MigrationKeywords.integer("version"));
+    MigrationKeywords.addCodes(name, codePlusDescriptions);
   }
 
   public static void createJoinTable(String table1, String table2) {
@@ -74,6 +75,13 @@ public class MigrationKeywords {
   public static void addCode(String tableName, String code, String description) {
     int id = MigrationKeywords.getNextIdForCode(tableName);
     MigrationKeywords.execute("INSERT INTO {} (id, code, name, version) VALUES ({}, '{}', '{}', 0)", tableName, id, code, description);
+  }
+
+  public static void addCodes(String tableName, String... codePlusDescriptions) {
+    for (String codePlusDescription : codePlusDescriptions) {
+      int i = codePlusDescription.indexOf(' ');
+      MigrationKeywords.addCode(tableName, codePlusDescription.substring(0, i), codePlusDescription.substring(i + 1));
+    }
   }
 
   public static void addUnique(String tableName, String... columnNames) {

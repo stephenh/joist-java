@@ -78,7 +78,7 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
   }
 
   public String toExplicitPrecisionString(int decimalPlacesToDisplay) {
-    return this.round(decimalPlacesToDisplay).toString();
+    return this.round(decimalPlacesToDisplay).value.toPlainString();
   }
 
   // Logical operation methods
@@ -121,8 +121,13 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
 
   public String toString() {
     String plain = this.value.toPlainString();
-    while (plain.endsWith("0")) {
-      plain = plain.substring(0, plain.length() - 1);
+    if (plain.indexOf('.') > -1) {
+      while (plain.endsWith("0")) {
+        plain = plain.substring(0, plain.length() - 1);
+      }
+      if (plain.endsWith(".")) {
+        plain = plain.substring(0, plain.length() - 1);
+      }
     }
     return plain;
   }
@@ -158,8 +163,16 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
   // Serialization methods
 
   /** @param value the string value, assumed to be unsafe */
-  protected static Initializer fromStringUtil(final String value) {
-    return new Initializer(new BigDecimal(value), false);
+  protected static Initializer fromStringUtil(final String _value) {
+    if (_value == null) {
+      return null;
+    }
+    String value = _value.replace(",", "");
+    try {
+      return new Initializer(new BigDecimal(value), false);
+    } catch (NumberFormatException nfe) {
+      throw new RuntimeException("Invalid number " + value, nfe);
+    }
   }
 
   /** @param long the actual value (not serialized like {@link AbstractFixedPrecision#fromSerializedLongUtil}. */
@@ -170,6 +183,11 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
   /** @param double the actual value. */
   protected static Initializer fromDoubleUtil(double value) {
     return new Initializer(new BigDecimal(value), false);
+  }
+
+  /** @param value the actual value. */
+  protected static Initializer fromBigDecimalUtil(BigDecimal value) {
+    return new Initializer(value, false);
   }
 
   /** @param representation The serialized value, represented as actual value * 10^9 */

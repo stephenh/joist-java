@@ -35,6 +35,9 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
     }
 
     public InheritanceAOwnerBuilder inheritanceAOwner() {
+        if (get().getInheritanceAOwner() == null) {
+            return null;
+        }
         return Builders.existing(get().getInheritanceAOwner());
     }
 
