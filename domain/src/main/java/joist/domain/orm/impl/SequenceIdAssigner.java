@@ -21,15 +21,23 @@ public class SequenceIdAssigner {
     if (byClassInserts.size() == 0) {
       return;
     }
-    String allSql = this.buildSql(byClassInserts);
-    if ("".equals(allSql)) {
+    List<String> allSql = this.buildSql(byClassInserts);
+    if (allSql.size() == 0) {
       return;
     }
-    List<Long> ids = this.fetchIds(allSql);
+    // If we have too many new objects, postgresql will fail to parse the
+    // enormously long SQL statement, so batch them in chunks of 1000
+    List<Long> ids = new ArrayList<Long>();
+    int taken = 0;
+    while (ids.size() < allSql.size()) {
+      int take = Math.min(allSql.size() - taken, 1000);
+      ids.addAll(this.fetchIds(allSql.subList(taken, taken + take)));
+      taken = take;
+    }
     this.setIds(byClassInserts, ids);
   }
 
-  private <T extends DomainObject> String buildSql(MapToList<Class<T>, T> byClassInserts) {
+  private <T extends DomainObject> List<String> buildSql(MapToList<Class<T>, T> byClassInserts) {
     List<String> allSql = new ArrayList<String>();
     for (Entry<Class<T>, List<T>> entry : byClassInserts.entrySet()) {
       String sql = "select nextval('" + AliasRegistry.get(entry.getKey()).getRootClassAlias().getTableName() + "_id_seq')";
@@ -42,13 +50,13 @@ public class SequenceIdAssigner {
         allSql.add(sql);
       }
     }
-    return Join.join(allSql, " UNION ALL ");
+    return allSql;
   }
 
   // Get all of the nextvals at once
-  private List<Long> fetchIds(String sql) {
+  private List<Long> fetchIds(List<String> sql) {
     final List<Long> ids = new ArrayList<Long>();
-    Jdbc.query(UoW.getConnection(), sql, new RowMapper() {
+    Jdbc.query(UoW.getConnection(), Join.join(sql, " UNION ALL "), new RowMapper() {
       public void mapRow(ResultSet rs) throws SQLException {
         ids.add(rs.getLong(1));
       }
