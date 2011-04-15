@@ -11,8 +11,9 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import joist.util.Interpolate;
-import joist.util.Log;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Jdbc {
 
   private Jdbc() {
@@ -24,7 +25,7 @@ public class Jdbc {
     ResultSet rs = null;
     try {
       sql = Interpolate.string(sql, args);
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
       stmt = connection.createStatement();
       rs = stmt.executeQuery(sql);
       if (rs.next()) {
@@ -55,7 +56,7 @@ public class Jdbc {
     ResultSet rs = null;
     try {
       sql = Interpolate.string(sql, args);
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
       stmt = connection.createStatement();
       rs = stmt.executeQuery(sql);
       int count = rs.getMetaData().getColumnCount();
@@ -89,7 +90,7 @@ public class Jdbc {
     Statement stmt = null;
     try {
       sql = Interpolate.string(sql, args);
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
       stmt = connection.createStatement();
       return stmt.executeUpdate(sql);
     } catch (SQLException se) {
@@ -127,7 +128,7 @@ public class Jdbc {
     Statement s = null;
     ResultSet rs = null;
     try {
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
       s = connection.createStatement();
       rs = s.executeQuery(sql);
       while (rs.next()) {
@@ -156,8 +157,8 @@ public class Jdbc {
     PreparedStatement s = null;
     ResultSet rs = null;
     try {
-      Log.trace("sql = {}", sql);
-      Log.trace("parameters = {}", parameters);
+      log.trace("sql = {}", sql);
+      log.trace("parameters = {}", parameters);
       s = connection.prepareStatement(sql);
       for (int i = 0; i < parameters.size(); i++) {
         s.setObject(i + 1, parameters.get(i));
@@ -176,8 +177,8 @@ public class Jdbc {
   public static int update(Connection connection, String sql, List<Object> parameters) {
     PreparedStatement ps = null;
     try {
-      Log.trace("sql = {}", sql);
-      Log.trace("parameters = {}", parameters);
+      log.trace("sql = {}", sql);
+      log.trace("parameters = {}", parameters);
       ps = connection.prepareStatement(sql);
       for (int i = 0; i < parameters.size(); i++) {
         ps.setObject(i + 1, parameters.get(i));
@@ -193,10 +194,10 @@ public class Jdbc {
   public static Long[] insertBatch(Connection connection, String sql, List<List<Object>> allParameters) {
     PreparedStatement ps = null;
     try {
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
       ps = connection.prepareStatement(sql, new String[] { "id" });
       for (List<Object> parameters : allParameters) {
-        Log.trace("parameters = {}", parameters);
+        log.trace("parameters = {}", parameters);
         for (int i = 0; i < parameters.size(); i++) {
           ps.setObject(i + 1, parameters.get(i));
         }
@@ -236,10 +237,10 @@ public class Jdbc {
     List<Integer> changed = new ArrayList<Integer>();
     PreparedStatement ps = null;
     try {
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
       ps = connection.prepareStatement(sql);
       for (List<Object> parameters : allParameters) {
-        Log.trace("parameters = {}", parameters);
+        log.trace("parameters = {}", parameters);
         for (int i = 0; i < parameters.size(); i++) {
           ps.setObject(i + 1, parameters.get(i));
         }
@@ -280,7 +281,7 @@ public class Jdbc {
           throw new RuntimeException("Unhandled object " + o);
         }
       } catch (Exception e) {
-        Log.warn("Error occurred closing {}", e, o);
+        log.warn("Error occurred closing {}", e, o);
       }
     }
   }
