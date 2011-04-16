@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import joist.domain.util.ConnectionSettings;
-import joist.registry.ResourceFactory;
 import joist.util.Log;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -13,7 +12,7 @@ import com.mchange.v2.c3p0.DataSources;
 import com.mchange.v2.c3p0.management.ManagementCoordinator;
 import com.mchange.v2.c3p0.management.NullManagementCoordinator;
 
-public abstract class AbstractC3p0Factory implements ResourceFactory<DataSource> {
+public abstract class AbstractC3p0Factory {
 
   static {
     // Save 50-100ms because we don't care about JMX/whatever
