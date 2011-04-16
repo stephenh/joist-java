@@ -1,30 +1,31 @@
 package joist.domain.orm;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 import joist.domain.DomainObject;
 import joist.util.Log;
+import joist.util.MapToMap;
 
 public class IdentityMap {
 
   // TODO: Use a weak value so that, once the user does not reference to
   // a domain object any more (and it's been flushed from the validate queue),
-  // the GC can delete it?
-  private final Map<String, DomainObject> objects = new HashMap<String, DomainObject>();
+  // the GC can delete it? Per Click, having the GC drive app behavior is a bad idea.
+  private final MapToMap<Class<?>, Long, DomainObject> objects = new MapToMap<Class<?>, Long, DomainObject>();
 
   public void store(DomainObject o) {
     Class<?> rootType = AliasRegistry.getRootClass(o.getClass());
-    Integer id = o.getId().intValue();
-    Log.trace("Storing {}#{} in identity map", rootType, id);
-    if (this.objects.put(rootType + "#" + id, o) != null) {
+    Log.trace("Storing {}#{} in identity map", rootType, o.getId());
+    if (this.objects.put(rootType, o.getId(), o) != null) {
       throw new RuntimeException("Domain object conflicts with an existing id " + o);
     }
   }
 
   public Object findOrNull(Class<?> type, Long id) {
     Class<?> rootType = AliasRegistry.getRootClass(type);
-    Object o = this.objects.get(rootType + "#" + id);
+    Object o = this.objects.get(rootType, id);
     if (o != null) {
       Log.trace("Found {}#{} in identity map", rootType, id);
       return o;
@@ -34,7 +35,7 @@ public class IdentityMap {
   }
 
   public int size() {
-    return this.objects.size();
+    return this.objects.totalSize();
   }
 
 }
