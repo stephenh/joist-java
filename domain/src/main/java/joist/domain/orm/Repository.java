@@ -31,7 +31,7 @@ public class Repository {
   private Connection connection;
 
   public static void configure(Db db, String projectName) {
-    Repository.db = Db.PG;
+    Repository.db = db;
     final ConnectionSettings cs = ConnectionSettings.forApp(db, projectName);
     if (db.isPg()) {
       Repository.datasource = new Pgc3p0Factory(cs).create();
