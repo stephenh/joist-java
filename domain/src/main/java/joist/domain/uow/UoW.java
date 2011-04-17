@@ -6,8 +6,9 @@ import joist.domain.DomainObject;
 import joist.domain.orm.EagerCache;
 import joist.domain.orm.IdentityMap;
 import joist.domain.orm.Updater;
-import joist.util.Log;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class UoW {
 
   private static final ThreadLocal<UnitOfWork> uowForThread = new ThreadLocal<UnitOfWork>();
@@ -185,13 +186,13 @@ public class UoW {
       try {
         UoW.rollback();
       } catch (Exception e) {
-        Log.error("Error rolling back", e);
+        log.error("Error while rolling back", e);
       }
     }
     try {
       UoW.close();
     } catch (Exception e) {
-      Log.error("Error closing", e);
+      log.error("Error while closing", e);
     }
   }
 

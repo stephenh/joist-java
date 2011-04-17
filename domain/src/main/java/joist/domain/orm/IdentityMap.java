@@ -3,9 +3,10 @@ package joist.domain.orm;
 import java.util.Collection;
 
 import joist.domain.DomainObject;
-import joist.util.Log;
 import joist.util.MapToMap;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class IdentityMap {
 
   // TODO: Use a weak value so that, once the user does not reference to
@@ -15,7 +16,7 @@ public class IdentityMap {
 
   public void store(DomainObject o) {
     Class<?> rootType = AliasRegistry.getRootClass(o.getClass());
-    Log.trace("Storing {}#{} in identity map", rootType, o.getId());
+    log.trace("Storing {}#{} in identity map", rootType, o.getId());
     if (this.objects.put(rootType, o.getId(), o) != null) {
       throw new RuntimeException("Domain object conflicts with an existing id " + o);
     }
@@ -25,10 +26,10 @@ public class IdentityMap {
     Class<?> rootType = AliasRegistry.getRootClass(type);
     Object o = this.objects.get(rootType, id);
     if (o != null) {
-      Log.trace("Found {}#{} in identity map", rootType, id);
+      log.trace("Found {}#{} in identity map", rootType, id);
       return o;
     }
-    Log.trace("Missed {}#{} in identity map", rootType, id);
+    log.trace("Missed {}#{} in identity map", rootType, id);
     return null;
   }
 

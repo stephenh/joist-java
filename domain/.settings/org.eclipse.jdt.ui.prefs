@@ -1,4 +1,4 @@
-#Sun Aug 01 22:47:42 CDT 2010
+#Sat Apr 16 22:56:37 CDT 2011
 cleanup.add_default_serial_version_id=true
 cleanup.add_generated_serial_version_id=false
 cleanup.add_missing_annotations=false
@@ -90,7 +90,7 @@ sp_cleanup.organize_imports=true
 sp_cleanup.qualify_static_field_accesses_with_declaring_class=true
 sp_cleanup.qualify_static_member_accesses_through_instances_with_declaring_class=true
 sp_cleanup.qualify_static_member_accesses_through_subtypes_with_declaring_class=false
-sp_cleanup.qualify_static_member_accesses_with_declaring_class=true
+sp_cleanup.qualify_static_member_accesses_with_declaring_class=false
 sp_cleanup.qualify_static_method_accesses_with_declaring_class=true
 sp_cleanup.remove_private_constructors=true
 sp_cleanup.remove_trailing_whitespaces=true

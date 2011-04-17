@@ -4,6 +4,7 @@
 		<conf name="default" extends="compile"/>
 		<conf name="sources"/>
 		<conf name="compile"/>
+		<conf name="provided"/>
 		<conf name="test" extends="default" visibility="private"/>
 	</configurations>
 	<publications>
@@ -14,5 +15,7 @@
 	<dependencies defaultconfmapping="%->default,sources()">
 		<dependency org="joist" name="joist-domain" rev="${joist.version}" conf="compile"/>
 		<dependency org="junit" name="junit" rev="3.8.2" conf="test"/>
+
+		<dependency org="org.projectlombok" name="lombok" rev="0.10.0-201104011955" conf="provided"/>
 	</dependencies>
 </ivy-module>

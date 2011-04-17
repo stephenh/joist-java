@@ -5,13 +5,14 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import joist.domain.util.ConnectionSettings;
-import joist.util.Log;
+import lombok.extern.slf4j.Slf4j;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;
 import com.mchange.v2.c3p0.management.ManagementCoordinator;
 import com.mchange.v2.c3p0.management.NullManagementCoordinator;
 
+@Slf4j
 public abstract class AbstractC3p0Factory {
 
   static {
@@ -45,7 +46,7 @@ public abstract class AbstractC3p0Factory {
     try {
       DataSources.destroy(dataSource);
     } catch (SQLException se) {
-      Log.error("Error destroying dataSource {}", se, dataSource);
+      log.error("Error while destroying dataSource {}", se, dataSource);
     }
   }
 }

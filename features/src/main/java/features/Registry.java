@@ -4,7 +4,6 @@ import javax.sql.DataSource;
 
 import joist.domain.orm.Db;
 import joist.domain.orm.Repository;
-import joist.util.Log;
 import joist.util.SystemProperties;
 
 public class Registry {
@@ -13,7 +12,6 @@ public class Registry {
   private final static Registry instance = new Registry();
 
   public static void start() {
-    Log.debug("Starting...");
   }
 
   public static DataSource getDataSource() {
