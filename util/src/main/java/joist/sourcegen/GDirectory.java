@@ -43,6 +43,7 @@ public class GDirectory {
       if (file.exists()) {
         String existingCode = Read.fromFile(file);
         if (newCode.equals(existingCode)) {
+          this.touched.add(file);
           continue;
         }
       }
