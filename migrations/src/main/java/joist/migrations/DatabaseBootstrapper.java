@@ -7,8 +7,9 @@ import joist.domain.util.ConnectionSettings;
 import joist.jdbc.Jdbc;
 import joist.util.Execute;
 import joist.util.Execute.Result;
-import joist.util.Log;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class DatabaseBootstrapper {
 
   private final DataSource systemDataSource;
@@ -33,15 +34,15 @@ public class DatabaseBootstrapper {
   }
 
   public void restore(String pgBinPath) {
-    Log.debug("Schema only");
+    log.debug("Schema only");
     Result result = this.restore(pgBinPath, "--schema-only");
 
-    Log.debug("Data only");
+    log.debug("Data only");
     result = this.restore(pgBinPath, "--data-only");
     if (!result.success) {
-      Log.error("Failed data load");
-      Log.error(result.out);
-      Log.error(result.err);
+      log.error("Failed data load");
+      log.error(result.out);
+      log.error(result.err);
     }
   }
 
@@ -65,21 +66,21 @@ public class DatabaseBootstrapper {
 
     int i = Jdbc.queryForInt(this.systemDataSource, "select count(*) from information_schema.schemata where schema_name = '{}'", databaseName);
     if (i != 0) {
-      Log.debug("Dropping {}", databaseName);
+      log.debug("Dropping {}", databaseName);
       Jdbc.update(this.systemDataSource, "drop database {};", databaseName);
     }
 
     int j = Jdbc.queryForInt(this.systemDataSource, "select count(*) from mysql.user where user = '{}'", username);
     if (j != 0) {
-      Log.debug("Dropping {}", username);
+      log.debug("Dropping {}", username);
       Jdbc.update(this.systemDataSource, "revoke all privileges, grant option from {}", username);
       Jdbc.update(this.systemDataSource, "drop user {}", username);
     }
 
-    Log.debug("Creating {}", databaseName);
+    log.debug("Creating {}", databaseName);
     Jdbc.update(this.systemDataSource, "create database {};", databaseName);
 
-    Log.debug("Creating {}", username);
+    log.debug("Creating {}", username);
     Jdbc.update(this.systemDataSource, "create user {} identified by '{}';", username, password);
   }
 
@@ -90,23 +91,23 @@ public class DatabaseBootstrapper {
 
     int i = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_database where datname = '{}'", databaseName);
     if (i != 0) {
-      Log.debug("Dropping {}", databaseName);
+      log.debug("Dropping {}", databaseName);
       Jdbc.update(this.systemDataSource, "drop database {};", databaseName);
     }
 
     int j = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_user where usename = '{}'", username);
     if (j != 0) {
-      Log.debug("Dropping {}", username);
+      log.debug("Dropping {}", username);
       Jdbc.update(this.systemDataSource, "drop user {};", username);
     }
 
-    Log.debug("Creating {}", databaseName);
+    log.debug("Creating {}", databaseName);
     Jdbc.update(this.systemDataSource, "create database {} template template0;", databaseName);
 
-    Log.debug("Creating {}", username);
+    log.debug("Creating {}", username);
     Jdbc.update(this.systemDataSource, "create user {} password '{}';", username, password);
 
-    Log.debug("Creating plpgsql");
+    log.debug("Creating plpgsql");
     Jdbc.update(this.appDataSource, "create language plpgsql;");
   }
 }

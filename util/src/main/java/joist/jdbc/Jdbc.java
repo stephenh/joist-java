@@ -7,15 +7,37 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.sql.DataSource;
 
 import joist.util.Interpolate;
-import joist.util.Log;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Jdbc {
 
+  private static final boolean trackStats = Boolean.valueOf(System.getProperty("joist.util.jdbc.trackStats", "false"));
+  private static final AtomicInteger queries = new AtomicInteger(0);
+  private static final AtomicInteger updates = new AtomicInteger(0);
+
   private Jdbc() {
+  }
+
+  /** @return the number of queries, only if {@link #trackStats} is enabled. */
+  public static int numberOfQueries() {
+    return queries.get();
+  }
+
+  /** @return the number of updates, only if {@link #trackStats} is enabled. */
+  public static int numberOfUpdates() {
+    return updates.get();
+  }
+
+  /** Resets the stats (only meaningful if {@link #trackStats} is enabled. */
+  public static void resetStats() {
+    updates.set(0);
+    queries.set(0);
   }
 
   public static int queryForInt(Connection connection, String sql, Object... args) {
@@ -24,7 +46,8 @@ public class Jdbc {
     ResultSet rs = null;
     try {
       sql = Interpolate.string(sql, args);
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
+      tickQueriesIfTracking();
       stmt = connection.createStatement();
       rs = stmt.executeQuery(sql);
       if (rs.next()) {
@@ -55,7 +78,8 @@ public class Jdbc {
     ResultSet rs = null;
     try {
       sql = Interpolate.string(sql, args);
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
+      tickQueriesIfTracking();
       stmt = connection.createStatement();
       rs = stmt.executeQuery(sql);
       int count = rs.getMetaData().getColumnCount();
@@ -89,7 +113,8 @@ public class Jdbc {
     Statement stmt = null;
     try {
       sql = Interpolate.string(sql, args);
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
+      tickUpdatesIfTracking();
       stmt = connection.createStatement();
       return stmt.executeUpdate(sql);
     } catch (SQLException se) {
@@ -127,7 +152,8 @@ public class Jdbc {
     Statement s = null;
     ResultSet rs = null;
     try {
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
+      tickQueriesIfTracking();
       s = connection.createStatement();
       rs = s.executeQuery(sql);
       while (rs.next()) {
@@ -156,8 +182,9 @@ public class Jdbc {
     PreparedStatement s = null;
     ResultSet rs = null;
     try {
-      Log.trace("sql = {}", sql);
-      Log.trace("parameters = {}", parameters);
+      log.trace("sql = {}", sql);
+      log.trace("parameters = {}", parameters);
+      tickQueriesIfTracking();
       s = connection.prepareStatement(sql);
       for (int i = 0; i < parameters.size(); i++) {
         s.setObject(i + 1, parameters.get(i));
@@ -176,8 +203,9 @@ public class Jdbc {
   public static int update(Connection connection, String sql, List<Object> parameters) {
     PreparedStatement ps = null;
     try {
-      Log.trace("sql = {}", sql);
-      Log.trace("parameters = {}", parameters);
+      log.trace("sql = {}", sql);
+      log.trace("parameters = {}", parameters);
+      tickUpdatesIfTracking();
       ps = connection.prepareStatement(sql);
       for (int i = 0; i < parameters.size(); i++) {
         ps.setObject(i + 1, parameters.get(i));
@@ -193,10 +221,11 @@ public class Jdbc {
   public static Long[] insertBatch(Connection connection, String sql, List<List<Object>> allParameters) {
     PreparedStatement ps = null;
     try {
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
+      tickUpdatesIfTracking();
       ps = connection.prepareStatement(sql, new String[] { "id" });
       for (List<Object> parameters : allParameters) {
-        Log.trace("parameters = {}", parameters);
+        log.trace("parameters = {}", parameters);
         for (int i = 0; i < parameters.size(); i++) {
           ps.setObject(i + 1, parameters.get(i));
         }
@@ -236,10 +265,11 @@ public class Jdbc {
     List<Integer> changed = new ArrayList<Integer>();
     PreparedStatement ps = null;
     try {
-      Log.trace("sql = {}", sql);
+      log.trace("sql = {}", sql);
+      tickUpdatesIfTracking();
       ps = connection.prepareStatement(sql);
       for (List<Object> parameters : allParameters) {
-        Log.trace("parameters = {}", parameters);
+        log.trace("parameters = {}", parameters);
         for (int i = 0; i < parameters.size(); i++) {
           ps.setObject(i + 1, parameters.get(i));
         }
@@ -280,8 +310,20 @@ public class Jdbc {
           throw new RuntimeException("Unhandled object " + o);
         }
       } catch (Exception e) {
-        Log.warn("Error occurred closing {}", e, o);
+        log.warn("Error occurred closing {}", e, o);
       }
+    }
+  }
+
+  private static void tickQueriesIfTracking() {
+    if (trackStats) {
+      queries.incrementAndGet();
+    }
+  }
+
+  private static void tickUpdatesIfTracking() {
+    if (trackStats) {
+      updates.incrementAndGet();
     }
   }
 

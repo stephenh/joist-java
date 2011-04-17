@@ -7,8 +7,9 @@ import javax.sql.DataSource;
 
 import joist.domain.util.ConnectionSettings;
 import joist.jdbc.Jdbc;
-import joist.util.Log;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Migrater {
 
   private static ThreadLocal<Connection> current = new ThreadLocal<Connection>();
@@ -64,7 +65,7 @@ public class Migrater {
       }
 
       Migration migration = this.migrationClasses.get(nextVersion);
-      Log.info("Applying {}: {}", migration.getClass().getSimpleName(), migration.toString());
+      log.info("Applying {}: {}", migration.getClass().getSimpleName(), migration.toString());
       migration.apply();
 
       // Tick to the current version number

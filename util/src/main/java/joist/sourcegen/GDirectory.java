@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joist.util.Copy;
-import joist.util.Log;
 import joist.util.Read;
 import joist.util.Write;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class GDirectory {
 
   private final File directory;
@@ -47,7 +48,7 @@ public class GDirectory {
       }
 
       file.getParentFile().mkdirs();
-      Log.debug("Saving {}", file);
+      log.debug("Saving {}", file);
       Write.toFile(file, newCode);
       this.touched.add(file);
     }
@@ -61,7 +62,7 @@ public class GDirectory {
         if (file.isDirectory()) {
           directoriesToCheck.add(file);
         } else if (!this.touched.contains(file)) {
-          Log.warn("Removing old file {}", file);
+          log.warn("Removing old file {}", file);
           file.delete();
         }
       }

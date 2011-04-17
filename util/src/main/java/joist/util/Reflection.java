@@ -1,6 +1,5 @@
 package joist.util;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -69,28 +68,6 @@ public class Reflection {
     } catch (InstantiationException ie) {
       throw new RuntimeException(ie);
     }
-  }
-
-  public static <T> T newInstanceOrNull(Class<T> type) {
-    if (type == null) {
-      return null;
-    }
-
-    try {
-      for (Constructor<?> c : type.getConstructors()) {
-        if (c.getParameterTypes().length == 0) {
-          // found the nullary constructor, so instantiate an object
-          return type.newInstance();
-        }
-      }
-      // nullary constructor does not exist for given type
-      Log.warn("Given type (" + type.getCanonicalName() + ") must have a default constructor. Returning null.");
-    } catch (IllegalAccessException iea) {
-      Log.warn(iea.getMessage(), iea);
-    } catch (InstantiationException ie) {
-      Log.warn(ie.getMessage(), ie);
-    }
-    return null;
   }
 
   public static Class<?> forName(String className) {

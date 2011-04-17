@@ -4,6 +4,7 @@
 		<conf name="default" extends="compile"/>
 		<conf name="compile"/>
 		<conf name="test" extends="compile" visibility="private"/>
+		<conf name="provided"/>
 		<conf name="sources"/>
 	</configurations>
 	<publications>
@@ -13,6 +14,8 @@
 	</publications>
 	<dependencies defaultconfmapping="%->default,sources()">
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.6.1" conf="compile"/>
+
+		<dependency org="org.projectlombok" name="lombok" rev="0.10.0-201104011955" conf="provided"/>
 
 		<dependency org="junit" name="junit" rev="3.8.2" conf="test"/>
 		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.1" conf="test"/>

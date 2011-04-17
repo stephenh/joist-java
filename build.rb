@@ -1,7 +1,7 @@
 
 require 'buildr/ivy_extension'
 
-THIS_VERSION = ENV['version'] || '0.6-SNAPSHOT'
+THIS_VERSION = ENV['version'] || 'SNAPSHOT'
 
 # to resolve the ${joist.version} in the ivy.xml
 Java.java.lang.System.setProperty("joist.version", THIS_VERSION)
