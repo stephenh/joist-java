@@ -25,7 +25,7 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
     return new Where(this.getQualifiedName() + " = ?", value.getId());
   }
 
-  public Where in(Collection<Integer> ids) {
+  public Where in(Collection<? extends Number> ids) {
     return new Where(this.getQualifiedName() + " in (" + Join.comma(ids) + ")");
   }
 

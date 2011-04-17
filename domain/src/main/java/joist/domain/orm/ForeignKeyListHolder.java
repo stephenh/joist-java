@@ -1,6 +1,7 @@
 package joist.domain.orm;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import joist.domain.orm.queries.Select;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.uow.UoW;
 import joist.util.Copy;
+import joist.util.FluentList;
+import joist.util.MapToList;
 
 /**
  * A value holder that will lazy load the objects inferred by their foreign key to us.
@@ -44,18 +47,40 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
         if (!UoW.isOpen()) {
           throw new DisconnectedException();
         }
-        Select<U> q = Select.from(this.childAlias);
-        q.where(this.childForeignKeyToParentColumn.eq(this.parent));
-        q.orderBy(this.childAlias.getIdColumn().asc());
-        this.loaded = q.list();
+        // hardcoded to true for now
+        boolean shouldEagerLoad = true;
+        if (!shouldEagerLoad) {
+          // fetch only the children for this parent from the db
+          Select<U> q = Select.from(this.childAlias);
+          q.where(this.childForeignKeyToParentColumn.eq(this.parent));
+          q.orderBy(this.childAlias.getIdColumn().asc());
+          this.loaded = q.list();
+        } else {
+          // preemptively fetch all children for all parents from the db
+          MapToList<Long, U> byParentId = UoW.getEagerCache().get(this.childForeignKeyToParentColumn);
+          if (byParentId == null) {
+            // no children have been fetched for any parents yet
+            byParentId = this.eagerlyLoad(null, UoW.getIdentityMap().getIdsOf(this.parent.getClass()));
+          } else if (!byParentId.containsKey(this.parent.getId())) {
+            // a bunch of children were fetched, but our parent wasn't in the UoW at the time
+            Collection<Long> alreadyFetchedIds = byParentId.keySet();
+            FluentList<Long> allParentIds = Copy.list(UoW.getIdentityMap().getIdsOf(this.parent.getClass()));
+            byParentId = this.eagerlyLoad(byParentId, allParentIds.without(alreadyFetchedIds));
+          }
+          this.loaded = new ArrayList<U>();
+          this.loaded.addAll(byParentId.get(this.parent.getId()));
+        }
       } else {
+        // parent is brand new, so don't bother hitting the database
         this.loaded = new ArrayList<U>();
       }
       if (this.addedBeforeLoaded.size() > 0 || this.removedBeforeLoaded.size() > 0) {
+        // apply back any adds/removes that we'd been holding off on
         this.loaded.addAll(this.addedBeforeLoaded);
         this.loaded.removeAll(this.removedBeforeLoaded);
         this.loaded = Copy.unique(this.loaded);
       }
+      // make a read-only wrapper around the list to hand out to clients
       this.readOnly = Collections.unmodifiableList(this.loaded);
     }
     return this.readOnly;
@@ -77,6 +102,27 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
     } else {
       this.loaded.remove(instance);
     }
+  }
+
+  private MapToList<Long, U> eagerlyLoad(MapToList<Long, U> byParentId, Collection<Long> idsToLoad) {
+    if (byParentId == null) {
+      // create and cache a new map if this is the first load for the parent
+      byParentId = new MapToList<Long, U>();
+      UoW.getEagerCache().put(this.childForeignKeyToParentColumn, byParentId);
+    }
+    Select<U> q = Select.from(this.childAlias);
+    q.where(this.childForeignKeyToParentColumn.in(idsToLoad));
+    q.orderBy(this.childAlias.getIdColumn().asc());
+    for (U child : q.list()) {
+      Long parentId = this.childForeignKeyToParentColumn.getDomainValue(child);
+      byParentId.add(parentId, child);
+    }
+    // even if a parent didn't have any children, ensure it has an zero-long entry in the cache
+    // so that we know not to re-query for its children when/if it's accessed
+    for (Long currentlyLoadedParentId : idsToLoad) {
+      byParentId.get(currentlyLoadedParentId);
+    }
+    return byParentId;
   }
 
   @Override

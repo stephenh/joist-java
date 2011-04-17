@@ -1,5 +1,7 @@
 package joist.util;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -22,6 +24,15 @@ public class MapToMap<K1, K2, V> extends LinkedHashMap<K1, Map<K2, V>> {
       return null;
     }
     return m.get(key2);
+  }
+
+  public Collection<K2> getSubKeysOf(K1 key1) {
+    Map<K2, V> m = super.get(key1);
+    if (m == null) {
+      return Collections.emptySet();
+    } else {
+      return m.keySet();
+    }
   }
 
   public int totalSize() {

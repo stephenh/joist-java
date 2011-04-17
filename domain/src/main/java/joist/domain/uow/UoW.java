@@ -3,6 +3,7 @@ package joist.domain.uow;
 import java.sql.Connection;
 
 import joist.domain.DomainObject;
+import joist.domain.orm.EagerCache;
 import joist.domain.orm.IdentityMap;
 import joist.domain.orm.Updater;
 import joist.util.Log;
@@ -151,6 +152,10 @@ public class UoW {
 
   public static IdentityMap getIdentityMap() {
     return UoW.getCurrent().getIdentityMap();
+  }
+
+  public static EagerCache getEagerCache() {
+    return UoW.getCurrent().getEagerCache();
   }
 
   /** @return the current database connection */

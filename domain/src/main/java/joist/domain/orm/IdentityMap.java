@@ -1,8 +1,6 @@
 package joist.domain.orm;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.Collection;
 
 import joist.domain.DomainObject;
 import joist.util.Log;
@@ -36,6 +34,11 @@ public class IdentityMap {
 
   public int size() {
     return this.objects.totalSize();
+  }
+
+  public Collection<Long> getIdsOf(Class<?> type) {
+    Class<?> rootType = AliasRegistry.getRootClass(type);
+    return this.objects.getSubKeysOf(rootType);
   }
 
 }

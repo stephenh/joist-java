@@ -3,6 +3,7 @@ package joist.domain.uow;
 import java.util.concurrent.atomic.AtomicReference;
 
 import joist.domain.DomainObject;
+import joist.domain.orm.EagerCache;
 import joist.domain.orm.IdentityMap;
 import joist.domain.orm.Repository;
 import joist.domain.orm.Updater;
@@ -17,6 +18,7 @@ public class UnitOfWork {
 
   private final Validator validator = new Validator();
   private final IdentityMap identityMap = new IdentityMap();
+  private final EagerCache eagerCache = new EagerCache();
   private final Repository repository = new Repository();
   private final AtomicReference<Updater> updater = new AtomicReference<Updater>();
 
@@ -51,6 +53,10 @@ public class UnitOfWork {
 
   IdentityMap getIdentityMap() {
     return this.identityMap;
+  }
+
+  EagerCache getEagerCache() {
+    return this.eagerCache;
   }
 
   Validator getValidator() {
