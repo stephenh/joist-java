@@ -15,8 +15,8 @@ public class UoW {
 
   public static void go(Updater updater, Block block) {
     boolean committed = false;
-    UoW.open(updater);
     try {
+      UoW.open(updater);
       block.go();
       UoW.commit();
       committed = true;
@@ -27,8 +27,8 @@ public class UoW {
 
   public static <T> T go(Updater updater, BlockWithReturn<T> block) {
     boolean committed = false;
-    UoW.open(updater);
     try {
+      UoW.open(updater);
       T value = block.go();
       UoW.commit();
       committed = true;
@@ -39,8 +39,8 @@ public class UoW {
   }
 
   public static <T> T read(BlockWithReturn<T> block) {
-    UoW.open(null);
     try {
+      UoW.open(null);
       return block.go();
     } finally {
       UoW.safelyRollbackAndCloseIfNeeded(true);
@@ -49,8 +49,8 @@ public class UoW {
 
   public static void go(Updater updater, BlockWithSafety block) {
     boolean committed = false;
-    UoW.open(updater);
     try {
+      UoW.open(updater);
       block.go();
       UoW.commit();
       committed = true;
@@ -63,8 +63,8 @@ public class UoW {
 
   public static <T> T go(Updater updater, BlockWithReturnAndSafety<T> block) {
     boolean committed = false;
-    UoW.open(updater);
     try {
+      UoW.open(updater);
       T value = block.go();
       UoW.commit();
       committed = true;
