@@ -46,7 +46,7 @@ Opinions
 
 Joist is tailored for projects that agree with its opinions:
 
-* Enterprise teams are best served by a simple language and as much type safety as possible
+* Enterprise teams are best served by as much type safety as possible
 * Domain objects should match and be driven by the schema
 * PostgreSQL (and MySQL in ANSI mode) are the supported databases
 
