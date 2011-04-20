@@ -20,7 +20,7 @@ Performance
 
 Joist focuses on startup time. While startup time is of little concern in production, in TDD environments it is critical to maintaining productivity.
 
-To achieve the fastest possible startup time, Joist uses code generation (see [shims](./shims.html) and [aliases](./aliases.html)) instead of the runtime bytecode generation. So, instead of re-generating potentially several hundred classes (on projects with large schemas) with CGLIB on each startup, all of joist-domain's persistence hooks and meta-data are regular, static Java code that loads quickly. 
+To achieve the fastest possible startup time, Joist uses code generation (see [shims](./shims.html) and [aliases](./aliases.html)) instead of the runtime bytecode generation. So, instead of re-generating potentially several hundred classes (on projects with large schemas) with CGLIB on each startup, all of joist's persistence hooks and meta-data are regular, static Java code that loads quickly. 
 
 Sections
 --------
@@ -32,6 +32,7 @@ Sections
 * [Type-Safe Queries](typeSafeQueries.html)
 * [Type-Safe Changed Properties](typeSafeChangedProperties.html)
 * [Auto-Maintained Back Pointers](backPointers.html)
+* [Eager Loading](eagerLoading.html)
 * [Aliases](aliases.html)
 * [Shims](shims.html)
 * [Patterns](patterns.html)
@@ -52,7 +53,7 @@ Joist is tailored for projects that agree with its opinions:
 Caveats
 -------
 
-* The type-safe SQL DSL currently only handles a simple subset of SQL queries. It needs flushed out by more real-world usage.
+* The type-safe SQL DSL currently only handles a subset of SQL queries--it is not a fully general substitute for relational algebra. When in doubt, you can drop down to straight SQL.
 
 Source
 ------
