@@ -24,7 +24,7 @@ public class CodegenConfig {
   public String outputSourceDirectory = "./src/main/java";
 
   /** Where the re-generated base classes (e.g. EmployeeCodegen) that you do not edit go. @return E.g. <code>src/codegen</code> */
-  public String outputCodegenDirectory = "./src/codegen";
+  public String outputCodegenDirectory = "./src/codegen/java";
 
   /** The package name of your domain objects. @return E.g. <code>app.domain</code> */
   public String domainObjectPackage = "project.domain";
