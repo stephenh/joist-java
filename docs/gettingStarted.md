@@ -6,7 +6,7 @@ title: Getting Started
 Getting Started
 ===============
 
-To get started, download the joist-starter project (currently only in github).
+To get started, download the [starter](/starter.zip) project.
 
 From there, you can configure:
 
