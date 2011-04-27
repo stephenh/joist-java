@@ -195,6 +195,30 @@ public class GClassTest extends TestCase {
     Assert.assertSame(m4, m5);
   }
 
+  public void testGetterSetter() {
+    GClass gc = new GClass("foo.bar.Foo");
+    gc.addGetterSetter("String", "foo");
+    Assert.assertEquals(
+      Join.lines(new Object[] {
+        "package foo.bar;",
+        "",
+        "public class Foo {",
+        "",
+        "    private String foo;",
+        "",
+        "    public String getFoo() {",
+        "        return foo;",
+        "    }",
+        "",
+        "    public void setFoo(String foo) {",
+        "        this.foo = foo;",
+        "    }",
+        "",
+        "}",
+        "" }),
+      gc.toCode());
+  }
+
   public void testFileName() {
     Assert.assertEquals(Join.path("foo", "bar", "Foo.java"), new GClass("foo.bar.Foo").getFileName());
   }
