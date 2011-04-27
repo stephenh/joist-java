@@ -41,6 +41,9 @@ public class CodegenConfig {
   /** The base class for the once-touched queries objects. */
   public String queriesBaseClass = AbstractQueries.class.getName() + "<{}>";
 
+  /** Whether the codegen directory will be pruned of un-needed (to us) files. Assumes joist owns the whole directory. */
+  public boolean pruneCodegenDirectory = true;
+
   // Private structures
   private final Map<String, String> javaTypeByDataType = new HashMap<String, String>();
   private final Map<String, String> javaTypeByColumnName = new HashMap<String, String>();
