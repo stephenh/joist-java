@@ -7,6 +7,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import joist.codegen.passes.FindCodeValuesPass;
+import joist.codegen.passes.FindForeignKeysPass;
+import joist.codegen.passes.FindManyToManyPropertiesPass;
+import joist.codegen.passes.FindPrimitivePropertiesPass;
+import joist.codegen.passes.FindTablesPass;
+import joist.codegen.passes.GenerateAliasesPass;
+import joist.codegen.passes.GenerateBuilderClassIfNotExistsPass;
+import joist.codegen.passes.GenerateBuilderCodegenPass;
+import joist.codegen.passes.GenerateBuildersClassPass;
+import joist.codegen.passes.GenerateCodesPass;
+import joist.codegen.passes.GenerateDomainClassIfNotExistsPass;
+import joist.codegen.passes.GenerateDomainCodegenPass;
+import joist.codegen.passes.GenerateFlushFunction;
+import joist.codegen.passes.GenerateQueriesCodegenPass;
+import joist.codegen.passes.GenerateQueriesIfNotExistsPass;
+import joist.codegen.passes.GenerateSchemaHash;
+import joist.codegen.passes.OutputPass;
+import joist.codegen.passes.Pass;
 import joist.domain.AbstractDomainObject;
 import joist.domain.AbstractQueries;
 import joist.domain.orm.queries.columns.BooleanAliasColumn;
@@ -17,6 +35,7 @@ import joist.domain.orm.queries.columns.IntAliasColumn;
 import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.ShortAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
+import joist.util.Copy;
 
 public class CodegenConfig {
 
@@ -59,6 +78,7 @@ public class CodegenConfig {
   private final List<String> notAbstractEvenThoughSubclassed = new ArrayList<String>();
   private final Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
   private final String amountSuffix = ".*amount$";
+  private final List<Pass> passes;
 
   public CodegenConfig() {
     this.setJavaType("integer", Integer.class.getName(), IntAliasColumn.class.getName());
@@ -79,6 +99,33 @@ public class CodegenConfig {
     this.setJavaType("bit", Boolean.class.getName(), BooleanAliasColumn.class.getName());
     this.setJavaType("varchar", String.class.getName(), StringAliasColumn.class.getName());
     this.setJavaType("tinyint", Short.class.getName(), ShortAliasColumn.class.getName());
+
+    this.passes = Copy.list(
+      new FindTablesPass(),
+      new FindPrimitivePropertiesPass(),
+      new FindForeignKeysPass(),
+      new FindCodeValuesPass(),
+      new FindManyToManyPropertiesPass(),
+      new GenerateCodesPass(),
+      new GenerateDomainClassIfNotExistsPass(),
+      new GenerateDomainCodegenPass(),
+      new GenerateQueriesIfNotExistsPass(),
+      new GenerateQueriesCodegenPass(),
+      new GenerateAliasesPass(),
+      new GenerateFlushFunction(),
+      new GenerateSchemaHash(),
+      new GenerateBuilderClassIfNotExistsPass(),
+      new GenerateBuilderCodegenPass(),
+      new GenerateBuildersClassPass(),
+      new OutputPass());
+  }
+
+  public List<Pass> getPasses() {
+    return this.passes;
+  }
+
+  public void addPassBeforeOutput(Pass pass) {
+    this.passes.add(this.passes.size() - 2, pass);
   }
 
   public CodegenConfig doNotUseTimeAndMoney() {
