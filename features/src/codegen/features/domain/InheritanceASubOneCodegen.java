@@ -11,7 +11,7 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
 
     public static final InheritanceASubOneQueries queries;
     private String one = null;
-    private final ForeignKeyHolder<InheritanceAThing> inheritanceAThing = new ForeignKeyHolder<InheritanceAThing>(InheritanceAThing.class);
+    private final ForeignKeyHolder<InheritanceASubOne, InheritanceAThing> inheritanceAThing = new ForeignKeyHolder<InheritanceASubOne, InheritanceAThing>(InheritanceASubOne.class, InheritanceAThing.class, Aliases.inheritanceAThing(), Aliases.inheritanceASubOne().inheritanceAThing);
 
     static {
         Aliases.inheritanceASubOne();

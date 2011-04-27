@@ -17,8 +17,8 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
     private Long id = null;
     private String name = null;
     private Long version = null;
-    private final ForeignKeyHolder<ParentCFoo> firstParent = new ForeignKeyHolder<ParentCFoo>(ParentCFoo.class);
-    private final ForeignKeyHolder<ParentCFoo> secondParent = new ForeignKeyHolder<ParentCFoo>(ParentCFoo.class);
+    private final ForeignKeyHolder<ParentCBar, ParentCFoo> firstParent = new ForeignKeyHolder<ParentCBar, ParentCFoo>(ParentCBar.class, ParentCFoo.class, Aliases.parentCFoo(), Aliases.parentCBar().firstParent);
+    private final ForeignKeyHolder<ParentCBar, ParentCFoo> secondParent = new ForeignKeyHolder<ParentCBar, ParentCFoo>(ParentCBar.class, ParentCFoo.class, Aliases.parentCFoo(), Aliases.parentCBar().secondParent);
     protected Changed changed;
 
     static {

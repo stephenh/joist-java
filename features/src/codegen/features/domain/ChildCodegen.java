@@ -20,7 +20,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     private Long id = null;
     private String name = null;
     private Long version = null;
-    private final ForeignKeyHolder<Parent> parent = new ForeignKeyHolder<Parent>(Parent.class);
+    private final ForeignKeyHolder<Child, Parent> parent = new ForeignKeyHolder<Child, Parent>(Child.class, Parent.class, Aliases.parent(), Aliases.child().parent);
     private ForeignKeyListHolder<Child, GrandChild> grandChilds = new ForeignKeyListHolder<Child, GrandChild>((Child) this, Aliases.grandChild(), Aliases.grandChild().child);
     protected Changed changed;
 
