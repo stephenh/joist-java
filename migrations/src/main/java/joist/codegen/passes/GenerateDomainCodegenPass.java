@@ -126,12 +126,20 @@ public class GenerateDomainCodegenPass implements Pass {
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       GField field = domainCodegen.getField(mtop.getVariableName()).setFinal();
       if (mtop.getOneSide().isCodeEntity()) {
-        field.type("ForeignKeyCodeHolder<" + mtop.getJavaType() + ">");
-        field.initialValue("new ForeignKeyCodeHolder<" + mtop.getJavaType() + ">(" + mtop.getJavaType() + ".class)");
+        field.type("ForeignKeyCodeHolder<{}>", mtop.getJavaType());
+        field.initialValue("new ForeignKeyCodeHolder<{}>({}.class)", mtop.getJavaType(), mtop.getJavaType());
         domainCodegen.addImports(ForeignKeyCodeHolder.class);
       } else {
-        field.type("ForeignKeyHolder<" + mtop.getJavaType() + ">");
-        field.initialValue("new ForeignKeyHolder<" + mtop.getJavaType() + ">(" + mtop.getJavaType() + ".class)");
+        field.type("ForeignKeyHolder<{}, {}>", entity.getClassName(), mtop.getJavaType());
+        field.initialValue(
+          "new ForeignKeyHolder<{}, {}>({}.class, {}.class, Aliases.{}(), Aliases.{}().{})",
+          entity.getClassName(),
+          mtop.getJavaType(),
+          entity.getClassName(),
+          mtop.getJavaType(),
+          mtop.getOneSide().getVariableName(),
+          entity.getVariableName(),
+          mtop.getVariableName());
         domainCodegen.addImports(ForeignKeyHolder.class);
       }
 

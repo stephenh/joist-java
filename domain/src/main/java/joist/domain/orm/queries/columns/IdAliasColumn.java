@@ -2,7 +2,7 @@ package joist.domain.orm.queries.columns;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Collection;
 
 import joist.domain.DomainObject;
 import joist.domain.Shim;
@@ -27,7 +27,7 @@ public class IdAliasColumn<T extends DomainObject> extends AliasColumn<T, Long, 
     return new Where(this.getQualifiedName() + " = ?", value.getId());
   }
 
-  public Where in(List<Integer> ids) {
+  public Where in(Collection<? extends Number> ids) {
     return new Where(this.getQualifiedName() + " in (" + Join.comma(ids) + ")");
   }
 
