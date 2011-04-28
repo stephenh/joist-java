@@ -10,6 +10,13 @@ public class Parent {
   private Integer version;
   private Set<Child> childs = new TreeSet<Child>();
 
+  public Parent() {
+  }
+
+  public Parent(String name) {
+    this.setName(name);
+  }
+
   public Set<Child> getChilds() {
     return this.childs;
   }

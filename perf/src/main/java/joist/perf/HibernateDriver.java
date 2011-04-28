@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import joist.domain.orm.Db;
 import joist.domain.util.ConnectionSettings;
 import joist.domain.util.pools.Pgc3p0Factory;
+import joist.perf.hibernate.Parent;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
