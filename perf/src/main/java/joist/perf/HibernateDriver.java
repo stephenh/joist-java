@@ -23,24 +23,28 @@ import org.hibernate.transaction.JDBCTransactionFactory;
 import com.mchange.v2.c3p0.DataSources;
 import com.sun.japex.TestCase;
 
-import features.domain.Parent;
-
 public class HibernateDriver extends com.sun.japex.JapexDriverBase {
 
   private static SessionFactory sessionFactory;
 
   @Override
   public void initializeDriver() {
-    if (HibernateDriver.sessionFactory == null) {
-      Configuration c = new Configuration();
-      c.setProperty("hibernate.cache.use_second_level_cache", "false");
-      c.setProperty("hibernate.cache.provider_class", NoCacheProvider.class.getName());
-      c.setProperty("hibernate.connection.autocommit", "false");
-      c.setProperty("hibernate.connection.provider_class", MyConnectionProvider.class.getName());
-      c.setProperty("hibernate.dialect", PostgreSQLDialect.class.getName());
-      c.setProperty("hibernate.transaction.factory_class", JDBCTransactionFactory.class.getName());
-      c.addResource("joist/perf/hibernate/Parent.hbm.xml");
-      HibernateDriver.sessionFactory = c.buildSessionFactory();
+    try {
+      if (HibernateDriver.sessionFactory == null) {
+        Configuration c = new Configuration();
+        c.setProperty("hibernate.cache.use_second_level_cache", "false");
+        c.setProperty("hibernate.cache.provider_class", NoCacheProvider.class.getName());
+        c.setProperty("hibernate.connection.autocommit", "false");
+        c.setProperty("hibernate.connection.provider_class", MyConnectionProvider.class.getName());
+        c.setProperty("hibernate.dialect", PostgreSQLDialect.class.getName());
+        c.setProperty("hibernate.transaction.factory_class", JDBCTransactionFactory.class.getName());
+        c.addResource("joist/perf/hibernate/objects.hbm.xml");
+        HibernateDriver.sessionFactory = c.buildSessionFactory();
+      }
+      System.out.println("got here!");
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 
