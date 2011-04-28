@@ -3,8 +3,6 @@ package joist.perf;
 import joist.domain.orm.Db;
 import joist.domain.orm.Repository;
 import joist.domain.uow.UoW;
-import joist.domain.util.ConnectionSettings;
-import joist.domain.util.pools.Pgc3p0Factory;
 
 import com.sun.japex.TestCase;
 
@@ -15,7 +13,7 @@ public class JoistDriver extends com.sun.japex.JapexDriverBase {
   @Override
   public void initializeDriver() {
     if (Repository.datasource == null) {
-      Repository.datasource = new Pgc3p0Factory(ConnectionSettings.forApp(Db.PG, "features")).create();
+      Repository.configure(Db.PG, "features");
     }
   }
 
