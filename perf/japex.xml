@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testSuite name="JoistVsHibernate" xmlns="http://www.sun.com/japex/testSuite">
-	<param name="japex.classPath" value="bin/main"/>
-	<param name="japex.classPath" value="bin/lib/main/jars/*.jar"/>
+	<param name="japex.classPath" value="target/classes"/>
+	<param name="japex.classPath" value="bin/lib/default/jars/*.jar"/>
+	<param name="japex.classPath" value="bin/lib/default/bundles/*.jar"/>
 
 	<param name="japex.runsPerDriver" value="3"/>
 	<param name="japex.warmupIterations" value="3"/>
