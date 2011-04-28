@@ -11,7 +11,7 @@ Overview
 
 Joist is an ORM with type-safe queries (no strings) and no runtime class generation (no CGLIB).
 
-You write [migrations](migrations.html) to modify your schema, and then you get clean [domain objects](domainObjects.html) free of boilerplate getters/setters/collections, as those are code generated for you.
+You write [migrations](migrations.html) to modify your schema, and then you get clean [domain objects](domainObjects.html) free of boilerplate getters/setters/collections, as those are generated for you.
 
 The goal is a simple, productive domain layer for enterprise-scale schemas.
 
@@ -20,7 +20,9 @@ Performance
 
 Joist focuses on startup time. While startup time is of little concern in production, in TDD environments it is critical to maintaining productivity.
 
-To achieve the fastest possible startup time, Joist uses code generation (see [shims](./shims.html) and [aliases](./aliases.html)) instead of the runtime bytecode generation. So, instead of re-generating potentially several hundred classes (on projects with large schemas) with CGLIB on each startup, all of joist's persistence hooks and meta-data are regular, static Java code that loads quickly. 
+To achieve the fastest possible startup time, Joist avoids runtime bytecode generation (see [shims](./shims.html) and [aliases](./aliases.html)). So instead of re-generating potentially several hundred classes (for large schemas) with CGLIB or ASM on each startup, all of Joist's persistence hooks and meta-data are regular, static Java code that load quickly. 
+
+The obsession with startup time aside, Joist is also just all-around fast (see [performance](performance.html) and [eager loading](eagerLoading.html)).
 
 Sections
 --------
@@ -39,7 +41,6 @@ Sections
 * [Performance](performance.html)
 * [Code Generation](codeGeneration.html)
 * [Eclipse Tips](eclipseTips.html)
-* [Screencasts](screencasts.html) (out of date)
 
 Opinions
 --------
