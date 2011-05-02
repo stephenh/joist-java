@@ -44,7 +44,7 @@ public class GenerateQueriesCodegenPass implements Pass {
           queriesCodegen.addImports(otmp.getManySide().getFullClassName());
         } else {
           delete.body.line("for ({} o : Copy.list(instance.get{}())) {", otmp.getTargetJavaType(), otmp.getCapitalVariableName());
-          delete.body.line("    {}.queries.delete(o);", otmp.getTargetJavaType());
+          delete.body.line("_   {}.queries.delete(o);", otmp.getTargetJavaType());
           delete.body.line("}");
           queriesCodegen.addImports(otmp.getManySide().getFullClassName(), Copy.class.getName());
         }

@@ -259,8 +259,8 @@ public class GenerateAliasesPass implements Pass {
 
     GMethod method = aliasesClass.getMethod(entity.getVariableName()).returnType(entity.getAliasName()).setStatic();
     method.body.line("if ({} == null) {", entity.getVariableName());
-    method.body.line("    {} = new {}({});", entity.getVariableName(), entity.getAliasName(), Wrap.quotes(entity.getAliasAlias()));
-    method.body.line("    AliasRegistry.register({}.class, {});", entity.getClassName(), entity.getVariableName());
+    method.body.line("_   {} = new {}({});", entity.getVariableName(), entity.getAliasName(), Wrap.quotes(entity.getAliasAlias()));
+    method.body.line("_   AliasRegistry.register({}.class, {});", entity.getClassName(), entity.getVariableName());
     method.body.line("}");
     method.body.line("return {};", entity.getVariableName());
   }
