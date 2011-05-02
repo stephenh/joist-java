@@ -222,4 +222,43 @@ public class GClassTest extends TestCase {
   public void testFileName() {
     Assert.assertEquals(Join.path("foo", "bar", "Foo.java"), new GClass("foo.bar.Foo").getFileName());
   }
+
+  public void testIndentation() {
+    try {
+      GSettings.setDefaultIndentation("  ");
+      GClass gc = new GClass("foo.bar.Foo");
+      gc.addGetterSetter("String", "foo");
+      GMethod foo = gc.getMethod("foo");
+      foo.body.line("if (true) {");
+      foo.body.line("_    i++;");
+      foo.body.line("}");
+      Assert.assertEquals(
+        Join.lines(new Object[] {
+          "package foo.bar;",
+          "",
+          "public class Foo {",
+          "",
+          "  private String foo;",
+          "",
+          "  public String getFoo() {",
+          "    return foo;",
+          "  }",
+          "",
+          "  public void setFoo(String foo) {",
+          "    this.foo = foo;",
+          "  }",
+          "",
+          "  public void foo() {",
+          "    if (true) {",
+          "      i++;",
+          "    }",
+          "  }",
+          "",
+          "}",
+          "" }),
+        gc.toCode());
+    } finally {
+      GSettings.setDefaultIndentation("    ");
+    }
+  }
 }

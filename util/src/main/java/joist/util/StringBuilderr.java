@@ -1,7 +1,12 @@
 package joist.util;
 
+import java.util.regex.Pattern;
+
+import joist.sourcegen.GSettings;
+
 public class StringBuilderr {
 
+  private static final Pattern indentRegex = Pattern.compile("_ +");
   private StringBuilder sb = new StringBuilder();
 
   /**
@@ -9,7 +14,11 @@ public class StringBuilderr {
    * @param args objects to replace <code>{}</code>
    */
   public void line(String line, Object... args) {
-    this.append(line, args);
+    if (line.startsWith("_ ")) {
+      this.append(indentRegex.matcher(line).replaceAll(GSettings.getDefaultIndentation()), args);
+    } else {
+      this.append(line, args);
+    }
     this.append("\n");
   }
 
@@ -58,7 +67,7 @@ public class StringBuilderr {
 
   /** Appends <code>string</code> but indents all of its non-empty lines by <code>indent</code>. */
   public StringBuilderr append(int indent, String string) {
-    String prefix = this.repeat("    ", indent);
+    String prefix = this.repeat(GSettings.getDefaultIndentation(), indent);
     int at = 0;
     int br;
     while ((br = string.indexOf("\n", at)) != -1) {
