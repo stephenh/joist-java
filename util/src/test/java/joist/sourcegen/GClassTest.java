@@ -230,7 +230,9 @@ public class GClassTest extends TestCase {
       gc.addGetterSetter("String", "foo");
       GMethod foo = gc.getMethod("foo");
       foo.body.line("if (true) {");
-      foo.body.line("_    i++;");
+      foo.body.line("_    if (false) {");
+      foo.body.line("_    _   i++;");
+      foo.body.line("_    }");
       foo.body.line("}");
       Assert.assertEquals(
         Join.lines(new Object[] {
@@ -250,7 +252,9 @@ public class GClassTest extends TestCase {
           "",
           "  public void foo() {",
           "    if (true) {",
-          "      i++;",
+          "      if (false) {",
+          "        i++;",
+          "      }",
           "    }",
           "  }",
           "",
