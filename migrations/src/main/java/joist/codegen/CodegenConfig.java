@@ -35,6 +35,7 @@ import joist.domain.orm.queries.columns.IntAliasColumn;
 import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.ShortAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
+import joist.sourcegen.GSettings;
 import joist.util.Copy;
 
 public class CodegenConfig {
@@ -160,6 +161,10 @@ public class CodegenConfig {
   public void setJavaType(String tableName, String columnName, String javaType, String aliasColumnType) {
     this.javaTypeByColumnName.put(tableName + "." + columnName, javaType);
     this.aliasTypeByColumnName.put(tableName + "." + columnName, aliasColumnType);
+  }
+
+  public void setIndentation(String indentation) {
+    GSettings.setDefaultIndentation(indentation);
   }
 
   public void setJavaTypePattern(String jdbcType, String columnNameRegex, String javaType, String aliasColumnType) {
