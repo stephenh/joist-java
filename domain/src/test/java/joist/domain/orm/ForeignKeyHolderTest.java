@@ -20,4 +20,15 @@ public class ForeignKeyHolderTest extends TestCase {
     }
   }
 
+  public void testToString() {
+    ForeignKeyHolder<DummyDomainObject, DummyDomainObject> h = new ForeignKeyHolder<DummyDomainObject, DummyDomainObject>(
+      DummyDomainObject.class,
+      DummyDomainObject.class,
+      null,
+      null);
+    Assert.assertEquals("DummyDomainObject[null]", h.toString());
+    h.setId(1l);
+    Assert.assertEquals("DummyDomainObject[1]", h.toString());
+  }
+
 }

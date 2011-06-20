@@ -95,7 +95,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
 
   @Override
   public String toString() {
-    return this.instance != null ? this.instance.toString() : ObjectUtils.toString(this.id, null);
+    return this.instance != null ? this.instance.toString() : this.childClass.getSimpleName() + "[" + ObjectUtils.toString(this.id, null) + "]";
   }
 
 }

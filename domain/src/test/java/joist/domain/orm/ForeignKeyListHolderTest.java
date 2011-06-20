@@ -35,4 +35,13 @@ public class ForeignKeyListHolderTest extends TestCase {
     }
   }
 
+  public void testToString() {
+    DummyDomainObject parent = new DummyDomainObject();
+    ForeignKeyListHolder<DummyDomainObject, DummyDomainObject> h = //
+    new ForeignKeyListHolder<DummyDomainObject, DummyDomainObject>(parent, null, null);
+    Assert.assertEquals("unloaded + [] - []", h.toString());
+    h.add(new DummyDomainObject());
+    Assert.assertEquals("unloaded + [DummyDomainObject[null]] - []", h.toString());
+  }
+
 }

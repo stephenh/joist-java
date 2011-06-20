@@ -127,7 +127,7 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
 
   @Override
   public String toString() {
-    return this.loaded != null ? this.loaded.toString() : this.addedBeforeLoaded + " - " + this.removedBeforeLoaded;
+    return this.loaded != null ? this.loaded.toString() : "unloaded + " + this.addedBeforeLoaded + " - " + this.removedBeforeLoaded;
   }
 
 }
