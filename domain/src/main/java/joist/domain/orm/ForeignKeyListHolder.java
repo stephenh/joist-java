@@ -58,14 +58,11 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
         } else {
           // preemptively fetch all children for all parents from the db
           MapToList<Long, U> byParentId = UoW.getEagerCache().get(this.childForeignKeyToParentColumn);
-          if (byParentId == null) {
-            // no children have been fetched for any parents yet
-            byParentId = this.eagerlyLoad(null, UoW.getIdentityMap().getIdsOf(this.parent.getClass()));
-          } else if (!byParentId.containsKey(this.parent.getId())) {
-            // a bunch of children were fetched, but our parent wasn't in the UoW at the time
+          if (!byParentId.containsKey(this.parent.getId())) {
+            // some (or potentially none yet) children were fetched, but our parent wasn't in the UoW at the time
             Collection<Long> alreadyFetchedIds = byParentId.keySet();
             FluentList<Long> allParentIds = Copy.list(UoW.getIdentityMap().getIdsOf(this.parent.getClass()));
-            byParentId = this.eagerlyLoad(byParentId, allParentIds.without(alreadyFetchedIds));
+            this.eagerlyLoad(byParentId, allParentIds.without(alreadyFetchedIds));
           }
           this.loaded = new ArrayList<U>();
           this.loaded.addAll(byParentId.get(this.parent.getId()));
@@ -104,12 +101,7 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
     }
   }
 
-  private MapToList<Long, U> eagerlyLoad(MapToList<Long, U> byParentId, Collection<Long> idsToLoad) {
-    if (byParentId == null) {
-      // create and cache a new map if this is the first load for the parent
-      byParentId = new MapToList<Long, U>();
-      UoW.getEagerCache().put(this.childForeignKeyToParentColumn, byParentId);
-    }
+  private void eagerlyLoad(MapToList<Long, U> byParentId, Collection<Long> idsToLoad) {
     Select<U> q = Select.from(this.childAlias);
     q.where(this.childForeignKeyToParentColumn.in(idsToLoad));
     q.orderBy(this.childAlias.getIdColumn().asc());
@@ -122,7 +114,6 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
     for (Long currentlyLoadedParentId : idsToLoad) {
       byParentId.get(currentlyLoadedParentId);
     }
-    return byParentId;
   }
 
   @Override
