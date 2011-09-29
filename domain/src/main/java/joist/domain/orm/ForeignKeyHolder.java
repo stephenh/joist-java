@@ -1,7 +1,7 @@
 package joist.domain.orm;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 
 import joist.domain.DomainObject;
 import joist.domain.exceptions.DisconnectedException;
@@ -48,7 +48,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
           this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
           if (this.instance == null) {
             // get the parent ids of all currently-loaded child classes
-            Collection<Long> parentIds = new ArrayList<Long>();
+            Collection<Long> parentIds = new LinkedHashSet<Long>();
             for (C child : UoW.getIdentityMap().getInstancesOf(this.childClass)) {
               Long parentId = this.childColumn.getJdbcValue(child);
               if (parentId != null) {
