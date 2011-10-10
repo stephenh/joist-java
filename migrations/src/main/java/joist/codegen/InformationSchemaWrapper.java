@@ -143,14 +143,15 @@ public class InformationSchemaWrapper {
     final Map<String, String> constraintNameToType = new HashMap<String, String>();
     Jdbc.query(this.dataSource, this.getConstraintTypeSql(), new RowMapper() {
       public void mapRow(ResultSet rs) throws SQLException {
-        constraintNameToType.put(rs.getString(1), rs.getString(2));
+        // Need both table name + constraint name to be unique across all the tables
+        constraintNameToType.put(rs.getString(1) + "." + rs.getString(2), rs.getString(3));
       }
     });
     final MapToList<String, String> uniqueToTableColumn = new MapToList<String, String>();
     Jdbc.query(this.dataSource, this.getConstraintSql(), new RowMapper() {
       public void mapRow(ResultSet rs) throws SQLException {
         InformationSchemaColumn column = InformationSchemaWrapper.this.getColumn(rs.getString("table_name"), rs.getString("column_name"));
-        String constraintType = constraintNameToType.get(rs.getString("constraint_name"));
+        String constraintType = constraintNameToType.get(rs.getString("table_name") + "." + rs.getString("constraint_name"));
         if ("PRIMARY KEY".equals(constraintType)) {
           column.primaryKey = true;
         } else if ("FOREIGN KEY".equals(constraintType)) {
@@ -158,13 +159,18 @@ public class InformationSchemaWrapper {
           column.foreignKeyTableName = rs.getString("ref_table_name");
           column.foreignKeyColumnName = rs.getString("ref_column_name");
         } else if ("UNIQUE".equals(constraintType)) {
-          uniqueToTableColumn.add(rs.getString("constraint_name"), rs.getString("table_name") + "." + rs.getString("column_name"));
+          // Mark table_name+constraint_name as having at least 1 column, we'll check
+          // later to see if there was only 1 column (ignore multi-column unique keys)
+          uniqueToTableColumn.add(
+            rs.getString("table_name") + "." + rs.getString("constraint_name"),
+            rs.getString("table_name") + "." + rs.getString("column_name"));
         } else {
           throw new RuntimeException("Unknown constraint type " + constraintType);
         }
       }
     });
     for (Entry<String, List<String>> entry : uniqueToTableColumn.entrySet()) {
+      // We only want constraints with 1 unique column
       if (entry.getValue().size() == 1) {
         String[] parts = entry.getValue().get(0).split("\\.");
         this.getColumn(parts[0], parts[1]).unique = true;
@@ -206,7 +212,7 @@ public class InformationSchemaWrapper {
   // For some reason pg is a dog if we join table_constraints into the above query, so do it separately
   // Ugly but SchemaCheckTest went from 5.5s to 1.6s with aoviding this join
   private String getConstraintTypeSql() {
-    return "SELECT" + " tc.constraint_name, tc.constraint_type" + " FROM information_schema.table_constraints tc";
+    return "SELECT table_name, constraint_name, constraint_type FROM information_schema.table_constraints tc";
   }
 
 }
