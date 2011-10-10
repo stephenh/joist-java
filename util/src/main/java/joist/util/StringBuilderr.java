@@ -28,7 +28,7 @@ public class StringBuilderr {
    * @param args objects to replace <code>{}</code>
    */
   public void line(int indent, String line, Object... args) {
-    this.append(this.repeat("    ", indent));
+    this.append(this.repeat(GSettings.getDefaultIndentation(), indent));
     this.append(line, args);
     this.append("\n");
   }
