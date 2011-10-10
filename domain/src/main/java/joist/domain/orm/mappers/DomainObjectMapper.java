@@ -64,9 +64,10 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
     }
   }
 
+  @SuppressWarnings("cast")
   private static <T> T newInstance(Alias<? extends T> alias) {
     try {
-      return alias.getDomainClass().newInstance();
+      return (T) alias.getDomainClass().newInstance();
     } catch (IllegalAccessException iae) {
       throw new RuntimeException(iae);
     } catch (InstantiationException ie) {
