@@ -11,7 +11,7 @@ public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
 
     public static final InheritanceASubTwoQueries queries;
     private String two = null;
-    private final ForeignKeyHolder<InheritanceAThing> inheritanceAThing = new ForeignKeyHolder<InheritanceAThing>(InheritanceAThing.class);
+    private final ForeignKeyHolder<InheritanceASubTwo, InheritanceAThing> inheritanceAThing = new ForeignKeyHolder<InheritanceASubTwo, InheritanceAThing>(InheritanceASubTwo.class, InheritanceAThing.class, Aliases.inheritanceAThing(), Aliases.inheritanceASubTwo().inheritanceAThing);
 
     static {
         Aliases.inheritanceASubTwo();

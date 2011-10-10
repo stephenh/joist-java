@@ -11,7 +11,7 @@ Overview
 
 Domain objects are generated from the local database schema. This means domain objects always match the schema, much like the Rails/Fowler [ActiveRecord](http://www.martinfowler.com/eaaCatalog/activeRecord.html) pattern.
 
-joist-domain uses the [Generation Gap](http://martinfowler.com/dslwip/) pattern to separate boilerplate getters/setters from business logic. For each table `foo`, the generated code created both a `Foo` and `FooCodegen` class. `Foo` is never touched again, so you can add domain logic without fear of it being overwritten.
+Joist uses the [Generation Gap](http://martinfowler.com/dslwip/) pattern to separate boilerplate getters/setters from business logic. For each table `foo`, there are two files: `Foo.java` and `FooCodegen.java`. `Foo.java` is never touched again, so you can add domain logic without fear of it being overwritten, where as `FooCodegen.java` is overwritten with the latest schema information.
 
 Example
 -------
@@ -35,7 +35,7 @@ While [ChildCodegen.java](http://github.com/stephenh/joist/blob/aa200facb6f70cfd
         private ForeignKeyHolder&lt;Parent&gt; parent = new ForeignKeyHolder&lt;Parent&gt;(Parent.class);
         ...
 
-        ... Validation rules are added based on the db constraints
+        // Validation rules are added based on the db constraints
         private void addExtraRules() {
             this.addRule(new NotNull&lt;Child&gt;(Shims.name));
             this.addRule(new MaxLength&lt;Child&gt;(Shims.name, 100));

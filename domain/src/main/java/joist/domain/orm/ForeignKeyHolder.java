@@ -1,27 +1,70 @@
 package joist.domain.orm;
 
+import java.util.Collection;
+import java.util.LinkedHashSet;
+
 import joist.domain.DomainObject;
 import joist.domain.exceptions.DisconnectedException;
+import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.Select;
+import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.uow.UoW;
 import joist.util.Default;
 
 import org.apache.commons.lang.ObjectUtils;
 
-/** A value holder that will lazy load the foreign key. */
-public class ForeignKeyHolder<T extends DomainObject> {
+/**
+ * A value holder that will lazy load the foreign key.
+ *
+ * @param C the type of the many (child) class that has the ForeignKeyHolder
+ * @param P the type of the one (parent) class that is pointed at
+ */
+public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
 
-  private Class<T> domainClass;
+  private final Class<C> childClass;
+  private final ForeignKeyAliasColumn<C, P> childColumn;
+  private final Class<P> parentClass;
+  private final Alias<P> parentAlias;
   private Long id;
-  private T instance;
+  private P instance;
 
-  public ForeignKeyHolder(Class<T> domainClass) {
-    this.domainClass = domainClass;
+  public ForeignKeyHolder(Class<C> childClass, Class<P> domainClass, Alias<P> domainAlias, ForeignKeyAliasColumn<C, P> childColumn) {
+    this.childClass = childClass;
+    this.childColumn = childColumn;
+    this.parentClass = domainClass;
+    this.parentAlias = domainAlias;
   }
 
-  public T get() {
+  public P get() {
     if (this.instance == null && this.id != null) {
       if (UoW.isOpen()) {
-        this.instance = UoW.load(this.domainClass, this.id);
+        // hardcoded to true for now
+        boolean shouldEagerLoad = true;
+        if (!shouldEagerLoad) {
+          // will make a query for just this id, only if needed
+          this.instance = UoW.load(this.parentClass, this.id);
+        } else {
+          // see if the parent is loaded, but don't make a query while doing so (like UoW.load does)
+          this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
+          if (this.instance == null) {
+            // get the parent ids of all currently-loaded child classes
+            Collection<Long> parentIds = new LinkedHashSet<Long>();
+            for (C child : UoW.getIdentityMap().getInstancesOf(this.childClass)) {
+              Long parentId = this.childColumn.getJdbcValue(child);
+              if (parentId != null) {
+                parentIds.add(parentId);
+              }
+            }
+            // substract any ids that are already loaded
+            for (P parent : UoW.getIdentityMap().getInstancesOf(this.parentClass)) {
+              parentIds.remove(parent.getId());
+            }
+            Select<P> q = Select.from(this.parentAlias);
+            q.where(this.parentAlias.getIdColumn().in(parentIds));
+            q.list(); // will populate the UoW IdentityMap with all fetched parents
+            this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
+          }
+        }
       } else {
         throw new DisconnectedException();
       }
@@ -29,7 +72,7 @@ public class ForeignKeyHolder<T extends DomainObject> {
     return this.instance;
   }
 
-  public void set(T instance) {
+  public void set(P instance) {
     this.instance = instance;
     if (instance == null) {
       this.id = null;
@@ -52,7 +95,7 @@ public class ForeignKeyHolder<T extends DomainObject> {
 
   @Override
   public String toString() {
-    return this.instance != null ? this.instance.toString() : ObjectUtils.toString(this.id, null);
+    return this.instance != null ? this.instance.toString() : this.childClass.getSimpleName() + "[" + ObjectUtils.toString(this.id, null) + "]";
   }
 
 }

@@ -1,0 +1,26 @@
+
+require '../build.rb'
+
+define 'joist-perf' do
+  package_with_ivy project
+  ivy.compile_conf(['default']).test_conf('test')
+
+  # copies .hbm.xml and .properties into target/resources
+  resources.from _('src/main/java')
+  resources.exclude '*.java'
+
+  task 'japex' => [task('compile'), task('testdeps')] do
+    Buildr.ant('japex') do |ant|
+      ant.java :classname => 'com.sun.japex.Japex', :fork => true do
+        ant.arg :value => '-verbose'
+        ant.arg :value => 'japex.xml'
+        ant.classpath do
+          ant.fileset :dir => '/home/stephen/apps/japex-1.2.2/lib', :includes => '*.jar'
+        end
+      end
+    end
+  end
+end
+
+task 'japex' => 'joist-perf:japex'
+

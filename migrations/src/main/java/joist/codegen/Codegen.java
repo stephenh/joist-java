@@ -7,27 +7,9 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import joist.codegen.dtos.Entity;
-import joist.codegen.passes.FindCodeValuesPass;
-import joist.codegen.passes.FindForeignKeysPass;
-import joist.codegen.passes.FindManyToManyPropertiesPass;
-import joist.codegen.passes.FindPrimitivePropertiesPass;
-import joist.codegen.passes.FindTablesPass;
-import joist.codegen.passes.GenerateAliasesPass;
-import joist.codegen.passes.GenerateBuilderClassIfNotExistsPass;
-import joist.codegen.passes.GenerateBuilderCodegenPass;
-import joist.codegen.passes.GenerateBuildersClassPass;
-import joist.codegen.passes.GenerateCodesPass;
-import joist.codegen.passes.GenerateDomainClassIfNotExistsPass;
-import joist.codegen.passes.GenerateDomainCodegenPass;
-import joist.codegen.passes.GenerateFlushFunction;
-import joist.codegen.passes.GenerateQueriesCodegenPass;
-import joist.codegen.passes.GenerateQueriesIfNotExistsPass;
-import joist.codegen.passes.GenerateSchemaHash;
-import joist.codegen.passes.OutputPass;
 import joist.codegen.passes.Pass;
 import joist.domain.util.ConnectionSettings;
 import joist.sourcegen.GDirectory;
-import joist.util.Copy;
 
 /** Generates our domain objects from the database schema. */
 public class Codegen {
@@ -55,30 +37,9 @@ public class Codegen {
   }
 
   public void generate() {
-    for (Pass pass : this.getPasses()) {
+    for (Pass pass : this.config.getPasses()) {
       pass.pass(this);
     }
-  }
-
-  public List<Pass> getPasses() {
-    return Copy.list(
-      new FindTablesPass(),
-      new FindPrimitivePropertiesPass(),
-      new FindForeignKeysPass(),
-      new FindCodeValuesPass(),
-      new FindManyToManyPropertiesPass(),
-      new GenerateCodesPass(),
-      new GenerateDomainClassIfNotExistsPass(),
-      new GenerateDomainCodegenPass(),
-      new GenerateQueriesIfNotExistsPass(),
-      new GenerateQueriesCodegenPass(),
-      new GenerateAliasesPass(),
-      new GenerateFlushFunction(),
-      new GenerateSchemaHash(),
-      new GenerateBuilderClassIfNotExistsPass(),
-      new GenerateBuilderCodegenPass(),
-      new GenerateBuildersClassPass(),
-      new OutputPass());
   }
 
   public Map<String, Entity> getEntities() {

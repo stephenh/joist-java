@@ -1,15 +1,15 @@
 
+# just for buildr to get trax, then everything else is ivy
+repositories.remote << 'http://repo1.maven.org/maven2/'
+repositories.release_to = 'sftp://joist.ws/var/joist.repo'
+repositories.release_to[:permissions] = 0644
+
 require 'buildr/ivy_extension'
 
 THIS_VERSION = ENV['version'] || 'SNAPSHOT'
 
 # to resolve the ${joist.version} in the ivy.xml
 Java.java.lang.System.setProperty("joist.version", THIS_VERSION)
-
-# just for buildr to get trax, then everything else is ivy
-repositories.remote << 'http://www.ibiblio.org/maven2'
-repositories.release_to = 'sftp://joist.ws/var/joist.repo'
-repositories.release_to[:permissions] = 0644
 
 def package_with_ivy(project)
   project.group = 'joist'

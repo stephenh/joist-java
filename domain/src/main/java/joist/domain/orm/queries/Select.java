@@ -45,13 +45,15 @@ public class Select<T extends DomainObject> {
     this.addOuterJoinsForSubClasses();
   }
 
-  public void join(JoinClause<?, ?> join) {
+  public Select<T> join(JoinClause<?, ?> join) {
     this.joins.add(join);
+    return this;
   }
 
-  public void select(SelectItem... selectItems) {
+  public Select<T> select(SelectItem... selectItems) {
     this.selectItems.clear();
     this.selectItems.addAll(Copy.list(selectItems));
+    return this;
   }
 
   public Select<T> where(Where where) {

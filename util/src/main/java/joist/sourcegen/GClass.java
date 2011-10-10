@@ -1,5 +1,8 @@
 package joist.sourcegen;
 
+import static joist.sourcegen.Argument.arg;
+import static joist.util.Inflector.capitalize;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,6 +60,13 @@ public class GClass {
 
   public GClass addEnumValue(String value, Object... args) {
     this.enumValues.add(Interpolate.string(value, args));
+    return this;
+  }
+
+  public GClass addGetterSetter(String type, String name) {
+    this.getField(name).type(type);
+    this.getMethod("get{}", capitalize(name)).returnType(type).body.line("return {};", name);
+    this.getMethod("set" + capitalize(name), arg(type, name)).body.line("this.{} = {};", name, name);
     return this;
   }
 

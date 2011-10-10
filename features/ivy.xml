@@ -6,9 +6,6 @@
 		<conf name="compile" visibility="private"/>
 		<conf name="test" extends="compile" visibility="private"/>
 	</configurations>
-	<publications>
-		<artifact type="jar" ext="jar" conf="default"/>
-	</publications>
 	<dependencies defaultconfmapping="%->default,sources()">
 		<dependency org="joist" name="joist-domain" rev="${joist.version}" conf="compile"/>
 		<dependency org="joist" name="joist-migrations" rev="${joist.version}" conf="compile"/>

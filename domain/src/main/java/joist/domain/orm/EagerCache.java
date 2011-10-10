@@ -22,11 +22,13 @@ public class EagerCache {
   private final Map<ForeignKeyAliasColumn<?, ?>, MapToList<?, ?>> cache = new HashMap<ForeignKeyAliasColumn<?, ?>, MapToList<?, ?>>();
 
   public <U extends DomainObject> MapToList<Long, U> get(ForeignKeyAliasColumn<U, ?> ac) {
-    return (MapToList<Long, U>) this.cache.get(ac);
-  }
-
-  public <U extends DomainObject> void put(ForeignKeyAliasColumn<U, ?> ac, MapToList<Long, U> byParentId) {
-    this.cache.put(ac, byParentId);
+    MapToList<Long, U> map = (MapToList<Long, U>) this.cache.get(ac);
+    if (map == null) {
+      // create and cache a new map if this is the first load for the parent
+      map = new MapToList<Long, U>();
+      this.cache.put(ac, map);
+    }
+    return map;
   }
 
 }

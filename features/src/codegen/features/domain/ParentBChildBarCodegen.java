@@ -17,7 +17,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     private Long id = null;
     private String name = null;
     private Long version = null;
-    private final ForeignKeyHolder<ParentBParent> parentBParent = new ForeignKeyHolder<ParentBParent>(ParentBParent.class);
+    private final ForeignKeyHolder<ParentBChildBar, ParentBParent> parentBParent = new ForeignKeyHolder<ParentBChildBar, ParentBParent>(ParentBChildBar.class, ParentBParent.class, Aliases.parentBParent(), Aliases.parentBChildBar().parentBParent);
     protected Changed changed;
 
     static {

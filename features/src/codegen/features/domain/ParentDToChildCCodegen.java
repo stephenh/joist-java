@@ -15,8 +15,8 @@ public abstract class ParentDToChildCCodegen extends AbstractDomainObject {
     public static final ParentDToChildCQueries queries;
     private Long id = null;
     private Long version = null;
-    private final ForeignKeyHolder<ParentDChildC> parentDChildC = new ForeignKeyHolder<ParentDChildC>(ParentDChildC.class);
-    private final ForeignKeyHolder<ParentD> parentD = new ForeignKeyHolder<ParentD>(ParentD.class);
+    private final ForeignKeyHolder<ParentDToChildC, ParentDChildC> parentDChildC = new ForeignKeyHolder<ParentDToChildC, ParentDChildC>(ParentDToChildC.class, ParentDChildC.class, Aliases.parentDChildC(), Aliases.parentDToChildC().parentDChildC);
+    private final ForeignKeyHolder<ParentDToChildC, ParentD> parentD = new ForeignKeyHolder<ParentDToChildC, ParentD>(ParentDToChildC.class, ParentD.class, Aliases.parentD(), Aliases.parentDToChildC().parentD);
     protected Changed changed;
 
     static {

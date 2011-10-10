@@ -12,7 +12,6 @@ import joist.domain.validation.errors.ValidationError;
 
 public class ValidationErrors {
 
-  private static final long serialVersionUID = 1;
   private List<ValidationError> errors = new ArrayList<ValidationError>();
 
   public void addError(String error) {

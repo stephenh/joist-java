@@ -84,7 +84,7 @@ public class GenerateBuilderCodegenPass implements Pass {
         GMethod m = c.getMethod(otom.getVariableNameSingular());
         m.returnType("{}Builder", otom.getTargetJavaType());
         m.body.line("if (get().get{}() == null) {", otom.getCapitalVariableNameSingular());
-        m.body.line("    return null;");
+        m.body.line("_   return null;");
         m.body.line("}");
         m.body.line("return Builders.existing(get().get{}());", otom.getCapitalVariableNameSingular());
       } else {
@@ -94,7 +94,7 @@ public class GenerateBuilderCodegenPass implements Pass {
           m.returnType("List<{}Builder>", otom.getTargetJavaType());
           m.body.line("List<{}Builder> b = new ArrayList<{}Builder>();", otom.getTargetJavaType(), otom.getTargetJavaType());
           m.body.line("for ({} e : get().get{}()) {", otom.getTargetJavaType(), otom.getCapitalVariableName());
-          m.body.line("    b.add(Builders.existing(e));");
+          m.body.line("_   b.add(Builders.existing(e));");
           m.body.line("}");
           m.body.line("return b;");
           c.addImports(List.class, ArrayList.class);
@@ -168,7 +168,7 @@ public class GenerateBuilderCodegenPass implements Pass {
     GMethod m = builderCodegen.getMethod(variableName);
     m.returnType(javaType + "Builder");
     m.body.line("if (get().get{}() == null) {", Inflector.capitalize(variableName));
-    m.body.line("    return null;");
+    m.body.line("_   return null;");
     m.body.line("}");
     m.body.line("return Builders.existing(get().get{}());", Inflector.capitalize(variableName));
   }

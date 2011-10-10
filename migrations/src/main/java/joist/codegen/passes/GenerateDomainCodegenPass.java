@@ -74,7 +74,7 @@ public class GenerateDomainCodegenPass implements Pass {
         setter.body.line("this.{} = {};", p.getVariableName(), p.getVariableName());
         if ("id".equals(p.getColumnName())) {
           setter.body.line("if (UoW.isOpen()) {");
-          setter.body.line("    UoW.getIdentityMap().store(this);");
+          setter.body.line("_   UoW.getIdentityMap().store(this);");
           setter.body.line("}");
           domainCodegen.addImports(UoW.class);
         }
@@ -126,12 +126,20 @@ public class GenerateDomainCodegenPass implements Pass {
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       GField field = domainCodegen.getField(mtop.getVariableName()).setFinal();
       if (mtop.getOneSide().isCodeEntity()) {
-        field.type("ForeignKeyCodeHolder<" + mtop.getJavaType() + ">");
-        field.initialValue("new ForeignKeyCodeHolder<" + mtop.getJavaType() + ">(" + mtop.getJavaType() + ".class)");
+        field.type("ForeignKeyCodeHolder<{}>", mtop.getJavaType());
+        field.initialValue("new ForeignKeyCodeHolder<{}>({}.class)", mtop.getJavaType(), mtop.getJavaType());
         domainCodegen.addImports(ForeignKeyCodeHolder.class);
       } else {
-        field.type("ForeignKeyHolder<" + mtop.getJavaType() + ">");
-        field.initialValue("new ForeignKeyHolder<" + mtop.getJavaType() + ">(" + mtop.getJavaType() + ".class)");
+        field.type("ForeignKeyHolder<{}, {}>", entity.getClassName(), mtop.getJavaType());
+        field.initialValue(
+          "new ForeignKeyHolder<{}, {}>({}.class, {}.class, Aliases.{}(), Aliases.{}().{})",
+          entity.getClassName(),
+          mtop.getJavaType(),
+          entity.getClassName(),
+          mtop.getJavaType(),
+          mtop.getOneSide().getVariableName(),
+          entity.getVariableName(),
+          mtop.getVariableName());
         domainCodegen.addImports(ForeignKeyHolder.class);
       }
 
@@ -234,10 +242,10 @@ public class GenerateDomainCodegenPass implements Pass {
         setter.body.line("for ({} o : Copy.list(this.get{}())) {",//
           otmp.getTargetJavaType(),
           otmp.getCapitalVariableName());
-        setter.body.line("    this.remove{}(o);", otmp.getCapitalVariableNameSingular());
+        setter.body.line("_   this.remove{}(o);", otmp.getCapitalVariableNameSingular());
         setter.body.line("}");
         setter.body.line("for ({} o : {}) {", otmp.getTargetJavaType(), otmp.getVariableName());
-        setter.body.line("    this.add{}(o);", otmp.getCapitalVariableNameSingular());
+        setter.body.line("_   this.add{}(o);", otmp.getCapitalVariableNameSingular());
         setter.body.line("}");
 
         GMethod adder = domainCodegen.getMethod("add{}", otmp.getCapitalVariableNameSingular());
@@ -259,14 +267,14 @@ public class GenerateDomainCodegenPass implements Pass {
         setter.argument(otmp.getTargetJavaType(), "n");
         setter.body.line("{} o = this.get{}();", otmp.getTargetJavaType(), otmp.getCapitalVariableNameSingular());
         setter.body.line("if (o != null) {", otmp.getVariableName());
-        setter.body.line("    o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
-        setter.body.line("    this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
+        setter.body.line("_   o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
+        setter.body.line("_   this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
         setter.body.line("}");
         setter.body.line("if (n != null) {");
-        setter.body.line("    n.set{}WithoutPercolation(({}) this);",//
+        setter.body.line("_   n.set{}WithoutPercolation(({}) this);",//
           otmp.getManyToOneProperty().getCapitalVariableName(),
           entity.getClassName());
-        setter.body.line("    this.add{}WithoutPercolation(n);", otmp.getCapitalVariableNameSingular());
+        setter.body.line("_   this.add{}WithoutPercolation(n);", otmp.getCapitalVariableNameSingular());
         setter.body.line("}");
       }
 
@@ -295,16 +303,16 @@ public class GenerateDomainCodegenPass implements Pass {
       getter.body.line("for ({} o : this.get{}()) {",//
         mtmp.getJoinTable().getClassName(),
         mtmp.getMySideManyToOne().getOneToManyProperty().getCapitalVariableName());
-      getter.body.line("    l.add(o.get{}());", mtmp.getCapitalVariableNameSingular());
+      getter.body.line("_   l.add(o.get{}());", mtmp.getCapitalVariableNameSingular());
       getter.body.line("}");
       getter.body.line("return l;");
 
       GMethod setter = domainCodegen.getMethod("set" + mtmp.getCapitalVariableName()).argument(mtmp.getJavaType(), mtmp.getVariableName());
       setter.body.line("for ({} o : Copy.list(this.get{}())) {", mtmp.getTargetJavaType(), mtmp.getCapitalVariableName());
-      setter.body.line("    this.remove{}(o);", mtmp.getCapitalVariableNameSingular());
+      setter.body.line("_   this.remove{}(o);", mtmp.getCapitalVariableNameSingular());
       setter.body.line("}");
       setter.body.line("for ({} o : {}) {", mtmp.getTargetJavaType(), mtmp.getVariableName());
-      setter.body.line("    this.add{}(o);", mtmp.getCapitalVariableNameSingular());
+      setter.body.line("_   this.add{}(o);", mtmp.getCapitalVariableNameSingular());
       setter.body.line("}");
 
       GMethod adder = domainCodegen.getMethod("add{}", mtmp.getCapitalVariableNameSingular());
@@ -318,13 +326,13 @@ public class GenerateDomainCodegenPass implements Pass {
       remover.body.line("for ({} a : Copy.list(this.get{}())) {",//
         mtmp.getJoinTable().getClassName(),
         mtmp.getMySideManyToOne().getOneToManyProperty().getCapitalVariableName());
-      remover.body.line("    if (a.get{}().equals(o)) {", mtmp.getCapitalVariableNameSingular());
-      remover.body.line("        a.set{}(null);", mtmp.getCapitalVariableNameSingular());
-      remover.body.line("        a.set{}(null);", mtmp.getOther().getCapitalVariableNameSingular());
-      remover.body.line("        if (UoW.isOpen()) {");
-      remover.body.line("            UoW.delete(a);");
-      remover.body.line("        }");
-      remover.body.line("    }");
+      remover.body.line("_   if (a.get{}().equals(o)) {", mtmp.getCapitalVariableNameSingular());
+      remover.body.line("_   _   a.set{}(null);", mtmp.getCapitalVariableNameSingular());
+      remover.body.line("_   _   a.set{}(null);", mtmp.getOther().getCapitalVariableNameSingular());
+      remover.body.line("_   _   if (UoW.isOpen()) {");
+      remover.body.line("_   _   _   UoW.delete(a);");
+      remover.body.line("_   _   }");
+      remover.body.line("_   }");
       remover.body.line("}");
 
       domainCodegen.addImports(Copy.class, ArrayList.class, UoW.class);
@@ -338,7 +346,7 @@ public class GenerateDomainCodegenPass implements Pass {
 
     GMethod getter = domainCodegen.getMethod("getChanged").returnType("{}Changed", entity.getClassName());
     getter.body.line("if (this.changed == null) {");
-    getter.body.line("    this.changed = new {}Changed(({}) this);", entity.getClassName(), entity.getClassName());
+    getter.body.line("_   this.changed = new {}Changed(({}) this);", entity.getClassName(), entity.getClassName());
     getter.body.line("}");
     getter.body.line("return ({}Changed) this.changed;", entity.getClassName());
 
@@ -391,7 +399,7 @@ public class GenerateDomainCodegenPass implements Pass {
         clearAssociations.body.line("this.set{}(null);", otmp.getCapitalVariableNameSingular());
       } else {
         clearAssociations.body.line("for ({} o : Copy.list(this.get{}())) {", otmp.getTargetJavaType(), otmp.getCapitalVariableName());
-        clearAssociations.body.line("    o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName());
+        clearAssociations.body.line("_   o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName());
         clearAssociations.body.line("}");
         domainCodegen.addImports(Copy.class, List.class);
       }

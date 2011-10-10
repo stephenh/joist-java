@@ -15,8 +15,8 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
     public static final ManyToManyBFooToBarQueries queries;
     private Long id = null;
     private Long version = null;
-    private final ForeignKeyHolder<ManyToManyBFoo> blue = new ForeignKeyHolder<ManyToManyBFoo>(ManyToManyBFoo.class);
-    private final ForeignKeyHolder<ManyToManyBBar> green = new ForeignKeyHolder<ManyToManyBBar>(ManyToManyBBar.class);
+    private final ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBFoo> blue = new ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBFoo>(ManyToManyBFooToBar.class, ManyToManyBFoo.class, Aliases.manyToManyBFoo(), Aliases.manyToManyBFooToBar().blue);
+    private final ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBBar> green = new ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBBar>(ManyToManyBFooToBar.class, ManyToManyBBar.class, Aliases.manyToManyBBar(), Aliases.manyToManyBFooToBar().green);
     protected Changed changed;
 
     static {

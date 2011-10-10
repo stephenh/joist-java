@@ -32,4 +32,9 @@ public class ForeignKeyCodeHolder<T extends Enum<T>> {
     this.instance = (id == null) ? null : Codes.fromLong(this.codeClass, id);
   }
 
+  @Override
+  public String toString() {
+    return this.instance == null ? "null" : this.instance.toString();
+  }
+
 }

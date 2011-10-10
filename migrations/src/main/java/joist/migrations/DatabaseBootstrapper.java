@@ -82,6 +82,8 @@ public class DatabaseBootstrapper {
 
     log.debug("Creating {}", username);
     Jdbc.update(this.systemDataSource, "create user {} identified by '{}';", username, password);
+
+    Jdbc.update(this.systemDataSource, "set global sql_mode = 'ANSI';", username, password);
   }
 
   private void dropAndCreatePg() {

@@ -1,6 +1,8 @@
 package joist.domain.orm;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import joist.domain.DomainObject;
 import joist.util.MapToMap;
@@ -35,6 +37,22 @@ public class IdentityMap {
 
   public int size() {
     return this.objects.totalSize();
+  }
+
+  public <T> Collection<T> getInstancesOf(Class<T> type) {
+    Collection<T> instances = new ArrayList<T>();
+    Class<?> rootType = AliasRegistry.getRootClass(type);
+    Map<Long, DomainObject> forRootType = this.objects.get(rootType);
+    if (forRootType != null) {
+      for (DomainObject object : forRootType.values()) {
+        // we cache based on rootType, but still want to ensure all returned
+        // typed are of the right subclass
+        if (type.isInstance(object)) {
+          instances.add(type.cast(object));
+        }
+      }
+    }
+    return instances;
   }
 
   public Collection<Long> getIdsOf(Class<?> type) {

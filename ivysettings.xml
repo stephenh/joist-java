@@ -9,10 +9,11 @@
 		<ibiblio name="java.net.1" root="http://download.java.net/maven/1/" pattern="[organization]/jars/[module]-[revision].[ext]" /> <!-- For japex. -->
 		<ibiblio name="java.net.2" root="http://download.java.net/maven/2/" m2compatible="true" /> <!-- For jta. -->
 		<chain name="default" changingPattern=".*SNAPSHOT">
+			<!-- if we have snapshot versions of joist (which should only be local), putting local-m2 first avoids pinging the other reports on every build. -->
+			<resolver ref="local-m2"/>
 			<resolver ref="java.net.1"/>
 			<resolver ref="java.net.2"/>
 			<resolver ref="public"/>
-			<resolver ref="local-m2"/>
 			<resolver ref="joist-m2"/>
 		</chain>
 	</resolvers>

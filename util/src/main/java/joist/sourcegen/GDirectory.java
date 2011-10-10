@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joist.util.Copy;
+import joist.util.Interpolate;
 import joist.util.Read;
 import joist.util.Write;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,8 @@ public class GDirectory {
     this.directory = new File(directory);
   }
 
-  public GClass getClass(String fullClassName) {
+  public GClass getClass(String _fullClassName, Object... args) {
+    String fullClassName = Interpolate.string(_fullClassName, args);
     for (GClass gc : this.classes) {
       if (gc.getFullClassName().equals(fullClassName)) {
         return gc;

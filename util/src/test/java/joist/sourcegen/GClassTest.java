@@ -195,7 +195,74 @@ public class GClassTest extends TestCase {
     Assert.assertSame(m4, m5);
   }
 
+  public void testGetterSetter() {
+    GClass gc = new GClass("foo.bar.Foo");
+    gc.addGetterSetter("String", "foo");
+    Assert.assertEquals(
+      Join.lines(new Object[] {
+        "package foo.bar;",
+        "",
+        "public class Foo {",
+        "",
+        "    private String foo;",
+        "",
+        "    public String getFoo() {",
+        "        return foo;",
+        "    }",
+        "",
+        "    public void setFoo(String foo) {",
+        "        this.foo = foo;",
+        "    }",
+        "",
+        "}",
+        "" }),
+      gc.toCode());
+  }
+
   public void testFileName() {
     Assert.assertEquals(Join.path("foo", "bar", "Foo.java"), new GClass("foo.bar.Foo").getFileName());
+  }
+
+  public void testIndentation() {
+    try {
+      GSettings.setDefaultIndentation("  ");
+      GClass gc = new GClass("foo.bar.Foo");
+      gc.addGetterSetter("String", "foo");
+      GMethod foo = gc.getMethod("foo");
+      foo.body.line("if (true) {");
+      foo.body.line("_    if (false) {");
+      foo.body.line("_    _   i++;");
+      foo.body.line("_    }");
+      foo.body.line("}");
+      Assert.assertEquals(
+        Join.lines(new Object[] {
+          "package foo.bar;",
+          "",
+          "public class Foo {",
+          "",
+          "  private String foo;",
+          "",
+          "  public String getFoo() {",
+          "    return foo;",
+          "  }",
+          "",
+          "  public void setFoo(String foo) {",
+          "    this.foo = foo;",
+          "  }",
+          "",
+          "  public void foo() {",
+          "    if (true) {",
+          "      if (false) {",
+          "        i++;",
+          "      }",
+          "    }",
+          "  }",
+          "",
+          "}",
+          "" }),
+        gc.toCode());
+    } finally {
+      GSettings.setDefaultIndentation("    ");
+    }
   }
 }

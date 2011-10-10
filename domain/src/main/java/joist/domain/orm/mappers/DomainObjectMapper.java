@@ -33,7 +33,7 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
 
     if (instance == null) {
       Alias<? extends T> childAlias = this.getChildAlias(rs);
-      instance = this.newInstance(childAlias);
+      instance = newInstance(childAlias);
       this.hydrate(childAlias, instance, rs);
       this.cache.store(instance);
     }
@@ -64,9 +64,10 @@ public class DomainObjectMapper<T extends DomainObject> implements RowMapper {
     }
   }
 
-  private T newInstance(Alias<? extends T> alias) {
+  @SuppressWarnings("cast")
+  private static <T> T newInstance(Alias<? extends T> alias) {
     try {
-      return alias.getDomainClass().newInstance();
+      return (T) alias.getDomainClass().newInstance();
     } catch (IllegalAccessException iae) {
       throw new RuntimeException(iae);
     } catch (InstantiationException ie) {
