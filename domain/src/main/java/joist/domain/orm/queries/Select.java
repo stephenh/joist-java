@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joist.domain.DomainObject;
-import joist.domain.Requirements;
 import joist.domain.exceptions.NotFoundException;
 import joist.domain.exceptions.TooManyException;
 import joist.domain.orm.mappers.DataTransferObjectMapper;
@@ -108,10 +107,8 @@ public class Select<T extends DomainObject> {
   public <R> R unique(Class<R> rowType) {
     List<R> results = this.list(rowType);
     if (results.size() == 0) {
-      Requirements.selectUniqueWithTooManyFails.fulfills();
       throw new NotFoundException();
     } else if (results.size() > 1) {
-      Requirements.selectUniqueWithTooManyFails.fulfills();
       throw new TooManyException();
     }
     return results.get(0);
@@ -187,7 +184,6 @@ public class Select<T extends DomainObject> {
     if (this.getOrderBy() != null) {
       s.line(" ORDER BY {}", Join.commaSpace(this.getOrderBy()));
     }
-    Requirements.selectLimitAndOffset.fulfills();
     if (this.limit != null) {
       s.line(" LIMIT {}", this.limit);
     }

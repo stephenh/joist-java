@@ -11,6 +11,18 @@ import joist.domain.orm.queries.SetItem;
 
 public class BooleanAliasColumn<T extends DomainObject> extends AliasColumn<T, Boolean, Boolean> {
 
+  /** Converts the database {@code defaultValue} into the field initializer string. */
+  public static String defaultValue(String defaultValue) {
+    // look for 0/1 in bit/tinyint fields
+    if ("0".equals(defaultValue)) {
+      return "false";
+    } else if ("1".equals(defaultValue)) {
+      return "true";
+    } else {
+      return new Boolean(defaultValue).toString();
+    }
+  }
+
   public BooleanAliasColumn(Alias<T> alias, String name, Shim<T, Boolean> shim) {
     super(alias, name, shim);
   }

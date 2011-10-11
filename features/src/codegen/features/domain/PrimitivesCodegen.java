@@ -13,7 +13,7 @@ import joist.domain.validation.rules.NotNull;
 public abstract class PrimitivesCodegen extends AbstractDomainObject {
 
   public static final PrimitivesQueries queries;
-  private Boolean flag = false;
+  private Boolean flag = null;
   private Long id = null;
   private String name = null;
   private Long version = null;

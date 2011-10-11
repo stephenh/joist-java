@@ -1,5 +1,6 @@
 package joist.codegen.dtos;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import joist.codegen.Codegen;
@@ -48,8 +49,14 @@ public class PrimitiveProperty {
   }
 
   public String getDefaultJavaString() {
-    if (this.dataType.equals("boolean") || this.dataType.equals("bit")) {
-      return new Boolean(this.defaultValue).toString();
+    if (this.defaultValue != null) {
+      try {
+        Class<?> aliasColumn = Class.forName(this.getAliasColumnClassName());
+        Method defaultValueMethod = aliasColumn.getMethod("defaultValue", String.class);
+        return (String) defaultValueMethod.invoke(null, this.defaultValue);
+      } catch (Exception e) {
+        // ignore
+      }
     }
     return "null";
   }
