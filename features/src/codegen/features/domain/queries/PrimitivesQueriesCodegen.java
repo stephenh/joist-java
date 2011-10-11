@@ -7,19 +7,19 @@ import joist.domain.orm.queries.Select;
 
 public abstract class PrimitivesQueriesCodegen extends AbstractQueries<Primitives> {
 
-    public PrimitivesQueriesCodegen() {
-        super(Primitives.class);
-    }
+  public PrimitivesQueriesCodegen() {
+    super(Primitives.class);
+  }
 
-    public void delete(Primitives instance) {
-        super.delete(instance);
-    }
+  public void delete(Primitives instance) {
+    super.delete(instance);
+  }
 
-    public Primitives findByName(String name) {
-        PrimitivesAlias p0 = new PrimitivesAlias("p0");
-        Select<Primitives> q = Select.from(p0);
-        q.where(p0.name.eq(name));
-        return q.unique();
-    }
+  public Primitives findByName(String name) {
+    PrimitivesAlias p0 = new PrimitivesAlias("p0");
+    Select<Primitives> q = Select.from(p0);
+    q.where(p0.name.eq(name));
+    return q.unique();
+  }
 
 }

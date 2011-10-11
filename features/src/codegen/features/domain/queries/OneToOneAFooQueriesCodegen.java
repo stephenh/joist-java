@@ -5,12 +5,12 @@ import joist.domain.AbstractQueries;
 
 public abstract class OneToOneAFooQueriesCodegen extends AbstractQueries<OneToOneAFoo> {
 
-    public OneToOneAFooQueriesCodegen() {
-        super(OneToOneAFoo.class);
-    }
+  public OneToOneAFooQueriesCodegen() {
+    super(OneToOneAFoo.class);
+  }
 
-    public void delete(OneToOneAFoo instance) {
-        super.delete(instance);
-    }
+  public void delete(OneToOneAFoo instance) {
+    super.delete(instance);
+  }
 
 }

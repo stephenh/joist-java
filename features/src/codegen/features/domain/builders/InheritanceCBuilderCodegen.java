@@ -6,35 +6,35 @@ import joist.domain.builders.AbstractBuilder;
 @SuppressWarnings("all")
 public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<InheritanceC> {
 
-    public InheritanceCBuilderCodegen(InheritanceC instance) {
-        super(instance);
-    }
+  public InheritanceCBuilderCodegen(InheritanceC instance) {
+    super(instance);
+  }
 
-    public Long id() {
-        return get().getId();
-    }
+  public Long id() {
+    return get().getId();
+  }
 
-    public InheritanceCBuilder id(Long id) {
-        get().setId(id);
-        return (InheritanceCBuilder) this;
-    }
+  public InheritanceCBuilder id(Long id) {
+    get().setId(id);
+    return (InheritanceCBuilder) this;
+  }
 
-    public String name() {
-        return get().getName();
-    }
+  public String name() {
+    return get().getName();
+  }
 
-    public InheritanceCBuilder name(String name) {
-        get().setName(name);
-        return (InheritanceCBuilder) this;
-    }
+  public InheritanceCBuilder name(String name) {
+    get().setName(name);
+    return (InheritanceCBuilder) this;
+  }
 
-    public InheritanceCBuilder with(String name) {
-        get().setName(name);
-        return (InheritanceCBuilder) this;
-    }
+  public InheritanceCBuilder with(String name) {
+    get().setName(name);
+    return (InheritanceCBuilder) this;
+  }
 
-    public InheritanceC get() {
-        return (features.domain.InheritanceC) super.get();
-    }
+  public InheritanceC get() {
+    return (features.domain.InheritanceC) super.get();
+  }
 
 }

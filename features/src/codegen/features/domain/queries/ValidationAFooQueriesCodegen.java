@@ -5,12 +5,12 @@ import joist.domain.AbstractQueries;
 
 public abstract class ValidationAFooQueriesCodegen extends AbstractQueries<ValidationAFoo> {
 
-    public ValidationAFooQueriesCodegen() {
-        super(ValidationAFoo.class);
-    }
+  public ValidationAFooQueriesCodegen() {
+    super(ValidationAFoo.class);
+  }
 
-    public void delete(ValidationAFoo instance) {
-        super.delete(instance);
-    }
+  public void delete(ValidationAFoo instance) {
+    super.delete(instance);
+  }
 
 }

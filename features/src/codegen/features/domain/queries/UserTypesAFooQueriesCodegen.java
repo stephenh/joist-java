@@ -5,12 +5,12 @@ import joist.domain.AbstractQueries;
 
 public abstract class UserTypesAFooQueriesCodegen extends AbstractQueries<UserTypesAFoo> {
 
-    public UserTypesAFooQueriesCodegen() {
-        super(UserTypesAFoo.class);
-    }
+  public UserTypesAFooQueriesCodegen() {
+    super(UserTypesAFoo.class);
+  }
 
-    public void delete(UserTypesAFoo instance) {
-        super.delete(instance);
-    }
+  public void delete(UserTypesAFoo instance) {
+    super.delete(instance);
+  }
 
 }

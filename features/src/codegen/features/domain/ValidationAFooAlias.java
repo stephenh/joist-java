@@ -10,40 +10,40 @@ import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class ValidationAFooAlias extends Alias<ValidationAFoo> {
 
-    private final List<AliasColumn<ValidationAFoo, ?, ?>> columns = new ArrayList<AliasColumn<ValidationAFoo, ?, ?>>();
-    public final IdAliasColumn<ValidationAFoo> id = new IdAliasColumn<ValidationAFoo>(this, "id", ValidationAFooCodegen.Shims.id);
-    public final StringAliasColumn<ValidationAFoo> name = new StringAliasColumn<ValidationAFoo>(this, "name", ValidationAFooCodegen.Shims.name);
-    public final LongAliasColumn<ValidationAFoo> version = new LongAliasColumn<ValidationAFoo>(this, "version", ValidationAFooCodegen.Shims.version);
+  private final List<AliasColumn<ValidationAFoo, ?, ?>> columns = new ArrayList<AliasColumn<ValidationAFoo, ?, ?>>();
+  public final IdAliasColumn<ValidationAFoo> id = new IdAliasColumn<ValidationAFoo>(this, "id", ValidationAFooCodegen.Shims.id);
+  public final StringAliasColumn<ValidationAFoo> name = new StringAliasColumn<ValidationAFoo>(this, "name", ValidationAFooCodegen.Shims.name);
+  public final LongAliasColumn<ValidationAFoo> version = new LongAliasColumn<ValidationAFoo>(this, "version", ValidationAFooCodegen.Shims.version);
 
-    public ValidationAFooAlias(String alias) {
-        this(alias, null, true);
-    }
+  public ValidationAFooAlias(String alias) {
+    this(alias, null, true);
+  }
 
-    public ValidationAFooAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
-        super(ValidationAFoo.class, "validation_a_foo", alias);
-        this.columns.add(this.id);
-        this.columns.add(this.name);
-        this.columns.add(this.version);
-    }
+  public ValidationAFooAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
+    super(ValidationAFoo.class, "validation_a_foo", alias);
+    this.columns.add(this.id);
+    this.columns.add(this.name);
+    this.columns.add(this.version);
+  }
 
-    public List<AliasColumn<ValidationAFoo, ?, ?>> getColumns() {
-        return this.columns;
-    }
+  public List<AliasColumn<ValidationAFoo, ?, ?>> getColumns() {
+    return this.columns;
+  }
 
-    public IdAliasColumn<ValidationAFoo> getIdColumn() {
-        return this.id;
-    }
+  public IdAliasColumn<ValidationAFoo> getIdColumn() {
+    return this.id;
+  }
 
-    public LongAliasColumn<ValidationAFoo> getVersionColumn() {
-        return this.version;
-    }
+  public LongAliasColumn<ValidationAFoo> getVersionColumn() {
+    return this.version;
+  }
 
-    public IdAliasColumn<ValidationAFoo> getSubClassIdColumn() {
-        return null;
-    }
+  public IdAliasColumn<ValidationAFoo> getSubClassIdColumn() {
+    return null;
+  }
 
-    public int getOrder() {
-        return 42;
-    }
+  public int getOrder() {
+    return 42;
+  }
 
 }

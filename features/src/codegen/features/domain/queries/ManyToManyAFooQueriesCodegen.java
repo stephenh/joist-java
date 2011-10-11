@@ -5,12 +5,12 @@ import joist.domain.AbstractQueries;
 
 public abstract class ManyToManyAFooQueriesCodegen extends AbstractQueries<ManyToManyAFoo> {
 
-    public ManyToManyAFooQueriesCodegen() {
-        super(ManyToManyAFoo.class);
-    }
+  public ManyToManyAFooQueriesCodegen() {
+    super(ManyToManyAFoo.class);
+  }
 
-    public void delete(ManyToManyAFoo instance) {
-        super.delete(instance);
-    }
+  public void delete(ManyToManyAFoo instance) {
+    super.delete(instance);
+  }
 
 }

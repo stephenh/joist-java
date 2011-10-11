@@ -11,42 +11,42 @@ import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class ParentDChildAAlias extends Alias<ParentDChildA> {
 
-    private final List<AliasColumn<ParentDChildA, ?, ?>> columns = new ArrayList<AliasColumn<ParentDChildA, ?, ?>>();
-    public final IdAliasColumn<ParentDChildA> id = new IdAliasColumn<ParentDChildA>(this, "id", ParentDChildACodegen.Shims.id);
-    public final StringAliasColumn<ParentDChildA> name = new StringAliasColumn<ParentDChildA>(this, "name", ParentDChildACodegen.Shims.name);
-    public final LongAliasColumn<ParentDChildA> version = new LongAliasColumn<ParentDChildA>(this, "version", ParentDChildACodegen.Shims.version);
-    public final ForeignKeyAliasColumn<ParentDChildA, ParentD> parentD = new ForeignKeyAliasColumn<ParentDChildA, ParentD>(this, "parent_d_id", ParentDChildACodegen.Shims.parentDId);
+  private final List<AliasColumn<ParentDChildA, ?, ?>> columns = new ArrayList<AliasColumn<ParentDChildA, ?, ?>>();
+  public final IdAliasColumn<ParentDChildA> id = new IdAliasColumn<ParentDChildA>(this, "id", ParentDChildACodegen.Shims.id);
+  public final StringAliasColumn<ParentDChildA> name = new StringAliasColumn<ParentDChildA>(this, "name", ParentDChildACodegen.Shims.name);
+  public final LongAliasColumn<ParentDChildA> version = new LongAliasColumn<ParentDChildA>(this, "version", ParentDChildACodegen.Shims.version);
+  public final ForeignKeyAliasColumn<ParentDChildA, ParentD> parentD = new ForeignKeyAliasColumn<ParentDChildA, ParentD>(this, "parent_d_id", ParentDChildACodegen.Shims.parentDId);
 
-    public ParentDChildAAlias(String alias) {
-        this(alias, null, true);
-    }
+  public ParentDChildAAlias(String alias) {
+    this(alias, null, true);
+  }
 
-    public ParentDChildAAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
-        super(ParentDChildA.class, "parent_d_child_a", alias);
-        this.columns.add(this.id);
-        this.columns.add(this.name);
-        this.columns.add(this.version);
-        this.columns.add(this.parentD);
-    }
+  public ParentDChildAAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
+    super(ParentDChildA.class, "parent_d_child_a", alias);
+    this.columns.add(this.id);
+    this.columns.add(this.name);
+    this.columns.add(this.version);
+    this.columns.add(this.parentD);
+  }
 
-    public List<AliasColumn<ParentDChildA, ?, ?>> getColumns() {
-        return this.columns;
-    }
+  public List<AliasColumn<ParentDChildA, ?, ?>> getColumns() {
+    return this.columns;
+  }
 
-    public IdAliasColumn<ParentDChildA> getIdColumn() {
-        return this.id;
-    }
+  public IdAliasColumn<ParentDChildA> getIdColumn() {
+    return this.id;
+  }
 
-    public LongAliasColumn<ParentDChildA> getVersionColumn() {
-        return this.version;
-    }
+  public LongAliasColumn<ParentDChildA> getVersionColumn() {
+    return this.version;
+  }
 
-    public IdAliasColumn<ParentDChildA> getSubClassIdColumn() {
-        return null;
-    }
+  public IdAliasColumn<ParentDChildA> getSubClassIdColumn() {
+    return null;
+  }
 
-    public int getOrder() {
-        return 34;
-    }
+  public int getOrder() {
+    return 34;
+  }
 
 }
