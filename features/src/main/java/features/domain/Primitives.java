@@ -7,6 +7,7 @@ public class Primitives extends PrimitivesCodegen {
 
   public Primitives(String name) {
     this.setName(name);
+    this.setFlag(false);
   }
 
   public Primitives flag(boolean flag) {

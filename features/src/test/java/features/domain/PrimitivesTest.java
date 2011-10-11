@@ -7,8 +7,7 @@ import junit.framework.Assert;
 public class PrimitivesTest extends AbstractFeaturesTest {
 
   public void testSave() {
-    Primitives foo = new Primitives();
-    foo.setName("testSave");
+    Primitives foo = new Primitives("testSave");
     this.commitAndReOpen();
     Assert.assertEquals(1, foo.getId().intValue());
 
@@ -18,8 +17,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
   }
 
   public void testFlushMeansWeCanFindItRightAway() {
-    Primitives foo = new Primitives();
-    foo.setName("testSave");
+    new Primitives("testSave");
     this.flush();
 
     Primitives reloaded = Primitives.queries.find(1);
@@ -27,8 +25,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
   }
 
   public void testRollbackAfterFlushMeansItIsNotThere() {
-    Primitives foo = new Primitives();
-    foo.setName("testSave");
+    new Primitives("testSave");
     this.flush();
     this.rollback();
 
@@ -41,15 +38,15 @@ public class PrimitivesTest extends AbstractFeaturesTest {
   }
 
   public void testSaveTwoInSameUowGetDifferentIds() {
-    new Primitives().setName("foo");
-    new Primitives().setName("bar");
+    new Primitives("foo");
+    new Primitives("bar");
     this.commitAndReOpen();
     Assert.assertEquals(1, Primitives.queries.findByName("foo").getId().intValue());
     Assert.assertEquals(2, Primitives.queries.findByName("bar").getId().intValue());
   }
 
   public void testLoadViaIdTwiceReturnsTheSameInstance() {
-    new Primitives().setName("foo");
+    new Primitives("foo");
     this.commitAndReOpen();
     Primitives twp1 = Primitives.queries.find(1);
     Primitives twp2 = Primitives.queries.find(1);
@@ -65,7 +62,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
   }
 
   public void testUpdateTicksVersion() {
-    new Primitives().setName("foo");
+    new Primitives("foo");
     this.commitAndReOpen();
 
     Primitives twp = Primitives.queries.find(1);
