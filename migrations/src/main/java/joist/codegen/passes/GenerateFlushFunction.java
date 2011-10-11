@@ -27,12 +27,12 @@ public class GenerateFlushFunction implements Pass {
     sql.line("BEGIN");
     sql.line("SET CONSTRAINTS ALL DEFERRED;");
     for (Entity entity : codegen.getEntities().values()) {
-      if (entity.isRoot()) {
+      if (entity.isRoot() && !entity.isStableTable()) {
         sql.line("ALTER SEQUENCE {} RESTART WITH 1 INCREMENT BY 1;", Wrap.quotes(entity.getTableName() + "_id_seq"));
       }
     }
     for (Entity entity : codegen.getEntities().values()) {
-      if (entity.isRoot()) {
+      if (entity.isRoot() && !entity.isStableTable()) {
         sql.line("DELETE FROM {};", Wrap.quotes(entity.getTableName()));
       }
     }
@@ -51,7 +51,7 @@ public class GenerateFlushFunction implements Pass {
     sql.line("BEGIN");
     sql.line("SET FOREIGN_KEY_CHECKS=0;");
     for (Entity entity : codegen.getEntities().values()) {
-      if (!entity.isCodeEntity()) {
+      if (!entity.isCodeEntity() && !entity.isStableTable()) {
         sql.line("TRUNCATE TABLE {};", entity.getTableName());
       }
     }

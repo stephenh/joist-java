@@ -16,200 +16,200 @@ import joist.util.Copy;
 @SuppressWarnings("all")
 public abstract class ParentDChildCCodegen extends AbstractDomainObject {
 
-    public static final ParentDChildCQueries queries;
-    private Long id = null;
-    private String name = null;
-    private Long version = null;
-    private ForeignKeyListHolder<ParentDChildC, ParentDToChildC> parentDToChildCs = new ForeignKeyListHolder<ParentDChildC, ParentDToChildC>((ParentDChildC) this, Aliases.parentDToChildC(), Aliases.parentDToChildC().parentDChildC);
-    protected Changed changed;
+  public static final ParentDChildCQueries queries;
+  private Long id = null;
+  private String name = null;
+  private Long version = null;
+  private ForeignKeyListHolder<ParentDChildC, ParentDToChildC> parentDToChildCs = new ForeignKeyListHolder<ParentDChildC, ParentDToChildC>((ParentDChildC) this, Aliases.parentDToChildC(), Aliases.parentDToChildC().parentDChildC);
+  protected Changed changed;
 
-    static {
-        Aliases.parentDChildC();
-        queries = new ParentDChildCQueries();
+  static {
+    Aliases.parentDChildC();
+    queries = new ParentDChildCQueries();
+  }
+
+  protected ParentDChildCCodegen() {
+    this.addExtraRules();
+  }
+
+  private void addExtraRules() {
+    this.addRule(new NotNull<ParentDChildC>(Shims.name));
+    this.addRule(new MaxLength<ParentDChildC>(Shims.name, 100));
+  }
+
+  public Long getId() {
+    return this.id;
+  }
+
+  public void setId(Long id) {
+    this.getChanged().record("id", this.id, id);
+    this.id = id;
+    if (UoW.isOpen()) {
+      UoW.getIdentityMap().store(this);
     }
+  }
 
-    protected ParentDChildCCodegen() {
-        this.addExtraRules();
+  public String getName() {
+    return this.name;
+  }
+
+  public void setName(String name) {
+    this.getChanged().record("name", this.name, name);
+    this.name = name;
+  }
+
+  protected void defaultName(String name) {
+    this.name = name;
+  }
+
+  public Long getVersion() {
+    return this.version;
+  }
+
+  public List<ParentDToChildC> getParentDToChildCs() {
+    return this.parentDToChildCs.get();
+  }
+
+  public void setParentDToChildCs(List<ParentDToChildC> parentDToChildCs) {
+    for (ParentDToChildC o : Copy.list(this.getParentDToChildCs())) {
+      this.removeParentDToChildC(o);
     }
-
-    private void addExtraRules() {
-        this.addRule(new NotNull<ParentDChildC>(Shims.name));
-        this.addRule(new MaxLength<ParentDChildC>(Shims.name, 100));
+    for (ParentDToChildC o : parentDToChildCs) {
+      this.addParentDToChildC(o);
     }
+  }
 
-    public Long getId() {
-        return this.id;
+  public void addParentDToChildC(ParentDToChildC o) {
+    o.setParentDChildCWithoutPercolation((ParentDChildC) this);
+    this.addParentDToChildCWithoutPercolation(o);
+  }
+
+  public void removeParentDToChildC(ParentDToChildC o) {
+    o.setParentDChildCWithoutPercolation(null);
+    this.removeParentDToChildCWithoutPercolation(o);
+  }
+
+  protected void addParentDToChildCWithoutPercolation(ParentDToChildC o) {
+    this.getChanged().record("parentDToChildCs");
+    this.parentDToChildCs.add(o);
+  }
+
+  protected void removeParentDToChildCWithoutPercolation(ParentDToChildC o) {
+    this.getChanged().record("parentDToChildCs");
+    this.parentDToChildCs.remove(o);
+  }
+
+  public List<ParentD> getParentDs() {
+    List<ParentD> l = new ArrayList<ParentD>();
+    for (ParentDToChildC o : this.getParentDToChildCs()) {
+      l.add(o.getParentD());
     }
+    return l;
+  }
 
-    public void setId(Long id) {
-        this.getChanged().record("id", this.id, id);
-        this.id = id;
+  public void setParentDs(List<ParentD> parentDs) {
+    for (ParentD o : Copy.list(this.getParentDs())) {
+      this.removeParentD(o);
+    }
+    for (ParentD o : parentDs) {
+      this.addParentD(o);
+    }
+  }
+
+  public void addParentD(ParentD o) {
+    ParentDToChildC a = new ParentDToChildC();
+    a.setParentDChildC((ParentDChildC) this);
+    a.setParentD(o);
+  }
+
+  public void removeParentD(ParentD o) {
+    for (ParentDToChildC a : Copy.list(this.getParentDToChildCs())) {
+      if (a.getParentD().equals(o)) {
+        a.setParentD(null);
+        a.setParentDChildC(null);
         if (UoW.isOpen()) {
-            UoW.getIdentityMap().store(this);
+          UoW.delete(a);
         }
+      }
     }
+  }
 
-    public String getName() {
-        return this.name;
+  public ParentDChildCChanged getChanged() {
+    if (this.changed == null) {
+      this.changed = new ParentDChildCChanged((ParentDChildC) this);
     }
+    return (ParentDChildCChanged) this.changed;
+  }
 
-    public void setName(String name) {
-        this.getChanged().record("name", this.name, name);
-        this.name = name;
+  @Override
+  public void clearAssociations() {
+    super.clearAssociations();
+    for (ParentDToChildC o : Copy.list(this.getParentDToChildCs())) {
+      o.setParentDChildCWithoutPercolation(null);
     }
+  }
 
-    protected void defaultName(String name) {
-        this.name = name;
-    }
+  static class Shims {
+    protected static final Shim<ParentDChildC, Long> id = new Shim<ParentDChildC, Long>() {
+      public void set(ParentDChildC instance, Long id) {
+        ((ParentDChildCCodegen) instance).id = id;
+      }
+      public Long get(ParentDChildC instance) {
+        return ((ParentDChildCCodegen) instance).id;
+      }
+      public String getName() {
+        return "id";
+      }
+    };
+    protected static final Shim<ParentDChildC, String> name = new Shim<ParentDChildC, String>() {
+      public void set(ParentDChildC instance, String name) {
+        ((ParentDChildCCodegen) instance).name = name;
+      }
+      public String get(ParentDChildC instance) {
+        return ((ParentDChildCCodegen) instance).name;
+      }
+      public String getName() {
+        return "name";
+      }
+    };
+    protected static final Shim<ParentDChildC, Long> version = new Shim<ParentDChildC, Long>() {
+      public void set(ParentDChildC instance, Long version) {
+        ((ParentDChildCCodegen) instance).version = version;
+      }
+      public Long get(ParentDChildC instance) {
+        return ((ParentDChildCCodegen) instance).version;
+      }
+      public String getName() {
+        return "version";
+      }
+    };
+  }
 
-    public Long getVersion() {
-        return this.version;
+  public static class ParentDChildCChanged extends AbstractChanged {
+    public ParentDChildCChanged(ParentDChildC instance) {
+      super(instance);
     }
-
-    public List<ParentDToChildC> getParentDToChildCs() {
-        return this.parentDToChildCs.get();
+    public boolean hasId() {
+      return this.contains("id");
     }
-
-    public void setParentDToChildCs(List<ParentDToChildC> parentDToChildCs) {
-        for (ParentDToChildC o : Copy.list(this.getParentDToChildCs())) {
-            this.removeParentDToChildC(o);
-        }
-        for (ParentDToChildC o : parentDToChildCs) {
-            this.addParentDToChildC(o);
-        }
+    public Long getOriginalId() {
+      return (Long) this.getOriginal("id");
     }
-
-    public void addParentDToChildC(ParentDToChildC o) {
-        o.setParentDChildCWithoutPercolation((ParentDChildC) this);
-        this.addParentDToChildCWithoutPercolation(o);
+    public boolean hasName() {
+      return this.contains("name");
     }
-
-    public void removeParentDToChildC(ParentDToChildC o) {
-        o.setParentDChildCWithoutPercolation(null);
-        this.removeParentDToChildCWithoutPercolation(o);
+    public String getOriginalName() {
+      return (java.lang.String) this.getOriginal("name");
     }
-
-    protected void addParentDToChildCWithoutPercolation(ParentDToChildC o) {
-        this.getChanged().record("parentDToChildCs");
-        this.parentDToChildCs.add(o);
+    public boolean hasVersion() {
+      return this.contains("version");
     }
-
-    protected void removeParentDToChildCWithoutPercolation(ParentDToChildC o) {
-        this.getChanged().record("parentDToChildCs");
-        this.parentDToChildCs.remove(o);
+    public Long getOriginalVersion() {
+      return (Long) this.getOriginal("version");
     }
-
-    public List<ParentD> getParentDs() {
-        List<ParentD> l = new ArrayList<ParentD>();
-        for (ParentDToChildC o : this.getParentDToChildCs()) {
-            l.add(o.getParentD());
-        }
-        return l;
+    public boolean hasParentDToChildCs() {
+      return this.contains("parentDToChildCs");
     }
-
-    public void setParentDs(List<ParentD> parentDs) {
-        for (ParentD o : Copy.list(this.getParentDs())) {
-            this.removeParentD(o);
-        }
-        for (ParentD o : parentDs) {
-            this.addParentD(o);
-        }
-    }
-
-    public void addParentD(ParentD o) {
-        ParentDToChildC a = new ParentDToChildC();
-        a.setParentDChildC((ParentDChildC) this);
-        a.setParentD(o);
-    }
-
-    public void removeParentD(ParentD o) {
-        for (ParentDToChildC a : Copy.list(this.getParentDToChildCs())) {
-            if (a.getParentD().equals(o)) {
-                a.setParentD(null);
-                a.setParentDChildC(null);
-                if (UoW.isOpen()) {
-                    UoW.delete(a);
-                }
-            }
-        }
-    }
-
-    public ParentDChildCChanged getChanged() {
-        if (this.changed == null) {
-            this.changed = new ParentDChildCChanged((ParentDChildC) this);
-        }
-        return (ParentDChildCChanged) this.changed;
-    }
-
-    @Override
-    public void clearAssociations() {
-        super.clearAssociations();
-        for (ParentDToChildC o : Copy.list(this.getParentDToChildCs())) {
-            o.setParentDChildCWithoutPercolation(null);
-        }
-    }
-
-    static class Shims {
-        protected static final Shim<ParentDChildC, Long> id = new Shim<ParentDChildC, Long>() {
-            public void set(ParentDChildC instance, Long id) {
-                ((ParentDChildCCodegen) instance).id = id;
-            }
-            public Long get(ParentDChildC instance) {
-                return ((ParentDChildCCodegen) instance).id;
-            }
-            public String getName() {
-                return "id";
-            }
-        };
-        protected static final Shim<ParentDChildC, String> name = new Shim<ParentDChildC, String>() {
-            public void set(ParentDChildC instance, String name) {
-                ((ParentDChildCCodegen) instance).name = name;
-            }
-            public String get(ParentDChildC instance) {
-                return ((ParentDChildCCodegen) instance).name;
-            }
-            public String getName() {
-                return "name";
-            }
-        };
-        protected static final Shim<ParentDChildC, Long> version = new Shim<ParentDChildC, Long>() {
-            public void set(ParentDChildC instance, Long version) {
-                ((ParentDChildCCodegen) instance).version = version;
-            }
-            public Long get(ParentDChildC instance) {
-                return ((ParentDChildCCodegen) instance).version;
-            }
-            public String getName() {
-                return "version";
-            }
-        };
-    }
-
-    public static class ParentDChildCChanged extends AbstractChanged {
-        public ParentDChildCChanged(ParentDChildC instance) {
-            super(instance);
-        }
-        public boolean hasId() {
-            return this.contains("id");
-        }
-        public Long getOriginalId() {
-            return (Long) this.getOriginal("id");
-        }
-        public boolean hasName() {
-            return this.contains("name");
-        }
-        public String getOriginalName() {
-            return (java.lang.String) this.getOriginal("name");
-        }
-        public boolean hasVersion() {
-            return this.contains("version");
-        }
-        public Long getOriginalVersion() {
-            return (Long) this.getOriginal("version");
-        }
-        public boolean hasParentDToChildCs() {
-            return this.contains("parentDToChildCs");
-        }
-    }
+  }
 
 }

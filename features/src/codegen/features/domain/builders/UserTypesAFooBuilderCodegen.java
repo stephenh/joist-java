@@ -7,49 +7,49 @@ import joist.domain.builders.AbstractBuilder;
 @SuppressWarnings("all")
 public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTypesAFoo> {
 
-    public UserTypesAFooBuilderCodegen(UserTypesAFoo instance) {
-        super(instance);
-    }
+  public UserTypesAFooBuilderCodegen(UserTypesAFoo instance) {
+    super(instance);
+  }
 
-    public CalendarDate created() {
-        return get().getCreated();
-    }
+  public CalendarDate created() {
+    return get().getCreated();
+  }
 
-    public UserTypesAFooBuilder created(CalendarDate created) {
-        get().setCreated(created);
-        return (UserTypesAFooBuilder) this;
-    }
+  public UserTypesAFooBuilder created(CalendarDate created) {
+    get().setCreated(created);
+    return (UserTypesAFooBuilder) this;
+  }
 
-    public UserTypesAFooBuilder with(CalendarDate created) {
-        get().setCreated(created);
-        return (UserTypesAFooBuilder) this;
-    }
+  public UserTypesAFooBuilder with(CalendarDate created) {
+    get().setCreated(created);
+    return (UserTypesAFooBuilder) this;
+  }
 
-    public Long id() {
-        return get().getId();
-    }
+  public Long id() {
+    return get().getId();
+  }
 
-    public UserTypesAFooBuilder id(Long id) {
-        get().setId(id);
-        return (UserTypesAFooBuilder) this;
-    }
+  public UserTypesAFooBuilder id(Long id) {
+    get().setId(id);
+    return (UserTypesAFooBuilder) this;
+  }
 
-    public String name() {
-        return get().getName();
-    }
+  public String name() {
+    return get().getName();
+  }
 
-    public UserTypesAFooBuilder name(String name) {
-        get().setName(name);
-        return (UserTypesAFooBuilder) this;
-    }
+  public UserTypesAFooBuilder name(String name) {
+    get().setName(name);
+    return (UserTypesAFooBuilder) this;
+  }
 
-    public UserTypesAFooBuilder with(String name) {
-        get().setName(name);
-        return (UserTypesAFooBuilder) this;
-    }
+  public UserTypesAFooBuilder with(String name) {
+    get().setName(name);
+    return (UserTypesAFooBuilder) this;
+  }
 
-    public UserTypesAFoo get() {
-        return (features.domain.UserTypesAFoo) super.get();
-    }
+  public UserTypesAFoo get() {
+    return (features.domain.UserTypesAFoo) super.get();
+  }
 
 }

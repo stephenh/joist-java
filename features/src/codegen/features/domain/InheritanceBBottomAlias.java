@@ -10,51 +10,51 @@ import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class InheritanceBBottomAlias extends Alias<InheritanceBBottom> {
 
-    private final List<AliasColumn<InheritanceBBottom, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceBBottom, ?, ?>>();
-    private final IdAliasColumn<InheritanceBBottom> subClassId = new IdAliasColumn<InheritanceBBottom>(this, "id", null);
-    public final StringAliasColumn<InheritanceBBottom> bottomName = new StringAliasColumn<InheritanceBBottom>(this, "bottom_name", InheritanceBBottomCodegen.Shims.bottomName);
-    private final InheritanceBMiddleAlias baseAlias;
-    public final StringAliasColumn<InheritanceBMiddle> middleName;
-    public final IdAliasColumn<InheritanceBRoot> id;
-    public final StringAliasColumn<InheritanceBRoot> name;
-    public final LongAliasColumn<InheritanceBRoot> version;
+  private final List<AliasColumn<InheritanceBBottom, ?, ?>> columns = new ArrayList<AliasColumn<InheritanceBBottom, ?, ?>>();
+  private final IdAliasColumn<InheritanceBBottom> subClassId = new IdAliasColumn<InheritanceBBottom>(this, "id", null);
+  public final StringAliasColumn<InheritanceBBottom> bottomName = new StringAliasColumn<InheritanceBBottom>(this, "bottom_name", InheritanceBBottomCodegen.Shims.bottomName);
+  private final InheritanceBMiddleAlias baseAlias;
+  public final StringAliasColumn<InheritanceBMiddle> middleName;
+  public final IdAliasColumn<InheritanceBRoot> id;
+  public final StringAliasColumn<InheritanceBRoot> name;
+  public final LongAliasColumn<InheritanceBRoot> version;
 
-    public InheritanceBBottomAlias(String alias) {
-        this(alias, null, true);
-    }
+  public InheritanceBBottomAlias(String alias) {
+    this(alias, null, true);
+  }
 
-    public InheritanceBBottomAlias(String alias, InheritanceBMiddleAlias baseAlias, boolean addSubClasses) {
-        super(InheritanceBBottom.class, "inheritance_b_bottom", alias);
-        this.baseAlias = (baseAlias != null) ? baseAlias : new InheritanceBMiddleAlias(alias + "_b", null, false);
-        this.columns.add(this.bottomName);
-        this.middleName = this.baseAlias.middleName;
-        this.id = this.baseAlias.id;
-        this.name = this.baseAlias.name;
-        this.version = this.baseAlias.version;
-    }
+  public InheritanceBBottomAlias(String alias, InheritanceBMiddleAlias baseAlias, boolean addSubClasses) {
+    super(InheritanceBBottom.class, "inheritance_b_bottom", alias);
+    this.baseAlias = (baseAlias != null) ? baseAlias : new InheritanceBMiddleAlias(alias + "_b", null, false);
+    this.columns.add(this.bottomName);
+    this.middleName = this.baseAlias.middleName;
+    this.id = this.baseAlias.id;
+    this.name = this.baseAlias.name;
+    this.version = this.baseAlias.version;
+  }
 
-    public List<AliasColumn<InheritanceBBottom, ?, ?>> getColumns() {
-        return this.columns;
-    }
+  public List<AliasColumn<InheritanceBBottom, ?, ?>> getColumns() {
+    return this.columns;
+  }
 
-    public IdAliasColumn<InheritanceBRoot> getIdColumn() {
-        return this.id;
-    }
+  public IdAliasColumn<InheritanceBRoot> getIdColumn() {
+    return this.id;
+  }
 
-    public LongAliasColumn<InheritanceBRoot> getVersionColumn() {
-        return this.version;
-    }
+  public LongAliasColumn<InheritanceBRoot> getVersionColumn() {
+    return this.version;
+  }
 
-    public IdAliasColumn<InheritanceBBottom> getSubClassIdColumn() {
-        return this.subClassId;
-    }
+  public IdAliasColumn<InheritanceBBottom> getSubClassIdColumn() {
+    return this.subClassId;
+  }
 
-    public Alias<InheritanceBMiddle> getBaseClassAlias() {
-        return this.baseAlias;
-    }
+  public Alias<InheritanceBMiddle> getBaseClassAlias() {
+    return this.baseAlias;
+  }
 
-    public int getOrder() {
-        return 8;
-    }
+  public int getOrder() {
+    return 8;
+  }
 
 }

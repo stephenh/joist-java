@@ -13,44 +13,44 @@ import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class ManyToManyBFooAlias extends Alias<ManyToManyBFoo> {
 
-    private final List<AliasColumn<ManyToManyBFoo, ?, ?>> columns = new ArrayList<AliasColumn<ManyToManyBFoo, ?, ?>>();
-    public final IdAliasColumn<ManyToManyBFoo> id = new IdAliasColumn<ManyToManyBFoo>(this, "id", ManyToManyBFooCodegen.Shims.id);
-    public final StringAliasColumn<ManyToManyBFoo> name = new StringAliasColumn<ManyToManyBFoo>(this, "name", ManyToManyBFooCodegen.Shims.name);
-    public final LongAliasColumn<ManyToManyBFoo> version = new LongAliasColumn<ManyToManyBFoo>(this, "version", ManyToManyBFooCodegen.Shims.version);
+  private final List<AliasColumn<ManyToManyBFoo, ?, ?>> columns = new ArrayList<AliasColumn<ManyToManyBFoo, ?, ?>>();
+  public final IdAliasColumn<ManyToManyBFoo> id = new IdAliasColumn<ManyToManyBFoo>(this, "id", ManyToManyBFooCodegen.Shims.id);
+  public final StringAliasColumn<ManyToManyBFoo> name = new StringAliasColumn<ManyToManyBFoo>(this, "name", ManyToManyBFooCodegen.Shims.name);
+  public final LongAliasColumn<ManyToManyBFoo> version = new LongAliasColumn<ManyToManyBFoo>(this, "version", ManyToManyBFooCodegen.Shims.version);
 
-    public ManyToManyBFooAlias(String alias) {
-        this(alias, null, true);
-    }
+  public ManyToManyBFooAlias(String alias) {
+    this(alias, null, true);
+  }
 
-    public ManyToManyBFooAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
-        super(ManyToManyBFoo.class, "many_to_many_b_foo", alias);
-        this.columns.add(this.id);
-        this.columns.add(this.name);
-        this.columns.add(this.version);
-    }
+  public ManyToManyBFooAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
+    super(ManyToManyBFoo.class, "many_to_many_b_foo", alias);
+    this.columns.add(this.id);
+    this.columns.add(this.name);
+    this.columns.add(this.version);
+  }
 
-    public List<AliasColumn<ManyToManyBFoo, ?, ?>> getColumns() {
-        return this.columns;
-    }
+  public List<AliasColumn<ManyToManyBFoo, ?, ?>> getColumns() {
+    return this.columns;
+  }
 
-    public IdAliasColumn<ManyToManyBFoo> getIdColumn() {
-        return this.id;
-    }
+  public IdAliasColumn<ManyToManyBFoo> getIdColumn() {
+    return this.id;
+  }
 
-    public LongAliasColumn<ManyToManyBFoo> getVersionColumn() {
-        return this.version;
-    }
+  public LongAliasColumn<ManyToManyBFoo> getVersionColumn() {
+    return this.version;
+  }
 
-    public IdAliasColumn<ManyToManyBFoo> getSubClassIdColumn() {
-        return null;
-    }
+  public IdAliasColumn<ManyToManyBFoo> getSubClassIdColumn() {
+    return null;
+  }
 
-    public int getOrder() {
-        return 19;
-    }
+  public int getOrder() {
+    return 19;
+  }
 
-    public <T extends DomainObject> JoinClause<T, ManyToManyBFoo> on(ForeignKeyAliasColumn<T, ManyToManyBFoo> on) {
-        return new JoinClause<T, ManyToManyBFoo>("INNER JOIN", this, on);
-    }
+  public <T extends DomainObject> JoinClause<T, ManyToManyBFoo> on(ForeignKeyAliasColumn<T, ManyToManyBFoo> on) {
+    return new JoinClause<T, ManyToManyBFoo>("INNER JOIN", this, on);
+  }
 
 }

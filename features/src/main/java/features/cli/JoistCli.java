@@ -2,6 +2,7 @@ package features.cli;
 
 import joist.AbstractJoistCli;
 import joist.domain.orm.Db;
+import joist.sourcegen.GSettings;
 
 public class JoistCli extends AbstractJoistCli {
 
@@ -10,6 +11,7 @@ public class JoistCli extends AbstractJoistCli {
     this.codegenConfig.outputCodegenDirectory = "src/codegen";
     this.codegenConfig.setCollectionSkipped("ParentD", "parentDChildAs");
     this.codegenConfig.setCollectionSkipped("ParentD", "parentDToChildCs");
+    GSettings.setDefaultIndentation("  ");
   }
 
 }

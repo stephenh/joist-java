@@ -9,10 +9,10 @@ import features.domain.PrimitivesAlias;
 
 public class PrimitivesQueries extends PrimitivesQueriesCodegen {
 
-  public Primitives findByName(String name) {
+  public Primitives findByFlagValue(boolean value) {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
-    q.where(p.name.eq(name));
+    q.where(p.flag.eq(value));
     return q.unique();
   }
 

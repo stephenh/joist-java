@@ -5,12 +5,12 @@ import joist.domain.AbstractQueries;
 
 public abstract class ParentBParentQueriesCodegen extends AbstractQueries<ParentBParent> {
 
-    public ParentBParentQueriesCodegen() {
-        super(ParentBParent.class);
-    }
+  public ParentBParentQueriesCodegen() {
+    super(ParentBParent.class);
+  }
 
-    public void delete(ParentBParent instance) {
-        super.delete(instance);
-    }
+  public void delete(ParentBParent instance) {
+    super.delete(instance);
+  }
 
 }

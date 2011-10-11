@@ -13,44 +13,44 @@ import joist.domain.orm.queries.columns.StringAliasColumn;
 
 public class ParentDChildCAlias extends Alias<ParentDChildC> {
 
-    private final List<AliasColumn<ParentDChildC, ?, ?>> columns = new ArrayList<AliasColumn<ParentDChildC, ?, ?>>();
-    public final IdAliasColumn<ParentDChildC> id = new IdAliasColumn<ParentDChildC>(this, "id", ParentDChildCCodegen.Shims.id);
-    public final StringAliasColumn<ParentDChildC> name = new StringAliasColumn<ParentDChildC>(this, "name", ParentDChildCCodegen.Shims.name);
-    public final LongAliasColumn<ParentDChildC> version = new LongAliasColumn<ParentDChildC>(this, "version", ParentDChildCCodegen.Shims.version);
+  private final List<AliasColumn<ParentDChildC, ?, ?>> columns = new ArrayList<AliasColumn<ParentDChildC, ?, ?>>();
+  public final IdAliasColumn<ParentDChildC> id = new IdAliasColumn<ParentDChildC>(this, "id", ParentDChildCCodegen.Shims.id);
+  public final StringAliasColumn<ParentDChildC> name = new StringAliasColumn<ParentDChildC>(this, "name", ParentDChildCCodegen.Shims.name);
+  public final LongAliasColumn<ParentDChildC> version = new LongAliasColumn<ParentDChildC>(this, "version", ParentDChildCCodegen.Shims.version);
 
-    public ParentDChildCAlias(String alias) {
-        this(alias, null, true);
-    }
+  public ParentDChildCAlias(String alias) {
+    this(alias, null, true);
+  }
 
-    public ParentDChildCAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
-        super(ParentDChildC.class, "parent_d_child_c", alias);
-        this.columns.add(this.id);
-        this.columns.add(this.name);
-        this.columns.add(this.version);
-    }
+  public ParentDChildCAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
+    super(ParentDChildC.class, "parent_d_child_c", alias);
+    this.columns.add(this.id);
+    this.columns.add(this.name);
+    this.columns.add(this.version);
+  }
 
-    public List<AliasColumn<ParentDChildC, ?, ?>> getColumns() {
-        return this.columns;
-    }
+  public List<AliasColumn<ParentDChildC, ?, ?>> getColumns() {
+    return this.columns;
+  }
 
-    public IdAliasColumn<ParentDChildC> getIdColumn() {
-        return this.id;
-    }
+  public IdAliasColumn<ParentDChildC> getIdColumn() {
+    return this.id;
+  }
 
-    public LongAliasColumn<ParentDChildC> getVersionColumn() {
-        return this.version;
-    }
+  public LongAliasColumn<ParentDChildC> getVersionColumn() {
+    return this.version;
+  }
 
-    public IdAliasColumn<ParentDChildC> getSubClassIdColumn() {
-        return null;
-    }
+  public IdAliasColumn<ParentDChildC> getSubClassIdColumn() {
+    return null;
+  }
 
-    public int getOrder() {
-        return 36;
-    }
+  public int getOrder() {
+    return 36;
+  }
 
-    public <T extends DomainObject> JoinClause<T, ParentDChildC> on(ForeignKeyAliasColumn<T, ParentDChildC> on) {
-        return new JoinClause<T, ParentDChildC>("INNER JOIN", this, on);
-    }
+  public <T extends DomainObject> JoinClause<T, ParentDChildC> on(ForeignKeyAliasColumn<T, ParentDChildC> on) {
+    return new JoinClause<T, ParentDChildC>("INNER JOIN", this, on);
+  }
 
 }
