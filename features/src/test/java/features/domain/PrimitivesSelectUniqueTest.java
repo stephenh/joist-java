@@ -18,13 +18,13 @@ public class PrimitivesSelectUniqueTest extends AbstractFeaturesTest {
   }
 
   public void testTooManyFound() {
-    new Primitives("p");
-    new Primitives("p");
+    new Primitives("p1").flag(false);
+    new Primitives("p2").flag(false);
     this.commitAndReOpen();
 
     Requirements.selectUniqueWithTooManyFails.tests();
     try {
-      Primitives.queries.findByName("p");
+      Primitives.queries.findByFlagValue(false);
       Assert.fail();
     } catch (TooManyException nfe) {
       Assert.assertEquals("Too many", nfe.getMessage());

@@ -14,7 +14,7 @@ public class m0001 extends AbstractMigration {
   }
 
   public void apply() {
-    createTable("primitives", primaryKey("id"), bool("flag"), varchar("name"), integer("version"));
+    createTable("primitives", primaryKey("id"), bool("flag"), varchar("name").unique(), integer("version"));
   }
 
 }

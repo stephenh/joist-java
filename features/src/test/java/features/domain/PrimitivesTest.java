@@ -90,4 +90,11 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     Assert.assertEquals(2, ids.get(1).intValue());
   }
 
+  public void testGeneratedFindByName() {
+    new Primitives("foo1");
+    this.commitAndReOpen();
+    Primitives p = Primitives.queries.findByName("foo1");
+    Assert.assertEquals("foo1", p.getName());
+  }
+
 }

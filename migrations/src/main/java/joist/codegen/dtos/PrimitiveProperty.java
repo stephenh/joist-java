@@ -11,13 +11,14 @@ import org.apache.commons.lang.StringUtils;
 
 public class PrimitiveProperty {
 
-  private CodegenConfig config;
-  private Entity entity;
-  private String columnName;
-  private String dataType;
-  private boolean isNotNull;
-  private int maxCharacterLength;
-  private String defaultValue;
+  private final CodegenConfig config;
+  private final Entity entity;
+  private final String columnName;
+  private final String dataType;
+  private final boolean isNotNull;
+  private final int maxCharacterLength;
+  private final String defaultValue;
+  private final boolean unique;
 
   public PrimitiveProperty(Codegen codegen, Entity entity, InformationSchemaColumn column) {
     this.config = codegen.getConfig();
@@ -27,6 +28,7 @@ public class PrimitiveProperty {
     this.isNotNull = !column.nullable;
     this.defaultValue = column.defaultValue;
     this.maxCharacterLength = column.maximumLength;
+    this.unique = column.unique;
   }
 
   public String getAliasColumnClassName() {
@@ -76,4 +78,7 @@ public class PrimitiveProperty {
     return this.config.getSetterAccess(this.entity.getTableName(), this.columnName);
   }
 
+  public boolean isUnique() {
+    return this.unique;
+  }
 }

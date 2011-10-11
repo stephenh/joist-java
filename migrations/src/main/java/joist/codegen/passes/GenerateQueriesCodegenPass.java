@@ -4,6 +4,9 @@ import joist.codegen.Codegen;
 import joist.codegen.dtos.Entity;
 import joist.codegen.dtos.ManyToOneProperty;
 import joist.codegen.dtos.OneToManyProperty;
+import joist.codegen.dtos.PrimitiveProperty;
+import joist.domain.orm.queries.Select;
+import joist.sourcegen.Argument;
 import joist.sourcegen.GClass;
 import joist.sourcegen.GMethod;
 import joist.util.Copy;
@@ -19,7 +22,8 @@ public class GenerateQueriesCodegenPass implements Pass {
       GClass queriesCodegen = this.createCodegenOutput(codegen, entity);
 
       this.setupBaseClassAndConstructor(codegen, entity, queriesCodegen);
-      this.addDelete(codegen, entity, queriesCodegen);
+      this.addDelete(entity, queriesCodegen);
+      this.addFindByForUniquePrimitives(entity, queriesCodegen);
     }
   }
 
@@ -34,7 +38,7 @@ public class GenerateQueriesCodegenPass implements Pass {
     queriesCodegen.getConstructor().body.line("super({}.class);", entity.getClassName());
   }
 
-  private void addDelete(Codegen codegen, Entity entity, GClass queriesCodegen) {
+  private void addDelete(Entity entity, GClass queriesCodegen) {
     GMethod delete = queriesCodegen.getMethod("delete").argument(entity.getClassName(), "instance");
 
     for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
@@ -63,6 +67,21 @@ public class GenerateQueriesCodegenPass implements Pass {
     } else {
       delete.body.line("{}.queries.delete(instance);", entity.getBaseEntity().getClassName());
       queriesCodegen.addImports(entity.getBaseEntity().getFullClassName());
+    }
+  }
+
+  private void addFindByForUniquePrimitives(Entity entity, GClass queriesCodegen) {
+    for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
+      if (p.isUnique()) {
+        GMethod f = queriesCodegen.getMethod("findBy" + p.getCapitalVariableName(), Argument.arg(p.getJavaType(), p.getVariableName()));
+        f.returnType(entity.getClassName());
+        f.body.line("{} {} = new {}(\"{}\");", entity.getAliasName(), entity.getAliasAlias(), entity.getAliasName(), entity.getAliasAlias());
+        f.body.line("Select<{}> q = Select.from({});", entity.getClassName(), entity.getAliasAlias());
+        f.body.line("q.where({}.{}.eq({}));", entity.getAliasAlias(), p.getVariableName(), p.getVariableName());
+        f.body.line("return q.unique();");
+        queriesCodegen.addImports(entity.getFullAliasClassName());
+        queriesCodegen.addImports(Select.class);
+      }
     }
   }
 
