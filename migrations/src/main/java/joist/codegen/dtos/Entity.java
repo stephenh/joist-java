@@ -191,6 +191,10 @@ public class Entity {
     return ret;
   }
 
+  public boolean isStableTable() {
+    return this.config.isStableTable(this.getTableName());
+  }
+
   public String toString() {
     return this.getClassName();
   }

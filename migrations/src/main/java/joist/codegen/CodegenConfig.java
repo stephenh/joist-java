@@ -64,7 +64,6 @@ public class CodegenConfig {
   /** Whether the codegen directory will be pruned of un-needed (to us) files. Assumes joist owns the whole directory. */
   public boolean pruneCodegenDirectory = true;
 
-  // Private structures
   private final Map<String, String> javaTypeByDataType = new HashMap<String, String>();
   private final Map<String, String> javaTypeByColumnName = new HashMap<String, String>();
   private final Map<TypeAndPattern, String> javaTypeByPattern = new HashMap<TypeAndPattern, String>();
@@ -75,8 +74,9 @@ public class CodegenConfig {
   private final Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
   private final List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
   private final List<String> skipCollection = new ArrayList<String>();
-  private final List<String> skipTable = new ArrayList<String>();
+  private final List<String> skipTables = new ArrayList<String>();
   private final List<String> notAbstractEvenThoughSubclassed = new ArrayList<String>();
+  private final List<String> stableTables = new ArrayList<String>();
   private final Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
   private final String amountSuffix = ".*amount$";
   private final List<Pass> passes;
@@ -254,11 +254,19 @@ public class CodegenConfig {
   }
 
   public void setTableSkipped(String tableName) {
-    this.skipTable.add(tableName);
+    this.skipTables.add(tableName);
   }
 
   public boolean isTableSkipped(String tableName) {
-    return this.skipTable.contains(tableName);
+    return this.skipTables.contains(tableName);
+  }
+
+  public void setStableTable(String tableName) {
+    this.stableTables.add(tableName);
+  }
+
+  public boolean isStableTable(String tableName) {
+    return this.stableTables.contains(tableName);
   }
 
   public void setDoNotIncrementParentsOpLock(String objectName, String variableName) {
