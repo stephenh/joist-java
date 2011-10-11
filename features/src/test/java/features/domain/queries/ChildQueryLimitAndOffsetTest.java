@@ -1,6 +1,5 @@
 package features.domain.queries;
 
-import joist.domain.Requirements;
 import joist.domain.orm.queries.Select;
 import joist.util.Copy;
 import joist.util.Join;
@@ -13,8 +12,6 @@ import features.domain.ParentAlias;
 public class ChildQueryLimitAndOffsetTest extends TestCase {
 
   public void testFindForParentNameSql() {
-    Requirements.selectLimitAndOffset.tests();
-
     // SELECT * FROM child c
     // INNER JOIN parent p ON c.parent_id = p.id
     // WHERE p.name = 'bob'

@@ -14,8 +14,8 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
   public static final PrimitivesBQueries queries;
   private Long big1 = null;
   private Long big2 = null;
-  private Boolean bool1 = false;
-  private Boolean bool2 = false;
+  private Boolean bool1 = null;
+  private Boolean bool2 = null;
   private Long id = null;
   private Integer int1 = null;
   private Integer int2 = null;
