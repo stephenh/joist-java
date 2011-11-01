@@ -2,11 +2,18 @@ package joist.domain;
 
 import joist.domain.DomainObject;
 import joist.domain.orm.NamedUpdater;
+import joist.domain.orm.Repository;
 import joist.domain.uow.UoW;
 import joist.util.TestCounters;
 import junit.framework.TestCase;
 
 public abstract class AbstractDomainObjectsTest extends TestCase {
+
+  private static Repository repo;
+
+  public static void setRepository(Repository repo) {
+    AbstractDomainObjectsTest.repo = repo;
+  }
 
 	public void setUp() throws Exception {
 		super.setUp();
@@ -15,7 +22,7 @@ public abstract class AbstractDomainObjectsTest extends TestCase {
 		if (UoW.isOpen()) {
 			UoW.close();
 		}
-		UoW.open(new NamedUpdater("testing"));
+		UoW.open(repo, new NamedUpdater("testing"));
 	}
 
 	public void tearDown() throws Exception {

@@ -8,20 +8,24 @@ import joist.util.SystemProperties;
 
 public class Registry {
 
-  @SuppressWarnings("unused")
   private final static Registry instance = new Registry();
+  private final Repository repository;
 
   public static void start() {
   }
 
   public static DataSource getDataSource() {
-    return Repository.datasource;
+    return instance.repository.getDataSource();
+  }
+
+  public static Repository getRepository() {
+    return instance.repository;
   }
 
   private Registry() {
     // mysql
     SystemProperties.loadFromFileIfExists("./build.properties");
-    Repository.configure(Db.MYSQL, "features");
+    this.repository = new Repository(Db.MYSQL, "features");
 
     // pg
     // SystemProperties.loadFromFileIfExists("./build-pg.properties");

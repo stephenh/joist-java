@@ -10,11 +10,12 @@ public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
     System.setProperty("joist.util.jdbc.trackStats", "true");
     System.setProperty("log4j.configuration", "log4j-test.properties");
     Registry.start();
+    setRepository(Registry.getRepository());
   }
 
   public void setUp() throws Exception {
     super.setUp();
-    FlushTestDatabase.execute();
+    FlushTestDatabase.execute(Registry.getRepository());
   }
 
 }

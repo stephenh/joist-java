@@ -2,11 +2,11 @@ package features.domain.queries;
 
 import java.util.List;
 
-import joist.domain.orm.Repository;
 import joist.domain.orm.queries.Select;
 import joist.domain.orm.queries.Update;
 import joist.util.Copy;
 import junit.framework.Assert;
+import features.Registry;
 import features.domain.AbstractFeaturesTest;
 import features.domain.Primitives;
 import features.domain.PrimitivesAlias;
@@ -61,7 +61,7 @@ public class PrimitivesQueryTest extends AbstractFeaturesTest {
     q.set(p.flag.to(true));
     q.where(p.id.in(ids));
     Assert.assertEquals("UPDATE \"primitives\"\n SET \"flag\" = ?\n WHERE id in (1,2,3)", q.toSql());
-    Object booleanTrue = Repository.db.isMySQL() ? 1 : true;
+    Object booleanTrue = Registry.getRepository().getDb().isMySQL() ? 1 : true;
     Assert.assertEquals(Copy.list(booleanTrue), this.toParameters(q));
   }
 

@@ -3,9 +3,12 @@ package joist.domain.uow;
 import java.sql.Connection;
 
 import joist.domain.DomainObject;
+import joist.domain.orm.Db;
 import joist.domain.orm.EagerCache;
 import joist.domain.orm.IdentityMap;
+import joist.domain.orm.Repository;
 import joist.domain.orm.Updater;
+import joist.domain.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -13,10 +16,10 @@ public class UoW {
 
   private static final ThreadLocal<UnitOfWork> uowForThread = new ThreadLocal<UnitOfWork>();
 
-  public static void go(Updater updater, Block block) {
+  public static void go(Repository repo, Updater updater, Block block) {
     boolean committed = false;
     try {
-      UoW.open(updater);
+      UoW.open(repo, updater);
       block.go();
       UoW.commit();
       committed = true;
@@ -25,10 +28,10 @@ public class UoW {
     }
   }
 
-  public static <T> T go(Updater updater, BlockWithReturn<T> block) {
+  public static <T> T go(Repository repo, Updater updater, BlockWithReturn<T> block) {
     boolean committed = false;
     try {
-      UoW.open(updater);
+      UoW.open(repo, updater);
       T value = block.go();
       UoW.commit();
       committed = true;
@@ -38,19 +41,19 @@ public class UoW {
     }
   }
 
-  public static <T> T read(BlockWithReturn<T> block) {
+  public static <T> T read(Repository repo, BlockWithReturn<T> block) {
     try {
-      UoW.open(null);
+      UoW.open(repo, null);
       return block.go();
     } finally {
       UoW.safelyRollbackAndCloseIfNeeded(true);
     }
   }
 
-  public static void go(Updater updater, BlockWithSafety block) {
+  public static void go(Repository repo, Updater updater, BlockWithSafety block) {
     boolean committed = false;
     try {
-      UoW.open(updater);
+      UoW.open(repo, updater);
       block.go();
       UoW.commit();
       committed = true;
@@ -61,10 +64,10 @@ public class UoW {
     }
   }
 
-  public static <T> T go(Updater updater, BlockWithReturnAndSafety<T> block) {
+  public static <T> T go(Repository repo, Updater updater, BlockWithReturnAndSafety<T> block) {
     boolean committed = false;
     try {
-      UoW.open(updater);
+      UoW.open(repo, updater);
       T value = block.go();
       UoW.commit();
       committed = true;
@@ -83,10 +86,10 @@ public class UoW {
   /**
    * Opens a new {@link UnitOfWork} and database connection.
    */
-  public static void open(final Updater updater) {
+  public static void open(final Repository repository, Updater updater) {
     UoW.assertClosed();
-    UoW.uowForThread.set(new UnitOfWork());
-    UoW.getCurrent().open(updater);
+    UnitOfWork uow = repository.open(updater);
+    UoW.uowForThread.set(uow);
   }
 
   /**
@@ -129,16 +132,18 @@ public class UoW {
     UoW.getCurrent().rollback();
   }
 
+  /** Commits the current {@link UnitOfWork} and opens a new one with a different connection. */
   public static void commitAndReOpen() {
+    final Repository repo = UoW.getCurrent().getRepository();
     final Updater updater = UoW.getCurrent().getUpdater();
     UoW.commit();
     UoW.close();
-    UoW.open(updater);
+    UoW.open(repo, updater);
   }
 
   /** Queues <code>instance</code> for validation on flush. */
   public static void enqueue(DomainObject instance) {
-    UoW.getCurrent().getValidator().enqueue(instance);
+    UoW.getCurrent().enqueue(instance);
   }
 
   /** Queues <code>instance</code> for deletion on flush. */
@@ -148,7 +153,7 @@ public class UoW {
 
   /** @return the instance of <code>type</code> for <code>id</code>, checking the identity map */
   public static <T extends DomainObject> T load(Class<T> type, Long id) {
-    return UoW.getCurrent().getRepository().load(type, id);
+    return UoW.getCurrent().load(type, id);
   }
 
   public static IdentityMap getIdentityMap() {
@@ -161,7 +166,12 @@ public class UoW {
 
   /** @return the current database connection */
   public static Connection getConnection() {
-    return UoW.getCurrent().getRepository().getConnection();
+    return UoW.getCurrent().getConnection();
+  }
+
+  /** @return the current {@link Db} type */
+  public static Db getDb() {
+    return UoW.getCurrent().getDb();
   }
 
   private static UnitOfWork getCurrent() {

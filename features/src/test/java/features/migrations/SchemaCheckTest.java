@@ -3,7 +3,6 @@ package features.migrations;
 import javax.sql.DataSource;
 
 import joist.domain.orm.Db;
-import joist.domain.orm.Repository;
 import joist.jdbc.Jdbc;
 import joist.migrations.SchemaCheck;
 import junit.framework.Assert;
@@ -19,7 +18,7 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
 
   public void setUp() throws Exception {
     super.setUp();
-    this.db = Repository.db;
+    this.db = Registry.getRepository().getDb();
     this.ds = Registry.getDataSource();
     this.schemaName = this.db.isPg() ? "public" : "features";
   }

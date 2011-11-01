@@ -13,13 +13,14 @@ import joist.jdbc.Jdbc;
  */
 public class FlushTestDatabase {
 
-  public static void execute() {
-    if (Repository.db.isPg()) {
-      Jdbc.queryForInt(Repository.datasource, "select * from flush_test_database()");
-    } else if (Repository.db.isMySQL()) {
-      Jdbc.queryForInt(Repository.datasource, "CALL flush_test_database()");
+  public static void execute(Repository repo) {
+    if (repo.getDb().isPg()) {
+      Jdbc.queryForInt(repo.getDataSource(), "select * from flush_test_database()");
+    } else if (repo.getDb().isMySQL()) {
+      Jdbc.queryForInt(repo.getDataSource(), "CALL flush_test_database()");
     } else {
-      throw new IllegalStateException("Unhandled db " + Repository.db);
+      throw new IllegalStateException("Unhandled db " + repo.getDb());
     }
   }
+
 }
