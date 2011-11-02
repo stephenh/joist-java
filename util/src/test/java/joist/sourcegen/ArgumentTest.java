@@ -2,11 +2,12 @@ package joist.sourcegen;
 
 import java.util.List;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class ArgumentTest extends TestCase {
+public class ArgumentTest {
 
+  @Test
   public void testSplit() {
     final String[] e1 = { "Foo f", "Bar f" };
     final String[] i1 = { "Foo f", "Bar f" };

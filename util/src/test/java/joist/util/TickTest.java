@@ -1,15 +1,16 @@
 package joist.util;
 
-import joist.util.Tick;
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class TickTest extends TestCase {
+public class TickTest {
 
+  @Test
   public void testTicksToQuotesGetsSingleTicks() {
     Assert.assertEquals("i said \"hi\" then", Tick.toQuote("i said 'hi' then"));
   }
 
+  @Test
   public void testTicksToQuotesMissesDoubleTicks() {
     Assert.assertEquals("i said 'hi' then", Tick.toQuote("i said ''hi'' then"));
   }

@@ -1,10 +1,11 @@
 package features.domain.builders;
 
-import features.domain.InheritanceBRoot;
-import features.domain.InheritanceBRootChild;
 import java.util.ArrayList;
 import java.util.List;
+
 import joist.domain.builders.AbstractBuilder;
+import features.domain.InheritanceBRoot;
+import features.domain.InheritanceBRootChild;
 
 @SuppressWarnings("all")
 public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<InheritanceBRoot> {

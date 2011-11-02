@@ -2,10 +2,12 @@ package features.domain;
 
 import java.util.List;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ParentBTest extends AbstractFeaturesTest {
 
+  @Test
   public void testLoadChildren() {
     ParentBParent p = new ParentBParent();
     p.setName("parent");

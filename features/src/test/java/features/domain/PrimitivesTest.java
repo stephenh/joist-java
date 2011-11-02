@@ -2,10 +2,12 @@ package features.domain;
 
 import java.util.List;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class PrimitivesTest extends AbstractFeaturesTest {
 
+  @Test
   public void testSave() {
     Primitives foo = new Primitives("testSave");
     this.commitAndReOpen();
@@ -16,6 +18,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     Assert.assertEquals("testSave", reloaded.getName());
   }
 
+  @Test
   public void testFlushMeansWeCanFindItRightAway() {
     new Primitives("testSave");
     this.flush();
@@ -24,6 +27,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     Assert.assertEquals("testSave", reloaded.getName());
   }
 
+  @Test
   public void testRollbackAfterFlushMeansItIsNotThere() {
     new Primitives("testSave");
     this.flush();
@@ -37,6 +41,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     }
   }
 
+  @Test
   public void testSaveTwoInSameUowGetDifferentIds() {
     new Primitives("foo");
     new Primitives("bar");
@@ -45,6 +50,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     Assert.assertEquals(2, Primitives.queries.findByName("bar").getId().intValue());
   }
 
+  @Test
   public void testLoadViaIdTwiceReturnsTheSameInstance() {
     new Primitives("foo");
     this.commitAndReOpen();
@@ -53,6 +59,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     Assert.assertTrue(twp1 == twp2);
   }
 
+  @Test
   public void testLoadViaIdThenNameReturnsTheSameInstance() {
     new Primitives("foo");
     this.commitAndReOpen();
@@ -61,6 +68,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     Assert.assertTrue(twp1 == twp2);
   }
 
+  @Test
   public void testUpdateTicksVersion() {
     new Primitives("foo");
     this.commitAndReOpen();
@@ -77,6 +85,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     Assert.assertEquals(1, twp.getVersion().intValue());
   }
 
+  @Test
   public void testFindAllIds() {
     new Primitives("foo1");
     new Primitives("foo2");
@@ -87,6 +96,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     Assert.assertEquals(2, ids.get(1).intValue());
   }
 
+  @Test
   public void testGeneratedFindByName() {
     new Primitives("foo1");
     this.commitAndReOpen();

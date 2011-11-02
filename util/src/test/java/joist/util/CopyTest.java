@@ -1,10 +1,11 @@
 package joist.util;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class CopyTest extends TestCase {
+public class CopyTest {
 
+  @Test
   public void testUnique() {
     FluentList<String> l = Copy.list("one", "one", "two");
     Assert.assertEquals(Copy.list("one", "two"), l.unique());

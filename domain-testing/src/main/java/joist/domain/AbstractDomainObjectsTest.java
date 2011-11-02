@@ -1,45 +1,50 @@
 package joist.domain;
 
-import joist.domain.DomainObject;
 import joist.domain.orm.NamedUpdater;
+import joist.domain.orm.Repository;
 import joist.domain.uow.UoW;
 import joist.util.TestCounters;
-import junit.framework.TestCase;
 
-public abstract class AbstractDomainObjectsTest extends TestCase {
+public abstract class AbstractDomainObjectsTest {
 
-	public void setUp() throws Exception {
-		super.setUp();
-		TestCounters.resetAll();
-		// Protect against previous tests that didn't clean up
-		if (UoW.isOpen()) {
-			UoW.close();
-		}
-		UoW.open(new NamedUpdater("testing"));
-	}
+  private static Repository repo;
 
-	public void tearDown() throws Exception {
-		if (UoW.isOpen()) {
-			UoW.close();
-		}
-		super.tearDown();
-	}
+  public static void setRepository(Repository repo) {
+    AbstractDomainObjectsTest.repo = repo;
+  }
 
-	protected void commitAndReOpen() {
-		UoW.commitAndReOpen();
-	}
+  // leave off annotation so subclasses can opt in
+  protected void setUp() {
+    TestCounters.resetAll();
+    // Protect against previous tests that didn't clean up
+    if (UoW.isOpen()) {
+      UoW.close();
+    }
+    UoW.open(repo, new NamedUpdater("testing"));
+  }
 
-	protected void rollback() {
-		UoW.rollback();
-	}
+  // leave off annotation so subclasses can opt in
+  protected void tearDown() {
+    if (UoW.isOpen()) {
+      UoW.close();
+    }
+  }
 
-	protected void flush() {
-		UoW.flush();
-	}
+  protected void commitAndReOpen() {
+    UoW.commitAndReOpen();
+  }
 
-	@SuppressWarnings("unchecked")
-	protected <T extends DomainObject> T reload(T instance) {
-		return (T) UoW.load(instance.getClass(), instance.getId());
-	}
+  protected void rollback() {
+    UoW.rollback();
+  }
+
+  protected void flush() {
+    UoW.flush();
+  }
+
+  @SuppressWarnings("unchecked")
+  protected <T extends DomainObject> T reload(T instance) {
+    return (T) UoW.load(instance.getClass(), instance.getId());
+  }
 
 }

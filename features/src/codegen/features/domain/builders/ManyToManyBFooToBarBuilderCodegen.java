@@ -1,9 +1,9 @@
 package features.domain.builders;
 
+import joist.domain.builders.AbstractBuilder;
 import features.domain.ManyToManyBBar;
 import features.domain.ManyToManyBFoo;
 import features.domain.ManyToManyBFooToBar;
-import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
 public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<ManyToManyBFooToBar> {

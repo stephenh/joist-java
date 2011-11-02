@@ -4,8 +4,8 @@ import features.domain.OneToOneAFoo;
 
 public class OneToOneAFooBuilder extends OneToOneAFooBuilderCodegen {
 
-    public OneToOneAFooBuilder(OneToOneAFoo instance) {
-        super(instance);
-    }
+  public OneToOneAFooBuilder(OneToOneAFoo instance) {
+    super(instance);
+  }
 
 }

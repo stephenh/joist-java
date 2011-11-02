@@ -2,10 +2,10 @@ package joist.util;
 
 import java.math.RoundingMode;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class FixedPrecisionLimitedTest extends TestCase {
+public class FixedPrecisionLimitedTest {
 
   public static class Foo extends AbstractFixedPrecision<Foo> {
     private static final long serialVersionUID = 1L;
@@ -32,6 +32,7 @@ public class FixedPrecisionLimitedTest extends TestCase {
     }
   }
 
+  @Test
   public void testEquality() {
     Foo f1 = Foo.from("1.1");
     Foo f2 = Foo.from("1.1");
@@ -39,6 +40,7 @@ public class FixedPrecisionLimitedTest extends TestCase {
     Assert.assertEquals(f1, f2);
   }
 
+  @Test
   public void testEqualityWithDifferentScales() {
     Foo f1 = Foo.from("1.12");
     Foo f2 = Foo.from("1.120");
@@ -46,6 +48,7 @@ public class FixedPrecisionLimitedTest extends TestCase {
     Assert.assertEquals(f1, f2);
   }
 
+  @Test
   public void testRoundOfNineIsStillNotSafe() {
     Foo unsafe = Foo.from("1.0");
     this.assertNotSerializable(unsafe);
@@ -53,6 +56,7 @@ public class FixedPrecisionLimitedTest extends TestCase {
     this.assertSerializable(Foo.from(1), unsafe.round());
   }
 
+  @Test
   public void testRoundIsHalfUp() {
     Foo unsafe = Foo.from("1.005");
     this.assertNotSerializable(unsafe);

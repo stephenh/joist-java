@@ -11,19 +11,21 @@ Overview
 
 Domain objects are generated from the local database schema. This means domain objects always match the schema, much like the Rails/Fowler [ActiveRecord](http://www.martinfowler.com/eaaCatalog/activeRecord.html) pattern.
 
-Joist uses the [Generation Gap](http://martinfowler.com/dslwip/) pattern to separate boilerplate getters/setters from business logic. For each table `foo`, there are two files: `Foo.java` and `FooCodegen.java`. `Foo.java` is never touched again, so you can add domain logic without fear of it being overwritten, where as `FooCodegen.java` is overwritten with the latest schema information.
+Joist uses the Generation Gap pattern to separate boilerplate getters/setters from business logic in a separate base class that you never have to look at.
+
+So, for each table `foo`, there are two files: `Foo.java` and `FooCodegen.java`. `Foo.java` is never touched again, so you can add domain logic without fear of it being overwritten, where as `FooCodegen.java` is overwritten with the latest schema information.
 
 Example
 -------
 
-[Child.java](http://github.com/stephenh/joist/blob/aa200facb6f70cfd41282fb6153bad7521f31991/features/src/main/features/domain/Child.java) is a clean-slate for any business logic:
+For a table `child`, you work with [Child.java](http://github.com/stephenh/joist/blob/aa200facb6f70cfd41282fb6153bad7521f31991/features/src/main/features/domain/Child.java), which is a clean-slate so you can focus solely on the business logic:
 
 <pre name="code" class="java">
     public class Child extends ChildCodegen {
     }
 </pre>
 
-While [ChildCodegen.java](http://github.com/stephenh/joist/blob/aa200facb6f70cfd41282fb6153bad7521f31991/features/src/codegen/features/domain/ChildCodegen.java) has the appropriate boilerplate getter/setter methods, for example:
+While the base class [ChildCodegen.java](http://github.com/stephenh/joist/blob/aa200facb6f70cfd41282fb6153bad7521f31991/features/src/codegen/features/domain/ChildCodegen.java) has the necessary boilerplate getter/setter methods, for example:
 
 <pre name="code" class="java">
     public abstract class ChildCodegen extends AbstractDomainObject {

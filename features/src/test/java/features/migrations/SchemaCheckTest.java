@@ -3,10 +3,13 @@ package features.migrations;
 import javax.sql.DataSource;
 
 import joist.domain.orm.Db;
-import joist.domain.orm.Repository;
 import joist.jdbc.Jdbc;
 import joist.migrations.SchemaCheck;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import features.Registry;
 import features.domain.AbstractFeaturesTest;
 import features.domain.SchemaHash;
@@ -17,13 +20,16 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
   private Db db;
   private String schemaName;
 
-  public void setUp() throws Exception {
+  @Before
+  @Override
+  public void setUp() {
     super.setUp();
-    this.db = Repository.db;
+    this.db = Registry.getRepository().getDb();
     this.ds = Registry.getDataSource();
     this.schemaName = this.db.isPg() ? "public" : "features";
   }
 
+  @Test
   public void testJavaCodeIsntInDatabase() {
     Jdbc.update(this.ds, "delete from code_a_color where id = 2");
     try {
@@ -36,6 +42,7 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
     }
   }
 
+  @Test
   public void testDatabaseCodeIsntInJava() {
     // Add "Other" to db"
     Jdbc.update(this.ds, "insert into code_a_color (id, code, name, version) values (3, 'O', 'Other', 0)");
@@ -49,6 +56,7 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
     }
   }
 
+  @Test
   public void testJavaCodeIdCollision() {
     // Change "F" to "O"
     Jdbc.update(this.ds, "update code_a_color set code = 'O' where code = 'GREEN'");
@@ -62,6 +70,7 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
     }
   }
 
+  @Test
   public void testSequenceValueTooLow() {
     Jdbc.update(this.ds, "update code_id set next_id = 2 where table_name = 'code_a_color'");
     try {
@@ -74,6 +83,7 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
     }
   }
 
+  @Test
   public void testExtraStructurePasses() {
     new SchemaCheck(this.db, this.schemaName, "features.domain", this.ds).checkStructureMatch(SchemaHash.hashCode);
   }

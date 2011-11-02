@@ -1,9 +1,11 @@
 package features.domain;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class InheritanceCTest extends AbstractFeaturesTest {
 
+  @Test
   public void testFoo1() {
     InheritanceCFoo1 f1 = new InheritanceCFoo1();
     f1.setName("f1");
@@ -26,6 +28,7 @@ public class InheritanceCTest extends AbstractFeaturesTest {
     Assert.assertEquals("f2", f2.getFoo());
   }
 
+  @Test
   public void testJustC() {
     InheritanceC c = new InheritanceC();
     c.setName("c");

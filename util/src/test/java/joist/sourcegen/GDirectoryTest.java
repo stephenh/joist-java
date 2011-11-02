@@ -4,23 +4,24 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.StringWriter;
 
-import joist.sourcegen.GClass;
-import joist.sourcegen.GDirectory;
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class GDirectoryTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+public class GDirectoryTest {
 
   private File foo = new File("./bin/org/exigencecorp/Foo.java");
 
-  public void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() {
     if (this.foo.exists()) {
       this.foo.delete();
     }
   }
 
+  @Test
   public void testOutput() throws Exception {
     Assert.assertFalse(this.foo.exists());
 

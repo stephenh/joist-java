@@ -11,6 +11,8 @@ Startup Time
 
 Joist was designed to start as quickly as possible, especially on large schemas that are typical of enterprise projects.
 
+To achieve the fastest possible startup time, Joist avoids runtime bytecode generation (see [shims](./shims.html) and [aliases](./aliases.html)). So instead of re-generating potentially several hundred classes (for large schemas) with CGLIB or ASM on each startup, all of Joist's persistence hooks and meta-data are regular, static Java code that load quickly. 
+
 For example, running 1 JUnit test to save an `Address` object on a ~200-table schema:
 
 * Hibernate: 6.7 seconds

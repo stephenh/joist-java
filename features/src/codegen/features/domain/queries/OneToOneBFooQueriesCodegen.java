@@ -1,7 +1,7 @@
 package features.domain.queries;
 
-import features.domain.OneToOneBFoo;
 import joist.domain.AbstractQueries;
+import features.domain.OneToOneBFoo;
 
 public abstract class OneToOneBFooQueriesCodegen extends AbstractQueries<OneToOneBFoo> {
 

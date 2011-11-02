@@ -3,15 +3,19 @@ package features.domain;
 import java.util.List;
 
 import joist.domain.ValidationAssert;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ChildTest extends AbstractFeaturesTest {
 
+  @Test
   public void testNotNull() {
     Child c = new Child();
     ValidationAssert.assertErrors(c, "Name is required", "Parent is required");
   }
 
+  @Test
   public void testSaveAndReloadChildInSeparateUoWThanParent() {
     Parent p = new Parent();
     p.setName("parent");
@@ -27,6 +31,7 @@ public class ChildTest extends AbstractFeaturesTest {
     Assert.assertTrue(p == c.getParent());
   }
 
+  @Test
   public void testSaveAndReloadChildInSameUoWAsParent() {
     Parent p = new Parent();
     p.setName("parent");
@@ -41,6 +46,7 @@ public class ChildTest extends AbstractFeaturesTest {
     Assert.assertTrue(p == c.getParent());
   }
 
+  @Test
   public void testFindByParentName() {
     Parent p = new Parent();
     p.setName("parent");
@@ -54,6 +60,7 @@ public class ChildTest extends AbstractFeaturesTest {
     Assert.assertEquals("child2", children.get(1).getName());
   }
 
+  @Test
   public void testChangeOfParentIsSaved() {
     Parent p1 = new Parent("p1");
     new Child(p1, "child");
@@ -68,6 +75,7 @@ public class ChildTest extends AbstractFeaturesTest {
     Assert.assertEquals("p2", c.getParent().getName());
   }
 
+  @Test
   public void testPercolationFromChildToParent() {
     Parent p = new Parent("p");
     Child c = new Child();
@@ -86,6 +94,7 @@ public class ChildTest extends AbstractFeaturesTest {
     Assert.assertTrue(p.getChanged().hasChilds());
   }
 
+  @Test
   public void testPercolationFromParentToChild() {
     Parent p = new Parent("p");
     Child c = new Child();
@@ -104,6 +113,7 @@ public class ChildTest extends AbstractFeaturesTest {
     Assert.assertTrue(p.getChanged().hasChilds());
   }
 
+  @Test
   public void testParentIsRequired() {
     Child c = new Child();
     c.setName("child");

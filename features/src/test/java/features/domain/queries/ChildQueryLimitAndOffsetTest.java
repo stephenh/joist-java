@@ -3,14 +3,17 @@ package features.domain.queries;
 import joist.domain.orm.queries.Select;
 import joist.util.Copy;
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import features.domain.Child;
 import features.domain.ChildAlias;
 import features.domain.ParentAlias;
 
-public class ChildQueryLimitAndOffsetTest extends TestCase {
+public class ChildQueryLimitAndOffsetTest {
 
+  @Test
   public void testFindForParentNameSql() {
     // SELECT * FROM child c
     // INNER JOIN parent p ON c.parent_id = p.id

@@ -5,12 +5,15 @@ import static features.domain.builders.Builders.aInheritanceAThing;
 
 import java.util.List;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
+
 import features.domain.builders.InheritanceAOwnerBuilder;
 import features.domain.builders.InheritanceAThingBuilder;
 
 public class InheritanceATest extends AbstractFeaturesTest {
 
+  @Test
   public void testSaveInheritanceASubOne() {
     InheritanceASubOne a = new InheritanceASubOne();
     a.setName("name");
@@ -23,6 +26,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     Assert.assertEquals("one", a.getOne());
   }
 
+  @Test
   public void testInsertInheritanceASubTwo() {
     InheritanceASubTwo b = new InheritanceASubTwo();
     b.setName("name");
@@ -35,6 +39,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     Assert.assertEquals("two", b.getTwo());
   }
 
+  @Test
   public void testUpdateInheritanceASubTwo() {
     InheritanceASubTwo b = new InheritanceASubTwo();
     b.setName("name");
@@ -52,6 +57,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     Assert.assertEquals("twotwo", b.getTwo());
   }
 
+  @Test
   public void testQueryOnBaseClassReturnsSubClasses() {
     new InheritanceASubOne("namea", "a");
     new InheritanceASubTwo("nameb", "b");
@@ -68,6 +74,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     Assert.assertTrue(otherA == l.get(0));
   }
 
+  @Test
   public void testQueryOnSubClassReturnsOnlyThatSubClass() {
     new InheritanceASubOne("namea", "a");
     new InheritanceASubTwo("nameb", "b");
@@ -84,6 +91,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     Assert.assertTrue(otherA == baseA);
   }
 
+  @Test
   public void testQueryOnSubClassByBaseClassAttribute() {
     new InheritanceASubOne("namea", "a");
     new InheritanceASubTwo("nameb", "b");
@@ -96,6 +104,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     Assert.assertTrue(otherA == a);
   }
 
+  @Test
   public void testDelete() {
     InheritanceASubOne a = new InheritanceASubOne();
     a.setName("name");
@@ -106,6 +115,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     this.commitAndReOpen();
   }
 
+  @Test
   public void testLoadFromOwner() {
     InheritanceAOwnerBuilder owner = aInheritanceAOwner().name("owner");
     InheritanceAThingBuilder thing = aInheritanceAThing().name("thing");

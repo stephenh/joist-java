@@ -1,10 +1,11 @@
 package joist.util;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class WrapTest extends TestCase {
+public class WrapTest {
 
+  @Test
   public void testQuotes() {
     Assert.assertEquals("\"foo\"", Wrap.quotes("foo"));
   }

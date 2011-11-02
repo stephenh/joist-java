@@ -1,10 +1,12 @@
 package joist.domain.orm;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
 
-public class ForeignKeyHolderTest extends TestCase {
+import org.junit.Test;
 
+public class ForeignKeyHolderTest {
+
+  @Test
   public void testLoadOutsideUoWFails() {
     ForeignKeyHolder<DummyDomainObject, DummyDomainObject> h = new ForeignKeyHolder<DummyDomainObject, DummyDomainObject>(
       DummyDomainObject.class,
@@ -20,6 +22,7 @@ public class ForeignKeyHolderTest extends TestCase {
     }
   }
 
+  @Test
   public void testToString() {
     ForeignKeyHolder<DummyDomainObject, DummyDomainObject> h = new ForeignKeyHolder<DummyDomainObject, DummyDomainObject>(
       DummyDomainObject.class,

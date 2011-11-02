@@ -2,17 +2,21 @@ package features.domain.queries;
 
 import java.util.List;
 
-import joist.domain.orm.Repository;
 import joist.domain.orm.queries.Select;
 import joist.domain.orm.queries.Update;
 import joist.util.Copy;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import features.Registry;
 import features.domain.AbstractFeaturesTest;
 import features.domain.Primitives;
 import features.domain.PrimitivesAlias;
 
 public class PrimitivesQueryTest extends AbstractFeaturesTest {
 
+  @Test
   public void testFindForIdEqualsSql() {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
@@ -21,6 +25,7 @@ public class PrimitivesQueryTest extends AbstractFeaturesTest {
     Assert.assertEquals(Copy.list(1), q.getParameters());
   }
 
+  @Test
   public void testFindForNameEqualsSql() {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
@@ -29,6 +34,7 @@ public class PrimitivesQueryTest extends AbstractFeaturesTest {
     Assert.assertEquals(Copy.list("bob"), q.getParameters());
   }
 
+  @Test
   public void testFindForNameEqualsOrderByNameSql() {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
@@ -38,6 +44,7 @@ public class PrimitivesQueryTest extends AbstractFeaturesTest {
     Assert.assertEquals(Copy.list("bob"), q.getParameters());
   }
 
+  @Test
   public void testFindForIdLessThanMoreThanSql() {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
@@ -46,6 +53,7 @@ public class PrimitivesQueryTest extends AbstractFeaturesTest {
     Assert.assertEquals(Copy.list(10l, 1l), q.getParameters());
   }
 
+  @Test
   public void testFindForNameDtoSql() {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
@@ -53,6 +61,7 @@ public class PrimitivesQueryTest extends AbstractFeaturesTest {
     Assert.assertEquals("SELECT p.name as name\n FROM \"primitives\" p", q.toSql());
   }
 
+  @Test
   public void testUpdateSql() {
     List<Integer> ids = Copy.list(1, 2, 3);
 
@@ -61,7 +70,7 @@ public class PrimitivesQueryTest extends AbstractFeaturesTest {
     q.set(p.flag.to(true));
     q.where(p.id.in(ids));
     Assert.assertEquals("UPDATE \"primitives\"\n SET \"flag\" = ?\n WHERE id in (1,2,3)", q.toSql());
-    Object booleanTrue = Repository.db.isMySQL() ? 1 : true;
+    Object booleanTrue = Registry.getRepository().getDb().isMySQL() ? 1 : true;
     Assert.assertEquals(Copy.list(booleanTrue), this.toParameters(q));
   }
 

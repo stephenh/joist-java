@@ -1,9 +1,9 @@
 package features.domain;
 
-import features.domain.queries.InheritanceBBottomQueries;
 import joist.domain.Shim;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import features.domain.queries.InheritanceBBottomQueries;
 
 @SuppressWarnings("all")
 public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {

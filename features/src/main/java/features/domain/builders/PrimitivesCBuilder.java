@@ -4,8 +4,8 @@ import features.domain.PrimitivesC;
 
 public class PrimitivesCBuilder extends PrimitivesCBuilderCodegen {
 
-    public PrimitivesCBuilder(PrimitivesC instance) {
-        super(instance);
-    }
+  public PrimitivesCBuilder(PrimitivesC instance) {
+    super(instance);
+  }
 
 }

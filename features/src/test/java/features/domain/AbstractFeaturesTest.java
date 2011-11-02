@@ -2,6 +2,9 @@ package features.domain;
 
 import joist.domain.AbstractDomainObjectsTest;
 import joist.domain.FlushTestDatabase;
+
+import org.junit.Before;
+
 import features.Registry;
 
 public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
@@ -10,11 +13,14 @@ public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
     System.setProperty("joist.util.jdbc.trackStats", "true");
     System.setProperty("log4j.configuration", "log4j-test.properties");
     Registry.start();
+    setRepository(Registry.getRepository());
   }
 
-  public void setUp() throws Exception {
+  @Before
+  @Override
+  public void setUp() {
     super.setUp();
-    FlushTestDatabase.execute();
+    FlushTestDatabase.execute(Registry.getRepository());
   }
 
 }

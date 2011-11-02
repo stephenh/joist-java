@@ -2,11 +2,12 @@ package joist.util;
 
 import java.util.Properties;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class SystemPropertiesTest extends TestCase {
+public class SystemPropertiesTest {
 
+  @Test
   public void testOverride() {
     Properties p = new Properties();
     p.setProperty("foo", "a");
@@ -15,6 +16,7 @@ public class SystemPropertiesTest extends TestCase {
     Assert.assertEquals("b", p.getProperty("foo"));
   }
 
+  @Test
   public void testOverrideIsNullSafe() {
     Properties p = new Properties();
     p.setProperty("foo", "a");

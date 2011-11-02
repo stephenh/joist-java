@@ -4,8 +4,8 @@ import features.domain.ManyToManyAFoo;
 
 public class ManyToManyAFooBuilder extends ManyToManyAFooBuilderCodegen {
 
-    public ManyToManyAFooBuilder(ManyToManyAFoo instance) {
-        super(instance);
-    }
+  public ManyToManyAFooBuilder(ManyToManyAFoo instance) {
+    super(instance);
+  }
 
 }

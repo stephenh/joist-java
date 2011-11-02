@@ -3,10 +3,12 @@ package features.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ManyToManyATest extends AbstractFeaturesTest {
 
+  @Test
   public void testViaExplicitFooToBar() {
     ManyToManyAFoo foo = new ManyToManyAFoo();
     foo.setName("foo");
@@ -22,6 +24,7 @@ public class ManyToManyATest extends AbstractFeaturesTest {
     Assert.assertEquals("bar", foo.getManyToManyAFooToBars().get(0).getManyToManyABar().getName());
   }
 
+  @Test
   public void testViaImplicitFooToBar() {
     ManyToManyAFoo foo = new ManyToManyAFoo();
     foo.setName("foo");
@@ -42,6 +45,7 @@ public class ManyToManyATest extends AbstractFeaturesTest {
     Assert.assertEquals(0, foo.getManyToManyAFooToBars().size());
   }
 
+  @Test
   public void testViaImplicitFooToBarWithSetter() {
     ManyToManyAFoo foo = new ManyToManyAFoo();
     foo.setName("foo");

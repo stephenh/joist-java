@@ -3,10 +3,11 @@ package joist.util;
 import java.math.RoundingMode;
 
 import joist.util.AbstractFixedPrecision.BoundsException;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class FixedPrecisionTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Test;
+
+public class FixedPrecisionTest {
 
   public static class Foo extends AbstractFixedPrecision<Foo> {
     private static final long serialVersionUID = 1L;
@@ -33,6 +34,7 @@ public class FixedPrecisionTest extends TestCase {
     }
   }
 
+  @Test
   public void testEquality() {
     Foo f1 = Foo.from("1.1");
     Foo f2 = Foo.from("1.1");
@@ -40,6 +42,7 @@ public class FixedPrecisionTest extends TestCase {
     Assert.assertEquals(f1, f2);
   }
 
+  @Test
   public void testEqualityWithDifferentScales() {
     Foo f1 = Foo.from("1.1");
     Foo f2 = Foo.from("1.10");
@@ -47,6 +50,7 @@ public class FixedPrecisionTest extends TestCase {
     Assert.assertEquals(f1, f2);
   }
 
+  @Test
   public void testSerializeAndDeserializeAreInverseOperations() {
     long serializedValue = 123456789;
     Assert.assertEquals(serializedValue, Foo.fromSerializedLong(serializedValue).toSerializedLong());
@@ -56,6 +60,7 @@ public class FixedPrecisionTest extends TestCase {
     Assert.assertEquals(Foo.from("0.123456789"), Foo.fromSerializedLong(serializedValue));
   }
 
+  @Test
   public void testStringConstructionIsInherentlyUnsafeEvenIfRepresentable() {
     // Sanity check: representable precision should be unaffected by serialization round-trip
     Foo representablePrecision = Foo.from("4.123456789");
@@ -63,6 +68,7 @@ public class FixedPrecisionTest extends TestCase {
     this.assertSerializable(representablePrecision, representablePrecision.round());
   }
 
+  @Test
   public void testStringConstructionIsUnsafeWithExcessivePrecisionAsWell() {
     Assert.assertEquals(Foo.from("1,234"), Foo.from("1234"));
     Assert.assertEquals(Foo.from("1,234.00"), Foo.from("1234"));
@@ -75,6 +81,7 @@ public class FixedPrecisionTest extends TestCase {
     }
   }
 
+  @Test
   public void testStringConstructionWithVariousInput() {
     Foo excessivePrecision = Foo.from("4.1234567895");
     this.assertNotSerializable(excessivePrecision);
@@ -82,6 +89,7 @@ public class FixedPrecisionTest extends TestCase {
     this.assertSerializable(Foo.from("4.123456790"), excessivePrecision.round());
   }
 
+  @Test
   public void testAdditionIsUnsafeIfEitherValuesAreUnsafe() {
     Foo unsafeValue = Foo.from("4"); // strings are unsafe
     Foo safeValue = Foo.from(1);
@@ -94,12 +102,14 @@ public class FixedPrecisionTest extends TestCase {
     this.assertSerializable(Foo.from(5), safeValue.plus(unsafeValue).round());
   }
 
+  @Test
   public void testDivisionIsAlwaysUnsafe() {
     Foo rationalResult = Foo.from(4).dividedBy(Foo.from(2));
     this.assertNotSerializable(rationalResult);
     this.assertSerializable(Foo.from(2), rationalResult.round());
   }
 
+  @Test
   public void testIrrationalWorksButIsUnsafeUntilRounded() {
     Foo irrationalResult = Foo.from(4).dividedBy(Foo.from(3)); // Result is 1.3333..
     Foo precisionLimitedResult = Foo.from("1.333333333"); // 9 decimal places is the limit
@@ -121,6 +131,7 @@ public class FixedPrecisionTest extends TestCase {
     Assert.assertEquals(precisionLimitedResult, this.performSerializationRoundTrip(irrationalResult.round()));
   }
 
+  @Test
   public void testIrrationalAdditionWorksButIsUnsafe() {
     Foo irrationalResult = Foo.from(4).dividedBy(Foo.from(3)); // Result is 1.3333..
     Foo unsafeResult = irrationalResult.plus(Foo.from("1.1"));
@@ -128,6 +139,7 @@ public class FixedPrecisionTest extends TestCase {
     this.assertSerializable(Foo.from("2.4"), unsafeResult.round(1));
   }
 
+  @Test
   public void testUpperBoundsEnforcement() {
     // The range of values that may be represented by this type is (-9223372036.854775808 to 9223372036.854775807)
     Foo maxValue = Foo.from("9223372036.854775807").round();
@@ -142,6 +154,7 @@ public class FixedPrecisionTest extends TestCase {
     }
   }
 
+  @Test
   public void testLowerBoundsEnforcement() {
     Foo minValue = Foo.from("-9223372036.854775808").round();
     // Sanity check: min representable value should be unaffected by serialization round-trip
@@ -155,6 +168,7 @@ public class FixedPrecisionTest extends TestCase {
     }
   }
 
+  @Test
   public void testFriendlyRendering() {
     // Normally, toString gives the full representation, with trailing zeros stripped 
     Foo value = Foo.from("1899.000006000");
@@ -173,6 +187,7 @@ public class FixedPrecisionTest extends TestCase {
     Assert.assertEquals("1890", Foo.from("1890.0").toString());
   }
 
+  @Test
   public void testArithmeticOperations() {
     Assert.assertEquals(//
       Foo.from("0.00000000056789"),
@@ -200,6 +215,7 @@ public class FixedPrecisionTest extends TestCase {
     Assert.assertEquals(Foo.from("12345.68"), Foo.from("12345.675").round(2));
   }
 
+  @Test
   public void testLogicalOperations() {
     Assert.assertTrue(Foo.from("2.1").isGreaterThan(Foo.from("2.0")));
     Assert.assertTrue(Foo.from("2.0").isGreaterThan(Foo.from("-2.1")));
@@ -222,6 +238,7 @@ public class FixedPrecisionTest extends TestCase {
     Assert.assertTrue(Foo.from("0.0000000").isZero());
   }
 
+  @Test
   public void testHelperMethods() {
     Assert.assertEquals(Foo.from("4.0002"), Foo.max(Foo.from("4.0002"), Foo.from("4.0001")));
     Assert.assertEquals(Foo.from("-4.0001"), Foo.max(Foo.from("-4.0002"), Foo.from("-4.0001")));

@@ -5,9 +5,9 @@ import java.sql.SQLException;
 
 import joist.domain.DomainObject;
 import joist.domain.Shim;
-import joist.domain.orm.Repository;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.SetItem;
+import joist.domain.uow.UoW;
 
 public class BooleanAliasColumn<T extends DomainObject> extends AliasColumn<T, Boolean, Boolean> {
 
@@ -28,7 +28,7 @@ public class BooleanAliasColumn<T extends DomainObject> extends AliasColumn<T, B
   }
 
   public SetItem<T> to(Boolean value) {
-    Object o = Repository.db.isMySQL() ? (value ? 1 : 0) : value;
+    Object o = UoW.getDb().isMySQL() ? (value ? 1 : 0) : value;
     return new SetItem<T>(this, o);
   }
 

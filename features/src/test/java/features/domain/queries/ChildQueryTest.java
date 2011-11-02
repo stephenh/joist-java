@@ -3,15 +3,18 @@ package features.domain.queries;
 import joist.domain.orm.queries.Select;
 import joist.util.Copy;
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import features.domain.Child;
 import features.domain.ChildAlias;
 import features.domain.Parent;
 import features.domain.ParentAlias;
 
-public class ChildQueryTest extends TestCase {
+public class ChildQueryTest {
 
+  @Test
   public void testFindForParentNameSql() {
     // SELECT * FROM child c
     // INNER JOIN parent p ON c.parent_id = p.id
@@ -35,6 +38,7 @@ public class ChildQueryTest extends TestCase {
     Assert.assertEquals(Copy.list("bob"), q.getWhere().getParameters());
   }
 
+  @Test
   public void testJoinFromChildToParent() {
     ChildAlias c = new ChildAlias("c");
     ParentAlias p = new ParentAlias("p");
@@ -48,6 +52,7 @@ public class ChildQueryTest extends TestCase {
       q.toSql());
   }
 
+  @Test
   public void testJoinFromParentToChild() {
     ParentAlias p = new ParentAlias("p");
     ChildAlias c = new ChildAlias("c");

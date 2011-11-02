@@ -3,10 +3,13 @@ package features.domain;
 import joist.domain.validation.ValidationException;
 import joist.domain.validation.errors.ObjectError;
 import joist.domain.validation.errors.PropertyError;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ValidationATest extends AbstractFeaturesTest {
 
+  @Test
   public void testNotNull() {
     ValidationAFoo foo = new ValidationAFoo();
     foo.setId(1l);
@@ -18,6 +21,7 @@ public class ValidationATest extends AbstractFeaturesTest {
     }
   }
 
+  @Test
   public void testMaxLength() {
     String as = "";
     for (int i = 0; i < 100; i++) {
@@ -37,6 +41,7 @@ public class ValidationATest extends AbstractFeaturesTest {
     this.commitAndReOpen();
   }
 
+  @Test
   public void testCustomPropertyError() {
     ValidationAFoo foo = new ValidationAFoo();
     foo.setName("bar");
@@ -50,6 +55,7 @@ public class ValidationATest extends AbstractFeaturesTest {
     }
   }
 
+  @Test
   public void testCustomObjectError() {
     ValidationAFoo foo = new ValidationAFoo();
     foo.setName("baz");

@@ -1,9 +1,11 @@
 package features.domain;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class PrimitivesBTest extends AbstractFeaturesTest {
 
+  @Test
   public void testNullables() {
     PrimitivesB p = new PrimitivesB();
     p.setBool1(null);

@@ -3,13 +3,16 @@ package features.domain.queries;
 import joist.domain.orm.queries.Select;
 import joist.domain.orm.queries.Where;
 import joist.util.Copy;
-import junit.framework.Assert;
-import junit.framework.TestCase;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import features.domain.Primitives;
 import features.domain.PrimitivesAlias;
 
-public class AliasColumnTest extends TestCase {
+public class AliasColumnTest {
 
+  @Test
   public void testIsNull() {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
@@ -18,6 +21,7 @@ public class AliasColumnTest extends TestCase {
     Assert.assertEquals(Copy.list(), q.getParameters());
   }
 
+  @Test
   public void testIsNotNull() {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
@@ -26,6 +30,7 @@ public class AliasColumnTest extends TestCase {
     Assert.assertEquals(Copy.list(), q.getParameters());
   }
 
+  @Test
   public void testNot() {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);

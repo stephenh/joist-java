@@ -1,8 +1,8 @@
 package features.domain.queries;
 
+import joist.domain.AbstractQueries;
 import features.domain.InheritanceBBottom;
 import features.domain.InheritanceBMiddle;
-import joist.domain.AbstractQueries;
 
 public abstract class InheritanceBBottomQueriesCodegen extends AbstractQueries<InheritanceBBottom> {
 

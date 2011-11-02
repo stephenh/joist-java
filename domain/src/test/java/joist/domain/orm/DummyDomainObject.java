@@ -4,6 +4,7 @@ import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 
 public class DummyDomainObject extends AbstractDomainObject {
+
   private Long id;
   private final DummyChanged changed = new DummyChanged();
 

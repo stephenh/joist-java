@@ -1,9 +1,11 @@
 package features.domain;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ParentTest extends AbstractFeaturesTest {
 
+  @Test
   public void testLoadChildren() {
     Parent p = new Parent("parent");
     new Child(p, "child1");
@@ -18,6 +20,7 @@ public class ParentTest extends AbstractFeaturesTest {
     Assert.assertTrue(p.getChilds() == p.getChilds());
   }
 
+  @Test
   public void testChildrenArrayAndThenMapperLoadIsTheSame() {
     Parent p = new Parent("parent");
     new Child(p, "child1");
@@ -27,6 +30,7 @@ public class ParentTest extends AbstractFeaturesTest {
     Assert.assertTrue(Parent.queries.find(1).getChilds().get(0) == Child.queries.find(1));
   }
 
+  @Test
   public void testChildrenArrayAndAfterMapperLoadIsTheSame() {
     Parent p = new Parent("parent");
     new Child(p, "child1");

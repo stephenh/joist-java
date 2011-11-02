@@ -2,11 +2,15 @@ package features.domain;
 
 import joist.domain.exceptions.OpLockException;
 import joist.jdbc.Jdbc;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import features.Registry;
 
 public class OpLockATest extends AbstractFeaturesTest {
 
+  @Test
   public void testLoadChildren() {
     Parent p = new Parent("parent");
     this.commitAndReOpen();

@@ -2,13 +2,15 @@ package features.domain;
 
 import java.util.Date;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 import com.domainlanguage.money.Money;
 import com.domainlanguage.time.TimePoint;
 
 public class PrimitivesCTest extends AbstractFeaturesTest {
 
+  @Test
   public void testMoneyAndTimestamp() {
     PrimitivesC p = new PrimitivesC();
     p.setName("foo");

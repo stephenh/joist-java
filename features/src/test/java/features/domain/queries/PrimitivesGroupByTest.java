@@ -3,13 +3,17 @@ package features.domain.queries;
 import java.util.List;
 
 import joist.domain.orm.queries.Select;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import features.domain.AbstractFeaturesTest;
 import features.domain.Primitives;
 import features.domain.PrimitivesAlias;
 
 public class PrimitivesGroupByTest extends AbstractFeaturesTest {
 
+  @Test
   public void testGroupByWithOneResult() {
     new Primitives("p1");
     new Primitives("p2");
@@ -24,6 +28,7 @@ public class PrimitivesGroupByTest extends AbstractFeaturesTest {
     Assert.assertEquals(false, l.get(0).flag.booleanValue());
   }
 
+  @Test
   public void testGroupByWithTwoResults() {
     new Primitives("p1").flag(true);
     new Primitives("p2").flag(false);
@@ -40,6 +45,7 @@ public class PrimitivesGroupByTest extends AbstractFeaturesTest {
     Assert.assertEquals(true, l.get(1).flag.booleanValue());
   }
 
+  @Test
   public void testHavingByWithTwoResultsAndOneFiltered() {
     new Primitives("p1").flag(true);
     new Primitives("p2").flag(false);

@@ -1,10 +1,11 @@
 package features.domain.builders;
 
-import features.domain.ParentCBar;
-import features.domain.ParentCFoo;
 import java.util.ArrayList;
 import java.util.List;
+
 import joist.domain.builders.AbstractBuilder;
+import features.domain.ParentCBar;
+import features.domain.ParentCFoo;
 
 @SuppressWarnings("all")
 public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFoo> {

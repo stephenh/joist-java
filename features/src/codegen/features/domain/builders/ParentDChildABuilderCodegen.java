@@ -1,8 +1,8 @@
 package features.domain.builders;
 
+import joist.domain.builders.AbstractBuilder;
 import features.domain.ParentD;
 import features.domain.ParentDChildA;
-import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
 public abstract class ParentDChildABuilderCodegen extends AbstractBuilder<ParentDChildA> {

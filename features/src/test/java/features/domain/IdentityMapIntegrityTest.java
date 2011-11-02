@@ -2,16 +2,20 @@ package features.domain;
 
 import joist.domain.uow.UoW;
 import joist.jdbc.JdbcException;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
 
+  @Test
   public void testInsertsGoIntoTheIdentityMap() {
     new Parent("p");
     this.flush();
     Assert.assertTrue(UoW.getIdentityMap().findOrNull(Parent.class, 1l) != null);
   }
 
+  @Test
   public void testExplicitlySettingTheIdOfANewObject() {
     Parent p = new Parent("p");
     p.setId(10l);
@@ -21,6 +25,7 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
     Assert.assertEquals("p", p.getName());
   }
 
+  @Test
   public void testLoadIdThenAssignInUseIdIsCaughtByIdentityMap() {
     Parent p2 = new Parent("p2");
     this.commitAndReOpen();
@@ -35,6 +40,7 @@ public class IdentityMapIntegrityTest extends AbstractFeaturesTest {
     }
   }
 
+  @Test
   public void testAssignInUseIdThenLoadReturnsSameObjectSoIsNotCaughtUntilFlush() {
     Parent p2 = new Parent("p2");
     this.commitAndReOpen();

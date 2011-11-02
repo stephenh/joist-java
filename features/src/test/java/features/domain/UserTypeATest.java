@@ -1,11 +1,13 @@
 package features.domain;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 import com.domainlanguage.time.CalendarDate;
 
 public class UserTypeATest extends AbstractFeaturesTest {
 
+  @Test
   public void testLoadChildren() {
     UserTypesAFoo foo = new UserTypesAFoo();
     foo.setName("foo");
@@ -22,6 +24,7 @@ public class UserTypeATest extends AbstractFeaturesTest {
     Assert.assertEquals(CalendarDate.from(2005, 1, 2), foo.getCreated());
   }
 
+  @Test
   public void testQuery() {
     UserTypesAFoo foo = new UserTypesAFoo();
     foo.setName("foo");

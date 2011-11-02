@@ -1,7 +1,7 @@
 package features.domain.builders;
 
-import features.domain.ValidationAFoo;
 import joist.domain.builders.AbstractBuilder;
+import features.domain.ValidationAFoo;
 
 @SuppressWarnings("all")
 public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<ValidationAFoo> {

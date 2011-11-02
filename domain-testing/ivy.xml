@@ -9,6 +9,6 @@
 	<dependencies defaultconfmapping="%->default,sources()">
 		<dependency org="joist" name="joist-domain" rev="${joist.version}" conf="compile"/>
 		<dependency org="joist" name="joist-util" rev="${joist.version}" conf="compile"/>
-		<dependency org="junit" name="junit" rev="4.8.1" conf="compile"/>
+		<dependency org="junit" name="junit" rev="4.10" conf="compile"/>
 	</dependencies>
 </ivy-module>

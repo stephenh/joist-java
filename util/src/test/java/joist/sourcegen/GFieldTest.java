@@ -1,11 +1,13 @@
 package joist.sourcegen;
 
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class GFieldTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Test;
 
+public class GFieldTest {
+
+  @Test
   public void testOneField() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.getField("id").type(int.class);
@@ -19,6 +21,7 @@ public class GFieldTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOnePublicField() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.getField("id").type(int.class).setPublic();
@@ -32,6 +35,7 @@ public class GFieldTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneFieldWithDefaultValue() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.getField("id").type(Integer.class).initialValue("null");
@@ -45,6 +49,7 @@ public class GFieldTest extends TestCase {
       "" }), gc.toCode());
   }
 
+  @Test
   public void testOnePublicFieldWithTypeImported() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.getField("id").type("foo.zaz.Bar<Integer>").setPublic();
@@ -60,6 +65,7 @@ public class GFieldTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneFieldOneGetter() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.getField("id").type(int.class);
@@ -79,6 +85,7 @@ public class GFieldTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneFieldAssignedToAnonymousInnerClass() {
     GClass gc = new GClass("foo.bar.Foo");
     GField foo = gc.getField("foo").type("Shim<Foo>").setStatic().setFinal();
@@ -101,6 +108,7 @@ public class GFieldTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testTwoFieldsAssignedToAnonymousInnerClass() {
     GClass gc = new GClass("foo.bar.Foo");
     GField foo = gc.getField("foo").type("Shim<Foo>").setStatic().setFinal();
@@ -131,6 +139,7 @@ public class GFieldTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneFieldWithGetter() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.getField("id").type(Integer.class).initialValue("null").makeGetter();
@@ -151,6 +160,7 @@ public class GFieldTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testOneFieldAnnotated() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.getField("id").type(Integer.class).initialValue("null").addAnnotation("@SuppressWarnings");
@@ -168,6 +178,7 @@ public class GFieldTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testAutoImportInitialValue() {
     GClass gc = new GClass("foo.Foo");
     gc.getField("bar").type("bar.IBar<zaz.Zaz>").initialValue("new bar.BarImpl<zaz.Zaz>()").autoImportInitialValue();

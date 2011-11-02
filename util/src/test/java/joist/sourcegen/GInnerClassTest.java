@@ -1,12 +1,13 @@
 package joist.sourcegen;
 
-import joist.sourcegen.GClass;
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class GInnerClassTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Test;
 
+public class GInnerClassTest {
+
+  @Test
   public void testOneInnerClass() {
     GClass gc = new GClass("Foo");
     GClass bar = gc.getInnerClass("Bar");
@@ -22,6 +23,7 @@ public class GInnerClassTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneNonStaticInnerClass() {
     GClass gc = new GClass("Foo");
     GClass bar = gc.getInnerClass("Bar").notStatic();
@@ -37,6 +39,7 @@ public class GInnerClassTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneTwoInnerClasses() {
     GClass gc = new GClass("Foo");
 
@@ -61,6 +64,7 @@ public class GInnerClassTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneInnerClassWithImports() {
     GClass gc = new GClass("Foo");
     GClass bar = gc.getInnerClass("Bar");
@@ -79,6 +83,7 @@ public class GInnerClassTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneInnerClassWithImportsInSamePackage() {
     GClass gc = new GClass("foo.Foo");
     GClass bar = gc.getInnerClass("Bar");
