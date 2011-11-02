@@ -3,11 +3,13 @@ package joist.sourcegen;
 import java.net.MalformedURLException;
 
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class GMethodTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Test;
 
+public class GMethodTest {
+
+  @Test
   public void testOverloadedMethods() {
     GClass gc = new GClass("Foo");
     gc.getMethod("method(String one)");
@@ -25,6 +27,7 @@ public class GMethodTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOverloadedMethodsWithArguments() {
     GClass gc = new GClass("Foo");
     gc.getMethod("method", Argument.arg("String", "one"));
@@ -42,6 +45,7 @@ public class GMethodTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testAutoImport() {
     GClass gc = new GClass("Foo");
     gc.getMethod("method").argument("foo.zaz.Bar", "bar").returnType("foo.zaz.Foo");
@@ -57,6 +61,7 @@ public class GMethodTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testAutoImportWithTypesAndNames() {
     GClass gc = new GClass("Foo");
     gc.getMethod("method").arguments("foo.zaz.Bar bar", "foo.zaz.Blah blah").returnType("foo.zaz.Foo");
@@ -73,6 +78,7 @@ public class GMethodTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testAutoImportWithPackagesWithNumbers() {
     GClass gc = new GClass("Foo");
     gc.getMethod("method").arguments("foo2.zaz.Bar bar");
@@ -88,6 +94,7 @@ public class GMethodTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testAutoImportWithCrazyGenerics() {
     GClass gc = new GClass("Foo");
     gc.getMethod("method1").argument("Bar<java.lang.Integer>", "bar");
@@ -112,6 +119,7 @@ public class GMethodTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testAutoImportDirectly() {
     GClass gc = new GClass("foo.Foo");
     gc.addImports("foo.Zaz<java.lang.Integer>");
@@ -125,6 +133,7 @@ public class GMethodTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testAutoImportWithCollidingNames() {
     GClass gc = new GClass("Foo");
     gc.getMethod("method1").argument("foo.Bar<java.lang.Integer>", "bar");
@@ -148,6 +157,7 @@ public class GMethodTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneMethodAnnotated() {
     GClass gc = new GClass("foo.bar.Foo");
     GMethod hello = gc.getMethod("hello");
@@ -170,6 +180,7 @@ public class GMethodTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testOneMethodThrows() {
     GClass gc = new GClass("foo.bar.Foo");
     GMethod hello = gc.getMethod("hello");
@@ -192,6 +203,7 @@ public class GMethodTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testIndentDoesNotAddExtraWhiteSpace() {
     GClass gc = new GClass("foo.bar.Foo");
     GMethod hello = gc.getMethod("hello");
@@ -215,6 +227,7 @@ public class GMethodTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testTypeParameters() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.getMethod("hello").arguments("T foo").typeParameters("T");
@@ -236,6 +249,7 @@ public class GMethodTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testOverloadedWithNoArguments() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.getMethod("hello()");
@@ -244,6 +258,7 @@ public class GMethodTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testOverloadedWithTwoTypeArguments() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.getMethod("hello(Map<K, V> map)").typeParameters("K, V");

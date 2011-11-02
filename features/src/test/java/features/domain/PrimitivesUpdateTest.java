@@ -3,10 +3,13 @@ package features.domain;
 import java.util.List;
 
 import joist.util.Copy;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class PrimitivesUpdateTest extends AbstractFeaturesTest {
 
+  @Test
   public void testChangeFlag() {
     new Primitives("testSave");
     this.commitAndReOpen();
@@ -19,6 +22,7 @@ public class PrimitivesUpdateTest extends AbstractFeaturesTest {
     Assert.assertEquals(true, Primitives.queries.find(1).getFlag().booleanValue());
   }
 
+  @Test
   public void testChangeFlagWithDynamicList() {
     new Primitives("foo1");
     new Primitives("foo2");

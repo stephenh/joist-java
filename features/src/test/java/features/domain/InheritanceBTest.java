@@ -1,9 +1,11 @@
 package features.domain;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class InheritanceBTest extends AbstractFeaturesTest {
 
+  @Test
   public void testSaveBottom() {
     InheritanceBBottom b = new InheritanceBBottom();
     b.setName("1");
@@ -17,6 +19,7 @@ public class InheritanceBTest extends AbstractFeaturesTest {
     Assert.assertEquals("3", b.getBottomName());
   }
 
+  @Test
   public void testLoadRootGetsRightSubclass() {
     InheritanceBBottom b = new InheritanceBBottom();
     b.setName("1");
@@ -28,6 +31,7 @@ public class InheritanceBTest extends AbstractFeaturesTest {
     Assert.assertTrue(ir instanceof InheritanceBBottom);
   }
 
+  @Test
   public void testIdentityMap() {
     InheritanceBBottom b = new InheritanceBBottom();
     b.setName("1");

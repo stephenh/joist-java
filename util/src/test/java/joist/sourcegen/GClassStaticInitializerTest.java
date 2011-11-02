@@ -1,13 +1,13 @@
 package joist.sourcegen;
 
-import joist.sourcegen.GClass;
-import joist.sourcegen.GMethod;
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class GClassStaticInitializerTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Test;
 
+public class GClassStaticInitializerTest {
+
+  @Test
   public void testEmptyClass() {
     GClass gc = new GClass("Foo");
     gc.staticInitializer.append("int i = 0;");
@@ -22,6 +22,7 @@ public class GClassStaticInitializerTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneMethod() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.staticInitializer.append("int i = 0;");
@@ -47,6 +48,7 @@ public class GClassStaticInitializerTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testOneStaticField() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.staticInitializer.append("i = 0;");

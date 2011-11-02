@@ -1,8 +1,8 @@
 package features.domain.builders;
 
+import joist.domain.builders.AbstractBuilder;
 import features.domain.ParentCBar;
 import features.domain.ParentCFoo;
-import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
 public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBar> {

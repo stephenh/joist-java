@@ -1,7 +1,7 @@
 package features.domain.queries;
 
-import features.domain.ValidationAFoo;
 import joist.domain.AbstractQueries;
+import features.domain.ValidationAFoo;
 
 public abstract class ValidationAFooQueriesCodegen extends AbstractQueries<ValidationAFoo> {
 

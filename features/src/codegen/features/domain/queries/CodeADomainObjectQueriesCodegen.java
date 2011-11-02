@@ -1,7 +1,7 @@
 package features.domain.queries;
 
-import features.domain.CodeADomainObject;
 import joist.domain.AbstractQueries;
+import features.domain.CodeADomainObject;
 
 public abstract class CodeADomainObjectQueriesCodegen extends AbstractQueries<CodeADomainObject> {
 

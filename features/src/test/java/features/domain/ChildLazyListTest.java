@@ -1,10 +1,13 @@
 package features.domain;
 
 import joist.domain.uow.UoW;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ChildLazyListTest extends AbstractFeaturesTest {
 
+  @Test
   public void testAddStillLazyLoadsList() {
     Parent p = new Parent("parent");
     new Child(p, "child1");
@@ -19,6 +22,7 @@ public class ChildLazyListTest extends AbstractFeaturesTest {
     Assert.assertEquals(3, p.getChilds().size());
   }
 
+  @Test
   public void testRemoveStillLazyLoadsList() {
     Parent p = new Parent("parent");
     Child c1 = new Child(p, "child1");
@@ -33,6 +37,7 @@ public class ChildLazyListTest extends AbstractFeaturesTest {
     Assert.assertEquals(1, p.getChilds().size());
   }
 
+  @Test
   public void testRemoveThenAddBeforeLoad() {
     Parent p = new Parent("parent");
     Child c1 = new Child(p, "child1");
@@ -48,6 +53,7 @@ public class ChildLazyListTest extends AbstractFeaturesTest {
     Assert.assertEquals(2, p.getChilds().size());
   }
 
+  @Test
   public void testAddThenRemoveBeforeLoad() {
     Parent p = new Parent("parent");
     new Child(p, "child1");
@@ -63,6 +69,7 @@ public class ChildLazyListTest extends AbstractFeaturesTest {
     Assert.assertEquals(2, p.getChilds().size());
   }
 
+  @Test
   public void testListIsReadOnly() {
     Parent p = new Parent("parent");
     try {

@@ -1,10 +1,11 @@
 package features.domain.builders;
 
-import features.domain.ManyToManyABar;
-import features.domain.ManyToManyAFooToBar;
 import java.util.ArrayList;
 import java.util.List;
+
 import joist.domain.builders.AbstractBuilder;
+import features.domain.ManyToManyABar;
+import features.domain.ManyToManyAFooToBar;
 
 @SuppressWarnings("all")
 public abstract class ManyToManyABarBuilderCodegen extends AbstractBuilder<ManyToManyABar> {

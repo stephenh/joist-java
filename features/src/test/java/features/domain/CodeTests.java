@@ -1,10 +1,13 @@
 package features.domain;
 
 import joist.domain.ValidationAssert;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class CodeTests extends AbstractFeaturesTest {
 
+  @Test
   public void testDefaults() {
     CodeADomainObject d = new CodeADomainObject();
 
@@ -15,6 +18,7 @@ public class CodeTests extends AbstractFeaturesTest {
     Assert.assertEquals(false, d.getChanged().hasCodeAColor());
   }
 
+  @Test
   public void testSave() {
     CodeADomainObject d = new CodeADomainObject();
     d.setCodeAColor(CodeAColor.BLUE);
@@ -27,6 +31,7 @@ public class CodeTests extends AbstractFeaturesTest {
     Assert.assertEquals(CodeASize.ONE, d.getCodeASize());
   }
 
+  @Test
   public void testRequiredDoesNotNpe() {
     CodeADomainObject d = new CodeADomainObject();
     d.setName("name");
@@ -35,6 +40,7 @@ public class CodeTests extends AbstractFeaturesTest {
     ValidationAssert.assertErrors(d, "Code AColor is required");
   }
 
+  @Test
   public void testIsMethods() {
     CodeADomainObject d = new CodeADomainObject();
     d.setCodeASize(CodeASize.ONE);

@@ -15,6 +15,6 @@
 
 		<dependency org="org.projectlombok" name="lombok" rev="0.10.0-201104011955" conf="provided"/>
 
-		<dependency org="junit" name="junit" rev="3.8.2" conf="test"/>
+		<dependency org="junit" name="junit" rev="4.10" conf="test"/>
 	</dependencies>
 </ivy-module>

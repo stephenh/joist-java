@@ -4,8 +4,11 @@ import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.queries.Select;
 import joist.util.Interpolate;
 
+import org.junit.Test;
+
 public class ParentsLotsTest extends AbstractFeaturesTest {
 
+  @Test
   public void testNoOp() {
   }
 

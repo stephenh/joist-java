@@ -1,22 +1,19 @@
 package joist.util;
 
-import joist.util.StringBuilderr;
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class StringBuilderrTest extends TestCase {
+public class StringBuilderrTest {
 
-  private StringBuilderr sb;
+  private StringBuilderr sb = new StringBuilderr();
 
-  public void setUp() {
-    this.sb = new StringBuilderr();
-  }
-
+  @Test
   public void testAppendDoesNotTickToQuoteIfNoArguments() {
     this.sb.append("'asdf'");
     Assert.assertEquals("'asdf'", this.sb.toString());
   }
 
+  @Test
   public void testAppendDoesNotTickToQuote() {
     this.sb.append("'asdf' {}", "arg");
     Assert.assertEquals("'asdf' arg", this.sb.toString());

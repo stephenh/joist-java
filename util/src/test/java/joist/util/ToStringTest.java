@@ -1,11 +1,11 @@
 package joist.util;
 
-import joist.util.ToString;
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class ToStringTest extends TestCase {
+public class ToStringTest {
 
+  @Test
   public void testToString() {
     String s = "asdf";
     Assert.assertEquals("String[4]", ToString.to(s, s.length()));

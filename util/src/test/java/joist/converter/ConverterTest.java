@@ -2,19 +2,20 @@ package joist.converter;
 
 import java.util.Calendar;
 
-import joist.converter.ConverterRegistry;
-import joist.converter.UnsupportedConversionException;
 import joist.util.TestCounters;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class ConverterTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-  public void setUp() throws Exception {
-    super.setUp();
+public class ConverterTest {
+
+  @Before
+  public void setUp() {
     TestCounters.resetAll();
   }
 
+  @Test
   public void testIdentityWorks() {
     ConverterRegistry r = new ConverterRegistry();
     Integer i = new Integer(1);
@@ -25,6 +26,7 @@ public class ConverterTest extends TestCase {
     Assert.assertEquals(1, ConverterRegistry.probes.get());
   }
 
+  @Test
   public void testSubAsBaseWorksWithoutConversion() {
     ConverterRegistry r = new ConverterRegistry();
     Sub s = new Sub();
@@ -36,6 +38,7 @@ public class ConverterTest extends TestCase {
     Assert.assertEquals(1, ConverterRegistry.probes.get());
   }
 
+  @Test
   public void testBaseCannotGoToSub() {
     ConverterRegistry r = new ConverterRegistry();
     Base b = new Base();
@@ -47,6 +50,7 @@ public class ConverterTest extends TestCase {
     }
   }
 
+  @Test
   public void testFailsIfUnsupported() {
     ConverterRegistry r = new ConverterRegistry();
     try {

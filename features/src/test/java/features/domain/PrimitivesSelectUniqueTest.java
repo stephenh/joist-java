@@ -2,10 +2,13 @@ package features.domain;
 
 import joist.domain.exceptions.NotFoundException;
 import joist.domain.exceptions.TooManyException;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class PrimitivesSelectUniqueTest extends AbstractFeaturesTest {
 
+  @Test
   public void testNoneFound() {
     try {
       Primitives.queries.findByName("none");
@@ -15,6 +18,7 @@ public class PrimitivesSelectUniqueTest extends AbstractFeaturesTest {
     }
   }
 
+  @Test
   public void testTooManyFound() {
     new Primitives("p1").flag(false);
     new Primitives("p2").flag(false);

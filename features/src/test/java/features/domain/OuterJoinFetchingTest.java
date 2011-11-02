@@ -3,10 +3,13 @@ package features.domain;
 import java.util.List;
 
 import joist.domain.uow.UoW;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class OuterJoinFetchingTest extends AbstractFeaturesTest {
 
+  @Test
   public void testWithoutFetching() {
     Parent p = new Parent("parent");
     new Child(p, "child1");
@@ -17,6 +20,7 @@ public class OuterJoinFetchingTest extends AbstractFeaturesTest {
     Assert.assertEquals(1, UoW.getIdentityMap().size());
   }
 
+  @Test
   public void testWithFetching() {
     Parent p = new Parent("parent");
     new Child(p, "child1");

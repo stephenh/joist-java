@@ -3,11 +3,13 @@ package features.domain;
 import joist.domain.orm.queries.Select;
 import joist.util.Copy;
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class InheritanceAQueryTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Test;
 
+public class InheritanceAQueryTest {
+
+  @Test
   public void testShimWorksWithSubClasses() {
     InheritanceASubOne a = new InheritanceASubOne();
 
@@ -18,6 +20,7 @@ public class InheritanceAQueryTest extends TestCase {
     Assert.assertEquals("change", a.getName());
   }
 
+  @Test
   public void testFindBaseAlsoFindsSub() {
     // SELECT b.id, b.name, b.version, sa.one, sb.two
     // FROM inheritance_a b
@@ -42,6 +45,7 @@ public class InheritanceAQueryTest extends TestCase {
     Assert.assertEquals(Copy.list("b"), q.getWhere().getParameters());
   }
 
+  @Test
   public void testFindSubOnelsoFindsBase() {
     InheritanceASubOneAlias sa = new InheritanceASubOneAlias("sa");
     Select<InheritanceASubOne> q = Select.from(sa);

@@ -1,8 +1,8 @@
 package features.domain.builders;
 
+import joist.domain.builders.AbstractBuilder;
 import features.domain.OneToOneABar;
 import features.domain.OneToOneAFoo;
-import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
 public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOneABar> {

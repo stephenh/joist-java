@@ -1,7 +1,11 @@
 package features.domain;
 
 import joist.jdbc.Jdbc;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import features.domain.builders.Builders;
 import features.domain.builders.ChildBuilder;
 import features.domain.builders.ParentBuilder;
@@ -11,13 +15,16 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
   private ParentBuilder p1;
   private ParentBuilder p2;
 
-  public void setUp() throws Exception {
+  @Before
+  @Override
+  public void setUp() {
     super.setUp();
     this.p1 = Builders.aParent().name("p1");
     this.p2 = Builders.aParent().name("p2");
     this.commitAndReOpen();
   }
 
+  @Test
   public void testEagerLoadingIsEnabledByDefault() {
     // should probably not be enabled by default ... we'll see what happens
     Builders.aChild().name("c1").parent(this.p1);
@@ -32,6 +39,7 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
     Assert.assertEquals(1, Jdbc.numberOfQueries());
   }
 
+  @Test
   public void testEagerLoadingIsEnabledUsesOneQueryForAllChildren() {
     Builders.aChild().name("c1").parent(this.p1);
     Builders.aChild().name("c2").parent(this.p2);
@@ -45,6 +53,7 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
     Assert.assertEquals(1, Jdbc.numberOfQueries());
   }
 
+  @Test
   public void testEagerLoadingIsEnabledAndRemembersIfAParentDoesNotHaveAnyChildren() {
     Builders.aChild().name("c1").parent(this.p1);
     // Builders.aChild().name("c2").parent(this.p2); no child for p2
@@ -58,6 +67,7 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
     Assert.assertEquals(1, Jdbc.numberOfQueries());
   }
 
+  @Test
   public void testEagerLoadingIsEnabledAndReQueriesForNewlyLoadedParents() {
     Builders.aChild().name("c1").parent(this.p1);
     Builders.aChild().name("c2").parent(this.p2);
@@ -71,6 +81,7 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
     Assert.assertEquals(1, this.p2.childs().size());
   }
 
+  @Test
   public void testEagerLoadingOfParents() {
     ChildBuilder c1 = Builders.aChild().name("c1").parent(this.p1);
     ChildBuilder c2 = Builders.aChild().name("c2").parent(this.p2);
@@ -84,6 +95,7 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
     Assert.assertEquals(1, Jdbc.numberOfQueries());
   }
 
+  @Test
   public void testEagerLoadingOfParentsForNewlyLoadedChildren() {
     ChildBuilder c1 = Builders.aChild().name("c1").parent(this.p1);
     ChildBuilder c2 = Builders.aChild().name("c2").parent(this.p2);

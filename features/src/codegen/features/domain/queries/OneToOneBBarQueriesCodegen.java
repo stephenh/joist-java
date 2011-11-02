@@ -1,7 +1,7 @@
 package features.domain.queries;
 
-import features.domain.OneToOneBBar;
 import joist.domain.AbstractQueries;
+import features.domain.OneToOneBBar;
 
 public abstract class OneToOneBBarQueriesCodegen extends AbstractQueries<OneToOneBBar> {
 

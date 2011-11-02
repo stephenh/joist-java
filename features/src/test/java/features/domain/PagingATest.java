@@ -3,10 +3,13 @@ package features.domain;
 import java.util.List;
 
 import joist.domain.uow.UoW;
-import junit.framework.Assert;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class PagingATest extends AbstractFeaturesTest {
 
+  @Test
   public void testPageWithExplicitLimitAndOffset() {
     for (int i = 0; i < 10; i++) {
       new Parent("parent" + i);
@@ -28,6 +31,7 @@ public class PagingATest extends AbstractFeaturesTest {
     Assert.assertEquals("parent3", secondPage.get(1).getName());
   }
 
+  @Test
   public void testPageWithImplicitSubList() {
     for (int i = 0; i < 10; i++) {
       new Parent("parent" + i);

@@ -1,9 +1,11 @@
 package features.domain;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ParentCTest extends AbstractFeaturesTest {
 
+  @Test
   public void testTwoParents() {
     ParentCBar bar = new ParentCBar();
     bar.setName("bar");

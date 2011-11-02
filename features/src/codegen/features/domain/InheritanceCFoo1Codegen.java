@@ -1,9 +1,9 @@
 package features.domain;
 
-import features.domain.queries.InheritanceCFoo1Queries;
 import joist.domain.Shim;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import features.domain.queries.InheritanceCFoo1Queries;
 
 @SuppressWarnings("all")
 public abstract class InheritanceCFoo1Codegen extends InheritanceC {

@@ -3,11 +3,13 @@ package joist.sourcegen;
 import java.util.List;
 
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class GClassTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Test;
 
+public class GClassTest {
+
+  @Test
   public void testEmptyClass() {
     GClass gc = new GClass("Foo");
     Assert.assertEquals(Join.lines(//
@@ -17,6 +19,7 @@ public class GClassTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testEmptyClassWithPackage() {
     GClass gc = new GClass("foo.bar.Foo");
     Assert.assertEquals(Join.lines(//
@@ -28,6 +31,7 @@ public class GClassTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneMethod() {
     GClass gc = new GClass("foo.bar.Foo");
     GMethod hello = gc.getMethod("hello");
@@ -48,6 +52,7 @@ public class GClassTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testOneMethodWithImports() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.addImports("com.project.Foo");
@@ -65,6 +70,7 @@ public class GClassTest extends TestCase {
       "" }), gc.toCode());
   }
 
+  @Test
   public void testTwoMethods() {
     GClass gc = new GClass("foo.bar.Foo");
 
@@ -95,6 +101,7 @@ public class GClassTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testOneMethodWithThreeLines() {
     GClass gc = new GClass("foo.bar.Foo");
     GMethod hello = gc.getMethod("hello").returnType("int");
@@ -123,6 +130,7 @@ public class GClassTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testOneMethodWithMultipleArguments() {
     GClass gc = new GClass("foo.bar.Foo");
 
@@ -143,6 +151,7 @@ public class GClassTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testGenericWithPackages() {
     GClass gc = new GClass("Foo<java.lang.Object>");
     Assert.assertEquals(null, gc.getPackageName());
@@ -150,6 +159,7 @@ public class GClassTest extends TestCase {
     Assert.assertEquals("Foo", gc.getFullClassNameWithoutGeneric());
   }
 
+  @Test
   public void testGenericWithPackagesInPackages() {
     GClass gc = new GClass("com.app.Foo<java.lang.Object>");
     Assert.assertEquals("com.app", gc.getPackageName());
@@ -157,6 +167,7 @@ public class GClassTest extends TestCase {
     Assert.assertEquals("com.app.Foo", gc.getFullClassNameWithoutGeneric());
   }
 
+  @Test
   public void testImplements() {
     GClass gc = new GClass("foo.bar.Foo").implementsInterface(List.class);
     Assert.assertEquals(Join.lines("package foo.bar;",//
@@ -169,6 +180,7 @@ public class GClassTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testAnnotated() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.addAnnotation("@SuppressWarnings");
@@ -181,6 +193,7 @@ public class GClassTest extends TestCase {
       "" }), gc.toCode());
   }
 
+  @Test
   public void testGetMethodMatchesArguments() {
     GClass gc = new GClass("Foo");
     GMethod m1 = gc.getMethod("foo(java.lang.String arg)");
@@ -195,6 +208,7 @@ public class GClassTest extends TestCase {
     Assert.assertSame(m4, m5);
   }
 
+  @Test
   public void testGetterSetter() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.addGetterSetter("String", "foo");
@@ -219,10 +233,12 @@ public class GClassTest extends TestCase {
       gc.toCode());
   }
 
+  @Test
   public void testFileName() {
     Assert.assertEquals(Join.path("foo", "bar", "Foo.java"), new GClass("foo.bar.Foo").getFileName());
   }
 
+  @Test
   public void testIndentation() {
     try {
       GSettings.setDefaultIndentation("  ");

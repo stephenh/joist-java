@@ -1,9 +1,11 @@
 package features.domain;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class OneToOneATest extends AbstractFeaturesTest {
 
+  @Test
   public void testOneSide() {
     OneToOneABar bar = new OneToOneABar("bar");
     OneToOneAFoo foo = new OneToOneAFoo("foo");
@@ -13,6 +15,7 @@ public class OneToOneATest extends AbstractFeaturesTest {
     Assert.assertEquals("foo", bar.getOneToOneAFoo().getName());
   }
 
+  @Test
   public void testOneSideTwice() {
     OneToOneAFoo foo = new OneToOneAFoo("foo");
     OneToOneABar bar1 = new OneToOneABar("bar");
@@ -22,6 +25,7 @@ public class OneToOneATest extends AbstractFeaturesTest {
     Assert.assertNull(bar1.getOneToOneAFoo());
   }
 
+  @Test
   public void testManySide() {
     OneToOneABar bar = new OneToOneABar("bar");
     OneToOneAFoo foo = new OneToOneAFoo("foo");
@@ -31,6 +35,7 @@ public class OneToOneATest extends AbstractFeaturesTest {
     Assert.assertEquals("bar", foo.getOneToOneABar().getName());
   }
 
+  @Test
   public void testUniqueOneNameToo() {
     OneToOneBFoo foo = new OneToOneBFoo("foo");
     OneToOneBBar bar1 = new OneToOneBBar("bar1");

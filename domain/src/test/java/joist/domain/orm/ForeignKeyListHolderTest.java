@@ -1,10 +1,12 @@
 package joist.domain.orm;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
 
-public class ForeignKeyListHolderTest extends TestCase {
+import org.junit.Test;
 
+public class ForeignKeyListHolderTest {
+
+  @Test
   public void testEagerlyLoadOutsideUoWWithNoIdIsOkay() {
     DummyDomainObject parent = new DummyDomainObject();
     ForeignKeyListHolder<DummyDomainObject, DummyDomainObject> h = //
@@ -13,6 +15,7 @@ public class ForeignKeyListHolderTest extends TestCase {
     Assert.assertEquals(0, h.get().size());
   }
 
+  @Test
   public void testEagerlyLoadOutsideUoWWithNewIdIsOkay() {
     DummyDomainObject parent = new DummyDomainObject();
     ForeignKeyListHolder<DummyDomainObject, DummyDomainObject> h = //
@@ -21,6 +24,7 @@ public class ForeignKeyListHolderTest extends TestCase {
     Assert.assertEquals(0, h.get().size());
   }
 
+  @Test
   public void testEagerlyLoadOutsideUoWFails() {
     DummyDomainObject parent = new DummyDomainObject();
     ForeignKeyListHolder<DummyDomainObject, DummyDomainObject> h = //
@@ -35,6 +39,7 @@ public class ForeignKeyListHolderTest extends TestCase {
     }
   }
 
+  @Test
   public void testToString() {
     DummyDomainObject parent = new DummyDomainObject();
     ForeignKeyListHolder<DummyDomainObject, DummyDomainObject> h = //

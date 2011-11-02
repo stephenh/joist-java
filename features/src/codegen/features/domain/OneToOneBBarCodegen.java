@@ -1,6 +1,5 @@
 package features.domain;
 
-import features.domain.queries.OneToOneBBarQueries;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -9,6 +8,7 @@ import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import features.domain.queries.OneToOneBBarQueries;
 
 @SuppressWarnings("all")
 public abstract class OneToOneBBarCodegen extends AbstractDomainObject {

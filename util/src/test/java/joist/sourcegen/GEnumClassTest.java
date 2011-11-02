@@ -1,13 +1,13 @@
 package joist.sourcegen;
 
-import joist.sourcegen.GClass;
-import joist.sourcegen.GMethod;
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class GEnumClassTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Test;
 
+public class GEnumClassTest {
+
+  @Test
   public void testEmptyEnum() {
     GClass gc = new GClass("foo.bar.Foo").setEnum();
     Assert.assertEquals(Join.lines(//
@@ -19,6 +19,7 @@ public class GEnumClassTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneValue() {
     GClass gc = new GClass("foo.bar.Foo").setEnum();
     gc.addEnumValue("FOO");
@@ -33,6 +34,7 @@ public class GEnumClassTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testTwoValues() {
     GClass gc = new GClass("foo.bar.Foo").setEnum();
     gc.addEnumValue("FOO");
@@ -49,6 +51,7 @@ public class GEnumClassTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testPrivateFields() {
     GClass gc = new GClass("foo.bar.Foo").setEnum();
     gc.getField("i").type("Integer").makeGetter();

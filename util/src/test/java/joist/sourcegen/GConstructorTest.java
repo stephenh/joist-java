@@ -1,11 +1,13 @@
 package joist.sourcegen;
 
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class GConstructorTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Test;
 
+public class GConstructorTest {
+
+  @Test
   public void testOneConstructor() {
     GClass gc = new GClass("foo.bar.Foo");
     GMethod c = gc.getConstructor();
@@ -23,6 +25,7 @@ public class GConstructorTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneConstructorWithArgumentOverload() {
     GClass gc = new GClass("foo.bar.Foo");
     GMethod c = gc.getConstructor(Argument.arg("String", "foo"));
@@ -40,6 +43,7 @@ public class GConstructorTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneFieldOneConstructorAndOneMethod() {
     GClass gc = new GClass("foo.bar.Foo");
     GMethod c = gc.getConstructor();
@@ -67,6 +71,7 @@ public class GConstructorTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneConstructorWithGenerics() {
     GClass gc = new GClass("foo.bar.Foo<T>");
     GMethod c = gc.getConstructor();
@@ -84,6 +89,7 @@ public class GConstructorTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testStaticConstructor() {
     GClass gc = new GClass("foo.bar.Foo");
     GMethod c = gc.getConstructor().setStatic();

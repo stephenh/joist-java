@@ -2,6 +2,9 @@ package features.domain;
 
 import joist.domain.AbstractDomainObjectsTest;
 import joist.domain.FlushTestDatabase;
+
+import org.junit.Before;
+
 import features.Registry;
 
 public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
@@ -13,7 +16,9 @@ public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
     setRepository(Registry.getRepository());
   }
 
-  public void setUp() throws Exception {
+  @Before
+  @Override
+  public void setUp() {
     super.setUp();
     FlushTestDatabase.execute(Registry.getRepository());
   }

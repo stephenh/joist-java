@@ -1,12 +1,11 @@
 package joist.util;
 
-import joist.util.TestCounter;
-import joist.util.TestCounters;
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class TestCounterTest extends TestCase {
+public class TestCounterTest {
 
+  @Test
   public void testResetAll() {
     TestCounter c = new TestCounter();
     Assert.assertEquals(1, c.next());

@@ -1,7 +1,7 @@
 package features.domain.queries;
 
-import features.domain.GrandChild;
 import joist.domain.AbstractQueries;
+import features.domain.GrandChild;
 
 public abstract class GrandChildQueriesCodegen extends AbstractQueries<GrandChild> {
 

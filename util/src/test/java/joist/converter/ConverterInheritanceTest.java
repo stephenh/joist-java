@@ -1,16 +1,17 @@
 package joist.converter;
 
-import joist.converter.AbstractConverter;
-import joist.converter.ConverterRegistry;
 import joist.util.TestCounters;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class ConverterInheritanceTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+public class ConverterInheritanceTest {
+
   private ConverterRegistry r = new ConverterRegistry();
 
-  public void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() {
     TestCounters.resetAll();
     this.r.addConverter(new AbstractConverter<FakeDomainObject, String>() {
       public String convertOneToTwo(FakeDomainObject value, Class<? extends String> toType) {
@@ -31,6 +32,7 @@ public class ConverterInheritanceTest extends TestCase {
     });
   }
 
+  @Test
   public void testInterfaceConverterWorksForClass() {
     // Employee --> String picks up the DomainObjectToString converter
     Assert.assertEquals("1", this.r.convert(new Employee(1), String.class));
@@ -38,6 +40,7 @@ public class ConverterInheritanceTest extends TestCase {
     Assert.assertEquals(1, this.r.convert("1", Employee.class).getId().intValue());
   }
 
+  @Test
   public void testProbingIsCached() {
     // Start at 0
     Assert.assertEquals(0, ConverterRegistry.probes.get());

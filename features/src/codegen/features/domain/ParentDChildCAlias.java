@@ -2,6 +2,7 @@ package features.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import joist.domain.DomainObject;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.JoinClause;

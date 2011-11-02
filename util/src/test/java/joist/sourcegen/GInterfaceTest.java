@@ -1,11 +1,13 @@
 package joist.sourcegen;
 
 import joist.util.Join;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class GInterfaceTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Test;
 
+public class GInterfaceTest {
+
+  @Test
   public void testEmptyEnum() {
     GClass gc = new GClass("foo.bar.Foo").setInterface();
     Assert.assertEquals(Join.lines(//
@@ -17,6 +19,7 @@ public class GInterfaceTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testOneMethodEnum() {
     GClass gc = new GClass("foo.bar.Foo").setInterface();
     gc.getMethod("foo").arguments("Bar bar");
@@ -31,6 +34,7 @@ public class GInterfaceTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testBaseWithGenerics() {
     GClass gc = new GClass("foo.Foo").setInterface().baseClassName("foo.Bar<foo.zazZaz.SomeClass>");
     Assert.assertEquals(Join.lines(//
@@ -44,6 +48,7 @@ public class GInterfaceTest extends TestCase {
       ""), gc.toCode());
   }
 
+  @Test
   public void testBaseWithInnerClassIsNotMistookForAPackage() {
     GClass gc = new GClass("foo.Foo").setInterface().baseClassName("Foo.Inner");
     Assert.assertEquals(Join.lines(//

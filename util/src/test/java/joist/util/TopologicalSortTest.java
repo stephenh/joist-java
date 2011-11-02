@@ -3,21 +3,26 @@ package joist.util;
 import java.util.List;
 
 import joist.util.TopologicalSort.CycleException;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class TopologicalSortTest extends TestCase {
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+public class TopologicalSortTest {
 
   private TopologicalSort<String> ts;
 
+  @Before
   public void setUp() {
     this.ts = new TopologicalSort<String>();
   }
 
+  @Test
   public void testNone() {
     this.assertSorted("");
   }
 
+  @Test
   public void testFailsIfParentDoesNotExist() {
     this.addNodes("A");
     try {
@@ -28,6 +33,7 @@ public class TopologicalSortTest extends TestCase {
     }
   }
 
+  @Test
   public void testFailsIfDependentDoesNotExist() {
     this.addNodes("A");
     try {
@@ -38,11 +44,13 @@ public class TopologicalSortTest extends TestCase {
     }
   }
 
+  @Test
   public void testOneWithNoDependencies() {
     this.addNodes("A");
     this.assertSorted("A");
   }
 
+  @Test
   public void testOneThatDependsOnItself() {
     this.addNodes("A");
     try {
@@ -53,30 +61,35 @@ public class TopologicalSortTest extends TestCase {
     }
   }
 
+  @Test
   public void testTwoAlreadyInOrder() {
     this.addNodes("AB");
     this.addDependencies("BA");
     this.assertSorted("AB");
   }
 
+  @Test
   public void testTwoOutOfOrder() {
     this.addNodes("AB");
     this.addDependencies("AB");
     this.assertSorted("BA");
   }
 
+  @Test
   public void testFourWithTwoDeps() {
     this.addNodes("ABCD");
     this.addDependencies("AB", "CD");
     this.assertSorted("BADC");
   }
 
+  @Test
   public void testFourWithThreeDeps() {
     this.addNodes("ABCD");
     this.addDependencies("AB", "CD", "BD");
     this.assertSorted("DBAC");
   }
 
+  @Test
   public void testTwoWithWeakCycle() {
     this.addNodes("CAB");
     this.addDependencies("AB");
@@ -85,12 +98,14 @@ public class TopologicalSortTest extends TestCase {
     this.assertSorted("BCA"); // CB took effect, BA was ignored
   }
 
+  @Test
   public void testMultipleDependencies() {
     this.addNodes("ABCD");
     this.addDependencies("BC", "BA");
     this.assertSorted("ACBD"); // BC was not lost
   }
 
+  @Test
   public void testMultipleRedundantDependencies() {
     this.addNodes("AB");
     this.addDependencies("AB", "AB");

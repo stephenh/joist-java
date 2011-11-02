@@ -1,8 +1,8 @@
 package features.domain;
 
-import features.domain.queries.ManyToManyBBarQueries;
 import java.util.ArrayList;
 import java.util.List;
+
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -12,6 +12,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
+import features.domain.queries.ManyToManyBBarQueries;
 
 @SuppressWarnings("all")
 public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
