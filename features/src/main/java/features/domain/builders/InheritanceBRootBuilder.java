@@ -4,8 +4,8 @@ import features.domain.InheritanceBRoot;
 
 public class InheritanceBRootBuilder extends InheritanceBRootBuilderCodegen {
 
-    public InheritanceBRootBuilder(InheritanceBRoot instance) {
-        super(instance);
-    }
+  public InheritanceBRootBuilder(InheritanceBRoot instance) {
+    super(instance);
+  }
 
 }

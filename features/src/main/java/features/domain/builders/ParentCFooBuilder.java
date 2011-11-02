@@ -4,8 +4,8 @@ import features.domain.ParentCFoo;
 
 public class ParentCFooBuilder extends ParentCFooBuilderCodegen {
 
-    public ParentCFooBuilder(ParentCFoo instance) {
-        super(instance);
-    }
+  public ParentCFooBuilder(ParentCFoo instance) {
+    super(instance);
+  }
 
 }

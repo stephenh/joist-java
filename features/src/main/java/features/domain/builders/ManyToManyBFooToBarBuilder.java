@@ -4,8 +4,8 @@ import features.domain.ManyToManyBFooToBar;
 
 public class ManyToManyBFooToBarBuilder extends ManyToManyBFooToBarBuilderCodegen {
 
-    public ManyToManyBFooToBarBuilder(ManyToManyBFooToBar instance) {
-        super(instance);
-    }
+  public ManyToManyBFooToBarBuilder(ManyToManyBFooToBar instance) {
+    super(instance);
+  }
 
 }

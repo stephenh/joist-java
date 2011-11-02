@@ -4,8 +4,8 @@ import features.domain.InheritanceASubTwo;
 
 public class InheritanceASubTwoBuilder extends InheritanceASubTwoBuilderCodegen {
 
-    public InheritanceASubTwoBuilder(InheritanceASubTwo instance) {
-        super(instance);
-    }
+  public InheritanceASubTwoBuilder(InheritanceASubTwo instance) {
+    super(instance);
+  }
 
 }

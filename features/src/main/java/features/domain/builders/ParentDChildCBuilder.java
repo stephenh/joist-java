@@ -4,8 +4,8 @@ import features.domain.ParentDChildC;
 
 public class ParentDChildCBuilder extends ParentDChildCBuilderCodegen {
 
-    public ParentDChildCBuilder(ParentDChildC instance) {
-        super(instance);
-    }
+  public ParentDChildCBuilder(ParentDChildC instance) {
+    super(instance);
+  }
 
 }

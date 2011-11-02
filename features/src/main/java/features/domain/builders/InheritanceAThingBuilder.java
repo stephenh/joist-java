@@ -4,8 +4,8 @@ import features.domain.InheritanceAThing;
 
 public class InheritanceAThingBuilder extends InheritanceAThingBuilderCodegen {
 
-    public InheritanceAThingBuilder(InheritanceAThing instance) {
-        super(instance);
-    }
+  public InheritanceAThingBuilder(InheritanceAThing instance) {
+    super(instance);
+  }
 
 }

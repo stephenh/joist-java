@@ -4,8 +4,8 @@ import features.domain.ManyToManyABar;
 
 public class ManyToManyABarBuilder extends ManyToManyABarBuilderCodegen {
 
-    public ManyToManyABarBuilder(ManyToManyABar instance) {
-        super(instance);
-    }
+  public ManyToManyABarBuilder(ManyToManyABar instance) {
+    super(instance);
+  }
 
 }

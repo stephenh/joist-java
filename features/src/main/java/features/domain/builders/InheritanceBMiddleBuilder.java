@@ -4,8 +4,8 @@ import features.domain.InheritanceBMiddle;
 
 public class InheritanceBMiddleBuilder extends InheritanceBMiddleBuilderCodegen {
 
-    public InheritanceBMiddleBuilder(InheritanceBMiddle instance) {
-        super(instance);
-    }
+  public InheritanceBMiddleBuilder(InheritanceBMiddle instance) {
+    super(instance);
+  }
 
 }

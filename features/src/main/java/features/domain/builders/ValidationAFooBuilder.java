@@ -4,8 +4,8 @@ import features.domain.ValidationAFoo;
 
 public class ValidationAFooBuilder extends ValidationAFooBuilderCodegen {
 
-    public ValidationAFooBuilder(ValidationAFoo instance) {
-        super(instance);
-    }
+  public ValidationAFooBuilder(ValidationAFoo instance) {
+    super(instance);
+  }
 
 }
