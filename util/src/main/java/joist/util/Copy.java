@@ -42,7 +42,7 @@ public class Copy {
     return new FluentList<T>(source).reverse();
   }
 
-  public static <T> List<T> unique(Collection<T> source) {
+  public static <T> FluentList<T> unique(Collection<T> source) {
     return new FluentList<T>(source).unique();
   }
 
