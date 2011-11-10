@@ -1,7 +1,7 @@
 package features.domain.queries;
 
-import joist.domain.AbstractQueries;
 import features.domain.PrimitivesB;
+import joist.domain.AbstractQueries;
 
 public abstract class PrimitivesBQueriesCodegen extends AbstractQueries<PrimitivesB> {
 

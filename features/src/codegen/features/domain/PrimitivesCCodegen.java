@@ -1,5 +1,8 @@
 package features.domain;
 
+import com.domainlanguage.money.Money;
+import com.domainlanguage.time.TimePoint;
+import features.domain.queries.PrimitivesCQueries;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -7,11 +10,6 @@ import joist.domain.Shim;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-
-import com.domainlanguage.money.Money;
-import com.domainlanguage.time.TimePoint;
-
-import features.domain.queries.PrimitivesCQueries;
 
 @SuppressWarnings("all")
 public abstract class PrimitivesCCodegen extends AbstractDomainObject {

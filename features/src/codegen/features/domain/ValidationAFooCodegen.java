@@ -1,5 +1,6 @@
 package features.domain;
 
+import features.domain.queries.ValidationAFooQueries;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -7,7 +8,6 @@ import joist.domain.Shim;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import features.domain.queries.ValidationAFooQueries;
 
 @SuppressWarnings("all")
 public abstract class ValidationAFooCodegen extends AbstractDomainObject {

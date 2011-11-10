@@ -1,5 +1,6 @@
 package features.domain;
 
+import features.domain.queries.ManyToManyAFooToBarQueries;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -7,7 +8,6 @@ import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
-import features.domain.queries.ManyToManyAFooToBarQueries;
 
 @SuppressWarnings("all")
 public abstract class ManyToManyAFooToBarCodegen extends AbstractDomainObject {

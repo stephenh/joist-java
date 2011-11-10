@@ -1,11 +1,10 @@
 package features.domain.builders;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import joist.domain.builders.AbstractBuilder;
 import features.domain.InheritanceABase;
 import features.domain.InheritanceAOwner;
+import java.util.ArrayList;
+import java.util.List;
+import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
 public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<InheritanceAOwner> {

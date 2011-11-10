@@ -1,5 +1,6 @@
 package features.domain;
 
+import features.domain.queries.OneToOneAFooQueries;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -8,7 +9,6 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import features.domain.queries.OneToOneAFooQueries;
 
 @SuppressWarnings("all")
 public abstract class OneToOneAFooCodegen extends AbstractDomainObject {

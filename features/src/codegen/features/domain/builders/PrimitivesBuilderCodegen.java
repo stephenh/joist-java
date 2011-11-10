@@ -1,7 +1,7 @@
 package features.domain.builders;
 
-import joist.domain.builders.AbstractBuilder;
 import features.domain.Primitives;
+import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
 public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitives> {

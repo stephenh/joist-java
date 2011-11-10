@@ -1,9 +1,9 @@
 package features.domain.builders;
 
-import joist.domain.builders.AbstractBuilder;
 import features.domain.CodeAColor;
 import features.domain.CodeADomainObject;
 import features.domain.CodeASize;
+import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
 public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<CodeADomainObject> {

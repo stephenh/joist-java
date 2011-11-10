@@ -1,7 +1,7 @@
 package features.domain;
 
+import features.domain.queries.ChildQueries;
 import java.util.List;
-
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -12,7 +12,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
-import features.domain.queries.ChildQueries;
+import joist.util.ListDiff;
 
 @SuppressWarnings("all")
 public abstract class ChildCodegen extends AbstractDomainObject {
@@ -93,10 +93,11 @@ public abstract class ChildCodegen extends AbstractDomainObject {
   }
 
   public void setGrandChilds(List<GrandChild> grandChilds) {
-    for (GrandChild o : Copy.list(this.getGrandChilds())) {
+    ListDiff<GrandChild> diff = ListDiff.of(this.getGrandChilds(), grandChilds);
+    for (GrandChild o : diff.removed) {
       this.removeGrandChild(o);
     }
-    for (GrandChild o : grandChilds) {
+    for (GrandChild o : diff.added) {
       this.addGrandChild(o);
     }
   }

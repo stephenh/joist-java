@@ -1,8 +1,8 @@
 package features.domain;
 
+import features.domain.queries.ManyToManyABarQueries;
 import java.util.ArrayList;
 import java.util.List;
-
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -12,7 +12,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
-import features.domain.queries.ManyToManyABarQueries;
+import joist.util.ListDiff;
 
 @SuppressWarnings("all")
 public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
@@ -72,10 +72,11 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
   }
 
   public void setManyToManyAFooToBars(List<ManyToManyAFooToBar> manyToManyAFooToBars) {
-    for (ManyToManyAFooToBar o : Copy.list(this.getManyToManyAFooToBars())) {
+    ListDiff<ManyToManyAFooToBar> diff = ListDiff.of(this.getManyToManyAFooToBars(), manyToManyAFooToBars);
+    for (ManyToManyAFooToBar o : diff.removed) {
       this.removeManyToManyAFooToBar(o);
     }
-    for (ManyToManyAFooToBar o : manyToManyAFooToBars) {
+    for (ManyToManyAFooToBar o : diff.added) {
       this.addManyToManyAFooToBar(o);
     }
   }
@@ -109,10 +110,11 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
   }
 
   public void setManyToManyAFoos(List<ManyToManyAFoo> manyToManyAFoos) {
-    for (ManyToManyAFoo o : Copy.list(this.getManyToManyAFoos())) {
+    ListDiff<ManyToManyAFoo> diff = ListDiff.of(this.getManyToManyAFoos(), manyToManyAFoos);
+    for (ManyToManyAFoo o : diff.removed) {
       this.removeManyToManyAFoo(o);
     }
-    for (ManyToManyAFoo o : manyToManyAFoos) {
+    for (ManyToManyAFoo o : diff.added) {
       this.addManyToManyAFoo(o);
     }
   }

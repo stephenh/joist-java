@@ -1,5 +1,6 @@
 package features.domain;
 
+import features.domain.queries.CodeADomainObjectQueries;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -8,7 +9,6 @@ import joist.domain.orm.ForeignKeyCodeHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import features.domain.queries.CodeADomainObjectQueries;
 
 @SuppressWarnings("all")
 public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
