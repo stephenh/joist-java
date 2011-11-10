@@ -24,6 +24,7 @@ import joist.sourcegen.GClass;
 import joist.sourcegen.GField;
 import joist.sourcegen.GMethod;
 import joist.util.Copy;
+import joist.util.ListDiff;
 
 public class GenerateDomainCodegenPass implements Pass {
 
@@ -239,12 +240,15 @@ public class GenerateDomainCodegenPass implements Pass {
         getter.body.line("return this.{}.get();", otmp.getVariableName());
 
         GMethod setter = domainCodegen.getMethod("set" + otmp.getCapitalVariableName()).argument(otmp.getJavaType(), otmp.getVariableName());
-        setter.body.line("for ({} o : Copy.list(this.get{}())) {",//
+        setter.body.line(
+          "ListDiff<{}> diff = ListDiff.of(this.get{}(), {});",
           otmp.getTargetJavaType(),
-          otmp.getCapitalVariableName());
+          otmp.getCapitalVariableName(),
+          otmp.getVariableName());
+        setter.body.line("for ({} o : diff.removed) {", otmp.getTargetJavaType());
         setter.body.line("_   this.remove{}(o);", otmp.getCapitalVariableNameSingular());
         setter.body.line("}");
-        setter.body.line("for ({} o : {}) {", otmp.getTargetJavaType(), otmp.getVariableName());
+        setter.body.line("for ({} o : diff.added) {", otmp.getTargetJavaType());
         setter.body.line("_   this.add{}(o);", otmp.getCapitalVariableNameSingular());
         setter.body.line("}");
 
@@ -258,7 +262,7 @@ public class GenerateDomainCodegenPass implements Pass {
         remover.body.line("o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
         remover.body.line("this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
 
-        domainCodegen.addImports(Copy.class, List.class);
+        domainCodegen.addImports(Copy.class, List.class, ListDiff.class);
       } else {
         GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableNameSingular()).returnType(otmp.getTargetJavaType());
         getter.body.line("return (this.{}.get().size() == 0) ? null : this.{}.get().get(0);", otmp.getVariableName(), otmp.getVariableName());
@@ -308,10 +312,15 @@ public class GenerateDomainCodegenPass implements Pass {
       getter.body.line("return l;");
 
       GMethod setter = domainCodegen.getMethod("set" + mtmp.getCapitalVariableName()).argument(mtmp.getJavaType(), mtmp.getVariableName());
-      setter.body.line("for ({} o : Copy.list(this.get{}())) {", mtmp.getTargetJavaType(), mtmp.getCapitalVariableName());
+      setter.body.line(
+        "ListDiff<{}> diff = ListDiff.of(this.get{}(), {});",
+        mtmp.getTargetJavaType(),
+        mtmp.getCapitalVariableName(),
+        mtmp.getVariableName());
+      setter.body.line("for ({} o : diff.removed) {", mtmp.getTargetJavaType());
       setter.body.line("_   this.remove{}(o);", mtmp.getCapitalVariableNameSingular());
       setter.body.line("}");
-      setter.body.line("for ({} o : {}) {", mtmp.getTargetJavaType(), mtmp.getVariableName());
+      setter.body.line("for ({} o : diff.added) {", mtmp.getTargetJavaType());
       setter.body.line("_   this.add{}(o);", mtmp.getCapitalVariableNameSingular());
       setter.body.line("}");
 
@@ -335,7 +344,7 @@ public class GenerateDomainCodegenPass implements Pass {
       remover.body.line("_   }");
       remover.body.line("}");
 
-      domainCodegen.addImports(Copy.class, ArrayList.class, UoW.class);
+      domainCodegen.addImports(Copy.class, ArrayList.class, UoW.class, ListDiff.class);
     }
   }
 
