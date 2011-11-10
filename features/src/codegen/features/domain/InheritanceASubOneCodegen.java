@@ -1,10 +1,10 @@
 package features.domain;
 
+import features.domain.queries.InheritanceASubOneQueries;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-import features.domain.queries.InheritanceASubOneQueries;
 
 @SuppressWarnings("all")
 public abstract class InheritanceASubOneCodegen extends InheritanceABase {

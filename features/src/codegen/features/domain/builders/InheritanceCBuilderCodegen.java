@@ -1,7 +1,7 @@
 package features.domain.builders;
 
-import joist.domain.builders.AbstractBuilder;
 import features.domain.InheritanceC;
+import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
 public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<InheritanceC> {

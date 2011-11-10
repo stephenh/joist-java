@@ -1,9 +1,9 @@
 package features.domain.queries;
 
-import joist.domain.AbstractQueries;
-import joist.domain.orm.queries.Select;
 import features.domain.Primitives;
 import features.domain.PrimitivesAlias;
+import joist.domain.AbstractQueries;
+import joist.domain.orm.queries.Select;
 
 public abstract class PrimitivesQueriesCodegen extends AbstractQueries<Primitives> {
 

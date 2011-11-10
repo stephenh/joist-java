@@ -1,10 +1,8 @@
 package features.domain.builders;
 
-import joist.domain.builders.AbstractBuilder;
-
 import com.domainlanguage.time.CalendarDate;
-
 import features.domain.UserTypesAFoo;
+import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
 public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTypesAFoo> {

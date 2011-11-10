@@ -1,12 +1,11 @@
 package features.domain.builders;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import joist.domain.builders.AbstractBuilder;
 import features.domain.InheritanceASubOne;
 import features.domain.InheritanceASubTwo;
 import features.domain.InheritanceAThing;
+import java.util.ArrayList;
+import java.util.List;
+import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
 public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<InheritanceAThing> {

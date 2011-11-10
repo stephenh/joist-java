@@ -1,7 +1,7 @@
 package features.domain;
 
+import features.domain.queries.InheritanceAOwnerQueries;
 import java.util.List;
-
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -11,7 +11,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
-import features.domain.queries.InheritanceAOwnerQueries;
+import joist.util.ListDiff;
 
 @SuppressWarnings("all")
 public abstract class InheritanceAOwnerCodegen extends AbstractDomainObject {
@@ -71,10 +71,11 @@ public abstract class InheritanceAOwnerCodegen extends AbstractDomainObject {
   }
 
   public void setInheritanceABases(List<InheritanceABase> inheritanceABases) {
-    for (InheritanceABase o : Copy.list(this.getInheritanceABases())) {
+    ListDiff<InheritanceABase> diff = ListDiff.of(this.getInheritanceABases(), inheritanceABases);
+    for (InheritanceABase o : diff.removed) {
       this.removeInheritanceABase(o);
     }
-    for (InheritanceABase o : inheritanceABases) {
+    for (InheritanceABase o : diff.added) {
       this.addInheritanceABase(o);
     }
   }

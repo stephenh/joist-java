@@ -1,12 +1,11 @@
 package features.domain.builders;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import joist.domain.builders.AbstractBuilder;
 import features.domain.ParentBChildBar;
 import features.domain.ParentBChildFoo;
 import features.domain.ParentBParent;
+import java.util.ArrayList;
+import java.util.List;
+import joist.domain.builders.AbstractBuilder;
 
 @SuppressWarnings("all")
 public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<ParentBParent> {

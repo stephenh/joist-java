@@ -1,12 +1,12 @@
 package features.domain;
 
+import features.domain.queries.PrimitivesBQueries;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
-import features.domain.queries.PrimitivesBQueries;
 
 @SuppressWarnings("all")
 public abstract class PrimitivesBCodegen extends AbstractDomainObject {

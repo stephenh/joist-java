@@ -1,5 +1,7 @@
 package features.domain;
 
+import com.domainlanguage.time.CalendarDate;
+import features.domain.queries.UserTypesAFooQueries;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -7,10 +9,6 @@ import joist.domain.Shim;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
-
-import com.domainlanguage.time.CalendarDate;
-
-import features.domain.queries.UserTypesAFooQueries;
 
 @SuppressWarnings("all")
 public abstract class UserTypesAFooCodegen extends AbstractDomainObject {

@@ -2,7 +2,6 @@ package features.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;

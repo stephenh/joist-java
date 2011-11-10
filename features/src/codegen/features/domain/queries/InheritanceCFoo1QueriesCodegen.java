@@ -1,8 +1,8 @@
 package features.domain.queries;
 
-import joist.domain.AbstractQueries;
 import features.domain.InheritanceC;
 import features.domain.InheritanceCFoo1;
+import joist.domain.AbstractQueries;
 
 public abstract class InheritanceCFoo1QueriesCodegen extends AbstractQueries<InheritanceCFoo1> {
 

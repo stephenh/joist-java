@@ -1,7 +1,7 @@
 package features.domain;
 
+import features.domain.queries.ParentCFooQueries;
 import java.util.List;
-
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -11,7 +11,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
-import features.domain.queries.ParentCFooQueries;
+import joist.util.ListDiff;
 
 @SuppressWarnings("all")
 public abstract class ParentCFooCodegen extends AbstractDomainObject {
@@ -72,10 +72,11 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
   }
 
   public void setFirstParentParentCBars(List<ParentCBar> firstParentParentCBars) {
-    for (ParentCBar o : Copy.list(this.getFirstParentParentCBars())) {
+    ListDiff<ParentCBar> diff = ListDiff.of(this.getFirstParentParentCBars(), firstParentParentCBars);
+    for (ParentCBar o : diff.removed) {
       this.removeFirstParentParentCBar(o);
     }
-    for (ParentCBar o : firstParentParentCBars) {
+    for (ParentCBar o : diff.added) {
       this.addFirstParentParentCBar(o);
     }
   }
@@ -105,10 +106,11 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
   }
 
   public void setSecondParentParentCBars(List<ParentCBar> secondParentParentCBars) {
-    for (ParentCBar o : Copy.list(this.getSecondParentParentCBars())) {
+    ListDiff<ParentCBar> diff = ListDiff.of(this.getSecondParentParentCBars(), secondParentParentCBars);
+    for (ParentCBar o : diff.removed) {
       this.removeSecondParentParentCBar(o);
     }
-    for (ParentCBar o : secondParentParentCBars) {
+    for (ParentCBar o : diff.added) {
       this.addSecondParentParentCBar(o);
     }
   }

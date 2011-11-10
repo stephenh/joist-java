@@ -1,7 +1,7 @@
 package features.domain.queries;
 
-import joist.domain.AbstractQueries;
 import features.domain.InheritanceBRootChild;
+import joist.domain.AbstractQueries;
 
 public abstract class InheritanceBRootChildQueriesCodegen extends AbstractQueries<InheritanceBRootChild> {
 

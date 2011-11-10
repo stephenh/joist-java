@@ -1,7 +1,7 @@
 package features.domain;
 
+import features.domain.queries.InheritanceAThingQueries;
 import java.util.List;
-
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -11,7 +11,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
-import features.domain.queries.InheritanceAThingQueries;
+import joist.util.ListDiff;
 
 @SuppressWarnings("all")
 public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
@@ -72,10 +72,11 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
   }
 
   public void setInheritanceASubOnes(List<InheritanceASubOne> inheritanceASubOnes) {
-    for (InheritanceASubOne o : Copy.list(this.getInheritanceASubOnes())) {
+    ListDiff<InheritanceASubOne> diff = ListDiff.of(this.getInheritanceASubOnes(), inheritanceASubOnes);
+    for (InheritanceASubOne o : diff.removed) {
       this.removeInheritanceASubOne(o);
     }
-    for (InheritanceASubOne o : inheritanceASubOnes) {
+    for (InheritanceASubOne o : diff.added) {
       this.addInheritanceASubOne(o);
     }
   }
@@ -105,10 +106,11 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
   }
 
   public void setInheritanceASubTwos(List<InheritanceASubTwo> inheritanceASubTwos) {
-    for (InheritanceASubTwo o : Copy.list(this.getInheritanceASubTwos())) {
+    ListDiff<InheritanceASubTwo> diff = ListDiff.of(this.getInheritanceASubTwos(), inheritanceASubTwos);
+    for (InheritanceASubTwo o : diff.removed) {
       this.removeInheritanceASubTwo(o);
     }
-    for (InheritanceASubTwo o : inheritanceASubTwos) {
+    for (InheritanceASubTwo o : diff.added) {
       this.addInheritanceASubTwo(o);
     }
   }

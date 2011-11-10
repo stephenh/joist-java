@@ -1,8 +1,8 @@
 package features.domain;
 
+import features.domain.queries.ParentDChildCQueries;
 import java.util.ArrayList;
 import java.util.List;
-
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -12,7 +12,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
-import features.domain.queries.ParentDChildCQueries;
+import joist.util.ListDiff;
 
 @SuppressWarnings("all")
 public abstract class ParentDChildCCodegen extends AbstractDomainObject {
@@ -72,10 +72,11 @@ public abstract class ParentDChildCCodegen extends AbstractDomainObject {
   }
 
   public void setParentDToChildCs(List<ParentDToChildC> parentDToChildCs) {
-    for (ParentDToChildC o : Copy.list(this.getParentDToChildCs())) {
+    ListDiff<ParentDToChildC> diff = ListDiff.of(this.getParentDToChildCs(), parentDToChildCs);
+    for (ParentDToChildC o : diff.removed) {
       this.removeParentDToChildC(o);
     }
-    for (ParentDToChildC o : parentDToChildCs) {
+    for (ParentDToChildC o : diff.added) {
       this.addParentDToChildC(o);
     }
   }
@@ -109,10 +110,11 @@ public abstract class ParentDChildCCodegen extends AbstractDomainObject {
   }
 
   public void setParentDs(List<ParentD> parentDs) {
-    for (ParentD o : Copy.list(this.getParentDs())) {
+    ListDiff<ParentD> diff = ListDiff.of(this.getParentDs(), parentDs);
+    for (ParentD o : diff.removed) {
       this.removeParentD(o);
     }
-    for (ParentD o : parentDs) {
+    for (ParentD o : diff.added) {
       this.addParentD(o);
     }
   }

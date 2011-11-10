@@ -1,7 +1,7 @@
 package features.domain.queries;
 
-import joist.domain.AbstractQueries;
 import features.domain.UserTypesAFoo;
+import joist.domain.AbstractQueries;
 
 public abstract class UserTypesAFooQueriesCodegen extends AbstractQueries<UserTypesAFoo> {
 

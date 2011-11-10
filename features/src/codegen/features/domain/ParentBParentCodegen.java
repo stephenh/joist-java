@@ -1,7 +1,7 @@
 package features.domain;
 
+import features.domain.queries.ParentBParentQueries;
 import java.util.List;
-
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
@@ -11,7 +11,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
-import features.domain.queries.ParentBParentQueries;
+import joist.util.ListDiff;
 
 @SuppressWarnings("all")
 public abstract class ParentBParentCodegen extends AbstractDomainObject {
@@ -72,10 +72,11 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
   }
 
   public void setParentBChildBars(List<ParentBChildBar> parentBChildBars) {
-    for (ParentBChildBar o : Copy.list(this.getParentBChildBars())) {
+    ListDiff<ParentBChildBar> diff = ListDiff.of(this.getParentBChildBars(), parentBChildBars);
+    for (ParentBChildBar o : diff.removed) {
       this.removeParentBChildBar(o);
     }
-    for (ParentBChildBar o : parentBChildBars) {
+    for (ParentBChildBar o : diff.added) {
       this.addParentBChildBar(o);
     }
   }
@@ -105,10 +106,11 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
   }
 
   public void setParentBChildFoos(List<ParentBChildFoo> parentBChildFoos) {
-    for (ParentBChildFoo o : Copy.list(this.getParentBChildFoos())) {
+    ListDiff<ParentBChildFoo> diff = ListDiff.of(this.getParentBChildFoos(), parentBChildFoos);
+    for (ParentBChildFoo o : diff.removed) {
       this.removeParentBChildFoo(o);
     }
-    for (ParentBChildFoo o : parentBChildFoos) {
+    for (ParentBChildFoo o : diff.added) {
       this.addParentBChildFoo(o);
     }
   }
