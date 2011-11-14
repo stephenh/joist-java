@@ -8,21 +8,16 @@ import joist.domain.uow.UoW;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class EmployeeTest {
 
-  @BeforeClass
-  public static void beforeClass() {
-    // change to Db.PG for postgres
-    Repository.configure(Db.MYSQL, "starter");
-  }
+  private static Repository repo = new Repository(Db.MYSQL, "starter");
 
   @Before
   public void before() {
-    FlushTestDatabase.execute();
-    UoW.open(null);
+    FlushTestDatabase.execute(repo);
+    UoW.open(repo, null);
   }
 
   @After
