@@ -16,7 +16,7 @@ public class PrimitivesQueries extends PrimitivesQueriesCodegen {
     return q.unique();
   }
 
-  public List<Integer> findIdsWithNameLike(String name) {
+  public List<Long> findIdsWithNameLike(String name) {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
     q.where(p.name.like(name));
@@ -37,7 +37,7 @@ public class PrimitivesQueries extends PrimitivesQueriesCodegen {
     return q.unique();
   }
 
-  public void setFlag(List<Integer> ids, boolean value) {
+  public void setFlag(List<Long> ids, boolean value) {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Update<Primitives> u = Update.into(p);
     u.set(p.flag.to(true));

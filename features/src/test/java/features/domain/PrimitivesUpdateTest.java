@@ -15,7 +15,7 @@ public class PrimitivesUpdateTest extends AbstractFeaturesTest {
     this.commitAndReOpen();
 
     Assert.assertFalse(Primitives.queries.find(1).getFlag());
-    List<Integer> ids = Copy.list(1);
+    List<Long> ids = Copy.list(1l);
     Primitives.queries.setFlag(ids, true);
     this.commitAndReOpen();
 
@@ -29,7 +29,7 @@ public class PrimitivesUpdateTest extends AbstractFeaturesTest {
     new Primitives("bar");
     this.commitAndReOpen();
 
-    List<Integer> ids = Primitives.queries.findIdsWithNameLike("foo%");
+    List<Long> ids = Primitives.queries.findIdsWithNameLike("foo%");
     Assert.assertEquals(2, ids.size());
     Assert.assertFalse(Primitives.queries.find(1).getFlag());
     Assert.assertFalse(Primitives.queries.find(2).getFlag());

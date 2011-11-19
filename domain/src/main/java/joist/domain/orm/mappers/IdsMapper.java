@@ -11,15 +11,14 @@ import joist.jdbc.RowMapper;
 public class IdsMapper<T extends DomainObject> implements RowMapper {
 
   private final Alias<T> from;
-  private final List<Integer> ids;
+  private final List<Long> ids;
 
-  public IdsMapper(Alias<T> from, List<Integer> ids) {
+  public IdsMapper(Alias<T> from, List<Long> ids) {
     this.from = from;
     this.ids = ids;
   }
 
   public void mapRow(ResultSet rs) throws SQLException {
-    this.ids.add(new Integer(rs.getInt(this.from.getIdColumn().getName())));
+    this.ids.add(new Long(rs.getLong(this.from.getIdColumn().getName())));
   }
-
 }

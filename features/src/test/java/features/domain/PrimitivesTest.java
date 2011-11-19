@@ -90,7 +90,7 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     new Primitives("foo1");
     new Primitives("foo2");
     this.commitAndReOpen();
-    List<Integer> ids = Primitives.queries.findAllIds();
+    List<Long> ids = Primitives.queries.findAllIds();
     Assert.assertEquals(2, ids.size());
     Assert.assertEquals(1, ids.get(0).intValue());
     Assert.assertEquals(2, ids.get(1).intValue());
