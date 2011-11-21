@@ -20,7 +20,7 @@ To get started:
 
 4. The project defaults to MySQL, if you're using PostgreSQL, edit `JoistCli` and `EmployeeTest` and change `Db.MYSQL` to `Db.PG`.
 
-5. Edit `build.properties` and set the administrator password for your local database (the user defaults to `root` for MySQL and `postgres` for Postgres).
+5. Create a `build.properties` file (next to `ivy.xml`) and set the administrator password for your local database by adding `db.sa.password = ....` (the user defaults to `root` for MySQL and `postgres` for Postgres).
 
 6. Edit `JoistCli.java` and  the database name and type (MySQL or Postgres).
 
