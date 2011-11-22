@@ -120,4 +120,28 @@ public class ChildTest extends AbstractFeaturesTest {
     ValidationAssert.assertErrors(c, "Parent is required");
   }
 
+  @Test
+  public void testChildCannotBeOrphaned() {
+    Parent p = new Parent("p");
+    Child c = new Child(p, "name");
+    this.commitAndReOpen();
+
+    // even though parent is our owner, simplying nulling it out will not lead to a delete
+    c.setParent(null);
+    ValidationAssert.assertErrors(c, "Parent is required");
+  }
+
+  @Test
+  public void testChildIsDeletedWithParent() {
+    Parent p = new Parent("p");
+    new Child(p, "name");
+    this.commitAndReOpen();
+    Assert.assertEquals(1, Child.queries.count());
+
+    p = this.reload(p);
+    Parent.queries.delete(p);
+    this.commitAndReOpen();
+    Assert.assertEquals(0, Child.queries.count());
+  }
+
 }

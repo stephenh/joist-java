@@ -37,36 +37,35 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
 
   public P get() {
     if (this.instance == null && this.id != null) {
-      if (UoW.isOpen()) {
-        // hardcoded to true for now
-        boolean shouldEagerLoad = true;
-        if (!shouldEagerLoad) {
-          // will make a query for just this id, only if needed
-          this.instance = UoW.load(this.parentClass, this.id);
-        } else {
-          // see if the parent is loaded, but don't make a query while doing so (like UoW.load does)
-          this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
-          if (this.instance == null) {
-            // get the parent ids of all currently-loaded child classes
-            Collection<Long> parentIds = new LinkedHashSet<Long>();
-            for (C child : UoW.getIdentityMap().getInstancesOf(this.childClass)) {
-              Long parentId = this.childColumn.getJdbcValue(child);
-              if (parentId != null) {
-                parentIds.add(parentId);
-              }
-            }
-            // substract any ids that are already loaded
-            for (P parent : UoW.getIdentityMap().getInstancesOf(this.parentClass)) {
-              parentIds.remove(parent.getId());
-            }
-            Select<P> q = Select.from(this.parentAlias);
-            q.where(this.parentAlias.getIdColumn().in(parentIds));
-            q.list(); // will populate the UoW IdentityMap with all fetched parents
-            this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
-          }
-        }
-      } else {
+      if (!UoW.isOpen()) {
         throw new DisconnectedException();
+      }
+      // hardcoded to true for now
+      boolean shouldEagerLoad = true;
+      if (!shouldEagerLoad) {
+        // will make a query for just this id, only if needed
+        this.instance = UoW.load(this.parentClass, this.id);
+      } else {
+        // see if the parent is loaded, but don't make a query while doing so (like UoW.load does)
+        this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
+        if (this.instance == null) {
+          // get the parent ids of all currently-loaded child classes
+          Collection<Long> parentIds = new LinkedHashSet<Long>();
+          for (C child : UoW.getIdentityMap().getInstancesOf(this.childClass)) {
+            Long parentId = this.childColumn.getJdbcValue(child);
+            if (parentId != null) {
+              parentIds.add(parentId);
+            }
+          }
+          // substract any ids that are already loaded
+          for (P parent : UoW.getIdentityMap().getInstancesOf(this.parentClass)) {
+            parentIds.remove(parent.getId());
+          }
+          Select<P> q = Select.from(this.parentAlias);
+          q.where(this.parentAlias.getIdColumn().in(parentIds));
+          q.list(); // will populate the UoW IdentityMap with all fetched parents
+          this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
+        }
       }
     }
     return this.instance;

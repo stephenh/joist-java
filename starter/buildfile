@@ -1,0 +1,17 @@
+
+require '../build.rb'
+
+define 'joist-starter' do
+  package_with_ivy project
+  package(:zip).tap do |path|
+    path.include 'src'
+    path.include 'ivy.xml'
+    path.include 'ivysettings.xml'
+    path.include 'starter-cycle.launch'
+    path.include '.classpath'
+    path.include '.project'
+  end
+  ivy.compile_conf('default').test_conf('test')
+  compile.from _('src/codegen/java')
+end
+

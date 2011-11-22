@@ -95,6 +95,7 @@ public class CodegenConfig {
     this.setJavaType("timestamp", "com.domainlanguage.time.TimePoint", "joist.domain.orm.queries.columns.TimePointAliasColumn"); // mysql
     this.setJavaTypePattern("integer", this.amountSuffix, "com.domainlanguage.money.Money", "joist.domain.orm.queries.columns.MoneyAliasColumn");
     this.setJavaTypePattern("bigint", this.amountSuffix, "com.domainlanguage.money.Money", "joist.domain.orm.queries.columns.MoneyAliasColumn");
+    this.setJavaTypePattern("int", this.amountSuffix, "com.domainlanguage.money.Money", "joist.domain.orm.queries.columns.MoneyAliasColumn");
 
     this.setJavaType("int", Integer.class.getName(), IntAliasColumn.class.getName());
     this.setJavaType("bit", Boolean.class.getName(), BooleanAliasColumn.class.getName());
@@ -134,8 +135,10 @@ public class CodegenConfig {
     this.setJavaType("timestamp without time zone", Date.class.getName(), DateAliasColumn.class.getName());
     this.javaTypeByPattern.remove(new TypeAndPattern("integer", this.amountSuffix));
     this.javaTypeByPattern.remove(new TypeAndPattern("bigint", this.amountSuffix));
+    this.javaTypeByPattern.remove(new TypeAndPattern("int", this.amountSuffix));
     this.aliasTypeByPattern.remove(new TypeAndPattern("integer", this.amountSuffix));
     this.aliasTypeByPattern.remove(new TypeAndPattern("bigint", this.amountSuffix));
+    this.aliasTypeByPattern.remove(new TypeAndPattern("int", this.amountSuffix));
     return this;
   }
 

@@ -32,7 +32,7 @@ public class CreateTable {
     }
     sb.stripLastCharacterOnPreviousLine(); // Remove the last ,
     if (MigrationKeywords.db.isMySQL()) {
-      sb.line(") type = InnoDB;");
+      sb.line(") engine = InnoDB;");
     } else {
       sb.line(")");
     }

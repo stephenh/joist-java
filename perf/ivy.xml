@@ -8,9 +8,6 @@
 	<dependencies defaultconfmapping="%->default,sources()">
 		<dependency org="joist" name="joist-domain" rev="0.8.2" conf="default"/>
 		<dependency org="joist" name="joist-features" rev="0.8.2" conf="default"/>
-		<dependency org="org.bindgen" name="bindgen" rev="2.15" conf="default"/>
-		<dependency org="org.apache.click" name="click" rev="2.2.0" conf="default"/>
-		<dependency org="javax.servlet" name="servlet-api" rev="2.5" conf="default"/>
 		<dependency org="org.hibernate" name="hibernate" rev="3.2.7.ga" conf="default"/>
 		<dependency org="junit" name="junit" rev="3.8.2" conf="default"/>
 		<dependency org="com.sun.japex" name="japex" rev="1.1.8" conf="default"/>

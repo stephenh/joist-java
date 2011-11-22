@@ -39,9 +39,12 @@ public class OneToManyProperty {
     if (this.capitalVariableNameSingular == null) {
       if (this.getKeyPropertyName().equals(this.oneSide.getClassName())) {
         // Regular many-to-one relationship of only 1 column in the target table pointing to us, so name our side based on the type
+        // e.g. child.parent_id, so key property name = Parent == Parent
         this.capitalVariableNameSingular = this.getTargetJavaType();
       } else {
         // Boundary case of n columns in the target table pointing to us, so name our side based on their individual column names
+        // e.g. child.first_parent_id, child.second_parent_id, so key property name = FirstParent != Parent
+        // Want to avoid to duplicate "parent.getChilds" methods, instead "parent.getFirstParentChilds" and "parent.getSecondParentChilds"
         this.capitalVariableNameSingular = this.getKeyPropertyName() + this.getTargetJavaType();
       }
     }

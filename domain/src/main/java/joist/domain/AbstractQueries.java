@@ -33,7 +33,7 @@ public abstract class AbstractQueries<T extends DomainObject> {
     return Select.from(this.aliasType).count();
   }
 
-  public List<Integer> findAllIds() {
+  public List<Long> findAllIds() {
     return Select.from(this.aliasType).listIds();
   }
 
