@@ -43,7 +43,10 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
 
   public List<U> get() {
     if (this.loaded == null) {
-      if (!this.parent.isNew()) {
+      if (this.parent.isNew() || UnitTesting.isEnabled()) {
+        // parent is brand new, so don't bother hitting the database
+        this.loaded = new ArrayList<U>();
+      } else {
         if (!UoW.isOpen()) {
           throw new DisconnectedException();
         }
@@ -67,9 +70,6 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
           this.loaded = new ArrayList<U>();
           this.loaded.addAll(byParentId.get(this.parent.getId()));
         }
-      } else {
-        // parent is brand new, so don't bother hitting the database
-        this.loaded = new ArrayList<U>();
       }
       if (this.addedBeforeLoaded.size() > 0 || this.removedBeforeLoaded.size() > 0) {
         // apply back any adds/removes that we'd been holding off on
