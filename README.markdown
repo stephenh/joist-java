@@ -10,5 +10,22 @@ Todo
 
 * Composite columns (e.g. TimePoint with both time+zone), if needed
 * Don't muck with system properties
-* Allow child collections to be modifiable, delegate to `addXxx`/`removeXxx`
+* Pre-load a UoW and then spawn multiple copies of it (e.g. like a 2nd-level cache, but for the specific set of objects preloaded (e.g. common objects that would otherwise be loaded for every loop), but not an always-on on of thing), e.g.
+
+      UoWSnapshot s1 = UoW.go { loadCommonObjects() }
+      for (thing : lotsOfThings) {
+        UoW.go(s1, {
+          // load new things, get common objects for free
+        })
+      }
+
+  How to handle changes to snapshotted objects? Write-back? What about a cached snapshotted parent, having a child added, which ticks its version? Next iteration fails the op lock
+
+* Repo interfaces
+  * Implement stub that copies values (iterates Alias, `toJdbcValue`, `ArrayList<Object>`)
+  * Only one commit/flush at a time, serialized transaction isolation, leverage op locks
+
+* *Maybe* deletion of owned children by parent
+  * `child.setParent(null)` does not delete, causes validation error
+  * `parent.removeChild(child)` does delete
 

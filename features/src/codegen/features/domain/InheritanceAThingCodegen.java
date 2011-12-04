@@ -8,6 +8,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
@@ -20,8 +21,8 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<InheritanceAThing, InheritanceASubOne> inheritanceASubOnes = new ForeignKeyListHolder<InheritanceAThing, InheritanceASubOne>((InheritanceAThing) this, Aliases.inheritanceASubOne(), Aliases.inheritanceASubOne().inheritanceAThing);
-  private ForeignKeyListHolder<InheritanceAThing, InheritanceASubTwo> inheritanceASubTwos = new ForeignKeyListHolder<InheritanceAThing, InheritanceASubTwo>((InheritanceAThing) this, Aliases.inheritanceASubTwo(), Aliases.inheritanceASubTwo().inheritanceAThing);
+  private ForeignKeyListHolder<InheritanceAThing, InheritanceASubOne> inheritanceASubOnes = new ForeignKeyListHolder<InheritanceAThing, InheritanceASubOne>((InheritanceAThing) this, Aliases.inheritanceASubOne(), Aliases.inheritanceASubOne().inheritanceAThing, new InheritanceASubOnesListDelegate());
+  private ForeignKeyListHolder<InheritanceAThing, InheritanceASubTwo> inheritanceASubTwos = new ForeignKeyListHolder<InheritanceAThing, InheritanceASubTwo>((InheritanceAThing) this, Aliases.inheritanceASubTwo(), Aliases.inheritanceASubTwo().inheritanceAThing, new InheritanceASubTwosListDelegate());
   protected Changed changed;
 
   static {
@@ -82,11 +83,17 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
   }
 
   public void addInheritanceASubOne(InheritanceASubOne o) {
+    if (o.getInheritanceAThing() == this) {
+      return;
+    }
     o.setInheritanceAThingWithoutPercolation((InheritanceAThing) this);
     this.addInheritanceASubOneWithoutPercolation(o);
   }
 
   public void removeInheritanceASubOne(InheritanceASubOne o) {
+    if (o.getInheritanceAThing() != this) {
+      return;
+    }
     o.setInheritanceAThingWithoutPercolation(null);
     this.removeInheritanceASubOneWithoutPercolation(o);
   }
@@ -116,11 +123,17 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
   }
 
   public void addInheritanceASubTwo(InheritanceASubTwo o) {
+    if (o.getInheritanceAThing() == this) {
+      return;
+    }
     o.setInheritanceAThingWithoutPercolation((InheritanceAThing) this);
     this.addInheritanceASubTwoWithoutPercolation(o);
   }
 
   public void removeInheritanceASubTwo(InheritanceASubTwo o) {
+    if (o.getInheritanceAThing() != this) {
+      return;
+    }
     o.setInheritanceAThingWithoutPercolation(null);
     this.removeInheritanceASubTwoWithoutPercolation(o);
   }
@@ -187,6 +200,24 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
         return "version";
       }
     };
+  }
+
+  private class InheritanceASubOnesListDelegate implements ListProxy.Delegate<InheritanceASubOne> {
+    public void doAdd(InheritanceASubOne e) {
+      addInheritanceASubOne(e);
+    }
+    public void doRemove(InheritanceASubOne e) {
+      removeInheritanceASubOne(e);
+    }
+  }
+
+  private class InheritanceASubTwosListDelegate implements ListProxy.Delegate<InheritanceASubTwo> {
+    public void doAdd(InheritanceASubTwo e) {
+      addInheritanceASubTwo(e);
+    }
+    public void doRemove(InheritanceASubTwo e) {
+      removeInheritanceASubTwo(e);
+    }
   }
 
   public static class InheritanceAThingChanged extends AbstractChanged {

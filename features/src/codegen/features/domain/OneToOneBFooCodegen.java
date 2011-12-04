@@ -8,6 +8,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
@@ -20,7 +21,7 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar> oneToOneBBars = new ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar>((OneToOneBFoo) this, Aliases.oneToOneBBar(), Aliases.oneToOneBBar().oneToOneBFoo);
+  private ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar> oneToOneBBars = new ForeignKeyListHolder<OneToOneBFoo, OneToOneBBar>((OneToOneBFoo) this, Aliases.oneToOneBBar(), Aliases.oneToOneBBar().oneToOneBFoo, new OneToOneBBarsListDelegate());
   protected Changed changed;
 
   static {
@@ -81,11 +82,17 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
   }
 
   public void addOneToOneBBar(OneToOneBBar o) {
+    if (o.getOneToOneBFoo() == this) {
+      return;
+    }
     o.setOneToOneBFooWithoutPercolation((OneToOneBFoo) this);
     this.addOneToOneBBarWithoutPercolation(o);
   }
 
   public void removeOneToOneBBar(OneToOneBBar o) {
+    if (o.getOneToOneBFoo() != this) {
+      return;
+    }
     o.setOneToOneBFooWithoutPercolation(null);
     this.removeOneToOneBBarWithoutPercolation(o);
   }
@@ -149,6 +156,15 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
         return "version";
       }
     };
+  }
+
+  private class OneToOneBBarsListDelegate implements ListProxy.Delegate<OneToOneBBar> {
+    public void doAdd(OneToOneBBar e) {
+      addOneToOneBBar(e);
+    }
+    public void doRemove(OneToOneBBar e) {
+      removeOneToOneBBar(e);
+    }
   }
 
   public static class OneToOneBFooChanged extends AbstractChanged {

@@ -7,6 +7,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 
@@ -17,7 +18,7 @@ public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<OneToOneAFoo, OneToOneABar> oneToOneABars = new ForeignKeyListHolder<OneToOneAFoo, OneToOneABar>((OneToOneAFoo) this, Aliases.oneToOneABar(), Aliases.oneToOneABar().oneToOneAFoo);
+  private ForeignKeyListHolder<OneToOneAFoo, OneToOneABar> oneToOneABars = new ForeignKeyListHolder<OneToOneAFoo, OneToOneABar>((OneToOneAFoo) this, Aliases.oneToOneABar(), Aliases.oneToOneABar().oneToOneAFoo, new OneToOneABarsListDelegate());
   protected Changed changed;
 
   static {
@@ -136,6 +137,15 @@ public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
         return "version";
       }
     };
+  }
+
+  private class OneToOneABarsListDelegate implements ListProxy.Delegate<OneToOneABar> {
+    public void doAdd(OneToOneABar e) {
+      throw new UnsupportedOperationException("Not implemented");
+    }
+    public void doRemove(OneToOneABar e) {
+      throw new UnsupportedOperationException("Not implemented");
+    }
   }
 
   public static class OneToOneAFooChanged extends AbstractChanged {

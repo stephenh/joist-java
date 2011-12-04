@@ -9,6 +9,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
@@ -21,7 +22,7 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar>((ManyToManyAFoo) this, Aliases.manyToManyAFooToBar(), Aliases.manyToManyAFooToBar().manyToManyAFoo);
+  private ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar>((ManyToManyAFoo) this, Aliases.manyToManyAFooToBar(), Aliases.manyToManyAFooToBar().manyToManyAFoo, new ManyToManyAFooToBarsListDelegate());
   protected Changed changed;
 
   static {
@@ -82,11 +83,17 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
   }
 
   public void addManyToManyAFooToBar(ManyToManyAFooToBar o) {
+    if (o.getManyToManyAFoo() == this) {
+      return;
+    }
     o.setManyToManyAFooWithoutPercolation((ManyToManyAFoo) this);
     this.addManyToManyAFooToBarWithoutPercolation(o);
   }
 
   public void removeManyToManyAFooToBar(ManyToManyAFooToBar o) {
+    if (o.getManyToManyAFoo() != this) {
+      return;
+    }
     o.setManyToManyAFooWithoutPercolation(null);
     this.removeManyToManyAFooToBarWithoutPercolation(o);
   }
@@ -186,6 +193,15 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
         return "version";
       }
     };
+  }
+
+  private class ManyToManyAFooToBarsListDelegate implements ListProxy.Delegate<ManyToManyAFooToBar> {
+    public void doAdd(ManyToManyAFooToBar e) {
+      addManyToManyAFooToBar(e);
+    }
+    public void doRemove(ManyToManyAFooToBar e) {
+      removeManyToManyAFooToBar(e);
+    }
   }
 
   public static class ManyToManyAFooChanged extends AbstractChanged {

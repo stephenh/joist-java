@@ -8,6 +8,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
@@ -20,8 +21,8 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<ParentBParent, ParentBChildBar> parentBChildBars = new ForeignKeyListHolder<ParentBParent, ParentBChildBar>((ParentBParent) this, Aliases.parentBChildBar(), Aliases.parentBChildBar().parentBParent);
-  private ForeignKeyListHolder<ParentBParent, ParentBChildFoo> parentBChildFoos = new ForeignKeyListHolder<ParentBParent, ParentBChildFoo>((ParentBParent) this, Aliases.parentBChildFoo(), Aliases.parentBChildFoo().parentBParent);
+  private ForeignKeyListHolder<ParentBParent, ParentBChildBar> parentBChildBars = new ForeignKeyListHolder<ParentBParent, ParentBChildBar>((ParentBParent) this, Aliases.parentBChildBar(), Aliases.parentBChildBar().parentBParent, new ParentBChildBarsListDelegate());
+  private ForeignKeyListHolder<ParentBParent, ParentBChildFoo> parentBChildFoos = new ForeignKeyListHolder<ParentBParent, ParentBChildFoo>((ParentBParent) this, Aliases.parentBChildFoo(), Aliases.parentBChildFoo().parentBParent, new ParentBChildFoosListDelegate());
   protected Changed changed;
 
   static {
@@ -82,11 +83,17 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
   }
 
   public void addParentBChildBar(ParentBChildBar o) {
+    if (o.getParentBParent() == this) {
+      return;
+    }
     o.setParentBParentWithoutPercolation((ParentBParent) this);
     this.addParentBChildBarWithoutPercolation(o);
   }
 
   public void removeParentBChildBar(ParentBChildBar o) {
+    if (o.getParentBParent() != this) {
+      return;
+    }
     o.setParentBParentWithoutPercolation(null);
     this.removeParentBChildBarWithoutPercolation(o);
   }
@@ -116,11 +123,17 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
   }
 
   public void addParentBChildFoo(ParentBChildFoo o) {
+    if (o.getParentBParent() == this) {
+      return;
+    }
     o.setParentBParentWithoutPercolation((ParentBParent) this);
     this.addParentBChildFooWithoutPercolation(o);
   }
 
   public void removeParentBChildFoo(ParentBChildFoo o) {
+    if (o.getParentBParent() != this) {
+      return;
+    }
     o.setParentBParentWithoutPercolation(null);
     this.removeParentBChildFooWithoutPercolation(o);
   }
@@ -187,6 +200,24 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
         return "version";
       }
     };
+  }
+
+  private class ParentBChildBarsListDelegate implements ListProxy.Delegate<ParentBChildBar> {
+    public void doAdd(ParentBChildBar e) {
+      addParentBChildBar(e);
+    }
+    public void doRemove(ParentBChildBar e) {
+      removeParentBChildBar(e);
+    }
+  }
+
+  private class ParentBChildFoosListDelegate implements ListProxy.Delegate<ParentBChildFoo> {
+    public void doAdd(ParentBChildFoo e) {
+      addParentBChildFoo(e);
+    }
+    public void doRemove(ParentBChildFoo e) {
+      removeParentBChildFoo(e);
+    }
   }
 
   public static class ParentBParentChanged extends AbstractChanged {

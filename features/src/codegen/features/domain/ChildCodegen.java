@@ -9,6 +9,7 @@ import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
@@ -22,7 +23,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
   private String name = null;
   private Long version = null;
   private final ForeignKeyHolder<Child, Parent> parent = new ForeignKeyHolder<Child, Parent>(Child.class, Parent.class, Aliases.parent(), Aliases.child().parent);
-  private ForeignKeyListHolder<Child, GrandChild> grandChilds = new ForeignKeyListHolder<Child, GrandChild>((Child) this, Aliases.grandChild(), Aliases.grandChild().child);
+  private ForeignKeyListHolder<Child, GrandChild> grandChilds = new ForeignKeyListHolder<Child, GrandChild>((Child) this, Aliases.grandChild(), Aliases.grandChild().child, new GrandChildsListDelegate());
   protected Changed changed;
 
   static {
@@ -103,11 +104,17 @@ public abstract class ChildCodegen extends AbstractDomainObject {
   }
 
   public void addGrandChild(GrandChild o) {
+    if (o.getChild() == this) {
+      return;
+    }
     o.setChildWithoutPercolation((Child) this);
     this.addGrandChildWithoutPercolation(o);
   }
 
   public void removeGrandChild(GrandChild o) {
+    if (o.getChild() != this) {
+      return;
+    }
     o.setChildWithoutPercolation(null);
     this.removeGrandChildWithoutPercolation(o);
   }
@@ -183,6 +190,15 @@ public abstract class ChildCodegen extends AbstractDomainObject {
         return "parent";
       }
     };
+  }
+
+  private class GrandChildsListDelegate implements ListProxy.Delegate<GrandChild> {
+    public void doAdd(GrandChild e) {
+      addGrandChild(e);
+    }
+    public void doRemove(GrandChild e) {
+      removeGrandChild(e);
+    }
   }
 
   public static class ChildChanged extends AbstractChanged {
