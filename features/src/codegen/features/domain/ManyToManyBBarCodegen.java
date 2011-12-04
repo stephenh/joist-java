@@ -9,6 +9,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
@@ -21,7 +22,7 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar> greenManyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar>((ManyToManyBBar) this, Aliases.manyToManyBFooToBar(), Aliases.manyToManyBFooToBar().green);
+  private ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar> greenManyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar>((ManyToManyBBar) this, Aliases.manyToManyBFooToBar(), Aliases.manyToManyBFooToBar().green, new GreenManyToManyBFooToBarsListDelegate());
   protected Changed changed;
 
   static {
@@ -186,6 +187,15 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
         return "version";
       }
     };
+  }
+
+  private class GreenManyToManyBFooToBarsListDelegate implements ListProxy.Delegate<ManyToManyBFooToBar> {
+    public void doAdd(ManyToManyBFooToBar e) {
+      addGreenManyToManyBFooToBar(e);
+    }
+    public void doRemove(ManyToManyBFooToBar e) {
+      removeGreenManyToManyBFooToBar(e);
+    }
   }
 
   public static class ManyToManyBBarChanged extends AbstractChanged {

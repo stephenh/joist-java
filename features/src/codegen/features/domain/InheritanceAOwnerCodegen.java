@@ -8,6 +8,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
@@ -20,7 +21,7 @@ public abstract class InheritanceAOwnerCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<InheritanceAOwner, InheritanceABase> inheritanceABases = new ForeignKeyListHolder<InheritanceAOwner, InheritanceABase>((InheritanceAOwner) this, Aliases.inheritanceABase(), Aliases.inheritanceABase().inheritanceAOwner);
+  private ForeignKeyListHolder<InheritanceAOwner, InheritanceABase> inheritanceABases = new ForeignKeyListHolder<InheritanceAOwner, InheritanceABase>((InheritanceAOwner) this, Aliases.inheritanceABase(), Aliases.inheritanceABase().inheritanceAOwner, new InheritanceABasesListDelegate());
   protected Changed changed;
 
   static {
@@ -149,6 +150,15 @@ public abstract class InheritanceAOwnerCodegen extends AbstractDomainObject {
         return "version";
       }
     };
+  }
+
+  private class InheritanceABasesListDelegate implements ListProxy.Delegate<InheritanceABase> {
+    public void doAdd(InheritanceABase e) {
+      addInheritanceABase(e);
+    }
+    public void doRemove(InheritanceABase e) {
+      removeInheritanceABase(e);
+    }
   }
 
   public static class InheritanceAOwnerChanged extends AbstractChanged {

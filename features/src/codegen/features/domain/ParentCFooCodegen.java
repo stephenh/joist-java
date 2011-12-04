@@ -8,6 +8,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
@@ -20,8 +21,8 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<ParentCFoo, ParentCBar> firstParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar(), Aliases.parentCBar().firstParent);
-  private ForeignKeyListHolder<ParentCFoo, ParentCBar> secondParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar(), Aliases.parentCBar().secondParent);
+  private ForeignKeyListHolder<ParentCFoo, ParentCBar> firstParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar(), Aliases.parentCBar().firstParent, new FirstParentParentCBarsListDelegate());
+  private ForeignKeyListHolder<ParentCFoo, ParentCBar> secondParentParentCBars = new ForeignKeyListHolder<ParentCFoo, ParentCBar>((ParentCFoo) this, Aliases.parentCBar(), Aliases.parentCBar().secondParent, new SecondParentParentCBarsListDelegate());
   protected Changed changed;
 
   static {
@@ -187,6 +188,24 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
         return "version";
       }
     };
+  }
+
+  private class FirstParentParentCBarsListDelegate implements ListProxy.Delegate<ParentCBar> {
+    public void doAdd(ParentCBar e) {
+      addFirstParentParentCBar(e);
+    }
+    public void doRemove(ParentCBar e) {
+      removeFirstParentParentCBar(e);
+    }
+  }
+
+  private class SecondParentParentCBarsListDelegate implements ListProxy.Delegate<ParentCBar> {
+    public void doAdd(ParentCBar e) {
+      addSecondParentParentCBar(e);
+    }
+    public void doRemove(ParentCBar e) {
+      removeSecondParentParentCBar(e);
+    }
   }
 
   public static class ParentCFooChanged extends AbstractChanged {

@@ -8,6 +8,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
@@ -20,7 +21,7 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, Aliases.inheritanceBRootChild(), Aliases.inheritanceBRootChild().inheritanceBRoot);
+  private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, Aliases.inheritanceBRootChild(), Aliases.inheritanceBRootChild().inheritanceBRoot, new InheritanceBRootChildsListDelegate());
   protected Changed changed;
 
   static {
@@ -149,6 +150,15 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
         return "version";
       }
     };
+  }
+
+  private class InheritanceBRootChildsListDelegate implements ListProxy.Delegate<InheritanceBRootChild> {
+    public void doAdd(InheritanceBRootChild e) {
+      addInheritanceBRootChild(e);
+    }
+    public void doRemove(InheritanceBRootChild e) {
+      removeInheritanceBRootChild(e);
+    }
   }
 
   public static class InheritanceBRootChanged extends AbstractChanged {

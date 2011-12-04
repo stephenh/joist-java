@@ -8,6 +8,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
@@ -20,7 +21,7 @@ public abstract class ParentDCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<ParentD, ParentDChildB> parentDChildBs = new ForeignKeyListHolder<ParentD, ParentDChildB>((ParentD) this, Aliases.parentDChildB(), Aliases.parentDChildB().parentD);
+  private ForeignKeyListHolder<ParentD, ParentDChildB> parentDChildBs = new ForeignKeyListHolder<ParentD, ParentDChildB>((ParentD) this, Aliases.parentDChildB(), Aliases.parentDChildB().parentD, new ParentDChildBsListDelegate());
   protected Changed changed;
 
   static {
@@ -149,6 +150,15 @@ public abstract class ParentDCodegen extends AbstractDomainObject {
         return "version";
       }
     };
+  }
+
+  private class ParentDChildBsListDelegate implements ListProxy.Delegate<ParentDChildB> {
+    public void doAdd(ParentDChildB e) {
+      addParentDChildB(e);
+    }
+    public void doRemove(ParentDChildB e) {
+      removeParentDChildB(e);
+    }
   }
 
   public static class ParentDChanged extends AbstractChanged {
