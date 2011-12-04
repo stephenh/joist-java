@@ -82,11 +82,17 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
   }
 
   public void addOneToOneBBar(OneToOneBBar o) {
+    if (o.getOneToOneBFoo() == this) {
+      return;
+    }
     o.setOneToOneBFooWithoutPercolation((OneToOneBFoo) this);
     this.addOneToOneBBarWithoutPercolation(o);
   }
 
   public void removeOneToOneBBar(OneToOneBBar o) {
+    if (o.getOneToOneBFoo() != this) {
+      return;
+    }
     o.setOneToOneBFooWithoutPercolation(null);
     this.removeOneToOneBBarWithoutPercolation(o);
   }

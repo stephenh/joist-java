@@ -104,11 +104,17 @@ public abstract class ChildCodegen extends AbstractDomainObject {
   }
 
   public void addGrandChild(GrandChild o) {
+    if (o.getChild() == this) {
+      return;
+    }
     o.setChildWithoutPercolation((Child) this);
     this.addGrandChildWithoutPercolation(o);
   }
 
   public void removeGrandChild(GrandChild o) {
+    if (o.getChild() != this) {
+      return;
+    }
     o.setChildWithoutPercolation(null);
     this.removeGrandChildWithoutPercolation(o);
   }

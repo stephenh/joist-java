@@ -83,11 +83,17 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
   }
 
   public void addManyToManyAFooToBar(ManyToManyAFooToBar o) {
+    if (o.getManyToManyAFoo() == this) {
+      return;
+    }
     o.setManyToManyAFooWithoutPercolation((ManyToManyAFoo) this);
     this.addManyToManyAFooToBarWithoutPercolation(o);
   }
 
   public void removeManyToManyAFooToBar(ManyToManyAFooToBar o) {
+    if (o.getManyToManyAFoo() != this) {
+      return;
+    }
     o.setManyToManyAFooWithoutPercolation(null);
     this.removeManyToManyAFooToBarWithoutPercolation(o);
   }

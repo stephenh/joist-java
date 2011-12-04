@@ -83,11 +83,17 @@ public abstract class ParentDChildCCodegen extends AbstractDomainObject {
   }
 
   public void addParentDToChildC(ParentDToChildC o) {
+    if (o.getParentDChildC() == this) {
+      return;
+    }
     o.setParentDChildCWithoutPercolation((ParentDChildC) this);
     this.addParentDToChildCWithoutPercolation(o);
   }
 
   public void removeParentDToChildC(ParentDToChildC o) {
+    if (o.getParentDChildC() != this) {
+      return;
+    }
     o.setParentDChildCWithoutPercolation(null);
     this.removeParentDToChildCWithoutPercolation(o);
   }

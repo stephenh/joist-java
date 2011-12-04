@@ -82,11 +82,17 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
   }
 
   public void addInheritanceBRootChild(InheritanceBRootChild o) {
+    if (o.getInheritanceBRoot() == this) {
+      return;
+    }
     o.setInheritanceBRootWithoutPercolation((InheritanceBRoot) this);
     this.addInheritanceBRootChildWithoutPercolation(o);
   }
 
   public void removeInheritanceBRootChild(InheritanceBRootChild o) {
+    if (o.getInheritanceBRoot() != this) {
+      return;
+    }
     o.setInheritanceBRootWithoutPercolation(null);
     this.removeInheritanceBRootChildWithoutPercolation(o);
   }

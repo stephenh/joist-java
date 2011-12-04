@@ -82,11 +82,17 @@ public abstract class InheritanceAOwnerCodegen extends AbstractDomainObject {
   }
 
   public void addInheritanceABase(InheritanceABase o) {
+    if (o.getInheritanceAOwner() == this) {
+      return;
+    }
     o.setInheritanceAOwnerWithoutPercolation((InheritanceAOwner) this);
     this.addInheritanceABaseWithoutPercolation(o);
   }
 
   public void removeInheritanceABase(InheritanceABase o) {
+    if (o.getInheritanceAOwner() != this) {
+      return;
+    }
     o.setInheritanceAOwnerWithoutPercolation(null);
     this.removeInheritanceABaseWithoutPercolation(o);
   }

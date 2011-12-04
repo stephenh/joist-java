@@ -83,11 +83,17 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
   }
 
   public void addInheritanceASubOne(InheritanceASubOne o) {
+    if (o.getInheritanceAThing() == this) {
+      return;
+    }
     o.setInheritanceAThingWithoutPercolation((InheritanceAThing) this);
     this.addInheritanceASubOneWithoutPercolation(o);
   }
 
   public void removeInheritanceASubOne(InheritanceASubOne o) {
+    if (o.getInheritanceAThing() != this) {
+      return;
+    }
     o.setInheritanceAThingWithoutPercolation(null);
     this.removeInheritanceASubOneWithoutPercolation(o);
   }
@@ -117,11 +123,17 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
   }
 
   public void addInheritanceASubTwo(InheritanceASubTwo o) {
+    if (o.getInheritanceAThing() == this) {
+      return;
+    }
     o.setInheritanceAThingWithoutPercolation((InheritanceAThing) this);
     this.addInheritanceASubTwoWithoutPercolation(o);
   }
 
   public void removeInheritanceASubTwo(InheritanceASubTwo o) {
+    if (o.getInheritanceAThing() != this) {
+      return;
+    }
     o.setInheritanceAThingWithoutPercolation(null);
     this.removeInheritanceASubTwoWithoutPercolation(o);
   }

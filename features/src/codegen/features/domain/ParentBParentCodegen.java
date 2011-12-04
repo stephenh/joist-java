@@ -83,11 +83,17 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
   }
 
   public void addParentBChildBar(ParentBChildBar o) {
+    if (o.getParentBParent() == this) {
+      return;
+    }
     o.setParentBParentWithoutPercolation((ParentBParent) this);
     this.addParentBChildBarWithoutPercolation(o);
   }
 
   public void removeParentBChildBar(ParentBChildBar o) {
+    if (o.getParentBParent() != this) {
+      return;
+    }
     o.setParentBParentWithoutPercolation(null);
     this.removeParentBChildBarWithoutPercolation(o);
   }
@@ -117,11 +123,17 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
   }
 
   public void addParentBChildFoo(ParentBChildFoo o) {
+    if (o.getParentBParent() == this) {
+      return;
+    }
     o.setParentBParentWithoutPercolation((ParentBParent) this);
     this.addParentBChildFooWithoutPercolation(o);
   }
 
   public void removeParentBChildFoo(ParentBChildFoo o) {
+    if (o.getParentBParent() != this) {
+      return;
+    }
     o.setParentBParentWithoutPercolation(null);
     this.removeParentBChildFooWithoutPercolation(o);
   }
