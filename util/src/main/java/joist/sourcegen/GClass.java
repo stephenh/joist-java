@@ -321,6 +321,11 @@ public class GClass {
     return this;
   }
 
+  public GClass setPrivate() {
+    this.access = Access.PRIVATE;
+    return this;
+  }
+
   public GClass setAccess(Access access) {
     this.access = access;
     return this;
