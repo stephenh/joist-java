@@ -256,11 +256,17 @@ public class GenerateDomainCodegenPass implements Pass {
 
         GMethod adder = domainCodegen.getMethod("add{}", otmp.getCapitalVariableNameSingular());
         adder.argument(otmp.getTargetJavaType(), "o");
+        adder.body.line("if (o.get{}() == this) {", otmp.getManyToOneProperty().getCapitalVariableName());
+        adder.body.line("_    return;");
+        adder.body.line("}");
         adder.body.line("o.set{}WithoutPercolation(({}) this);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
         adder.body.line("this.add{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
 
         GMethod remover = domainCodegen.getMethod("remove{}", otmp.getCapitalVariableNameSingular());
         remover.argument(otmp.getTargetJavaType(), "o");
+        remover.body.line("if (o.get{}() != this) {", otmp.getManyToOneProperty().getCapitalVariableName());
+        remover.body.line("_    return;");
+        remover.body.line("}");
         remover.body.line("o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
         remover.body.line("this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
 

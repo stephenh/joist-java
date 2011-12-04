@@ -40,4 +40,17 @@ public class ParentTest extends AbstractFeaturesTest {
     Assert.assertTrue(Child.queries.find(1) == Parent.queries.find(1).getChilds().get(0));
   }
 
+  @Test
+  public void testChildrenActsLikeASet() {
+    Parent p = new Parent("parent");
+    Assert.assertEquals(0, p.getChilds().size());
+    Child c = new Child(p, "child1");
+    // add again
+    p.addChild(c);
+    Assert.assertEquals(1, p.getChilds().size());
+    this.commitAndReOpen();
+
+    Assert.assertTrue(Parent.queries.find(1).getChilds().get(0) == Child.queries.find(1));
+  }
+
 }

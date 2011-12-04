@@ -69,6 +69,13 @@ public class ListProxyTest {
   }
 
   @Test
+  public void testAddBehavesLikeASet() {
+    this.p.getChilds().add(this.c);
+    this.p.getChilds().add(this.c);
+    assertEquals(1, this.p.getChilds().size());
+  }
+
+  @Test
   public void testRemove() {
     this.p.addChild(this.c);
     assertEquals(this.p, this.c.getParent());
