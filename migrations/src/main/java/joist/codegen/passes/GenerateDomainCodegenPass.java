@@ -20,6 +20,7 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotNull;
+import joist.sourcegen.Argument;
 import joist.sourcegen.GClass;
 import joist.sourcegen.GField;
 import joist.sourcegen.GMethod;
@@ -226,13 +227,14 @@ public class GenerateDomainCodegenPass implements Pass {
 
       GField collection = domainCodegen.getField(otmp.getVariableName());
       collection.type("ForeignKeyListHolder<{}, {}>", entity.getClassName(), otmp.getTargetJavaType());
-      collection.initialValue("new ForeignKeyListHolder<{}, {}>(({}) this, Aliases.{}(), Aliases.{}().{})",//
+      collection.initialValue("new ForeignKeyListHolder<{}, {}>(({}) this, Aliases.{}(), Aliases.{}().{}, new {}ListDelegate())",//
         entity.getClassName(),
         otmp.getTargetJavaType(),
         entity.getClassName(),
         otmp.getManySide().getVariableName(),
         otmp.getManySide().getVariableName(),
-        otmp.getKeyFieldName());
+        otmp.getKeyFieldName(),
+        otmp.getCapitalVariableName());
       domainCodegen.addImports(ForeignKeyListHolder.class);
 
       if (!otmp.isOneToOne()) {
@@ -291,6 +293,18 @@ public class GenerateDomainCodegenPass implements Pass {
       remover2.argument(otmp.getTargetJavaType(), "o").setProtected();
       remover2.body.line("this.getChanged().record(\"{}\");", otmp.getVariableName());
       remover2.body.line("this.{}.remove(o);", otmp.getVariableName());
+
+      GClass listDelegate = domainCodegen.getInnerClass("{}ListDelegate", otmp.getCapitalVariableName()).setPrivate().notStatic();
+      listDelegate.implementsInterface("joist.domain.util.ListProxy.Delegate<{}>", otmp.getTargetJavaType());
+      GMethod doAdd = listDelegate.getMethod("doAdd", Argument.arg(otmp.getTargetJavaType(), "e"));
+      GMethod doRemove = listDelegate.getMethod("doRemove", Argument.arg(otmp.getTargetJavaType(), "e"));
+      if (!otmp.isOneToOne()) {
+        doAdd.body.line("add{}(e);", otmp.getCapitalVariableNameSingular());
+        doRemove.body.line("remove{}(e);", otmp.getCapitalVariableNameSingular());
+      } else {
+        doAdd.body.line("throw new UnsupportedOperationException(\"Not implemented\");");
+        doRemove.body.line("throw new UnsupportedOperationException(\"Not implemented\");");
+      }
 
       domainCodegen.addImports(otmp.getManySide().getFullAliasClassName());
     }

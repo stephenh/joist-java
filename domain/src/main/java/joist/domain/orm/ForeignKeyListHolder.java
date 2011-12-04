@@ -2,7 +2,6 @@ package joist.domain.orm;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import joist.domain.DomainObject;
@@ -11,6 +10,7 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Select;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.util.Copy;
 import joist.util.FluentList;
 import joist.util.MapToList;
@@ -32,13 +32,19 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
   private final ForeignKeyAliasColumn<U, T> childForeignKeyToParentColumn;
   private final List<U> addedBeforeLoaded = new ArrayList<U>();
   private final List<U> removedBeforeLoaded = new ArrayList<U>();
+  private final ListProxy.Delegate<U> listDelegate;
   private List<U> loaded;
-  private List<U> readOnly;
+  private List<U> proxy;
 
-  public ForeignKeyListHolder(T parent, Alias<U> childAlias, ForeignKeyAliasColumn<U, T> childForeignKeyToParentColumn) {
+  public ForeignKeyListHolder(
+    T parent,
+    Alias<U> childAlias,
+    ForeignKeyAliasColumn<U, T> childForeignKeyToParentColumn,
+    ListProxy.Delegate<U> listDelegate) {
     this.parent = parent;
     this.childAlias = childAlias;
     this.childForeignKeyToParentColumn = childForeignKeyToParentColumn;
+    this.listDelegate = listDelegate;
   }
 
   public List<U> get() {
@@ -77,10 +83,9 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
         this.loaded.removeAll(this.removedBeforeLoaded);
         this.loaded = Copy.unique(this.loaded);
       }
-      // make a read-only wrapper around the list to hand out to clients
-      this.readOnly = Collections.unmodifiableList(this.loaded);
+      this.proxy = new ListProxy<U>(this.loaded, this.listDelegate);
     }
-    return this.readOnly;
+    return this.proxy;
   }
 
   public void add(U instance) {
