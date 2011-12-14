@@ -28,4 +28,6 @@ Todo
 * *Maybe* deletion of owned children by parent
   * `child.setParent(null)` does not delete, causes validation error
   * `parent.removeChild(child)` does delete
+* Configuration option (global, per-collection) to disable collection ticking
+  * ...maybe remove/solve annoyance of cross-collection stomp?
 

@@ -14,7 +14,17 @@ public class PrimitivesSelectUniqueTest extends AbstractFeaturesTest {
       Primitives.queries.findByName("none");
       Assert.fail();
     } catch (NotFoundException nfe) {
-      Assert.assertEquals("Not found", nfe.getMessage());
+      Assert.assertEquals("Instance of Primitives not found", nfe.getMessage());
+    }
+  }
+
+  @Test
+  public void testNoneFoundWithId() {
+    try {
+      Primitives.queries.find(1);
+      Assert.fail();
+    } catch (NotFoundException nfe) {
+      Assert.assertEquals("Primitives#1 not found", nfe.getMessage());
     }
   }
 
@@ -28,7 +38,7 @@ public class PrimitivesSelectUniqueTest extends AbstractFeaturesTest {
       Primitives.queries.findByFlagValue(false);
       Assert.fail();
     } catch (TooManyException nfe) {
-      Assert.assertEquals("Too many", nfe.getMessage());
+      Assert.assertEquals("Too many Primitives found: [Primitives[1], Primitives[2]]", nfe.getMessage());
     }
   }
 

@@ -30,13 +30,6 @@ public class PrimitivesQueries extends PrimitivesQueriesCodegen {
     return q.count();
   }
 
-  public Primitives find(int id) {
-    PrimitivesAlias p = new PrimitivesAlias("p");
-    Select<Primitives> q = Select.from(p);
-    q.where(p.id.eq(id));
-    return q.unique();
-  }
-
   public void setFlag(List<Long> ids, boolean value) {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Update<Primitives> u = Update.into(p);

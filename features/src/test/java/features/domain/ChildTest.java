@@ -144,4 +144,16 @@ public class ChildTest extends AbstractFeaturesTest {
     Assert.assertEquals(0, Child.queries.count());
   }
 
+  @Test
+  public void testAddingAChildTicksTheParent() {
+    Parent p = new Parent("parent");
+    this.commitAndReOpen();
+    Assert.assertEquals(0, p.getVersion().intValue());
+
+    p = this.reload(p);
+    new Child(p, "child1");
+    this.commitAndReOpen();
+    Assert.assertEquals(1, p.getVersion().intValue());
+  }
+
 }
