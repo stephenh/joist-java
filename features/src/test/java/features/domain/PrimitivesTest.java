@@ -34,10 +34,10 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     this.rollback();
 
     try {
-      Primitives.queries.find(1);
+      Primitives.queries.findByName("testSave");
       Assert.fail();
     } catch (Exception e) {
-      Assert.assertEquals("Not found", e.getMessage());
+      Assert.assertEquals("Instance of Primitives not found", e.getMessage());
     }
   }
 

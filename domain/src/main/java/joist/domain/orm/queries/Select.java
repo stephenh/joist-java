@@ -107,9 +107,9 @@ public class Select<T extends DomainObject> {
   public <R> R unique(Class<R> rowType) {
     List<R> results = this.list(rowType);
     if (results.size() == 0) {
-      throw new NotFoundException();
+      throw new NotFoundException(rowType);
     } else if (results.size() > 1) {
-      throw new TooManyException();
+      throw new TooManyException(rowType, results);
     }
     return results.get(0);
   }

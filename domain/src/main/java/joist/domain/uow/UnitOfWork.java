@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import joist.domain.DomainObject;
+import joist.domain.exceptions.NotFoundException;
 import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.Db;
 import joist.domain.orm.EagerCache;
@@ -92,7 +93,12 @@ public class UnitOfWork {
     T instance = (T) this.identityMap.findOrNull(type, id);
     if (instance == null) {
       Alias<T> a = AliasRegistry.get(type);
-      instance = Select.from(a).where(a.getIdColumn().eq(id)).unique();
+      try {
+        instance = Select.from(a).where(a.getIdColumn().eq(id)).unique();
+      } catch (NotFoundException nfe) {
+        // throw a more specific NotFoundException
+        throw new NotFoundException(type, id);
+      }
     }
     return instance;
   }
