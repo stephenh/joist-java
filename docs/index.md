@@ -33,16 +33,20 @@ Run `cycle` to update your database and get clean, getter/setter-free [domain ob
 
 <pre name="code" class="java">
     public class Employee extends EmployeeCodegen {
-      // put your business logic here, it won't get over-written
+      // put your business logic here, it won't get over written
+
+      // getters/setters/collections are in the base class
     }
 </pre>
 
 Now you can write [type-safe queries](typeSafeQueries.html):
 
 <pre name="code" class="java">
-    public List&lt;Employee&gt; findByName(String name) {
-      EmployeeAlias e = new EmployeeAlias("e");
-      return Select.from(e).where(e.name.eq(name));
+    public class EmployeeQueries {
+      public List&lt;Employee&gt; findByName(String name) {
+        EmployeeAlias e = new EmployeeAlias("e");
+        return Select.from(e).where(e.name.eq(name)).list();
+      }
     }
 </pre>
 
@@ -53,21 +57,21 @@ To jump in, see [getting started](gettingStarted.html).
 Why Joist is Awesome
 --------------------
 
-* [Domain Objects](domainObjects.html)
-* [Type-Safe Queries](typeSafeQueries.html)
-* [Auto-Maintained Back Pointers](backPointers.html)
+* [Domain Objects](domainObjects.html) that are clean, simple, and "just work"
+* [Type-Safe Queries](typeSafeQueries.html) that won't compile if your schema changes
+* [Auto-Maintained Back Pointers](backPointers.html) so that parent/child collections are always in sync
+* [Validation Rules](validationRules.html) for consistently enforcing business logic
+* [Migrations](migrations.html) for maintaining your schema
+* [Eager Loading](eagerLoading.html) to avoid the N+1 problem even in nested for loops
+* [Performance](performance.html) that is as-fast-or-faster than Hibernate
 * [Type-Safe Changed Properties](typeSafeChangedProperties.html)
-* [Validation Rules](validationRules.html)
-* [Migrations](migrations.html)
-* [Eager Loading](eagerLoading.html)
-* [Performance](performance.html)
 
 Implementation Details:
 
-* [Aliases](aliases.html) facilitate type-safe queries
-* [Shims](shims.html) are generated instead of reflection
+* [Aliases](aliases.html) facilitate writing type-safe queries
+* [Shims](shims.html) to map data instead of reflection or runtime-generated classes
 * [Patterns](patterns.html) like Unit of Work, Identity Map, etc.
-* [Code Generation](codeGeneration.html)
+* [Code Generation](codeGeneration.html) to avoid boilerplate
 * [Eclipse Tips](eclipseTips.html)
 
 Opinions
@@ -78,6 +82,7 @@ Joist is tailored for projects that agree with its opinions:
 * Enterprise teams are best served by as much type safety as possible
 * Domain objects should match and be driven by the schema
 * PostgreSQL (and MySQL in ANSI mode) are the supported databases
+* Waiting for your ORM to start shouldn't kill your TDD loop
 
 Community
 ---------
