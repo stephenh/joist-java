@@ -17,9 +17,7 @@ public abstract class PrimitivesQueriesCodegen extends AbstractQueries<Primitive
 
   public Primitives findByName(String name) {
     PrimitivesAlias p0 = new PrimitivesAlias("p0");
-    Select<Primitives> q = Select.from(p0);
-    q.where(p0.name.eq(name));
-    return q.unique();
+    return Select.from(p0).where(p0.name.eq(name)).unique();
   }
 
 }

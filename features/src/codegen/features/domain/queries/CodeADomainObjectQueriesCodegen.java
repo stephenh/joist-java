@@ -23,9 +23,19 @@ public abstract class CodeADomainObjectQueriesCodegen extends AbstractQueries<Co
     return Select.from(cado0).where(cado0.codeAColor.eq(codeAColor)).list();
   }
 
+  public List<Long> findIdsByCodeAColor(CodeAColor codeAColor) {
+    CodeADomainObjectAlias cado0 = new CodeADomainObjectAlias("cado0");
+    return Select.from(cado0).where(cado0.codeAColor.eq(codeAColor)).listIds();
+  }
+
   public List<CodeADomainObject> findByCodeASize(CodeASize codeASize) {
     CodeADomainObjectAlias cado0 = new CodeADomainObjectAlias("cado0");
     return Select.from(cado0).where(cado0.codeASize.eq(codeASize)).list();
+  }
+
+  public List<Long> findIdsByCodeASize(CodeASize codeASize) {
+    CodeADomainObjectAlias cado0 = new CodeADomainObjectAlias("cado0");
+    return Select.from(cado0).where(cado0.codeASize.eq(codeASize)).listIds();
   }
 
 }
