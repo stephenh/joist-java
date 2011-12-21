@@ -34,7 +34,7 @@ public class GDirectory {
   }
 
   public boolean exists(String fullClassName) {
-    return new File(this.directory, fullClassName.replace('.', '/') + ".java").exists();
+    return this.getFile(fullClassName).exists();
   }
 
   public void output() {
@@ -73,7 +73,11 @@ public class GDirectory {
   }
 
   private File getFile(GClass gc) {
-    return new File(this.directory, gc.getFullClassName().replace('.', '/') + ".java");
+    return this.getFile(gc.getFullClassName());
+  }
+
+  private File getFile(String fullClassName) {
+    return new File(this.directory, fullClassName.replace('.', File.separatorChar) + ".java");
   }
 
 }
