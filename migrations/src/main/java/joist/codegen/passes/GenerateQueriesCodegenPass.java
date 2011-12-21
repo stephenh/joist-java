@@ -74,12 +74,15 @@ public class GenerateQueriesCodegenPass implements Pass {
   private void addFindByForUniquePrimitives(Entity entity, GClass queriesCodegen) {
     for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
       if (p.isUnique()) {
-        GMethod f = queriesCodegen.getMethod("findBy" + p.getCapitalVariableName(), Argument.arg(p.getJavaType(), p.getVariableName()));
-        f.returnType(entity.getClassName());
-        f.body.line("{} {} = new {}(\"{}\");", entity.getAliasName(), entity.getAliasAlias(), entity.getAliasName(), entity.getAliasAlias());
-        f.body.line("Select<{}> q = Select.from({});", entity.getClassName(), entity.getAliasAlias());
-        f.body.line("q.where({}.{}.eq({}));", entity.getAliasAlias(), p.getVariableName(), p.getVariableName());
-        f.body.line("return q.unique();");
+        GMethod findBy = queriesCodegen.getMethod("findBy" + p.getCapitalVariableName(), Argument.arg(p.getJavaType(), p.getVariableName()));
+        findBy.returnType(entity.getClassName());
+        findBy.body.line("{} {} = new {}(\"{}\");", entity.getAliasName(), entity.getAliasAlias(), entity.getAliasName(), entity.getAliasAlias());
+        findBy.body.line(
+          "return Select.from({}).where({}.{}.eq({})).unique();",
+          entity.getAliasAlias(),
+          entity.getAliasAlias(),
+          p.getVariableName(),
+          p.getVariableName());
         queriesCodegen.addImports(entity.getFullAliasClassName());
         queriesCodegen.addImports(Select.class);
       }
@@ -89,15 +92,28 @@ public class GenerateQueriesCodegenPass implements Pass {
   private void addFindByForCodes(Entity entity, GClass queriesCodegen) {
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       if (mtop.getOneSide().isCodeEntity()) {
-        GMethod f = queriesCodegen.getMethod("findBy" + mtop.getCapitalVariableName(), Argument.arg(mtop.getJavaType(), mtop.getVariableName()));
-        f.returnType("java.util.List<{}>", entity.getClassName());
-        f.body.line("{} {} = new {}(\"{}\");", entity.getAliasName(), entity.getAliasAlias(), entity.getAliasName(), entity.getAliasAlias());
-        f.body.line(
+        GMethod findBy = queriesCodegen.getMethod("findBy" + mtop.getCapitalVariableName(), Argument.arg(mtop.getJavaType(), mtop.getVariableName()));
+        findBy.returnType("java.util.List<{}>", entity.getClassName());
+        findBy.body.line("{} {} = new {}(\"{}\");", entity.getAliasName(), entity.getAliasAlias(), entity.getAliasName(), entity.getAliasAlias());
+        findBy.body.line(
           "return Select.from({}).where({}.{}.eq({})).list();",
           entity.getAliasAlias(),
           entity.getAliasAlias(),
           mtop.getVariableName(),
           mtop.getVariableName());
+
+        GMethod findIdsBy = queriesCodegen.getMethod(
+          "findIdsBy" + mtop.getCapitalVariableName(),
+          Argument.arg(mtop.getJavaType(), mtop.getVariableName()));
+        findIdsBy.returnType("java.util.List<Long>");
+        findIdsBy.body.line("{} {} = new {}(\"{}\");", entity.getAliasName(), entity.getAliasAlias(), entity.getAliasName(), entity.getAliasAlias());
+        findIdsBy.body.line(
+          "return Select.from({}).where({}.{}.eq({})).listIds();",
+          entity.getAliasAlias(),
+          entity.getAliasAlias(),
+          mtop.getVariableName(),
+          mtop.getVariableName());
+
         queriesCodegen.addImports(entity.getFullAliasClassName(), mtop.getOneSide().getFullClassName());
         queriesCodegen.addImports(Select.class);
       }
