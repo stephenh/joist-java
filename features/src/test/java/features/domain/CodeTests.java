@@ -52,4 +52,17 @@ public class CodeTests extends AbstractFeaturesTest {
     Assert.assertFalse(d.isOne());
   }
 
+  @Test
+  public void testFindByMethods() {
+    CodeADomainObject d = new CodeADomainObject();
+    d.setCodeASize(CodeASize.ONE);
+    this.commitAndReOpen();
+
+    Assert.assertEquals(1, CodeADomainObject.queries.findByCodeASize(CodeASize.ONE).size());
+    Assert.assertEquals(0, CodeADomainObject.queries.findByCodeASize(CodeASize.TWO).size());
+
+    Assert.assertEquals(1, CodeADomainObject.queries.findIdsByCodeASize(CodeASize.ONE).size());
+    Assert.assertEquals(0, CodeADomainObject.queries.findIdsByCodeASize(CodeASize.TWO).size());
+  }
+
 }
