@@ -29,13 +29,4 @@ public class ParentQueries extends ParentQueriesCodegen {
     return Select.from(p).list();
   }
 
-  public List<Parent> findWithChildFetch() {
-    ParentAlias p = new ParentAlias("p");
-    ChildAlias c = new ChildAlias("c");
-
-    Select<Parent> q = Select.from(p);
-    q.join(c.parent.on(p));
-    return q.list();
-  }
-
 }

@@ -20,16 +20,6 @@ public class OuterJoinFetchingTest extends AbstractFeaturesTest {
     Assert.assertEquals(1, UoW.getIdentityMap().size());
   }
 
-  @Test
-  public void testWithFetching() {
-    Parent p = new Parent("parent");
-    new Child(p, "child1");
-    this.commitAndReOpen();
-
-    List<Parent> l = Parent.queries.findWithChildFetch();
-    Assert.assertEquals(1, l.size());
-    // We already have both objects
-    // Assert.assertEquals(2, UoW.getIdentityMap().size());
-  }
+  // no outer join fetching is implemented yet
 
 }

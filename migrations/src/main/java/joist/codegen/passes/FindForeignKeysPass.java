@@ -34,6 +34,10 @@ public class FindForeignKeysPass implements Pass {
       ManyToOneProperty mtop = new ManyToOneProperty(manySide, column);
       OneToManyProperty otmp = new OneToManyProperty(oneSide, column);
 
+      if (codegen.getConfig().isPropertySkipped(manySide.getClassName(), mtop.getVariableName())) {
+        continue;
+      }
+
       manySide.getManyToOneProperties().add(mtop);
       mtop.setOneToManyProperty(otmp);
 

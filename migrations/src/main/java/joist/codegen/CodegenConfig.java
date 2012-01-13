@@ -73,8 +73,9 @@ public class CodegenConfig {
   private final Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
   private final Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
   private final List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
-  private final List<String> skipCollection = new ArrayList<String>();
+  private final List<String> skipCollections = new ArrayList<String>();
   private final List<String> skipTables = new ArrayList<String>();
+  private final List<String> skipProperties = new ArrayList<String>();
   private final List<String> notAbstractEvenThoughSubclassed = new ArrayList<String>();
   private final List<String> stableTables = new ArrayList<String>();
   private final Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
@@ -249,11 +250,19 @@ public class CodegenConfig {
   }
 
   public void setCollectionSkipped(String objectName, String variableName) {
-    this.skipCollection.add(objectName + "." + variableName);
+    this.skipCollections.add(objectName + "." + variableName);
   }
 
   public boolean isCollectionSkipped(String objectName, String variableName) {
-    return this.skipCollection.contains(objectName + "." + variableName);
+    return this.skipCollections.contains(objectName + "." + variableName);
+  }
+
+  public void setPropertySkipped(String objectName, String variableName) {
+    this.skipProperties.add(objectName + "." + variableName);
+  }
+
+  public boolean isPropertySkipped(String objectName, String variableName) {
+    return this.skipProperties.contains(objectName + "." + variableName);
   }
 
   public void setTableSkipped(String tableName) {

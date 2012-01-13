@@ -18,7 +18,11 @@ public class FindPrimitivePropertiesPass implements Pass {
         continue;
       }
 
-      entity.getPrimitiveProperties().add(new PrimitiveProperty(codegen, entity, column));
+      PrimitiveProperty p = new PrimitiveProperty(codegen, entity, column);
+      if (codegen.getConfig().isPropertySkipped(entity.getClassName(), p.getVariableName())) {
+        continue;
+      }
+      entity.getPrimitiveProperties().add(p);
     }
   }
 
