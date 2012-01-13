@@ -11,6 +11,8 @@ public class JoistCli extends AbstractJoistCli {
     this.codegenConfig.outputCodegenDirectory = "src/codegen";
     this.codegenConfig.setCollectionSkipped("ParentD", "parentDChildAs");
     this.codegenConfig.setCollectionSkipped("ParentD", "parentDToChildCs");
+    this.codegenConfig.setPropertySkipped("Primitives", "skipped");
+    this.codegenConfig.setPropertySkipped("Primitives", "parent");
     GSettings.setDefaultIndentation("  ");
   }
 
