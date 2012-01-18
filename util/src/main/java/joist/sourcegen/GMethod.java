@@ -19,6 +19,7 @@ public class GMethod {
   private String constructorFor = null;
   private Access access = Access.PUBLIC;
   private boolean isStatic;
+  private boolean isAbstract;
   private String typeParameters = null;
 
   public GMethod(GClass gclass, String methodName) {
@@ -78,6 +79,9 @@ public class GMethod {
     if (this.isStatic) {
       sb.append("static ");
     }
+    if (this.isAbstract) {
+      sb.append("abstract ");
+    }
     if (this.typeParameters != null) {
       sb.append("<{}> ", this.typeParameters);
     }
@@ -99,7 +103,7 @@ public class GMethod {
       }
       sb.append(Join.commaSpace(exceptionTypes));
     }
-    if (this.gclass.isInterface) {
+    if (this.gclass.isInterface || this.isAbstract) {
       sb.line(";");
     } else {
       sb.line(" {");
@@ -131,6 +135,11 @@ public class GMethod {
 
   public GMethod setStatic() {
     this.isStatic = true;
+    return this;
+  }
+
+  public GMethod setAbstract() {
+    this.isAbstract = true;
     return this;
   }
 

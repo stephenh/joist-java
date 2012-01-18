@@ -276,4 +276,17 @@ public class GMethodTest {
       gc.toCode());
   }
 
+  @Test
+  public void testAbstract() {
+    GClass gc = new GClass("Foo").setAbstract();
+    gc.getMethod("method(String one)").setAbstract();
+    Assert.assertEquals(Join.lines(//
+      "public abstract class Foo {",
+      "",
+      "    public abstract void method(String one);",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
 }
