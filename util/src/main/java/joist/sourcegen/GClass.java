@@ -188,7 +188,11 @@ public class GClass {
 
   // use arg0 + _args to differentiate between this and getMethod(String, Object...) with only 1 arg
   public GMethod getMethod(String name, Argument arg0, Argument... _args) {
-    List<Argument> args = Copy.list(arg0).with(_args).map(new Function1<Argument, Argument>() {
+    return this.getMethod(name, Copy.list(arg0).with(_args));
+  }
+
+  public GMethod getMethod(String name, List<Argument> _args) {
+    List<Argument> args = Copy.list(_args).map(new Function1<Argument, Argument>() {
       public Argument apply(Argument p1) {
         return p1.importIfPossible(GClass.this);
       }
