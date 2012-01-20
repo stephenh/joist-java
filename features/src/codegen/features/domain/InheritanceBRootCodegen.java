@@ -21,7 +21,7 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, Aliases.inheritanceBRootChild(), Aliases.inheritanceBRootChild().inheritanceBRoot, new InheritanceBRootChildsListDelegate());
+  private final ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild> inheritanceBRootChilds = new ForeignKeyListHolder<InheritanceBRoot, InheritanceBRootChild>((InheritanceBRoot) this, Aliases.inheritanceBRootChild(), Aliases.inheritanceBRootChild().inheritanceBRoot, new InheritanceBRootChildsListDelegate());
   protected Changed changed;
 
   static {

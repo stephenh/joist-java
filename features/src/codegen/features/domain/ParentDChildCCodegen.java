@@ -22,7 +22,7 @@ public abstract class ParentDChildCCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<ParentDChildC, ParentDToChildC> parentDToChildCs = new ForeignKeyListHolder<ParentDChildC, ParentDToChildC>((ParentDChildC) this, Aliases.parentDToChildC(), Aliases.parentDToChildC().parentDChildC, new ParentDToChildCsListDelegate());
+  private final ForeignKeyListHolder<ParentDChildC, ParentDToChildC> parentDToChildCs = new ForeignKeyListHolder<ParentDChildC, ParentDToChildC>((ParentDChildC) this, Aliases.parentDToChildC(), Aliases.parentDToChildC().parentDChildC, new ParentDToChildCsListDelegate());
   protected Changed changed;
 
   static {

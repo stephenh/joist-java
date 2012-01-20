@@ -22,7 +22,7 @@ public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar>((ManyToManyAFoo) this, Aliases.manyToManyAFooToBar(), Aliases.manyToManyAFooToBar().manyToManyAFoo, new ManyToManyAFooToBarsListDelegate());
+  private final ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar> manyToManyAFooToBars = new ForeignKeyListHolder<ManyToManyAFoo, ManyToManyAFooToBar>((ManyToManyAFoo) this, Aliases.manyToManyAFooToBar(), Aliases.manyToManyAFooToBar().manyToManyAFoo, new ManyToManyAFooToBarsListDelegate());
   protected Changed changed;
 
   static {

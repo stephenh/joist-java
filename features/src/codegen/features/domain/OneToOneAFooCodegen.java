@@ -18,7 +18,7 @@ public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<OneToOneAFoo, OneToOneABar> oneToOneABars = new ForeignKeyListHolder<OneToOneAFoo, OneToOneABar>((OneToOneAFoo) this, Aliases.oneToOneABar(), Aliases.oneToOneABar().oneToOneAFoo, new OneToOneABarsListDelegate());
+  private final ForeignKeyListHolder<OneToOneAFoo, OneToOneABar> oneToOneABars = new ForeignKeyListHolder<OneToOneAFoo, OneToOneABar>((OneToOneAFoo) this, Aliases.oneToOneABar(), Aliases.oneToOneABar().oneToOneAFoo, new OneToOneABarsListDelegate());
   protected Changed changed;
 
   static {
