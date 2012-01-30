@@ -112,4 +112,17 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
     Assert.assertEquals(1, Jdbc.numberOfQueries());
   }
 
+  @Test
+  public void testEagerLoadingDoesNotFailIfDisconnected() {
+    Parent p1 = this.p1.get();
+    this.commitAndReOpen();
+    try {
+      // p1 is disconnected now (UoW is open, but p1 is not in it)
+      Assert.assertEquals(0, p1.getChilds().size());
+      Assert.fail();
+    } catch (IllegalStateException ise) {
+      Assert.assertEquals("Instance has been disconnected from the UoW: Parent[1]", ise.getMessage());
+    }
+  }
+
 }

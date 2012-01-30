@@ -21,7 +21,7 @@ public abstract class InheritanceAOwnerCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<InheritanceAOwner, InheritanceABase> inheritanceABases = new ForeignKeyListHolder<InheritanceAOwner, InheritanceABase>((InheritanceAOwner) this, Aliases.inheritanceABase(), Aliases.inheritanceABase().inheritanceAOwner, new InheritanceABasesListDelegate());
+  private final ForeignKeyListHolder<InheritanceAOwner, InheritanceABase> inheritanceABases = new ForeignKeyListHolder<InheritanceAOwner, InheritanceABase>((InheritanceAOwner) this, Aliases.inheritanceABase(), Aliases.inheritanceABase().inheritanceAOwner, new InheritanceABasesListDelegate());
   protected Changed changed;
 
   static {

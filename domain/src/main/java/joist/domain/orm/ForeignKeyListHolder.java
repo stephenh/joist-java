@@ -71,7 +71,11 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
             // some (or potentially none yet) children were fetched, but our parent wasn't in the UoW at the time
             Collection<Long> alreadyFetchedIds = byParentId.keySet();
             FluentList<Long> allParentIds = Copy.list(UoW.getIdentityMap().getIdsOf(this.parent.getClass()));
-            this.eagerlyLoad(byParentId, allParentIds.without(alreadyFetchedIds));
+            Collection<Long> idsToLoad = allParentIds.without(alreadyFetchedIds);
+            if (!idsToLoad.contains(this.parent.getId())) {
+              throw new IllegalStateException("Instance has been disconnected from the UoW: " + this.parent);
+            }
+            this.eagerlyLoad(byParentId, idsToLoad);
           }
           this.loaded = new ArrayList<U>();
           this.loaded.addAll(byParentId.get(this.parent.getId()));

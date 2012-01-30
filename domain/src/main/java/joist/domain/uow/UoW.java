@@ -192,6 +192,10 @@ public class UoW {
   }
 
   private static void safelyRollbackAndCloseIfNeeded(boolean committed) {
+    if (!UoW.isOpen()) {
+      // UoW.open failed, likely due to bad db connection
+      return;
+    }
     if (!committed) {
       try {
         UoW.rollback();

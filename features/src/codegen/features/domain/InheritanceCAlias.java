@@ -50,7 +50,7 @@ public class InheritanceCAlias extends Alias<InheritanceC> {
   }
 
   public int getOrder() {
-    return 12;
+    return 13;
   }
 
 }

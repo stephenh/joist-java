@@ -21,8 +21,8 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private ForeignKeyListHolder<InheritanceAThing, InheritanceASubOne> inheritanceASubOnes = new ForeignKeyListHolder<InheritanceAThing, InheritanceASubOne>((InheritanceAThing) this, Aliases.inheritanceASubOne(), Aliases.inheritanceASubOne().inheritanceAThing, new InheritanceASubOnesListDelegate());
-  private ForeignKeyListHolder<InheritanceAThing, InheritanceASubTwo> inheritanceASubTwos = new ForeignKeyListHolder<InheritanceAThing, InheritanceASubTwo>((InheritanceAThing) this, Aliases.inheritanceASubTwo(), Aliases.inheritanceASubTwo().inheritanceAThing, new InheritanceASubTwosListDelegate());
+  private final ForeignKeyListHolder<InheritanceAThing, InheritanceASubOne> inheritanceASubOnes = new ForeignKeyListHolder<InheritanceAThing, InheritanceASubOne>((InheritanceAThing) this, Aliases.inheritanceASubOne(), Aliases.inheritanceASubOne().inheritanceAThing, new InheritanceASubOnesListDelegate());
+  private final ForeignKeyListHolder<InheritanceAThing, InheritanceASubTwo> inheritanceASubTwos = new ForeignKeyListHolder<InheritanceAThing, InheritanceASubTwo>((InheritanceAThing) this, Aliases.inheritanceASubTwo(), Aliases.inheritanceASubTwo().inheritanceAThing, new InheritanceASubTwosListDelegate());
   protected Changed changed;
 
   static {

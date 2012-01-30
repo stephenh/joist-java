@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.Child;
 import features.domain.CodeADomainObject;
 import features.domain.GrandChild;
+import features.domain.HistoryEntry;
 import features.domain.InheritanceABase;
 import features.domain.InheritanceAOwner;
 import features.domain.InheritanceASubOne;
@@ -90,6 +91,22 @@ public class Builders {
 
   public static GrandChildBuilder theGrandChild(int id) {
     return new GrandChildBuilder(GrandChild.queries.find((long) id));
+  }
+
+  public static HistoryEntryBuilder aHistoryEntry() {
+    return new HistoryEntryBuilder(new HistoryEntry());
+  }
+
+  public static HistoryEntryBuilder existing(HistoryEntry historyEntry) {
+    return new HistoryEntryBuilder(historyEntry);
+  }
+
+  public static HistoryEntryBuilder theHistoryEntry(long id) {
+    return new HistoryEntryBuilder(HistoryEntry.queries.find(id));
+  }
+
+  public static HistoryEntryBuilder theHistoryEntry(int id) {
+    return new HistoryEntryBuilder(HistoryEntry.queries.find((long) id));
   }
 
   public static InheritanceABaseBuilder existing(InheritanceABase inheritanceABase) {

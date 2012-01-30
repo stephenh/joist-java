@@ -225,7 +225,7 @@ public class GenerateDomainCodegenPass implements Pass {
         continue;
       }
 
-      GField collection = domainCodegen.getField(otmp.getVariableName());
+      GField collection = domainCodegen.getField(otmp.getVariableName()).setFinal();
       collection.type("ForeignKeyListHolder<{}, {}>", entity.getClassName(), otmp.getTargetJavaType());
       collection.initialValue("new ForeignKeyListHolder<{}, {}>(({}) this, Aliases.{}(), Aliases.{}().{}, new {}ListDelegate())",//
         entity.getClassName(),

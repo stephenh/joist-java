@@ -50,7 +50,7 @@ public class ParentAlias extends Alias<Parent> {
   }
 
   public int getOrder() {
-    return 25;
+    return 26;
   }
 
 }

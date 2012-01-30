@@ -23,6 +23,7 @@ import joist.codegen.passes.GenerateFlushFunction;
 import joist.codegen.passes.GenerateQueriesCodegenPass;
 import joist.codegen.passes.GenerateQueriesIfNotExistsPass;
 import joist.codegen.passes.GenerateSchemaHash;
+import joist.codegen.passes.MySqlHistoryTriggersPass;
 import joist.codegen.passes.OutputPass;
 import joist.codegen.passes.Pass;
 import joist.domain.AbstractDomainObject;
@@ -129,6 +130,10 @@ public class CodegenConfig {
 
   public void addPassBeforeOutput(Pass pass) {
     this.passes.add(this.passes.size() - 2, pass);
+  }
+
+  public void includeHistoryTriggers() {
+    this.addPassBeforeOutput(new MySqlHistoryTriggersPass());
   }
 
   public CodegenConfig doNotUseTimeAndMoney() {

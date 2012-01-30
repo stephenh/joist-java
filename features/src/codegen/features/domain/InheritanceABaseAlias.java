@@ -53,7 +53,7 @@ public class InheritanceABaseAlias extends Alias<InheritanceABase> {
   }
 
   public int getOrder() {
-    return 4;
+    return 5;
   }
 
 }
