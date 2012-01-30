@@ -14,6 +14,9 @@ public class JoistCli extends AbstractJoistCli {
     this.codegenConfig.setPropertySkipped("Primitives", "skipped");
     this.codegenConfig.setPropertySkipped("Primitives", "parent");
     GSettings.setDefaultIndentation("  ");
+    if (this.dbAppSaSettings.db.isMySQL()) {
+      this.codegenConfig.includeHistoryTriggers();
+    }
   }
 
 }

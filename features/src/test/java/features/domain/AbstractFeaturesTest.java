@@ -28,4 +28,9 @@ public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
   public void tearDown() {
     super.tearDown();
   }
+
+  protected boolean isMySql() {
+    return Registry.getRepository().getDb().isMySQL();
+  }
+
 }
