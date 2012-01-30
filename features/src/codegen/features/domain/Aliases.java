@@ -7,6 +7,7 @@ public class Aliases {
   private static ChildAlias child;
   private static CodeADomainObjectAlias codeADomainObject;
   private static GrandChildAlias grandChild;
+  private static HistoryEntryAlias historyEntry;
   private static InheritanceABaseAlias inheritanceABase;
   private static InheritanceAOwnerAlias inheritanceAOwner;
   private static InheritanceASubOneAlias inheritanceASubOne;
@@ -71,6 +72,14 @@ public class Aliases {
       AliasRegistry.register(GrandChild.class, grandChild);
     }
     return grandChild;
+  }
+
+  public static HistoryEntryAlias historyEntry() {
+    if (historyEntry == null) {
+      historyEntry = new HistoryEntryAlias("he0");
+      AliasRegistry.register(HistoryEntry.class, historyEntry);
+    }
+    return historyEntry;
   }
 
   public static InheritanceABaseAlias inheritanceABase() {

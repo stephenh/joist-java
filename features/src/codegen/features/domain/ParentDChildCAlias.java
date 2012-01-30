@@ -46,7 +46,7 @@ public class ParentDChildCAlias extends Alias<ParentDChildC> {
   }
 
   public int getOrder() {
-    return 36;
+    return 37;
   }
 
   public <T extends DomainObject> JoinClause<T, ParentDChildC> on(ForeignKeyAliasColumn<T, ParentDChildC> on) {

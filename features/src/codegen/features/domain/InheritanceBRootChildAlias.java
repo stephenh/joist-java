@@ -46,7 +46,7 @@ public class InheritanceBRootChildAlias extends Alias<InheritanceBRootChild> {
   }
 
   public int getOrder() {
-    return 11;
+    return 12;
   }
 
 }
