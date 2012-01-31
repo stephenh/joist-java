@@ -23,6 +23,7 @@ import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Delete;
 import joist.domain.orm.queries.Select;
 import joist.domain.validation.Validator;
+import joist.jdbc.Jdbc;
 
 /** Coordinates validation, object identity, and storing/retrieving domain objects.
  *
@@ -36,18 +37,22 @@ public class UnitOfWork {
   private final EagerCache eagerCache = new EagerCache();
   private final Repository repo;
   private final Connection connection;
-  private final Updater updater;
   private final Db db;
+  private Updater updater;
 
   public UnitOfWork(final Repository repo, final Connection connection, Updater updater) {
     this.repo = repo;
     this.connection = connection;
     this.updater = updater;
     this.db = repo.getDb();
+    this.setUpdater(updater);
   }
 
   void close() {
     try {
+      // clear the user variable so it doesn't leak into other connections
+      // (which it will since our connection is pooled)
+      this.setUpdater(null);
       this.connection.close();
     } catch (SQLException se) {
       throw new RuntimeException(se);
@@ -75,6 +80,22 @@ public class UnitOfWork {
     } catch (SQLException se) {
       throw new RuntimeException(se);
     }
+  }
+
+  void setUpdater(Updater updater) {
+    if (this.db.isPg()) {
+      // pg isn't supported yet
+      return;
+    }
+    if (updater == null) {
+      // only issue the unset if we had a different updater
+      if (this.updater != null) {
+        Jdbc.update(this.connection, "set @updater=null");
+      }
+    } else {
+      Jdbc.update(this.connection, "set @updater='{}'", updater.getUpdaterId());
+    }
+    this.updater = updater;
   }
 
   IdentityMap getIdentityMap() {

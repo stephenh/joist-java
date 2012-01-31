@@ -10,4 +10,10 @@ public class NamedUpdater implements Updater {
   public String getUpdaterId() {
     return this.name;
   }
+
+  @Override
+  public String toString() {
+    return this.name;
+  }
+
 }
