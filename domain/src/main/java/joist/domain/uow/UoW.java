@@ -156,6 +156,11 @@ public class UoW {
     return UoW.getCurrent().load(type, id);
   }
 
+  /** Changes the updater for the current UoW. */
+  public static void setUpdater(Updater updater) {
+    UoW.getCurrent().setUpdater(updater);
+  }
+
   public static IdentityMap getIdentityMap() {
     return UoW.getCurrent().getIdentityMap();
   }

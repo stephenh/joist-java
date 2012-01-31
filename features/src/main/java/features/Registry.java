@@ -29,7 +29,7 @@ public class Registry {
 
     // pg
     // SystemProperties.loadFromFileIfExists("./build-pg.properties");
-    // Repository.configure(Db.PG, "features");
+    // this.repository = new Repository(Db.PG, "features");
   }
 
 }

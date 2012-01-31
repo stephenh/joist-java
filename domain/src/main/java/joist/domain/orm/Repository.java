@@ -9,7 +9,6 @@ import joist.domain.uow.UnitOfWork;
 import joist.domain.util.ConnectionSettings;
 import joist.domain.util.pools.MySqlC3p0Factory;
 import joist.domain.util.pools.Pgc3p0Factory;
-import joist.jdbc.Jdbc;
 import joist.util.Reflection;
 
 /** An app-wide instance for the application's db + datasource. */
@@ -41,14 +40,10 @@ public class Repository {
    *
    * Caller is responsible for calling commit/close on the returned instance.
    */
-  public UnitOfWork open(final Updater updater) {
+  public UnitOfWork open(Updater updater) {
     try {
       Connection connection = this.datasource.getConnection();
       connection.setAutoCommit(false);
-      if (updater != null && this.db.isMySQL()) {
-        // pg doesn't have session variables
-        Jdbc.update(connection, "set @updater='{}'", updater.getUpdaterId());
-      }
       return new UnitOfWork(this, connection, updater);
     } catch (SQLException se) {
       throw new RuntimeException(se);
