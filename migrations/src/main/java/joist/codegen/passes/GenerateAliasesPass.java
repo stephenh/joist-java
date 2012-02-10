@@ -215,24 +215,24 @@ public class GenerateAliasesPass implements Pass {
   private List<Entity> getEntitiesSortedByForeignKeys(Codegen codegen) {
     TopologicalSort<Entity> ts = new TopologicalSort<Entity>();
     for (Entity entity : codegen.getEntities().values()) {
-      ts.addNode(entity);
+      if (!entity.isCodeEntity()) {
+        ts.addNode(entity);
+      }
     }
     for (Entity entity : codegen.getEntities().values()) {
       if (entity.isSubclass()) {
         ts.addDependency(entity, entity.getBaseEntity());
       }
       for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
-        if (mtop.isNotNull()) {
+        if (mtop.isNotNull() && !mtop.getOneSide().isCodeEntity()) {
           ts.addDependency(entity, mtop.getOneSide());
-          // child classes of entity should go here too
         }
       }
     }
     for (Entity entity : codegen.getEntities().values()) {
       for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
-        if (!mtop.isNotNull()) {
+        if (!mtop.isNotNull() && !mtop.getOneSide().isCodeEntity()) {
           ts.addDependencyIfNoCycle(entity, mtop.getOneSide());
-          // child classes of entity should go here too
         }
       }
     }
