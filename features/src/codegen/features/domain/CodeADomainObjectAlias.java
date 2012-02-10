@@ -48,7 +48,7 @@ public class CodeADomainObjectAlias extends Alias<CodeADomainObject> {
   }
 
   public int getOrder() {
-    return 2;
+    return 0;
   }
 
 }

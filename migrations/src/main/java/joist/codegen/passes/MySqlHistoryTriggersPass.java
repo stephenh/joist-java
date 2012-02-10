@@ -72,7 +72,7 @@ public class MySqlHistoryTriggersPass implements Pass {
 
   private void createInsertTrigger(Codegen codegen, String tableName) {
     StringBuilderr sql = new StringBuilderr();
-    sql.line("CREATE TRIGGER {}_history_insert AFTER {} ON {}", tableName, "INSERT", tableName);
+    sql.line("CREATE TRIGGER {}_history_insert AFTER INSERT ON {}", tableName, tableName);
     sql.line("FOR EACH ROW");
     sql.line("BEGIN");
     sql.line(" INSERT INTO {}", this.historyTableName);
@@ -85,7 +85,7 @@ public class MySqlHistoryTriggersPass implements Pass {
 
   private void createDeleteTrigger(Codegen codegen, String tableName) {
     StringBuilderr sql = new StringBuilderr();
-    sql.line("CREATE TRIGGER {}_history_delete AFTER {} ON {}", tableName, "DELETE", tableName);
+    sql.line("CREATE TRIGGER {}_history_delete AFTER DELETE ON {}", tableName, tableName);
     sql.line("FOR EACH ROW");
     sql.line("BEGIN");
     sql.line(" INSERT INTO {}", this.historyTableName);
@@ -98,7 +98,7 @@ public class MySqlHistoryTriggersPass implements Pass {
 
   private void createUpdateTrigger(Codegen codegen, String tableName, String rootTableName) {
     StringBuilderr sql = new StringBuilderr();
-    sql.line("CREATE TRIGGER {}_history_update AFTER {} ON {}", tableName, "UPDATE", tableName);
+    sql.line("CREATE TRIGGER {}_history_update AFTER UPDATE ON {}", tableName, tableName);
     sql.line("FOR EACH ROW");
     sql.line("BEGIN");
     for (InformationSchemaColumn c : this.columnsForTable(codegen, tableName)) {

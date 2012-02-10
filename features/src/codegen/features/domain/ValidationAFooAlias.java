@@ -43,7 +43,7 @@ public class ValidationAFooAlias extends Alias<ValidationAFoo> {
   }
 
   public int getOrder() {
-    return 43;
+    return 41;
   }
 
 }

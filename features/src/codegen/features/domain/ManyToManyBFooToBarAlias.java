@@ -45,7 +45,7 @@ public class ManyToManyBFooToBarAlias extends Alias<ManyToManyBFooToBar> {
   }
 
   public int getOrder() {
-    return 21;
+    return 19;
   }
 
 }

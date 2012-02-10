@@ -59,7 +59,7 @@ public class HistoryEntryAlias extends Alias<HistoryEntry> {
   }
 
   public int getOrder() {
-    return 3;
+    return 1;
   }
 
 }
