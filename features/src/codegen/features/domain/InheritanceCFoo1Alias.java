@@ -52,7 +52,7 @@ public class InheritanceCFoo1Alias extends Alias<InheritanceCFoo1> {
   }
 
   public int getOrder() {
-    return 13;
+    return 14;
   }
 
 }
