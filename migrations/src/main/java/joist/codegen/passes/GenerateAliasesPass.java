@@ -54,7 +54,7 @@ public class GenerateAliasesPass implements Pass {
       this.addManyToOneColumns(codegen, aliasClass, entity);
       this.addInheritedColumns(aliasClass, entity);
 
-      this.addOrderMethod(aliasClass, this.getMinOrder(sorted, entity));
+      this.addOrderMethod(aliasClass, sorted.indexOf(entity));
 
       this.addAliasesField(aliasesClass, entity);
     }
@@ -242,16 +242,6 @@ public class GenerateAliasesPass implements Pass {
   private void addOrderMethod(GClass aliasClass, int index) {
     GMethod order = aliasClass.getMethod("getOrder").returnType(int.class);
     order.body.line("return {};", index);
-  }
-
-  private int getMinOrder(List<Entity> sorted, Entity entity) {
-    int min = sorted.indexOf(entity);
-    Entity current = entity;
-    while (current.getBaseEntity() != null) {
-      current = current.getBaseEntity();
-      min = Math.min(min, sorted.indexOf(current));
-    }
-    return min;
   }
 
   private void addAliasesField(GClass aliasesClass, Entity entity) {
