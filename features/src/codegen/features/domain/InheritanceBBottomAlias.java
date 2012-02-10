@@ -54,7 +54,7 @@ public class InheritanceBBottomAlias extends Alias<InheritanceBBottom> {
   }
 
   public int getOrder() {
-    return 11;
+    return 9;
   }
 
 }

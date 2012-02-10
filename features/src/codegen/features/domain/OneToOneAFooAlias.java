@@ -50,7 +50,7 @@ public class OneToOneAFooAlias extends Alias<OneToOneAFoo> {
   }
 
   public int getOrder() {
-    return 22;
+    return 20;
   }
 
 }
