@@ -22,7 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MySqlHistoryTriggersPass implements Pass {
 
-  private final Set<Pattern> excluded = new HashSet<Pattern>();
+  private final Set<Pattern> skippedTables = new HashSet<Pattern>();
+  private final Set<Pattern> skippedColumns = new HashSet<Pattern>();
   private final String historyTableName;
 
   public MySqlHistoryTriggersPass() {
@@ -31,7 +32,7 @@ public class MySqlHistoryTriggersPass implements Pass {
 
   public MySqlHistoryTriggersPass(String historyTableName) {
     this.historyTableName = historyTableName;
-    this.addDoNotAudit(historyTableName);
+    this.skipTable(historyTableName);
   }
 
   public void pass(Codegen codegen) {
@@ -49,15 +50,29 @@ public class MySqlHistoryTriggersPass implements Pass {
     }
   }
 
-  public void addDoNotAudit(String... regexes) {
-    for (String regex : regexes) {
-      this.excluded.add(Pattern.compile(regex));
-    }
+  /** @param regex regular expression of tables to ignore, {@code some_table} */
+  public void skipTable(String regex) {
+    this.skippedTables.add(Pattern.compile(regex));
   }
 
-  private boolean shouldCreateTrigger(String table) {
-    for (Pattern pattern : this.excluded) {
-      if (pattern.matcher(table).matches()) {
+  /** @param regex regular expression of columns to ignore, {@code some_table.the_column} */
+  public void skipColumn(String regex) {
+    this.skippedColumns.add(Pattern.compile(regex));
+  }
+
+  private boolean shouldCreateTrigger(String tableName) {
+    for (Pattern pattern : this.skippedTables) {
+      if (pattern.matcher(tableName).matches()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private boolean shouldCreateTrigger(String tableName, String columnName) {
+    String matchAgainst = tableName + "." + columnName;
+    for (Pattern pattern : this.skippedTables) {
+      if (pattern.matcher(matchAgainst).matches()) {
         return false;
       }
     }
@@ -102,7 +117,7 @@ public class MySqlHistoryTriggersPass implements Pass {
     sql.line("FOR EACH ROW");
     sql.line("BEGIN");
     for (InformationSchemaColumn c : this.columnsForTable(codegen, tableName)) {
-      if (c.name.equals("version")) {
+      if (c.name.equals("version") || !this.shouldCreateTrigger(tableName, c.name)) {
         continue;
       }
       sql.line("IF NOT NEW.{} <=> OLD.{} THEN", c.name, c.name);
