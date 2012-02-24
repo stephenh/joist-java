@@ -71,7 +71,7 @@ public class MySqlHistoryTriggersPass implements Pass {
 
   private boolean shouldCreateTrigger(String tableName, String columnName) {
     String matchAgainst = tableName + "." + columnName;
-    for (Pattern pattern : this.skippedTables) {
+    for (Pattern pattern : this.skippedColumns) {
       if (pattern.matcher(matchAgainst).matches()) {
         return false;
       }
