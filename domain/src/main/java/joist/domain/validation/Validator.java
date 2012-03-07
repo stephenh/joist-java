@@ -62,4 +62,8 @@ public class Validator {
     return this.queue;
   }
 
+  public Set<DomainObject> getDequeue() {
+    return this.dequeue;
+  }
+
 }
