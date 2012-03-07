@@ -55,11 +55,11 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
 
   public void setBlue(ManyToManyBFoo blue) {
     if (this.blue.get() != null) {
-       this.blue.get().removeBlueManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
+      this.blue.get().removeBlueManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
     }
     this.setBlueWithoutPercolation(blue);
     if (this.blue.get() != null) {
-       this.blue.get().addBlueManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
+      this.blue.get().addBlueManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
     }
   }
 
@@ -74,11 +74,11 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
 
   public void setGreen(ManyToManyBBar green) {
     if (this.green.get() != null) {
-       this.green.get().removeGreenManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
+      this.green.get().removeGreenManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
     }
     this.setGreenWithoutPercolation(green);
     if (this.green.get() != null) {
-       this.green.get().addGreenManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
+      this.green.get().addGreenManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
     }
   }
 

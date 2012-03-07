@@ -1,5 +1,7 @@
 package features.domain;
 
+import joist.domain.ValidationAssert;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -48,6 +50,17 @@ public class OneToOneATest extends AbstractFeaturesTest {
     Assert.assertEquals("foo", bar1.getOneToOneBFoo().getName());
     bar2 = this.reload(bar2);
     Assert.assertEquals("foo", bar2.getOneToOneBFoo().getName());
+  }
+
+  @Test
+  public void testUnset() {
+    OneToOneABar bar = new OneToOneABar("bar");
+    OneToOneAFoo foo = new OneToOneAFoo("foo");
+    bar.setOneToOneAFoo(foo);
+    this.commitAndReOpen();
+
+    bar.setOneToOneAFoo(null);
+    ValidationAssert.assertErrors(bar, "One To One AFoo is required");
   }
 
 }

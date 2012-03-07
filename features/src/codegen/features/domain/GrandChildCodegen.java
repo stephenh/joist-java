@@ -70,11 +70,11 @@ public abstract class GrandChildCodegen extends AbstractDomainObject {
 
   public void setChild(Child child) {
     if (this.child.get() != null) {
-       this.child.get().removeGrandChildWithoutPercolation((GrandChild) this);
+      this.child.get().removeGrandChildWithoutPercolation((GrandChild) this);
     }
     this.setChildWithoutPercolation(child);
     if (this.child.get() != null) {
-       this.child.get().addGrandChildWithoutPercolation((GrandChild) this);
+      this.child.get().addGrandChildWithoutPercolation((GrandChild) this);
     }
   }
 

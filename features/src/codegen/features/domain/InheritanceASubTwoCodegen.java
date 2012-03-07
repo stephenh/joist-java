@@ -46,11 +46,11 @@ public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
 
   public void setInheritanceAThing(InheritanceAThing inheritanceAThing) {
     if (this.inheritanceAThing.get() != null) {
-       this.inheritanceAThing.get().removeInheritanceASubTwoWithoutPercolation((InheritanceASubTwo) this);
+      this.inheritanceAThing.get().removeInheritanceASubTwoWithoutPercolation((InheritanceASubTwo) this);
     }
     this.setInheritanceAThingWithoutPercolation(inheritanceAThing);
     if (this.inheritanceAThing.get() != null) {
-       this.inheritanceAThing.get().addInheritanceASubTwoWithoutPercolation((InheritanceASubTwo) this);
+      this.inheritanceAThing.get().addInheritanceASubTwoWithoutPercolation((InheritanceASubTwo) this);
     }
   }
 

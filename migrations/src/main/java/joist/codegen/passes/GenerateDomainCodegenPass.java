@@ -153,19 +153,21 @@ public class GenerateDomainCodegenPass implements Pass {
       setter.argument(mtop.getJavaType(), mtop.getVariableName());
       if (!mtop.getOneSide().isCodeEntity() && !mtop.getOneToManyProperty().isCollectionSkipped()) {
         setter.body.line("if (this.{}.get() != null) {", mtop.getVariableName());
-        setter.body.line("   this.{}.get().remove{}WithoutPercolation(({}) this);",//
+        setter.body.line("_   this.{}.get().remove{}WithoutPercolation(({}) this);",//
           mtop.getVariableName(),
           mtop.getOneToManyProperty().getCapitalVariableNameSingular(),
           entity.getClassName());
         setter.body.line("}");
         if (mtop.getOneToManyProperty().isOneToOne()) {
-          setter.body.line("{}.set{}(null);", mtop.getVariableName(), mtop.getOneToManyProperty().getCapitalVariableNameSingular());
+          setter.body.line("if ({} != null) {", mtop.getVariableName());
+          setter.body.line("_   {}.set{}(null);", mtop.getVariableName(), mtop.getOneToManyProperty().getCapitalVariableNameSingular());
+          setter.body.line("}");
         }
       }
       setter.body.line("this.set{}WithoutPercolation({});", mtop.getCapitalVariableName(), mtop.getVariableName());
       if (!mtop.getOneSide().isCodeEntity() && !mtop.getOneToManyProperty().isCollectionSkipped()) {
         setter.body.line("if (this.{}.get() != null) {", mtop.getVariableName());
-        setter.body.line("   this.{}.get().add{}WithoutPercolation(({}) this);",//
+        setter.body.line("_   this.{}.get().add{}WithoutPercolation(({}) this);",//
           mtop.getVariableName(),
           mtop.getOneToManyProperty().getCapitalVariableNameSingular(),
           entity.getClassName());
