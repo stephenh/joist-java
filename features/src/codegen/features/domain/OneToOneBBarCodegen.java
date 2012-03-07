@@ -70,11 +70,11 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
 
   public void setOneToOneBFoo(OneToOneBFoo oneToOneBFoo) {
     if (this.oneToOneBFoo.get() != null) {
-       this.oneToOneBFoo.get().removeOneToOneBBarWithoutPercolation((OneToOneBBar) this);
+      this.oneToOneBFoo.get().removeOneToOneBBarWithoutPercolation((OneToOneBBar) this);
     }
     this.setOneToOneBFooWithoutPercolation(oneToOneBFoo);
     if (this.oneToOneBFoo.get() != null) {
-       this.oneToOneBFoo.get().addOneToOneBBarWithoutPercolation((OneToOneBBar) this);
+      this.oneToOneBFoo.get().addOneToOneBBarWithoutPercolation((OneToOneBBar) this);
     }
   }
 

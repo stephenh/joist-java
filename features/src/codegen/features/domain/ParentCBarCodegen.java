@@ -72,11 +72,11 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
 
   public void setFirstParent(ParentCFoo firstParent) {
     if (this.firstParent.get() != null) {
-       this.firstParent.get().removeFirstParentParentCBarWithoutPercolation((ParentCBar) this);
+      this.firstParent.get().removeFirstParentParentCBarWithoutPercolation((ParentCBar) this);
     }
     this.setFirstParentWithoutPercolation(firstParent);
     if (this.firstParent.get() != null) {
-       this.firstParent.get().addFirstParentParentCBarWithoutPercolation((ParentCBar) this);
+      this.firstParent.get().addFirstParentParentCBarWithoutPercolation((ParentCBar) this);
     }
   }
 
@@ -91,11 +91,11 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
 
   public void setSecondParent(ParentCFoo secondParent) {
     if (this.secondParent.get() != null) {
-       this.secondParent.get().removeSecondParentParentCBarWithoutPercolation((ParentCBar) this);
+      this.secondParent.get().removeSecondParentParentCBarWithoutPercolation((ParentCBar) this);
     }
     this.setSecondParentWithoutPercolation(secondParent);
     if (this.secondParent.get() != null) {
-       this.secondParent.get().addSecondParentParentCBarWithoutPercolation((ParentCBar) this);
+      this.secondParent.get().addSecondParentParentCBarWithoutPercolation((ParentCBar) this);
     }
   }
 
