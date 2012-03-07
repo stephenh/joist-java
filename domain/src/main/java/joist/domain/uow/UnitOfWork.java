@@ -98,18 +98,6 @@ public class UnitOfWork {
     this.updater = updater;
   }
 
-  IdentityMap getIdentityMap() {
-    return this.identityMap;
-  }
-
-  EagerCache getEagerCache() {
-    return this.eagerCache;
-  }
-
-  Connection getConnection() {
-    return this.connection;
-  }
-
   <T extends DomainObject> T load(Class<T> type, Long id) {
     T instance = (T) this.identityMap.findOrNull(type, id);
     if (instance == null) {
@@ -138,7 +126,36 @@ public class UnitOfWork {
     }
   }
 
-  void store(Set<DomainObject> instances) {
+  /** Queues <code>instance</code> for validation on flush. */
+  void enqueue(DomainObject instance) {
+    this.validator.enqueue(instance);
+  }
+
+  IdentityMap getIdentityMap() {
+    return this.identityMap;
+  }
+
+  EagerCache getEagerCache() {
+    return this.eagerCache;
+  }
+
+  Connection getConnection() {
+    return this.connection;
+  }
+
+  Db getDb() {
+    return this.db;
+  }
+
+  Repository getRepository() {
+    return this.repo;
+  }
+
+  Updater getUpdater() {
+    return this.updater;
+  }
+
+  private void store(Set<DomainObject> instances) {
     if (this.db.isPg()) {
       // pg can bulk assign ids, then just do insert+update, unsorted thanks to initially deferred
       SortInstancesPg sorted = new SortInstancesPg(instances);
@@ -164,20 +181,4 @@ public class UnitOfWork {
     }
   }
 
-  /** Queues <code>instance</code> for validation on flush. */
-  void enqueue(DomainObject instance) {
-    this.validator.enqueue(instance);
-  }
-
-  Db getDb() {
-    return this.db;
-  }
-
-  Repository getRepository() {
-    return this.repo;
-  }
-
-  Updater getUpdater() {
-    return this.updater;
-  }
 }
