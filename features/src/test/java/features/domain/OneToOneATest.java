@@ -63,4 +63,31 @@ public class OneToOneATest extends AbstractFeaturesTest {
     ValidationAssert.assertErrors(bar, "One To One AFoo is required");
   }
 
+  @Test
+  public void testDeleteInOrder() {
+    // bar has a fk column to foo
+    OneToOneABar bar = new OneToOneABar("bar");
+    OneToOneAFoo foo = new OneToOneAFoo("foo");
+    bar.setOneToOneAFoo(foo);
+    this.commitAndReOpen();
+    // so it's okay if we delete bar first
+    OneToOneABar.queries.delete(this.reload(bar));
+    OneToOneAFoo.queries.delete(this.reload(foo));
+  }
+
+  @Test
+  public void testDeleteOutOfOrder() {
+    // bar has a fk column to foo
+    OneToOneABar bar = new OneToOneABar("bar");
+    OneToOneAFoo foo = new OneToOneAFoo("foo");
+    bar.setOneToOneAFoo(foo);
+    this.commitAndReOpen();
+    // it should also be okay to delete foo first, but it means
+    // queueing the delete until the flush (which joist didn't
+    // always do)
+    OneToOneAFoo.queries.delete(this.reload(foo));
+    OneToOneABar.queries.delete(this.reload(bar));
+    this.commitAndReOpen();
+  }
+
 }

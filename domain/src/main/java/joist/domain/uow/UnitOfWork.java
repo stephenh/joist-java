@@ -2,6 +2,9 @@ package joist.domain.uow;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -61,6 +64,7 @@ public class UnitOfWork {
 
   void flush() {
     this.validator.validate();
+    this.delete(new ArrayList<DomainObject>(this.validator.getDequeue()));
     this.store(this.validator.getQueue());
     this.validator.resetQueueAndChangedProperties();
   }
@@ -98,18 +102,6 @@ public class UnitOfWork {
     this.updater = updater;
   }
 
-  IdentityMap getIdentityMap() {
-    return this.identityMap;
-  }
-
-  EagerCache getEagerCache() {
-    return this.eagerCache;
-  }
-
-  Connection getConnection() {
-    return this.connection;
-  }
-
   <T extends DomainObject> T load(Class<T> type, Long id) {
     T instance = (T) this.identityMap.findOrNull(type, id);
     if (instance == null) {
@@ -125,20 +117,40 @@ public class UnitOfWork {
   }
 
   void delete(DomainObject instance) {
+    // we'll do the actual delete in flush
     this.validator.dequeue(instance);
-    Alias<? super DomainObject> current = AliasRegistry.get(instance);
-    while (current != null) {
-      // ugly hack
-      if (current.isRootClass()) {
-        Delete.from(current).where(current.getIdColumn().eq(instance)).execute();
-      } else {
-        Delete.from(current).where(current.getSubClassIdColumn().eq(instance)).execute();
-      }
-      current = current.getBaseClassAlias();
-    }
   }
 
-  void store(Set<DomainObject> instances) {
+  /** Queues <code>instance</code> for validation on flush. */
+  void enqueue(DomainObject instance) {
+    this.validator.enqueue(instance);
+  }
+
+  IdentityMap getIdentityMap() {
+    return this.identityMap;
+  }
+
+  EagerCache getEagerCache() {
+    return this.eagerCache;
+  }
+
+  Connection getConnection() {
+    return this.connection;
+  }
+
+  Db getDb() {
+    return this.db;
+  }
+
+  Repository getRepository() {
+    return this.repo;
+  }
+
+  Updater getUpdater() {
+    return this.updater;
+  }
+
+  private void store(Set<DomainObject> instances) {
     if (this.db.isPg()) {
       // pg can bulk assign ids, then just do insert+update, unsorted thanks to initially deferred
       SortInstancesPg sorted = new SortInstancesPg(instances);
@@ -164,20 +176,28 @@ public class UnitOfWork {
     }
   }
 
-  /** Queues <code>instance</code> for validation on flush. */
-  void enqueue(DomainObject instance) {
-    this.validator.enqueue(instance);
+  private void delete(List<DomainObject> instances) {
+    if (this.db.isMySQL()) {
+      // sort by reverse order
+      Collections.sort(instances, new Comparator<DomainObject>() {
+        public int compare(DomainObject o1, DomainObject o2) {
+          return AliasRegistry.get(o2).getOrder() - AliasRegistry.get(o1).getOrder();
+        }
+      });
+    }
+    // no batch deletes for now
+    for (DomainObject instance : instances) {
+      Alias<? super DomainObject> current = AliasRegistry.get(instance);
+      while (current != null) {
+        // ugly hack
+        if (current.isRootClass()) {
+          Delete.from(current).where(current.getIdColumn().eq(instance)).execute();
+        } else {
+          Delete.from(current).where(current.getSubClassIdColumn().eq(instance)).execute();
+        }
+        current = current.getBaseClassAlias();
+      }
+    }
   }
 
-  Db getDb() {
-    return this.db;
-  }
-
-  Repository getRepository() {
-    return this.repo;
-  }
-
-  Updater getUpdater() {
-    return this.updater;
-  }
 }
