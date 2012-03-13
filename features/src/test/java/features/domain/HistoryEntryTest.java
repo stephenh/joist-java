@@ -34,12 +34,12 @@ public class HistoryEntryTest extends AbstractFeaturesTest {
     this.commitAndReOpen();
 
     p = this.reload(p);
-    p.setName("n2");
+    p.setName("N1");
     p.setFlag(false);
     this.commitAndReOpen();
 
     assertEntry(2, "update", 1, "primitives", "flag", "true", "false", "testing");
-    assertEntry(3, "update", 1, "primitives", "name", "n1", "n2", "testing");
+    assertEntry(3, "update", 1, "primitives", "name", "n1", "N1", "testing");
   }
 
   @Test
