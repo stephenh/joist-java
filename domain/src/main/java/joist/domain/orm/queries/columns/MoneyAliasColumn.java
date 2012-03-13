@@ -21,7 +21,7 @@ public class MoneyAliasColumn<T extends DomainObject> extends AliasColumn<T, Mon
     if (jdbcValue == null) {
       return null;
     }
-    return Money.dollars(jdbcValue.intValue() / 100);
+    return Money.dollars(jdbcValue.intValue() / 100.0);
   }
 
   @Override
