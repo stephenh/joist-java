@@ -120,7 +120,7 @@ public class MySqlHistoryTriggersPass implements Pass {
       if (c.name.equals("version") || !this.shouldCreateTrigger(tableName, c.name)) {
         continue;
       }
-      sql.line("IF NOT NEW.{} <=> OLD.{} THEN", c.name, c.name);
+      sql.line("IF NOT BINARY NEW.{} <=> BINARY OLD.{} THEN", c.name, c.name);
       sql.line(" INSERT INTO {}", this.historyTableName);
       sql.line("  (type, root_table_name, primary_key, property_name, old_value, new_value, updater, update_time, version)");
       sql.line(" VALUES");
