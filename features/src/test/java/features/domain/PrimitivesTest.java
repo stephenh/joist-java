@@ -104,4 +104,12 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     Assert.assertEquals("foo1", p.getName());
   }
 
+  @Test
+  public void testWithIdAndWithoutId() {
+    new Primitives("a");
+    Primitives b = new Primitives("b");
+    b.setId(10l);
+    this.commitAndReOpen();
+    Assert.assertEquals(2l, Primitives.queries.count());
+  }
 }

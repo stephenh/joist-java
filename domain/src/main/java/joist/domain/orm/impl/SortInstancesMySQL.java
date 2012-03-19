@@ -31,7 +31,12 @@ public class SortInstancesMySQL {
       }
     }
     this.insertsByForeignKey.addAll(this.insertNewIds.keySet());
-    this.insertsByForeignKey.addAll(this.insertHasIds.keySet());
+    // insertsByForeignKey should really be a set, but then we can't sort it
+    for (Class<DomainObject> clazz : this.insertHasIds.keySet()) {
+      if (!this.insertsByForeignKey.contains(clazz)) {
+        this.insertsByForeignKey.add(clazz);
+      }
+    }
     Collections.sort(this.insertsByForeignKey, new Comparator<Class<DomainObject>>() {
       public int compare(Class<DomainObject> o1, Class<DomainObject> o2) {
         return AliasRegistry.get(o1).getOrder() - AliasRegistry.get(o2).getOrder();
