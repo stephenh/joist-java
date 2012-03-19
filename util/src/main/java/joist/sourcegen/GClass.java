@@ -134,7 +134,11 @@ public class GClass {
 
   /** Takes arg0 + _args to differentiate from getConstructor(String... typeAndNames) */
   public GMethod getConstructor(Argument arg0, Argument... _args) {
-    List<Argument> args = Copy.list(arg0).with(_args).map(new Function1<Argument, Argument>() {
+    return this.getConstructor(Copy.list(arg0).with(_args));
+  }
+
+  public GMethod getConstructor(List<Argument> _args) {
+    List<Argument> args = Copy.list(_args).map(new Function1<Argument, Argument>() {
       public Argument apply(Argument p1) {
         return p1.importIfPossible(GClass.this);
       }
