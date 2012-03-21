@@ -51,7 +51,7 @@ public class GDirectory {
       }
 
       file.getParentFile().mkdirs();
-      log.debug("Saving {}", file);
+      log.info("Saving {}", file);
       Write.toFile(file, newCode);
       this.touched.add(file);
     }
