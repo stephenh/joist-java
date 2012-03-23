@@ -20,6 +20,8 @@ import joist.util.StringBuilderr;
 
 public class GClass {
 
+  private static final Pattern classNameWithoutGenerics = Pattern.compile("(([a-z][a-zA-Z0-9_]*\\.)*)([A-Z][a-zA-Z0-9_]+)");
+
   public final StringBuilderr staticInitializer = new StringBuilderr();
   private final String packageName;
   private final String shortName;
@@ -40,10 +42,9 @@ public class GClass {
   protected boolean isInterface = false;
   private String baseClassName = null;
   private GClass outerClass;
-  private static final Pattern classNameWithoutGenerics = Pattern.compile("(([a-z][a-zA-Z0-9_]*\\.)*)([A-Z][a-zA-Z0-9_]+)");
 
   public GClass(String fullClassName) {
-    String[] name = this.parseClassName(fullClassName);
+    String[] name = parseClassName(fullClassName);
     this.packageName = name[0];
     this.shortName = name[2];
   }
@@ -361,7 +362,7 @@ public class GClass {
       return this;
     }
     for (String importClassName : importClassNames) {
-      String[] name = this.parseClassName(importClassName);
+      String[] name = parseClassName(importClassName);
       String packageName = name[0];
       if (packageName == null || packageName.equals(this.packageName) || "java.lang".equals(packageName)) {
         continue;
@@ -445,7 +446,7 @@ public class GClass {
   }
 
   /** @return a tuple of package name, simple name, and simple name with generics */
-  private String[] parseClassName(String fullNameWithPossibleGenerics) {
+  private static String[] parseClassName(String fullNameWithPossibleGenerics) {
     String s = fullNameWithPossibleGenerics.replaceAll("<.+>", ""); // prune generics
     int lastDot = s.lastIndexOf('.');
     if (lastDot == -1) {
