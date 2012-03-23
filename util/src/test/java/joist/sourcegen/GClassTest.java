@@ -274,4 +274,66 @@ public class GClassTest {
       GSettings.setDefaultIndentation("    ");
     }
   }
+
+  @Test
+  public void testEquals() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addEquals();
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "",
+      "    @Override",
+      "    public boolean equals(Object other) {",
+      "        if (other != null && other.getClass().equals(this.getClass())) {",
+      "            final Foo o = (Foo) other;",
+      "            return true",
+      "                && ((o.foo == null && this.foo == null) || (o.foo != null && o.foo.equals(this.foo)))",
+      "                && o.bar == this.bar",
+      "                && java.util.Arrays.deepEquals(o.zaz, this.zaz)",
+      "            ;",
+      "        }",
+      "        return false;",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
+  @Test
+  public void testEqualsSubset() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addEquals("foo", "bar");
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "",
+      "    @Override",
+      "    public boolean equals(Object other) {",
+      "        if (other != null && other.getClass().equals(this.getClass())) {",
+      "            final Foo o = (Foo) other;",
+      "            return true",
+      "                && ((o.foo == null && this.foo == null) || (o.foo != null && o.foo.equals(this.foo)))",
+      "                && o.bar == this.bar",
+      "            ;",
+      "        }",
+      "        return false;",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
 }

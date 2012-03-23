@@ -37,4 +37,8 @@ class ParsedName {
     }
   }
 
+  boolean hasGenerics() {
+    return !(this.simpleName.equals(this.simpleNameWithGenerics));
+  }
+
 }

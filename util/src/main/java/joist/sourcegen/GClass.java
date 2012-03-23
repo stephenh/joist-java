@@ -4,6 +4,8 @@ import static joist.sourcegen.Argument.arg;
 import static joist.util.Inflector.capitalize;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -428,4 +430,47 @@ public class GClass {
     return this;
   }
 
+  public GClass addEquals() {
+    return this.addEquals((Collection<String>) null);
+  }
+
+  public GClass addEquals(String... fieldNames) {
+    return this.addEquals(Arrays.asList(fieldNames));
+  }
+
+  public GClass addEquals(Collection<String> fieldNames) {
+    GMethod equals = this.getMethod("equals", arg("Object", "other")).returnType("boolean").addAnnotation("@Override");
+    if (this.name.hasGenerics()) {
+      equals.addAnnotation("@SuppressWarnings(\"unchecked\")");
+    }
+    equals.body.line("if (other != null && other.getClass().equals(this.getClass())) {");
+    if (this.fields.size() == 0) {
+      equals.body.line("_   return true;");
+    } else {
+      equals.body.line("_   final {} o = ({}) other;", this.name.simpleNameWithGenerics, this.name.simpleNameWithGenerics);
+      equals.body.line("_   return true"); // leave open
+      for (GField field : this.fields) {
+        if (fieldNames != null && !fieldNames.contains(field.getName())) {
+          continue;
+        }
+        if (Primitives.isPrimitive(field.getTypeClassName())) {
+          equals.body.line("_   _   && o.{} == this.{}", field.getName(), field.getName());
+        } else if (field.getTypeClassName().endsWith("[]")) {
+          equals.body.line("_   _   && java.util.Arrays.deepEquals(o.{}, this.{})", field.getName(), field.getName());
+        } else {
+          equals.body.line(
+            "_   _   && ((o.{} == null && this.{} == null) || (o.{} != null && o.{}.equals(this.{})))",
+            field.getName(),
+            field.getName(),
+            field.getName(),
+            field.getName(),
+            field.getName());
+        }
+      }
+      equals.body.line("_   ;"); // finally close
+    }
+    equals.body.line("}");
+    equals.body.line("return false;");
+    return this;
+  }
 }
