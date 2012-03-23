@@ -14,6 +14,16 @@ public class ParsedNameTest {
     assertThat(n.packageName, is("com.foo"));
     assertThat(n.simpleName, is("Type"));
     assertThat(n.simpleNameWithGenerics, is("Type<com.foo.Bar>"));
+    assertThat(n.getFullName(), is("com.foo.Type"));
+  }
+
+  @Test
+  public void testNestedGenerics() {
+    ParsedName n = ParsedName.parse("com.foo.Type<com.foo.Bar<String>>");
+    assertThat(n.packageName, is("com.foo"));
+    assertThat(n.simpleName, is("Type"));
+    assertThat(n.simpleNameWithGenerics, is("Type<com.foo.Bar<String>>"));
+    assertThat(n.getFullName(), is("com.foo.Type"));
   }
 
   @Test
@@ -22,6 +32,7 @@ public class ParsedNameTest {
     assertThat(n.packageName, is(nullValue()));
     assertThat(n.simpleName, is("Type"));
     assertThat(n.simpleNameWithGenerics, is("Type<com.foo.Bar>"));
+    assertThat(n.getFullName(), is("Type"));
   }
 
 }

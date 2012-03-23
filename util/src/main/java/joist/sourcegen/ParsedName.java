@@ -22,4 +22,13 @@ class ParsedName {
     this.simpleName = simpleName;
     this.simpleNameWithGenerics = simpleNameWithGenerics;
   }
+
+  String getFullName() {
+    if (this.packageName == null) {
+      return this.simpleName;
+    } else {
+      return this.packageName + "." + this.simpleName;
+    }
+  }
+
 }

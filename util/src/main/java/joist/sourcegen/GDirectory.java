@@ -24,7 +24,7 @@ public class GDirectory {
   public GClass getClass(String _fullClassName, Object... args) {
     String fullClassName = Interpolate.string(_fullClassName, args);
     for (GClass gc : this.classes) {
-      if (gc.getFullClassName().equals(fullClassName)) {
+      if (gc.isSameClass(fullClassName)) {
         return gc;
       }
     }
@@ -73,7 +73,7 @@ public class GDirectory {
   }
 
   private File getFile(GClass gc) {
-    return this.getFile(gc.getFullClassName());
+    return this.getFile(gc.getFullName());
   }
 
   private File getFile(String fullClassName) {

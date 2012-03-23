@@ -3,7 +3,6 @@ package joist.sourcegen;
 import static joist.sourcegen.Argument.arg;
 import static joist.util.Inflector.capitalize;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,8 +22,7 @@ public class GClass {
   private static final Pattern classNameWithoutGenerics = Pattern.compile("(([a-z][a-zA-Z0-9_]*\\.)*)([A-Z][a-zA-Z0-9_]+)");
 
   public final StringBuilderr staticInitializer = new StringBuilderr();
-  private final String packageName;
-  private final String shortName; // has generics in it
+  private final ParsedName name;
   private final List<GField> fields = new ArrayList<GField>();
   private final List<GMethod> methods = new ArrayList<GMethod>();
   private final List<GClass> innerClasses = new ArrayList<GClass>();
@@ -44,9 +42,7 @@ public class GClass {
   private GClass outerClass;
 
   public GClass(String fullClassName) {
-    ParsedName name = ParsedName.parse(fullClassName);
-    this.packageName = name.packageName;
-    this.shortName = name.simpleNameWithGenerics;
+    this.name = ParsedName.parse(fullClassName);
   }
 
   public GClass setEnum() {
@@ -71,40 +67,16 @@ public class GClass {
     return this;
   }
 
-  public String getSimpleClassName() {
-    return this.shortName;
-  }
-
-  public String getSimpleClassNameWithoutGeneric() {
-    int firstBracket = this.shortName.indexOf('<');
-    if (firstBracket != -1) {
-      return this.shortName.substring(0, firstBracket);
-    }
-    return this.shortName;
-  }
-
-  public String getFullClassName() {
-    if (this.packageName == null) {
-      return this.shortName;
-    }
-    return this.packageName + "." + this.shortName;
-  }
-
-  public String getFullClassNameWithoutGeneric() {
-    if (this.packageName == null) {
-      return this.getSimpleClassNameWithoutGeneric();
-    }
-    return this.packageName + "." + this.getSimpleClassNameWithoutGeneric();
-  }
-
-  public String getPackageName() {
-    return this.packageName;
+  public boolean isSameClass(String fullNameWithOrWithoutGenerics) {
+    // ignore generics when considering whether it's the same class
+    ParsedName otherName = ParsedName.parse(fullNameWithOrWithoutGenerics);
+    return this.name.getFullName().equals(otherName.getFullName());
   }
 
   public GClass getInnerClass(String name, Object... args) {
     name = Interpolate.string(name, args);
     for (GClass gc : this.innerClasses) {
-      if (gc.shortName.equals(name)) {
+      if (gc.isSameClass(name)) {
         return gc;
       }
     }
@@ -128,7 +100,7 @@ public class GClass {
       }
     }
     GMethod constructor = new GMethod(this, "constructor");
-    constructor.arguments(typeAndNames).constructorFor(this.getSimpleClassNameWithoutGeneric());
+    constructor.arguments(typeAndNames).constructorFor(this.getSimpleName());
     this.constructors.add(constructor);
     return constructor;
   }
@@ -149,7 +121,7 @@ public class GClass {
         return cstr;
       }
     }
-    GMethod cstr = new GMethod(this, "constructor").constructorFor(this.getSimpleClassNameWithoutGeneric());
+    GMethod cstr = new GMethod(this, "constructor").constructorFor(this.getSimpleName());
     cstr.arguments(args);
     this.constructors.add(cstr);
     return cstr;
@@ -227,13 +199,13 @@ public class GClass {
 
   public String toCode() {
     StringBuilderr sb = new StringBuilderr();
-    if (this.packageName != null) {
-      sb.line("package {};", this.packageName);
+    if (this.name.packageName != null) {
+      sb.line("package {};", this.name.packageName);
       sb.line();
     }
 
     if (this.isAnonymous) {
-      sb.line("new {}() {", this.shortName);
+      sb.line("new {}() {", this.name.simpleNameWithGenerics);
     } else {
       if (this.imports.size() > 0) {
         for (String importClassName : this.imports) {
@@ -260,7 +232,7 @@ public class GClass {
       } else {
         sb.append("class ");
       }
-      sb.append(this.shortName);
+      sb.append(this.name.simpleNameWithGenerics);
       sb.append(" ");
       if (this.baseClassName != null) {
         sb.append("extends {} ", this.baseClassName);
@@ -364,7 +336,7 @@ public class GClass {
     for (String importClassName : importClassNames) {
       ParsedName name = ParsedName.parse(importClassName);
       String packageName = name.packageName;
-      if (packageName == null || packageName.equals(this.packageName) || "java.lang".equals(packageName)) {
+      if (packageName == null || packageName.equals(this.name.packageName) || "java.lang".equals(packageName)) {
         continue;
       }
       this.imports.add(name.packageName + "." + name.simpleName);
@@ -405,7 +377,7 @@ public class GClass {
         return true;
       }
     }
-    if (simpleName.equals(this.shortName) && !packageName.equals(this.packageName)) {
+    if (simpleName.equals(this.name.simpleName) && !packageName.equals(this.name.packageName)) {
       return true;
     }
     return false;
@@ -422,7 +394,22 @@ public class GClass {
   }
 
   public String toString() {
-    return this.getFullClassName();
+    return this.getFullName();
+  }
+
+  /** @return the package name */
+  public String getPackageName() {
+    return this.name.packageName;
+  }
+
+  /** @return the simple name without generics */
+  public String getSimpleName() {
+    return this.name.simpleName;
+  }
+
+  /** @return the package + simple name without generics */
+  public String getFullName() {
+    return this.name.getFullName();
   }
 
   public GClass implementsInterface(Class<?> interfaceClass) {
@@ -439,10 +426,6 @@ public class GClass {
   public GClass addAnnotation(String annotation, Object... args) {
     this.annotations.add(Interpolate.string(annotation, args));
     return this;
-  }
-
-  public String getFileName() {
-    return this.getFullClassNameWithoutGeneric().replace(".", File.separator) + ".java";
   }
 
 }
