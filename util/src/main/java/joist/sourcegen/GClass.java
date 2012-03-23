@@ -449,10 +449,7 @@ public class GClass {
     } else {
       equals.body.line("_   final {} o = ({}) other;", this.name.simpleNameWithGenerics, this.name.simpleNameWithGenerics);
       equals.body.line("_   return true"); // leave open
-      for (GField field : this.fields) {
-        if (fieldNames != null && !fieldNames.contains(field.getName())) {
-          continue;
-        }
+      for (GField field : filter(this.fields, fieldNames)) {
         if (Primitives.isPrimitive(field.getTypeClassName())) {
           equals.body.line("_   _   && o.{} == this.{}", field.getName(), field.getName());
         } else if (field.getTypeClassName().endsWith("[]")) {
@@ -472,5 +469,78 @@ public class GClass {
     equals.body.line("}");
     equals.body.line("return false;");
     return this;
+  }
+
+  public GClass addHashCode() {
+    return this.addHashCode((Collection<String>) null);
+  }
+
+  public GClass addHashCode(String... fieldNames) {
+    return this.addHashCode(Arrays.asList(fieldNames));
+  }
+
+  public GClass addHashCode(Collection<String> fieldNames) {
+    this.getField("_hashCode").type("Integer");
+    GMethod hashCode = this.getMethod("hashCode").returnType("int").addAnnotation("@Override");
+    hashCode.body.line("if (_hashCode == null) {");
+    hashCode.body.line("_   int hashCode = 23;");
+    hashCode.body.line("_   hashCode = (hashCode * 37) + getClass().hashCode();");
+    for (GField field : filter(this.fields, fieldNames)) {
+      if (field.getName().equals("_hashCode")) {
+        continue;
+      }
+      String prefix = "_   hashCode = (hashCode * 37) + ";
+      if (Primitives.isPrimitive(field.getTypeClassName())) {
+        hashCode.body.line(prefix + "new {}({}).hashCode();", Primitives.getWrapper(field.getTypeClassName()), field.getName());
+      } else if (field.getTypeClassName().endsWith("[]")) {
+        hashCode.body.line(prefix + "java.util.Arrays.deepHashCode({});", field.getName());
+      } else {
+        hashCode.body.line(prefix + "({} == null ? 1 : {}.hashCode());", field.getName(), field.getName());
+      }
+    }
+    hashCode.body.line("_   _hashCode = new Integer(hashCode);");
+    hashCode.body.line("}");
+    hashCode.body.line("return _hashCode.intValue();");
+    return this;
+  }
+
+  public GClass addToString() {
+    return this.addToString((Collection<String>) null);
+  }
+
+  public GClass addToString(String... fieldNames) {
+    return this.addToString(Arrays.asList(fieldNames));
+  }
+
+  public GClass addToString(Collection<String> fieldNames) {
+    GMethod tos = this.getMethod("toString").returnType("String").addAnnotation("@Override");
+    tos.body.line("return \"{}[\"", this.getSimpleName());
+    int i = 0;
+    List<GField> filtered = filter(this.fields, fieldNames);
+    for (GField field : filtered) {
+      if (field.getTypeClassName().endsWith("[]")) {
+        tos.body.line("_   + java.util.Arrays.toString({})", field.getName());
+      } else {
+        tos.body.line("_   + {}", field.getName());
+      }
+      if (++i < filtered.size()) {
+        tos.body.line("_    + \", \"");
+      }
+    }
+    tos.body.line("_    + \"]\";");
+    return this;
+  }
+
+  private static List<GField> filter(List<GField> fields, Collection<String> names) {
+    if (names == null) {
+      return fields;
+    }
+    List<GField> filtered = new ArrayList<GField>();
+    for (GField field : fields) {
+      if (names.contains(field.getName())) {
+        filtered.add(field);
+      }
+    }
+    return filtered;
   }
 }

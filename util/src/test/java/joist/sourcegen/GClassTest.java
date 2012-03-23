@@ -336,4 +336,122 @@ public class GClassTest {
       ""), gc.toCode());
   }
 
+  @Test
+  public void testHashCode() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addHashCode();
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "    private Integer _hashCode;",
+      "",
+      "    @Override",
+      "    public int hashCode() {",
+      "        if (_hashCode == null) {",
+      "            int hashCode = 23;",
+      "            hashCode = (hashCode * 37) + getClass().hashCode();",
+      "            hashCode = (hashCode * 37) + (foo == null ? 1 : foo.hashCode());",
+      "            hashCode = (hashCode * 37) + new Boolean(bar).hashCode();",
+      "            hashCode = (hashCode * 37) + java.util.Arrays.deepHashCode(zaz);",
+      "            _hashCode = new Integer(hashCode);",
+      "        }",
+      "        return _hashCode.intValue();",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
+  @Test
+  public void testHashCodeSubset() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addHashCode("foo", "bar");
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "    private Integer _hashCode;",
+      "",
+      "    @Override",
+      "    public int hashCode() {",
+      "        if (_hashCode == null) {",
+      "            int hashCode = 23;",
+      "            hashCode = (hashCode * 37) + getClass().hashCode();",
+      "            hashCode = (hashCode * 37) + (foo == null ? 1 : foo.hashCode());",
+      "            hashCode = (hashCode * 37) + new Boolean(bar).hashCode();",
+      "            _hashCode = new Integer(hashCode);",
+      "        }",
+      "        return _hashCode.intValue();",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
+  @Test
+  public void testToString() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addToString();
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "",
+      "    @Override",
+      "    public String toString() {",
+      "        return \"Foo[\"",
+      "            + foo",
+      "            + \", \"",
+      "            + bar",
+      "            + \", \"",
+      "            + java.util.Arrays.toString(zaz)",
+      "            + \"]\";",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
+  @Test
+  public void testToStringSubset() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addToString("foo", "bar");
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "",
+      "    @Override",
+      "    public String toString() {",
+      "        return \"Foo[\"",
+      "            + foo",
+      "            + \", \"",
+      "            + bar",
+      "            + \"]\";",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
 }
