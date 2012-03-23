@@ -4,12 +4,18 @@ class ParsedName {
 
   /** @return a tuple of package name, simple name, and simple name with generics */
   static ParsedName parse(String fullNameWithPossibleGenerics) {
-    String s = fullNameWithPossibleGenerics.replaceAll("<.+>", ""); // prune generics
-    int lastDot = s.lastIndexOf('.');
+    String fullNameWithoutGenerics = fullNameWithPossibleGenerics.replaceAll("<.+>", ""); // prune generics
+    int lastDot = fullNameWithoutGenerics.lastIndexOf('.');
     if (lastDot == -1) {
-      return new ParsedName(null, s, fullNameWithPossibleGenerics);
+      return new ParsedName( //
+        null,
+        fullNameWithoutGenerics,
+        fullNameWithPossibleGenerics);
     } else {
-      return new ParsedName(s.substring(0, lastDot), s.substring(lastDot + 1), fullNameWithPossibleGenerics.substring(lastDot + 1));
+      return new ParsedName(
+        fullNameWithoutGenerics.substring(0, lastDot),
+        fullNameWithoutGenerics.substring(lastDot + 1),
+        fullNameWithPossibleGenerics.substring(lastDot + 1));
     }
   }
 
