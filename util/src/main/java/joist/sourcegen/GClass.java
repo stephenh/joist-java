@@ -24,7 +24,7 @@ public class GClass {
 
   public final StringBuilderr staticInitializer = new StringBuilderr();
   private final String packageName;
-  private final String shortName;
+  private final String shortName; // has generics in it
   private final List<GField> fields = new ArrayList<GField>();
   private final List<GMethod> methods = new ArrayList<GMethod>();
   private final List<GClass> innerClasses = new ArrayList<GClass>();
@@ -44,9 +44,9 @@ public class GClass {
   private GClass outerClass;
 
   public GClass(String fullClassName) {
-    String[] name = parseClassName(fullClassName);
-    this.packageName = name[0];
-    this.shortName = name[2];
+    ParsedName name = ParsedName.parse(fullClassName);
+    this.packageName = name.packageName;
+    this.shortName = name.simpleNameWithGenerics;
   }
 
   public GClass setEnum() {
@@ -362,12 +362,12 @@ public class GClass {
       return this;
     }
     for (String importClassName : importClassNames) {
-      String[] name = parseClassName(importClassName);
-      String packageName = name[0];
+      ParsedName name = ParsedName.parse(importClassName);
+      String packageName = name.packageName;
       if (packageName == null || packageName.equals(this.packageName) || "java.lang".equals(packageName)) {
         continue;
       }
-      this.imports.add(name[0] + "." + name[1]);
+      this.imports.add(name.packageName + "." + name.simpleName);
     }
     return this;
   }
@@ -443,17 +443,6 @@ public class GClass {
 
   public String getFileName() {
     return this.getFullClassNameWithoutGeneric().replace(".", File.separator) + ".java";
-  }
-
-  /** @return a tuple of package name, simple name, and simple name with generics */
-  private static String[] parseClassName(String fullNameWithPossibleGenerics) {
-    String s = fullNameWithPossibleGenerics.replaceAll("<.+>", ""); // prune generics
-    int lastDot = s.lastIndexOf('.');
-    if (lastDot == -1) {
-      return new String[] { null, s, fullNameWithPossibleGenerics };
-    } else {
-      return new String[] { s.substring(0, lastDot), s.substring(lastDot + 1), fullNameWithPossibleGenerics.substring(lastDot + 1) };
-    }
   }
 
 }
