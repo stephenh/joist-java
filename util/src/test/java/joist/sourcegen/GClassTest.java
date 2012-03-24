@@ -155,16 +155,14 @@ public class GClassTest {
   public void testGenericWithPackages() {
     GClass gc = new GClass("Foo<java.lang.Object>");
     Assert.assertEquals(null, gc.getPackageName());
-    Assert.assertEquals("Foo<java.lang.Object>", gc.getFullClassName());
-    Assert.assertEquals("Foo", gc.getFullClassNameWithoutGeneric());
+    Assert.assertEquals("Foo", gc.getFullName());
   }
 
   @Test
   public void testGenericWithPackagesInPackages() {
     GClass gc = new GClass("com.app.Foo<java.lang.Object>");
     Assert.assertEquals("com.app", gc.getPackageName());
-    Assert.assertEquals("com.app.Foo<java.lang.Object>", gc.getFullClassName());
-    Assert.assertEquals("com.app.Foo", gc.getFullClassNameWithoutGeneric());
+    Assert.assertEquals("com.app.Foo", gc.getFullName());
   }
 
   @Test
@@ -234,11 +232,6 @@ public class GClassTest {
   }
 
   @Test
-  public void testFileName() {
-    Assert.assertEquals(Join.path("foo", "bar", "Foo.java"), new GClass("foo.bar.Foo").getFileName());
-  }
-
-  @Test
   public void testIndentation() {
     try {
       GSettings.setDefaultIndentation("  ");
@@ -280,5 +273,185 @@ public class GClassTest {
     } finally {
       GSettings.setDefaultIndentation("    ");
     }
+  }
+
+  @Test
+  public void testEquals() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addEquals();
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "",
+      "    @Override",
+      "    public boolean equals(Object other) {",
+      "        if (other != null && other.getClass().equals(this.getClass())) {",
+      "            final Foo o = (Foo) other;",
+      "            return true",
+      "                && ((o.foo == null && this.foo == null) || (o.foo != null && o.foo.equals(this.foo)))",
+      "                && o.bar == this.bar",
+      "                && java.util.Arrays.deepEquals(o.zaz, this.zaz)",
+      "            ;",
+      "        }",
+      "        return false;",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
+  @Test
+  public void testEqualsSubset() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addEquals("foo", "bar");
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "",
+      "    @Override",
+      "    public boolean equals(Object other) {",
+      "        if (other != null && other.getClass().equals(this.getClass())) {",
+      "            final Foo o = (Foo) other;",
+      "            return true",
+      "                && ((o.foo == null && this.foo == null) || (o.foo != null && o.foo.equals(this.foo)))",
+      "                && o.bar == this.bar",
+      "            ;",
+      "        }",
+      "        return false;",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
+  @Test
+  public void testHashCode() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addHashCode();
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "    private Integer _hashCode;",
+      "",
+      "    @Override",
+      "    public int hashCode() {",
+      "        if (_hashCode == null) {",
+      "            int hashCode = 23;",
+      "            hashCode = (hashCode * 37) + getClass().hashCode();",
+      "            hashCode = (hashCode * 37) + (foo == null ? 1 : foo.hashCode());",
+      "            hashCode = (hashCode * 37) + new Boolean(bar).hashCode();",
+      "            hashCode = (hashCode * 37) + java.util.Arrays.deepHashCode(zaz);",
+      "            _hashCode = new Integer(hashCode);",
+      "        }",
+      "        return _hashCode.intValue();",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
+  @Test
+  public void testHashCodeSubset() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addHashCode("foo", "bar");
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "    private Integer _hashCode;",
+      "",
+      "    @Override",
+      "    public int hashCode() {",
+      "        if (_hashCode == null) {",
+      "            int hashCode = 23;",
+      "            hashCode = (hashCode * 37) + getClass().hashCode();",
+      "            hashCode = (hashCode * 37) + (foo == null ? 1 : foo.hashCode());",
+      "            hashCode = (hashCode * 37) + new Boolean(bar).hashCode();",
+      "            _hashCode = new Integer(hashCode);",
+      "        }",
+      "        return _hashCode.intValue();",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
+  @Test
+  public void testToString() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addToString();
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "",
+      "    @Override",
+      "    public String toString() {",
+      "        return \"Foo[\"",
+      "            + foo",
+      "            + \", \"",
+      "            + bar",
+      "            + \", \"",
+      "            + java.util.Arrays.toString(zaz)",
+      "            + \"]\";",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
+  @Test
+  public void testToStringSubset() {
+    GClass gc = new GClass("Foo");
+    gc.getField("foo").type("String");
+    gc.getField("bar").type("boolean");
+    gc.getField("zaz").type("String[]");
+    gc.addToString("foo", "bar");
+    Assert.assertEquals(Join.lines(
+      "public class Foo {",
+      "",
+      "    private String foo;",
+      "    private boolean bar;",
+      "    private String[] zaz;",
+      "",
+      "    @Override",
+      "    public String toString() {",
+      "        return \"Foo[\"",
+      "            + foo",
+      "            + \", \"",
+      "            + bar",
+      "            + \"]\";",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
   }
 }

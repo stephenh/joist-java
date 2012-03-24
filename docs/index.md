@@ -54,6 +54,16 @@ The goal is a simple, "it just works" domain layer for enterprise-scale schemas.
 
 To jump in, see [getting started](gettingStarted.html).
 
+Screencast
+----------
+
+<p>
+  <a href="http://joist.ws/casts/joist-3.flv" style="display:block;width:520px;height:330px;margin-left:1em;" id="player">&nbsp;</a>
+  <script type="text/javascript"><!--
+    flowplayer("player", "casts/flowplayer-3.2.8.swf", { clip: { autoPlay: false } });
+  --></script>
+</p>
+
 Why Joist is Awesome
 --------------------
 

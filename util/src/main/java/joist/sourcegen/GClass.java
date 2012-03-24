@@ -3,8 +3,9 @@ package joist.sourcegen;
 import static joist.sourcegen.Argument.arg;
 import static joist.util.Inflector.capitalize;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -20,9 +21,10 @@ import joist.util.StringBuilderr;
 
 public class GClass {
 
+  private static final Pattern classNameWithoutGenerics = Pattern.compile("(([a-z][a-zA-Z0-9_]*\\.)*)([A-Z][a-zA-Z0-9_]+)");
+
   public final StringBuilderr staticInitializer = new StringBuilderr();
-  private final String packageName;
-  private final String shortName;
+  private final ParsedName name;
   private final List<GField> fields = new ArrayList<GField>();
   private final List<GMethod> methods = new ArrayList<GMethod>();
   private final List<GClass> innerClasses = new ArrayList<GClass>();
@@ -40,12 +42,9 @@ public class GClass {
   protected boolean isInterface = false;
   private String baseClassName = null;
   private GClass outerClass;
-  private static final Pattern classNameWithoutGenerics = Pattern.compile("(([a-z][a-zA-Z0-9_]*\\.)*)([A-Z][a-zA-Z0-9_]+)");
 
   public GClass(String fullClassName) {
-    String[] name = this.parseClassName(fullClassName);
-    this.packageName = name[0];
-    this.shortName = name[2];
+    this.name = ParsedName.parse(fullClassName);
   }
 
   public GClass setEnum() {
@@ -70,40 +69,16 @@ public class GClass {
     return this;
   }
 
-  public String getSimpleClassName() {
-    return this.shortName;
-  }
-
-  public String getSimpleClassNameWithoutGeneric() {
-    int firstBracket = this.shortName.indexOf('<');
-    if (firstBracket != -1) {
-      return this.shortName.substring(0, firstBracket);
-    }
-    return this.shortName;
-  }
-
-  public String getFullClassName() {
-    if (this.packageName == null) {
-      return this.shortName;
-    }
-    return this.packageName + "." + this.shortName;
-  }
-
-  public String getFullClassNameWithoutGeneric() {
-    if (this.packageName == null) {
-      return this.getSimpleClassNameWithoutGeneric();
-    }
-    return this.packageName + "." + this.getSimpleClassNameWithoutGeneric();
-  }
-
-  public String getPackageName() {
-    return this.packageName;
+  public boolean isSameClass(String fullNameWithOrWithoutGenerics) {
+    // ignore generics when considering whether it's the same class
+    ParsedName otherName = ParsedName.parse(fullNameWithOrWithoutGenerics);
+    return this.name.getFullName().equals(otherName.getFullName());
   }
 
   public GClass getInnerClass(String name, Object... args) {
     name = Interpolate.string(name, args);
     for (GClass gc : this.innerClasses) {
-      if (gc.shortName.equals(name)) {
+      if (gc.isSameClass(name)) {
         return gc;
       }
     }
@@ -127,7 +102,7 @@ public class GClass {
       }
     }
     GMethod constructor = new GMethod(this, "constructor");
-    constructor.arguments(typeAndNames).constructorFor(this.getSimpleClassNameWithoutGeneric());
+    constructor.arguments(typeAndNames).constructorFor(this.getSimpleName());
     this.constructors.add(constructor);
     return constructor;
   }
@@ -148,7 +123,7 @@ public class GClass {
         return cstr;
       }
     }
-    GMethod cstr = new GMethod(this, "constructor").constructorFor(this.getSimpleClassNameWithoutGeneric());
+    GMethod cstr = new GMethod(this, "constructor").constructorFor(this.getSimpleName());
     cstr.arguments(args);
     this.constructors.add(cstr);
     return cstr;
@@ -226,13 +201,13 @@ public class GClass {
 
   public String toCode() {
     StringBuilderr sb = new StringBuilderr();
-    if (this.packageName != null) {
-      sb.line("package {};", this.packageName);
+    if (this.name.packageName != null) {
+      sb.line("package {};", this.name.packageName);
       sb.line();
     }
 
     if (this.isAnonymous) {
-      sb.line("new {}() {", this.shortName);
+      sb.line("new {}() {", this.name.simpleNameWithGenerics);
     } else {
       if (this.imports.size() > 0) {
         for (String importClassName : this.imports) {
@@ -259,7 +234,7 @@ public class GClass {
       } else {
         sb.append("class ");
       }
-      sb.append(this.shortName);
+      sb.append(this.name.simpleNameWithGenerics);
       sb.append(" ");
       if (this.baseClassName != null) {
         sb.append("extends {} ", this.baseClassName);
@@ -361,12 +336,12 @@ public class GClass {
       return this;
     }
     for (String importClassName : importClassNames) {
-      String[] name = this.parseClassName(importClassName);
-      String packageName = name[0];
-      if (packageName == null || packageName.equals(this.packageName) || "java.lang".equals(packageName)) {
+      ParsedName name = ParsedName.parse(importClassName);
+      String packageName = name.packageName;
+      if (packageName == null || packageName.equals(this.name.packageName) || "java.lang".equals(packageName)) {
         continue;
       }
-      this.imports.add(name[0] + "." + name[1]);
+      this.imports.add(name.packageName + "." + name.simpleName);
     }
     return this;
   }
@@ -404,7 +379,7 @@ public class GClass {
         return true;
       }
     }
-    if (simpleName.equals(this.shortName) && !packageName.equals(this.packageName)) {
+    if (simpleName.equals(this.name.simpleName) && !packageName.equals(this.name.packageName)) {
       return true;
     }
     return false;
@@ -421,7 +396,22 @@ public class GClass {
   }
 
   public String toString() {
-    return this.getFullClassName();
+    return this.getFullName();
+  }
+
+  /** @return the package name */
+  public String getPackageName() {
+    return this.name.packageName;
+  }
+
+  /** @return the simple name without generics */
+  public String getSimpleName() {
+    return this.name.simpleName;
+  }
+
+  /** @return the package + simple name without generics */
+  public String getFullName() {
+    return this.name.getFullName();
   }
 
   public GClass implementsInterface(Class<?> interfaceClass) {
@@ -440,19 +430,117 @@ public class GClass {
     return this;
   }
 
-  public String getFileName() {
-    return this.getFullClassNameWithoutGeneric().replace(".", File.separator) + ".java";
+  public GClass addEquals() {
+    return this.addEquals((Collection<String>) null);
   }
 
-  /** @return a tuple of package name, simple name, and simple name with generics */
-  private String[] parseClassName(String fullNameWithPossibleGenerics) {
-    String s = fullNameWithPossibleGenerics.replaceAll("<.+>", ""); // prune generics
-    int lastDot = s.lastIndexOf('.');
-    if (lastDot == -1) {
-      return new String[] { null, s, fullNameWithPossibleGenerics };
-    } else {
-      return new String[] { s.substring(0, lastDot), s.substring(lastDot + 1), fullNameWithPossibleGenerics.substring(lastDot + 1) };
+  public GClass addEquals(String... fieldNames) {
+    return this.addEquals(Arrays.asList(fieldNames));
+  }
+
+  public GClass addEquals(Collection<String> fieldNames) {
+    GMethod equals = this.getMethod("equals", arg("Object", "other")).returnType("boolean").addAnnotation("@Override");
+    if (this.name.hasGenerics()) {
+      equals.addAnnotation("@SuppressWarnings(\"unchecked\")");
     }
+    equals.body.line("if (other != null && other.getClass().equals(this.getClass())) {");
+    if (this.fields.size() == 0) {
+      equals.body.line("_   return true;");
+    } else {
+      equals.body.line("_   final {} o = ({}) other;", this.name.simpleNameWithGenerics, this.name.simpleNameWithGenerics);
+      equals.body.line("_   return true"); // leave open
+      for (GField field : filter(this.fields, fieldNames)) {
+        if (Primitives.isPrimitive(field.getTypeClassName())) {
+          equals.body.line("_   _   && o.{} == this.{}", field.getName(), field.getName());
+        } else if (field.getTypeClassName().endsWith("[]")) {
+          equals.body.line("_   _   && java.util.Arrays.deepEquals(o.{}, this.{})", field.getName(), field.getName());
+        } else {
+          equals.body.line(
+            "_   _   && ((o.{} == null && this.{} == null) || (o.{} != null && o.{}.equals(this.{})))",
+            field.getName(),
+            field.getName(),
+            field.getName(),
+            field.getName(),
+            field.getName());
+        }
+      }
+      equals.body.line("_   ;"); // finally close
+    }
+    equals.body.line("}");
+    equals.body.line("return false;");
+    return this;
   }
 
+  public GClass addHashCode() {
+    return this.addHashCode((Collection<String>) null);
+  }
+
+  public GClass addHashCode(String... fieldNames) {
+    return this.addHashCode(Arrays.asList(fieldNames));
+  }
+
+  public GClass addHashCode(Collection<String> fieldNames) {
+    this.getField("_hashCode").type("Integer");
+    GMethod hashCode = this.getMethod("hashCode").returnType("int").addAnnotation("@Override");
+    hashCode.body.line("if (_hashCode == null) {");
+    hashCode.body.line("_   int hashCode = 23;");
+    hashCode.body.line("_   hashCode = (hashCode * 37) + getClass().hashCode();");
+    for (GField field : filter(this.fields, fieldNames)) {
+      if (field.getName().equals("_hashCode")) {
+        continue;
+      }
+      String prefix = "_   hashCode = (hashCode * 37) + ";
+      if (Primitives.isPrimitive(field.getTypeClassName())) {
+        hashCode.body.line(prefix + "new {}({}).hashCode();", Primitives.getWrapper(field.getTypeClassName()), field.getName());
+      } else if (field.getTypeClassName().endsWith("[]")) {
+        hashCode.body.line(prefix + "java.util.Arrays.deepHashCode({});", field.getName());
+      } else {
+        hashCode.body.line(prefix + "({} == null ? 1 : {}.hashCode());", field.getName(), field.getName());
+      }
+    }
+    hashCode.body.line("_   _hashCode = new Integer(hashCode);");
+    hashCode.body.line("}");
+    hashCode.body.line("return _hashCode.intValue();");
+    return this;
+  }
+
+  public GClass addToString() {
+    return this.addToString((Collection<String>) null);
+  }
+
+  public GClass addToString(String... fieldNames) {
+    return this.addToString(Arrays.asList(fieldNames));
+  }
+
+  public GClass addToString(Collection<String> fieldNames) {
+    GMethod tos = this.getMethod("toString").returnType("String").addAnnotation("@Override");
+    tos.body.line("return \"{}[\"", this.getSimpleName());
+    int i = 0;
+    List<GField> filtered = filter(this.fields, fieldNames);
+    for (GField field : filtered) {
+      if (field.getTypeClassName().endsWith("[]")) {
+        tos.body.line("_   + java.util.Arrays.toString({})", field.getName());
+      } else {
+        tos.body.line("_   + {}", field.getName());
+      }
+      if (++i < filtered.size()) {
+        tos.body.line("_    + \", \"");
+      }
+    }
+    tos.body.line("_    + \"]\";");
+    return this;
+  }
+
+  private static List<GField> filter(List<GField> fields, Collection<String> names) {
+    if (names == null) {
+      return fields;
+    }
+    List<GField> filtered = new ArrayList<GField>();
+    for (GField field : fields) {
+      if (names.contains(field.getName())) {
+        filtered.add(field);
+      }
+    }
+    return filtered;
+  }
 }
