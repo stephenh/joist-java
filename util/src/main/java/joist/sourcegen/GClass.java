@@ -3,6 +3,7 @@ package joist.sourcegen;
 import static joist.sourcegen.Argument.arg;
 import static joist.util.Inflector.capitalize;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -412,6 +413,11 @@ public class GClass {
   /** @return the package + simple name without generics */
   public String getFullName() {
     return this.name.getFullName();
+  }
+
+  /** @return the relative file name, e.g. {@code com/foo/Bar.java}. */
+  public String getFileName() {
+    return this.getFullName().replace(".", File.separator) + ".java";
   }
 
   public GClass implementsInterface(Class<?> interfaceClass) {
