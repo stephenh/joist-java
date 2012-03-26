@@ -32,10 +32,8 @@ public class InstanceUpdater<T extends DomainObject> {
   }
 
   public InstanceUpdater(Alias<T> alias) {
-    Alias<? super T> current = alias;
-    while (current != null) {
+    for (Alias<? super T> current = alias; current != null; current = current.getBaseClassAlias()) {
       this.steps.add(new Step<T>(current));
-      current = current.getBaseClassAlias();
     }
   }
 
