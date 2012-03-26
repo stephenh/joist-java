@@ -2,9 +2,6 @@ package joist.domain.uow;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -17,13 +14,13 @@ import joist.domain.orm.EagerCache;
 import joist.domain.orm.IdentityMap;
 import joist.domain.orm.Repository;
 import joist.domain.orm.Updater;
+import joist.domain.orm.impl.InstanceDeleter;
 import joist.domain.orm.impl.InstanceInserter;
 import joist.domain.orm.impl.InstanceUpdater;
 import joist.domain.orm.impl.SequenceIdAssigner;
 import joist.domain.orm.impl.SortInstancesMySQL;
 import joist.domain.orm.impl.SortInstancesPg;
 import joist.domain.orm.queries.Alias;
-import joist.domain.orm.queries.Delete;
 import joist.domain.orm.queries.Select;
 import joist.domain.validation.Validator;
 import joist.jdbc.Jdbc;
@@ -64,8 +61,7 @@ public class UnitOfWork {
 
   void flush() {
     this.validator.validate();
-    this.delete(new ArrayList<DomainObject>(this.validator.getDequeue()));
-    this.store(this.validator.getQueue());
+    this.flush(this.validator.getQueue(), this.validator.getDequeue());
     this.validator.resetQueueAndChangedProperties();
   }
 
@@ -150,10 +146,10 @@ public class UnitOfWork {
     return this.updater;
   }
 
-  private void store(Set<DomainObject> instances) {
+  private void flush(Set<DomainObject> insertOrUpdate, Set<DomainObject> delete) {
     if (this.db.isPg()) {
       // pg can bulk assign ids, then just do insert+update, unsorted thanks to initially deferred
-      SortInstancesPg sorted = new SortInstancesPg(instances);
+      SortInstancesPg sorted = new SortInstancesPg(insertOrUpdate, delete);
       new SequenceIdAssigner().assignIds(sorted.inserts);
       for (Entry<Class<DomainObject>, List<DomainObject>> entry : sorted.inserts.entrySet()) {
         InstanceInserter.get(entry.getKey()).insertHasId(entry.getValue());
@@ -161,9 +157,12 @@ public class UnitOfWork {
       for (Entry<Class<DomainObject>, List<DomainObject>> entry : sorted.updates.entrySet()) {
         InstanceUpdater.get(entry.getKey()).update(entry.getValue());
       }
+      for (Entry<Class<DomainObject>, List<DomainObject>> entry : sorted.deletes.entrySet()) {
+        InstanceDeleter.get(entry.getKey()).delete(entry.getValue());
+      }
     } else if (this.db.isMySQL()) {
       // mysql assigns ids as you go, and needs sorting around foreign keys
-      SortInstancesMySQL sorted = new SortInstancesMySQL(instances);
+      SortInstancesMySQL sorted = new SortInstancesMySQL(insertOrUpdate, delete);
       for (Class<DomainObject> key : sorted.insertsByForeignKey) {
         InstanceInserter.get(key).insertHasId(sorted.insertHasIds.get(key));
         InstanceInserter.get(key).insertNewId(sorted.insertNewIds.get(key));
@@ -171,33 +170,11 @@ public class UnitOfWork {
       for (Entry<Class<DomainObject>, List<DomainObject>> entry : sorted.updates.entrySet()) {
         InstanceUpdater.get(entry.getKey()).update(entry.getValue());
       }
+      for (Class<DomainObject> key : sorted.deletesByForeignKey) {
+        InstanceDeleter.get(key).delete(sorted.deletes.get(key));
+      }
     } else {
       throw new IllegalStateException("Unhandled db " + this.db);
     }
   }
-
-  private void delete(List<DomainObject> instances) {
-    if (this.db.isMySQL()) {
-      // sort by reverse order
-      Collections.sort(instances, new Comparator<DomainObject>() {
-        public int compare(DomainObject o1, DomainObject o2) {
-          return AliasRegistry.get(o2).getOrder() - AliasRegistry.get(o1).getOrder();
-        }
-      });
-    }
-    // no batch deletes for now
-    for (DomainObject instance : instances) {
-      Alias<? super DomainObject> current = AliasRegistry.get(instance);
-      while (current != null) {
-        // ugly hack
-        if (current.isRootClass()) {
-          Delete.from(current).where(current.getIdColumn().eq(instance)).execute();
-        } else {
-          Delete.from(current).where(current.getSubClassIdColumn().eq(instance)).execute();
-        }
-        current = current.getBaseClassAlias();
-      }
-    }
-  }
-
 }
