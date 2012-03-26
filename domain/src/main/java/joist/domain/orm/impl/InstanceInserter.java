@@ -37,11 +37,9 @@ public class InstanceInserter<T extends DomainObject> {
 
   public InstanceInserter(Alias<T> alias) {
     this.alias = alias;
-    Alias<? super T> current = alias;
-    while (current != null) {
+    for (Alias<? super T> current = alias; current != null; current = current.getBaseClassAlias()) {
       this.stepsHasId.add(new Step<T>(current, true));
       this.stepsNewId.add(new Step<T>(current, false));
-      current = current.getBaseClassAlias();
     }
     Collections.reverse(this.stepsHasId); // do base classes first
     Collections.reverse(this.stepsNewId); // do base classes first
