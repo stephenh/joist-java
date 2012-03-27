@@ -449,7 +449,7 @@ public class GClass {
     if (this.name.hasGenerics()) {
       equals.addAnnotation("@SuppressWarnings(\"unchecked\")");
     }
-    equals.body.line("if (other != null && other.getClass().equals(this.getClass())) {");
+    equals.body.line("if (other != null && other instanceof {}) {", this.name.simpleName);
     if (this.fields.size() == 0) {
       equals.body.line("_   return true;");
     } else {
