@@ -19,10 +19,16 @@ public class AliasRegistry {
 
   public static <T extends DomainObject> Alias<T> get(Class<T> domainClass) {
     Alias<T> a = (Alias<T>) AliasRegistry.aliases.get(domainClass);
-    if (a == null) {
+    Class<? super T> currentClass = domainClass;
+    while (a == null) {
       // The static initializer for domainClass's codegen may not have been ran yet
-      Reflection.forName(domainClass.getName());
-      a = AliasRegistry.get(domainClass);
+      Reflection.forName(currentClass.getName());
+      a = (Alias<T>) AliasRegistry.aliases.get(currentClass);
+      // if a is still null, domainClass is probably a subclass of a domain
+      // class, e.g. Parent p = new Parent() { ... }.
+      if (a == null) {
+        currentClass = currentClass.getSuperclass();
+      }
     }
     return a;
   }
