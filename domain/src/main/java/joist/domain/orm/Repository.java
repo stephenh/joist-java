@@ -7,8 +7,8 @@ import javax.sql.DataSource;
 
 import joist.domain.uow.UnitOfWork;
 import joist.domain.util.ConnectionSettings;
+import joist.domain.util.pools.BoneCpFactory;
 import joist.domain.util.pools.MySqlC3p0Factory;
-import joist.domain.util.pools.Pgc3p0Factory;
 import joist.util.Reflection;
 
 /** An app-wide instance for the application's db + datasource. */
@@ -21,7 +21,8 @@ public class Repository {
     this.db = db;
     final ConnectionSettings cs = ConnectionSettings.forApp(db, projectName);
     if (db.isPg()) {
-      this.datasource = new Pgc3p0Factory(cs).create();
+      // this.datasource = new Pgc3p0Factory(cs).create();
+      this.datasource = new BoneCpFactory(cs).create();
       Reflection.forName("org.postgresql.Driver");
     } else if (db.isMySQL()) {
       this.datasource = new MySqlC3p0Factory(cs).create();
