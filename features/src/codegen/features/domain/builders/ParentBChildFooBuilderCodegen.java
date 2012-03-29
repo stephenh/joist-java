@@ -30,8 +30,18 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
   }
 
   public ParentBChildFooBuilder with(String name) {
-    get().setName(name);
-    return (ParentBChildFooBuilder) this;
+    return name(name);
+  }
+
+  @Override
+  public ParentBChildFooBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    if (parentBParent() == null) {
+      parentBParent(Builders.aParentBParent().defaults());
+    }
+    return (ParentBChildFooBuilder) super.defaults();
   }
 
   public ParentBParentBuilder parentBParent() {
@@ -47,18 +57,15 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
   }
 
   public ParentBChildFooBuilder with(ParentBParent parentBParent) {
-    get().setParentBParent(parentBParent);
-    return (ParentBChildFooBuilder) this;
+    return parentBParent(parentBParent);
   }
 
   public ParentBChildFooBuilder parentBParent(ParentBParentBuilder parentBParent) {
-    get().setParentBParent(parentBParent.get());
-    return (ParentBChildFooBuilder) this;
+    return parentBParent(parentBParent.get());
   }
 
   public ParentBChildFooBuilder with(ParentBParentBuilder parentBParent) {
-    get().setParentBParent(parentBParent.get());
-    return (ParentBChildFooBuilder) this;
+    return parentBParent(parentBParent);
   }
 
   public ParentBChildFoo get() {

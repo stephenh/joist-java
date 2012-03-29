@@ -48,8 +48,24 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
   }
 
   public HistoryEntryBuilder with(Integer primaryKey) {
-    get().setPrimaryKey(primaryKey);
-    return (HistoryEntryBuilder) this;
+    return primaryKey(primaryKey);
+  }
+
+  @Override
+  public HistoryEntryBuilder defaults() {
+    if (primaryKey() == null) {
+      primaryKey(0);
+    }
+    if (rootTableName() == null) {
+      rootTableName("rootTableName");
+    }
+    if (type() == null) {
+      type("type");
+    }
+    if (updateTime() == null) {
+      updateTime(TimePoint.from(0));
+    }
+    return (HistoryEntryBuilder) super.defaults();
   }
 
   public String propertyName() {
@@ -89,8 +105,7 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
   }
 
   public HistoryEntryBuilder with(TimePoint updateTime) {
-    get().setUpdateTime(updateTime);
-    return (HistoryEntryBuilder) this;
+    return updateTime(updateTime);
   }
 
   public String updater() {

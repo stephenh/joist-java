@@ -33,8 +33,18 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
   }
 
   public ChildBuilder with(String name) {
-    get().setName(name);
-    return (ChildBuilder) this;
+    return name(name);
+  }
+
+  @Override
+  public ChildBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    if (parent() == null) {
+      parent(Builders.aParent().defaults());
+    }
+    return (ChildBuilder) super.defaults();
   }
 
   public ParentBuilder parent() {
@@ -50,18 +60,15 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
   }
 
   public ChildBuilder with(Parent parent) {
-    get().setParent(parent);
-    return (ChildBuilder) this;
+    return parent(parent);
   }
 
   public ChildBuilder parent(ParentBuilder parent) {
-    get().setParent(parent.get());
-    return (ChildBuilder) this;
+    return parent(parent.get());
   }
 
   public ChildBuilder with(ParentBuilder parent) {
-    get().setParent(parent.get());
-    return (ChildBuilder) this;
+    return parent(parent);
   }
 
   public List<GrandChildBuilder> grandChilds() {

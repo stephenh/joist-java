@@ -30,8 +30,18 @@ public abstract class OneToOneBBarBuilderCodegen extends AbstractBuilder<OneToOn
   }
 
   public OneToOneBBarBuilder with(String name) {
-    get().setName(name);
-    return (OneToOneBBarBuilder) this;
+    return name(name);
+  }
+
+  @Override
+  public OneToOneBBarBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    if (oneToOneBFoo() == null) {
+      oneToOneBFoo(Builders.aOneToOneBFoo().defaults());
+    }
+    return (OneToOneBBarBuilder) super.defaults();
   }
 
   public OneToOneBFooBuilder oneToOneBFoo() {
@@ -47,18 +57,15 @@ public abstract class OneToOneBBarBuilderCodegen extends AbstractBuilder<OneToOn
   }
 
   public OneToOneBBarBuilder with(OneToOneBFoo oneToOneBFoo) {
-    get().setOneToOneBFoo(oneToOneBFoo);
-    return (OneToOneBBarBuilder) this;
+    return oneToOneBFoo(oneToOneBFoo);
   }
 
   public OneToOneBBarBuilder oneToOneBFoo(OneToOneBFooBuilder oneToOneBFoo) {
-    get().setOneToOneBFoo(oneToOneBFoo.get());
-    return (OneToOneBBarBuilder) this;
+    return oneToOneBFoo(oneToOneBFoo.get());
   }
 
   public OneToOneBBarBuilder with(OneToOneBFooBuilder oneToOneBFoo) {
-    get().setOneToOneBFoo(oneToOneBFoo.get());
-    return (OneToOneBBarBuilder) this;
+    return oneToOneBFoo(oneToOneBFoo);
   }
 
   public OneToOneBBar get() {

@@ -20,8 +20,15 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
   }
 
   public InheritanceASubOneBuilder with(String one) {
-    get().setOne(one);
-    return (InheritanceASubOneBuilder) this;
+    return one(one);
+  }
+
+  @Override
+  public InheritanceASubOneBuilder defaults() {
+    if (one() == null) {
+      one("one");
+    }
+    return (InheritanceASubOneBuilder) super.defaults();
   }
 
   public InheritanceAThingBuilder inheritanceAThing() {
@@ -37,18 +44,15 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
   }
 
   public InheritanceASubOneBuilder with(InheritanceAThing inheritanceAThing) {
-    get().setInheritanceAThing(inheritanceAThing);
-    return (InheritanceASubOneBuilder) this;
+    return inheritanceAThing(inheritanceAThing);
   }
 
   public InheritanceASubOneBuilder inheritanceAThing(InheritanceAThingBuilder inheritanceAThing) {
-    get().setInheritanceAThing(inheritanceAThing.get());
-    return (InheritanceASubOneBuilder) this;
+    return inheritanceAThing(inheritanceAThing.get());
   }
 
   public InheritanceASubOneBuilder with(InheritanceAThingBuilder inheritanceAThing) {
-    get().setInheritanceAThing(inheritanceAThing.get());
-    return (InheritanceASubOneBuilder) this;
+    return inheritanceAThing(inheritanceAThing);
   }
 
   public InheritanceASubOne get() {

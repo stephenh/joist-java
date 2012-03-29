@@ -32,8 +32,15 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
   }
 
   public InheritanceAOwnerBuilder with(String name) {
-    get().setName(name);
-    return (InheritanceAOwnerBuilder) this;
+    return name(name);
+  }
+
+  @Override
+  public InheritanceAOwnerBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (InheritanceAOwnerBuilder) super.defaults();
   }
 
   public List<InheritanceABaseBuilder> inheritanceABases() {

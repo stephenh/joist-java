@@ -33,8 +33,15 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
   }
 
   public InheritanceAThingBuilder with(String name) {
-    get().setName(name);
-    return (InheritanceAThingBuilder) this;
+    return name(name);
+  }
+
+  @Override
+  public InheritanceAThingBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (InheritanceAThingBuilder) super.defaults();
   }
 
   public List<InheritanceASubOneBuilder> inheritanceASubOnes() {

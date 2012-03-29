@@ -34,18 +34,26 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
   }
 
   public ManyToManyAFooToBarBuilder with(ManyToManyABar manyToManyABar) {
-    get().setManyToManyABar(manyToManyABar);
-    return (ManyToManyAFooToBarBuilder) this;
+    return manyToManyABar(manyToManyABar);
   }
 
   public ManyToManyAFooToBarBuilder manyToManyABar(ManyToManyABarBuilder manyToManyABar) {
-    get().setManyToManyABar(manyToManyABar.get());
-    return (ManyToManyAFooToBarBuilder) this;
+    return manyToManyABar(manyToManyABar.get());
   }
 
   public ManyToManyAFooToBarBuilder with(ManyToManyABarBuilder manyToManyABar) {
-    get().setManyToManyABar(manyToManyABar.get());
-    return (ManyToManyAFooToBarBuilder) this;
+    return manyToManyABar(manyToManyABar);
+  }
+
+  @Override
+  public ManyToManyAFooToBarBuilder defaults() {
+    if (manyToManyABar() == null) {
+      manyToManyABar(Builders.aManyToManyABar().defaults());
+    }
+    if (manyToManyAFoo() == null) {
+      manyToManyAFoo(Builders.aManyToManyAFoo().defaults());
+    }
+    return (ManyToManyAFooToBarBuilder) super.defaults();
   }
 
   public ManyToManyAFooBuilder manyToManyAFoo() {
@@ -61,18 +69,15 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
   }
 
   public ManyToManyAFooToBarBuilder with(ManyToManyAFoo manyToManyAFoo) {
-    get().setManyToManyAFoo(manyToManyAFoo);
-    return (ManyToManyAFooToBarBuilder) this;
+    return manyToManyAFoo(manyToManyAFoo);
   }
 
   public ManyToManyAFooToBarBuilder manyToManyAFoo(ManyToManyAFooBuilder manyToManyAFoo) {
-    get().setManyToManyAFoo(manyToManyAFoo.get());
-    return (ManyToManyAFooToBarBuilder) this;
+    return manyToManyAFoo(manyToManyAFoo.get());
   }
 
   public ManyToManyAFooToBarBuilder with(ManyToManyAFooBuilder manyToManyAFoo) {
-    get().setManyToManyAFoo(manyToManyAFoo.get());
-    return (ManyToManyAFooToBarBuilder) this;
+    return manyToManyAFoo(manyToManyAFoo);
   }
 
   public ManyToManyAFooToBar get() {

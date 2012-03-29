@@ -30,8 +30,15 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
   }
 
   public InheritanceBRootChildBuilder with(String name) {
-    get().setName(name);
-    return (InheritanceBRootChildBuilder) this;
+    return name(name);
+  }
+
+  @Override
+  public InheritanceBRootChildBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (InheritanceBRootChildBuilder) super.defaults();
   }
 
   public InheritanceBRootBuilder inheritanceBRoot() {
@@ -47,18 +54,15 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
   }
 
   public InheritanceBRootChildBuilder with(InheritanceBRoot inheritanceBRoot) {
-    get().setInheritanceBRoot(inheritanceBRoot);
-    return (InheritanceBRootChildBuilder) this;
+    return inheritanceBRoot(inheritanceBRoot);
   }
 
   public InheritanceBRootChildBuilder inheritanceBRoot(InheritanceBRootBuilder inheritanceBRoot) {
-    get().setInheritanceBRoot(inheritanceBRoot.get());
-    return (InheritanceBRootChildBuilder) this;
+    return inheritanceBRoot(inheritanceBRoot.get());
   }
 
   public InheritanceBRootChildBuilder with(InheritanceBRootBuilder inheritanceBRoot) {
-    get().setInheritanceBRoot(inheritanceBRoot.get());
-    return (InheritanceBRootChildBuilder) this;
+    return inheritanceBRoot(inheritanceBRoot);
   }
 
   public InheritanceBRootChild get() {

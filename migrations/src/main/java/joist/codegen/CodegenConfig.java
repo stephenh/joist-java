@@ -73,6 +73,7 @@ public class CodegenConfig {
   private final Map<TypeAndPattern, String> aliasTypeByPattern = new HashMap<TypeAndPattern, String>();
   private final Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
   private final Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
+  private final Map<String, String> builderDefaultsByJavaType = new HashMap<String, String>();
   private final List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
   private final List<String> skipCollections = new ArrayList<String>();
   private final List<String> skipTables = new ArrayList<String>();
@@ -98,6 +99,13 @@ public class CodegenConfig {
     this.setJavaTypePattern("integer", this.amountSuffix, "com.domainlanguage.money.Money", "joist.domain.orm.queries.columns.MoneyAliasColumn");
     this.setJavaTypePattern("bigint", this.amountSuffix, "com.domainlanguage.money.Money", "joist.domain.orm.queries.columns.MoneyAliasColumn");
     this.setJavaTypePattern("int", this.amountSuffix, "com.domainlanguage.money.Money", "joist.domain.orm.queries.columns.MoneyAliasColumn");
+
+    this.builderDefaultsByJavaType.put(Integer.class.getName(), "0");
+    this.builderDefaultsByJavaType.put(Short.class.getName(), "(short) 0");
+    this.builderDefaultsByJavaType.put(Long.class.getName(), "0l");
+    this.builderDefaultsByJavaType.put(Boolean.class.getName(), "false");
+    this.builderDefaultsByJavaType.put("com.domainlanguage.time.TimePoint", "TimePoint.from(0)");
+    this.builderDefaultsByJavaType.put("com.domainlanguage.money.Money", "Money.dollars(0)");
 
     this.setJavaType("int", Integer.class.getName(), IntAliasColumn.class.getName());
     this.setJavaType("bit", Boolean.class.getName(), BooleanAliasColumn.class.getName());
@@ -218,6 +226,10 @@ public class CodegenConfig {
       return this.aliasTypeByDataType.get(dataType);
     }
     throw new RuntimeException("Unmatched data type: " + dataType);
+  }
+
+  public String getBuildersDefault(String javaType) {
+    return this.builderDefaultsByJavaType.get(javaType);
   }
 
   public void setGetterAccess(String tableName, String columnName, String access) {

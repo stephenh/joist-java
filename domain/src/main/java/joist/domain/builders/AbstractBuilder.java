@@ -40,4 +40,8 @@ public abstract class AbstractBuilder<T extends DomainObject> {
     return false;
   }
 
+  /** Sets required defaults, for subclasses to override. */
+  public AbstractBuilder<T> defaults() {
+    return this;
+  }
 }

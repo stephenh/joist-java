@@ -29,8 +29,15 @@ public abstract class OneToOneAFooBuilderCodegen extends AbstractBuilder<OneToOn
   }
 
   public OneToOneAFooBuilder with(String name) {
-    get().setName(name);
-    return (OneToOneAFooBuilder) this;
+    return name(name);
+  }
+
+  @Override
+  public OneToOneAFooBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (OneToOneAFooBuilder) super.defaults();
   }
 
   public OneToOneABarBuilder oneToOneABar() {

@@ -30,8 +30,15 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
   }
 
   public InheritanceABaseBuilder with(String name) {
-    get().setName(name);
-    return (InheritanceABaseBuilder) this;
+    return name(name);
+  }
+
+  @Override
+  public InheritanceABaseBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (InheritanceABaseBuilder) super.defaults();
   }
 
   public InheritanceAOwnerBuilder inheritanceAOwner() {
@@ -47,18 +54,15 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
   }
 
   public InheritanceABaseBuilder with(InheritanceAOwner inheritanceAOwner) {
-    get().setInheritanceAOwner(inheritanceAOwner);
-    return (InheritanceABaseBuilder) this;
+    return inheritanceAOwner(inheritanceAOwner);
   }
 
   public InheritanceABaseBuilder inheritanceAOwner(InheritanceAOwnerBuilder inheritanceAOwner) {
-    get().setInheritanceAOwner(inheritanceAOwner.get());
-    return (InheritanceABaseBuilder) this;
+    return inheritanceAOwner(inheritanceAOwner.get());
   }
 
   public InheritanceABaseBuilder with(InheritanceAOwnerBuilder inheritanceAOwner) {
-    get().setInheritanceAOwner(inheritanceAOwner.get());
-    return (InheritanceABaseBuilder) this;
+    return inheritanceAOwner(inheritanceAOwner);
   }
 
   public InheritanceABase get() {

@@ -32,8 +32,15 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
   }
 
   public InheritanceBRootBuilder with(String name) {
-    get().setName(name);
-    return (InheritanceBRootBuilder) this;
+    return name(name);
+  }
+
+  @Override
+  public InheritanceBRootBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (InheritanceBRootBuilder) super.defaults();
   }
 
   public List<InheritanceBRootChildBuilder> inheritanceBRootChilds() {
