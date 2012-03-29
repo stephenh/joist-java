@@ -66,10 +66,10 @@ public class GenerateBuilderCodegenPass implements Pass {
       // regular foo() getter
       this.addFluentGetter(c, p.getVariableName(), p.getJavaType());
       // regular foo(value) setter
-      this.addFluentSetter(c, entity, p.getVariableName(), p.getVariableName(), p.getJavaType());
+      this.addFluentSetter(c, entity, p.getVariableName(), p.getJavaType());
       // overload with(value) setter
       if (perType.get(p.getJavaType()).size() == 1) {
-        this.addFluentSetter(c, entity, "with", p.getVariableName(), p.getJavaType());
+        this.addFluentWith(c, entity, p.getVariableName(), p.getJavaType());
       }
     }
   }
@@ -127,32 +127,38 @@ public class GenerateBuilderCodegenPass implements Pass {
       }
 
       // regular foo(value) setter
-      this.addFluentSetter(c, entity, mtop.getVariableName(), mtop.getVariableName(), mtop.getOneSide().getFullClassName());
+      this.addFluentSetter(c, entity, mtop.getVariableName(), mtop.getOneSide().getFullClassName());
       // overload with(value) setter
       if (perType.get(mtop.getJavaType()).size() == 1) {
-        this.addFluentSetter(c, entity, "with", mtop.getVariableName(), mtop.getOneSide().getFullClassName());
+        this.addFluentWith(c, entity, mtop.getVariableName(), mtop.getOneSide().getFullClassName());
       }
 
       if (!mtop.getOneSide().isCodeEntity()) {
         // regular foo(valueBuilder) setter
-        this.addFluentBuilderSetter(c, entity, mtop.getVariableName(), mtop.getVariableName(), mtop.getOneSide().getBuilderClassName());
+        this.addFluentBuilderSetter(c, entity, mtop.getVariableName(), mtop.getOneSide().getBuilderClassName());
         // overload with(valueBuilder) setter
         if (perType.get(mtop.getJavaType()).size() == 1) {
-          this.addFluentBuilderSetter(c, entity, "with", mtop.getVariableName(), mtop.getOneSide().getBuilderClassName());
+          this.addFluentWith(c, entity, mtop.getVariableName(), mtop.getOneSide().getBuilderClassName());
         }
       }
     }
   }
 
-  private void addFluentSetter(GClass builderCodegen, Entity entity, String methodName, String variableName, String javaType) {
-    GMethod m = builderCodegen.getMethod(methodName, Argument.arg(javaType, variableName));
+  private void addFluentSetter(GClass builderCodegen, Entity entity, String variableName, String javaType) {
+    GMethod m = builderCodegen.getMethod(variableName, Argument.arg(javaType, variableName));
     m.returnType(entity.getBuilderClassName());
     m.body.line("get().set{}({});", Inflector.capitalize(variableName), variableName);
     m.body.line("return ({}) this;", entity.getBuilderClassName());
   }
 
-  private void addFluentBuilderSetter(GClass builderCodegen, Entity entity, String methodName, String variableName, String javaType) {
-    GMethod m = builderCodegen.getMethod(methodName, Argument.arg(javaType, variableName));
+  private void addFluentWith(GClass builderCodegen, Entity entity, String variableName, String javaType) {
+    GMethod m = builderCodegen.getMethod("with", Argument.arg(javaType, variableName));
+    m.returnType(entity.getBuilderClassName());
+    m.body.line("return {}({});", variableName, variableName);
+  }
+
+  private void addFluentBuilderSetter(GClass builderCodegen, Entity entity, String variableName, String javaType) {
+    GMethod m = builderCodegen.getMethod(variableName, Argument.arg(javaType, variableName));
     m.returnType(entity.getBuilderClassName());
     m.body.line("get().set{}({}.get());", Inflector.capitalize(variableName), variableName);
     m.body.line("return ({}) this;", entity.getBuilderClassName());
