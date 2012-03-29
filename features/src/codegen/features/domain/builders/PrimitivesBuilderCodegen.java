@@ -23,6 +23,17 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
     return flag(flag);
   }
 
+  @Override
+  public PrimitivesBuilder defaults() {
+    if (flag() == null) {
+      flag(false);
+    }
+    if (name() == null) {
+      name("name");
+    }
+    return (PrimitivesBuilder) super.defaults();
+  }
+
   public Long id() {
     return get().getId();
   }

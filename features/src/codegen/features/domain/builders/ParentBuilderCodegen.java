@@ -35,6 +35,14 @@ public abstract class ParentBuilderCodegen extends AbstractBuilder<Parent> {
     return name(name);
   }
 
+  @Override
+  public ParentBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (ParentBuilder) super.defaults();
+  }
+
   public List<ChildBuilder> childs() {
     List<ChildBuilder> b = new ArrayList<ChildBuilder>();
     for (Child e : get().getChilds()) {

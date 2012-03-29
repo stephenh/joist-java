@@ -34,6 +34,20 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
     return name(name);
   }
 
+  @Override
+  public CodeADomainObjectBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    if (codeAColor() == null) {
+      codeAColor(CodeAColor.BLUE);
+    }
+    if (codeASize() == null) {
+      codeASize(CodeASize.ONE);
+    }
+    return (CodeADomainObjectBuilder) super.defaults();
+  }
+
   public CodeAColor codeAColor() {
     return get().getCodeAColor();
   }

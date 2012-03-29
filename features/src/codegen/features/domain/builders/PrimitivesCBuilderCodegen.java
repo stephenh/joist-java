@@ -25,6 +25,20 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
     return dollarAmount(dollarAmount);
   }
 
+  @Override
+  public PrimitivesCBuilder defaults() {
+    if (dollarAmount() == null) {
+      dollarAmount(Money.dollars(0));
+    }
+    if (name() == null) {
+      name("name");
+    }
+    if (timestamp() == null) {
+      timestamp(TimePoint.from(0));
+    }
+    return (PrimitivesCBuilder) super.defaults();
+  }
+
   public Long id() {
     return get().getId();
   }

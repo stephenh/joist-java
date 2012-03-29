@@ -33,6 +33,14 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
     return name(name);
   }
 
+  @Override
+  public InheritanceBRootChildBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (InheritanceBRootChildBuilder) super.defaults();
+  }
+
   public InheritanceBRootBuilder inheritanceBRoot() {
     if (get().getInheritanceBRoot() == null) {
       return null;

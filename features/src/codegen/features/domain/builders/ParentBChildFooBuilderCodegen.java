@@ -33,6 +33,17 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
     return name(name);
   }
 
+  @Override
+  public ParentBChildFooBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    if (parentBParent() == null) {
+      parentBParent(Builders.aParentBParent().defaults());
+    }
+    return (ParentBChildFooBuilder) super.defaults();
+  }
+
   public ParentBParentBuilder parentBParent() {
     if (get().getParentBParent() == null) {
       return null;

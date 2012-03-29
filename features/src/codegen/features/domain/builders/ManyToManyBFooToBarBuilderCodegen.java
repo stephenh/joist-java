@@ -45,6 +45,17 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
     return blue(blue);
   }
 
+  @Override
+  public ManyToManyBFooToBarBuilder defaults() {
+    if (blue() == null) {
+      blue(Builders.aManyToManyBFoo().defaults());
+    }
+    if (green() == null) {
+      green(Builders.aManyToManyBBar().defaults());
+    }
+    return (ManyToManyBFooToBarBuilder) super.defaults();
+  }
+
   public ManyToManyBBarBuilder green() {
     if (get().getGreen() == null) {
       return null;

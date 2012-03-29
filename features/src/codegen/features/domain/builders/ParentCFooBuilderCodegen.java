@@ -35,6 +35,14 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
     return name(name);
   }
 
+  @Override
+  public ParentCFooBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (ParentCFooBuilder) super.defaults();
+  }
+
   public List<ParentCBarBuilder> firstParentParentCBars() {
     List<ParentCBarBuilder> b = new ArrayList<ParentCBarBuilder>();
     for (ParentCBar e : get().getFirstParentParentCBars()) {

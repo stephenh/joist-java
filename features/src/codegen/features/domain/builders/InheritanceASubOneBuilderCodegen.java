@@ -23,6 +23,14 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
     return one(one);
   }
 
+  @Override
+  public InheritanceASubOneBuilder defaults() {
+    if (one() == null) {
+      one("one");
+    }
+    return (InheritanceASubOneBuilder) super.defaults();
+  }
+
   public InheritanceAThingBuilder inheritanceAThing() {
     if (get().getInheritanceAThing() == null) {
       return null;

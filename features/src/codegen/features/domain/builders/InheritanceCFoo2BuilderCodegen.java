@@ -22,6 +22,14 @@ public abstract class InheritanceCFoo2BuilderCodegen extends InheritanceCBuilder
     return foo(foo);
   }
 
+  @Override
+  public InheritanceCFoo2Builder defaults() {
+    if (foo() == null) {
+      foo("foo");
+    }
+    return (InheritanceCFoo2Builder) super.defaults();
+  }
+
   public InheritanceCFoo2 get() {
     return (features.domain.InheritanceCFoo2) super.get();
   }

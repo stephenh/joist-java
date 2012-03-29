@@ -32,6 +32,14 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
     return name(name);
   }
 
+  @Override
+  public InheritanceCBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (InheritanceCBuilder) super.defaults();
+  }
+
   public InheritanceC get() {
     return (features.domain.InheritanceC) super.get();
   }

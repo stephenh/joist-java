@@ -33,6 +33,17 @@ public abstract class OneToOneBBarBuilderCodegen extends AbstractBuilder<OneToOn
     return name(name);
   }
 
+  @Override
+  public OneToOneBBarBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    if (oneToOneBFoo() == null) {
+      oneToOneBFoo(Builders.aOneToOneBFoo().defaults());
+    }
+    return (OneToOneBBarBuilder) super.defaults();
+  }
+
   public OneToOneBFooBuilder oneToOneBFoo() {
     if (get().getOneToOneBFoo() == null) {
       return null;

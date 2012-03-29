@@ -36,6 +36,14 @@ public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<Parent
     return name(name);
   }
 
+  @Override
+  public ParentBParentBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (ParentBParentBuilder) super.defaults();
+  }
+
   public List<ParentBChildBarBuilder> parentBChildBars() {
     List<ParentBChildBarBuilder> b = new ArrayList<ParentBChildBarBuilder>();
     for (ParentBChildBar e : get().getParentBChildBars()) {

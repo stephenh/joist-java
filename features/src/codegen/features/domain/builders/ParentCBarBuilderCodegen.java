@@ -33,6 +33,20 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
     return name(name);
   }
 
+  @Override
+  public ParentCBarBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    if (firstParent() == null) {
+      firstParent(Builders.aParentCFoo().defaults());
+    }
+    if (secondParent() == null) {
+      secondParent(Builders.aParentCFoo().defaults());
+    }
+    return (ParentCBarBuilder) super.defaults();
+  }
+
   public ParentCFooBuilder firstParent() {
     if (get().getFirstParent() == null) {
       return null;

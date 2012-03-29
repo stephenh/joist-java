@@ -36,6 +36,14 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
     return name(name);
   }
 
+  @Override
+  public InheritanceAThingBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (InheritanceAThingBuilder) super.defaults();
+  }
+
   public List<InheritanceASubOneBuilder> inheritanceASubOnes() {
     List<InheritanceASubOneBuilder> b = new ArrayList<InheritanceASubOneBuilder>();
     for (InheritanceASubOne e : get().getInheritanceASubOnes()) {

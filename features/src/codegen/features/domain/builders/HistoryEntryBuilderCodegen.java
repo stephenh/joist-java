@@ -51,6 +51,23 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
     return primaryKey(primaryKey);
   }
 
+  @Override
+  public HistoryEntryBuilder defaults() {
+    if (primaryKey() == null) {
+      primaryKey(0);
+    }
+    if (rootTableName() == null) {
+      rootTableName("rootTableName");
+    }
+    if (type() == null) {
+      type("type");
+    }
+    if (updateTime() == null) {
+      updateTime(TimePoint.from(0));
+    }
+    return (HistoryEntryBuilder) super.defaults();
+  }
+
   public String propertyName() {
     return get().getPropertyName();
   }

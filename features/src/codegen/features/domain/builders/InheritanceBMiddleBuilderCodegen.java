@@ -22,6 +22,14 @@ public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootB
     return middleName(middleName);
   }
 
+  @Override
+  public InheritanceBMiddleBuilder defaults() {
+    if (middleName() == null) {
+      middleName("middleName");
+    }
+    return (InheritanceBMiddleBuilder) super.defaults();
+  }
+
   public InheritanceBMiddle get() {
     return (features.domain.InheritanceBMiddle) super.get();
   }

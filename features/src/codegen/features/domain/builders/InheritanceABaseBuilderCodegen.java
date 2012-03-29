@@ -33,6 +33,14 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
     return name(name);
   }
 
+  @Override
+  public InheritanceABaseBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (InheritanceABaseBuilder) super.defaults();
+  }
+
   public InheritanceAOwnerBuilder inheritanceAOwner() {
     if (get().getInheritanceAOwner() == null) {
       return null;

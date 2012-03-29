@@ -33,6 +33,17 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
     return name(name);
   }
 
+  @Override
+  public GrandChildBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    if (child() == null) {
+      child(Builders.aChild().defaults());
+    }
+    return (GrandChildBuilder) super.defaults();
+  }
+
   public ChildBuilder child() {
     if (get().getChild() == null) {
       return null;

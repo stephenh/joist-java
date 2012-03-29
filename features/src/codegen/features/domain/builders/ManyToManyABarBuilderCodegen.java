@@ -35,6 +35,14 @@ public abstract class ManyToManyABarBuilderCodegen extends AbstractBuilder<ManyT
     return name(name);
   }
 
+  @Override
+  public ManyToManyABarBuilder defaults() {
+    if (name() == null) {
+      name("name");
+    }
+    return (ManyToManyABarBuilder) super.defaults();
+  }
+
   public List<ManyToManyAFooToBarBuilder> manyToManyAFooToBars() {
     List<ManyToManyAFooToBarBuilder> b = new ArrayList<ManyToManyAFooToBarBuilder>();
     for (ManyToManyAFooToBar e : get().getManyToManyAFooToBars()) {

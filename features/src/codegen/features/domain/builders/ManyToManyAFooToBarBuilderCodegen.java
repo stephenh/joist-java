@@ -45,6 +45,17 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
     return manyToManyABar(manyToManyABar);
   }
 
+  @Override
+  public ManyToManyAFooToBarBuilder defaults() {
+    if (manyToManyABar() == null) {
+      manyToManyABar(Builders.aManyToManyABar().defaults());
+    }
+    if (manyToManyAFoo() == null) {
+      manyToManyAFoo(Builders.aManyToManyAFoo().defaults());
+    }
+    return (ManyToManyAFooToBarBuilder) super.defaults();
+  }
+
   public ManyToManyAFooBuilder manyToManyAFoo() {
     if (get().getManyToManyAFoo() == null) {
       return null;

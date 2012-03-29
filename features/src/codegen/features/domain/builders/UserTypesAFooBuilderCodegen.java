@@ -24,6 +24,17 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
     return created(created);
   }
 
+  @Override
+  public UserTypesAFooBuilder defaults() {
+    if (created() == null) {
+      created(null);
+    }
+    if (name() == null) {
+      name("name");
+    }
+    return (UserTypesAFooBuilder) super.defaults();
+  }
+
   public Long id() {
     return get().getId();
   }

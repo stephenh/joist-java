@@ -28,6 +28,23 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
     return (PrimitivesBBuilder) this;
   }
 
+  @Override
+  public PrimitivesBBuilder defaults() {
+    if (big2() == null) {
+      big2(0l);
+    }
+    if (bool2() == null) {
+      bool2(false);
+    }
+    if (int2() == null) {
+      int2(0);
+    }
+    if (small2() == null) {
+      small2((short) 0);
+    }
+    return (PrimitivesBBuilder) super.defaults();
+  }
+
   public Boolean bool1() {
     return get().getBool1();
   }

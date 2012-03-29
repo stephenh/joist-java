@@ -23,6 +23,14 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
     return two(two);
   }
 
+  @Override
+  public InheritanceASubTwoBuilder defaults() {
+    if (two() == null) {
+      two("two");
+    }
+    return (InheritanceASubTwoBuilder) super.defaults();
+  }
+
   public InheritanceAThingBuilder inheritanceAThing() {
     if (get().getInheritanceAThing() == null) {
       return null;

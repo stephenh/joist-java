@@ -22,6 +22,14 @@ public abstract class InheritanceBBottomBuilderCodegen extends InheritanceBMiddl
     return bottomName(bottomName);
   }
 
+  @Override
+  public InheritanceBBottomBuilder defaults() {
+    if (bottomName() == null) {
+      bottomName("bottomName");
+    }
+    return (InheritanceBBottomBuilder) super.defaults();
+  }
+
   public InheritanceBBottom get() {
     return (features.domain.InheritanceBBottom) super.get();
   }
