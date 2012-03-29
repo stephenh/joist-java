@@ -2,7 +2,11 @@ package features.domain;
 
 import static features.domain.builders.Builders.aChild;
 import static features.domain.builders.Builders.aParent;
+import static features.domain.builders.Builders.aPrimitives;
+import static features.domain.builders.Builders.existing;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Assert;
@@ -10,6 +14,7 @@ import org.junit.Test;
 
 import features.domain.builders.ChildBuilder;
 import features.domain.builders.ParentBuilder;
+import features.domain.builders.PrimitivesBuilder;
 
 public class BuildersTest extends AbstractFeaturesTest {
 
@@ -37,5 +42,34 @@ public class BuildersTest extends AbstractFeaturesTest {
   public void testAddedFunctionalityToWithMethod() {
     ChildBuilder c = aChild().with(aParent());
     assertThat(c.name(), is("foo"));
+  }
+
+  @Test
+  public void testDefaults() {
+    PrimitivesBuilder p = aPrimitives().defaults();
+    assertThat(p.id(), is(nullValue()));
+    assertThat(p.get().getVersion(), is(nullValue()));
+    assertThat(p.name(), is("name"));
+    assertThat(p.flag(), is(false));
+  }
+
+  @Test
+  public void testDefaultsForCodes() {
+    CodeADomainObject o = new CodeADomainObject();
+    // the cstr sets one code, not the other
+    assertThat(o.getCodeAColor(), is(CodeAColor.BLUE));
+    assertThat(o.getCodeASize(), is(nullValue()));
+    // but the defaults method sets both
+    existing(o).defaults();
+    assertThat(o.getCodeAColor(), is(CodeAColor.BLUE));
+    assertThat(o.getCodeASize(), is(CodeASize.ONE));
+  }
+
+  @Test
+  public void testDefaultsForEntities() {
+    ChildBuilder c = aChild().defaults();
+    assertThat(c.name(), is("foo")); // er, side-effect of parents call
+    assertThat(c.parent(), is(not(nullValue())));
+    assertThat(c.parent().name(), is("name"));
   }
 }

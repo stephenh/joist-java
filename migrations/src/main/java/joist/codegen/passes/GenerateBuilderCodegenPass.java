@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joist.codegen.Codegen;
+import joist.codegen.dtos.CodeEntity;
 import joist.codegen.dtos.Entity;
 import joist.codegen.dtos.ManyToOneProperty;
 import joist.codegen.dtos.OneToManyProperty;
@@ -36,10 +37,15 @@ public class GenerateBuilderCodegenPass implements Pass {
       builderCodegen.addAnnotation("@SuppressWarnings(\"all\")");
 
       this.constructor(builderCodegen, entity);
-      this.primitiveProperties(builderCodegen, entity);
+      this.primitiveProperties(codegen, builderCodegen, entity);
       this.manyToOneProperties(builderCodegen, entity);
       this.oneToManyProperties(builderCodegen, entity);
       this.overrideGet(builderCodegen, entity);
+
+      GMethod defaults = builderCodegen.getMethod("defaults");
+      defaults.addAnnotation("@Override");
+      defaults.returnType(entity.getBuilderClassName());
+      defaults.body.line("return ({}) super.defaults();", entity.getBuilderClassName());
     }
   }
 
@@ -52,13 +58,13 @@ public class GenerateBuilderCodegenPass implements Pass {
     builderCodegen.getMethod("get").returnType(entity.getFullClassName()).body.line("return ({}) super.get();", entity.getFullClassName());
   }
 
-  private void primitiveProperties(GClass c, Entity entity) {
+  private void primitiveProperties(Codegen codegen, GClass c, Entity entity) {
     // first pass to get the types
     MapToList<String, String> perType = new MapToList<String, String>();
     for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
       perType.get(p.getJavaType()).add(p.getVariableName());
     }
-
+    // second pass to output the getters/setters
     for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
       if (p.getVariableName().equals("version")) {
         continue;
@@ -70,6 +76,16 @@ public class GenerateBuilderCodegenPass implements Pass {
       // overload with(value) setter
       if (perType.get(p.getJavaType()).size() == 1) {
         this.addFluentWith(c, entity, p.getVariableName(), p.getJavaType());
+      }
+      // add to defaults
+      if (p.shouldHaveNotNullRule()) {
+        String defaultValue;
+        if (String.class.getName().equals(p.getJavaType())) {
+          defaultValue = "\"" + p.getVariableName() + "\"";
+        } else {
+          defaultValue = codegen.getConfig().getBuildersDefault(p.getJavaType());
+        }
+        this.addToDefaults(c, p.getVariableName(), defaultValue);
       }
     }
   }
@@ -100,7 +116,6 @@ public class GenerateBuilderCodegenPass implements Pass {
           c.addImports(List.class, ArrayList.class);
           c.addImports(otom.getManySide().getFullClassName());
         }
-
         // child(i) -> ChildBuilder
         {
           GMethod m = c.getMethod(StringUtils.uncapitalize(otom.getCapitalVariableNameSingular()), Argument.arg("int", "i"));
@@ -117,7 +132,7 @@ public class GenerateBuilderCodegenPass implements Pass {
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       perType.get(mtop.getJavaType()).add(mtop.getVariableName());
     }
-
+    // second pass to output the getters/setters
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       // regular foo() getter
       if (mtop.getOneSide().isCodeEntity()) {
@@ -139,6 +154,18 @@ public class GenerateBuilderCodegenPass implements Pass {
         // overload with(valueBuilder) setter
         if (perType.get(mtop.getJavaType()).size() == 1) {
           this.addFluentWith(c, entity, mtop.getVariableName(), mtop.getOneSide().getBuilderClassName());
+        }
+      }
+
+      // add to defaults
+      if (mtop.isNotNull()) {
+        if (mtop.getOneSide().isCodeEntity()) {
+          CodeEntity ce = (CodeEntity) mtop.getOneSide();
+          String defaultValue = ce.getClassName() + "." + ce.getCodes().get(0).getEnumName();
+          this.addToDefaults(c, mtop.getVariableName(), defaultValue);
+        } else if (!mtop.getOneSide().isAbstract()) {
+          String defaultValue = "Builders.a" + mtop.getOneSide().getClassName() + "().defaults()";
+          this.addToDefaults(c, mtop.getVariableName(), defaultValue);
         }
       }
     }
@@ -176,6 +203,13 @@ public class GenerateBuilderCodegenPass implements Pass {
     m.body.line("_   return null;");
     m.body.line("}");
     m.body.line("return Builders.existing(get().get{}());", Inflector.capitalize(variableName));
+  }
+
+  private void addToDefaults(GClass c, String variableName, String defaultValue) {
+    GMethod defaults = c.getMethod("defaults");
+    defaults.body.line("if ({}() == null) {", variableName);
+    defaults.body.line("_   {}({});", variableName, defaultValue);
+    defaults.body.line("}");
   }
 
 }
