@@ -32,8 +32,7 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
   }
 
   public ParentCFooBuilder with(String name) {
-    get().setName(name);
-    return (ParentCFooBuilder) this;
+    return name(name);
   }
 
   public List<ParentCBarBuilder> firstParentParentCBars() {

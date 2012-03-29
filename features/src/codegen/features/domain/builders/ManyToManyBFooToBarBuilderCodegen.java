@@ -34,18 +34,15 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
   }
 
   public ManyToManyBFooToBarBuilder with(ManyToManyBFoo blue) {
-    get().setBlue(blue);
-    return (ManyToManyBFooToBarBuilder) this;
+    return blue(blue);
   }
 
   public ManyToManyBFooToBarBuilder blue(ManyToManyBFooBuilder blue) {
-    get().setBlue(blue.get());
-    return (ManyToManyBFooToBarBuilder) this;
+    return blue(blue.get());
   }
 
   public ManyToManyBFooToBarBuilder with(ManyToManyBFooBuilder blue) {
-    get().setBlue(blue.get());
-    return (ManyToManyBFooToBarBuilder) this;
+    return blue(blue);
   }
 
   public ManyToManyBBarBuilder green() {
@@ -61,18 +58,15 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
   }
 
   public ManyToManyBFooToBarBuilder with(ManyToManyBBar green) {
-    get().setGreen(green);
-    return (ManyToManyBFooToBarBuilder) this;
+    return green(green);
   }
 
   public ManyToManyBFooToBarBuilder green(ManyToManyBBarBuilder green) {
-    get().setGreen(green.get());
-    return (ManyToManyBFooToBarBuilder) this;
+    return green(green.get());
   }
 
   public ManyToManyBFooToBarBuilder with(ManyToManyBBarBuilder green) {
-    get().setGreen(green.get());
-    return (ManyToManyBFooToBarBuilder) this;
+    return green(green);
   }
 
   public ManyToManyBFooToBar get() {

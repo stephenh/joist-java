@@ -20,8 +20,7 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
   }
 
   public InheritanceASubTwoBuilder with(String two) {
-    get().setTwo(two);
-    return (InheritanceASubTwoBuilder) this;
+    return two(two);
   }
 
   public InheritanceAThingBuilder inheritanceAThing() {
@@ -37,18 +36,15 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
   }
 
   public InheritanceASubTwoBuilder with(InheritanceAThing inheritanceAThing) {
-    get().setInheritanceAThing(inheritanceAThing);
-    return (InheritanceASubTwoBuilder) this;
+    return inheritanceAThing(inheritanceAThing);
   }
 
   public InheritanceASubTwoBuilder inheritanceAThing(InheritanceAThingBuilder inheritanceAThing) {
-    get().setInheritanceAThing(inheritanceAThing.get());
-    return (InheritanceASubTwoBuilder) this;
+    return inheritanceAThing(inheritanceAThing.get());
   }
 
   public InheritanceASubTwoBuilder with(InheritanceAThingBuilder inheritanceAThing) {
-    get().setInheritanceAThing(inheritanceAThing.get());
-    return (InheritanceASubTwoBuilder) this;
+    return inheritanceAThing(inheritanceAThing);
   }
 
   public InheritanceASubTwo get() {

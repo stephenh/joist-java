@@ -32,8 +32,7 @@ public abstract class ManyToManyBFooBuilderCodegen extends AbstractBuilder<ManyT
   }
 
   public ManyToManyBFooBuilder with(String name) {
-    get().setName(name);
-    return (ManyToManyBFooBuilder) this;
+    return name(name);
   }
 
   public List<ManyToManyBFooToBarBuilder> blueManyToManyBFooToBars() {

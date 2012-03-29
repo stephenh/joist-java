@@ -30,8 +30,7 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
   }
 
   public GrandChildBuilder with(String name) {
-    get().setName(name);
-    return (GrandChildBuilder) this;
+    return name(name);
   }
 
   public ChildBuilder child() {
@@ -47,18 +46,15 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
   }
 
   public GrandChildBuilder with(Child child) {
-    get().setChild(child);
-    return (GrandChildBuilder) this;
+    return child(child);
   }
 
   public GrandChildBuilder child(ChildBuilder child) {
-    get().setChild(child.get());
-    return (GrandChildBuilder) this;
+    return child(child.get());
   }
 
   public GrandChildBuilder with(ChildBuilder child) {
-    get().setChild(child.get());
-    return (GrandChildBuilder) this;
+    return child(child);
   }
 
   public GrandChild get() {

@@ -48,8 +48,7 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
   }
 
   public HistoryEntryBuilder with(Integer primaryKey) {
-    get().setPrimaryKey(primaryKey);
-    return (HistoryEntryBuilder) this;
+    return primaryKey(primaryKey);
   }
 
   public String propertyName() {
@@ -89,8 +88,7 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
   }
 
   public HistoryEntryBuilder with(TimePoint updateTime) {
-    get().setUpdateTime(updateTime);
-    return (HistoryEntryBuilder) this;
+    return updateTime(updateTime);
   }
 
   public String updater() {

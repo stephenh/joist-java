@@ -29,8 +29,7 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
   }
 
   public InheritanceCBuilder with(String name) {
-    get().setName(name);
-    return (InheritanceCBuilder) this;
+    return name(name);
   }
 
   public InheritanceC get() {

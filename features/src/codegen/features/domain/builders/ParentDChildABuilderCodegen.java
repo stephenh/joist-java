@@ -30,8 +30,7 @@ public abstract class ParentDChildABuilderCodegen extends AbstractBuilder<Parent
   }
 
   public ParentDChildABuilder with(String name) {
-    get().setName(name);
-    return (ParentDChildABuilder) this;
+    return name(name);
   }
 
   public ParentDBuilder parentD() {
@@ -47,18 +46,15 @@ public abstract class ParentDChildABuilderCodegen extends AbstractBuilder<Parent
   }
 
   public ParentDChildABuilder with(ParentD parentD) {
-    get().setParentD(parentD);
-    return (ParentDChildABuilder) this;
+    return parentD(parentD);
   }
 
   public ParentDChildABuilder parentD(ParentDBuilder parentD) {
-    get().setParentD(parentD.get());
-    return (ParentDChildABuilder) this;
+    return parentD(parentD.get());
   }
 
   public ParentDChildABuilder with(ParentDBuilder parentD) {
-    get().setParentD(parentD.get());
-    return (ParentDChildABuilder) this;
+    return parentD(parentD);
   }
 
   public ParentDChildA get() {

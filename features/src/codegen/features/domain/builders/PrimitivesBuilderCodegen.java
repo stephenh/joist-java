@@ -20,8 +20,7 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
   }
 
   public PrimitivesBuilder with(Boolean flag) {
-    get().setFlag(flag);
-    return (PrimitivesBuilder) this;
+    return flag(flag);
   }
 
   public Long id() {
@@ -43,8 +42,7 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
   }
 
   public PrimitivesBuilder with(String name) {
-    get().setName(name);
-    return (PrimitivesBuilder) this;
+    return name(name);
   }
 
   public Primitives get() {

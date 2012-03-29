@@ -22,8 +22,7 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
   }
 
   public PrimitivesCBuilder with(Money dollarAmount) {
-    get().setDollarAmount(dollarAmount);
-    return (PrimitivesCBuilder) this;
+    return dollarAmount(dollarAmount);
   }
 
   public Long id() {
@@ -45,8 +44,7 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
   }
 
   public PrimitivesCBuilder with(String name) {
-    get().setName(name);
-    return (PrimitivesCBuilder) this;
+    return name(name);
   }
 
   public TimePoint timestamp() {
@@ -59,8 +57,7 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
   }
 
   public PrimitivesCBuilder with(TimePoint timestamp) {
-    get().setTimestamp(timestamp);
-    return (PrimitivesCBuilder) this;
+    return timestamp(timestamp);
   }
 
   public PrimitivesC get() {

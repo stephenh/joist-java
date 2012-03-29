@@ -32,8 +32,7 @@ public abstract class ParentBuilderCodegen extends AbstractBuilder<Parent> {
   }
 
   public ParentBuilder with(String name) {
-    get().setName(name);
-    return (ParentBuilder) this;
+    return name(name);
   }
 
   public List<ChildBuilder> childs() {
