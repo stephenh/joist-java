@@ -84,6 +84,13 @@ Implementation Details:
 * [Code Generation](codeGeneration.html) to avoid boilerplate
 * [Eclipse Tips](eclipseTips.html)
 
+Blog posts:
+
+* [Joist Builder Defaults](http://draconianoverlord.com/2012/03/29/joist-builder-defaults.html)
+* [Joist, the Java ORM for Me](http://draconianoverlord.com/2012/03/21/joist-orm.html)
+* [Joist Tip--Fast Database Resets](http://draconianoverlord.com/2010/08/22/joist-tip-fast-database-resets.html)
+* [Joist vs. Hibernate SQL](http://draconianoverlord.com/2010/08/15/joist-vs-hibernate-sql.html)
+
 Opinions
 --------
 
