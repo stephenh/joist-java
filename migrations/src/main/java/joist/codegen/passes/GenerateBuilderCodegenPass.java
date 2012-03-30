@@ -5,6 +5,7 @@ import java.util.List;
 
 import joist.codegen.Codegen;
 import joist.codegen.dtos.CodeEntity;
+import joist.codegen.dtos.CodeValue;
 import joist.codegen.dtos.Entity;
 import joist.codegen.dtos.ManyToOneProperty;
 import joist.codegen.dtos.OneToManyProperty;
@@ -129,8 +130,15 @@ public class GenerateBuilderCodegenPass implements Pass {
   private void manyToOneProperties(GClass c, Entity entity) {
     // first pass to get the types so we can add "with(Type)" if there is only 1 property of Type
     MapToList<String, String> perType = new MapToList<String, String>();
+    // and also whether we have overlapping code names
+    MapToList<String, String> perCodeName = new MapToList<String, String>();
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       perType.get(mtop.getJavaType()).add(mtop.getVariableName());
+      if (mtop.getOneSide().isCodeEntity()) {
+        for (CodeValue code : ((CodeEntity) mtop.getOneSide()).getCodes()) {
+          perCodeName.get(code.getEnumName()).add(mtop.getOneSide().getClassName());
+        }
+      }
     }
     // second pass to output the getters/setters
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
@@ -166,6 +174,25 @@ public class GenerateBuilderCodegenPass implements Pass {
         } else if (!mtop.getOneSide().isAbstract()) {
           String defaultValue = "Builders.a" + mtop.getOneSide().getClassName() + "().defaults()";
           this.addToDefaults(c, mtop.getVariableName(), defaultValue);
+        }
+      }
+
+      // add codeValue() methods
+      if (mtop.getOneSide().isCodeEntity()) {
+        for (CodeValue code : ((CodeEntity) mtop.getOneSide()).getCodes()) {
+          if (perCodeName.get(code.getEnumName()).size() == 1) {
+            {
+              // e.g. blue()
+              GMethod m = c.getMethod(Inflector.uncapitalize(code.getNameCamelCased()));
+              m.returnType(entity.getBuilderClassName());
+              m.body.line("return {}({}.{});", mtop.getVariableName(), mtop.getOneSide().getClassName(), code.getEnumName());
+            }
+            {
+              // e.g. isBlue()
+              GMethod m = c.getMethod("is" + code.getNameCamelCased()).returnType("boolean");
+              m.body.line("return get().is{}();", code.getNameCamelCased());
+            }
+          }
         }
       }
     }
