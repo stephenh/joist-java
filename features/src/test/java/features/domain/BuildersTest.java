@@ -1,6 +1,7 @@
 package features.domain;
 
 import static features.domain.builders.Builders.aChild;
+import static features.domain.builders.Builders.aCodeADomainObject;
 import static features.domain.builders.Builders.aParent;
 import static features.domain.builders.Builders.aPrimitives;
 import static features.domain.builders.Builders.existing;
@@ -13,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import features.domain.builders.ChildBuilder;
+import features.domain.builders.CodeADomainObjectBuilder;
 import features.domain.builders.ParentBuilder;
 import features.domain.builders.PrimitivesBuilder;
 
@@ -71,5 +73,15 @@ public class BuildersTest extends AbstractFeaturesTest {
     assertThat(c.name(), is("foo")); // er, side-effect of parents call
     assertThat(c.parent(), is(not(nullValue())));
     assertThat(c.parent().name(), is("name"));
+  }
+
+  @Test
+  public void testFluentCodeValues() {
+    CodeADomainObjectBuilder d = aCodeADomainObject().blue().one();
+    assertThat(d.codeAColor(), is(CodeAColor.BLUE));
+    assertThat(d.codeASize(), is(CodeASize.ONE));
+    // also has fluent accessors
+    assertThat(d.isBlue(), is(true));
+    assertThat(d.isOne(), is(true));
   }
 }
