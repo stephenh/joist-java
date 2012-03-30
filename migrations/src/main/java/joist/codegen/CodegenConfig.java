@@ -105,6 +105,7 @@ public class CodegenConfig {
     this.builderDefaultsByJavaType.put(Long.class.getName(), "0l");
     this.builderDefaultsByJavaType.put(Boolean.class.getName(), "false");
     this.builderDefaultsByJavaType.put("com.domainlanguage.time.TimePoint", "TimePoint.from(0)");
+    this.builderDefaultsByJavaType.put("com.domainlanguage.time.CalendarDate", "CalendarDate.from(1970, 1, 1)");
     this.builderDefaultsByJavaType.put("com.domainlanguage.money.Money", "Money.dollars(0)");
 
     this.setJavaType("int", Integer.class.getName(), IntAliasColumn.class.getName());
