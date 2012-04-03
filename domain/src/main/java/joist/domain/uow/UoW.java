@@ -21,7 +21,7 @@ public class UoW {
     try {
       UoW.open(repo, updater);
       block.go();
-      UoW.commit();
+      UoW.commitUnlessRolledBack();
       committed = true;
     } finally {
       UoW.safelyRollbackAndCloseIfNeeded(committed);
@@ -33,7 +33,7 @@ public class UoW {
     try {
       UoW.open(repo, updater);
       T value = block.go();
-      UoW.commit();
+      UoW.commitUnlessRolledBack();
       committed = true;
       return value;
     } finally {
@@ -55,7 +55,7 @@ public class UoW {
     try {
       UoW.open(repo, updater);
       block.go();
-      UoW.commit();
+      UoW.commitUnlessRolledBack();
       committed = true;
     } catch (Exception e) {
       block.stopped(e);
@@ -69,7 +69,7 @@ public class UoW {
     try {
       UoW.open(repo, updater);
       T value = block.go();
-      UoW.commit();
+      UoW.commitUnlessRolledBack();
       committed = true;
       return value;
     } catch (Exception e) {
@@ -127,6 +127,15 @@ public class UoW {
     UoW.getCurrent().commit();
   }
 
+  /**
+   * Commits the transaction, after flushing, unless it's been rolled back.
+   *
+   * @throws ValidationException if validation errors occur
+   */
+  public static void commitUnlessRolledBack() {
+    UoW.getCurrent().commitUnlessRolledBack();
+  }
+
   /** Rolls back the transaction. */
   public static void rollback() {
     UoW.getCurrent().rollback();
@@ -136,7 +145,7 @@ public class UoW {
   public static void commitAndReOpen() {
     final Repository repo = UoW.getCurrent().getRepository();
     final Updater updater = UoW.getCurrent().getUpdater();
-    UoW.commit();
+    UoW.commitUnlessRolledBack();
     UoW.close();
     UoW.open(repo, updater);
   }
