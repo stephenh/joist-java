@@ -86,7 +86,10 @@ public class GenerateBuilderCodegenPass implements Pass {
         } else {
           defaultValue = codegen.getConfig().getBuildersDefault(p.getJavaType());
         }
-        this.addToDefaults(c, p.getVariableName(), defaultValue);
+        // user types may not have configured defaults
+        if (defaultValue != null) {
+          this.addToDefaults(c, p.getVariableName(), defaultValue);
+        }
       }
     }
   }

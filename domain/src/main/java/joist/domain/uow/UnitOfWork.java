@@ -39,6 +39,7 @@ public class UnitOfWork {
   private final Connection connection;
   private final Db db;
   private Updater updater;
+  private boolean rolledBack;
 
   public UnitOfWork(final Repository repo, final Connection connection, Updater updater) {
     this.repo = repo;
@@ -60,12 +61,14 @@ public class UnitOfWork {
   }
 
   void flush() {
+    this.failIfRolledBack();
     this.validator.validate();
     this.flush(this.validator.getQueue(), this.validator.getDequeue());
     this.validator.resetQueueAndChangedProperties();
   }
 
   void commit() {
+    this.failIfRolledBack();
     this.flush();
     try {
       this.connection.commit();
@@ -74,7 +77,15 @@ public class UnitOfWork {
     }
   }
 
+  void commitUnlessRolledBack() {
+    if (this.rolledBack) {
+      return;
+    }
+    this.commit();
+  }
+
   void rollback() {
+    this.rolledBack = true;
     try {
       this.connection.rollback();
     } catch (SQLException se) {
@@ -175,6 +186,12 @@ public class UnitOfWork {
       }
     } else {
       throw new IllegalStateException("Unhandled db " + this.db);
+    }
+  }
+
+  private void failIfRolledBack() {
+    if (this.rolledBack) {
+      throw new IllegalStateException("UoW has been rolled back");
     }
   }
 }

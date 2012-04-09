@@ -486,16 +486,11 @@ public class GClass {
   }
 
   public GClass addHashCode(Collection<String> fieldNames) {
-    this.getField("_hashCode").type("Integer");
     GMethod hashCode = this.getMethod("hashCode").returnType("int").addAnnotation("@Override");
-    hashCode.body.line("if (_hashCode == null) {");
-    hashCode.body.line("_   int hashCode = 23;");
-    hashCode.body.line("_   hashCode = (hashCode * 37) + getClass().hashCode();");
+    hashCode.body.line("int hashCode = 23;");
+    hashCode.body.line("hashCode = (hashCode * 37) + getClass().hashCode();");
     for (GField field : filter(this.fields, fieldNames)) {
-      if (field.getName().equals("_hashCode")) {
-        continue;
-      }
-      String prefix = "_   hashCode = (hashCode * 37) + ";
+      String prefix = "hashCode = (hashCode * 37) + ";
       if (Primitives.isPrimitive(field.getTypeClassName())) {
         hashCode.body.line(prefix + "new {}({}).hashCode();", Primitives.getWrapper(field.getTypeClassName()), field.getName());
       } else if (field.getTypeClassName().endsWith("[]")) {
@@ -504,9 +499,7 @@ public class GClass {
         hashCode.body.line(prefix + "({} == null ? 1 : {}.hashCode());", field.getName(), field.getName());
       }
     }
-    hashCode.body.line("_   _hashCode = new Integer(hashCode);");
-    hashCode.body.line("}");
-    hashCode.body.line("return _hashCode.intValue();");
+    hashCode.body.line("return hashCode;");
     return this;
   }
 

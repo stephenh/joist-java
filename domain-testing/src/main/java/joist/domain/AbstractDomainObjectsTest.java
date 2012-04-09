@@ -7,7 +7,7 @@ import joist.util.TestCounters;
 
 public abstract class AbstractDomainObjectsTest {
 
-  private static Repository repo;
+  protected static Repository repo;
 
   public static void setRepository(Repository repo) {
     AbstractDomainObjectsTest.repo = repo;
