@@ -177,4 +177,10 @@ public class GMethod {
     return this;
   }
 
+  public GMethod assignFields() {
+    for (Argument arg : this.arguments) {
+      this.body.line("this.{} = {};", arg.name, arg.name);
+    }
+    return this;
+  }
 }
