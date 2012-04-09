@@ -289,4 +289,25 @@ public class GMethodTest {
       ""), gc.toCode());
   }
 
+  @Test
+  public void testAssignFieldsOfParameters() {
+    GClass gc = new GClass("Foo");
+    gc.getField("one").type("String");
+    gc.getField("two").type("Integer");
+    gc.getMethod("method", Argument.arg("String", "one"), Argument.arg("Integer", "two")).assignFields();
+    Assert.assertEquals(Join.lines(//
+      "public class Foo {",
+      "",
+      "    private String one;",
+      "    private Integer two;",
+      "",
+      "    public void method(String one, Integer two) {",
+      "        this.one = one;",
+      "        this.two = two;",
+      "    }",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
 }
