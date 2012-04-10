@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.ParentBChildFoo;
 import features.domain.ParentBParent;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<ParentBChildFoo> {
@@ -12,6 +13,9 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
   }
 
   public Long id() {
+    if (UoW.isOpen() && get().getId() == null) {
+      UoW.flush();
+    }
     return get().getId();
   }
 

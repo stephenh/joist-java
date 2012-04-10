@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.Child;
 import features.domain.GrandChild;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChild> {
@@ -12,6 +13,9 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
   }
 
   public Long id() {
+    if (UoW.isOpen() && get().getId() == null) {
+      UoW.flush();
+    }
     return get().getId();
   }
 

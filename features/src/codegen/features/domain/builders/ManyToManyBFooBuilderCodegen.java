@@ -5,6 +5,7 @@ import features.domain.ManyToManyBFooToBar;
 import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class ManyToManyBFooBuilderCodegen extends AbstractBuilder<ManyToManyBFoo> {
@@ -14,6 +15,9 @@ public abstract class ManyToManyBFooBuilderCodegen extends AbstractBuilder<ManyT
   }
 
   public Long id() {
+    if (UoW.isOpen() && get().getId() == null) {
+      UoW.flush();
+    }
     return get().getId();
   }
 

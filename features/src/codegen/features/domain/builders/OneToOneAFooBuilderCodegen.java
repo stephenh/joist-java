@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.OneToOneAFoo;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class OneToOneAFooBuilderCodegen extends AbstractBuilder<OneToOneAFoo> {
@@ -11,6 +12,9 @@ public abstract class OneToOneAFooBuilderCodegen extends AbstractBuilder<OneToOn
   }
 
   public Long id() {
+    if (UoW.isOpen() && get().getId() == null) {
+      UoW.flush();
+    }
     return get().getId();
   }
 

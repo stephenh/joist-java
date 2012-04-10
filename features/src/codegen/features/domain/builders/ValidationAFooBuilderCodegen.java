@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.ValidationAFoo;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<ValidationAFoo> {
@@ -11,6 +12,9 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
   }
 
   public Long id() {
+    if (UoW.isOpen() && get().getId() == null) {
+      UoW.flush();
+    }
     return get().getId();
   }
 

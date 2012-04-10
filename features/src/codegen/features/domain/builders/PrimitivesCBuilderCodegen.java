@@ -4,6 +4,7 @@ import com.domainlanguage.money.Money;
 import com.domainlanguage.time.TimePoint;
 import features.domain.PrimitivesC;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<PrimitivesC> {
@@ -40,6 +41,9 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
   }
 
   public Long id() {
+    if (UoW.isOpen() && get().getId() == null) {
+      UoW.flush();
+    }
     return get().getId();
   }
 

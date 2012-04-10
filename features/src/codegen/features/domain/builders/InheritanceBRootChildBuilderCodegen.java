@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.InheritanceBRoot;
 import features.domain.InheritanceBRootChild;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilder<InheritanceBRootChild> {
@@ -12,6 +13,9 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
   }
 
   public Long id() {
+    if (UoW.isOpen() && get().getId() == null) {
+      UoW.flush();
+    }
     return get().getId();
   }
 

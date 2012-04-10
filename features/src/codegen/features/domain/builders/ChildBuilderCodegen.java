@@ -6,6 +6,7 @@ import features.domain.Parent;
 import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
@@ -15,6 +16,9 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
   }
 
   public Long id() {
+    if (UoW.isOpen() && get().getId() == null) {
+      UoW.flush();
+    }
     return get().getId();
   }
 
