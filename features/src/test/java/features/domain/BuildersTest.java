@@ -49,7 +49,7 @@ public class BuildersTest extends AbstractFeaturesTest {
   @Test
   public void testDefaults() {
     PrimitivesBuilder p = aPrimitives().defaults();
-    assertThat(p.id(), is(nullValue()));
+    assertThat(p.get().getId(), is(nullValue()));
     assertThat(p.get().getVersion(), is(nullValue()));
     assertThat(p.name(), is("name"));
     assertThat(p.flag(), is(false));
@@ -83,5 +83,17 @@ public class BuildersTest extends AbstractFeaturesTest {
     // also has fluent accessors
     assertThat(d.isBlue(), is(true));
     assertThat(d.isOne(), is(true));
+  }
+
+  @Test
+  public void testIdAutoFlushes() {
+    Long id = aParent().defaults().id();
+    assertThat(id, is(1l));
+  }
+
+  @Test
+  public void testGetIdDoesNotAutoFlush() {
+    Long id = aParent().defaults().get().getId();
+    assertThat(id, is(nullValue()));
   }
 }
