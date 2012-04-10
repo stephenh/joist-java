@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.Primitives;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitives> {
@@ -35,6 +36,9 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
   }
 
   public Long id() {
+    if (UoW.isOpen() && get().getId() == null) {
+      UoW.flush();
+    }
     return get().getId();
   }
 

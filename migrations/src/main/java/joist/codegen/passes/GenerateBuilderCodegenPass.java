@@ -11,6 +11,7 @@ import joist.codegen.dtos.ManyToOneProperty;
 import joist.codegen.dtos.OneToManyProperty;
 import joist.codegen.dtos.PrimitiveProperty;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 import joist.sourcegen.Argument;
 import joist.sourcegen.GClass;
 import joist.sourcegen.GMethod;
@@ -69,6 +70,14 @@ public class GenerateBuilderCodegenPass implements Pass {
     for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
       if (p.getVariableName().equals("version")) {
         continue;
+      }
+      if (p.getVariableName().equals("id")) {
+        GMethod m = c.getMethod("id").returnType(p.getJavaType());
+        m.body.line("if (UoW.isOpen() && get().getId() == null) {");
+        m.body.line("_   UoW.flush();");
+        m.body.line("}");
+        // let addFluentGetter call below finish the method (add the return)
+        c.addImports(UoW.class);
       }
       // regular foo() getter
       this.addFluentGetter(c, p.getVariableName(), p.getJavaType());

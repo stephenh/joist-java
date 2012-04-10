@@ -3,6 +3,7 @@ package features.domain.builders;
 import com.domainlanguage.time.CalendarDate;
 import features.domain.UserTypesAFoo;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTypesAFoo> {
@@ -36,6 +37,9 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
   }
 
   public Long id() {
+    if (UoW.isOpen() && get().getId() == null) {
+      UoW.flush();
+    }
     return get().getId();
   }
 

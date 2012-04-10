@@ -4,6 +4,7 @@ import features.domain.CodeAColor;
 import features.domain.CodeADomainObject;
 import features.domain.CodeASize;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<CodeADomainObject> {
@@ -13,6 +14,9 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
   }
 
   public Long id() {
+    if (UoW.isOpen() && get().getId() == null) {
+      UoW.flush();
+    }
     return get().getId();
   }
 
