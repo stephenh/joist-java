@@ -214,7 +214,7 @@ public class GenerateBuilderCodegenPass implements Pass {
 
   private void manyToManyProperties(GClass c, Entity entity) {
     for (ManyToManyProperty mtmp : entity.getManyToManyProperties()) {
-      if (mtmp.getMySideOneToMany().isCollectionSkipped()) {
+      if (mtmp.getMySideOneToMany().isCollectionSkipped() || mtmp.getTargetTable().isCodeEntity()) {
         continue;
       }
 
