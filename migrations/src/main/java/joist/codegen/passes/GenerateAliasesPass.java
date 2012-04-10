@@ -21,7 +21,6 @@ import joist.sourcegen.GField;
 import joist.sourcegen.GMethod;
 import joist.util.Interpolate;
 import joist.util.TopologicalSort;
-import joist.util.Wrap;
 
 public class GenerateAliasesPass implements Pass {
 
@@ -121,6 +120,9 @@ public class GenerateAliasesPass implements Pass {
   }
 
   private void addConstructors(GClass aliasClass, Entity entity) {
+    GMethod cstr0 = aliasClass.getConstructor();
+    cstr0.body.line("this(\"{}\", null, true);", entity.getAliasAlias());
+
     GMethod cstr1 = aliasClass.getConstructor("String alias");
     cstr1.body.line("this(alias, null, true);");
 
@@ -206,7 +208,7 @@ public class GenerateAliasesPass implements Pass {
   private void appendToConstructors(GClass aliasClass, String line, Object... args) {
     line = Interpolate.string(line, args);
     for (GMethod constructor : aliasClass.getConstructors()) {
-      if (!constructor.hasSameArguments("String alias")) {
+      if (!constructor.hasSameArguments("String alias") && constructor.hasArguments()) {
         constructor.body.line(line);
       }
     }
@@ -249,7 +251,7 @@ public class GenerateAliasesPass implements Pass {
 
     GMethod method = aliasesClass.getMethod(entity.getVariableName()).returnType(entity.getAliasName()).setStatic();
     method.body.line("if ({} == null) {", entity.getVariableName());
-    method.body.line("_   {} = new {}({});", entity.getVariableName(), entity.getAliasName(), Wrap.quotes(entity.getAliasAlias()));
+    method.body.line("_   {} = new {}();", entity.getVariableName(), entity.getAliasName());
     method.body.line("_   AliasRegistry.register({}.class, {});", entity.getClassName(), entity.getVariableName());
     method.body.line("}");
     method.body.line("return {};", entity.getVariableName());
