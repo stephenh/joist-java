@@ -16,6 +16,13 @@ public class ChildTest extends AbstractFeaturesTest {
   }
 
   @Test
+  public void testNotEmpty() {
+    Child c = new Child();
+    c.setName("");
+    ValidationAssert.assertErrors(c, "Name cannot be empty", "Parent is required");
+  }
+
+  @Test
   public void testSaveAndReloadChildInSeparateUoWThanParent() {
     Parent p = new Parent();
     p.setName("parent");

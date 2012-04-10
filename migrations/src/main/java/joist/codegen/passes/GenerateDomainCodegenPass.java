@@ -19,6 +19,7 @@ import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 import joist.sourcegen.Argument;
 import joist.sourcegen.GClass;
@@ -113,11 +114,13 @@ public class GenerateDomainCodegenPass implements Pass {
       }
 
       if (p.getMaxCharacterLength() != 0) {
-        domainCodegen.getMethod("addExtraRules").body.line("this.addRule(new MaxLength<{}>(Shims.{}, {}));",//
+        GMethod addExtraRules = domainCodegen.getMethod("addExtraRules");
+        addExtraRules.body.line("this.addRule(new MaxLength<{}>(Shims.{}, {}));",//
           entity.getClassName(),
           p.getVariableName(),
           p.getMaxCharacterLength());
-        domainCodegen.addImports(MaxLength.class);
+        addExtraRules.body.line("this.addRule(new NotEmpty<{}>(Shims.{}));", entity.getClassName(), p.getVariableName());
+        domainCodegen.addImports(MaxLength.class, NotEmpty.class);
       }
 
       domainCodegen.addImports(Shim.class);
