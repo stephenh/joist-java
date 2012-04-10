@@ -15,6 +15,10 @@ public class InheritanceCAlias extends Alias<InheritanceC> {
   public final StringAliasColumn<InheritanceC> name = new StringAliasColumn<InheritanceC>(this, "name", InheritanceCCodegen.Shims.name);
   public final LongAliasColumn<InheritanceC> version = new LongAliasColumn<InheritanceC>(this, "version", InheritanceCCodegen.Shims.version);
 
+  public InheritanceCAlias() {
+    this("ic0", null, true);
+  }
+
   public InheritanceCAlias(String alias) {
     this(alias, null, true);
   }

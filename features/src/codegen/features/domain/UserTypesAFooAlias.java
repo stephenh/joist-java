@@ -17,6 +17,10 @@ public class UserTypesAFooAlias extends Alias<UserTypesAFoo> {
   public final StringAliasColumn<UserTypesAFoo> name = new StringAliasColumn<UserTypesAFoo>(this, "name", UserTypesAFooCodegen.Shims.name);
   public final LongAliasColumn<UserTypesAFoo> version = new LongAliasColumn<UserTypesAFoo>(this, "version", UserTypesAFooCodegen.Shims.version);
 
+  public UserTypesAFooAlias() {
+    this("utaf0", null, true);
+  }
+
   public UserTypesAFooAlias(String alias) {
     this(alias, null, true);
   }

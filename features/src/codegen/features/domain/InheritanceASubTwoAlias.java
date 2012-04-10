@@ -20,6 +20,10 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
   public final StringAliasColumn<InheritanceABase> name;
   public final LongAliasColumn<InheritanceABase> version;
 
+  public InheritanceASubTwoAlias() {
+    this("iast0", null, true);
+  }
+
   public InheritanceASubTwoAlias(String alias) {
     this(alias, null, true);
   }

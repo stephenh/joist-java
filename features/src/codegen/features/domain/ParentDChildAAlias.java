@@ -17,6 +17,10 @@ public class ParentDChildAAlias extends Alias<ParentDChildA> {
   public final LongAliasColumn<ParentDChildA> version = new LongAliasColumn<ParentDChildA>(this, "version", ParentDChildACodegen.Shims.version);
   public final ForeignKeyAliasColumn<ParentDChildA, ParentD> parentD = new ForeignKeyAliasColumn<ParentDChildA, ParentD>(this, "parent_d_id", ParentDChildACodegen.Shims.parentDId);
 
+  public ParentDChildAAlias() {
+    this("pdca0", null, true);
+  }
+
   public ParentDChildAAlias(String alias) {
     this(alias, null, true);
   }

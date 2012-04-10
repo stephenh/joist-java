@@ -18,6 +18,10 @@ public class ParentCFooAlias extends Alias<ParentCFoo> {
   public final StringAliasColumn<ParentCFoo> name = new StringAliasColumn<ParentCFoo>(this, "name", ParentCFooCodegen.Shims.name);
   public final LongAliasColumn<ParentCFoo> version = new LongAliasColumn<ParentCFoo>(this, "version", ParentCFooCodegen.Shims.version);
 
+  public ParentCFooAlias() {
+    this("pcf0", null, true);
+  }
+
   public ParentCFooAlias(String alias) {
     this(alias, null, true);
   }

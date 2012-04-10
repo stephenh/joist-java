@@ -16,6 +16,10 @@ public class ManyToManyBFooToBarAlias extends Alias<ManyToManyBFooToBar> {
   public final ForeignKeyAliasColumn<ManyToManyBFooToBar, ManyToManyBFoo> blue = new ForeignKeyAliasColumn<ManyToManyBFooToBar, ManyToManyBFoo>(this, "blue_id", ManyToManyBFooToBarCodegen.Shims.blueId);
   public final ForeignKeyAliasColumn<ManyToManyBFooToBar, ManyToManyBBar> green = new ForeignKeyAliasColumn<ManyToManyBFooToBar, ManyToManyBBar>(this, "green_id", ManyToManyBFooToBarCodegen.Shims.greenId);
 
+  public ManyToManyBFooToBarAlias() {
+    this("mtmbftb0", null, true);
+  }
+
   public ManyToManyBFooToBarAlias(String alias) {
     this(alias, null, true);
   }

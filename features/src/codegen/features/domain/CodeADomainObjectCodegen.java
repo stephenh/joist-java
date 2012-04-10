@@ -8,6 +8,7 @@ import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyCodeHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
@@ -33,6 +34,7 @@ public abstract class CodeADomainObjectCodegen extends AbstractDomainObject {
   private void addExtraRules() {
     this.addRule(new NotNull<CodeADomainObject>(Shims.name));
     this.addRule(new MaxLength<CodeADomainObject>(Shims.name, 100));
+    this.addRule(new NotEmpty<CodeADomainObject>(Shims.name));
     this.addRule(new NotNull<CodeADomainObject>(Shims.codeAColorId));
     this.addRule(new NotNull<CodeADomainObject>(Shims.codeASizeId));
   }

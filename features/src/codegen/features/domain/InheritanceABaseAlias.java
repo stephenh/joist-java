@@ -17,6 +17,10 @@ public class InheritanceABaseAlias extends Alias<InheritanceABase> {
   public final LongAliasColumn<InheritanceABase> version = new LongAliasColumn<InheritanceABase>(this, "version", InheritanceABaseCodegen.Shims.version);
   public final ForeignKeyAliasColumn<InheritanceABase, InheritanceAOwner> inheritanceAOwner = new ForeignKeyAliasColumn<InheritanceABase, InheritanceAOwner>(this, "inheritance_a_owner_id", InheritanceABaseCodegen.Shims.inheritanceAOwnerId);
 
+  public InheritanceABaseAlias() {
+    this("iab0", null, true);
+  }
+
   public InheritanceABaseAlias(String alias) {
     this(alias, null, true);
   }

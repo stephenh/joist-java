@@ -18,6 +18,10 @@ public class InheritanceAOwnerAlias extends Alias<InheritanceAOwner> {
   public final StringAliasColumn<InheritanceAOwner> name = new StringAliasColumn<InheritanceAOwner>(this, "name", InheritanceAOwnerCodegen.Shims.name);
   public final LongAliasColumn<InheritanceAOwner> version = new LongAliasColumn<InheritanceAOwner>(this, "version", InheritanceAOwnerCodegen.Shims.version);
 
+  public InheritanceAOwnerAlias() {
+    this("iao0", null, true);
+  }
+
   public InheritanceAOwnerAlias(String alias) {
     this(alias, null, true);
   }

@@ -7,6 +7,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
@@ -30,6 +31,7 @@ public abstract class InheritanceCCodegen extends AbstractDomainObject {
   private void addExtraRules() {
     this.addRule(new NotNull<InheritanceC>(Shims.name));
     this.addRule(new MaxLength<InheritanceC>(Shims.name, 100));
+    this.addRule(new NotEmpty<InheritanceC>(Shims.name));
   }
 
   public Long getId() {

@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.ManyToManyABar;
+import features.domain.ManyToManyAFoo;
 import features.domain.ManyToManyAFooToBar;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,38 @@ public abstract class ManyToManyABarBuilderCodegen extends AbstractBuilder<ManyT
 
   public ManyToManyAFooToBarBuilder manyToManyAFooToBar(int i) {
     return Builders.existing(get().getManyToManyAFooToBars().get(i));
+  }
+
+  public List<ManyToManyAFooBuilder> manyToManyAFoos() {
+    List<ManyToManyAFooBuilder> b = new ArrayList<ManyToManyAFooBuilder>();
+    for (ManyToManyAFoo e : get().getManyToManyAFoos()) {
+      b.add(Builders.existing(e));
+    }
+    return b;
+  }
+
+  public ManyToManyAFooBuilder manyToManyAFoo(int i) {
+    return Builders.existing(get().getManyToManyAFoos().get(i));
+  }
+
+  public ManyToManyABarBuilder manyToManyAFoo(ManyToManyAFoo manyToManyAFoos) {
+    get().addManyToManyAFoo(manyToManyAFoos);
+    return (ManyToManyABarBuilder) this;
+  }
+
+  public ManyToManyABarBuilder manyToManyAFoo(ManyToManyAFooBuilder manyToManyAFoos) {
+    get().addManyToManyAFoo(manyToManyAFoos.get());
+    return (ManyToManyABarBuilder) this;
+  }
+
+  public ManyToManyABarBuilder with(ManyToManyAFoo manyToManyAFoos) {
+    get().addManyToManyAFoo(manyToManyAFoos);
+    return (ManyToManyABarBuilder) this;
+  }
+
+  public ManyToManyABarBuilder with(ManyToManyAFooBuilder manyToManyAFoos) {
+    get().addManyToManyAFoo(manyToManyAFoos.get());
+    return (ManyToManyABarBuilder) this;
   }
 
   public ManyToManyABar get() {

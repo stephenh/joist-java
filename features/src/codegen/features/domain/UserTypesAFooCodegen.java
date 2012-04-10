@@ -8,6 +8,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
@@ -33,6 +34,7 @@ public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
     this.addRule(new NotNull<UserTypesAFoo>(Shims.created));
     this.addRule(new NotNull<UserTypesAFoo>(Shims.name));
     this.addRule(new MaxLength<UserTypesAFoo>(Shims.name, 100));
+    this.addRule(new NotEmpty<UserTypesAFoo>(Shims.name));
   }
 
   public CalendarDate getCreated() {

@@ -47,12 +47,9 @@ public class Aliases {
   private static UserTypesAFooAlias userTypesAFoo;
   private static ValidationAFooAlias validationAFoo;
 
-  public static void init() {
-  }
-
   public static ChildAlias child() {
     if (child == null) {
-      child = new ChildAlias("c0");
+      child = new ChildAlias();
       AliasRegistry.register(Child.class, child);
     }
     return child;
@@ -60,7 +57,7 @@ public class Aliases {
 
   public static CodeADomainObjectAlias codeADomainObject() {
     if (codeADomainObject == null) {
-      codeADomainObject = new CodeADomainObjectAlias("cado0");
+      codeADomainObject = new CodeADomainObjectAlias();
       AliasRegistry.register(CodeADomainObject.class, codeADomainObject);
     }
     return codeADomainObject;
@@ -68,7 +65,7 @@ public class Aliases {
 
   public static GrandChildAlias grandChild() {
     if (grandChild == null) {
-      grandChild = new GrandChildAlias("gc0");
+      grandChild = new GrandChildAlias();
       AliasRegistry.register(GrandChild.class, grandChild);
     }
     return grandChild;
@@ -76,7 +73,7 @@ public class Aliases {
 
   public static HistoryEntryAlias historyEntry() {
     if (historyEntry == null) {
-      historyEntry = new HistoryEntryAlias("he0");
+      historyEntry = new HistoryEntryAlias();
       AliasRegistry.register(HistoryEntry.class, historyEntry);
     }
     return historyEntry;
@@ -84,7 +81,7 @@ public class Aliases {
 
   public static InheritanceABaseAlias inheritanceABase() {
     if (inheritanceABase == null) {
-      inheritanceABase = new InheritanceABaseAlias("iab0");
+      inheritanceABase = new InheritanceABaseAlias();
       AliasRegistry.register(InheritanceABase.class, inheritanceABase);
     }
     return inheritanceABase;
@@ -92,7 +89,7 @@ public class Aliases {
 
   public static InheritanceAOwnerAlias inheritanceAOwner() {
     if (inheritanceAOwner == null) {
-      inheritanceAOwner = new InheritanceAOwnerAlias("iao0");
+      inheritanceAOwner = new InheritanceAOwnerAlias();
       AliasRegistry.register(InheritanceAOwner.class, inheritanceAOwner);
     }
     return inheritanceAOwner;
@@ -100,7 +97,7 @@ public class Aliases {
 
   public static InheritanceASubOneAlias inheritanceASubOne() {
     if (inheritanceASubOne == null) {
-      inheritanceASubOne = new InheritanceASubOneAlias("iaso0");
+      inheritanceASubOne = new InheritanceASubOneAlias();
       AliasRegistry.register(InheritanceASubOne.class, inheritanceASubOne);
     }
     return inheritanceASubOne;
@@ -108,7 +105,7 @@ public class Aliases {
 
   public static InheritanceASubTwoAlias inheritanceASubTwo() {
     if (inheritanceASubTwo == null) {
-      inheritanceASubTwo = new InheritanceASubTwoAlias("iast0");
+      inheritanceASubTwo = new InheritanceASubTwoAlias();
       AliasRegistry.register(InheritanceASubTwo.class, inheritanceASubTwo);
     }
     return inheritanceASubTwo;
@@ -116,7 +113,7 @@ public class Aliases {
 
   public static InheritanceAThingAlias inheritanceAThing() {
     if (inheritanceAThing == null) {
-      inheritanceAThing = new InheritanceAThingAlias("iat0");
+      inheritanceAThing = new InheritanceAThingAlias();
       AliasRegistry.register(InheritanceAThing.class, inheritanceAThing);
     }
     return inheritanceAThing;
@@ -124,7 +121,7 @@ public class Aliases {
 
   public static InheritanceBBottomAlias inheritanceBBottom() {
     if (inheritanceBBottom == null) {
-      inheritanceBBottom = new InheritanceBBottomAlias("ibb0");
+      inheritanceBBottom = new InheritanceBBottomAlias();
       AliasRegistry.register(InheritanceBBottom.class, inheritanceBBottom);
     }
     return inheritanceBBottom;
@@ -132,7 +129,7 @@ public class Aliases {
 
   public static InheritanceBMiddleAlias inheritanceBMiddle() {
     if (inheritanceBMiddle == null) {
-      inheritanceBMiddle = new InheritanceBMiddleAlias("ibm0");
+      inheritanceBMiddle = new InheritanceBMiddleAlias();
       AliasRegistry.register(InheritanceBMiddle.class, inheritanceBMiddle);
     }
     return inheritanceBMiddle;
@@ -140,7 +137,7 @@ public class Aliases {
 
   public static InheritanceBRootAlias inheritanceBRoot() {
     if (inheritanceBRoot == null) {
-      inheritanceBRoot = new InheritanceBRootAlias("ibr0");
+      inheritanceBRoot = new InheritanceBRootAlias();
       AliasRegistry.register(InheritanceBRoot.class, inheritanceBRoot);
     }
     return inheritanceBRoot;
@@ -148,7 +145,7 @@ public class Aliases {
 
   public static InheritanceBRootChildAlias inheritanceBRootChild() {
     if (inheritanceBRootChild == null) {
-      inheritanceBRootChild = new InheritanceBRootChildAlias("ibrc0");
+      inheritanceBRootChild = new InheritanceBRootChildAlias();
       AliasRegistry.register(InheritanceBRootChild.class, inheritanceBRootChild);
     }
     return inheritanceBRootChild;
@@ -156,7 +153,7 @@ public class Aliases {
 
   public static InheritanceCAlias inheritanceC() {
     if (inheritanceC == null) {
-      inheritanceC = new InheritanceCAlias("ic0");
+      inheritanceC = new InheritanceCAlias();
       AliasRegistry.register(InheritanceC.class, inheritanceC);
     }
     return inheritanceC;
@@ -164,7 +161,7 @@ public class Aliases {
 
   public static InheritanceCFoo1Alias inheritanceCFoo1() {
     if (inheritanceCFoo1 == null) {
-      inheritanceCFoo1 = new InheritanceCFoo1Alias("icf0");
+      inheritanceCFoo1 = new InheritanceCFoo1Alias();
       AliasRegistry.register(InheritanceCFoo1.class, inheritanceCFoo1);
     }
     return inheritanceCFoo1;
@@ -172,7 +169,7 @@ public class Aliases {
 
   public static InheritanceCFoo2Alias inheritanceCFoo2() {
     if (inheritanceCFoo2 == null) {
-      inheritanceCFoo2 = new InheritanceCFoo2Alias("icf0");
+      inheritanceCFoo2 = new InheritanceCFoo2Alias();
       AliasRegistry.register(InheritanceCFoo2.class, inheritanceCFoo2);
     }
     return inheritanceCFoo2;
@@ -180,7 +177,7 @@ public class Aliases {
 
   public static ManyToManyABarAlias manyToManyABar() {
     if (manyToManyABar == null) {
-      manyToManyABar = new ManyToManyABarAlias("mtmab0");
+      manyToManyABar = new ManyToManyABarAlias();
       AliasRegistry.register(ManyToManyABar.class, manyToManyABar);
     }
     return manyToManyABar;
@@ -188,7 +185,7 @@ public class Aliases {
 
   public static ManyToManyAFooAlias manyToManyAFoo() {
     if (manyToManyAFoo == null) {
-      manyToManyAFoo = new ManyToManyAFooAlias("mtmaf0");
+      manyToManyAFoo = new ManyToManyAFooAlias();
       AliasRegistry.register(ManyToManyAFoo.class, manyToManyAFoo);
     }
     return manyToManyAFoo;
@@ -196,7 +193,7 @@ public class Aliases {
 
   public static ManyToManyAFooToBarAlias manyToManyAFooToBar() {
     if (manyToManyAFooToBar == null) {
-      manyToManyAFooToBar = new ManyToManyAFooToBarAlias("mtmaftb0");
+      manyToManyAFooToBar = new ManyToManyAFooToBarAlias();
       AliasRegistry.register(ManyToManyAFooToBar.class, manyToManyAFooToBar);
     }
     return manyToManyAFooToBar;
@@ -204,7 +201,7 @@ public class Aliases {
 
   public static ManyToManyBBarAlias manyToManyBBar() {
     if (manyToManyBBar == null) {
-      manyToManyBBar = new ManyToManyBBarAlias("mtmbb0");
+      manyToManyBBar = new ManyToManyBBarAlias();
       AliasRegistry.register(ManyToManyBBar.class, manyToManyBBar);
     }
     return manyToManyBBar;
@@ -212,7 +209,7 @@ public class Aliases {
 
   public static ManyToManyBFooAlias manyToManyBFoo() {
     if (manyToManyBFoo == null) {
-      manyToManyBFoo = new ManyToManyBFooAlias("mtmbf0");
+      manyToManyBFoo = new ManyToManyBFooAlias();
       AliasRegistry.register(ManyToManyBFoo.class, manyToManyBFoo);
     }
     return manyToManyBFoo;
@@ -220,7 +217,7 @@ public class Aliases {
 
   public static ManyToManyBFooToBarAlias manyToManyBFooToBar() {
     if (manyToManyBFooToBar == null) {
-      manyToManyBFooToBar = new ManyToManyBFooToBarAlias("mtmbftb0");
+      manyToManyBFooToBar = new ManyToManyBFooToBarAlias();
       AliasRegistry.register(ManyToManyBFooToBar.class, manyToManyBFooToBar);
     }
     return manyToManyBFooToBar;
@@ -228,7 +225,7 @@ public class Aliases {
 
   public static OneToOneABarAlias oneToOneABar() {
     if (oneToOneABar == null) {
-      oneToOneABar = new OneToOneABarAlias("otoab0");
+      oneToOneABar = new OneToOneABarAlias();
       AliasRegistry.register(OneToOneABar.class, oneToOneABar);
     }
     return oneToOneABar;
@@ -236,7 +233,7 @@ public class Aliases {
 
   public static OneToOneAFooAlias oneToOneAFoo() {
     if (oneToOneAFoo == null) {
-      oneToOneAFoo = new OneToOneAFooAlias("otoaf0");
+      oneToOneAFoo = new OneToOneAFooAlias();
       AliasRegistry.register(OneToOneAFoo.class, oneToOneAFoo);
     }
     return oneToOneAFoo;
@@ -244,7 +241,7 @@ public class Aliases {
 
   public static OneToOneBBarAlias oneToOneBBar() {
     if (oneToOneBBar == null) {
-      oneToOneBBar = new OneToOneBBarAlias("otobb0");
+      oneToOneBBar = new OneToOneBBarAlias();
       AliasRegistry.register(OneToOneBBar.class, oneToOneBBar);
     }
     return oneToOneBBar;
@@ -252,7 +249,7 @@ public class Aliases {
 
   public static OneToOneBFooAlias oneToOneBFoo() {
     if (oneToOneBFoo == null) {
-      oneToOneBFoo = new OneToOneBFooAlias("otobf0");
+      oneToOneBFoo = new OneToOneBFooAlias();
       AliasRegistry.register(OneToOneBFoo.class, oneToOneBFoo);
     }
     return oneToOneBFoo;
@@ -260,7 +257,7 @@ public class Aliases {
 
   public static ParentAlias parent() {
     if (parent == null) {
-      parent = new ParentAlias("p0");
+      parent = new ParentAlias();
       AliasRegistry.register(Parent.class, parent);
     }
     return parent;
@@ -268,7 +265,7 @@ public class Aliases {
 
   public static ParentBChildBarAlias parentBChildBar() {
     if (parentBChildBar == null) {
-      parentBChildBar = new ParentBChildBarAlias("pbcb0");
+      parentBChildBar = new ParentBChildBarAlias();
       AliasRegistry.register(ParentBChildBar.class, parentBChildBar);
     }
     return parentBChildBar;
@@ -276,7 +273,7 @@ public class Aliases {
 
   public static ParentBChildFooAlias parentBChildFoo() {
     if (parentBChildFoo == null) {
-      parentBChildFoo = new ParentBChildFooAlias("pbcf0");
+      parentBChildFoo = new ParentBChildFooAlias();
       AliasRegistry.register(ParentBChildFoo.class, parentBChildFoo);
     }
     return parentBChildFoo;
@@ -284,7 +281,7 @@ public class Aliases {
 
   public static ParentBParentAlias parentBParent() {
     if (parentBParent == null) {
-      parentBParent = new ParentBParentAlias("pbp0");
+      parentBParent = new ParentBParentAlias();
       AliasRegistry.register(ParentBParent.class, parentBParent);
     }
     return parentBParent;
@@ -292,7 +289,7 @@ public class Aliases {
 
   public static ParentCBarAlias parentCBar() {
     if (parentCBar == null) {
-      parentCBar = new ParentCBarAlias("pcb0");
+      parentCBar = new ParentCBarAlias();
       AliasRegistry.register(ParentCBar.class, parentCBar);
     }
     return parentCBar;
@@ -300,7 +297,7 @@ public class Aliases {
 
   public static ParentCFooAlias parentCFoo() {
     if (parentCFoo == null) {
-      parentCFoo = new ParentCFooAlias("pcf0");
+      parentCFoo = new ParentCFooAlias();
       AliasRegistry.register(ParentCFoo.class, parentCFoo);
     }
     return parentCFoo;
@@ -308,7 +305,7 @@ public class Aliases {
 
   public static ParentDAlias parentD() {
     if (parentD == null) {
-      parentD = new ParentDAlias("pd0");
+      parentD = new ParentDAlias();
       AliasRegistry.register(ParentD.class, parentD);
     }
     return parentD;
@@ -316,7 +313,7 @@ public class Aliases {
 
   public static ParentDChildAAlias parentDChildA() {
     if (parentDChildA == null) {
-      parentDChildA = new ParentDChildAAlias("pdca0");
+      parentDChildA = new ParentDChildAAlias();
       AliasRegistry.register(ParentDChildA.class, parentDChildA);
     }
     return parentDChildA;
@@ -324,7 +321,7 @@ public class Aliases {
 
   public static ParentDChildBAlias parentDChildB() {
     if (parentDChildB == null) {
-      parentDChildB = new ParentDChildBAlias("pdcb0");
+      parentDChildB = new ParentDChildBAlias();
       AliasRegistry.register(ParentDChildB.class, parentDChildB);
     }
     return parentDChildB;
@@ -332,7 +329,7 @@ public class Aliases {
 
   public static ParentDChildCAlias parentDChildC() {
     if (parentDChildC == null) {
-      parentDChildC = new ParentDChildCAlias("pdcc0");
+      parentDChildC = new ParentDChildCAlias();
       AliasRegistry.register(ParentDChildC.class, parentDChildC);
     }
     return parentDChildC;
@@ -340,7 +337,7 @@ public class Aliases {
 
   public static ParentDToChildCAlias parentDToChildC() {
     if (parentDToChildC == null) {
-      parentDToChildC = new ParentDToChildCAlias("pdtcc0");
+      parentDToChildC = new ParentDToChildCAlias();
       AliasRegistry.register(ParentDToChildC.class, parentDToChildC);
     }
     return parentDToChildC;
@@ -348,7 +345,7 @@ public class Aliases {
 
   public static PrimitivesAlias primitives() {
     if (primitives == null) {
-      primitives = new PrimitivesAlias("p0");
+      primitives = new PrimitivesAlias();
       AliasRegistry.register(Primitives.class, primitives);
     }
     return primitives;
@@ -356,7 +353,7 @@ public class Aliases {
 
   public static PrimitivesBAlias primitivesB() {
     if (primitivesB == null) {
-      primitivesB = new PrimitivesBAlias("pb0");
+      primitivesB = new PrimitivesBAlias();
       AliasRegistry.register(PrimitivesB.class, primitivesB);
     }
     return primitivesB;
@@ -364,7 +361,7 @@ public class Aliases {
 
   public static PrimitivesCAlias primitivesC() {
     if (primitivesC == null) {
-      primitivesC = new PrimitivesCAlias("pc0");
+      primitivesC = new PrimitivesCAlias();
       AliasRegistry.register(PrimitivesC.class, primitivesC);
     }
     return primitivesC;
@@ -372,7 +369,7 @@ public class Aliases {
 
   public static UserTypesAFooAlias userTypesAFoo() {
     if (userTypesAFoo == null) {
-      userTypesAFoo = new UserTypesAFooAlias("utaf0");
+      userTypesAFoo = new UserTypesAFooAlias();
       AliasRegistry.register(UserTypesAFoo.class, userTypesAFoo);
     }
     return userTypesAFoo;
@@ -380,7 +377,7 @@ public class Aliases {
 
   public static ValidationAFooAlias validationAFoo() {
     if (validationAFoo == null) {
-      validationAFoo = new ValidationAFooAlias("vaf0");
+      validationAFoo = new ValidationAFooAlias();
       AliasRegistry.register(ValidationAFoo.class, validationAFoo);
     }
     return validationAFoo;

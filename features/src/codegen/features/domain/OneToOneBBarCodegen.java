@@ -8,6 +8,7 @@ import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
@@ -32,6 +33,7 @@ public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
   private void addExtraRules() {
     this.addRule(new NotNull<OneToOneBBar>(Shims.name));
     this.addRule(new MaxLength<OneToOneBBar>(Shims.name, 100));
+    this.addRule(new NotEmpty<OneToOneBBar>(Shims.name));
     this.addRule(new NotNull<OneToOneBBar>(Shims.oneToOneBFooId));
   }
 

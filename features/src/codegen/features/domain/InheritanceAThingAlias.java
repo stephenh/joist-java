@@ -18,6 +18,10 @@ public class InheritanceAThingAlias extends Alias<InheritanceAThing> {
   public final StringAliasColumn<InheritanceAThing> name = new StringAliasColumn<InheritanceAThing>(this, "name", InheritanceAThingCodegen.Shims.name);
   public final LongAliasColumn<InheritanceAThing> version = new LongAliasColumn<InheritanceAThing>(this, "version", InheritanceAThingCodegen.Shims.version);
 
+  public InheritanceAThingAlias() {
+    this("iat0", null, true);
+  }
+
   public InheritanceAThingAlias(String alias) {
     this(alias, null, true);
   }

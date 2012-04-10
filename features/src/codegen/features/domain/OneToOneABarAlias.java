@@ -17,6 +17,10 @@ public class OneToOneABarAlias extends Alias<OneToOneABar> {
   public final LongAliasColumn<OneToOneABar> version = new LongAliasColumn<OneToOneABar>(this, "version", OneToOneABarCodegen.Shims.version);
   public final ForeignKeyAliasColumn<OneToOneABar, OneToOneAFoo> oneToOneAFoo = new ForeignKeyAliasColumn<OneToOneABar, OneToOneAFoo>(this, "one_to_one_a_foo_id", OneToOneABarCodegen.Shims.oneToOneAFooId);
 
+  public OneToOneABarAlias() {
+    this("otoab0", null, true);
+  }
+
   public OneToOneABarAlias(String alias) {
     this(alias, null, true);
   }

@@ -17,6 +17,10 @@ public class InheritanceBRootChildAlias extends Alias<InheritanceBRootChild> {
   public final LongAliasColumn<InheritanceBRootChild> version = new LongAliasColumn<InheritanceBRootChild>(this, "version", InheritanceBRootChildCodegen.Shims.version);
   public final ForeignKeyAliasColumn<InheritanceBRootChild, InheritanceBRoot> inheritanceBRoot = new ForeignKeyAliasColumn<InheritanceBRootChild, InheritanceBRoot>(this, "inheritance_b_root_id", InheritanceBRootChildCodegen.Shims.inheritanceBRootId);
 
+  public InheritanceBRootChildAlias() {
+    this("ibrc0", null, true);
+  }
+
   public InheritanceBRootChildAlias(String alias) {
     this(alias, null, true);
   }

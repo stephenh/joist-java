@@ -16,6 +16,10 @@ public class ParentDToChildCAlias extends Alias<ParentDToChildC> {
   public final ForeignKeyAliasColumn<ParentDToChildC, ParentDChildC> parentDChildC = new ForeignKeyAliasColumn<ParentDToChildC, ParentDChildC>(this, "parent_d_child_c_id", ParentDToChildCCodegen.Shims.parentDChildCId);
   public final ForeignKeyAliasColumn<ParentDToChildC, ParentD> parentD = new ForeignKeyAliasColumn<ParentDToChildC, ParentD>(this, "parent_d_id", ParentDToChildCCodegen.Shims.parentDId);
 
+  public ParentDToChildCAlias() {
+    this("pdtcc0", null, true);
+  }
+
   public ParentDToChildCAlias(String alias) {
     this(alias, null, true);
   }

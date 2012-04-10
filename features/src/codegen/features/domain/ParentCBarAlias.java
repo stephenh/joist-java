@@ -18,6 +18,10 @@ public class ParentCBarAlias extends Alias<ParentCBar> {
   public final ForeignKeyAliasColumn<ParentCBar, ParentCFoo> firstParent = new ForeignKeyAliasColumn<ParentCBar, ParentCFoo>(this, "first_parent_id", ParentCBarCodegen.Shims.firstParentId);
   public final ForeignKeyAliasColumn<ParentCBar, ParentCFoo> secondParent = new ForeignKeyAliasColumn<ParentCBar, ParentCFoo>(this, "second_parent_id", ParentCBarCodegen.Shims.secondParentId);
 
+  public ParentCBarAlias() {
+    this("pcb0", null, true);
+  }
+
   public ParentCBarAlias(String alias) {
     this(alias, null, true);
   }

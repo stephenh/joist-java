@@ -8,6 +8,7 @@ import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
@@ -32,6 +33,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
   private void addExtraRules() {
     this.addRule(new NotNull<InheritanceBRootChild>(Shims.name));
     this.addRule(new MaxLength<InheritanceBRootChild>(Shims.name, 100));
+    this.addRule(new NotEmpty<InheritanceBRootChild>(Shims.name));
     this.addRule(new NotNull<InheritanceBRootChild>(Shims.inheritanceBRootId));
   }
 

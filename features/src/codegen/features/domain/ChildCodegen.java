@@ -11,6 +11,7 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
 import joist.util.ListDiff;
@@ -38,6 +39,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
   private void addExtraRules() {
     this.addRule(new NotNull<Child>(Shims.name));
     this.addRule(new MaxLength<Child>(Shims.name, 100));
+    this.addRule(new NotEmpty<Child>(Shims.name));
     this.addRule(new NotNull<Child>(Shims.parentId));
   }
 

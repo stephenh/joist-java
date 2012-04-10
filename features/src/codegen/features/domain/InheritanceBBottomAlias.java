@@ -19,6 +19,10 @@ public class InheritanceBBottomAlias extends Alias<InheritanceBBottom> {
   public final StringAliasColumn<InheritanceBRoot> name;
   public final LongAliasColumn<InheritanceBRoot> version;
 
+  public InheritanceBBottomAlias() {
+    this("ibb0", null, true);
+  }
+
   public InheritanceBBottomAlias(String alias) {
     this(alias, null, true);
   }

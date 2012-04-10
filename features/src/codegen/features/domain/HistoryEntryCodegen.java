@@ -8,6 +8,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
@@ -37,15 +38,21 @@ public abstract class HistoryEntryCodegen extends AbstractDomainObject {
 
   private void addExtraRules() {
     this.addRule(new MaxLength<HistoryEntry>(Shims.newValue, 255));
+    this.addRule(new NotEmpty<HistoryEntry>(Shims.newValue));
     this.addRule(new MaxLength<HistoryEntry>(Shims.oldValue, 255));
+    this.addRule(new NotEmpty<HistoryEntry>(Shims.oldValue));
     this.addRule(new NotNull<HistoryEntry>(Shims.primaryKey));
     this.addRule(new MaxLength<HistoryEntry>(Shims.propertyName, 255));
+    this.addRule(new NotEmpty<HistoryEntry>(Shims.propertyName));
     this.addRule(new NotNull<HistoryEntry>(Shims.rootTableName));
     this.addRule(new MaxLength<HistoryEntry>(Shims.rootTableName, 100));
+    this.addRule(new NotEmpty<HistoryEntry>(Shims.rootTableName));
     this.addRule(new NotNull<HistoryEntry>(Shims.type));
     this.addRule(new MaxLength<HistoryEntry>(Shims.type, 100));
+    this.addRule(new NotEmpty<HistoryEntry>(Shims.type));
     this.addRule(new NotNull<HistoryEntry>(Shims.updateTime));
     this.addRule(new MaxLength<HistoryEntry>(Shims.updater, 100));
+    this.addRule(new NotEmpty<HistoryEntry>(Shims.updater));
   }
 
   public Long getId() {

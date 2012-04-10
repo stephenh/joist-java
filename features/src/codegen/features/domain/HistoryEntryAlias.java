@@ -24,6 +24,10 @@ public class HistoryEntryAlias extends Alias<HistoryEntry> {
   public final StringAliasColumn<HistoryEntry> updater = new StringAliasColumn<HistoryEntry>(this, "updater", HistoryEntryCodegen.Shims.updater);
   public final LongAliasColumn<HistoryEntry> version = new LongAliasColumn<HistoryEntry>(this, "version", HistoryEntryCodegen.Shims.version);
 
+  public HistoryEntryAlias() {
+    this("he0", null, true);
+  }
+
   public HistoryEntryAlias(String alias) {
     this(alias, null, true);
   }

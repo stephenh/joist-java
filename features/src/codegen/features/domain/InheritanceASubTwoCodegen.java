@@ -4,6 +4,7 @@ import features.domain.queries.InheritanceASubTwoQueries;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
@@ -25,6 +26,7 @@ public abstract class InheritanceASubTwoCodegen extends InheritanceABase {
   private void addExtraRules() {
     this.addRule(new NotNull<InheritanceASubTwo>(Shims.two));
     this.addRule(new MaxLength<InheritanceASubTwo>(Shims.two, 100));
+    this.addRule(new NotEmpty<InheritanceASubTwo>(Shims.two));
   }
 
   public String getTwo() {

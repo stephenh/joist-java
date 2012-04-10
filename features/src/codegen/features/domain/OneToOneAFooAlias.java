@@ -18,6 +18,10 @@ public class OneToOneAFooAlias extends Alias<OneToOneAFoo> {
   public final StringAliasColumn<OneToOneAFoo> name = new StringAliasColumn<OneToOneAFoo>(this, "name", OneToOneAFooCodegen.Shims.name);
   public final LongAliasColumn<OneToOneAFoo> version = new LongAliasColumn<OneToOneAFoo>(this, "version", OneToOneAFooCodegen.Shims.version);
 
+  public OneToOneAFooAlias() {
+    this("otoaf0", null, true);
+  }
+
   public OneToOneAFooAlias(String alias) {
     this(alias, null, true);
   }

@@ -17,6 +17,10 @@ public class ParentBChildFooAlias extends Alias<ParentBChildFoo> {
   public final LongAliasColumn<ParentBChildFoo> version = new LongAliasColumn<ParentBChildFoo>(this, "version", ParentBChildFooCodegen.Shims.version);
   public final ForeignKeyAliasColumn<ParentBChildFoo, ParentBParent> parentBParent = new ForeignKeyAliasColumn<ParentBChildFoo, ParentBParent>(this, "parent_b_parent_id", ParentBChildFooCodegen.Shims.parentBParentId);
 
+  public ParentBChildFooAlias() {
+    this("pbcf0", null, true);
+  }
+
   public ParentBChildFooAlias(String alias) {
     this(alias, null, true);
   }

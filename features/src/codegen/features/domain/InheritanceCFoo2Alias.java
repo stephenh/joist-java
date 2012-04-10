@@ -18,6 +18,10 @@ public class InheritanceCFoo2Alias extends Alias<InheritanceCFoo2> {
   public final StringAliasColumn<InheritanceC> name;
   public final LongAliasColumn<InheritanceC> version;
 
+  public InheritanceCFoo2Alias() {
+    this("icf0", null, true);
+  }
+
   public InheritanceCFoo2Alias(String alias) {
     this(alias, null, true);
   }
