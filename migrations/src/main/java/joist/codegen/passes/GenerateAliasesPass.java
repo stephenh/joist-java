@@ -27,7 +27,6 @@ public class GenerateAliasesPass implements Pass {
   public void pass(Codegen codegen) {
     GClass aliasesClass = codegen.getOutputCodegenDirectory().getClass(codegen.getConfig().getDomainObjectPackage() + ".Aliases");
     aliasesClass.addImports(AliasRegistry.class);
-    aliasesClass.getMethod("init").setStatic();
 
     List<Entity> sorted;
     if (codegen.getAppDbSettings().db.isMySQL()) {
