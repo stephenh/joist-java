@@ -143,6 +143,11 @@ public class GMethod {
     return this;
   }
 
+  /** @return if we have the arguments */
+  public boolean hasArguments() {
+    return this.arguments.size() > 0;
+  }
+
   /** @return if we have the same arguments (based on types, not named) */
   public boolean hasSameArguments(String... typeAndNames) {
     return this.hasSameArguments(Argument.split(typeAndNames));

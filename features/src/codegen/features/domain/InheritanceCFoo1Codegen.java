@@ -3,6 +3,7 @@ package features.domain;
 import features.domain.queries.InheritanceCFoo1Queries;
 import joist.domain.Shim;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
@@ -23,6 +24,7 @@ public abstract class InheritanceCFoo1Codegen extends InheritanceC {
   private void addExtraRules() {
     this.addRule(new NotNull<InheritanceCFoo1>(Shims.foo));
     this.addRule(new MaxLength<InheritanceCFoo1>(Shims.foo, 100));
+    this.addRule(new NotEmpty<InheritanceCFoo1>(Shims.foo));
   }
 
   public String getFoo() {

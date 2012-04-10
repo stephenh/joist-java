@@ -7,6 +7,7 @@ import joist.codegen.Codegen;
 import joist.codegen.dtos.CodeEntity;
 import joist.codegen.dtos.CodeValue;
 import joist.codegen.dtos.Entity;
+import joist.codegen.dtos.ManyToManyProperty;
 import joist.codegen.dtos.ManyToOneProperty;
 import joist.codegen.dtos.OneToManyProperty;
 import joist.codegen.dtos.PrimitiveProperty;
@@ -42,6 +43,7 @@ public class GenerateBuilderCodegenPass implements Pass {
       this.primitiveProperties(codegen, builderCodegen, entity);
       this.manyToOneProperties(builderCodegen, entity);
       this.oneToManyProperties(builderCodegen, entity);
+      this.manyToManyProperties(builderCodegen, entity);
       this.overrideGet(builderCodegen, entity);
 
       GMethod defaults = builderCodegen.getMethod("defaults");
@@ -210,6 +212,38 @@ public class GenerateBuilderCodegenPass implements Pass {
     }
   }
 
+  private void manyToManyProperties(GClass c, Entity entity) {
+    for (ManyToManyProperty mtmp : entity.getManyToManyProperties()) {
+      if (mtmp.getMySideOneToMany().isCollectionSkipped()) {
+        continue;
+      }
+
+      // childs() -> List<ChildBuilder>
+      {
+        GMethod m = c.getMethod(mtmp.getVariableName());
+        m.returnType("List<{}Builder>", mtmp.getTargetJavaType());
+        m.body.line("List<{}Builder> b = new ArrayList<{}Builder>();", mtmp.getTargetJavaType(), mtmp.getTargetJavaType());
+        m.body.line("for ({} e : get().get{}()) {", mtmp.getTargetJavaType(), mtmp.getCapitalVariableName());
+        m.body.line("_   b.add(Builders.existing(e));");
+        m.body.line("}");
+        m.body.line("return b;");
+        c.addImports(List.class, ArrayList.class);
+        c.addImports(mtmp.getTargetTable().getFullClassName());
+      }
+      // child(i) -> ChildBuilder
+      {
+        GMethod m = c.getMethod(StringUtils.uncapitalize(mtmp.getCapitalVariableNameSingular()), Argument.arg("int", "i"));
+        m.returnType("{}Builder", mtmp.getTargetJavaType());
+        m.body.line("return Builders.existing(get().get{}().get(i));", mtmp.getCapitalVariableName());
+      }
+
+      this.addFluentSetter(c, entity, mtmp, false, mtmp.getCapitalVariableNameSingular()); // foo(OtherType)
+      this.addFluentSetter(c, entity, mtmp, true, mtmp.getCapitalVariableNameSingular()); // foo(OtherTypeBuilder)
+      this.addFluentSetter(c, entity, mtmp, false, "with"); // with(OtherType)
+      this.addFluentSetter(c, entity, mtmp, true, "with"); // with(OtherTypeBuilder)
+    }
+  }
+
   private void addFluentSetter(GClass builderCodegen, Entity entity, String variableName, String javaType) {
     GMethod m = builderCodegen.getMethod(variableName, Argument.arg(javaType, variableName));
     m.returnType(entity.getBuilderClassName());
@@ -242,6 +276,23 @@ public class GenerateBuilderCodegenPass implements Pass {
     m.body.line("_   return null;");
     m.body.line("}");
     m.body.line("return Builders.existing(get().get{}());", Inflector.capitalize(variableName));
+  }
+
+  private void addFluentSetter(GClass builderCodegen, Entity entity, ManyToManyProperty mtmp, boolean isForBuilder, String methodName) {
+    final String arg;
+    if (isForBuilder) {
+      arg = mtmp.getTargetTable().getBuilderClassName();
+    } else {
+      arg = mtmp.getTargetTable().getFullClassName();
+    }
+    GMethod m = builderCodegen.getMethod(Inflector.uncapitalize(methodName), Argument.arg(arg, mtmp.getVariableName()));
+    m.returnType(entity.getBuilderClassName());
+    if (isForBuilder) {
+      m.body.line("get().add{}({}.get());", mtmp.getCapitalVariableNameSingular(), mtmp.getVariableName());
+    } else {
+      m.body.line("get().add{}({});", mtmp.getCapitalVariableNameSingular(), mtmp.getVariableName());
+    }
+    m.body.line("return ({}) this;", entity.getBuilderClassName());
   }
 
   private void addToDefaults(GClass c, String variableName, String defaultValue) {

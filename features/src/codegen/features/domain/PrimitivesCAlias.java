@@ -19,6 +19,10 @@ public class PrimitivesCAlias extends Alias<PrimitivesC> {
   public final TimePointAliasColumn<PrimitivesC> timestamp = new TimePointAliasColumn<PrimitivesC>(this, "timestamp", PrimitivesCCodegen.Shims.timestamp);
   public final LongAliasColumn<PrimitivesC> version = new LongAliasColumn<PrimitivesC>(this, "version", PrimitivesCCodegen.Shims.version);
 
+  public PrimitivesCAlias() {
+    this("pc0", null, true);
+  }
+
   public PrimitivesCAlias(String alias) {
     this(alias, null, true);
   }

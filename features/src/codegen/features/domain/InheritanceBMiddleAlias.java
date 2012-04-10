@@ -18,6 +18,10 @@ public class InheritanceBMiddleAlias extends Alias<InheritanceBMiddle> {
   public final StringAliasColumn<InheritanceBRoot> name;
   public final LongAliasColumn<InheritanceBRoot> version;
 
+  public InheritanceBMiddleAlias() {
+    this("ibm0", null, true);
+  }
+
   public InheritanceBMiddleAlias(String alias) {
     this(alias, null, true);
   }

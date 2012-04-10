@@ -3,6 +3,7 @@ package features.domain;
 import features.domain.queries.InheritanceBBottomQueries;
 import joist.domain.Shim;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
@@ -23,6 +24,7 @@ public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
   private void addExtraRules() {
     this.addRule(new NotNull<InheritanceBBottom>(Shims.bottomName));
     this.addRule(new MaxLength<InheritanceBBottom>(Shims.bottomName, 100));
+    this.addRule(new NotEmpty<InheritanceBBottom>(Shims.bottomName));
   }
 
   public String getBottomName() {

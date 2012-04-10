@@ -24,6 +24,10 @@ public class PrimitivesBAlias extends Alias<PrimitivesB> {
   public final ShortAliasColumn<PrimitivesB> small2 = new ShortAliasColumn<PrimitivesB>(this, "small2", PrimitivesBCodegen.Shims.small2);
   public final LongAliasColumn<PrimitivesB> version = new LongAliasColumn<PrimitivesB>(this, "version", PrimitivesBCodegen.Shims.version);
 
+  public PrimitivesBAlias() {
+    this("pb0", null, true);
+  }
+
   public PrimitivesBAlias(String alias) {
     this(alias, null, true);
   }

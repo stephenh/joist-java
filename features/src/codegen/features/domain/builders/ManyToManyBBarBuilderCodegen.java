@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.ManyToManyBBar;
+import features.domain.ManyToManyBFoo;
 import features.domain.ManyToManyBFooToBar;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,38 @@ public abstract class ManyToManyBBarBuilderCodegen extends AbstractBuilder<ManyT
 
   public ManyToManyBFooToBarBuilder greenManyToManyBFooToBar(int i) {
     return Builders.existing(get().getGreenManyToManyBFooToBars().get(i));
+  }
+
+  public List<ManyToManyBFooBuilder> blues() {
+    List<ManyToManyBFooBuilder> b = new ArrayList<ManyToManyBFooBuilder>();
+    for (ManyToManyBFoo e : get().getBlues()) {
+      b.add(Builders.existing(e));
+    }
+    return b;
+  }
+
+  public ManyToManyBFooBuilder blue(int i) {
+    return Builders.existing(get().getBlues().get(i));
+  }
+
+  public ManyToManyBBarBuilder blue(ManyToManyBFoo blues) {
+    get().addBlue(blues);
+    return (ManyToManyBBarBuilder) this;
+  }
+
+  public ManyToManyBBarBuilder blue(ManyToManyBFooBuilder blues) {
+    get().addBlue(blues.get());
+    return (ManyToManyBBarBuilder) this;
+  }
+
+  public ManyToManyBBarBuilder with(ManyToManyBFoo blues) {
+    get().addBlue(blues);
+    return (ManyToManyBBarBuilder) this;
+  }
+
+  public ManyToManyBBarBuilder with(ManyToManyBFooBuilder blues) {
+    get().addBlue(blues.get());
+    return (ManyToManyBBarBuilder) this;
   }
 
   public ManyToManyBBar get() {

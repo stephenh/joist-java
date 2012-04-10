@@ -18,6 +18,10 @@ public class ParentDAlias extends Alias<ParentD> {
   public final StringAliasColumn<ParentD> name = new StringAliasColumn<ParentD>(this, "name", ParentDCodegen.Shims.name);
   public final LongAliasColumn<ParentD> version = new LongAliasColumn<ParentD>(this, "version", ParentDCodegen.Shims.version);
 
+  public ParentDAlias() {
+    this("pd0", null, true);
+  }
+
   public ParentDAlias(String alias) {
     this(alias, null, true);
   }

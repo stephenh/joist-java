@@ -17,6 +17,10 @@ public class PrimitivesAlias extends Alias<Primitives> {
   public final StringAliasColumn<Primitives> name = new StringAliasColumn<Primitives>(this, "name", PrimitivesCodegen.Shims.name);
   public final LongAliasColumn<Primitives> version = new LongAliasColumn<Primitives>(this, "version", PrimitivesCodegen.Shims.version);
 
+  public PrimitivesAlias() {
+    this("p0", null, true);
+  }
+
   public PrimitivesAlias(String alias) {
     this(alias, null, true);
   }

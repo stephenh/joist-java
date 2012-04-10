@@ -17,6 +17,10 @@ public class ParentBChildBarAlias extends Alias<ParentBChildBar> {
   public final LongAliasColumn<ParentBChildBar> version = new LongAliasColumn<ParentBChildBar>(this, "version", ParentBChildBarCodegen.Shims.version);
   public final ForeignKeyAliasColumn<ParentBChildBar, ParentBParent> parentBParent = new ForeignKeyAliasColumn<ParentBChildBar, ParentBParent>(this, "parent_b_parent_id", ParentBChildBarCodegen.Shims.parentBParentId);
 
+  public ParentBChildBarAlias() {
+    this("pbcb0", null, true);
+  }
+
   public ParentBChildBarAlias(String alias) {
     this(alias, null, true);
   }

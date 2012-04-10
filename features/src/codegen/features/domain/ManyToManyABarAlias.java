@@ -18,6 +18,10 @@ public class ManyToManyABarAlias extends Alias<ManyToManyABar> {
   public final StringAliasColumn<ManyToManyABar> name = new StringAliasColumn<ManyToManyABar>(this, "name", ManyToManyABarCodegen.Shims.name);
   public final LongAliasColumn<ManyToManyABar> version = new LongAliasColumn<ManyToManyABar>(this, "version", ManyToManyABarCodegen.Shims.version);
 
+  public ManyToManyABarAlias() {
+    this("mtmab0", null, true);
+  }
+
   public ManyToManyABarAlias(String alias) {
     this(alias, null, true);
   }

@@ -18,6 +18,10 @@ public class InheritanceBRootAlias extends Alias<InheritanceBRoot> {
   public final StringAliasColumn<InheritanceBRoot> name = new StringAliasColumn<InheritanceBRoot>(this, "name", InheritanceBRootCodegen.Shims.name);
   public final LongAliasColumn<InheritanceBRoot> version = new LongAliasColumn<InheritanceBRoot>(this, "version", InheritanceBRootCodegen.Shims.version);
 
+  public InheritanceBRootAlias() {
+    this("ibr0", null, true);
+  }
+
   public InheritanceBRootAlias(String alias) {
     this(alias, null, true);
   }

@@ -9,6 +9,7 @@ import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
@@ -35,6 +36,7 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
     this.addRule(new NotNull<PrimitivesC>(Shims.dollarAmount));
     this.addRule(new NotNull<PrimitivesC>(Shims.name));
     this.addRule(new MaxLength<PrimitivesC>(Shims.name, 100));
+    this.addRule(new NotEmpty<PrimitivesC>(Shims.name));
     this.addRule(new NotNull<PrimitivesC>(Shims.timestamp));
   }
 

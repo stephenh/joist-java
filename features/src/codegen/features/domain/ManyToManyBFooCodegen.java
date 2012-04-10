@@ -11,6 +11,7 @@ import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
 import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 import joist.util.Copy;
 import joist.util.ListDiff;
@@ -37,6 +38,7 @@ public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
   private void addExtraRules() {
     this.addRule(new NotNull<ManyToManyBFoo>(Shims.name));
     this.addRule(new MaxLength<ManyToManyBFoo>(Shims.name, 100));
+    this.addRule(new NotEmpty<ManyToManyBFoo>(Shims.name));
   }
 
   public Long getId() {

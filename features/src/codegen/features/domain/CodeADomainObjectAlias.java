@@ -18,6 +18,10 @@ public class CodeADomainObjectAlias extends Alias<CodeADomainObject> {
   public final CodeAliasColumn<CodeADomainObject, CodeAColor> codeAColor = new CodeAliasColumn<CodeADomainObject, CodeAColor>(this, "code_a_color_id", CodeADomainObjectCodegen.Shims.codeAColorId);
   public final CodeAliasColumn<CodeADomainObject, CodeASize> codeASize = new CodeAliasColumn<CodeADomainObject, CodeASize>(this, "code_a_size_id", CodeADomainObjectCodegen.Shims.codeASizeId);
 
+  public CodeADomainObjectAlias() {
+    this("cado0", null, true);
+  }
+
   public CodeADomainObjectAlias(String alias) {
     this(alias, null, true);
   }

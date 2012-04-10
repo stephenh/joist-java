@@ -15,6 +15,10 @@ public class ValidationAFooAlias extends Alias<ValidationAFoo> {
   public final StringAliasColumn<ValidationAFoo> name = new StringAliasColumn<ValidationAFoo>(this, "name", ValidationAFooCodegen.Shims.name);
   public final LongAliasColumn<ValidationAFoo> version = new LongAliasColumn<ValidationAFoo>(this, "version", ValidationAFooCodegen.Shims.version);
 
+  public ValidationAFooAlias() {
+    this("vaf0", null, true);
+  }
+
   public ValidationAFooAlias(String alias) {
     this(alias, null, true);
   }

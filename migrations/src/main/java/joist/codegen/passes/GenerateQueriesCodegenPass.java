@@ -94,7 +94,7 @@ public class GenerateQueriesCodegenPass implements Pass {
       if (mtop.getOneSide().isCodeEntity()) {
         GMethod findBy = queriesCodegen.getMethod("findBy" + mtop.getCapitalVariableName(), Argument.arg(mtop.getJavaType(), mtop.getVariableName()));
         findBy.returnType("java.util.List<{}>", entity.getClassName());
-        findBy.body.line("{} {} = new {}(\"{}\");", entity.getAliasName(), entity.getAliasAlias(), entity.getAliasName(), entity.getAliasAlias());
+        findBy.body.line("{} {} = new {}();", entity.getAliasName(), entity.getAliasAlias(), entity.getAliasName());
         findBy.body.line(
           "return Select.from({}).where({}.{}.eq({})).list();",
           entity.getAliasAlias(),
@@ -106,7 +106,7 @@ public class GenerateQueriesCodegenPass implements Pass {
           "findIdsBy" + mtop.getCapitalVariableName(),
           Argument.arg(mtop.getJavaType(), mtop.getVariableName()));
         findIdsBy.returnType("java.util.List<Long>");
-        findIdsBy.body.line("{} {} = new {}(\"{}\");", entity.getAliasName(), entity.getAliasAlias(), entity.getAliasName(), entity.getAliasAlias());
+        findIdsBy.body.line("{} {} = new {}();", entity.getAliasName(), entity.getAliasAlias(), entity.getAliasName());
         findIdsBy.body.line(
           "return Select.from({}).where({}.{}.eq({})).listIds();",
           entity.getAliasAlias(),

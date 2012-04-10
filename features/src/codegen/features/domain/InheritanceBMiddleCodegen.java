@@ -3,6 +3,7 @@ package features.domain;
 import features.domain.queries.InheritanceBMiddleQueries;
 import joist.domain.Shim;
 import joist.domain.validation.rules.MaxLength;
+import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
@@ -23,6 +24,7 @@ public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
   private void addExtraRules() {
     this.addRule(new NotNull<InheritanceBMiddle>(Shims.middleName));
     this.addRule(new MaxLength<InheritanceBMiddle>(Shims.middleName, 100));
+    this.addRule(new NotEmpty<InheritanceBMiddle>(Shims.middleName));
   }
 
   public String getMiddleName() {

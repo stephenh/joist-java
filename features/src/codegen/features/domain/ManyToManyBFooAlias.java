@@ -18,6 +18,10 @@ public class ManyToManyBFooAlias extends Alias<ManyToManyBFoo> {
   public final StringAliasColumn<ManyToManyBFoo> name = new StringAliasColumn<ManyToManyBFoo>(this, "name", ManyToManyBFooCodegen.Shims.name);
   public final LongAliasColumn<ManyToManyBFoo> version = new LongAliasColumn<ManyToManyBFoo>(this, "version", ManyToManyBFooCodegen.Shims.version);
 
+  public ManyToManyBFooAlias() {
+    this("mtmbf0", null, true);
+  }
+
   public ManyToManyBFooAlias(String alias) {
     this(alias, null, true);
   }
