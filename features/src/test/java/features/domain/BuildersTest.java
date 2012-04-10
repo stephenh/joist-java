@@ -2,6 +2,8 @@ package features.domain;
 
 import static features.domain.builders.Builders.aChild;
 import static features.domain.builders.Builders.aCodeADomainObject;
+import static features.domain.builders.Builders.aManyToManyABar;
+import static features.domain.builders.Builders.aManyToManyAFoo;
 import static features.domain.builders.Builders.aParent;
 import static features.domain.builders.Builders.aPrimitives;
 import static features.domain.builders.Builders.existing;
@@ -15,6 +17,7 @@ import org.junit.Test;
 
 import features.domain.builders.ChildBuilder;
 import features.domain.builders.CodeADomainObjectBuilder;
+import features.domain.builders.ManyToManyAFooBuilder;
 import features.domain.builders.ParentBuilder;
 import features.domain.builders.PrimitivesBuilder;
 
@@ -95,5 +98,16 @@ public class BuildersTest extends AbstractFeaturesTest {
   public void testGetIdDoesNotAutoFlush() {
     Long id = aParent().defaults().get().getId();
     assertThat(id, is(nullValue()));
+  }
+
+  @Test
+  public void testManyToManyWithBuilder() {
+    ManyToManyAFooBuilder f = aManyToManyAFoo();
+    aManyToManyABar().with(f);
+    aManyToManyABar().with(f.get());
+    aManyToManyABar().manyToManyAFoo(f);
+    aManyToManyABar().manyToManyAFoo(f.get());
+    assertThat(f.manyToManyABars().size(), is(4));
+    assertThat(f.manyToManyABar(0), is(not(nullValue())));
   }
 }
