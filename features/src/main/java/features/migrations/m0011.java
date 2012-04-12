@@ -24,10 +24,11 @@ public class m0011 extends AbstractMigration {
       varchar("name"),
       integer("version"));
 
+    // foo "owns" the bars, so that we have a verb in the column names
     createTable("many_to_many_b_foo_to_bar",//
       primaryKey("id"),
-      foreignKey("blue_id", "many_to_many_b_foo").ownerIsNeither(),
-      foreignKey("green_id", "many_to_many_b_bar").ownerIsNeither(),
+      foreignKey("owner_many_to_many_b_foo_id", "many_to_many_b_foo").ownerIsNeither(),
+      foreignKey("owned_id", "many_to_many_b_bar").ownerIsNeither(),
       integer("version"));
   }
 
