@@ -48,47 +48,47 @@ public abstract class ManyToManyBFooBuilderCodegen extends AbstractBuilder<ManyT
     return (ManyToManyBFooBuilder) super.defaults();
   }
 
-  public List<ManyToManyBFooToBarBuilder> blueManyToManyBFooToBars() {
+  public List<ManyToManyBFooToBarBuilder> ownerManyToManyBFooToBars() {
     List<ManyToManyBFooToBarBuilder> b = new ArrayList<ManyToManyBFooToBarBuilder>();
-    for (ManyToManyBFooToBar e : get().getBlueManyToManyBFooToBars()) {
+    for (ManyToManyBFooToBar e : get().getOwnerManyToManyBFooToBars()) {
       b.add(Builders.existing(e));
     }
     return b;
   }
 
-  public ManyToManyBFooToBarBuilder blueManyToManyBFooToBar(int i) {
-    return Builders.existing(get().getBlueManyToManyBFooToBars().get(i));
+  public ManyToManyBFooToBarBuilder ownerManyToManyBFooToBar(int i) {
+    return Builders.existing(get().getOwnerManyToManyBFooToBars().get(i));
   }
 
-  public List<ManyToManyBBarBuilder> greens() {
+  public List<ManyToManyBBarBuilder> owneds() {
     List<ManyToManyBBarBuilder> b = new ArrayList<ManyToManyBBarBuilder>();
-    for (ManyToManyBBar e : get().getGreens()) {
+    for (ManyToManyBBar e : get().getOwneds()) {
       b.add(Builders.existing(e));
     }
     return b;
   }
 
-  public ManyToManyBBarBuilder green(int i) {
-    return Builders.existing(get().getGreens().get(i));
+  public ManyToManyBBarBuilder owned(int i) {
+    return Builders.existing(get().getOwneds().get(i));
   }
 
-  public ManyToManyBFooBuilder green(ManyToManyBBar greens) {
-    get().addGreen(greens);
+  public ManyToManyBFooBuilder owned(ManyToManyBBar owneds) {
+    get().addOwned(owneds);
     return (ManyToManyBFooBuilder) this;
   }
 
-  public ManyToManyBFooBuilder green(ManyToManyBBarBuilder greens) {
-    get().addGreen(greens.get());
+  public ManyToManyBFooBuilder owned(ManyToManyBBarBuilder owneds) {
+    get().addOwned(owneds.get());
     return (ManyToManyBFooBuilder) this;
   }
 
-  public ManyToManyBFooBuilder with(ManyToManyBBar greens) {
-    get().addGreen(greens);
+  public ManyToManyBFooBuilder with(ManyToManyBBar owneds) {
+    get().addOwned(owneds);
     return (ManyToManyBFooBuilder) this;
   }
 
-  public ManyToManyBFooBuilder with(ManyToManyBBarBuilder greens) {
-    get().addGreen(greens.get());
+  public ManyToManyBFooBuilder with(ManyToManyBBarBuilder owneds) {
+    get().addOwned(owneds.get());
     return (ManyToManyBFooBuilder) this;
   }
 
