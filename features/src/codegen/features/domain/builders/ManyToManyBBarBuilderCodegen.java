@@ -48,47 +48,47 @@ public abstract class ManyToManyBBarBuilderCodegen extends AbstractBuilder<ManyT
     return (ManyToManyBBarBuilder) super.defaults();
   }
 
-  public List<ManyToManyBFooToBarBuilder> greenManyToManyBFooToBars() {
+  public List<ManyToManyBFooToBarBuilder> ownedManyToManyBFooToBars() {
     List<ManyToManyBFooToBarBuilder> b = new ArrayList<ManyToManyBFooToBarBuilder>();
-    for (ManyToManyBFooToBar e : get().getGreenManyToManyBFooToBars()) {
+    for (ManyToManyBFooToBar e : get().getOwnedManyToManyBFooToBars()) {
       b.add(Builders.existing(e));
     }
     return b;
   }
 
-  public ManyToManyBFooToBarBuilder greenManyToManyBFooToBar(int i) {
-    return Builders.existing(get().getGreenManyToManyBFooToBars().get(i));
+  public ManyToManyBFooToBarBuilder ownedManyToManyBFooToBar(int i) {
+    return Builders.existing(get().getOwnedManyToManyBFooToBars().get(i));
   }
 
-  public List<ManyToManyBFooBuilder> blues() {
+  public List<ManyToManyBFooBuilder> ownerManyToManyBFoos() {
     List<ManyToManyBFooBuilder> b = new ArrayList<ManyToManyBFooBuilder>();
-    for (ManyToManyBFoo e : get().getBlues()) {
+    for (ManyToManyBFoo e : get().getOwnerManyToManyBFoos()) {
       b.add(Builders.existing(e));
     }
     return b;
   }
 
-  public ManyToManyBFooBuilder blue(int i) {
-    return Builders.existing(get().getBlues().get(i));
+  public ManyToManyBFooBuilder ownerManyToManyBFoo(int i) {
+    return Builders.existing(get().getOwnerManyToManyBFoos().get(i));
   }
 
-  public ManyToManyBBarBuilder blue(ManyToManyBFoo blues) {
-    get().addBlue(blues);
+  public ManyToManyBBarBuilder ownerManyToManyBFoo(ManyToManyBFoo ownerManyToManyBFoos) {
+    get().addOwnerManyToManyBFoo(ownerManyToManyBFoos);
     return (ManyToManyBBarBuilder) this;
   }
 
-  public ManyToManyBBarBuilder blue(ManyToManyBFooBuilder blues) {
-    get().addBlue(blues.get());
+  public ManyToManyBBarBuilder ownerManyToManyBFoo(ManyToManyBFooBuilder ownerManyToManyBFoos) {
+    get().addOwnerManyToManyBFoo(ownerManyToManyBFoos.get());
     return (ManyToManyBBarBuilder) this;
   }
 
-  public ManyToManyBBarBuilder with(ManyToManyBFoo blues) {
-    get().addBlue(blues);
+  public ManyToManyBBarBuilder with(ManyToManyBFoo ownerManyToManyBFoos) {
+    get().addOwnerManyToManyBFoo(ownerManyToManyBFoos);
     return (ManyToManyBBarBuilder) this;
   }
 
-  public ManyToManyBBarBuilder with(ManyToManyBFooBuilder blues) {
-    get().addBlue(blues.get());
+  public ManyToManyBBarBuilder with(ManyToManyBFooBuilder ownerManyToManyBFoos) {
+    get().addOwnerManyToManyBFoo(ownerManyToManyBFoos.get());
     return (ManyToManyBBarBuilder) this;
   }
 

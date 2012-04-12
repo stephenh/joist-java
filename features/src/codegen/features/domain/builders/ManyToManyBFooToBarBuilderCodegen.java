@@ -25,63 +25,63 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
     return (ManyToManyBFooToBarBuilder) this;
   }
 
-  public ManyToManyBFooBuilder blue() {
-    if (get().getBlue() == null) {
+  public ManyToManyBBarBuilder owned() {
+    if (get().getOwned() == null) {
       return null;
     }
-    return Builders.existing(get().getBlue());
+    return Builders.existing(get().getOwned());
   }
 
-  public ManyToManyBFooToBarBuilder blue(ManyToManyBFoo blue) {
-    get().setBlue(blue);
+  public ManyToManyBFooToBarBuilder owned(ManyToManyBBar owned) {
+    get().setOwned(owned);
     return (ManyToManyBFooToBarBuilder) this;
   }
 
-  public ManyToManyBFooToBarBuilder with(ManyToManyBFoo blue) {
-    return blue(blue);
+  public ManyToManyBFooToBarBuilder with(ManyToManyBBar owned) {
+    return owned(owned);
   }
 
-  public ManyToManyBFooToBarBuilder blue(ManyToManyBFooBuilder blue) {
-    return blue(blue.get());
+  public ManyToManyBFooToBarBuilder owned(ManyToManyBBarBuilder owned) {
+    return owned(owned.get());
   }
 
-  public ManyToManyBFooToBarBuilder with(ManyToManyBFooBuilder blue) {
-    return blue(blue);
+  public ManyToManyBFooToBarBuilder with(ManyToManyBBarBuilder owned) {
+    return owned(owned);
   }
 
   @Override
   public ManyToManyBFooToBarBuilder defaults() {
-    if (blue() == null) {
-      blue(Builders.aManyToManyBFoo().defaults());
+    if (owned() == null) {
+      owned(Builders.aManyToManyBBar().defaults());
     }
-    if (green() == null) {
-      green(Builders.aManyToManyBBar().defaults());
+    if (ownerManyToManyBFoo() == null) {
+      ownerManyToManyBFoo(Builders.aManyToManyBFoo().defaults());
     }
     return (ManyToManyBFooToBarBuilder) super.defaults();
   }
 
-  public ManyToManyBBarBuilder green() {
-    if (get().getGreen() == null) {
+  public ManyToManyBFooBuilder ownerManyToManyBFoo() {
+    if (get().getOwnerManyToManyBFoo() == null) {
       return null;
     }
-    return Builders.existing(get().getGreen());
+    return Builders.existing(get().getOwnerManyToManyBFoo());
   }
 
-  public ManyToManyBFooToBarBuilder green(ManyToManyBBar green) {
-    get().setGreen(green);
+  public ManyToManyBFooToBarBuilder ownerManyToManyBFoo(ManyToManyBFoo ownerManyToManyBFoo) {
+    get().setOwnerManyToManyBFoo(ownerManyToManyBFoo);
     return (ManyToManyBFooToBarBuilder) this;
   }
 
-  public ManyToManyBFooToBarBuilder with(ManyToManyBBar green) {
-    return green(green);
+  public ManyToManyBFooToBarBuilder with(ManyToManyBFoo ownerManyToManyBFoo) {
+    return ownerManyToManyBFoo(ownerManyToManyBFoo);
   }
 
-  public ManyToManyBFooToBarBuilder green(ManyToManyBBarBuilder green) {
-    return green(green.get());
+  public ManyToManyBFooToBarBuilder ownerManyToManyBFoo(ManyToManyBFooBuilder ownerManyToManyBFoo) {
+    return ownerManyToManyBFoo(ownerManyToManyBFoo.get());
   }
 
-  public ManyToManyBFooToBarBuilder with(ManyToManyBBarBuilder green) {
-    return green(green);
+  public ManyToManyBFooToBarBuilder with(ManyToManyBFooBuilder ownerManyToManyBFoo) {
+    return ownerManyToManyBFoo(ownerManyToManyBFoo);
   }
 
   public ManyToManyBFooToBar get() {

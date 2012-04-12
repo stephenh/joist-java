@@ -15,8 +15,8 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
   public static final ManyToManyBFooToBarQueries queries;
   private Long id = null;
   private Long version = null;
-  private final ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBFoo> blue = new ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBFoo>(ManyToManyBFooToBar.class, ManyToManyBFoo.class, Aliases.manyToManyBFoo(), Aliases.manyToManyBFooToBar().blue);
-  private final ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBBar> green = new ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBBar>(ManyToManyBFooToBar.class, ManyToManyBBar.class, Aliases.manyToManyBBar(), Aliases.manyToManyBFooToBar().green);
+  private final ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBBar> owned = new ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBBar>(ManyToManyBFooToBar.class, ManyToManyBBar.class, Aliases.manyToManyBBar(), Aliases.manyToManyBFooToBar().owned);
+  private final ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBFoo> ownerManyToManyBFoo = new ForeignKeyHolder<ManyToManyBFooToBar, ManyToManyBFoo>(ManyToManyBFooToBar.class, ManyToManyBFoo.class, Aliases.manyToManyBFoo(), Aliases.manyToManyBFooToBar().ownerManyToManyBFoo);
   protected Changed changed;
 
   static {
@@ -29,8 +29,8 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
   }
 
   private void addExtraRules() {
-    this.addRule(new NotNull<ManyToManyBFooToBar>(Shims.blueId));
-    this.addRule(new NotNull<ManyToManyBFooToBar>(Shims.greenId));
+    this.addRule(new NotNull<ManyToManyBFooToBar>(Shims.ownedId));
+    this.addRule(new NotNull<ManyToManyBFooToBar>(Shims.ownerManyToManyBFooId));
   }
 
   public Long getId() {
@@ -49,42 +49,42 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
     return this.version;
   }
 
-  public ManyToManyBFoo getBlue() {
-    return this.blue.get();
+  public ManyToManyBBar getOwned() {
+    return this.owned.get();
   }
 
-  public void setBlue(ManyToManyBFoo blue) {
-    if (this.blue.get() != null) {
-      this.blue.get().removeBlueManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
+  public void setOwned(ManyToManyBBar owned) {
+    if (this.owned.get() != null) {
+      this.owned.get().removeOwnedManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
     }
-    this.setBlueWithoutPercolation(blue);
-    if (this.blue.get() != null) {
-      this.blue.get().addBlueManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
-    }
-  }
-
-  protected void setBlueWithoutPercolation(ManyToManyBFoo blue) {
-    this.getChanged().record("blue", this.blue, blue);
-    this.blue.set(blue);
-  }
-
-  public ManyToManyBBar getGreen() {
-    return this.green.get();
-  }
-
-  public void setGreen(ManyToManyBBar green) {
-    if (this.green.get() != null) {
-      this.green.get().removeGreenManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
-    }
-    this.setGreenWithoutPercolation(green);
-    if (this.green.get() != null) {
-      this.green.get().addGreenManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
+    this.setOwnedWithoutPercolation(owned);
+    if (this.owned.get() != null) {
+      this.owned.get().addOwnedManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
     }
   }
 
-  protected void setGreenWithoutPercolation(ManyToManyBBar green) {
-    this.getChanged().record("green", this.green, green);
-    this.green.set(green);
+  protected void setOwnedWithoutPercolation(ManyToManyBBar owned) {
+    this.getChanged().record("owned", this.owned, owned);
+    this.owned.set(owned);
+  }
+
+  public ManyToManyBFoo getOwnerManyToManyBFoo() {
+    return this.ownerManyToManyBFoo.get();
+  }
+
+  public void setOwnerManyToManyBFoo(ManyToManyBFoo ownerManyToManyBFoo) {
+    if (this.ownerManyToManyBFoo.get() != null) {
+      this.ownerManyToManyBFoo.get().removeOwnerManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
+    }
+    this.setOwnerManyToManyBFooWithoutPercolation(ownerManyToManyBFoo);
+    if (this.ownerManyToManyBFoo.get() != null) {
+      this.ownerManyToManyBFoo.get().addOwnerManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
+    }
+  }
+
+  protected void setOwnerManyToManyBFooWithoutPercolation(ManyToManyBFoo ownerManyToManyBFoo) {
+    this.getChanged().record("ownerManyToManyBFoo", this.ownerManyToManyBFoo, ownerManyToManyBFoo);
+    this.ownerManyToManyBFoo.set(ownerManyToManyBFoo);
   }
 
   public ManyToManyBFooToBarChanged getChanged() {
@@ -97,8 +97,8 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
   @Override
   public void clearAssociations() {
     super.clearAssociations();
-    this.setBlue(null);
-    this.setGreen(null);
+    this.setOwned(null);
+    this.setOwnerManyToManyBFoo(null);
   }
 
   static class Shims {
@@ -124,26 +124,26 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
         return "version";
       }
     };
-    protected static final Shim<ManyToManyBFooToBar, Long> blueId = new Shim<ManyToManyBFooToBar, Long>() {
-      public void set(ManyToManyBFooToBar instance, Long blueId) {
-        ((ManyToManyBFooToBarCodegen) instance).blue.setId(blueId);
+    protected static final Shim<ManyToManyBFooToBar, Long> ownedId = new Shim<ManyToManyBFooToBar, Long>() {
+      public void set(ManyToManyBFooToBar instance, Long ownedId) {
+        ((ManyToManyBFooToBarCodegen) instance).owned.setId(ownedId);
       }
       public Long get(ManyToManyBFooToBar instance) {
-        return ((ManyToManyBFooToBarCodegen) instance).blue.getId();
+        return ((ManyToManyBFooToBarCodegen) instance).owned.getId();
       }
       public String getName() {
-        return "blue";
+        return "owned";
       }
     };
-    protected static final Shim<ManyToManyBFooToBar, Long> greenId = new Shim<ManyToManyBFooToBar, Long>() {
-      public void set(ManyToManyBFooToBar instance, Long greenId) {
-        ((ManyToManyBFooToBarCodegen) instance).green.setId(greenId);
+    protected static final Shim<ManyToManyBFooToBar, Long> ownerManyToManyBFooId = new Shim<ManyToManyBFooToBar, Long>() {
+      public void set(ManyToManyBFooToBar instance, Long ownerManyToManyBFooId) {
+        ((ManyToManyBFooToBarCodegen) instance).ownerManyToManyBFoo.setId(ownerManyToManyBFooId);
       }
       public Long get(ManyToManyBFooToBar instance) {
-        return ((ManyToManyBFooToBarCodegen) instance).green.getId();
+        return ((ManyToManyBFooToBarCodegen) instance).ownerManyToManyBFoo.getId();
       }
       public String getName() {
-        return "green";
+        return "ownerManyToManyBFoo";
       }
     };
   }
@@ -164,17 +164,17 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
     public Long getOriginalVersion() {
       return (Long) this.getOriginal("version");
     }
-    public boolean hasBlue() {
-      return this.contains("blue");
+    public boolean hasOwned() {
+      return this.contains("owned");
     }
-    public ManyToManyBFoo getOriginalBlue() {
-      return (ManyToManyBFoo) this.getOriginal("blue");
+    public ManyToManyBBar getOriginalOwned() {
+      return (ManyToManyBBar) this.getOriginal("owned");
     }
-    public boolean hasGreen() {
-      return this.contains("green");
+    public boolean hasOwnerManyToManyBFoo() {
+      return this.contains("ownerManyToManyBFoo");
     }
-    public ManyToManyBBar getOriginalGreen() {
-      return (ManyToManyBBar) this.getOriginal("green");
+    public ManyToManyBFoo getOriginalOwnerManyToManyBFoo() {
+      return (ManyToManyBFoo) this.getOriginal("ownerManyToManyBFoo");
     }
   }
 
