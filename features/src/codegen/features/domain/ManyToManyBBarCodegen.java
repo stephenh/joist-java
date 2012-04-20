@@ -98,6 +98,9 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
     }
     o.setOwnedWithoutPercolation(null);
     this.removeOwnedManyToManyBFooToBarWithoutPercolation(o);
+    if (UoW.isOpen()) {
+      ManyToManyBFooToBar.queries.delete(o);
+    }
   }
 
   protected void addOwnedManyToManyBFooToBarWithoutPercolation(ManyToManyBFooToBar o) {
@@ -157,7 +160,7 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
   public void clearAssociations() {
     super.clearAssociations();
     for (ManyToManyBFooToBar o : Copy.list(this.getOwnedManyToManyBFooToBars())) {
-      o.setOwnedWithoutPercolation(null);
+      removeOwnedManyToManyBFooToBar(o);
     }
   }
 

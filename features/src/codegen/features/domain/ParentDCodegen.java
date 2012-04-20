@@ -120,7 +120,7 @@ public abstract class ParentDCodegen extends AbstractDomainObject {
   public void clearAssociations() {
     super.clearAssociations();
     for (ParentDChildB o : Copy.list(this.getParentDChildBs())) {
-      o.setParentDWithoutPercolation(null);
+      removeParentDChildB(o);
     }
   }
 

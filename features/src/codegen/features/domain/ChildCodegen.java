@@ -143,7 +143,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     super.clearAssociations();
     this.setParent(null);
     for (GrandChild o : Copy.list(this.getGrandChilds())) {
-      o.setChildWithoutPercolation(null);
+      removeGrandChild(o);
     }
   }
 
