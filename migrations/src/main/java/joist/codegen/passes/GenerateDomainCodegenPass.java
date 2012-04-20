@@ -179,7 +179,11 @@ public class GenerateDomainCodegenPass implements Pass {
 
       GMethod setter2 = domainCodegen.getMethod("set{}WithoutPercolation", mtop.getCapitalVariableName()).setProtected();
       setter2.argument(mtop.getJavaType(), mtop.getVariableName());
-      setter2.body.line("this.getChanged().record(\"{}\", this.{}, {});", mtop.getVariableName(), mtop.getVariableName(), mtop.getVariableName());
+      setter2.body.line(
+        "this.getChanged().record(\"{}\", this.{}.get(), {});",
+        mtop.getVariableName(),
+        mtop.getVariableName(),
+        mtop.getVariableName());
       setter2.body.line("this.{}.set({});", mtop.getVariableName(), mtop.getVariableName());
 
       if (mtop.getOneSide().isCodeEntity()) {

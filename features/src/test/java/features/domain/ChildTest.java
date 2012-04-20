@@ -23,6 +23,17 @@ public class ChildTest extends AbstractFeaturesTest {
   }
 
   @Test
+  public void testParentChanged() {
+    Child c = new Child();
+    Parent p = new Parent();
+    c.setParent(p);
+    assertThat(c.getChanged().getOriginalParent(), is(nullValue()));
+    c.setParent(null);
+    // still the null value because it really is the original for this instance
+    assertThat(c.getChanged().getOriginalParent(), is(nullValue()));
+  }
+
+  @Test
   public void testSaveAndReloadChildInSeparateUoWThanParent() {
     Parent p = new Parent();
     p.setName("parent");
