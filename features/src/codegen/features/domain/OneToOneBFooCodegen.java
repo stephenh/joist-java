@@ -120,7 +120,7 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
   public void clearAssociations() {
     super.clearAssociations();
     for (OneToOneBBar o : Copy.list(this.getOneToOneBBars())) {
-      o.setOneToOneBFooWithoutPercolation(null);
+      removeOneToOneBBar(o);
     }
   }
 

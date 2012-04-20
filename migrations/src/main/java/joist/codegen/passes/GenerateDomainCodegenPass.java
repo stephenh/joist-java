@@ -284,6 +284,12 @@ public class GenerateDomainCodegenPass implements Pass {
           remover.body.line("_   {}.queries.delete(o);", otmp.getManySide().getClassName());
           remover.body.line("}");
           domainCodegen.addImports(UoW.class);
+        } else if (otmp.isManyToMany()) {
+          // always delete join tables
+          remover.body.line("if (UoW.isOpen()) {");
+          remover.body.line("_   {}.queries.delete(o);", otmp.getManySide().getClassName());
+          remover.body.line("}");
+          domainCodegen.addImports(UoW.class);
         }
 
         if (otmp.isManyToMany()) {
@@ -451,7 +457,7 @@ public class GenerateDomainCodegenPass implements Pass {
         clearAssociations.body.line("this.set{}(null);", otmp.getCapitalVariableNameSingular());
       } else {
         clearAssociations.body.line("for ({} o : Copy.list(this.get{}())) {", otmp.getTargetJavaType(), otmp.getCapitalVariableName());
-        clearAssociations.body.line("_   o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName());
+        clearAssociations.body.line("_   remove{}(o);", otmp.getCapitalVariableNameSingular());
         clearAssociations.body.line("}");
         domainCodegen.addImports(Copy.class, List.class);
       }

@@ -161,10 +161,10 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
   public void clearAssociations() {
     super.clearAssociations();
     for (ParentCBar o : Copy.list(this.getFirstParentParentCBars())) {
-      o.setFirstParentWithoutPercolation(null);
+      removeFirstParentParentCBar(o);
     }
     for (ParentCBar o : Copy.list(this.getSecondParentParentCBars())) {
-      o.setSecondParentWithoutPercolation(null);
+      removeSecondParentParentCBar(o);
     }
   }
 

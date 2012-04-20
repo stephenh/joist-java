@@ -120,7 +120,7 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
   public void clearAssociations() {
     super.clearAssociations();
     for (InheritanceBRootChild o : Copy.list(this.getInheritanceBRootChilds())) {
-      o.setInheritanceBRootWithoutPercolation(null);
+      removeInheritanceBRootChild(o);
     }
   }
 

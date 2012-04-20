@@ -98,6 +98,9 @@ public abstract class ParentDChildCCodegen extends AbstractDomainObject {
     }
     o.setParentDChildCWithoutPercolation(null);
     this.removeParentDToChildCWithoutPercolation(o);
+    if (UoW.isOpen()) {
+      ParentDToChildC.queries.delete(o);
+    }
   }
 
   protected void addParentDToChildCWithoutPercolation(ParentDToChildC o) {
@@ -157,7 +160,7 @@ public abstract class ParentDChildCCodegen extends AbstractDomainObject {
   public void clearAssociations() {
     super.clearAssociations();
     for (ParentDToChildC o : Copy.list(this.getParentDToChildCs())) {
-      o.setParentDChildCWithoutPercolation(null);
+      removeParentDToChildC(o);
     }
   }
 

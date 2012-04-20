@@ -120,7 +120,7 @@ public abstract class InheritanceAOwnerCodegen extends AbstractDomainObject {
   public void clearAssociations() {
     super.clearAssociations();
     for (InheritanceABase o : Copy.list(this.getInheritanceABases())) {
-      o.setInheritanceAOwnerWithoutPercolation(null);
+      removeInheritanceABase(o);
     }
   }
 

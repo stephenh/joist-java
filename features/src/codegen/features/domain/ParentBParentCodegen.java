@@ -161,10 +161,10 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
   public void clearAssociations() {
     super.clearAssociations();
     for (ParentBChildBar o : Copy.list(this.getParentBChildBars())) {
-      o.setParentBParentWithoutPercolation(null);
+      removeParentBChildBar(o);
     }
     for (ParentBChildFoo o : Copy.list(this.getParentBChildFoos())) {
-      o.setParentBParentWithoutPercolation(null);
+      removeParentBChildFoo(o);
     }
   }
 

@@ -161,10 +161,10 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
   public void clearAssociations() {
     super.clearAssociations();
     for (InheritanceASubOne o : Copy.list(this.getInheritanceASubOnes())) {
-      o.setInheritanceAThingWithoutPercolation(null);
+      removeInheritanceASubOne(o);
     }
     for (InheritanceASubTwo o : Copy.list(this.getInheritanceASubTwos())) {
-      o.setInheritanceAThingWithoutPercolation(null);
+      removeInheritanceASubTwo(o);
     }
   }
 
