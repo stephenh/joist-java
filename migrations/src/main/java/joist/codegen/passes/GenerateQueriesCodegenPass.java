@@ -43,7 +43,7 @@ public class GenerateQueriesCodegenPass implements Pass {
     GMethod delete = queriesCodegen.getMethod("delete").argument(entity.getClassName(), "instance");
 
     for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
-      if (otmp.isOwnerMe()) {
+      if (otmp.isOwnerMe() && !otmp.isManyToMany()) {
         if (otmp.isOneToOne()) {
           delete.body.line("{}.queries.delete(instance.get{}());", otmp.getTargetJavaType(), otmp.getCapitalVariableNameSingular());
           queriesCodegen.addImports(otmp.getManySide().getFullClassName());

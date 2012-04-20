@@ -28,7 +28,7 @@ public class m0011 extends AbstractMigration {
     createTable("many_to_many_b_foo_to_bar",//
       primaryKey("id"),
       foreignKey("owner_many_to_many_b_foo_id", "many_to_many_b_foo").ownerIsNeither(),
-      foreignKey("owned_id", "many_to_many_b_bar").ownerIsNeither(),
+      foreignKey("owned_id", "many_to_many_b_bar").ownerIsThem(), // also test the user setting this when they don't have to
       integer("version"));
   }
 
