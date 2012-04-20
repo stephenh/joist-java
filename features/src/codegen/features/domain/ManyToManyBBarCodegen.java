@@ -70,11 +70,11 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
     return this.version;
   }
 
-  public List<ManyToManyBFooToBar> getOwnedManyToManyBFooToBars() {
+  private List<ManyToManyBFooToBar> getOwnedManyToManyBFooToBars() {
     return this.ownedManyToManyBFooToBars.get();
   }
 
-  public void setOwnedManyToManyBFooToBars(List<ManyToManyBFooToBar> ownedManyToManyBFooToBars) {
+  private void setOwnedManyToManyBFooToBars(List<ManyToManyBFooToBar> ownedManyToManyBFooToBars) {
     ListDiff<ManyToManyBFooToBar> diff = ListDiff.of(this.getOwnedManyToManyBFooToBars(), ownedManyToManyBFooToBars);
     for (ManyToManyBFooToBar o : diff.removed) {
       this.removeOwnedManyToManyBFooToBar(o);
@@ -84,7 +84,7 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
     }
   }
 
-  public void addOwnedManyToManyBFooToBar(ManyToManyBFooToBar o) {
+  private void addOwnedManyToManyBFooToBar(ManyToManyBFooToBar o) {
     if (o.getOwned() == this) {
       return;
     }
@@ -92,7 +92,7 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
     this.addOwnedManyToManyBFooToBarWithoutPercolation(o);
   }
 
-  public void removeOwnedManyToManyBFooToBar(ManyToManyBFooToBar o) {
+  private void removeOwnedManyToManyBFooToBar(ManyToManyBFooToBar o) {
     if (o.getOwned() != this) {
       return;
     }

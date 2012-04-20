@@ -70,11 +70,11 @@ public abstract class ParentDChildCCodegen extends AbstractDomainObject {
     return this.version;
   }
 
-  public List<ParentDToChildC> getParentDToChildCs() {
+  private List<ParentDToChildC> getParentDToChildCs() {
     return this.parentDToChildCs.get();
   }
 
-  public void setParentDToChildCs(List<ParentDToChildC> parentDToChildCs) {
+  private void setParentDToChildCs(List<ParentDToChildC> parentDToChildCs) {
     ListDiff<ParentDToChildC> diff = ListDiff.of(this.getParentDToChildCs(), parentDToChildCs);
     for (ParentDToChildC o : diff.removed) {
       this.removeParentDToChildC(o);
@@ -84,7 +84,7 @@ public abstract class ParentDChildCCodegen extends AbstractDomainObject {
     }
   }
 
-  public void addParentDToChildC(ParentDToChildC o) {
+  private void addParentDToChildC(ParentDToChildC o) {
     if (o.getParentDChildC() == this) {
       return;
     }
@@ -92,7 +92,7 @@ public abstract class ParentDChildCCodegen extends AbstractDomainObject {
     this.addParentDToChildCWithoutPercolation(o);
   }
 
-  public void removeParentDToChildC(ParentDToChildC o) {
+  private void removeParentDToChildC(ParentDToChildC o) {
     if (o.getParentDChildC() != this) {
       return;
     }

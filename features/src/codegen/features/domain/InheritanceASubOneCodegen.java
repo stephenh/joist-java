@@ -57,7 +57,7 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
   }
 
   protected void setInheritanceAThingWithoutPercolation(InheritanceAThing inheritanceAThing) {
-    this.getChanged().record("inheritanceAThing", this.inheritanceAThing, inheritanceAThing);
+    this.getChanged().record("inheritanceAThing", this.inheritanceAThing.get(), inheritanceAThing);
     this.inheritanceAThing.set(inheritanceAThing);
   }
 

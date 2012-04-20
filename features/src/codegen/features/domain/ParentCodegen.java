@@ -97,6 +97,9 @@ public abstract class ParentCodegen extends AbstractDomainObject {
     }
     o.setParentWithoutPercolation(null);
     this.removeChildWithoutPercolation(o);
+    if (UoW.isOpen() && UoW.isImplicitDeletionOfChildrenEnabled()) {
+      Child.queries.delete(o);
+    }
   }
 
   protected void addChildWithoutPercolation(Child o) {

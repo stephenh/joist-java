@@ -70,11 +70,11 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
     return this.version;
   }
 
-  public List<ManyToManyAFooToBar> getManyToManyAFooToBars() {
+  private List<ManyToManyAFooToBar> getManyToManyAFooToBars() {
     return this.manyToManyAFooToBars.get();
   }
 
-  public void setManyToManyAFooToBars(List<ManyToManyAFooToBar> manyToManyAFooToBars) {
+  private void setManyToManyAFooToBars(List<ManyToManyAFooToBar> manyToManyAFooToBars) {
     ListDiff<ManyToManyAFooToBar> diff = ListDiff.of(this.getManyToManyAFooToBars(), manyToManyAFooToBars);
     for (ManyToManyAFooToBar o : diff.removed) {
       this.removeManyToManyAFooToBar(o);
@@ -84,7 +84,7 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
     }
   }
 
-  public void addManyToManyAFooToBar(ManyToManyAFooToBar o) {
+  private void addManyToManyAFooToBar(ManyToManyAFooToBar o) {
     if (o.getManyToManyABar() == this) {
       return;
     }
@@ -92,7 +92,7 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
     this.addManyToManyAFooToBarWithoutPercolation(o);
   }
 
-  public void removeManyToManyAFooToBar(ManyToManyAFooToBar o) {
+  private void removeManyToManyAFooToBar(ManyToManyAFooToBar o) {
     if (o.getManyToManyABar() != this) {
       return;
     }

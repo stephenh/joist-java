@@ -81,7 +81,7 @@ public abstract class GrandChildCodegen extends AbstractDomainObject {
   }
 
   protected void setChildWithoutPercolation(Child child) {
-    this.getChanged().record("child", this.child, child);
+    this.getChanged().record("child", this.child.get(), child);
     this.child.set(child);
   }
 

@@ -84,7 +84,7 @@ public abstract class OneToOneABarCodegen extends AbstractDomainObject {
   }
 
   protected void setOneToOneAFooWithoutPercolation(OneToOneAFoo oneToOneAFoo) {
-    this.getChanged().record("oneToOneAFoo", this.oneToOneAFoo, oneToOneAFoo);
+    this.getChanged().record("oneToOneAFoo", this.oneToOneAFoo.get(), oneToOneAFoo);
     this.oneToOneAFoo.set(oneToOneAFoo);
   }
 

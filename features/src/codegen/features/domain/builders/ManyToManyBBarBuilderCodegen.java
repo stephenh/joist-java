@@ -2,7 +2,6 @@ package features.domain.builders;
 
 import features.domain.ManyToManyBBar;
 import features.domain.ManyToManyBFoo;
-import features.domain.ManyToManyBFooToBar;
 import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
@@ -46,18 +45,6 @@ public abstract class ManyToManyBBarBuilderCodegen extends AbstractBuilder<ManyT
       name("name");
     }
     return (ManyToManyBBarBuilder) super.defaults();
-  }
-
-  public List<ManyToManyBFooToBarBuilder> ownedManyToManyBFooToBars() {
-    List<ManyToManyBFooToBarBuilder> b = new ArrayList<ManyToManyBFooToBarBuilder>();
-    for (ManyToManyBFooToBar e : get().getOwnedManyToManyBFooToBars()) {
-      b.add(Builders.existing(e));
-    }
-    return b;
-  }
-
-  public ManyToManyBFooToBarBuilder ownedManyToManyBFooToBar(int i) {
-    return Builders.existing(get().getOwnedManyToManyBFooToBars().get(i));
   }
 
   public List<ManyToManyBFooBuilder> ownerManyToManyBFoos() {

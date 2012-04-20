@@ -80,7 +80,7 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
   }
 
   protected void setInheritanceAOwnerWithoutPercolation(InheritanceAOwner inheritanceAOwner) {
-    this.getChanged().record("inheritanceAOwner", this.inheritanceAOwner, inheritanceAOwner);
+    this.getChanged().record("inheritanceAOwner", this.inheritanceAOwner.get(), inheritanceAOwner);
     this.inheritanceAOwner.set(inheritanceAOwner);
   }
 

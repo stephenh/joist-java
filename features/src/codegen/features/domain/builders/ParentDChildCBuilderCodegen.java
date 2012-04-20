@@ -2,7 +2,6 @@ package features.domain.builders;
 
 import features.domain.ParentD;
 import features.domain.ParentDChildC;
-import features.domain.ParentDToChildC;
 import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
@@ -46,18 +45,6 @@ public abstract class ParentDChildCBuilderCodegen extends AbstractBuilder<Parent
       name("name");
     }
     return (ParentDChildCBuilder) super.defaults();
-  }
-
-  public List<ParentDToChildCBuilder> parentDToChildCs() {
-    List<ParentDToChildCBuilder> b = new ArrayList<ParentDToChildCBuilder>();
-    for (ParentDToChildC e : get().getParentDToChildCs()) {
-      b.add(Builders.existing(e));
-    }
-    return b;
-  }
-
-  public ParentDToChildCBuilder parentDToChildC(int i) {
-    return Builders.existing(get().getParentDToChildCs().get(i));
   }
 
   public List<ParentDBuilder> parentDs() {
