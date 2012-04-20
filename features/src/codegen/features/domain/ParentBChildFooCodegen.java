@@ -81,7 +81,7 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
   }
 
   protected void setParentBParentWithoutPercolation(ParentBParent parentBParent) {
-    this.getChanged().record("parentBParent", this.parentBParent, parentBParent);
+    this.getChanged().record("parentBParent", this.parentBParent.get(), parentBParent);
     this.parentBParent.set(parentBParent);
   }
 

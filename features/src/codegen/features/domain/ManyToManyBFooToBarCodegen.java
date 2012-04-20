@@ -64,7 +64,7 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
   }
 
   protected void setOwnedWithoutPercolation(ManyToManyBBar owned) {
-    this.getChanged().record("owned", this.owned, owned);
+    this.getChanged().record("owned", this.owned.get(), owned);
     this.owned.set(owned);
   }
 
@@ -83,7 +83,7 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
   }
 
   protected void setOwnerManyToManyBFooWithoutPercolation(ManyToManyBFoo ownerManyToManyBFoo) {
-    this.getChanged().record("ownerManyToManyBFoo", this.ownerManyToManyBFoo, ownerManyToManyBFoo);
+    this.getChanged().record("ownerManyToManyBFoo", this.ownerManyToManyBFoo.get(), ownerManyToManyBFoo);
     this.ownerManyToManyBFoo.set(ownerManyToManyBFoo);
   }
 

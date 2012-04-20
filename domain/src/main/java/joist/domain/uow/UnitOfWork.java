@@ -40,6 +40,7 @@ public class UnitOfWork {
   private final Db db;
   private Updater updater;
   private boolean rolledBack;
+  private boolean implicitDeletionOfChildrenEnabled;
 
   public UnitOfWork(final Repository repo, final Connection connection, Updater updater) {
     this.repo = repo;
@@ -155,6 +156,14 @@ public class UnitOfWork {
 
   Updater getUpdater() {
     return this.updater;
+  }
+
+  boolean isImplicitDeletionOfChildrenEnabled() {
+    return this.implicitDeletionOfChildrenEnabled;
+  }
+
+  void setImplicitDeletionOfChildren(boolean implicitDeletionOfChildrenEnabled) {
+    this.implicitDeletionOfChildrenEnabled = implicitDeletionOfChildrenEnabled;
   }
 
   private void flush(Set<DomainObject> insertOrUpdate, Set<DomainObject> delete) {

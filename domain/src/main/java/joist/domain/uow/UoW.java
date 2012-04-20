@@ -188,6 +188,16 @@ public class UoW {
     return UoW.getCurrent().getDb();
   }
 
+  /** Enables implicit deletion of children by their owner parents. */
+  public static void enableImplicitDeletionOfChildren() {
+    UoW.getCurrent().setImplicitDeletionOfChildren(true);
+  }
+
+  /** @return whether children should be implicitly deleted if removed from their owner parent. */
+  public static boolean isImplicitDeletionOfChildrenEnabled() {
+    return UoW.getCurrent().isImplicitDeletionOfChildrenEnabled();
+  }
+
   private static UnitOfWork getCurrent() {
     UoW.assertOpen();
     return UoW.uowForThread.get();

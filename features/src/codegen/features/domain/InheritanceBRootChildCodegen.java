@@ -81,7 +81,7 @@ public abstract class InheritanceBRootChildCodegen extends AbstractDomainObject 
   }
 
   protected void setInheritanceBRootWithoutPercolation(InheritanceBRoot inheritanceBRoot) {
-    this.getChanged().record("inheritanceBRoot", this.inheritanceBRoot, inheritanceBRoot);
+    this.getChanged().record("inheritanceBRoot", this.inheritanceBRoot.get(), inheritanceBRoot);
     this.inheritanceBRoot.set(inheritanceBRoot);
   }
 

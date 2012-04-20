@@ -83,7 +83,7 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
   }
 
   protected void setFirstParentWithoutPercolation(ParentCFoo firstParent) {
-    this.getChanged().record("firstParent", this.firstParent, firstParent);
+    this.getChanged().record("firstParent", this.firstParent.get(), firstParent);
     this.firstParent.set(firstParent);
   }
 
@@ -102,7 +102,7 @@ public abstract class ParentCBarCodegen extends AbstractDomainObject {
   }
 
   protected void setSecondParentWithoutPercolation(ParentCFoo secondParent) {
-    this.getChanged().record("secondParent", this.secondParent, secondParent);
+    this.getChanged().record("secondParent", this.secondParent.get(), secondParent);
     this.secondParent.set(secondParent);
   }
 

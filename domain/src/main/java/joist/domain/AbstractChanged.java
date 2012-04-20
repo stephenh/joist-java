@@ -17,8 +17,10 @@ public abstract class AbstractChanged implements Changed {
   }
 
   public void record(String primitveProperty, Object oldValue, Object newValue) {
-    if (!ObjectUtils.equals(oldValue, newValue) && !this.properties.containsKey(primitveProperty)) {
-      this.properties.put(primitveProperty, oldValue);
+    if (!ObjectUtils.equals(oldValue, newValue)) {
+      if (!this.properties.containsKey(primitveProperty)) {
+        this.properties.put(primitveProperty, oldValue);
+      }
       if (UoW.isOpen()) {
         UoW.enqueue(this.instance);
       }

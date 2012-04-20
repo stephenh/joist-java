@@ -64,7 +64,7 @@ public abstract class ParentDToChildCCodegen extends AbstractDomainObject {
   }
 
   protected void setParentDChildCWithoutPercolation(ParentDChildC parentDChildC) {
-    this.getChanged().record("parentDChildC", this.parentDChildC, parentDChildC);
+    this.getChanged().record("parentDChildC", this.parentDChildC.get(), parentDChildC);
     this.parentDChildC.set(parentDChildC);
   }
 
@@ -77,7 +77,7 @@ public abstract class ParentDToChildCCodegen extends AbstractDomainObject {
   }
 
   protected void setParentDWithoutPercolation(ParentD parentD) {
-    this.getChanged().record("parentD", this.parentD, parentD);
+    this.getChanged().record("parentD", this.parentD.get(), parentD);
     this.parentD.set(parentD);
   }
 

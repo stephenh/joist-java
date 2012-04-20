@@ -179,7 +179,11 @@ public class GenerateDomainCodegenPass implements Pass {
 
       GMethod setter2 = domainCodegen.getMethod("set{}WithoutPercolation", mtop.getCapitalVariableName()).setProtected();
       setter2.argument(mtop.getJavaType(), mtop.getVariableName());
-      setter2.body.line("this.getChanged().record(\"{}\", this.{}, {});", mtop.getVariableName(), mtop.getVariableName(), mtop.getVariableName());
+      setter2.body.line(
+        "this.getChanged().record(\"{}\", this.{}.get(), {});",
+        mtop.getVariableName(),
+        mtop.getVariableName(),
+        mtop.getVariableName());
       setter2.body.line("this.{}.set({});", mtop.getVariableName(), mtop.getVariableName());
 
       if (mtop.getOneSide().isCodeEntity()) {
@@ -274,6 +278,20 @@ public class GenerateDomainCodegenPass implements Pass {
         remover.body.line("}");
         remover.body.line("o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
         remover.body.line("this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
+        // delete if we're the owner
+        if (otmp.isOwnerMe()) {
+          remover.body.line("if (UoW.isOpen() && UoW.isImplicitDeletionOfChildrenEnabled()) {");
+          remover.body.line("_   {}.queries.delete(o);", otmp.getManySide().getClassName());
+          remover.body.line("}");
+          domainCodegen.addImports(UoW.class);
+        }
+
+        if (otmp.isManyToMany()) {
+          getter.setPrivate();
+          setter.setPrivate();
+          adder.setPrivate();
+          remover.setPrivate();
+        }
 
         domainCodegen.addImports(Copy.class, List.class, ListDiff.class);
       } else {

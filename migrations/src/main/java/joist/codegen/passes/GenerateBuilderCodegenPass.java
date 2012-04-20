@@ -107,7 +107,7 @@ public class GenerateBuilderCodegenPass implements Pass {
 
   private void oneToManyProperties(GClass c, Entity entity) {
     for (OneToManyProperty otom : entity.getOneToManyProperties()) {
-      if (otom.isCollectionSkipped()) {
+      if (otom.isCollectionSkipped() || otom.isManyToMany()) {
         continue;
       }
       if (otom.isOneToOne()) {
