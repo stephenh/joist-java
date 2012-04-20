@@ -278,6 +278,13 @@ public class GenerateDomainCodegenPass implements Pass {
         remover.body.line("}");
         remover.body.line("o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
         remover.body.line("this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
+        // delete if we're the owner
+        if (otmp.isOwnerMe()) {
+          remover.body.line("if (UoW.isOpen() && UoW.isImplicitDeletionOfChildrenEnabled()) {");
+          remover.body.line("_   {}.queries.delete(o);", otmp.getManySide().getClassName());
+          remover.body.line("}");
+          domainCodegen.addImports(UoW.class);
+        }
 
         if (otmp.isManyToMany()) {
           getter.setPrivate();

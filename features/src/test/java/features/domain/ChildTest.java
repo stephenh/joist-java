@@ -1,8 +1,16 @@
 package features.domain;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import joist.domain.ValidationAssert;
+import joist.domain.uow.UoW;
+import joist.domain.validation.ValidationException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -160,6 +168,55 @@ public class ChildTest extends AbstractFeaturesTest {
     Parent.queries.delete(p);
     this.commitAndReOpen();
     Assert.assertEquals(0, Child.queries.count());
+  }
+
+  @Test
+  public void testChildIsNotDeletedByDefaultWhenAssociatedByParent() {
+    Parent p = new Parent("p");
+    new Child(p, "name");
+    this.commitAndReOpen();
+
+    p = this.reload(p);
+    p.setChilds(new ArrayList<Child>());
+    try {
+      this.commitAndReOpen();
+      fail();
+    } catch (ValidationException ve) {
+      assertThat(ve.getMessage(), is("New validation errors - Parent is required - Child[1]"));
+    }
+  }
+
+  @Test
+  public void testChildIsImplicitlyDeletedWhenEnabledAndAssociatedByParent() {
+    Parent p = new Parent("p");
+    new Child(p, "name");
+    this.commitAndReOpen();
+
+    p = this.reload(p);
+    UoW.enableImplicitDeletionOfChildren();
+    p.setChilds(new ArrayList<Child>());
+    this.commitAndReOpen();
+    Assert.assertEquals(0, Child.queries.count());
+    // test setting a different child
+  }
+
+  @Test
+  public void testChildIsReownedAfterBeingImplicitlyDeleted() {
+    Parent p = new Parent("p");
+    Child c = new Child(p, "name");
+    this.commitAndReOpen();
+    Assert.assertEquals(1, Child.queries.count());
+
+    p = this.reload(p);
+    c = this.reload(c);
+    UoW.enableImplicitDeletionOfChildren();
+    p.setChilds(new ArrayList<Child>());
+    // now make a new parent for the child
+    Parent p2 = new Parent("p2");
+    c.setParent(p2);
+    this.commitAndReOpen();
+    // the child was saved from being deleted
+    Assert.assertEquals(1, Child.queries.count());
   }
 
   @Test

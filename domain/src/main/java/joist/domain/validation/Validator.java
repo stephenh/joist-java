@@ -48,9 +48,10 @@ public class Validator {
   }
 
   public void enqueue(DomainObject ado) {
-    if (!this.dequeue.contains(ado)) {
-      this.queue.add(ado);
-    }
+    // we used to not respect any enqueues after an object was marked deleted,
+    // but now if implicit deletes are enabled, we should recover them
+    this.dequeue.remove(ado);
+    this.queue.add(ado);
   }
 
   public void dequeue(DomainObject ado) {
