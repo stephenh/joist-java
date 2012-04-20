@@ -21,7 +21,7 @@ public class ManyToManyATest extends AbstractFeaturesTest {
     this.commitAndReOpen();
 
     foo = this.reload(foo);
-    Assert.assertEquals("bar", foo.getManyToManyAFooToBars().get(0).getManyToManyABar().getName());
+    Assert.assertEquals("bar", foo.getManyToManyABars().get(0).getName());
   }
 
   @Test
@@ -35,14 +35,14 @@ public class ManyToManyATest extends AbstractFeaturesTest {
     this.commitAndReOpen();
 
     foo = this.reload(foo);
-    Assert.assertEquals("bar", foo.getManyToManyAFooToBars().get(0).getManyToManyABar().getName());
+    Assert.assertEquals("bar", foo.getManyToManyABars().get(0).getName());
     bar = this.reload(bar);
     foo.removeManyToManyABar(bar);
-    Assert.assertEquals(0, foo.getManyToManyAFooToBars().size());
+    Assert.assertEquals(0, foo.getManyToManyABars().size());
     this.commitAndReOpen();
 
     foo = this.reload(foo);
-    Assert.assertEquals(0, foo.getManyToManyAFooToBars().size());
+    Assert.assertEquals(0, foo.getManyToManyABars().size());
   }
 
   @Test
@@ -58,17 +58,17 @@ public class ManyToManyATest extends AbstractFeaturesTest {
     this.commitAndReOpen();
 
     foo = this.reload(foo);
-    Assert.assertEquals(1, foo.getManyToManyAFooToBars().size());
-    Assert.assertEquals("bar", foo.getManyToManyAFooToBars().get(0).getManyToManyABar().getName());
+    Assert.assertEquals(1, foo.getManyToManyABars().size());
+    Assert.assertEquals("bar", foo.getManyToManyABars().get(0).getName());
 
     bar = this.reload(bar);
     bars.clear();
     foo.setManyToManyABars(bars);
-    Assert.assertEquals(0, foo.getManyToManyAFooToBars().size());
+    Assert.assertEquals(0, foo.getManyToManyABars().size());
     this.commitAndReOpen();
 
     foo = this.reload(foo);
-    Assert.assertEquals(0, foo.getManyToManyAFooToBars().size());
+    Assert.assertEquals(0, foo.getManyToManyABars().size());
   }
 
 }

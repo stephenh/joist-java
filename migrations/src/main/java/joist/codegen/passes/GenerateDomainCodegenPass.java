@@ -275,6 +275,13 @@ public class GenerateDomainCodegenPass implements Pass {
         remover.body.line("o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
         remover.body.line("this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
 
+        if (otmp.isManyToMany()) {
+          getter.setPrivate();
+          setter.setPrivate();
+          adder.setPrivate();
+          remover.setPrivate();
+        }
+
         domainCodegen.addImports(Copy.class, List.class, ListDiff.class);
       } else {
         GMethod getter = domainCodegen.getMethod("get" + otmp.getCapitalVariableNameSingular()).returnType(otmp.getTargetJavaType());

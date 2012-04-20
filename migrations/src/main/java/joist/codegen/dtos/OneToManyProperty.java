@@ -18,6 +18,7 @@ public class OneToManyProperty {
   private String capitalVariableNameSingular;
   private ManyToOneProperty manyToOneProperty;
   private boolean oneToOne = false;
+  private boolean manyToMany = false;
 
   /** Parent (oneSide) -> child (manySide) */
   public OneToManyProperty(Entity oneSide, InformationSchemaColumn manySide) {
@@ -120,4 +121,11 @@ public class OneToManyProperty {
     this.oneToOne = oneToOne;
   }
 
+  public boolean isManyToMany() {
+    return this.manyToMany;
+  }
+
+  public void setManyToMany(boolean manyToMany) {
+    this.manyToMany = manyToMany;
+  }
 }

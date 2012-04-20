@@ -4,6 +4,7 @@ import joist.codegen.Codegen;
 import joist.codegen.InformationSchemaColumn;
 import joist.codegen.dtos.Entity;
 import joist.codegen.dtos.ManyToManyProperty;
+import joist.codegen.dtos.ManyToOneProperty;
 
 public class FindManyToManyPropertiesPass implements Pass {
 
@@ -14,6 +15,10 @@ public class FindManyToManyPropertiesPass implements Pass {
       }
 
       Entity joinTable = codegen.getEntity(column.tableName);
+
+      for (ManyToOneProperty mtop : joinTable.getManyToOneProperties()) {
+        mtop.getOneToManyProperty().setManyToMany(true);
+      }
 
       Entity mySide = codegen.getEntity(column.foreignKeyTableName);
       if (mySide == null) {
