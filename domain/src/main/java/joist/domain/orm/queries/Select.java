@@ -92,6 +92,10 @@ public class Select<T extends DomainObject> {
     return this.unique(this.from.getDomainClass());
   }
 
+  public T uniqueOrNull() {
+    return this.uniqueOrNull(this.from.getDomainClass());
+  }
+
   public <R> List<R> list(Class<R> rowType) {
     final List<R> results = new ArrayList<R>();
     RowMapper mapper = null;
@@ -105,9 +109,17 @@ public class Select<T extends DomainObject> {
   }
 
   public <R> R unique(Class<R> rowType) {
+    R result = this.uniqueOrNull(rowType);
+    if (result == null) {
+      throw new NotFoundException(rowType);
+    }
+    return result;
+  }
+
+  public <R> R uniqueOrNull(Class<R> rowType) {
     List<R> results = this.list(rowType);
     if (results.size() == 0) {
-      throw new NotFoundException(rowType);
+      return null;
     } else if (results.size() > 1) {
       throw new TooManyException(rowType, results);
     }
