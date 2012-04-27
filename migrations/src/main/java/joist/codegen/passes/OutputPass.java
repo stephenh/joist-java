@@ -8,7 +8,11 @@ public class OutputPass implements Pass {
     codegen.getOutputSourceDirectory().output();
     codegen.getOutputCodegenDirectory().output();
     if (codegen.getConfig().pruneCodegenDirectory) {
-      codegen.getOutputCodegenDirectory().pruneIfNotTouched();
+      if (codegen.getConfig().pruneInAllDirectories) {
+        codegen.getOutputCodegenDirectory().pruneIfNotTouched();
+      } else {
+        codegen.getOutputCodegenDirectory().pruneIfNotTouchedWithinUsedPackages();
+      }
     }
   }
 
