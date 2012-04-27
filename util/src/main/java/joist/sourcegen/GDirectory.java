@@ -58,18 +58,59 @@ public class GDirectory {
   }
 
   public void pruneIfNotTouched() {
-    List<File> directoriesToCheck = Copy.list(this.directory);
-    while (directoriesToCheck.size() != 0) {
-      File dir = directoriesToCheck.remove(0);
+    for (File dir : this.getAllDirectories()) {
       for (File file : dir.listFiles()) {
-        if (file.isDirectory()) {
-          directoriesToCheck.add(file);
-        } else if (!this.touched.contains(file)) {
+        if (file.isFile() && !this.touched.contains(file)) {
           log.warn("Removing old file {}", file);
           file.delete();
         }
       }
     }
+  }
+
+  public void pruneIfNotTouchedWithinUsedPackages() {
+    for (File dir : this.getUsedDirectories()) {
+      for (File file : dir.listFiles()) {
+        if (file.isFile() && !this.touched.contains(file)) {
+          log.warn("Removing old file {}", file);
+          file.delete();
+        }
+      }
+    }
+  }
+
+  /** @returns only directories that we've output classes into, so that we conceptually "own" */
+  private List<File> getUsedDirectories() {
+    List<File> used = Copy.list();
+    for (File dir : this.getAllDirectories()) {
+      boolean foundTouchedFileInThisDir = false;
+      for (File touched : this.touched) {
+        if (touched.getParentFile().equals(dir)) {
+          foundTouchedFileInThisDir = true;
+          break;
+        }
+      }
+      if (foundTouchedFileInThisDir) {
+        used.add(dir);
+      }
+    }
+    return used;
+  }
+
+  /** @returns all of the directories starting at {@code this.directory}. */
+  private List<File> getAllDirectories() {
+    List<File> directories = Copy.list();
+    List<File> directoriesToCheck = Copy.list(this.directory);
+    while (directoriesToCheck.size() > 0) {
+      File dir = directoriesToCheck.remove(0);
+      for (File file : dir.listFiles()) {
+        if (file.isDirectory()) {
+          directories.add(file);
+          directoriesToCheck.add(file);
+        }
+      }
+    }
+    return directories;
   }
 
   private File getFile(GClass gc) {
