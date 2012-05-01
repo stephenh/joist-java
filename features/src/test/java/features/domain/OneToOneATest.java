@@ -60,7 +60,7 @@ public class OneToOneATest extends AbstractFeaturesTest {
     this.commitAndReOpen();
 
     bar.setOneToOneAFoo(null);
-    ValidationAssert.assertErrors(bar, "One To One AFoo is required");
+    ValidationAssert.assertErrors(bar, "One To One Afoo is required");
   }
 
   @Test

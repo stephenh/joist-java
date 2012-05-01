@@ -31,8 +31,9 @@ public class InflectorTest {
     Assert.assertEquals("Test One", Inflector.humanize("TestOne"));
     Assert.assertEquals("Test One O", Inflector.humanize("TestOneO"));
     Assert.assertEquals("Test One 9", Inflector.humanize("TestOne9"));
-    Assert.assertEquals("Test URL9", Inflector.humanize("TestURL9"));
+    Assert.assertEquals("Test Url9", Inflector.humanize("TestURL9"));
     Assert.assertEquals("Test One", Inflector.humanize("test_one"));
+    Assert.assertEquals("Test One", Inflector.humanize("TEST_ONE"));
     Assert.assertEquals("Test 12", Inflector.humanize("test12"));
   }
 
@@ -41,6 +42,9 @@ public class InflectorTest {
     Assert.assertEquals("Test One Two", Inflector.humanize("testOneTwo"));
     Assert.assertEquals("Test One Two", Inflector.humanize("TestOneTwo"));
     Assert.assertEquals("Test One Two", Inflector.humanize("test_one_two"));
+    Assert.assertEquals("Test One Two", Inflector.humanize("TEST_ONE_TWO"));
+    Assert.assertEquals("Test A B", Inflector.humanize("test_a_b"));
+    Assert.assertEquals("Test A B", Inflector.humanize("TEST_A_B"));
   }
 
   @Test
@@ -50,6 +54,7 @@ public class InflectorTest {
     Assert.assertEquals("test_one_two_a", Inflector.underscore("testOneTwoA"));
     Assert.assertEquals("test_one_two", Inflector.underscore("TestOneTwo"));
     Assert.assertEquals("test_one_two", Inflector.underscore("test_one_two"));
+    Assert.assertEquals("test_one_two", Inflector.underscore("TEST_ONE_TWO"));
   }
 
   @Test

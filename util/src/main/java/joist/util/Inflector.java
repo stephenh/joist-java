@@ -31,7 +31,7 @@ public class Inflector {
   public static String humanize(String camelCased) {
     List<String> parts = Inflector.split(camelCased);
     for (int i = 0; i < parts.size(); i++) {
-      parts.set(i, Inflector.capitalize(parts.get(i)));
+      parts.set(i, Inflector.capitalize(parts.get(i).toLowerCase()));
     }
     return Join.space(parts);
   }
