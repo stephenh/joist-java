@@ -44,4 +44,8 @@ public abstract class AbstractBuilder<T extends DomainObject> {
   public AbstractBuilder<T> defaults() {
     return this;
   }
+
+  /** Ensures the instance has been flushed to the database and an id assigned. */
+  public abstract AbstractBuilder<T> ensureSaved();
+
 }
