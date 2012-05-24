@@ -30,8 +30,8 @@ public class InflectorTest {
     Assert.assertEquals("Test One", Inflector.humanize("testOne"));
     Assert.assertEquals("Test One", Inflector.humanize("TestOne"));
     Assert.assertEquals("Test One O", Inflector.humanize("TestOneO"));
-    Assert.assertEquals("Test One 9", Inflector.humanize("TestOne9"));
-    Assert.assertEquals("Test Url9", Inflector.humanize("TestURL9"));
+    Assert.assertEquals("Test One 19", Inflector.humanize("TestOne19"));
+    Assert.assertEquals("Test Url 91 Foo", Inflector.humanize("TestURL91Foo"));
     Assert.assertEquals("Test One", Inflector.humanize("test_one"));
     Assert.assertEquals("Test One", Inflector.humanize("TEST_ONE"));
     Assert.assertEquals("Test 12", Inflector.humanize("test12"));
