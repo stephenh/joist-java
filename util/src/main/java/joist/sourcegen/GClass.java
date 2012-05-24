@@ -326,7 +326,7 @@ public class GClass {
       return this;
     }
     for (Class<?> type : types) {
-      this.imports.add(type.getName());
+      this.addImports(type.getName());
     }
     return this;
   }
