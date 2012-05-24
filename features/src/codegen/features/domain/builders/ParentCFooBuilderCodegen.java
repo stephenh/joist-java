@@ -75,4 +75,17 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
     return (features.domain.ParentCFoo) super.get();
   }
 
+  @Override
+  public ParentCFooBuilder ensureSaved() {
+    if (UoW.isOpen()) {
+      if (get().getChanged().size() == 0) {
+        throw new RuntimeException("instance has not been changed yet");
+      }
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+    return (ParentCFooBuilder) this;
+  }
+
 }

@@ -87,4 +87,17 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
     return (features.domain.ParentCBar) super.get();
   }
 
+  @Override
+  public ParentCBarBuilder ensureSaved() {
+    if (UoW.isOpen()) {
+      if (get().getChanged().size() == 0) {
+        throw new RuntimeException("instance has not been changed yet");
+      }
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+    return (ParentCBarBuilder) this;
+  }
+
 }

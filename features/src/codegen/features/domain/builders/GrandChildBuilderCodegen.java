@@ -76,4 +76,17 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
     return (features.domain.GrandChild) super.get();
   }
 
+  @Override
+  public GrandChildBuilder ensureSaved() {
+    if (UoW.isOpen()) {
+      if (get().getChanged().size() == 0) {
+        throw new RuntimeException("instance has not been changed yet");
+      }
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+    return (GrandChildBuilder) this;
+  }
+
 }

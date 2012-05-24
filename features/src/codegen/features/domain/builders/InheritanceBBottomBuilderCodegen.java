@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.InheritanceBBottom;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class InheritanceBBottomBuilderCodegen extends InheritanceBMiddleBuilder {
@@ -32,6 +33,19 @@ public abstract class InheritanceBBottomBuilderCodegen extends InheritanceBMiddl
 
   public InheritanceBBottom get() {
     return (features.domain.InheritanceBBottom) super.get();
+  }
+
+  @Override
+  public InheritanceBBottomBuilder ensureSaved() {
+    if (UoW.isOpen()) {
+      if (get().getChanged().size() == 0) {
+        throw new RuntimeException("instance has not been changed yet");
+      }
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+    return (InheritanceBBottomBuilder) this;
   }
 
 }
