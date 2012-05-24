@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.InheritanceASubOne;
 import features.domain.InheritanceAThing;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseBuilder {
@@ -57,6 +58,19 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
 
   public InheritanceASubOne get() {
     return (features.domain.InheritanceASubOne) super.get();
+  }
+
+  @Override
+  public InheritanceASubOneBuilder ensureSaved() {
+    if (UoW.isOpen()) {
+      if (get().getChanged().size() == 0) {
+        throw new RuntimeException("instance has not been changed yet");
+      }
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+    return (InheritanceASubOneBuilder) this;
   }
 
 }

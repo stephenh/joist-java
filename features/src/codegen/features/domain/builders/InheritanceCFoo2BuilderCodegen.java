@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.InheritanceCFoo2;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class InheritanceCFoo2BuilderCodegen extends InheritanceCBuilder {
@@ -32,6 +33,19 @@ public abstract class InheritanceCFoo2BuilderCodegen extends InheritanceCBuilder
 
   public InheritanceCFoo2 get() {
     return (features.domain.InheritanceCFoo2) super.get();
+  }
+
+  @Override
+  public InheritanceCFoo2Builder ensureSaved() {
+    if (UoW.isOpen()) {
+      if (get().getChanged().size() == 0) {
+        throw new RuntimeException("instance has not been changed yet");
+      }
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+    return (InheritanceCFoo2Builder) this;
   }
 
 }

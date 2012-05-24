@@ -88,4 +88,17 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
     return (features.domain.ManyToManyBFooToBar) super.get();
   }
 
+  @Override
+  public ManyToManyBFooToBarBuilder ensureSaved() {
+    if (UoW.isOpen()) {
+      if (get().getChanged().size() == 0) {
+        throw new RuntimeException("instance has not been changed yet");
+      }
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+    return (ManyToManyBFooToBarBuilder) this;
+  }
+
 }

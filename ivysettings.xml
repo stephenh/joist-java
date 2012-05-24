@@ -2,12 +2,11 @@
 	<settings defaultResolver="default"/>
 	<include url="${ivy.default.settings.dir}/ivysettings-public.xml"/>
 	<resolvers>
-		<ibiblio name="local-m2" m2compatible="true" root="file://${user.home}/.m2/repository"/>
+		<ibiblio name="local-m2" m2compatible="true" root="file://${user.home}/.m2/repository" changingPattern=".*SNAPSHOT"/>
 		<ibiblio name="joist-m2" m2compatible="true" root="http://repo.joist.ws"/>
 		<ibiblio name="java.net.1" root="http://download.java.net/maven/1/" pattern="[organization]/jars/[module]-[revision].[ext]" /> <!-- For japex. -->
 		<ibiblio name="java.net.2" root="http://download.java.net/maven/2/" m2compatible="true" /> <!-- For jta. -->
 		<chain name="default" changingPattern=".*SNAPSHOT">
-			<!-- if we have snapshot versions of joist (which should only be local), putting local-m2 first avoids pinging the other reports on every build. -->
 			<resolver ref="local-m2"/>
 			<resolver ref="java.net.1"/>
 			<resolver ref="java.net.2"/>

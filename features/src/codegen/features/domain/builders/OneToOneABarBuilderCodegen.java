@@ -76,4 +76,17 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
     return (features.domain.OneToOneABar) super.get();
   }
 
+  @Override
+  public OneToOneABarBuilder ensureSaved() {
+    if (UoW.isOpen()) {
+      if (get().getChanged().size() == 0) {
+        throw new RuntimeException("instance has not been changed yet");
+      }
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+    return (OneToOneABarBuilder) this;
+  }
+
 }

@@ -11,6 +11,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import joist.domain.uow.UoW;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -110,4 +112,32 @@ public class BuildersTest extends AbstractFeaturesTest {
     assertThat(f.manyToManyABars().size(), is(4));
     assertThat(f.manyToManyABar(0), is(not(nullValue())));
   }
+
+  @Test
+  public void testEnsureSavedFailsIfNothingSetYet() {
+    try {
+      aParent().ensureSaved();
+      fail();
+    } catch (RuntimeException re) {
+      assertThat(re.getMessage(), is("instance has not been changed yet"));
+    }
+  }
+
+  @Test
+  public void testEnsureSavedFailsIfUoWIsClosed() {
+    UoW.close();
+    try {
+      aParent().ensureSaved();
+      fail();
+    } catch (RuntimeException re) {
+      assertThat(re.getMessage(), is("ensureSaved only works if the UoW is open"));
+    }
+  }
+
+  @Test
+  public void testEnsureSaved() {
+    ParentBuilder p = aParent().defaults().ensureSaved();
+    assertThat(p.get().getId(), is(1l));
+  }
+
 }

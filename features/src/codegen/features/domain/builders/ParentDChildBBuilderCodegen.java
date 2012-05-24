@@ -76,4 +76,17 @@ public abstract class ParentDChildBBuilderCodegen extends AbstractBuilder<Parent
     return (features.domain.ParentDChildB) super.get();
   }
 
+  @Override
+  public ParentDChildBBuilder ensureSaved() {
+    if (UoW.isOpen()) {
+      if (get().getChanged().size() == 0) {
+        throw new RuntimeException("instance has not been changed yet");
+      }
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+    return (ParentDChildBBuilder) this;
+  }
+
 }

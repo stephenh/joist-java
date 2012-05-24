@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class Inflector {
 
   private static final Pattern lower = Pattern.compile("[a-z]");
-  private static final Pattern upper = Pattern.compile("[A-Z0-9]");
+  private static final Pattern numeric = Pattern.compile("[0-9]");
 
   private Inflector() {
   }
@@ -31,7 +31,7 @@ public class Inflector {
   public static String humanize(String camelCased) {
     List<String> parts = Inflector.split(camelCased);
     for (int i = 0; i < parts.size(); i++) {
-      parts.set(i, Inflector.capitalize(parts.get(i)));
+      parts.set(i, Inflector.capitalize(parts.get(i).toLowerCase()));
     }
     return Join.space(parts);
   }
@@ -54,20 +54,28 @@ public class Inflector {
   private static List<String> split(String word) {
     List<String> parts = new ArrayList<String>();
     boolean wasLower = false;
+    boolean wasNumeric = false;
     int at = 0;
     int length = word.length();
     for (int i = 0; i < length; i++) {
       String c = word.substring(i, i + 1);
+      boolean isLower = Inflector.lower.matcher(c).matches();
+      boolean isNumeric = Inflector.numeric.matcher(c).matches();
       if ("_".equals(c)) {
         parts.add(word.substring(at, i));
         at = i + 1;
-      } else if (wasLower && Inflector.upper.matcher(c).matches()) {
-        parts.add(word.substring(at, i));
+      } else if (wasLower && !isLower) {
+        parts.add(word.substring(at, i)); // add last chunk
         at = i;
-        wasLower = false;
-      } else if (!wasLower && Inflector.lower.matcher(c).matches()) {
-        wasLower = true;
+      } else if (wasNumeric && !isNumeric) {
+        parts.add(word.substring(at, i)); // add last chunk
+        at = i;
+      } else if (!wasNumeric && isNumeric) {
+        parts.add(word.substring(at, i)); // add last chunk
+        at = i;
       }
+      wasLower = isLower;
+      wasNumeric = isNumeric;
     }
     if (at != length) {
       parts.add(word.substring(at));

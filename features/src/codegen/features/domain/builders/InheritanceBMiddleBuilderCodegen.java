@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.InheritanceBMiddle;
+import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
 public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootBuilder {
@@ -32,6 +33,19 @@ public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootB
 
   public InheritanceBMiddle get() {
     return (features.domain.InheritanceBMiddle) super.get();
+  }
+
+  @Override
+  public InheritanceBMiddleBuilder ensureSaved() {
+    if (UoW.isOpen()) {
+      if (get().getChanged().size() == 0) {
+        throw new RuntimeException("instance has not been changed yet");
+      }
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+    return (InheritanceBMiddleBuilder) this;
   }
 
 }

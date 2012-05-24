@@ -37,7 +37,7 @@ public class CodeTests extends AbstractFeaturesTest {
     d.setName("name");
     d.setCodeASize(CodeASize.ONE);
     d.setCodeAColor(null);
-    ValidationAssert.assertErrors(d, "Code AColor is required");
+    ValidationAssert.assertErrors(d, "Code Acolor is required");
   }
 
   @Test

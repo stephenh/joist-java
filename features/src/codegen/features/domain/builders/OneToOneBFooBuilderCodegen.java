@@ -63,4 +63,17 @@ public abstract class OneToOneBFooBuilderCodegen extends AbstractBuilder<OneToOn
     return (features.domain.OneToOneBFoo) super.get();
   }
 
+  @Override
+  public OneToOneBFooBuilder ensureSaved() {
+    if (UoW.isOpen()) {
+      if (get().getChanged().size() == 0) {
+        throw new RuntimeException("instance has not been changed yet");
+      }
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+    return (OneToOneBFooBuilder) this;
+  }
+
 }
