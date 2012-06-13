@@ -79,6 +79,19 @@ public class UoW {
     }
   }
 
+  /**
+   * Executes {@code block} within a read-only {@link UnitOfWork} and returns a snapshot of its state.
+   */
+  public static Snapshot snapshot(final Repository repo, Block block) {
+    try {
+      UoW.open(repo, null);
+      block.go();
+      return new Snapshot(UoW.getCurrent());
+    } finally {
+      UoW.safelyRollbackAndCloseIfNeeded(true);
+    }
+  }
+
   public static boolean isOpen() {
     return UoW.uowForThread.get() != null;
   }
@@ -87,8 +100,15 @@ public class UoW {
    * Opens a new {@link UnitOfWork} and database connection.
    */
   public static void open(final Repository repository, Updater updater) {
+    open(repository, updater, null);
+  }
+
+  /**
+   * Opens a new {@link UnitOfWork} and database connection.
+   */
+  public static void open(final Repository repository, Updater updater, Snapshot snapshot) {
     UoW.assertClosed();
-    UnitOfWork uow = repository.open(updater);
+    UnitOfWork uow = repository.open(updater, snapshot);
     UoW.uowForThread.set(uow);
   }
 
@@ -145,9 +165,10 @@ public class UoW {
   public static void commitAndReOpen() {
     final Repository repo = UoW.getCurrent().getRepository();
     final Updater updater = UoW.getCurrent().getUpdater();
+    final Snapshot snapshot = UoW.getCurrent().getSnapshot();
     UoW.commitUnlessRolledBack();
     UoW.close();
-    UoW.open(repo, updater);
+    UoW.open(repo, updater, snapshot);
   }
 
   /** Queues <code>instance</code> for validation on flush. */

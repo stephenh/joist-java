@@ -17,6 +17,9 @@ public abstract class AbstractChanged implements Changed {
   }
 
   public void record(String primitveProperty, Object oldValue, Object newValue) {
+    if (AbstractDomainObject.isFromSnapshot(this.instance)) {
+      throw new RuntimeException("Cannot change " + this.instance + " as it was loaded from a snapshot");
+    }
     if (!ObjectUtils.equals(oldValue, newValue)) {
       if (!this.properties.containsKey(primitveProperty)) {
         this.properties.put(primitveProperty, oldValue);
@@ -28,6 +31,9 @@ public abstract class AbstractChanged implements Changed {
   }
 
   public void record(String collectionProperty) {
+    if (AbstractDomainObject.isFromSnapshot(this.instance)) {
+      throw new RuntimeException("Cannot change " + this.instance + " as it was loaded from a snapshot");
+    }
     this.properties.put(collectionProperty, null);
     if (UoW.isOpen()) {
       UoW.enqueue(this.instance);

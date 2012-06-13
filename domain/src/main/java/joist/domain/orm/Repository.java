@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import joist.domain.uow.Snapshot;
 import joist.domain.uow.UnitOfWork;
 import joist.domain.util.ConnectionSettings;
 import joist.domain.util.pools.MySqlC3p0Factory;
@@ -40,11 +41,11 @@ public class Repository {
    *
    * Caller is responsible for calling commit/close on the returned instance.
    */
-  public UnitOfWork open(Updater updater) {
+  public UnitOfWork open(Updater updater, Snapshot snapshot) {
     try {
       Connection connection = this.datasource.getConnection();
       connection.setAutoCommit(false);
-      return new UnitOfWork(this, connection, updater);
+      return new UnitOfWork(this, connection, updater, snapshot);
     } catch (SQLException se) {
       throw new RuntimeException(se);
     }

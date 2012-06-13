@@ -38,16 +38,21 @@ public class UnitOfWork {
   private final Repository repo;
   private final Connection connection;
   private final Db db;
+  private final Snapshot snapshot;
   private Updater updater;
   private boolean rolledBack;
   private boolean implicitDeletionOfChildrenEnabled;
 
-  public UnitOfWork(final Repository repo, final Connection connection, Updater updater) {
+  public UnitOfWork(final Repository repo, final Connection connection, Updater updater, Snapshot snapshot) {
     this.repo = repo;
     this.connection = connection;
     this.updater = updater;
     this.db = repo.getDb();
+    this.snapshot = snapshot;
     this.setUpdater(updater);
+    if (snapshot != null) {
+      snapshot.populate(this);
+    }
   }
 
   void close() {
@@ -111,17 +116,18 @@ public class UnitOfWork {
   }
 
   <T extends DomainObject> T load(Class<T> type, Long id) {
-    T instance = (T) this.identityMap.findOrNull(type, id);
-    if (instance == null) {
-      Alias<T> a = AliasRegistry.get(type);
-      try {
-        instance = Select.from(a).where(a.getIdColumn().eq(id)).unique();
-      } catch (NotFoundException nfe) {
-        // throw a more specific NotFoundException
-        throw new NotFoundException(type, id);
-      }
+    T loaded = (T) this.identityMap.findOrNull(type, id);
+    if (loaded != null) {
+      return loaded;
     }
-    return instance;
+
+    Alias<T> a = AliasRegistry.get(type);
+    try {
+      return Select.from(a).where(a.getIdColumn().eq(id)).unique();
+    } catch (NotFoundException nfe) {
+      // throw a more specific NotFoundException
+      throw new NotFoundException(type, id);
+    }
   }
 
   void delete(DomainObject instance) {
@@ -156,6 +162,10 @@ public class UnitOfWork {
 
   Updater getUpdater() {
     return this.updater;
+  }
+
+  Snapshot getSnapshot() {
+    return this.snapshot;
   }
 
   boolean isImplicitDeletionOfChildrenEnabled() {

@@ -11,7 +11,16 @@ import joist.util.ToString;
 
 public abstract class AbstractDomainObject implements DomainObject {
 
+  public static void setFromSnapshot(DomainObject instance) {
+    ((AbstractDomainObject) instance).isFromSnapshot = true;
+  }
+
+  public static boolean isFromSnapshot(DomainObject instance) {
+    return ((AbstractDomainObject) instance).isFromSnapshot;
+  }
+
   private final List<Rule<?>> validationRules = new ArrayList<Rule<?>>();
+  private boolean isFromSnapshot;
 
   public final List<ValidationError> validate() {
     ValidationErrors errors = new ValidationErrors();
