@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import joist.codegen.CodegenConfig;
+import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 
 /** A simple wrapper around the <code>schema_version</code> table for the {@link Migrater} class. */
@@ -14,7 +14,7 @@ public class SchemaVersionTable {
   private final DataSource ds;
   private final String schemaName;
 
-  public SchemaVersionTable(CodegenConfig config) {
+  public SchemaVersionTable(Config config) {
     this.ds = config.dbAppSaSettings.getDataSource();
     this.schemaName = config.dbAppSaSettings.schemaName;
   }

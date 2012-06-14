@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import joist.codegen.CodegenConfig;
+import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import joist.jdbc.RowMapper;
 import joist.util.Copy;
@@ -17,10 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PermissionFixer {
 
-  private final CodegenConfig config;
+  private final Config config;
   private final DataSource ds;
 
-  public PermissionFixer(CodegenConfig config) {
+  public PermissionFixer(Config config) {
     this.config = config;
     this.ds = config.dbAppSaSettings.getDataSource();
   }

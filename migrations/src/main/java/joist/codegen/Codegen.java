@@ -11,7 +11,7 @@ import joist.sourcegen.GDirectory;
 /** Generates our domain objects from the database schema. */
 public class Codegen {
 
-  private final CodegenConfig config;
+  private final Config config;
   private final InformationSchemaWrapper informationSchema;
   private final Map<String, Entity> entities = new LinkedHashMap<String, Entity>();
   private final GDirectory outputCodegenDirectory;
@@ -20,7 +20,7 @@ public class Codegen {
   private final List<String> manyToManyTables;
 
   /** @param saDataSource should be sa so we can see the information schema stuff */
-  public Codegen(CodegenConfig config) {
+  public Codegen(Config config) {
     this.config = config;
     this.outputCodegenDirectory = new GDirectory(config.getOutputCodegenDirectory());
     this.outputSourceDirectory = new GDirectory(config.getOutputSourceDirectory());
@@ -47,7 +47,7 @@ public class Codegen {
     return this.informationSchema.getSchemaHashCode();
   }
 
-  public CodegenConfig getConfig() {
+  public Config getConfig() {
     return this.config;
   }
 

@@ -42,7 +42,7 @@ import joist.sourcegen.GSettings;
 import joist.util.Copy;
 import joist.util.Inflector;
 
-public class CodegenConfig {
+public class Config {
 
   /** Where the generated-once subclasses (e.g. Employee) that you add business logic go. @return E.g. <code>src/main</code> */
   public String outputSourceDirectory = "./src/main/java";
@@ -108,7 +108,7 @@ public class CodegenConfig {
   private final String amountSuffix = ".*amount$";
   private final List<Pass> passes;
 
-  public CodegenConfig(String projectName, Db db) {
+  public Config(String projectName, Db db) {
     this.db = db;
     this.dbAppUserSettings = ConnectionSettings.forApp(db, Inflector.underscore(projectName));
     this.dbAppSaSettings = ConnectionSettings.forAppSa(db, Inflector.underscore(projectName));
@@ -176,7 +176,7 @@ public class CodegenConfig {
     this.addPassBeforeOutput(new MySqlHistoryTriggersPass());
   }
 
-  public CodegenConfig doNotUseTimeAndMoney() {
+  public Config doNotUseTimeAndMoney() {
     this.setJavaType("date", Date.class.getName(), DateAliasColumn.class.getName());
     this.setJavaType("timestamp without time zone", Date.class.getName(), DateAliasColumn.class.getName());
     this.javaTypeByPattern.remove(new TypeAndPattern("integer", this.amountSuffix));
@@ -188,7 +188,7 @@ public class CodegenConfig {
     return this;
   }
 
-  public CodegenConfig doNotUseMoney() {
+  public Config doNotUseMoney() {
     this.javaTypeByPattern.remove(new TypeAndPattern("integer", this.amountSuffix));
     this.javaTypeByPattern.remove(new TypeAndPattern("bigint", this.amountSuffix));
     this.aliasTypeByPattern.remove(new TypeAndPattern("integer", this.amountSuffix));

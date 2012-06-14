@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import joist.codegen.Codegen;
-import joist.codegen.CodegenConfig;
+import joist.codegen.Config;
 import joist.util.Copy;
 import joist.util.Inflector;
 
@@ -14,7 +14,7 @@ import org.apache.commons.lang.StringUtils;
 /** Represents a domain object we will generate code for. */
 public class Entity {
 
-  protected CodegenConfig config;
+  protected Config config;
   private String tableName;
   private Entity baseEntity;
   private List<Entity> subEntities = new ArrayList<Entity>();
@@ -40,7 +40,7 @@ public class Entity {
     return this.subEntities.size() > 0;
   }
 
-  public CodegenConfig getConfig() {
+  public Config getConfig() {
     return this.config;
   }
 

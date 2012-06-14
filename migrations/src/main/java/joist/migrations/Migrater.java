@@ -3,7 +3,7 @@ package joist.migrations;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import joist.codegen.CodegenConfig;
+import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Migrater {
 
   private static ThreadLocal<Connection> current = new ThreadLocal<Connection>();
-  private final CodegenConfig config;
+  private final Config config;
   private final SchemaVersionTable schemaInfoTable;
   private final MigrationLoader migrationClasses;
 
@@ -19,7 +19,7 @@ public class Migrater {
     return Migrater.current.get();
   }
 
-  public Migrater(CodegenConfig config) {
+  public Migrater(Config config) {
     this.config = config;
     this.schemaInfoTable = new SchemaVersionTable(config);
     this.migrationClasses = new MigrationLoader(this.config.packageNamesContainingMigrations);

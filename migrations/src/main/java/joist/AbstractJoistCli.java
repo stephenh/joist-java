@@ -1,7 +1,7 @@
 package joist;
 
 import joist.codegen.Codegen;
-import joist.codegen.CodegenConfig;
+import joist.codegen.Config;
 import joist.domain.orm.Db;
 import joist.migrations.DatabaseBootstrapper;
 import joist.migrations.Migrater;
@@ -9,10 +9,10 @@ import joist.migrations.PermissionFixer;
 
 public abstract class AbstractJoistCli {
 
-  public CodegenConfig config;
+  public Config config;
 
   public AbstractJoistCli(String projectName, Db db) {
-    this.config = new CodegenConfig(projectName, db);
+    this.config = new Config(projectName, db);
     if (".".equals(this.config.dbAppSaSettings.password)) {
       throw new RuntimeException("You need to set db.sa.password either on the command line or in build.properties.");
     }

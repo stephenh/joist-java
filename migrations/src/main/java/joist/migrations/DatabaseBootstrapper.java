@@ -4,7 +4,7 @@ import java.io.File;
 
 import javax.sql.DataSource;
 
-import joist.codegen.CodegenConfig;
+import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import joist.util.Execute;
 import joist.util.Execute.Result;
@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DatabaseBootstrapper {
 
-  private final CodegenConfig config;
+  private final Config config;
 
-  public DatabaseBootstrapper(CodegenConfig config) {
+  public DatabaseBootstrapper(Config config) {
     this.config = config;
   }
 
