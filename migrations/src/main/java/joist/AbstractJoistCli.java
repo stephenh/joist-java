@@ -50,8 +50,10 @@ public abstract class AbstractJoistCli {
 
   public void createDatabase() {
     new DatabaseBootstrapper(//
+      this.codegenConfig,
       this.getDataSourceForSystemTableAsSaUser(),
       this.getDataSourceForAppTableAsSaUser(),
+      this.dbAppSaSettings,
       this.dbAppUserSettings).dropAndCreate();
   }
 

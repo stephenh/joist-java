@@ -1,7 +1,10 @@
 package joist.migrations;
 
+import java.io.File;
+
 import javax.sql.DataSource;
 
+import joist.codegen.CodegenConfig;
 import joist.domain.orm.Db;
 import joist.domain.util.ConnectionSettings;
 import joist.jdbc.Jdbc;
@@ -12,13 +15,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DatabaseBootstrapper {
 
+  private final CodegenConfig config;
   private final DataSource systemDataSource;
   private final DataSource appDataSource;
+  private final ConnectionSettings saSettings;
   private final ConnectionSettings appSettings;
 
-  public DatabaseBootstrapper(DataSource systemDataSource, DataSource appDataSource, ConnectionSettings appSettings) {
+  public DatabaseBootstrapper(
+    CodegenConfig config,
+    DataSource systemDataSource,
+    DataSource appDataSource,
+    ConnectionSettings saSettings,
+    ConnectionSettings appSettings) {
+    this.config = config;
     this.systemDataSource = systemDataSource;
     this.appDataSource = appDataSource;
+    this.saSettings = saSettings;
     this.appSettings = appSettings;
   }
 
@@ -84,6 +96,19 @@ public class DatabaseBootstrapper {
     Jdbc.update(this.systemDataSource, "create user {} identified by '{}';", username, password);
 
     Jdbc.update(this.systemDataSource, "set global sql_mode = 'ANSI';", username, password);
+
+    String backupPath = this.config.databaseBackupPath + File.separator + databaseName + ".sql";
+    if (new File(backupPath).exists()) {
+      log.info("Restoring {}", backupPath);
+      new Execute("mysql")
+        .addEnvPaths()
+        .arg("--user=" + this.saSettings.user)
+        .arg("--host=" + this.saSettings.host)
+        .arg("--password=" + this.saSettings.password)
+        .arg(databaseName)
+        .arg("--execute=source " + backupPath)
+        .toSystemOut();
+    }
   }
 
   private void dropAndCreatePg() {

@@ -1,5 +1,7 @@
 package joist.util;
 
+import static java.util.Arrays.asList;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Execute {
 
   private final List<String> commandPlusArgs = new ArrayList<String>();
@@ -27,6 +32,12 @@ public class Execute {
 
   public Execute(String[] commandPlusArgs) {
     this.commandPlusArgs.addAll(Copy.list(commandPlusArgs));
+  }
+
+  public Execute addEnvPaths() {
+    String splitOn = System.getProperty("path.separator");
+    this.possiblePaths.addAll(asList(System.getenv("PATH").split(splitOn)));
+    return this;
   }
 
   public Execute arg(String arg) {
@@ -49,7 +60,7 @@ public class Execute {
     return this;
   }
 
-  public Result toSystemOut() throws Exception {
+  public Result toSystemOut() {
     this.out = System.out;
     this.err = System.err;
     return this.execute();
@@ -64,7 +75,9 @@ public class Execute {
   private Result execute() {
     // Java tries to "help" by splitting on spaces unless you invoke the String[]-based methods.
     try {
-      Process p = Runtime.getRuntime().exec(this.getCommandPlusArgsArray(), this.getEnvArray());
+      String[] commandPlusArgs = this.getCommandPlusArgsArray();
+      log.trace("Executing {}", asList(commandPlusArgs));
+      Process p = Runtime.getRuntime().exec(commandPlusArgs, this.getEnvArray());
 
       // To avoid blocking on one of the streams if the other/input is not done, fork them off into separate threads
       StreamGlobber out = new StreamGlobber(p.getInputStream(), this.out);
@@ -84,7 +97,10 @@ public class Execute {
       result.err = err.toString();
       result.success = p.exitValue() == 0;
       return result;
-    } catch (Exception e) {
+    } catch (InterruptedException ie) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException("Interrupted");
+    } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }

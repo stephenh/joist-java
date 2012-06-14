@@ -62,6 +62,9 @@ public class CodegenConfig {
   /** The base class for the once-touched queries objects. */
   public String queriesBaseClass = AbstractQueries.class.getName() + "<{}>";
 
+  /** The path for the database backup. */
+  public String databaseBackupPath = ".";
+
   /** Whether the codegen directory will be pruned of un-needed (to us) files. Affects only directories that contained generated classes. */
   public boolean pruneCodegenDirectory = true;
 
