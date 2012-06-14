@@ -82,16 +82,15 @@ public class DatabaseBootstrapper {
 
     Jdbc.update(systemDs, "set global sql_mode = 'ANSI';", username, password);
 
-    String backupPath = this.config.databaseBackupPath + File.separator + databaseName + ".sql";
-    if (new File(backupPath).exists()) {
-      log.info("Restoring {}", backupPath);
+    if (new File(this.config.databaseBackupPath).exists()) {
+      log.info("Restoring {}", this.config.databaseBackupPath);
       new Execute("mysql")
         .addEnvPaths()
         .arg("--user=" + this.config.dbSystemSettings.user)
         .arg("--host=" + this.config.dbSystemSettings.host)
         .arg("--password=" + this.config.dbSystemSettings.password)
         .arg(databaseName)
-        .arg("--execute=source " + backupPath)
+        .arg("--execute=source " + this.config.databaseBackupPath)
         .toSystemOut();
     }
   }

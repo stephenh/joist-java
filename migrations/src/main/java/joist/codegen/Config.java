@@ -40,7 +40,6 @@ import joist.domain.orm.queries.columns.StringAliasColumn;
 import joist.domain.util.ConnectionSettings;
 import joist.sourcegen.GSettings;
 import joist.util.Copy;
-import joist.util.Inflector;
 
 public class Config {
 
@@ -66,7 +65,7 @@ public class Config {
   public String queriesBaseClass = AbstractQueries.class.getName() + "<{}>";
 
   /** The path for the database backup. */
-  public String databaseBackupPath = ".";
+  public String databaseBackupPath;
 
   /** Whether the codegen directory will be pruned of un-needed (to us) files. Affects only directories that contained generated classes. */
   public boolean pruneCodegenDirectory = true;
@@ -108,11 +107,13 @@ public class Config {
   private final String amountSuffix = ".*amount$";
   private final List<Pass> passes;
 
-  public Config(String projectName, Db db) {
+  public Config(String projectName, String defaultDatabaseName, Db db) {
     this.db = db;
-    this.dbAppUserSettings = ConnectionSettings.forApp(db, Inflector.underscore(projectName));
-    this.dbAppSaSettings = ConnectionSettings.forAppSa(db, Inflector.underscore(projectName));
-    this.dbSystemSettings = ConnectionSettings.forSystemSa(db, Inflector.underscore(projectName));
+
+    this.databaseBackupPath = "./" + defaultDatabaseName + ".sql";
+    this.dbAppUserSettings = ConnectionSettings.forApp(db, defaultDatabaseName);
+    this.dbAppSaSettings = ConnectionSettings.forAppSa(db, defaultDatabaseName);
+    this.dbSystemSettings = ConnectionSettings.forSystemSa(db, defaultDatabaseName);
 
     this.setProjectNameForDefaults(projectName);
 
