@@ -28,6 +28,7 @@ import joist.codegen.passes.OutputPass;
 import joist.codegen.passes.Pass;
 import joist.domain.AbstractDomainObject;
 import joist.domain.AbstractQueries;
+import joist.domain.orm.Db;
 import joist.domain.orm.queries.columns.BooleanAliasColumn;
 import joist.domain.orm.queries.columns.ByteArrayAliasColumn;
 import joist.domain.orm.queries.columns.DateAliasColumn;
@@ -36,8 +37,10 @@ import joist.domain.orm.queries.columns.IntAliasColumn;
 import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.ShortAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
+import joist.domain.util.ConnectionSettings;
 import joist.sourcegen.GSettings;
 import joist.util.Copy;
+import joist.util.Inflector;
 
 public class CodegenConfig {
 
@@ -71,6 +74,21 @@ public class CodegenConfig {
   /** Whether we should remove un-needed files even outside of the directories that immediately contain classes. Assumes joist owns the entire output directory. */
   public boolean pruneInAllDirectories = false;
 
+  /** Where to look for migrations to apply. */
+  public List<String> packageNamesContainingMigrations = new ArrayList<String>();
+
+  /** The target database, MySQL or PostgreSQL. */
+  public Db db;
+
+  /** Used for system-level actions like creating/deleting the local database. */
+  public ConnectionSettings dbSystemSettings;
+
+  /** Used for system-level access to the local database for creating tables/permissions. */
+  public ConnectionSettings dbAppSaSettings;
+
+  /** Used for user-level access to the local database. */
+  public ConnectionSettings dbAppUserSettings;
+
   private final Map<String, String> javaTypeByDataType = new HashMap<String, String>();
   private final Map<String, String> javaTypeByColumnName = new HashMap<String, String>();
   private final Map<TypeAndPattern, String> javaTypeByPattern = new HashMap<TypeAndPattern, String>();
@@ -90,7 +108,14 @@ public class CodegenConfig {
   private final String amountSuffix = ".*amount$";
   private final List<Pass> passes;
 
-  public CodegenConfig() {
+  public CodegenConfig(String projectName, Db db) {
+    this.db = db;
+    this.dbAppUserSettings = ConnectionSettings.forApp(db, Inflector.underscore(projectName));
+    this.dbAppSaSettings = ConnectionSettings.forAppSa(db, Inflector.underscore(projectName));
+    this.dbSystemSettings = ConnectionSettings.forSystemSa(db, Inflector.underscore(projectName));
+
+    this.setProjectNameForDefaults(projectName);
+
     this.setJavaType("integer", Integer.class.getName(), IntAliasColumn.class.getName());
     this.setJavaType("character", String.class.getName(), StringAliasColumn.class.getName());
     this.setJavaType("character varying", String.class.getName(), StringAliasColumn.class.getName());
@@ -175,6 +200,7 @@ public class CodegenConfig {
     this.domainObjectPackage = projectName + ".domain";
     this.queriesPackage = projectName + ".domain.queries";
     this.buildersPackage = projectName + ".domain.builders";
+    this.packageNamesContainingMigrations.add(projectName + ".migrations");
   }
 
   public void setJavaType(String jdbcDataType, String javaType, String aliasColumnType) {
@@ -315,6 +341,10 @@ public class CodegenConfig {
 
   public boolean isDoNotIncrementParentsOpLock(String objectName, String variableName) {
     return this.doNotIncrementParentsOpLock.contains(objectName) || this.doNotIncrementParentsOpLock.contains(objectName + "." + variableName);
+  }
+
+  public void addPackageForMigrations(String packageName) {
+    this.packageNamesContainingMigrations.add(packageName);
   }
 
   public void addCustomRule(String javaType, String rule) {

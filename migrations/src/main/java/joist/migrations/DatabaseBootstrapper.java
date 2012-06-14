@@ -5,8 +5,6 @@ import java.io.File;
 import javax.sql.DataSource;
 
 import joist.codegen.CodegenConfig;
-import joist.domain.orm.Db;
-import joist.domain.util.ConnectionSettings;
 import joist.jdbc.Jdbc;
 import joist.util.Execute;
 import joist.util.Execute.Result;
@@ -16,32 +14,18 @@ import lombok.extern.slf4j.Slf4j;
 public class DatabaseBootstrapper {
 
   private final CodegenConfig config;
-  private final DataSource systemDataSource;
-  private final DataSource appDataSource;
-  private final ConnectionSettings saSettings;
-  private final ConnectionSettings appSettings;
 
-  public DatabaseBootstrapper(
-    CodegenConfig config,
-    DataSource systemDataSource,
-    DataSource appDataSource,
-    ConnectionSettings saSettings,
-    ConnectionSettings appSettings) {
+  public DatabaseBootstrapper(CodegenConfig config) {
     this.config = config;
-    this.systemDataSource = systemDataSource;
-    this.appDataSource = appDataSource;
-    this.saSettings = saSettings;
-    this.appSettings = appSettings;
   }
 
   public void dropAndCreate() {
-    Db db = this.appSettings.db;
-    if (db.isPg()) {
+    if (this.config.db.isPg()) {
       this.dropAndCreatePg();
-    } else if (db.isMySQL()) {
+    } else if (this.config.db.isMySQL()) {
       this.dropAndCreateMySQL();
     } else {
-      throw new IllegalStateException("Unhandled db " + db);
+      throw new IllegalStateException("Unhandled db " + this.config.db);
     }
   }
 
@@ -62,7 +46,7 @@ public class DatabaseBootstrapper {
     return new Execute("pg_restore")//
       .path(pgBinPath)
       .env("PGPASSWORD", "")
-      .arg("--dbname=" + this.appSettings.databaseName)
+      .arg("--dbname=" + this.config.dbAppUserSettings.databaseName)
       .arg("--username=sa")
       .arg("--host=localhost")
       .arg("--format=c")
@@ -72,39 +56,40 @@ public class DatabaseBootstrapper {
   }
 
   private void dropAndCreateMySQL() {
-    String databaseName = this.appSettings.databaseName;
-    String username = this.appSettings.user;
-    String password = this.appSettings.password;
+    String databaseName = this.config.dbAppUserSettings.databaseName;
+    String username = this.config.dbAppUserSettings.user;
+    String password = this.config.dbAppUserSettings.password;
 
-    int i = Jdbc.queryForInt(this.systemDataSource, "select count(*) from information_schema.schemata where schema_name = '{}'", databaseName);
+    DataSource systemDs = this.config.dbSystemSettings.getDataSource();
+    int i = Jdbc.queryForInt(systemDs, "select count(*) from information_schema.schemata where schema_name = '{}'", databaseName);
     if (i != 0) {
       log.debug("Dropping {}", databaseName);
-      Jdbc.update(this.systemDataSource, "drop database {};", databaseName);
+      Jdbc.update(systemDs, "drop database {};", databaseName);
     }
 
-    int j = Jdbc.queryForInt(this.systemDataSource, "select count(*) from mysql.user where user = '{}'", username);
+    int j = Jdbc.queryForInt(systemDs, "select count(*) from mysql.user where user = '{}'", username);
     if (j != 0) {
       log.debug("Dropping {}", username);
-      Jdbc.update(this.systemDataSource, "revoke all privileges, grant option from {}", username);
-      Jdbc.update(this.systemDataSource, "drop user {}", username);
+      Jdbc.update(systemDs, "revoke all privileges, grant option from {}", username);
+      Jdbc.update(systemDs, "drop user {}", username);
     }
 
     log.debug("Creating {}", databaseName);
-    Jdbc.update(this.systemDataSource, "create database {};", databaseName);
+    Jdbc.update(systemDs, "create database {};", databaseName);
 
     log.debug("Creating {}", username);
-    Jdbc.update(this.systemDataSource, "create user {} identified by '{}';", username, password);
+    Jdbc.update(systemDs, "create user {} identified by '{}';", username, password);
 
-    Jdbc.update(this.systemDataSource, "set global sql_mode = 'ANSI';", username, password);
+    Jdbc.update(systemDs, "set global sql_mode = 'ANSI';", username, password);
 
     String backupPath = this.config.databaseBackupPath + File.separator + databaseName + ".sql";
     if (new File(backupPath).exists()) {
       log.info("Restoring {}", backupPath);
       new Execute("mysql")
         .addEnvPaths()
-        .arg("--user=" + this.saSettings.user)
-        .arg("--host=" + this.saSettings.host)
-        .arg("--password=" + this.saSettings.password)
+        .arg("--user=" + this.config.dbSystemSettings.user)
+        .arg("--host=" + this.config.dbSystemSettings.host)
+        .arg("--password=" + this.config.dbSystemSettings.password)
         .arg(databaseName)
         .arg("--execute=source " + backupPath)
         .toSystemOut();
@@ -112,29 +97,30 @@ public class DatabaseBootstrapper {
   }
 
   private void dropAndCreatePg() {
-    String databaseName = this.appSettings.databaseName;
-    String username = this.appSettings.user;
-    String password = this.appSettings.password;
+    String databaseName = this.config.dbAppUserSettings.databaseName;
+    String username = this.config.dbAppUserSettings.user;
+    String password = this.config.dbAppUserSettings.password;
 
-    int i = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_database where datname = '{}'", databaseName);
+    DataSource systemDs = this.config.dbSystemSettings.getDataSource();
+    int i = Jdbc.queryForInt(systemDs, "select count(*) from pg_catalog.pg_database where datname = '{}'", databaseName);
     if (i != 0) {
       log.debug("Dropping {}", databaseName);
-      Jdbc.update(this.systemDataSource, "drop database {};", databaseName);
+      Jdbc.update(systemDs, "drop database {};", databaseName);
     }
 
-    int j = Jdbc.queryForInt(this.systemDataSource, "select count(*) from pg_catalog.pg_user where usename = '{}'", username);
+    int j = Jdbc.queryForInt(systemDs, "select count(*) from pg_catalog.pg_user where usename = '{}'", username);
     if (j != 0) {
       log.debug("Dropping {}", username);
-      Jdbc.update(this.systemDataSource, "drop user {};", username);
+      Jdbc.update(systemDs, "drop user {};", username);
     }
 
     log.debug("Creating {}", databaseName);
-    Jdbc.update(this.systemDataSource, "create database {} template template0;", databaseName);
+    Jdbc.update(systemDs, "create database {} template template0;", databaseName);
 
     log.debug("Creating {}", username);
-    Jdbc.update(this.systemDataSource, "create user {} password '{}';", username, password);
+    Jdbc.update(systemDs, "create user {} password '{}';", username, password);
 
     log.debug("Creating plpgsql");
-    Jdbc.update(this.appDataSource, "create language plpgsql;");
+    Jdbc.update(systemDs, "create language plpgsql;");
   }
 }

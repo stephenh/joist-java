@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import javax.sql.DataSource;
+
 import joist.codegen.Codegen;
 import joist.codegen.InformationSchemaColumn;
 import joist.codegen.dtos.Entity;
@@ -25,6 +27,7 @@ public class MySqlHistoryTriggersPass implements Pass {
   private final Set<Pattern> skippedTables = new HashSet<Pattern>();
   private final Set<Pattern> skippedColumns = new HashSet<Pattern>();
   private final String historyTableName;
+  private DataSource ds;
 
   public MySqlHistoryTriggersPass() {
     this("history_entry");
@@ -37,6 +40,7 @@ public class MySqlHistoryTriggersPass implements Pass {
 
   public void pass(Codegen codegen) {
     log.info("Updating history triggers");
+    this.ds = codegen.getConfig().dbAppSaSettings.getDataSource();
     for (Entity entity : codegen.getEntities().values()) {
       // always try to drop the trigger
       this.dropExistingTriggers(codegen, entity.getTableName());
@@ -80,9 +84,9 @@ public class MySqlHistoryTriggersPass implements Pass {
   }
 
   private void dropExistingTriggers(Codegen codegen, String table) {
-    Jdbc.update(codegen.getDataSource(), "DROP TRIGGER IF EXISTS {}_history_update", table);
-    Jdbc.update(codegen.getDataSource(), "DROP TRIGGER IF EXISTS {}_history_insert", table);
-    Jdbc.update(codegen.getDataSource(), "DROP TRIGGER IF EXISTS {}_history_delete", table);
+    Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS {}_history_update", table);
+    Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS {}_history_insert", table);
+    Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS {}_history_delete", table);
   }
 
   private void createInsertTrigger(Codegen codegen, String tableName) {
@@ -95,7 +99,7 @@ public class MySqlHistoryTriggersPass implements Pass {
     sql.line(" VALUES");
     sql.line("  ('insert', '{}', NEW.id, null, null, null, @updater, now(), 1);", tableName);
     sql.line("END;");
-    Jdbc.update(codegen.getDataSource(), sql.toString());
+    Jdbc.update(this.ds, sql.toString());
   }
 
   private void createDeleteTrigger(Codegen codegen, String tableName) {
@@ -108,7 +112,7 @@ public class MySqlHistoryTriggersPass implements Pass {
     sql.line(" VALUES");
     sql.line("  ('delete', '{}', OLD.id, null, null, null, @updater, now(), 1);", tableName);
     sql.line("END;");
-    Jdbc.update(codegen.getDataSource(), sql.toString());
+    Jdbc.update(this.ds, sql.toString());
   }
 
   private void createUpdateTrigger(Codegen codegen, String tableName, String rootTableName) {
@@ -132,7 +136,7 @@ public class MySqlHistoryTriggersPass implements Pass {
       sql.line("END IF;");
     }
     sql.line("END;");
-    Jdbc.update(codegen.getDataSource(), sql.toString());
+    Jdbc.update(this.ds, sql.toString());
   }
 
   private static String snippet(String prefix, InformationSchemaColumn c) {

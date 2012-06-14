@@ -15,11 +15,14 @@ public class FindCodeValuesPass implements Pass {
     for (Entity entity : codegen.getEntities().values()) {
       if (entity.isCodeEntity()) {
         final CodeEntity e = (CodeEntity) entity;
-        Jdbc.query(codegen.getDataSource(), "select id, code, name from " + e.getTableName() + " order by id", new RowMapper() {
-          public void mapRow(ResultSet rs) throws SQLException {
-            e.addCode(rs.getString("id"), rs.getString("code"), rs.getString("name"));
-          }
-        });
+        Jdbc.query(
+          codegen.getConfig().dbAppSaSettings.getDataSource(),
+          "select id, code, name from " + e.getTableName() + " order by id",
+          new RowMapper() {
+            public void mapRow(ResultSet rs) throws SQLException {
+              e.addCode(rs.getString("id"), rs.getString("code"), rs.getString("name"));
+            }
+          });
       }
     }
   }

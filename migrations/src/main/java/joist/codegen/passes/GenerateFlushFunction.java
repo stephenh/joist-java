@@ -1,22 +1,25 @@
 package joist.codegen.passes;
 
+import javax.sql.DataSource;
+
 import joist.codegen.Codegen;
 import joist.codegen.dtos.Entity;
-import joist.domain.orm.Db;
 import joist.jdbc.Jdbc;
 import joist.util.StringBuilderr;
 import joist.util.Wrap;
 
 public class GenerateFlushFunction implements Pass {
 
+  private DataSource ds;
+
   public void pass(Codegen codegen) {
-    Db db = codegen.getAppDbSettings().db;
-    if (db.isPg()) {
+    this.ds = codegen.getConfig().dbAppSaSettings.getDataSource();
+    if (codegen.getConfig().db.isPg()) {
       this.generatePg(codegen);
-    } else if (db.isMySQL()) {
+    } else if (codegen.getConfig().db.isMySQL()) {
       this.generateMySQL(codegen);
     } else {
-      throw new IllegalStateException("Unhandled db " + db);
+      throw new IllegalStateException("Unhandled db " + codegen.getConfig().db);
     }
   }
 
@@ -42,7 +45,7 @@ public class GenerateFlushFunction implements Pass {
     sql.line("  LANGUAGE 'plpgsql' VOLATILE");
     sql.line("  COST 100;");
     sql.line("ALTER FUNCTION flush_test_database() SECURITY DEFINER;");
-    Jdbc.update(codegen.getDataSource(), sql.toString());
+    Jdbc.update(this.ds, sql.toString());
   }
 
   private void generateMySQL(Codegen codegen) {
@@ -58,9 +61,9 @@ public class GenerateFlushFunction implements Pass {
     sql.line("SET FOREIGN_KEY_CHECKS=1;");
     sql.line("SELECT 1;");
     sql.line("END");
-    Jdbc.update(codegen.getDataSource(), "DROP PROCEDURE IF EXISTS flush_test_database;");
-    Jdbc.update(codegen.getDataSource(), sql.toString());
-    Jdbc.update(codegen.getDataSource(), "GRANT ALL ON PROCEDURE flush_test_database TO {}@'%'", codegen.getAppDbSettings().user);
+    Jdbc.update(this.ds, "DROP PROCEDURE IF EXISTS flush_test_database;");
+    Jdbc.update(this.ds, sql.toString());
+    Jdbc.update(this.ds, "GRANT ALL ON PROCEDURE flush_test_database TO {}@'%'", codegen.getConfig().dbAppUserSettings.user);
   }
 
 }
