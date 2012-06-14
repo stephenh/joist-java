@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import joist.domain.util.ConnectionSettings;
+import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import joist.jdbc.RowMapper;
 import joist.util.Copy;
@@ -17,12 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PermissionFixer {
 
-  private final ConnectionSettings dbAppSettings;
+  private final Config config;
   private final DataSource ds;
 
-  public PermissionFixer(ConnectionSettings dbAppSettings, DataSource saDatasource) {
-    this.dbAppSettings = dbAppSettings;
-    this.ds = saDatasource;
+  public PermissionFixer(Config config) {
+    this.config = config;
+    this.ds = config.dbAppSaSettings.getDataSource();
   }
 
   public void setOwnerOfAllTablesTo(String role) {
@@ -45,7 +45,7 @@ public class PermissionFixer {
       Jdbc.update(this.ds, "GRANT ALL ON TABLE {} TO {}{}",//
         Wrap.quotes(tableName),
         role,
-        this.dbAppSettings.db.isMySQL() ? "@'%'" : "");
+        this.config.db.isMySQL() ? "@'%'" : "");
     }
   }
 
@@ -61,7 +61,7 @@ public class PermissionFixer {
     Jdbc.query(
       this.ds,
       "SELECT table_name FROM information_schema.tables WHERE table_schema = ?",
-      Copy.<Object> list(this.dbAppSettings.schemaName),
+      Copy.<Object> list(this.config.dbAppUserSettings.schemaName),
       new RowMapper() {
         public void mapRow(ResultSet rs) throws SQLException {
           names.add(rs.getString(1));
@@ -75,7 +75,7 @@ public class PermissionFixer {
     Jdbc.query(
       this.ds,
       "SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = ?",
-      Copy.<Object> list(this.dbAppSettings.schemaName),
+      Copy.<Object> list(this.config.dbAppUserSettings.schemaName),
       new RowMapper() {
         public void mapRow(ResultSet rs) throws SQLException {
           names.add(rs.getString(1));

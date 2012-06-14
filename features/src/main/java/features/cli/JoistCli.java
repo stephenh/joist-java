@@ -8,14 +8,14 @@ public class JoistCli extends AbstractJoistCli {
 
   public JoistCli() {
     super("features", Db.MYSQL);
-    this.codegenConfig.outputCodegenDirectory = "src/codegen";
-    this.codegenConfig.setCollectionSkipped("ParentD", "parentDChildAs");
-    this.codegenConfig.setCollectionSkipped("ParentD", "parentDToChildCs");
-    this.codegenConfig.setPropertySkipped("Primitives", "skipped");
-    this.codegenConfig.setPropertySkipped("Primitives", "parent");
+    this.config.outputCodegenDirectory = "src/codegen";
+    this.config.setCollectionSkipped("ParentD", "parentDChildAs");
+    this.config.setCollectionSkipped("ParentD", "parentDToChildCs");
+    this.config.setPropertySkipped("Primitives", "skipped");
+    this.config.setPropertySkipped("Primitives", "parent");
     GSettings.setDefaultIndentation("  ");
-    if (this.dbAppSaSettings.db.isMySQL()) {
-      this.codegenConfig.includeHistoryTriggers();
+    if (this.config.dbAppSaSettings.db.isMySQL()) {
+      this.config.includeHistoryTriggers();
     }
   }
 

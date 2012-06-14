@@ -3,9 +3,7 @@ package joist.migrations;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-
-import joist.domain.util.ConnectionSettings;
+import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,8 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Migrater {
 
   private static ThreadLocal<Connection> current = new ThreadLocal<Connection>();
-  private final MigraterConfig config;
-  private final DataSource dataSource;
+  private final Config config;
   private final SchemaVersionTable schemaInfoTable;
   private final MigrationLoader migrationClasses;
 
@@ -22,12 +19,11 @@ public class Migrater {
     return Migrater.current.get();
   }
 
-  public Migrater(ConnectionSettings dbAppSettings, DataSource saDataSource, MigraterConfig config) {
+  public Migrater(Config config) {
     this.config = config;
-    this.dataSource = saDataSource;
-    this.schemaInfoTable = new SchemaVersionTable(dbAppSettings, saDataSource);
+    this.schemaInfoTable = new SchemaVersionTable(config);
     this.migrationClasses = new MigrationLoader(this.config.packageNamesContainingMigrations);
-    MigrationKeywords.db = dbAppSettings.db;
+    MigrationKeywords.db = config.db;
   }
 
   public void migrate() {
@@ -50,7 +46,7 @@ public class Migrater {
   private boolean performNextMigrationIfAvailable() {
     Connection connection = null;
     try {
-      connection = this.dataSource.getConnection();
+      connection = this.config.dbAppSaSettings.getDataSource().getConnection();
       connection.setAutoCommit(false);
 
       int nextVersion = this.schemaInfoTable.nextVersionNumber(connection);
@@ -60,9 +56,10 @@ public class Migrater {
 
       Migrater.current.set(connection);
 
-      if (this.config.getInitialConnectionSetupCommand() != null) {
-        Jdbc.update(connection, this.config.getInitialConnectionSetupCommand());
-      }
+      // TODO I forget what this is for...
+      // if (this.config.getInitialConnectionSetupCommand() != null) {
+      //  Jdbc.update(connection, this.config.getInitialConnectionSetupCommand());
+      // }
 
       Migration migration = this.migrationClasses.get(nextVersion);
       log.info("Applying {}: {}", migration.getClass().getSimpleName(), migration.toString());

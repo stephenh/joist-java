@@ -5,18 +5,18 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import joist.domain.util.ConnectionSettings;
+import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 
 /** A simple wrapper around the <code>schema_version</code> table for the {@link Migrater} class. */
 public class SchemaVersionTable {
 
-  private final DataSource dataSource;
+  private final DataSource ds;
   private final String schemaName;
 
-  public SchemaVersionTable(ConnectionSettings dbAppSettings, DataSource dataSource) {
-    this.dataSource = dataSource;
-    this.schemaName = dbAppSettings.schemaName;
+  public SchemaVersionTable(Config config) {
+    this.ds = config.dbAppSaSettings.getDataSource();
+    this.schemaName = config.dbAppSaSettings.schemaName;
   }
 
   public boolean tryToLock() {
@@ -24,12 +24,12 @@ public class SchemaVersionTable {
     if (!this.isAround()) {
       return true;
     }
-    return Jdbc.update(this.dataSource, "UPDATE schema_version SET update_lock = 1 WHERE update_lock = 0") == 1;
+    return Jdbc.update(this.ds, "UPDATE schema_version SET update_lock = 1 WHERE update_lock = 0") == 1;
   }
 
   public void unlock() {
     if (this.isAround()) {
-      Jdbc.update(this.dataSource, "UPDATE schema_version SET update_lock = 0");
+      Jdbc.update(this.ds, "UPDATE schema_version SET update_lock = 0");
     }
   }
 
@@ -52,7 +52,7 @@ public class SchemaVersionTable {
 
   private boolean isAround() {
     return Jdbc.queryForInt(
-      this.dataSource,
+      this.ds,
       "select count(*) from information_schema.tables where table_name = 'schema_version' and table_schema = '{}'",
       this.schemaName) > 0;
   }

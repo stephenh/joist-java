@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import joist.codegen.Codegen;
-import joist.codegen.CodegenConfig;
+import joist.codegen.Config;
 import joist.codegen.InformationSchemaColumn;
 import joist.util.Inflector;
 
@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
 
 public class PrimitiveProperty {
 
-  private final CodegenConfig config;
+  private final Config config;
   private final Entity entity;
   private final String columnName;
   private final String dataType;

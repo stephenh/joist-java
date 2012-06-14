@@ -4,19 +4,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
 import joist.codegen.dtos.Entity;
 import joist.codegen.passes.Pass;
-import joist.domain.util.ConnectionSettings;
 import joist.sourcegen.GDirectory;
 
 /** Generates our domain objects from the database schema. */
 public class Codegen {
 
-  private final CodegenConfig config;
-  private final ConnectionSettings appDbSettings;
-  private final DataSource dataSource;
+  private final Config config;
   private final InformationSchemaWrapper informationSchema;
   private final Map<String, Entity> entities = new LinkedHashMap<String, Entity>();
   private final GDirectory outputCodegenDirectory;
@@ -25,13 +20,11 @@ public class Codegen {
   private final List<String> manyToManyTables;
 
   /** @param saDataSource should be sa so we can see the information schema stuff */
-  public Codegen(ConnectionSettings appDbSettings, DataSource saDataSource, CodegenConfig config) {
+  public Codegen(Config config) {
     this.config = config;
-    this.appDbSettings = appDbSettings;
-    this.dataSource = saDataSource;
     this.outputCodegenDirectory = new GDirectory(config.getOutputCodegenDirectory());
     this.outputSourceDirectory = new GDirectory(config.getOutputSourceDirectory());
-    this.informationSchema = new InformationSchemaWrapper(appDbSettings.db, appDbSettings.schemaName, saDataSource);
+    this.informationSchema = new InformationSchemaWrapper(config.db, config.dbAppUserSettings.schemaName, config.dbAppSaSettings.getDataSource());
     this.codeTables = this.informationSchema.getCodeTables();
     this.manyToManyTables = this.informationSchema.getManyToManyTables();
   }
@@ -54,7 +47,7 @@ public class Codegen {
     return this.informationSchema.getSchemaHashCode();
   }
 
-  public CodegenConfig getConfig() {
+  public Config getConfig() {
     return this.config;
   }
 
@@ -80,14 +73,6 @@ public class Codegen {
 
   public GDirectory getOutputSourceDirectory() {
     return this.outputSourceDirectory;
-  }
-
-  public DataSource getDataSource() {
-    return this.dataSource;
-  }
-
-  public ConnectionSettings getAppDbSettings() {
-    return this.appDbSettings;
   }
 
 }

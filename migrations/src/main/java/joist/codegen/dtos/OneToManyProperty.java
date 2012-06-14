@@ -2,7 +2,7 @@ package joist.codegen.dtos;
 
 import java.util.List;
 
-import joist.codegen.CodegenConfig;
+import joist.codegen.Config;
 import joist.codegen.InformationSchemaColumn;
 import joist.util.Inflector;
 
@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 /** For entities that are the target of a many-to-one. */
 public class OneToManyProperty {
 
-  private CodegenConfig config;
+  private Config config;
   private Entity oneSide;
   private String constraintName;
   private String keyColumnName;
