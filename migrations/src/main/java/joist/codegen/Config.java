@@ -88,6 +88,9 @@ public class Config {
   /** Used for user-level access to the local database. */
   public ConnectionSettings dbAppUserSettings;
 
+  /** For MySQL, the host to use when creating/granting user-level permissions. Defaults to '%'. */
+  public String userhost = System.getProperty("db.userhost", "%");
+
   private final Map<String, String> javaTypeByDataType = new HashMap<String, String>();
   private final Map<String, String> javaTypeByColumnName = new HashMap<String, String>();
   private final Map<TypeAndPattern, String> javaTypeByPattern = new HashMap<TypeAndPattern, String>();

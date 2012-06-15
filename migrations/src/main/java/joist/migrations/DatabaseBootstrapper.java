@@ -59,6 +59,7 @@ public class DatabaseBootstrapper {
     String databaseName = this.config.dbAppUserSettings.databaseName;
     String username = this.config.dbAppUserSettings.user;
     String password = this.config.dbAppUserSettings.password;
+    String userhost = this.config.userhost; // defaults to %
 
     DataSource systemDs = this.config.dbSystemSettings.getDataSource();
     int i = Jdbc.queryForInt(systemDs, "select count(*) from information_schema.schemata where schema_name = '{}'", databaseName);
@@ -67,18 +68,18 @@ public class DatabaseBootstrapper {
       Jdbc.update(systemDs, "drop database {};", databaseName);
     }
 
-    int j = Jdbc.queryForInt(systemDs, "select count(*) from mysql.user where user = '{}'", username);
+    int j = Jdbc.queryForInt(systemDs, "select count(*) from mysql.user where user = '{}' and host = '{}'", username, userhost);
     if (j != 0) {
-      log.debug("Dropping {}", username);
-      Jdbc.update(systemDs, "revoke all privileges, grant option from {}", username);
-      Jdbc.update(systemDs, "drop user {}", username);
+      log.debug("Dropping '{}'@'{}'", username, userhost);
+      Jdbc.update(systemDs, "revoke all privileges, grant option from '{}'@'{}'", username, userhost);
+      Jdbc.update(systemDs, "drop user '{}'@'{}'", username, userhost);
     }
 
     log.debug("Creating {}", databaseName);
     Jdbc.update(systemDs, "create database {};", databaseName);
 
-    log.debug("Creating {}", username);
-    Jdbc.update(systemDs, "create user {} identified by '{}';", username, password);
+    log.debug("Creating '{}'@'{}'", username, userhost);
+    Jdbc.update(systemDs, "create user '{}'@'{}' identified by '{}';", username, userhost, password);
 
     Jdbc.update(systemDs, "set global sql_mode = 'ANSI';", username, password);
 
