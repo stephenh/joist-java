@@ -3,7 +3,7 @@ package features.domain.queries;
 import features.domain.ManyToManyABar;
 import joist.domain.AbstractQueries;
 
-public abstract class ManyToManyABarQueriesCodegen extends AbstractQueries<ManyToManyABar> {
+abstract class ManyToManyABarQueriesCodegen extends AbstractQueries<ManyToManyABar> {
 
   public ManyToManyABarQueriesCodegen() {
     super(ManyToManyABar.class);

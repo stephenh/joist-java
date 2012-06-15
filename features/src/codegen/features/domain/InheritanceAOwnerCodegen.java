@@ -16,7 +16,7 @@ import joist.util.Copy;
 import joist.util.ListDiff;
 
 @SuppressWarnings("all")
-public abstract class InheritanceAOwnerCodegen extends AbstractDomainObject {
+abstract class InheritanceAOwnerCodegen extends AbstractDomainObject {
 
   public static final InheritanceAOwnerQueries queries;
   private Long id = null;

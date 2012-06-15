@@ -12,7 +12,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-public abstract class HistoryEntryCodegen extends AbstractDomainObject {
+abstract class HistoryEntryCodegen extends AbstractDomainObject {
 
   public static final HistoryEntryQueries queries;
   private Long id = null;

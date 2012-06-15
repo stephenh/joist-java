@@ -4,7 +4,7 @@ import features.domain.InheritanceBBottom;
 import features.domain.InheritanceBMiddle;
 import joist.domain.AbstractQueries;
 
-public abstract class InheritanceBBottomQueriesCodegen extends AbstractQueries<InheritanceBBottom> {
+abstract class InheritanceBBottomQueriesCodegen extends AbstractQueries<InheritanceBBottom> {
 
   public InheritanceBBottomQueriesCodegen() {
     super(InheritanceBBottom.class);

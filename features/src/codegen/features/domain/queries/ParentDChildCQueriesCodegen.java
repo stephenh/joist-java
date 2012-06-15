@@ -3,7 +3,7 @@ package features.domain.queries;
 import features.domain.ParentDChildC;
 import joist.domain.AbstractQueries;
 
-public abstract class ParentDChildCQueriesCodegen extends AbstractQueries<ParentDChildC> {
+abstract class ParentDChildCQueriesCodegen extends AbstractQueries<ParentDChildC> {
 
   public ParentDChildCQueriesCodegen() {
     super(ParentDChildC.class);

@@ -5,7 +5,7 @@ import features.domain.PrimitivesAlias;
 import joist.domain.AbstractQueries;
 import joist.domain.orm.queries.Select;
 
-public abstract class PrimitivesQueriesCodegen extends AbstractQueries<Primitives> {
+abstract class PrimitivesQueriesCodegen extends AbstractQueries<Primitives> {
 
   public PrimitivesQueriesCodegen() {
     super(Primitives.class);

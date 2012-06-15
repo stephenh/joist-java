@@ -5,7 +5,7 @@ import features.domain.Parent;
 import joist.domain.AbstractQueries;
 import joist.util.Copy;
 
-public abstract class ParentQueriesCodegen extends AbstractQueries<Parent> {
+abstract class ParentQueriesCodegen extends AbstractQueries<Parent> {
 
   public ParentQueriesCodegen() {
     super(Parent.class);

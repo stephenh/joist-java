@@ -12,7 +12,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-public abstract class OneToOneBBarCodegen extends AbstractDomainObject {
+abstract class OneToOneBBarCodegen extends AbstractDomainObject {
 
   public static final OneToOneBBarQueries queries;
   private Long id = null;

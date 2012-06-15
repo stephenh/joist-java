@@ -4,7 +4,7 @@ import features.domain.InheritanceC;
 import features.domain.InheritanceCFoo2;
 import joist.domain.AbstractQueries;
 
-public abstract class InheritanceCFoo2QueriesCodegen extends AbstractQueries<InheritanceCFoo2> {
+abstract class InheritanceCFoo2QueriesCodegen extends AbstractQueries<InheritanceCFoo2> {
 
   public InheritanceCFoo2QueriesCodegen() {
     super(InheritanceCFoo2.class);
