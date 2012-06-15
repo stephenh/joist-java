@@ -33,7 +33,7 @@ public class GenerateQueriesCodegenPass implements Pass {
   }
 
   private void setupBaseClassAndConstructor(Codegen codegen, Entity entity, GClass queriesCodegen) {
-    queriesCodegen.setAbstract();
+    queriesCodegen.setAbstract().setPackagePrivate();
     queriesCodegen.baseClassName(codegen.getConfig().getQueriesBaseClass(), entity.getClassName());
     queriesCodegen.addImports(entity.getFullClassName());
     queriesCodegen.getConstructor().body.line("super({}.class);", entity.getClassName());

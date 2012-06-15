@@ -37,7 +37,7 @@ public class GenerateDomainCodegenPass implements Pass {
       }
 
       GClass domainCodegen = codegen.getOutputCodegenDirectory().getClass(entity.getFullCodegenClassName());
-      domainCodegen.setAbstract();
+      domainCodegen.setAbstract().setPackagePrivate();
       domainCodegen.baseClassName(entity.getParentClassName());
       domainCodegen.addAnnotation("@SuppressWarnings(\"all\")");
 
