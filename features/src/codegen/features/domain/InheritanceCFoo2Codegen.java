@@ -7,7 +7,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-public abstract class InheritanceCFoo2Codegen extends InheritanceC {
+abstract class InheritanceCFoo2Codegen extends InheritanceC {
 
   public static final InheritanceCFoo2Queries queries;
   private String foo = null;

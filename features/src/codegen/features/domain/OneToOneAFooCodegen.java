@@ -13,7 +13,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-public abstract class OneToOneAFooCodegen extends AbstractDomainObject {
+abstract class OneToOneAFooCodegen extends AbstractDomainObject {
 
   public static final OneToOneAFooQueries queries;
   private Long id = null;

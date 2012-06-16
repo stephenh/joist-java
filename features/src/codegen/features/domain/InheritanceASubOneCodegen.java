@@ -8,7 +8,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-public abstract class InheritanceASubOneCodegen extends InheritanceABase {
+abstract class InheritanceASubOneCodegen extends InheritanceABase {
 
   public static final InheritanceASubOneQueries queries;
   private String one = null;

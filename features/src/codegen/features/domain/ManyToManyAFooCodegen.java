@@ -17,7 +17,7 @@ import joist.util.Copy;
 import joist.util.ListDiff;
 
 @SuppressWarnings("all")
-public abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
+abstract class ManyToManyAFooCodegen extends AbstractDomainObject {
 
   public static final ManyToManyAFooQueries queries;
   private Long id = null;

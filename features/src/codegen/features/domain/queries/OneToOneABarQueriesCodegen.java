@@ -3,7 +3,7 @@ package features.domain.queries;
 import features.domain.OneToOneABar;
 import joist.domain.AbstractQueries;
 
-public abstract class OneToOneABarQueriesCodegen extends AbstractQueries<OneToOneABar> {
+abstract class OneToOneABarQueriesCodegen extends AbstractQueries<OneToOneABar> {
 
   public OneToOneABarQueriesCodegen() {
     super(OneToOneABar.class);

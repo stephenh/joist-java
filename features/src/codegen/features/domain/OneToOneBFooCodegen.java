@@ -16,7 +16,7 @@ import joist.util.Copy;
 import joist.util.ListDiff;
 
 @SuppressWarnings("all")
-public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
+abstract class OneToOneBFooCodegen extends AbstractDomainObject {
 
   public static final OneToOneBFooQueries queries;
   private Long id = null;

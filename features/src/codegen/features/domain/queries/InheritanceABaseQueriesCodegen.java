@@ -3,7 +3,7 @@ package features.domain.queries;
 import features.domain.InheritanceABase;
 import joist.domain.AbstractQueries;
 
-public abstract class InheritanceABaseQueriesCodegen extends AbstractQueries<InheritanceABase> {
+abstract class InheritanceABaseQueriesCodegen extends AbstractQueries<InheritanceABase> {
 
   public InheritanceABaseQueriesCodegen() {
     super(InheritanceABase.class);

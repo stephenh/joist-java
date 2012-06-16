@@ -11,7 +11,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-public abstract class ValidationAFooCodegen extends AbstractDomainObject {
+abstract class ValidationAFooCodegen extends AbstractDomainObject {
 
   public static final ValidationAFooQueries queries;
   private Long id = null;

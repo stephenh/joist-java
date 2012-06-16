@@ -16,7 +16,7 @@ import joist.util.Copy;
 import joist.util.ListDiff;
 
 @SuppressWarnings("all")
-public abstract class ParentDCodegen extends AbstractDomainObject {
+abstract class ParentDCodegen extends AbstractDomainObject {
 
   public static final ParentDQueries queries;
   private Long id = null;

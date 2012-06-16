@@ -171,6 +171,11 @@ public class GMethod {
     return this;
   }
 
+  public GMethod addOverride() {
+    this.annotations.add("@Override");
+    return this;
+  }
+
   public GMethod addThrows(String exception) {
     this.exceptions.add(exception);
     return this;

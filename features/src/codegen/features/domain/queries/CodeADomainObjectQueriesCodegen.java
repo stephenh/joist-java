@@ -8,7 +8,7 @@ import java.util.List;
 import joist.domain.AbstractQueries;
 import joist.domain.orm.queries.Select;
 
-public abstract class CodeADomainObjectQueriesCodegen extends AbstractQueries<CodeADomainObject> {
+abstract class CodeADomainObjectQueriesCodegen extends AbstractQueries<CodeADomainObject> {
 
   public CodeADomainObjectQueriesCodegen() {
     super(CodeADomainObject.class);

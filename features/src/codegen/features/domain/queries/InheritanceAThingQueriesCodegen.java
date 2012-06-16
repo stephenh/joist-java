@@ -3,7 +3,7 @@ package features.domain.queries;
 import features.domain.InheritanceAThing;
 import joist.domain.AbstractQueries;
 
-public abstract class InheritanceAThingQueriesCodegen extends AbstractQueries<InheritanceAThing> {
+abstract class InheritanceAThingQueriesCodegen extends AbstractQueries<InheritanceAThing> {
 
   public InheritanceAThingQueriesCodegen() {
     super(InheritanceAThing.class);

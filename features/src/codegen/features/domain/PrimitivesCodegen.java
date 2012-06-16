@@ -11,7 +11,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-public abstract class PrimitivesCodegen extends AbstractDomainObject {
+abstract class PrimitivesCodegen extends AbstractDomainObject {
 
   public static final PrimitivesQueries queries;
   private Boolean flag = null;
