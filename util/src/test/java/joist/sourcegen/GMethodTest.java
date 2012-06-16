@@ -163,7 +163,7 @@ public class GMethodTest {
     GMethod hello = gc.getMethod("hello");
     hello.arguments("String foo");
     hello.setBody("return 'Hi' + foo;");
-    hello.addAnnotation("@SuppressWarnings");
+    hello.addAnnotation("@SuppressWarnings").addOverride();
     Assert.assertEquals(
       Join.lines(new Object[] {
         "package foo.bar;",
@@ -171,6 +171,7 @@ public class GMethodTest {
         "public class Foo {",
         "",
         "    @SuppressWarnings",
+        "    @Override",
         "    public void hello(String foo) {",
         "        return \"Hi\" + foo;",
         "    }",

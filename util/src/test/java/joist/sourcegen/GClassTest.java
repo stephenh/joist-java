@@ -181,11 +181,10 @@ public class GClassTest {
   @Test
   public void testAnnotated() {
     GClass gc = new GClass("foo.bar.Foo");
-    gc.addAnnotation("@SuppressWarnings").addOverride();
+    gc.addAnnotation("@SuppressWarnings");
     Assert.assertEquals(Join.lines(new Object[] { "package foo.bar;",//
       "",
       "@SuppressWarnings",
-      "@Override",
       "public class Foo {",
       "",
       "}",

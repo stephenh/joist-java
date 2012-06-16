@@ -436,11 +436,6 @@ public class GClass {
     return this;
   }
 
-  public GClass addOverride() {
-    this.annotations.add("@Override");
-    return this;
-  }
-
   public GClass addEquals() {
     return this.addEquals((Collection<String>) null);
   }
