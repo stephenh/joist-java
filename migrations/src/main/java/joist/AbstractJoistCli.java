@@ -47,6 +47,7 @@ public abstract class AbstractJoistCli {
       pf.setOwnerOfAllSequencesTo(this.config.dbAppSaSettings.user);
       pf.grantAllOnAllSequencesTo(this.config.dbAppUserSettings.user);
     }
+    pf.flushPermissionIfNeeded();
   }
 
   public void codegen() {

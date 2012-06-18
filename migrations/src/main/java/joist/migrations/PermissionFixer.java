@@ -61,6 +61,12 @@ public class PermissionFixer {
     }
   }
 
+  public void flushPermissionIfNeeded() {
+    if (this.config.db.isMySQL()) {
+      Jdbc.update(this.ds, "FLUSH PRIVILEGES;");
+    }
+  }
+
   private List<String> getTableNames() {
     final List<String> names = new ArrayList<String>();
     Jdbc.query(
