@@ -42,6 +42,7 @@ public class UnitOfWork {
   private Updater updater;
   private boolean rolledBack;
   private boolean implicitDeletionOfChildrenEnabled;
+  private boolean creatingSnapshot;
 
   public UnitOfWork(final Repository repo, final Connection connection, Updater updater, Snapshot snapshot) {
     this.repo = repo;
@@ -174,6 +175,14 @@ public class UnitOfWork {
 
   void setImplicitDeletionOfChildren(boolean implicitDeletionOfChildrenEnabled) {
     this.implicitDeletionOfChildrenEnabled = implicitDeletionOfChildrenEnabled;
+  }
+
+  boolean isCreatingSnapshot() {
+    return this.creatingSnapshot;
+  }
+
+  void setCreatingSnapshot(boolean snapshotting) {
+    this.creatingSnapshot = snapshotting;
   }
 
   private void flush(Set<DomainObject> insertOrUpdate, Set<DomainObject> delete) {

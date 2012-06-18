@@ -92,7 +92,7 @@ public class SnapshotTest extends AbstractFeaturesTest {
       p.setName("foo");
       fail("Should have failed");
     } catch (Exception e) {
-      assertThat(e.getMessage(), is("Cannot change Parent[1] as it was loaded from a snapshot"));
+      assertThat(e.getMessage(), is("Cannot modify Parent[1] as it was loaded from a snapshot"));
     }
   }
 
@@ -113,7 +113,7 @@ public class SnapshotTest extends AbstractFeaturesTest {
       new Child(p, "c1");
       fail("Should have failed");
     } catch (Exception e) {
-      assertThat(e.getMessage(), is("Cannot change Parent[1] as it was loaded from a snapshot"));
+      assertThat(e.getMessage(), is("Cannot modify Parent[1] as it was loaded from a snapshot"));
     }
   }
 
@@ -149,6 +149,22 @@ public class SnapshotTest extends AbstractFeaturesTest {
     CodeADomainObject c = UoW.load(CodeADomainObject.class, 1l);
     assertThat(c.getCodeAColor(), is(CodeAColor.BLUE));
     assertThat(Jdbc.numberOfQueries(), is(0));
+  }
+
+  @Test
+  public void testCannotWriteWhileSnapshotting() {
+    aParent().name("p1");
+    this.commitAndClose();
+    try {
+      UoW.snapshot(repo, new Block() {
+        public void go() {
+          Parent.queries.find(1).setName("p1a");
+        }
+      });
+      fail();
+    } catch (RuntimeException re) {
+      assertThat(re.getMessage(), is("Cannot modify Parent[1] while creating a snapshot"));
+    }
   }
 
   private void commitAndClose() {

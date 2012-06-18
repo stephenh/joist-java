@@ -2,6 +2,7 @@ package joist.domain.uow;
 
 import java.sql.Connection;
 
+import joist.domain.AbstractDomainObject;
 import joist.domain.DomainObject;
 import joist.domain.orm.Db;
 import joist.domain.orm.EagerCache;
@@ -85,6 +86,7 @@ public class UoW {
   public static Snapshot snapshot(final Repository repo, Block block) {
     try {
       UoW.open(repo, null);
+      UoW.getCurrent().setCreatingSnapshot(true);
       block.go();
       return new Snapshot(UoW.getCurrent());
     } finally {
@@ -173,6 +175,12 @@ public class UoW {
 
   /** Queues <code>instance</code> for validation on flush. */
   public static void enqueue(DomainObject instance) {
+    if (UoW.getCurrent().isCreatingSnapshot()) {
+      throw new RuntimeException("Cannot modify " + instance + " while creating a snapshot");
+    }
+    if (AbstractDomainObject.isFromSnapshot(instance)) {
+      throw new RuntimeException("Cannot modify " + instance + " as it was loaded from a snapshot");
+    }
     UoW.getCurrent().enqueue(instance);
   }
 
