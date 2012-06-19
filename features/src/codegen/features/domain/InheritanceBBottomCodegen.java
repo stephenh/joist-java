@@ -7,7 +7,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
+public abstract class InheritanceBBottomCodegen extends InheritanceBMiddle {
 
   public static final InheritanceBBottomQueries queries;
   private String bottomName = null;

@@ -13,7 +13,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-abstract class PrimitivesCCodegen extends AbstractDomainObject {
+public abstract class PrimitivesCCodegen extends AbstractDomainObject {
 
   public static final PrimitivesCQueries queries;
   private Money dollarAmount = null;

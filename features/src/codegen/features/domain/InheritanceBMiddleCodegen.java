@@ -7,7 +7,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
+public abstract class InheritanceBMiddleCodegen extends InheritanceBRoot {
 
   public static final InheritanceBMiddleQueries queries;
   private String middleName = null;

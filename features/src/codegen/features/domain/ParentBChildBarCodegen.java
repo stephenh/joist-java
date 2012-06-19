@@ -12,7 +12,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-abstract class ParentBChildBarCodegen extends AbstractDomainObject {
+public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
 
   public static final ParentBChildBarQueries queries;
   private Long id = null;
