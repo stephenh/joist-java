@@ -10,7 +10,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
+public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
 
   public static final ManyToManyBFooToBarQueries queries;
   private Long id = null;

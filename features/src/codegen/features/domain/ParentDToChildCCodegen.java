@@ -10,7 +10,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-abstract class ParentDToChildCCodegen extends AbstractDomainObject {
+public abstract class ParentDToChildCCodegen extends AbstractDomainObject {
 
   public static final ParentDToChildCQueries queries;
   private Long id = null;

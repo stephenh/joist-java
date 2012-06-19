@@ -12,7 +12,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-abstract class UserTypesAFooCodegen extends AbstractDomainObject {
+public abstract class UserTypesAFooCodegen extends AbstractDomainObject {
 
   public static final UserTypesAFooQueries queries;
   private CalendarDate created = null;

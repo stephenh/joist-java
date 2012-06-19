@@ -16,7 +16,7 @@ import joist.util.Copy;
 import joist.util.ListDiff;
 
 @SuppressWarnings("all")
-abstract class InheritanceBRootCodegen extends AbstractDomainObject {
+public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
 
   public static final InheritanceBRootQueries queries;
   private Long id = null;

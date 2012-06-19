@@ -9,7 +9,7 @@ import joist.domain.uow.UoW;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-abstract class PrimitivesBCodegen extends AbstractDomainObject {
+public abstract class PrimitivesBCodegen extends AbstractDomainObject {
 
   public static final PrimitivesBQueries queries;
   private Long big1 = null;

@@ -11,7 +11,7 @@ import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
 
 @SuppressWarnings("all")
-abstract class InheritanceCCodegen extends AbstractDomainObject {
+public abstract class InheritanceCCodegen extends AbstractDomainObject {
 
   public static final InheritanceCQueries queries;
   private Long id = null;
