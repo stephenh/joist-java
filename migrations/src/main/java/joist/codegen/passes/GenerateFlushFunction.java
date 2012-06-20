@@ -7,12 +7,15 @@ import joist.codegen.dtos.Entity;
 import joist.jdbc.Jdbc;
 import joist.util.StringBuilderr;
 import joist.util.Wrap;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class GenerateFlushFunction implements Pass {
 
   private DataSource ds;
 
   public void pass(Codegen codegen) {
+    log.info("Creating flush_test_database stored procedure");
     this.ds = codegen.getConfig().dbAppSaSettings.getDataSource();
     if (codegen.getConfig().db.isPg()) {
       this.generatePg(codegen);
