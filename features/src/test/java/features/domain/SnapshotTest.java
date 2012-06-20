@@ -167,6 +167,30 @@ public class SnapshotTest extends AbstractFeaturesTest {
     }
   }
 
+  @Test
+  public void testSnapshotOffASnapshot() {
+    aChild().name("c1").with(aParent().name("p1"));
+    this.commitAndClose();
+    // snapshot 1, just the parent
+    Snapshot s1 = UoW.snapshot(repo, new Block() {
+      public void go() {
+        Parent.queries.find(1);
+      }
+    });
+    // snapshot 2, add the child
+    Snapshot s2 = UoW.snapshot(repo, s1, new Block() {
+      public void go() {
+        Parent.queries.find(1).getChilds();
+      }
+    });
+    // now they're both cached
+    Jdbc.resetStats();
+    UoW.open(repo, null, s2);
+    Parent.queries.find(1);
+    Child.queries.find(1);
+    assertThat(Jdbc.numberOfQueries(), is(0));
+  }
+
   private void commitAndClose() {
     this.commitAndReOpen();
     UoW.close();

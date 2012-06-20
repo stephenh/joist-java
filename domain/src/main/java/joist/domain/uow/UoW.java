@@ -84,8 +84,15 @@ public class UoW {
    * Executes {@code block} within a read-only {@link UnitOfWork} and returns a snapshot of its state.
    */
   public static Snapshot snapshot(final Repository repo, Block block) {
+    return snapshot(repo, null, block);
+  }
+
+  /**
+   * Executes {@code block} within a read-only {@link UnitOfWork}, seeded with {@code snapshot}, and returns a snapshot of its state.
+   */
+  public static Snapshot snapshot(final Repository repo, Snapshot snapshot, Block block) {
     try {
-      UoW.open(repo, null);
+      UoW.open(repo, null, snapshot);
       UoW.getCurrent().setCreatingSnapshot(true);
       block.go();
       return new Snapshot(UoW.getCurrent());
