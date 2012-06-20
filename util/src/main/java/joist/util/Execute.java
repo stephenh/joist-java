@@ -194,6 +194,12 @@ public class Execute {
   public static class Result {
     public int exitValue;
     public boolean success;
+
+    public void systemExitIfFailed() {
+      if (!this.success) {
+        System.exit(this.exitValue);
+      }
+    }
   }
 
   public static class BufferedResult extends Result {

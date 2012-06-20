@@ -30,6 +30,15 @@ public abstract class AbstractJoistCli {
     this.codegen();
   }
 
+  public void createBackup() {
+    // first make a clean database
+    this.createDatabase();
+    this.migrateDatabase();
+    this.fixPermissions();
+    // now run the backup
+    new DatabaseBootstrapper(this.config).backup();
+  }
+
   public void createDatabase() {
     new DatabaseBootstrapper(this.config).dropAndCreate();
   }
