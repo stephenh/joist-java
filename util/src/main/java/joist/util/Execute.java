@@ -4,6 +4,8 @@ import static java.util.Arrays.asList;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -64,6 +66,28 @@ public class Execute {
     this.out = System.out;
     this.err = System.err;
     return this.execute();
+  }
+
+  public Result toFile(String outPath) {
+    return this.toFile(new File(outPath));
+  }
+
+  public Result toFile(File out) {
+    try {
+      this.out = new FileOutputStream(out);
+      this.err = System.err;
+      return this.execute();
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException(e);
+    } finally {
+      if (this.out != null) {
+        try {
+          this.out.close();
+        } catch (IOException e) {
+          // ignore
+        }
+      }
+    }
   }
 
   public BufferedResult toBuffer() {

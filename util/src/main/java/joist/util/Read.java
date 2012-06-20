@@ -12,6 +12,10 @@ public class Read {
     return Read.fromInputStream(Read.class.getResourceAsStream(path));
   }
 
+  public static String fromFile(String path) {
+    return fromFile(new File(path));
+  }
+
   public static String fromFile(File file) {
     try {
       return Read.fromInputStream(new FileInputStream(file));
