@@ -7,6 +7,6 @@
 <listEntry value="1"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="features.cli.Cli"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="JoistCli.fixPermissions"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="JoistCli.createBackup"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="joist-features"/>
 </launchConfiguration>

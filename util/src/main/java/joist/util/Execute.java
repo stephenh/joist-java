@@ -4,6 +4,8 @@ import static java.util.Arrays.asList;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -66,10 +68,39 @@ public class Execute {
     return this.execute();
   }
 
-  public Result toBuffer() {
+  public Result toFile(String outPath) {
+    return this.toFile(new File(outPath));
+  }
+
+  public Result toFile(File out) {
+    try {
+      this.out = new FileOutputStream(out);
+      this.err = System.err;
+      return this.execute();
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException(e);
+    } finally {
+      if (this.out != null) {
+        try {
+          this.out.close();
+        } catch (IOException e) {
+          // ignore
+        }
+      }
+    }
+  }
+
+  public BufferedResult toBuffer() {
     this.out = new ByteArrayOutputStream();
     this.err = new ByteArrayOutputStream();
-    return this.execute();
+    Result r = this.execute();
+    // copy into a new BufferedResult with our capture in/out
+    BufferedResult br = new BufferedResult();
+    br.exitValue = r.exitValue;
+    br.success = r.success;
+    br.out = this.out.toString();
+    br.err = this.err.toString();
+    return br;
   }
 
   private Result execute() {
@@ -93,8 +124,7 @@ public class Execute {
       p.waitFor();
 
       Result result = new Result();
-      result.out = out.toString();
-      result.err = err.toString();
+      result.exitValue = p.exitValue();
       result.success = p.exitValue() == 0;
       return result;
     } catch (InterruptedException ie) {
@@ -162,7 +192,17 @@ public class Execute {
   }
 
   public static class Result {
+    public int exitValue;
     public boolean success;
+
+    public void systemExitIfFailed() {
+      if (!this.success) {
+        System.exit(this.exitValue);
+      }
+    }
+  }
+
+  public static class BufferedResult extends Result {
     public String out;
     public String err;
   }

@@ -19,14 +19,15 @@ import joist.util.MapToList;
  */
 public class EagerCache {
 
-  private final Map<ForeignKeyAliasColumn<?, ?>, MapToList<?, ?>> cache = new HashMap<ForeignKeyAliasColumn<?, ?>, MapToList<?, ?>>();
+  // TODO needs to private again...
+  public final Map<ForeignKeyAliasColumn<?, ?>, MapToList<Long, DomainObject>> cache = new HashMap<ForeignKeyAliasColumn<?, ?>, MapToList<Long, DomainObject>>();
 
   public <U extends DomainObject> MapToList<Long, U> get(ForeignKeyAliasColumn<U, ?> ac) {
     MapToList<Long, U> map = (MapToList<Long, U>) this.cache.get(ac);
     if (map == null) {
       // create and cache a new map if this is the first load for the parent
       map = new MapToList<Long, U>();
-      this.cache.put(ac, map);
+      this.cache.put(ac, (MapToList<Long, DomainObject>) map);
     }
     return map;
   }

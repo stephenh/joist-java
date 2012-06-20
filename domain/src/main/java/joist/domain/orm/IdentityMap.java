@@ -60,4 +60,9 @@ public class IdentityMap {
     return this.objects.getSubKeysOf(rootType);
   }
 
+  // only for Snapshot for now
+  public MapToMap<Class<?>, Long, DomainObject> getObjects() {
+    return this.objects;
+  }
+
 }

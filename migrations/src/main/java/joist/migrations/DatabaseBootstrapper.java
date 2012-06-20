@@ -7,7 +7,6 @@ import javax.sql.DataSource;
 import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import joist.util.Execute;
-import joist.util.Execute.Result;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -29,30 +28,12 @@ public class DatabaseBootstrapper {
     }
   }
 
-  public void restore(String pgBinPath) {
-    log.debug("Schema only");
-    Result result = this.restore(pgBinPath, "--schema-only");
-
-    log.debug("Data only");
-    result = this.restore(pgBinPath, "--data-only");
-    if (!result.success) {
-      log.error("Failed data load");
-      log.error(result.out);
-      log.error(result.err);
+  public void backup() {
+    if (this.config.db.isMySQL()) {
+      this.backupMySQL();
+    } else {
+      throw new IllegalStateException("Unhandled db " + this.config.db);
     }
-  }
-
-  private Result restore(String pgBinPath, String finalArgument) {
-    return new Execute("pg_restore")//
-      .path(pgBinPath)
-      .env("PGPASSWORD", "")
-      .arg("--dbname=" + this.config.dbAppUserSettings.databaseName)
-      .arg("--username=sa")
-      .arg("--host=localhost")
-      .arg("--format=c")
-      .arg("--disable-triggers")
-      .arg(finalArgument)
-      .toBuffer();
   }
 
   private void dropAndCreateMySQL() {
@@ -92,8 +73,21 @@ public class DatabaseBootstrapper {
         .arg("--password=" + this.config.dbSystemSettings.password)
         .arg(databaseName)
         .arg("--execute=source " + this.config.databaseBackupPath)
-        .toSystemOut();
+        .toSystemOut()
+        .systemExitIfFailed();
     }
+  }
+
+  private void backupMySQL() {
+    log.info("Backing up to {}", this.config.databaseBackupPath);
+    new Execute("mysqldump")
+      .addEnvPaths()
+      .arg("--user=" + this.config.dbSystemSettings.user)
+      .arg("--host=" + this.config.dbSystemSettings.host)
+      .arg("--password=" + this.config.dbSystemSettings.password)
+      .arg(this.config.dbAppUserSettings.databaseName)
+      .toFile(this.config.databaseBackupPath)
+      .systemExitIfFailed();
   }
 
   private void dropAndCreatePg() {
@@ -122,5 +116,27 @@ public class DatabaseBootstrapper {
 
     log.debug("Creating plpgsql");
     Jdbc.update(systemDs, "create language plpgsql;");
+
+    // TODO Add backup restore for pg
+    // this.restore(pgBinPath, "--schema-only");
+    // this.restore(pgBinPath, "--data-only");
+    // if (!result.success) {
+    //   log.error("Failed data load");
+    // }
+  }
+
+  @SuppressWarnings("unused")
+  private void restore(String finalArgument) {
+    new Execute("pg_restore")
+      .addEnvPaths()
+      .env("PGPASSWORD", this.config.dbSystemSettings.password)
+      .arg("--dbname=" + this.config.dbAppUserSettings.databaseName)
+      .arg("--username=" + this.config.dbSystemSettings.user)
+      .arg("--host=" + this.config.dbSystemSettings.host)
+      .arg("--format=c")
+      .arg("--disable-triggers")
+      .arg(finalArgument)
+      .toSystemOut()
+      .systemExitIfFailed();
   }
 }
