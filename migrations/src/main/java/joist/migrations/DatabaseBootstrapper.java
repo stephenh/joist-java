@@ -37,8 +37,6 @@ public class DatabaseBootstrapper {
     result = this.restore(pgBinPath, "--data-only");
     if (!result.success) {
       log.error("Failed data load");
-      log.error(result.out);
-      log.error(result.err);
     }
   }
 
@@ -52,7 +50,7 @@ public class DatabaseBootstrapper {
       .arg("--format=c")
       .arg("--disable-triggers")
       .arg(finalArgument)
-      .toBuffer();
+      .toSystemOut();
   }
 
   private void dropAndCreateMySQL() {

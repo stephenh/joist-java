@@ -66,10 +66,17 @@ public class Execute {
     return this.execute();
   }
 
-  public Result toBuffer() {
+  public BufferedResult toBuffer() {
     this.out = new ByteArrayOutputStream();
     this.err = new ByteArrayOutputStream();
-    return this.execute();
+    Result r = this.execute();
+    // copy into a new BufferedResult with our capture in/out
+    BufferedResult br = new BufferedResult();
+    br.exitValue = r.exitValue;
+    br.success = r.success;
+    br.out = this.out.toString();
+    br.err = this.err.toString();
+    return br;
   }
 
   private Result execute() {
@@ -93,8 +100,7 @@ public class Execute {
       p.waitFor();
 
       Result result = new Result();
-      result.out = out.toString();
-      result.err = err.toString();
+      result.exitValue = p.exitValue();
       result.success = p.exitValue() == 0;
       return result;
     } catch (InterruptedException ie) {
@@ -162,7 +168,11 @@ public class Execute {
   }
 
   public static class Result {
+    public int exitValue;
     public boolean success;
+  }
+
+  public static class BufferedResult extends Result {
     public String out;
     public String err;
   }
