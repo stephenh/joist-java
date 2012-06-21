@@ -24,8 +24,6 @@ public class Execute {
   private final Map<String, String> env = new HashMap<String, String>();
   private final List<String> possiblePaths = Copy.list(".");
   private final List<String> possibleExtensions = Copy.list("", ".sh", ".bat", ".exe");
-  private OutputStream out;
-  private OutputStream err;
   private String input;
 
   public Execute(String command) {
@@ -63,9 +61,7 @@ public class Execute {
   }
 
   public Result toSystemOut() {
-    this.out = System.out;
-    this.err = System.err;
-    return this.execute();
+    return this.execute(System.out, System.err);
   }
 
   public Result toFile(String outPath) {
@@ -73,16 +69,16 @@ public class Execute {
   }
 
   public Result toFile(File out) {
+    OutputStream output = null;
     try {
-      this.out = new FileOutputStream(out);
-      this.err = System.err;
-      return this.execute();
+      output = new FileOutputStream(out);
+      return this.execute(output, System.err);
     } catch (FileNotFoundException e) {
       throw new RuntimeException(e);
     } finally {
-      if (this.out != null) {
+      if (output != null) {
         try {
-          this.out.close();
+          output.close();
         } catch (IOException e) {
           // ignore
         }
@@ -91,19 +87,19 @@ public class Execute {
   }
 
   public BufferedResult toBuffer() {
-    this.out = new ByteArrayOutputStream();
-    this.err = new ByteArrayOutputStream();
-    Result r = this.execute();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ByteArrayOutputStream err = new ByteArrayOutputStream();
+    Result r = this.execute(out, err);
     // copy into a new BufferedResult with our capture in/out
     BufferedResult br = new BufferedResult();
     br.exitValue = r.exitValue;
     br.success = r.success;
-    br.out = this.out.toString();
-    br.err = this.err.toString();
+    br.out = out.toString();
+    br.err = err.toString();
     return br;
   }
 
-  private Result execute() {
+  private Result execute(OutputStream out, OutputStream err) {
     // Java tries to "help" by splitting on spaces unless you invoke the String[]-based methods.
     try {
       String[] commandPlusArgs = this.getCommandPlusArgsArray();
@@ -111,16 +107,16 @@ public class Execute {
       Process p = Runtime.getRuntime().exec(commandPlusArgs, this.getEnvArray());
 
       // To avoid blocking on one of the streams if the other/input is not done, fork them off into separate threads
-      StreamGlobber out = new StreamGlobber(p.getInputStream(), this.out);
-      StreamGlobber err = new StreamGlobber(p.getErrorStream(), this.err);
-      out.start();
-      err.start();
+      StreamGlobber outGlobber = new StreamGlobber(p.getInputStream(), out);
+      StreamGlobber errGlobber = new StreamGlobber(p.getErrorStream(), err);
+      outGlobber.start();
+      errGlobber.start();
       if (this.input != null) {
         p.getOutputStream().write(this.input.getBytes());
       }
       p.getOutputStream().close();
-      out.join();
-      err.join();
+      outGlobber.join();
+      errGlobber.join();
       p.waitFor();
 
       Result result = new Result();
@@ -185,6 +181,7 @@ public class Execute {
         while (-1 != (n = this.input.read(buffer))) {
           this.output.write(buffer, 0, n);
         }
+        this.output.flush();
       } catch (IOException ioe) {
         ioe.printStackTrace();
       }
