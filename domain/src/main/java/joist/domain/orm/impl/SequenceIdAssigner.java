@@ -41,10 +41,10 @@ public class SequenceIdAssigner {
     List<String> allSql = new ArrayList<String>();
     for (Entry<Class<T>, List<T>> entry : byClassInserts.entrySet()) {
       String sql = "select nextval('" + AliasRegistry.get(entry.getKey()).getRootClassAlias().getTableName() + "_id_seq')";
-      for (int i = 0; i < entry.getValue().size(); i++) {
-        if (entry.getValue().get(i).getId() != null) {
+      for (T instance : entry.getValue()) {
+        if (instance.getId() != null) {
           // Skip new objects that got manually assigned an id, but assign version=0 first
-          AliasRegistry.get(entry.getKey()).getVersionColumn().setJdbcValue(entry.getValue().get(i), 0l);
+          AliasRegistry.get(entry.getKey()).getVersionColumn().setJdbcValue(instance, 0l);
           continue;
         }
         allSql.add(sql);
@@ -70,8 +70,10 @@ public class SequenceIdAssigner {
     for (Entry<Class<T>, List<T>> entry : byClassInserts.entrySet()) {
       Alias<T> t = AliasRegistry.get(entry.getKey());
       for (T instance : entry.getValue()) {
-        instance.setId(ids.get(i++));
-        t.getVersionColumn().setJdbcValue(instance, 0l);
+        if (instance.getId() == null) {
+          instance.setId(ids.get(i++));
+          t.getVersionColumn().setJdbcValue(instance, 0l);
+        }
       }
     }
   }
