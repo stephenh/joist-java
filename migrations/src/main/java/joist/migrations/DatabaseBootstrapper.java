@@ -115,7 +115,8 @@ public class DatabaseBootstrapper {
     Jdbc.update(systemDs, "create user {} password '{}';", username, password);
 
     log.info("Creating plpgsql");
-    Jdbc.update(systemDs, "create language plpgsql;");
+    DataSource appSaDs = this.config.dbAppSaSettings.getDataSource();
+    Jdbc.update(appSaDs, "create language plpgsql;");
 
     // TODO Add backup restore for pg
     // this.restore(pgBinPath, "--schema-only");
