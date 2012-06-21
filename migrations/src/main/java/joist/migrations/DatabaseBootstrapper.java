@@ -32,7 +32,7 @@ public class DatabaseBootstrapper {
     if (this.config.db.isMySQL()) {
       this.backupMySQL();
     } else {
-      throw new IllegalStateException("Unhandled db " + this.config.db);
+      this.backupPg();
     }
   }
 
@@ -90,6 +90,26 @@ public class DatabaseBootstrapper {
       .systemExitIfFailed();
   }
 
+  private void backupPg() {
+    log.info("Backing up to {}", this.config.databaseBackupPath);
+    new Execute("pg_dump")
+      .addEnvPaths()
+      .arg("--ignore-version")
+      .arg("--host")
+      .arg(this.config.dbSystemSettings.host)
+      .arg("-U")
+      .arg(this.config.dbSystemSettings.user)
+      .env("PGPASSWORD", this.config.dbSystemSettings.password)
+      // TODO eventually have an option to use binary
+      .arg("--format=t")
+      .arg("--no-owner")
+      .arg("--no-privileges")
+      .arg("--file=" + this.config.databaseBackupPath)
+      .arg(this.config.dbAppUserSettings.databaseName)
+      .toSystemOut()
+      .systemExitIfFailed();
+  }
+
   private void dropAndCreatePg() {
     String databaseName = this.config.dbAppUserSettings.databaseName;
     String username = this.config.dbAppUserSettings.user;
@@ -114,30 +134,28 @@ public class DatabaseBootstrapper {
     log.info("Creating {}", username);
     Jdbc.update(systemDs, "create user {} password '{}';", username, password);
 
-    log.info("Creating plpgsql");
-    DataSource appSaDs = this.config.dbAppSaSettings.getDataSource();
-    Jdbc.update(appSaDs, "create language plpgsql;");
-
-    // TODO Add backup restore for pg
-    // this.restore(pgBinPath, "--schema-only");
-    // this.restore(pgBinPath, "--data-only");
-    // if (!result.success) {
-    //   log.error("Failed data load");
-    // }
+    if (new File(this.config.databaseBackupPath).exists()) {
+      log.info("Restoring {}", this.config.databaseBackupPath);
+      new Execute("pg_restore")
+        .addEnvPaths()
+        .arg("--host")
+        .arg(this.config.dbSystemSettings.host)
+        .arg("-U")
+        .arg(this.config.dbSystemSettings.user)
+        .env("PGPASSWORD", this.config.dbSystemSettings.password)
+        .arg("--dbname=" + databaseName)
+        // TODO Support an option for binary, and do --schema-only/--data-only
+        .arg("--format=t")
+        .arg("--disable-triggers")
+        .arg(this.config.databaseBackupPath)
+        .toSystemOut()
+        .systemExitIfFailed();
+    } else {
+      // the backup will contain plpgsql, so only issue this if it's a new database
+      log.info("Creating plpgsql");
+      DataSource appSaDs = this.config.dbAppSaSettings.getDataSource();
+      Jdbc.update(appSaDs, "create language plpgsql;");
+    }
   }
 
-  @SuppressWarnings("unused")
-  private void restore(String finalArgument) {
-    new Execute("pg_restore")
-      .addEnvPaths()
-      .env("PGPASSWORD", this.config.dbSystemSettings.password)
-      .arg("--dbname=" + this.config.dbAppUserSettings.databaseName)
-      .arg("--username=" + this.config.dbSystemSettings.user)
-      .arg("--host=" + this.config.dbSystemSettings.host)
-      .arg("--format=c")
-      .arg("--disable-triggers")
-      .arg(finalArgument)
-      .toSystemOut()
-      .systemExitIfFailed();
-  }
 }
