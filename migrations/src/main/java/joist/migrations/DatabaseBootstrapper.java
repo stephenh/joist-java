@@ -45,21 +45,21 @@ public class DatabaseBootstrapper {
     DataSource systemDs = this.config.dbSystemSettings.getDataSource();
     int i = Jdbc.queryForInt(systemDs, "select count(*) from information_schema.schemata where schema_name = '{}'", databaseName);
     if (i != 0) {
-      log.debug("Dropping {}", databaseName);
+      log.info("Dropping {}", databaseName);
       Jdbc.update(systemDs, "drop database {};", databaseName);
     }
 
     int j = Jdbc.queryForInt(systemDs, "select count(*) from mysql.user where user = '{}' and host = '{}'", username, userhost);
     if (j != 0) {
-      log.debug("Dropping '{}'@'{}'", username, userhost);
+      log.info("Dropping '{}'@'{}'", username, userhost);
       Jdbc.update(systemDs, "revoke all privileges, grant option from '{}'@'{}'", username, userhost);
       Jdbc.update(systemDs, "drop user '{}'@'{}'", username, userhost);
     }
 
-    log.debug("Creating {}", databaseName);
+    log.info("Creating {}", databaseName);
     Jdbc.update(systemDs, "create database {};", databaseName);
 
-    log.debug("Creating '{}'@'{}'", username, userhost);
+    log.info("Creating '{}'@'{}'", username, userhost);
     Jdbc.update(systemDs, "create user '{}'@'{}' identified by '{}';", username, userhost, password);
 
     Jdbc.update(systemDs, "set global sql_mode = 'ANSI';", username, password);
@@ -98,23 +98,23 @@ public class DatabaseBootstrapper {
     DataSource systemDs = this.config.dbSystemSettings.getDataSource();
     int i = Jdbc.queryForInt(systemDs, "select count(*) from pg_catalog.pg_database where datname = '{}'", databaseName);
     if (i != 0) {
-      log.debug("Dropping {}", databaseName);
+      log.info("Dropping {}", databaseName);
       Jdbc.update(systemDs, "drop database {};", databaseName);
     }
 
     int j = Jdbc.queryForInt(systemDs, "select count(*) from pg_catalog.pg_user where usename = '{}'", username);
     if (j != 0) {
-      log.debug("Dropping {}", username);
+      log.info("Dropping {}", username);
       Jdbc.update(systemDs, "drop user {};", username);
     }
 
-    log.debug("Creating {}", databaseName);
+    log.info("Creating {}", databaseName);
     Jdbc.update(systemDs, "create database {} template template0;", databaseName);
 
-    log.debug("Creating {}", username);
+    log.info("Creating {}", username);
     Jdbc.update(systemDs, "create user {} password '{}';", username, password);
 
-    log.debug("Creating plpgsql");
+    log.info("Creating plpgsql");
     Jdbc.update(systemDs, "create language plpgsql;");
 
     // TODO Add backup restore for pg
