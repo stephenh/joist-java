@@ -1,5 +1,5 @@
 <ivysettings>
-	<property name="joist.version" value="1.0.1"/>
+	<property name="joist.version" value="1.4.0"/>
 	<settings defaultResolver="default"/>
 	<include url="${ivy.default.settings.dir}/ivysettings-public.xml"/>
 	<resolvers>
