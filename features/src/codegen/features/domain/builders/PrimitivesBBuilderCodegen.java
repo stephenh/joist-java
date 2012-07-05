@@ -37,6 +37,9 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
     if (bool2() == null) {
       bool2(false);
     }
+    if (boolWithDefaultTrue() == null) {
+      boolWithDefaultTrue(false);
+    }
     if (int2() == null) {
       int2(0);
     }
@@ -61,6 +64,24 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
 
   public PrimitivesBBuilder bool2(Boolean bool2) {
     get().setBool2(bool2);
+    return (PrimitivesBBuilder) this;
+  }
+
+  public Boolean boolNullableWithDefaultFalse() {
+    return get().getBoolNullableWithDefaultFalse();
+  }
+
+  public PrimitivesBBuilder boolNullableWithDefaultFalse(Boolean boolNullableWithDefaultFalse) {
+    get().setBoolNullableWithDefaultFalse(boolNullableWithDefaultFalse);
+    return (PrimitivesBBuilder) this;
+  }
+
+  public Boolean boolWithDefaultTrue() {
+    return get().getBoolWithDefaultTrue();
+  }
+
+  public PrimitivesBBuilder boolWithDefaultTrue(Boolean boolWithDefaultTrue) {
+    get().setBoolWithDefaultTrue(boolWithDefaultTrue);
     return (PrimitivesBBuilder) this;
   }
 

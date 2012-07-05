@@ -16,6 +16,8 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
   private Long big2 = null;
   private Boolean bool1 = null;
   private Boolean bool2 = null;
+  private Boolean boolNullableWithDefaultFalse = false;
+  private Boolean boolWithDefaultTrue = false;
   private Long id = null;
   private Integer int1 = null;
   private Integer int2 = null;
@@ -36,6 +38,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
   private void addExtraRules() {
     this.addRule(new NotNull<PrimitivesB>(Shims.big2));
     this.addRule(new NotNull<PrimitivesB>(Shims.bool2));
+    this.addRule(new NotNull<PrimitivesB>(Shims.boolWithDefaultTrue));
     this.addRule(new NotNull<PrimitivesB>(Shims.int2));
     this.addRule(new NotNull<PrimitivesB>(Shims.small2));
   }
@@ -90,6 +93,32 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
 
   protected void defaultBool2(Boolean bool2) {
     this.bool2 = bool2;
+  }
+
+  public Boolean getBoolNullableWithDefaultFalse() {
+    return this.boolNullableWithDefaultFalse;
+  }
+
+  public void setBoolNullableWithDefaultFalse(Boolean boolNullableWithDefaultFalse) {
+    this.getChanged().record("boolNullableWithDefaultFalse", this.boolNullableWithDefaultFalse, boolNullableWithDefaultFalse);
+    this.boolNullableWithDefaultFalse = boolNullableWithDefaultFalse;
+  }
+
+  protected void defaultBoolNullableWithDefaultFalse(Boolean boolNullableWithDefaultFalse) {
+    this.boolNullableWithDefaultFalse = boolNullableWithDefaultFalse;
+  }
+
+  public Boolean getBoolWithDefaultTrue() {
+    return this.boolWithDefaultTrue;
+  }
+
+  public void setBoolWithDefaultTrue(Boolean boolWithDefaultTrue) {
+    this.getChanged().record("boolWithDefaultTrue", this.boolWithDefaultTrue, boolWithDefaultTrue);
+    this.boolWithDefaultTrue = boolWithDefaultTrue;
+  }
+
+  protected void defaultBoolWithDefaultTrue(Boolean boolWithDefaultTrue) {
+    this.boolWithDefaultTrue = boolWithDefaultTrue;
   }
 
   public Long getId() {
@@ -217,6 +246,28 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
         return "bool2";
       }
     };
+    protected static final Shim<PrimitivesB, Boolean> boolNullableWithDefaultFalse = new Shim<PrimitivesB, Boolean>() {
+      public void set(PrimitivesB instance, Boolean boolNullableWithDefaultFalse) {
+        ((PrimitivesBCodegen) instance).boolNullableWithDefaultFalse = boolNullableWithDefaultFalse;
+      }
+      public Boolean get(PrimitivesB instance) {
+        return ((PrimitivesBCodegen) instance).boolNullableWithDefaultFalse;
+      }
+      public String getName() {
+        return "boolNullableWithDefaultFalse";
+      }
+    };
+    protected static final Shim<PrimitivesB, Boolean> boolWithDefaultTrue = new Shim<PrimitivesB, Boolean>() {
+      public void set(PrimitivesB instance, Boolean boolWithDefaultTrue) {
+        ((PrimitivesBCodegen) instance).boolWithDefaultTrue = boolWithDefaultTrue;
+      }
+      public Boolean get(PrimitivesB instance) {
+        return ((PrimitivesBCodegen) instance).boolWithDefaultTrue;
+      }
+      public String getName() {
+        return "boolWithDefaultTrue";
+      }
+    };
     protected static final Shim<PrimitivesB, Long> id = new Shim<PrimitivesB, Long>() {
       public void set(PrimitivesB instance, Long id) {
         ((PrimitivesBCodegen) instance).id = id;
@@ -312,6 +363,18 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
     }
     public Boolean getOriginalBool2() {
       return (java.lang.Boolean) this.getOriginal("bool2");
+    }
+    public boolean hasBoolNullableWithDefaultFalse() {
+      return this.contains("boolNullableWithDefaultFalse");
+    }
+    public Boolean getOriginalBoolNullableWithDefaultFalse() {
+      return (java.lang.Boolean) this.getOriginal("boolNullableWithDefaultFalse");
+    }
+    public boolean hasBoolWithDefaultTrue() {
+      return this.contains("boolWithDefaultTrue");
+    }
+    public Boolean getOriginalBoolWithDefaultTrue() {
+      return (java.lang.Boolean) this.getOriginal("boolWithDefaultTrue");
     }
     public boolean hasId() {
       return this.contains("id");

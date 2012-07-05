@@ -19,6 +19,8 @@ public class m0012 extends AbstractMigration {
       primaryKey("id"),
       bool("bool1").nullable(),
       bool("bool2"),
+      bool("bool_with_default_true").defaultTrue(),
+      bool("bool_nullable_with_default_false").defaultFalse().nullable(),
       integer("int1").nullable(),
       integer("int2"),
       smallint("small1").nullable(),
