@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import joist.util.Execute;
+import joist.util.Interpolate;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -43,6 +44,16 @@ public class DatabaseBootstrapper {
     String userhost = this.config.userhost; // defaults to %
 
     DataSource systemDs = this.config.dbSystemSettings.getDataSource();
+
+    if ("localhost".equals(this.config.dbAppUserSettings.host)
+      && "%".equals(userhost)
+      && Jdbc.queryForInt(systemDs, "select count(*) from mysql.user WHERE user = '' and host = 'localhost'") > 0) {
+      String message = "Found anonymous user ''@'localhost'."
+        + " Due to myssql's access control, the anonymous user will mask the application user {}@{}."
+        + " You need to either set system property db.userhost to localhost or delete anonymous user";
+      throw new RuntimeException(Interpolate.string(message, username, userhost));
+    }
+
     int i = Jdbc.queryForInt(systemDs, "select count(*) from information_schema.schemata where schema_name = '{}'", databaseName);
     if (i != 0) {
       log.info("Dropping {}", databaseName);
