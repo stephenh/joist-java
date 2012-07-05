@@ -14,9 +14,9 @@ public class BooleanAliasColumn<T extends DomainObject> extends AliasColumn<T, B
   /** Converts the database {@code defaultValue} into the field initializer string. */
   public static String defaultValue(String defaultValue) {
     // look for 0/1 in bit/tinyint fields
-    if ("0".equals(defaultValue)) {
+    if ("0".equals(defaultValue) || "b'0'".equals(defaultValue)) {
       return "false";
-    } else if ("1".equals(defaultValue)) {
+    } else if ("1".equals(defaultValue) || "b'1'".equals(defaultValue)) {
       return "true";
     } else {
       return new Boolean(defaultValue).toString();

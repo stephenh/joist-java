@@ -17,7 +17,7 @@ public abstract class PrimitivesBCodegen extends AbstractDomainObject {
   private Boolean bool1 = null;
   private Boolean bool2 = null;
   private Boolean boolNullableWithDefaultFalse = false;
-  private Boolean boolWithDefaultTrue = false;
+  private Boolean boolWithDefaultTrue = true;
   private Long id = null;
   private Integer int1 = null;
   private Integer int2 = null;
