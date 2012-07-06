@@ -22,7 +22,7 @@ public class IntAliasColumn<T extends DomainObject> extends AliasColumn<T, Integ
 
   @Override
   public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
-    this.setJdbcValue(instance, rs.getInt(i));
+    this.setJdbcValue(instance, rs.getObject(i) == null ? null : rs.getInt(i));
   }
 
 }
