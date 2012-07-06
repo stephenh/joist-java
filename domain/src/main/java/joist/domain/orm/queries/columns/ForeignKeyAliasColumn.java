@@ -39,7 +39,7 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
 
   @Override
   public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
-    this.setJdbcValue(instance, rs.getLong(i));
+    this.setJdbcValue(instance, rs.getObject(i) == null ? null : rs.getLong(i));
   }
 
 }

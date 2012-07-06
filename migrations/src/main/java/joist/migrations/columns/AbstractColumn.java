@@ -49,7 +49,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   }
 
   public String toSql() {
-    return this.getQuotedName() + " " + this.getDataType();
+    return this.getQuotedName() + " " + this.getDataType() + (this.hasDefault() ? this.getDefaultExpression() : "");
   }
 
   public List<String> postInjectCommands() {
@@ -72,7 +72,13 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
 
   private void addNotNull(List<String> sqls) {
     if (MigrationKeywords.db.isMySQL()) {
-      sqls.add(Interpolate.string("ALTER TABLE {} MODIFY {} {} NOT NULL;", Wrap.quotes(this.tableName), Wrap.quotes(this.name), this.getDataType()));
+      // mysql replaces all column metadata so this needs to include the default data as well
+      sqls.add(Interpolate.string(
+        "ALTER TABLE {} MODIFY {} {} NOT NULL {};",
+        Wrap.quotes(this.tableName),
+        Wrap.quotes(this.name),
+        this.getDataType(),
+        this.hasDefault() ? this.getDefaultExpression() : ""));
     } else if (MigrationKeywords.db.isPg()) {
       sqls.add(Interpolate.string(//
         "ALTER TABLE {} ALTER COLUMN {} SET NOT NULL;",
@@ -86,10 +92,12 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   private void addNull(List<String> sqls) {
     // ...why does MySQL need this again?
     if (MigrationKeywords.db.isMySQL()) {
-      sqls.add(Interpolate.string("ALTER TABLE {} MODIFY {} {} NULL;",//
+      // mysql replaces all column metadata so this needs to include the default data as well
+      sqls.add(Interpolate.string("ALTER TABLE {} MODIFY {} {} NULL {};",//
         Wrap.quotes(this.tableName),
         Wrap.quotes(this.name),
-        this.getDataType()));
+        this.getDataType(),
+        (this.hasDefault() ? this.getDefaultExpression() : "")));
     }
   }
 
@@ -99,6 +107,18 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
 
   protected boolean isUnique() {
     return this.unique;
+  }
+
+  protected boolean hasDefault() {
+    return false;
+  }
+
+  protected String getDefaultExpression() {
+    return " DEFAULT " + this.getDefaultValue();
+  }
+
+  protected String getDefaultValue() {
+    return null;
   }
 
   public String getDataType() {
