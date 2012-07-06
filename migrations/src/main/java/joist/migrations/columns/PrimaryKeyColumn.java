@@ -4,6 +4,9 @@ import joist.migrations.MigrationKeywords;
 
 public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
 
+  /** Allow users to opt-in to something like {@code int unsigned}. */
+  public static String keyColumnType = "int";
+
   public enum UseSequence {
     Yes, No
   };
@@ -12,7 +15,7 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
   private String sequenceName = null;
 
   public PrimaryKeyColumn(String name) {
-    super(name, "int");
+    super(name, keyColumnType);
   }
 
   public String toSql() {
@@ -39,7 +42,7 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
   public String getDataType() {
     if (MigrationKeywords.db.isMySQL() && this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
       // Add AUTO_INCREMENT here so it gets used for add/remove not null
-      return "int AUTO_INCREMENT";
+      return keyColumnType + " AUTO_INCREMENT";
     } else {
       return super.getDataType();
     }
