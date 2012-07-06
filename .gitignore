@@ -1,6 +1,6 @@
 bin
 *.log*
-build.properties
+build*.properties
 newproject
 docs.zip
 target
