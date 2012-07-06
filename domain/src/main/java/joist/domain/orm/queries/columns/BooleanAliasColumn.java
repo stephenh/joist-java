@@ -34,6 +34,6 @@ public class BooleanAliasColumn<T extends DomainObject> extends AliasColumn<T, B
 
   @Override
   public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
-    this.setJdbcValue(instance, rs.getObject(i) == null ? null : rs.getBoolean(i));
+    this.setJdbcValue(instance, rs.getBoolean(i));
   }
 }
