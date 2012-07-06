@@ -24,12 +24,12 @@ public class PrimitivesBTest extends AbstractFeaturesTest {
     p = this.reload(p);
     Assert.assertTrue(p.getBool2());
     Assert.assertTrue(p.getBoolWithDefaultTrue());
+    Assert.assertNull(p.getBoolNullableWithDefaultFalse());
     Assert.assertNull(p.getInt1());
     Assert.assertEquals(2, p.getInt2().intValue());
     Assert.assertNull(p.getSmall1());
     Assert.assertEquals(2, p.getSmall2().intValue());
     Assert.assertNull(p.getBig1());
     Assert.assertEquals(Long.MAX_VALUE, p.getBig2().longValue());
-    Assert.assertNull(p.getBoolNullableWithDefaultFalse());
   }
 }
