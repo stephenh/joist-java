@@ -17,6 +17,8 @@ public class PrimitivesBAlias extends Alias<PrimitivesB> {
   public final LongAliasColumn<PrimitivesB> big2 = new LongAliasColumn<PrimitivesB>(this, "big2", PrimitivesBCodegen.Shims.big2);
   public final BooleanAliasColumn<PrimitivesB> bool1 = new BooleanAliasColumn<PrimitivesB>(this, "bool1", PrimitivesBCodegen.Shims.bool1);
   public final BooleanAliasColumn<PrimitivesB> bool2 = new BooleanAliasColumn<PrimitivesB>(this, "bool2", PrimitivesBCodegen.Shims.bool2);
+  public final BooleanAliasColumn<PrimitivesB> boolNullableWithDefaultFalse = new BooleanAliasColumn<PrimitivesB>(this, "bool_nullable_with_default_false", PrimitivesBCodegen.Shims.boolNullableWithDefaultFalse);
+  public final BooleanAliasColumn<PrimitivesB> boolWithDefaultTrue = new BooleanAliasColumn<PrimitivesB>(this, "bool_with_default_true", PrimitivesBCodegen.Shims.boolWithDefaultTrue);
   public final IdAliasColumn<PrimitivesB> id = new IdAliasColumn<PrimitivesB>(this, "id", PrimitivesBCodegen.Shims.id);
   public final IntAliasColumn<PrimitivesB> int1 = new IntAliasColumn<PrimitivesB>(this, "int1", PrimitivesBCodegen.Shims.int1);
   public final IntAliasColumn<PrimitivesB> int2 = new IntAliasColumn<PrimitivesB>(this, "int2", PrimitivesBCodegen.Shims.int2);
@@ -38,6 +40,8 @@ public class PrimitivesBAlias extends Alias<PrimitivesB> {
     this.columns.add(this.big2);
     this.columns.add(this.bool1);
     this.columns.add(this.bool2);
+    this.columns.add(this.boolNullableWithDefaultFalse);
+    this.columns.add(this.boolWithDefaultTrue);
     this.columns.add(this.id);
     this.columns.add(this.int1);
     this.columns.add(this.int2);

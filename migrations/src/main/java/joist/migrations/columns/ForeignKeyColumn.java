@@ -8,26 +8,24 @@ import joist.util.Wrap;
 
 public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
 
-  // We need something short (64 char max constraint names), different, and
-  // that will change each time we apply a new column. nanos might also work.
-  private static long hackyNextId = System.currentTimeMillis();
+  public static ConstraintNamer constraintNamer = new HackyConstraintNamer();
   private String otherTable;
   private String otherTableColumn;
   private Owner owner;
 
-  private enum Owner {
+  enum Owner {
     IsMe, IsThem, IsNeither
   };
 
   public ForeignKeyColumn(String otherTable) {
-    super(otherTable + "_id", "int");
+    super(otherTable + "_id", PrimaryKeyColumn.keyColumnType);
     this.otherTable = otherTable;
     this.otherTableColumn = "id";
     this.owner = Owner.IsNeither;
   }
 
   public ForeignKeyColumn(String columnName, String otherTable, String otherTableColumn) {
-    super(columnName, "int");
+    super(columnName, PrimaryKeyColumn.keyColumnType);
     if (!columnName.endsWith("id")) {
       throw new RuntimeException("names of fk columns should end with id");
     }
@@ -55,9 +53,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
   public List<String> postInjectCommands() {
     List<String> sqls = super.postInjectCommands();
 
-    String constraintName = Interpolate.string("c_{}_{}_fk",//
-      (ForeignKeyColumn.hackyNextId++),
-      this.owner.toString().toLowerCase());
+    String constraintName = constraintNamer.name(this.owner);
     // ...why was this commented out for MySQL?
     String optionalCascade = (MigrationKeywords.db.isPg() && this.owner == ForeignKeyColumn.Owner.IsThem) ? " ON DELETE CASCADE" : "";
     String optionalDeferrable = (MigrationKeywords.db.isPg() ? " DEFERRABLE INITIALLY DEFERRED" : "");

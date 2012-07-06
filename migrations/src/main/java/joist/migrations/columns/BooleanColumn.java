@@ -30,4 +30,20 @@ public class BooleanColumn extends AbstractColumn<BooleanColumn> {
     return sql;
   }
 
+  @Override
+  protected boolean hasDefault() {
+    return this.defaultValue != null;
+  }
+
+  @Override
+  protected String getDefaultValue() {
+    if (this.hasDefault()) {
+      String defaultTrue = MigrationKeywords.db.isMySQL() ? "1" : "true";
+      String defaultFalse = MigrationKeywords.db.isMySQL() ? "0" : "false";
+      return (this.defaultValue ? defaultTrue : defaultFalse);
+    } else {
+      return super.getDefaultValue();
+    }
+  }
+
 }

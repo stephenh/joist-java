@@ -38,6 +38,7 @@ import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.ShortAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
 import joist.domain.util.ConnectionSettings;
+import joist.migrations.columns.PrimaryKeyColumn;
 import joist.sourcegen.GSettings;
 import joist.util.Copy;
 
@@ -397,6 +398,10 @@ public class Config {
 
   public String getOutputCodegenDirectory() {
     return this.outputCodegenDirectory;
+  }
+
+  public void setKeyColumnType(String columnType) {
+    PrimaryKeyColumn.keyColumnType = columnType;
   }
 
   private class TypeAndPattern {

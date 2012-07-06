@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import joist.util.Execute;
+import joist.util.Interpolate;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -32,7 +33,7 @@ public class DatabaseBootstrapper {
     if (this.config.db.isMySQL()) {
       this.backupMySQL();
     } else {
-      throw new IllegalStateException("Unhandled db " + this.config.db);
+      this.backupPg();
     }
   }
 
@@ -43,23 +44,33 @@ public class DatabaseBootstrapper {
     String userhost = this.config.userhost; // defaults to %
 
     DataSource systemDs = this.config.dbSystemSettings.getDataSource();
+
+    if ("localhost".equals(this.config.dbAppUserSettings.host)
+      && "%".equals(userhost)
+      && Jdbc.queryForInt(systemDs, "select count(*) from mysql.user WHERE user = '' and host = 'localhost'") > 0) {
+      String message = "Found anonymous user ''@'localhost'."
+        + " Due to myssql's access control, the anonymous user will mask the application user {}@{}."
+        + " You need to either set system property db.userhost to localhost or delete anonymous user";
+      throw new RuntimeException(Interpolate.string(message, username, userhost));
+    }
+
     int i = Jdbc.queryForInt(systemDs, "select count(*) from information_schema.schemata where schema_name = '{}'", databaseName);
     if (i != 0) {
-      log.debug("Dropping {}", databaseName);
+      log.info("Dropping {}", databaseName);
       Jdbc.update(systemDs, "drop database {};", databaseName);
     }
 
     int j = Jdbc.queryForInt(systemDs, "select count(*) from mysql.user where user = '{}' and host = '{}'", username, userhost);
     if (j != 0) {
-      log.debug("Dropping '{}'@'{}'", username, userhost);
+      log.info("Dropping '{}'@'{}'", username, userhost);
       Jdbc.update(systemDs, "revoke all privileges, grant option from '{}'@'{}'", username, userhost);
       Jdbc.update(systemDs, "drop user '{}'@'{}'", username, userhost);
     }
 
-    log.debug("Creating {}", databaseName);
+    log.info("Creating {}", databaseName);
     Jdbc.update(systemDs, "create database {};", databaseName);
 
-    log.debug("Creating '{}'@'{}'", username, userhost);
+    log.info("Creating '{}'@'{}'", username, userhost);
     Jdbc.update(systemDs, "create user '{}'@'{}' identified by '{}';", username, userhost, password);
 
     Jdbc.update(systemDs, "set global sql_mode = 'ANSI';", username, password);
@@ -90,6 +101,26 @@ public class DatabaseBootstrapper {
       .systemExitIfFailed();
   }
 
+  private void backupPg() {
+    log.info("Backing up to {}", this.config.databaseBackupPath);
+    new Execute("pg_dump")
+      .addEnvPaths()
+      .arg("--ignore-version")
+      .arg("--host")
+      .arg(this.config.dbSystemSettings.host)
+      .arg("-U")
+      .arg(this.config.dbSystemSettings.user)
+      .env("PGPASSWORD", this.config.dbSystemSettings.password)
+      // TODO eventually have an option to use binary
+      .arg("--format=t")
+      .arg("--no-owner")
+      .arg("--no-privileges")
+      .arg("--file=" + this.config.databaseBackupPath)
+      .arg(this.config.dbAppUserSettings.databaseName)
+      .toSystemOut()
+      .systemExitIfFailed();
+  }
+
   private void dropAndCreatePg() {
     String databaseName = this.config.dbAppUserSettings.databaseName;
     String username = this.config.dbAppUserSettings.user;
@@ -98,45 +129,46 @@ public class DatabaseBootstrapper {
     DataSource systemDs = this.config.dbSystemSettings.getDataSource();
     int i = Jdbc.queryForInt(systemDs, "select count(*) from pg_catalog.pg_database where datname = '{}'", databaseName);
     if (i != 0) {
-      log.debug("Dropping {}", databaseName);
+      log.info("Dropping {}", databaseName);
       Jdbc.update(systemDs, "drop database {};", databaseName);
     }
 
     int j = Jdbc.queryForInt(systemDs, "select count(*) from pg_catalog.pg_user where usename = '{}'", username);
     if (j != 0) {
-      log.debug("Dropping {}", username);
+      log.info("Dropping {}", username);
       Jdbc.update(systemDs, "drop user {};", username);
     }
 
-    log.debug("Creating {}", databaseName);
+    log.info("Creating {}", databaseName);
     Jdbc.update(systemDs, "create database {} template template0;", databaseName);
 
-    log.debug("Creating {}", username);
+    log.info("Creating {}", username);
     Jdbc.update(systemDs, "create user {} password '{}';", username, password);
 
-    log.debug("Creating plpgsql");
-    Jdbc.update(systemDs, "create language plpgsql;");
-
-    // TODO Add backup restore for pg
-    // this.restore(pgBinPath, "--schema-only");
-    // this.restore(pgBinPath, "--data-only");
-    // if (!result.success) {
-    //   log.error("Failed data load");
-    // }
+    if (new File(this.config.databaseBackupPath).exists()) {
+      log.info("Restoring {}", this.config.databaseBackupPath);
+      new Execute("pg_restore")
+        .addEnvPaths()
+        .arg("--host")
+        .arg(this.config.dbSystemSettings.host)
+        .arg("-U")
+        .arg(this.config.dbSystemSettings.user)
+        .env("PGPASSWORD", this.config.dbSystemSettings.password)
+        .arg("--dbname=" + databaseName)
+        // TODO Support an option for binary, and do --schema-only/--data-only
+        .arg("--format=t")
+        .arg("--disable-triggers")
+        .arg(this.config.databaseBackupPath)
+        .toSystemOut()
+        .systemExitIfFailed();
+    } else {
+      // the backup will contain plpgsql, so only issue this if it's a new database
+      DataSource appSaDs = this.config.dbAppSaSettings.getDataSource();
+      if (Jdbc.queryForInt(appSaDs, "select count(*) FROM pg_language where lanname = 'plpgsql'") == 0) {
+        log.info("Creating plpgsql");
+        Jdbc.update(appSaDs, "create language plpgsql;");
+      }
+    }
   }
 
-  @SuppressWarnings("unused")
-  private void restore(String finalArgument) {
-    new Execute("pg_restore")
-      .addEnvPaths()
-      .env("PGPASSWORD", this.config.dbSystemSettings.password)
-      .arg("--dbname=" + this.config.dbAppUserSettings.databaseName)
-      .arg("--username=" + this.config.dbSystemSettings.user)
-      .arg("--host=" + this.config.dbSystemSettings.host)
-      .arg("--format=c")
-      .arg("--disable-triggers")
-      .arg(finalArgument)
-      .toSystemOut()
-      .systemExitIfFailed();
-  }
 }
