@@ -164,7 +164,7 @@ public class DatabaseBootstrapper {
     } else {
       // the backup will contain plpgsql, so only issue this if it's a new database
       DataSource appSaDs = this.config.dbAppSaSettings.getDataSource();
-      if (Jdbc.queryForInt(appSaDs, "SELECT COUNT(*) FROM pg_language WHERE lanname='plpgsql'") == 0) {
+      if (Jdbc.queryForInt(appSaDs, "select count(*) FROM pg_language where lanname = 'plpgsql'") == 0) {
         log.info("Creating plpgsql");
         Jdbc.update(appSaDs, "create language plpgsql;");
       }
