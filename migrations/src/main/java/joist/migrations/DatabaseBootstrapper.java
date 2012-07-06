@@ -20,6 +20,13 @@ public class DatabaseBootstrapper {
   }
 
   public void dropAndCreate() {
+    String username = this.config.dbAppUserSettings.user;
+    if ("root".equals(username) || "postgres".equals(username)) {
+      String message = "You've set db.username={}, which is a system user, but during cycle Joist DROPs/CREATEs the application user."
+        + " Please use an application-specific username.";
+      throw new RuntimeException(Interpolate.string(message, username));
+    }
+
     if (this.config.db.isPg()) {
       this.dropAndCreatePg();
     } else if (this.config.db.isMySQL()) {
@@ -49,7 +56,7 @@ public class DatabaseBootstrapper {
       && "%".equals(userhost)
       && Jdbc.queryForInt(systemDs, "select count(*) from mysql.user WHERE user = '' and host = 'localhost'") > 0) {
       String message = "Found anonymous user ''@'localhost'."
-        + " Due to myssql's access control, the anonymous user will mask the application user {}@{}."
+        + " Due to MySQL's access control, the anonymous user will mask the application user {}@{}."
         + " You need to either set system property db.userhost to localhost or delete anonymous user";
       throw new RuntimeException(Interpolate.string(message, username, userhost));
     }
