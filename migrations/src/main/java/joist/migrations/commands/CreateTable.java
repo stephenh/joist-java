@@ -11,9 +11,9 @@ import joist.util.Wrap;
 public class CreateTable {
 
   private String name;
-  private Column[] columns;
+  private List<Column> columns;
 
-  public CreateTable(String name, Column... columns) {
+  public CreateTable(String name, List<Column> columns) {
     this.name = name;
     this.columns = columns;
   }
@@ -50,7 +50,7 @@ public class CreateTable {
     return this.name;
   }
 
-  public Column[] getColumns() {
+  public List<Column> getColumns() {
     return this.columns;
   }
 
