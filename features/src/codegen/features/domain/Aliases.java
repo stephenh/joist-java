@@ -41,6 +41,7 @@ public class Aliases {
   private static ParentDChildBAlias parentDChildB;
   private static ParentDChildCAlias parentDChildC;
   private static ParentDToChildCAlias parentDToChildC;
+  private static ParentEAlias parentE;
   private static PrimitivesAlias primitives;
   private static PrimitivesBAlias primitivesB;
   private static PrimitivesCAlias primitivesC;
@@ -341,6 +342,14 @@ public class Aliases {
       AliasRegistry.register(ParentDToChildC.class, parentDToChildC);
     }
     return parentDToChildC;
+  }
+
+  public static ParentEAlias parentE() {
+    if (parentE == null) {
+      parentE = new ParentEAlias();
+      AliasRegistry.register(ParentE.class, parentE);
+    }
+    return parentE;
   }
 
   public static PrimitivesAlias primitives() {

@@ -37,6 +37,7 @@ import features.domain.ParentDChildA;
 import features.domain.ParentDChildB;
 import features.domain.ParentDChildC;
 import features.domain.ParentDToChildC;
+import features.domain.ParentE;
 import features.domain.Primitives;
 import features.domain.PrimitivesB;
 import features.domain.PrimitivesC;
@@ -619,6 +620,22 @@ public class Builders {
 
   public static ParentDToChildCBuilder theParentDToChildC(int id) {
     return new ParentDToChildCBuilder(ParentDToChildC.queries.find((long) id));
+  }
+
+  public static ParentEBuilder aParentE() {
+    return new ParentEBuilder(new ParentE());
+  }
+
+  public static ParentEBuilder existing(ParentE parentE) {
+    return new ParentEBuilder(parentE);
+  }
+
+  public static ParentEBuilder theParentE(long id) {
+    return new ParentEBuilder(ParentE.queries.find(id));
+  }
+
+  public static ParentEBuilder theParentE(int id) {
+    return new ParentEBuilder(ParentE.queries.find((long) id));
   }
 
   public static PrimitivesBuilder aPrimitives() {
