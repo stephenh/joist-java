@@ -82,6 +82,9 @@ public class MigrationKeywords {
   public static void addCodes(String tableName, String... codePlusDescriptions) {
     for (String codePlusDescription : codePlusDescriptions) {
       int i = codePlusDescription.indexOf(' ');
+      if (i == -1) {
+        throw new IllegalStateException("Format for codes is 'CODE_VALUE_1 Code Value 1'");
+      }
       MigrationKeywords.addCode(tableName, codePlusDescription.substring(0, i), codePlusDescription.substring(i + 1));
     }
   }
