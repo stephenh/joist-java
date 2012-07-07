@@ -23,7 +23,9 @@ import joist.migrations.fill.ConstantFillInStrategy;
 import joist.migrations.fill.FillInStrategy;
 import joist.util.Join;
 import joist.util.Wrap;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MigrationKeywords {
 
   public static Db db;
@@ -173,6 +175,9 @@ public class MigrationKeywords {
 
   public static void addColumn(String table, Column column, FillInStrategy fill) {
     column.setTableName(table);
+    if (!column.isNullable() && !column.hasDefault() && fill == null) {
+      log.warn("Adding non-null/no-default column {}.{} will fail if rows already exist", table, column.getName());
+    }
     // column
     MigrationKeywords.execute("ALTER TABLE {} ADD COLUMN {}", Wrap.quotes(table), column.toSql());
     // fill

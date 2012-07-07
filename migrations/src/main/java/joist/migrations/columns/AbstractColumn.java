@@ -101,7 +101,8 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
     }
   }
 
-  protected boolean isNullable() {
+  @Override
+  public boolean isNullable() {
     return this.nullable;
   }
 
@@ -109,7 +110,8 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
     return this.unique;
   }
 
-  protected boolean hasDefault() {
+  @Override
+  public boolean hasDefault() {
     return false;
   }
 
