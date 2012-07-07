@@ -6,15 +6,18 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import joist.codegen.Config;
+import joist.domain.orm.Db;
 import joist.jdbc.Jdbc;
 
 /** A simple wrapper around the <code>schema_version</code> table for the {@link Migrater} class. */
 public class SchemaVersionTable {
 
+  private final Db db;
   private final DataSource ds;
   private final String schemaName;
 
   public SchemaVersionTable(Config config) {
+    this.db = config.db;
     this.ds = config.dbAppSaSettings.getDataSource();
     this.schemaName = config.dbAppSaSettings.schemaName;
   }
@@ -34,7 +37,10 @@ public class SchemaVersionTable {
   }
 
   public void vacuumIfAppropriate() {
-    // Jdbc.update(this.dataSource, "vacuum analyze");
+    if (this.db.isPg()) {
+      // for some reason doing this after migrations with pg was a good idea
+      Jdbc.update(this.ds, "VACUUM ANALYZE");
+    }
   }
 
   /** @param conn the auto-commit=false connection for the current update. */
