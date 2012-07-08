@@ -1,6 +1,9 @@
 package features.domain;
 
 import static features.domain.builders.Builders.aParentE;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import joist.jdbc.JdbcException;
 
 import org.junit.Test;
@@ -9,11 +12,22 @@ import features.domain.builders.ParentEBuilder;
 
 public class ParentETest extends AbstractFeaturesTest {
 
-  @Test(expected = JdbcException.class)
-  public void selfReferenceDoesNotWork() {
+  @Test
+  public void selfReferenceDoesNotWorkInMySQL() {
     ParentEBuilder e = aParentE().name("e");
     e.parentE(e);
-    this.commitAndReOpen();
+    try {
+      this.commitAndReOpen();
+      if (db.isMySQL()) {
+        fail("MySQL should fail");
+      }
+    } catch (JdbcException je) {
+      if (db.isPg()) {
+        fail("PG should work");
+      } else if (db.isMySQL()) {
+        assertThat(je.getMessage().contains("foreign key constraint fails"), is(true));
+      }
+    }
   }
 
   @Test
