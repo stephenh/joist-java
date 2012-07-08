@@ -3,11 +3,22 @@ package features.cli;
 import joist.AbstractJoistCli;
 import joist.domain.orm.Db;
 import joist.sourcegen.GSettings;
+import joist.util.SystemProperties;
 
 public class JoistCli extends AbstractJoistCli {
 
+  public static final Db db = Db.MYSQL;
+
+  static {
+    if (db.isMySQL()) {
+      SystemProperties.loadFromFileIfExists("./build.properties");
+    } else {
+      SystemProperties.loadFromFileIfExists("./build-pg.properties");
+    }
+  }
+
   public JoistCli() {
-    super("features", Db.MYSQL);
+    super("features", db);
     this.config.outputCodegenDirectory = "src/codegen";
     this.config.setCollectionSkipped("ParentD", "parentDChildAs");
     this.config.setCollectionSkipped("ParentD", "parentDToChildCs");

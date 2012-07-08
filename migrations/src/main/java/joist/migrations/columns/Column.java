@@ -4,6 +4,10 @@ import java.util.List;
 
 public interface Column {
 
+  boolean isNullable();
+
+  boolean hasDefault();
+
   String getName();
 
   void setTableName(String tableName);

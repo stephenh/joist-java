@@ -21,6 +21,7 @@ import joist.sourcegen.GField;
 import joist.sourcegen.GMethod;
 import joist.util.Interpolate;
 import joist.util.TopologicalSort;
+import joist.util.TopologicalSort.CycleException;
 
 public class GenerateAliasesPass implements Pass {
 
@@ -220,15 +221,25 @@ public class GenerateAliasesPass implements Pass {
         ts.addNode(entity);
       }
     }
-    for (Entity entity : codegen.getEntities().values()) {
-      if (entity.isSubclass()) {
-        ts.addDependency(entity, entity.getBaseEntity());
-      }
-      for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
-        if (mtop.isNotNull() && !mtop.getOneSide().isCodeEntity()) {
-          ts.addDependency(entity, mtop.getOneSide());
+    try {
+      for (Entity entity : codegen.getEntities().values()) {
+        // subclasses must come after their base class
+        if (entity.isSubclass()) {
+          ts.addDependency(entity, entity.getBaseEntity());
+        }
+        // not-null foreign keys must come before their target table
+        for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+          if (mtop.isNotNull() && !mtop.getOneSide().isCodeEntity()) {
+            ts.addDependency(entity, mtop.getOneSide());
+          }
         }
       }
+    } catch (CycleException ce) {
+      String message = ce.getMessage()
+        + ". Note: due to MySQL lacking deferred foreign key constraints,"
+        + " Joist determines entity INSERT order at buildtime. For this to work, you cannot have any"
+        + " foreign key cycles in your schema. I.e. make one of the columns nullable. Or use PostgreSQL.";
+      throw new RuntimeException(message);
     }
     for (Entity entity : codegen.getEntities().values()) {
       for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {

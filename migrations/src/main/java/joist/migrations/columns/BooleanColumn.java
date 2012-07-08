@@ -31,7 +31,7 @@ public class BooleanColumn extends AbstractColumn<BooleanColumn> {
   }
 
   @Override
-  protected boolean hasDefault() {
+  public boolean hasDefault() {
     return this.defaultValue != null;
   }
 

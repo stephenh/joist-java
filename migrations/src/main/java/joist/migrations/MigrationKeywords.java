@@ -1,5 +1,8 @@
 package joist.migrations;
 
+import static java.util.Arrays.asList;
+import static joist.util.Copy.list;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -23,7 +26,9 @@ import joist.migrations.fill.ConstantFillInStrategy;
 import joist.migrations.fill.FillInStrategy;
 import joist.util.Join;
 import joist.util.Wrap;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MigrationKeywords {
 
   public static Db db;
@@ -33,14 +38,15 @@ public class MigrationKeywords {
   }
 
   public static void createTable(String name, Column... columns) {
-    for (String sql : new CreateTable(name, columns).toSql()) {
+    for (String sql : new CreateTable(name, asList(columns)).toSql()) {
       MigrationKeywords.execute(sql);
     }
   }
 
-  public static void createTableSubclass(String parentName, String name, Column... columns) {
+  public static void createSubclassTable(String parentName, String name, Column... _columns) {
+    List<Column> columns = list(_columns);
+    columns.add(new PrimaryKeyColumn("id").noSequence());
     CreateTable t = new CreateTable(name, columns);
-    ((PrimaryKeyColumn) t.getColumns()[0]).noSequence();
     for (String sql : t.toSql()) {
       MigrationKeywords.execute(sql);
     }
@@ -54,6 +60,15 @@ public class MigrationKeywords {
       MigrationKeywords.varchar("name").unique(),
       MigrationKeywords.integer("version"));
     MigrationKeywords.addCodes(name, codePlusDescriptions);
+  }
+
+  public static void createEntityTable(String name, Column... _columns) {
+    List<Column> columns = list(_columns);
+    columns.add(0, new PrimaryKeyColumn("id"));
+    columns.add(new IntColumn("version"));
+    for (String sql : new CreateTable(name, columns).toSql()) {
+      MigrationKeywords.execute(sql);
+    }
   }
 
   public static void createJoinTable(String table1, String table2) {
@@ -80,6 +95,9 @@ public class MigrationKeywords {
   public static void addCodes(String tableName, String... codePlusDescriptions) {
     for (String codePlusDescription : codePlusDescriptions) {
       int i = codePlusDescription.indexOf(' ');
+      if (i == -1) {
+        throw new IllegalStateException("Format for codes is 'CODE_VALUE_1 Code Value 1'");
+      }
       MigrationKeywords.addCode(tableName, codePlusDescription.substring(0, i), codePlusDescription.substring(i + 1));
     }
   }
@@ -173,6 +191,9 @@ public class MigrationKeywords {
 
   public static void addColumn(String table, Column column, FillInStrategy fill) {
     column.setTableName(table);
+    if (!column.isNullable() && !column.hasDefault() && fill == null) {
+      log.warn("Adding non-null/no-default column {}.{} will fail if rows already exist", table, column.getName());
+    }
     // column
     MigrationKeywords.execute("ALTER TABLE {} ADD COLUMN {}", Wrap.quotes(table), column.toSql());
     // fill
