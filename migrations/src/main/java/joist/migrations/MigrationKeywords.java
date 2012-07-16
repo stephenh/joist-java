@@ -123,8 +123,28 @@ public class MigrationKeywords {
   }
 
   public static void dropNotNull(String tableName, String columnName) {
-    // note: mysql is going to need the data type
-    Jdbc.update(Migrater.getConnection(), "ALTER TABLE {} ALTER COLUMN {} DROP NOT NULL", Wrap.quotes(tableName), Wrap.quotes(columnName));
+    if (db.isMySQL()) {
+      // Have to pull the column type from MySQL 
+      String[] result = (String[]) Jdbc.queryForRow(
+        Migrater.getConnection(),
+        "SELECT data_type, column_default FROM information_schema.columns where table_schema = {} AND table_name = {} AND column_name = {}",
+        Wrap.quotes(db.name()),
+        Wrap.quotes(tableName),
+        Wrap.quotes(columnName));
+
+      String columnType = result[0];
+      String columnDefault = result[1];
+
+      Jdbc.update(
+        Migrater.getConnection(),
+        "ALTER TABLE {} MODIFY {} {} DEFAULT " + columnDefault,
+        Wrap.quotes(tableName),
+        Wrap.quotes(columnName),
+        Wrap.quotes(columnType));
+
+    } else {
+      Jdbc.update(Migrater.getConnection(), "ALTER TABLE {} ALTER COLUMN {} DROP NOT NULL", Wrap.quotes(tableName), Wrap.quotes(columnName));
+    }
   }
 
   public static PrimaryKeyColumn primaryKey(String name) {
