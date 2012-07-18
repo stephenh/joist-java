@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-	<info organisation="joist" module="joist-domain" revision="${joist.version}"/>
+	<info organisation="joist" module="joist-domain"/>
 	<configurations>
 		<conf name="default" extends="compile"/>
 		<conf name="sources"/>
