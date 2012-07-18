@@ -10,6 +10,7 @@ THIS_VERSION = ENV['version'] || 'SNAPSHOT'
 
 # to resolve the ${joist.version} in the ivy.xml
 Java.java.lang.System.setProperty("joist.version", THIS_VERSION)
+Java.java.lang.System.setProperty("ivy.pom.version", THIS_VERSION)
 
 def package_with_ivy(project)
   project.group = 'joist'
