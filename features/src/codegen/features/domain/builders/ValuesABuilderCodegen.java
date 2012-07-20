@@ -20,10 +20,6 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
     return (ValuesABuilder) this;
   }
 
-  public ValuesABuilder with(Integer i) {
-    return i(i);
-  }
-
   public Long id() {
     if (UoW.isOpen() && get().getId() == null) {
       UoW.flush();
@@ -34,6 +30,26 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
   public ValuesABuilder id(Long id) {
     get().setId(id);
     return (ValuesABuilder) this;
+  }
+
+  public Integer j() {
+    return get().getJ();
+  }
+
+  public ValuesABuilder j(Integer j) {
+    get().setJ(j);
+    return (ValuesABuilder) this;
+  }
+
+  @Override
+  public ValuesABuilder defaults() {
+    if (j() == null) {
+      j(0);
+    }
+    if (name() == null) {
+      name("name");
+    }
+    return (ValuesABuilder) super.defaults();
   }
 
   public String name() {
@@ -47,14 +63,6 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
 
   public ValuesABuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ValuesABuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (ValuesABuilder) super.defaults();
   }
 
   public ValuesA get() {

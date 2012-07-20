@@ -14,6 +14,7 @@ public class ValuesAAlias extends Alias<ValuesA> {
   private final List<AliasColumn<ValuesA, ?, ?>> columns = new ArrayList<AliasColumn<ValuesA, ?, ?>>();
   public final IntAliasColumn<ValuesA> i = new IntAliasColumn<ValuesA>(this, "i", ValuesACodegen.Shims.i);
   public final IdAliasColumn<ValuesA> id = new IdAliasColumn<ValuesA>(this, "id", ValuesACodegen.Shims.id);
+  public final IntAliasColumn<ValuesA> j = new IntAliasColumn<ValuesA>(this, "j", ValuesACodegen.Shims.j);
   public final StringAliasColumn<ValuesA> name = new StringAliasColumn<ValuesA>(this, "name", ValuesACodegen.Shims.name);
   public final LongAliasColumn<ValuesA> version = new LongAliasColumn<ValuesA>(this, "version", ValuesACodegen.Shims.version);
 
@@ -29,6 +30,7 @@ public class ValuesAAlias extends Alias<ValuesA> {
     super(ValuesA.class, "values_a", alias);
     this.columns.add(this.i);
     this.columns.add(this.id);
+    this.columns.add(this.j);
     this.columns.add(this.name);
     this.columns.add(this.version);
   }

@@ -16,6 +16,7 @@ public abstract class ValuesACodegen extends AbstractDomainObject {
   public static final ValuesAQueries queries;
   private Integer i = null;
   private Long id = null;
+  private Integer j = null;
   private String name = null;
   private Long version = null;
   protected Changed changed;
@@ -30,6 +31,7 @@ public abstract class ValuesACodegen extends AbstractDomainObject {
   }
 
   private void addExtraRules() {
+    this.addRule(new NotNull<ValuesA>(Shims.j));
     this.addRule(new NotNull<ValuesA>(Shims.name));
     this.addRule(new MaxLength<ValuesA>(Shims.name, 100));
     this.addRule(new NotEmpty<ValuesA>(Shims.name));
@@ -58,6 +60,19 @@ public abstract class ValuesACodegen extends AbstractDomainObject {
     if (UoW.isOpen()) {
       UoW.getIdentityMap().store(this);
     }
+  }
+
+  public Integer getJ() {
+    return this.j;
+  }
+
+  public void setJ(Integer j) {
+    this.getChanged().record("j", this.j, j);
+    this.j = j;
+  }
+
+  protected void defaultJ(Integer j) {
+    this.j = j;
   }
 
   public String getName() {
@@ -112,6 +127,17 @@ public abstract class ValuesACodegen extends AbstractDomainObject {
         return "id";
       }
     };
+    protected static final Shim<ValuesA, Integer> j = new Shim<ValuesA, Integer>() {
+      public void set(ValuesA instance, Integer j) {
+        ((ValuesACodegen) instance).j = j;
+      }
+      public Integer get(ValuesA instance) {
+        return ((ValuesACodegen) instance).j;
+      }
+      public String getName() {
+        return "j";
+      }
+    };
     protected static final Shim<ValuesA, String> name = new Shim<ValuesA, String>() {
       public void set(ValuesA instance, String name) {
         ((ValuesACodegen) instance).name = name;
@@ -151,6 +177,12 @@ public abstract class ValuesACodegen extends AbstractDomainObject {
     }
     public Long getOriginalId() {
       return (Long) this.getOriginal("id");
+    }
+    public boolean hasJ() {
+      return this.contains("j");
+    }
+    public Integer getOriginalJ() {
+      return (java.lang.Integer) this.getOriginal("j");
     }
     public boolean hasName() {
       return this.contains("name");
