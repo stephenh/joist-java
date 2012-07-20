@@ -23,7 +23,7 @@ public class Migrater {
     this.config = config;
     this.schemaInfoTable = new SchemaVersionTable(config);
     this.migrationClasses = new MigrationLoader(this.config.packageNamesContainingMigrations);
-    MigrationKeywords.db = config.db;
+    MigrationKeywords.config = config;
   }
 
   public void migrate() {

@@ -7,7 +7,7 @@ public class BooleanColumn extends AbstractColumn<BooleanColumn> {
   private Boolean defaultValue = null;
 
   public BooleanColumn(String name) {
-    super(name, MigrationKeywords.db.isMySQL() ? "bit" : "boolean");
+    super(name, MigrationKeywords.isMySQL() ? "bit" : "boolean");
   }
 
   public BooleanColumn defaultTrue() {
@@ -21,10 +21,10 @@ public class BooleanColumn extends AbstractColumn<BooleanColumn> {
   }
 
   public String toSql() {
-    String sql = this.getQuotedName() + " " + (MigrationKeywords.db.isMySQL() ? "bit" : "boolean");
+    String sql = this.getQuotedName() + " " + this.getDataType();
     if (this.defaultValue != null) {
-      String defaultTrue = MigrationKeywords.db.isMySQL() ? "1" : "true";
-      String defaultFalse = MigrationKeywords.db.isMySQL() ? "0" : "false";
+      String defaultTrue = MigrationKeywords.isMySQL() ? "1" : "true";
+      String defaultFalse = MigrationKeywords.isMySQL() ? "0" : "false";
       sql += " DEFAULT " + (this.defaultValue ? defaultTrue : defaultFalse);
     }
     return sql;
@@ -38,8 +38,8 @@ public class BooleanColumn extends AbstractColumn<BooleanColumn> {
   @Override
   protected String getDefaultValue() {
     if (this.hasDefault()) {
-      String defaultTrue = MigrationKeywords.db.isMySQL() ? "1" : "true";
-      String defaultFalse = MigrationKeywords.db.isMySQL() ? "0" : "false";
+      String defaultTrue = MigrationKeywords.isMySQL() ? "1" : "true";
+      String defaultFalse = MigrationKeywords.isMySQL() ? "0" : "false";
       return (this.defaultValue ? defaultTrue : defaultFalse);
     } else {
       return super.getDefaultValue();

@@ -6,7 +6,7 @@ import static joist.util.Copy.list;
 import java.sql.SQLException;
 import java.util.List;
 
-import joist.domain.orm.Db;
+import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import joist.jdbc.JdbcException;
 import joist.migrations.columns.BigIntColumn;
@@ -31,7 +31,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MigrationKeywords {
 
-  public static Db db;
+  public static Config config;
+
+  public static boolean isMySQL() {
+    return config.db.isMySQL();
+  }
+
+  public static boolean isPg() {
+    return config.db.isPg();
+  }
 
   public static void execute(String sql, Object... args) {
     Jdbc.update(Migrater.getConnection(), sql, args);
@@ -123,25 +131,25 @@ public class MigrationKeywords {
   }
 
   public static void dropNotNull(String tableName, String columnName) {
-    if (db.isMySQL()) {
-      // Have to pull the column type from MySQL 
-      String[] result = (String[]) Jdbc.queryForRow(
+    if (config.db.isMySQL()) {
+      // Have to pull the column type/default value from MySQL 
+      Object[] result = Jdbc.queryForRow(
         Migrater.getConnection(),
-        "SELECT data_type, column_default FROM information_schema.columns where table_schema = {} AND table_name = {} AND column_name = {}",
-        Wrap.quotes(db.name()),
-        Wrap.quotes(tableName),
-        Wrap.quotes(columnName));
+        "SELECT data_type, column_default FROM information_schema.columns where table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
+        config.dbAppUserSettings.schemaName,
+        tableName,
+        columnName);
 
-      String columnType = result[0];
-      String columnDefault = result[1];
+      String columnType = (String) result[0];
+      String columnDefault = (String) result[1];
 
       Jdbc.update(
         Migrater.getConnection(),
-        "ALTER TABLE {} MODIFY {} {} DEFAULT " + columnDefault,
+        "ALTER TABLE {} MODIFY {} {} {}",
         Wrap.quotes(tableName),
         Wrap.quotes(columnName),
-        Wrap.quotes(columnType));
-
+        columnType,
+        columnDefault == null ? "" : "DEFAULT " + columnDefault);
     } else {
       Jdbc.update(Migrater.getConnection(), "ALTER TABLE {} ALTER COLUMN {} DROP NOT NULL", Wrap.quotes(tableName), Wrap.quotes(columnName));
     }

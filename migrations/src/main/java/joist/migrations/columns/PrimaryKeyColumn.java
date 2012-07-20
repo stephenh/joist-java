@@ -19,7 +19,7 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
   }
 
   public String toSql() {
-    if (MigrationKeywords.db.isPg() && this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
+    if (MigrationKeywords.isPg() && this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
       return super.getQuotedName() + " SERIAL PRIMARY KEY";
     } else {
       return super.toSql() + " PRIMARY KEY";
@@ -40,7 +40,7 @@ public class PrimaryKeyColumn extends AbstractColumn<PrimaryKeyColumn> {
 
   @Override
   public String getDataType() {
-    if (MigrationKeywords.db.isMySQL() && this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
+    if (MigrationKeywords.isMySQL() && this.useSequence == PrimaryKeyColumn.UseSequence.Yes) {
       // Add AUTO_INCREMENT here so it gets used for add/remove not null
       return keyColumnType + " AUTO_INCREMENT";
     } else {

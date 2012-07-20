@@ -71,7 +71,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   }
 
   private void addNotNull(List<String> sqls) {
-    if (MigrationKeywords.db.isMySQL()) {
+    if (MigrationKeywords.isMySQL()) {
       // mysql replaces all column metadata so this needs to include the default data as well
       sqls.add(Interpolate.string(
         "ALTER TABLE {} MODIFY {} {} NOT NULL {};",
@@ -79,19 +79,19 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
         Wrap.quotes(this.name),
         this.getDataType(),
         this.hasDefault() ? this.getDefaultExpression() : ""));
-    } else if (MigrationKeywords.db.isPg()) {
+    } else if (MigrationKeywords.isPg()) {
       sqls.add(Interpolate.string(//
         "ALTER TABLE {} ALTER COLUMN {} SET NOT NULL;",
         Wrap.quotes(this.tableName),
         Wrap.quotes(this.name)));
     } else {
-      throw new IllegalStateException("Unhandled db " + MigrationKeywords.db);
+      throw new IllegalStateException("Unhandled db " + MigrationKeywords.config.db);
     }
   }
 
   private void addNull(List<String> sqls) {
     // ...why does MySQL need this again?
-    if (MigrationKeywords.db.isMySQL()) {
+    if (MigrationKeywords.isMySQL()) {
       // mysql replaces all column metadata so this needs to include the default data as well
       sqls.add(Interpolate.string("ALTER TABLE {} MODIFY {} {} NULL {};",//
         Wrap.quotes(this.tableName),

@@ -55,8 +55,8 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
 
     String constraintName = constraintNamer.name(this.owner);
     // ...why was this commented out for MySQL?
-    String optionalCascade = (MigrationKeywords.db.isPg() && this.owner == ForeignKeyColumn.Owner.IsThem) ? " ON DELETE CASCADE" : "";
-    String optionalDeferrable = (MigrationKeywords.db.isPg() ? " DEFERRABLE INITIALLY DEFERRED" : "");
+    String optionalCascade = (MigrationKeywords.isPg() && this.owner == ForeignKeyColumn.Owner.IsThem) ? " ON DELETE CASCADE" : "";
+    String optionalDeferrable = (MigrationKeywords.isPg() ? " DEFERRABLE INITIALLY DEFERRED" : "");
     sqls.add(Interpolate.string(
       "ALTER TABLE {} ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({}) {} {};",
       Wrap.quotes(this.getTableName()),
@@ -67,7 +67,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
       optionalCascade,
       optionalDeferrable));
     // ...why does MySQL not get indexes?
-    if (MigrationKeywords.db.isPg()) {
+    if (MigrationKeywords.isPg()) {
       String indexName = this.getTableName() + "_" + this.getName() + "_idx";
       sqls.add(Interpolate.string(//
         "CREATE INDEX {} ON {} USING btree ({});",
