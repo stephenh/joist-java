@@ -131,27 +131,34 @@ public class MigrationKeywords {
   }
 
   public static void dropNotNull(String tableName, String columnName) {
-    if (config.db.isMySQL()) {
+    if (isMySQL()) {
       // Have to pull the column type/default value from MySQL 
-      Object[] result = Jdbc.queryForRow(
-        Migrater.getConnection(),
-        "SELECT data_type, column_default FROM information_schema.columns where table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
-        config.dbAppUserSettings.schemaName,
-        tableName,
-        columnName);
-
-      String columnType = (String) result[0];
-      String columnDefault = (String) result[1];
-
-      Jdbc.update(
-        Migrater.getConnection(),
-        "ALTER TABLE {} MODIFY {} {} {}",
+      String[] s = getColumnTypeAndDefaultValue(tableName, columnName);
+      String columnType = s[0];
+      String columnDefault = s[1];
+      execute("ALTER TABLE {} MODIFY {} {} {}",//
         Wrap.quotes(tableName),
         Wrap.quotes(columnName),
         columnType,
         columnDefault == null ? "" : "DEFAULT " + columnDefault);
     } else {
-      Jdbc.update(Migrater.getConnection(), "ALTER TABLE {} ALTER COLUMN {} DROP NOT NULL", Wrap.quotes(tableName), Wrap.quotes(columnName));
+      execute("ALTER TABLE {} ALTER COLUMN {} DROP NOT NULL", Wrap.quotes(tableName), Wrap.quotes(columnName));
+    }
+  }
+
+  public static void addNotNull(String tableName, String columnName) {
+    if (isMySQL()) {
+      // Have to pull the column type/default value from MySQL 
+      String[] s = getColumnTypeAndDefaultValue(tableName, columnName);
+      String columnType = s[0];
+      String columnDefault = s[1];
+      execute("ALTER TABLE {} MODIFY {} {} NOT NULL {}", //
+        Wrap.quotes(tableName),
+        Wrap.quotes(columnName),
+        columnType,
+        columnDefault == null ? "" : "DEFAULT " + columnDefault);
+    } else {
+      execute("ALTER TABLE {} ALTER COLUMN {} SET NOT NULL", Wrap.quotes(tableName), Wrap.quotes(columnName));
     }
   }
 
@@ -276,6 +283,16 @@ public class MigrationKeywords {
     String constraintName = Join.underscore(columnNames) + "_un";
     String constraintList = Join.commaSpace(Wrap.quotes(columnNames));
     MigrationKeywords.execute("ALTER TABLE {} ADD CONSTRAINT {} UNIQUE ({})", Wrap.quotes(table), constraintName, constraintList);
+  }
+
+  private static String[] getColumnTypeAndDefaultValue(String tableName, String columnName) {
+    Object[] result = Jdbc.queryForRow(
+      Migrater.getConnection(),
+      "SELECT data_type, column_default FROM information_schema.columns where table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
+      config.dbAppUserSettings.schemaName,
+      tableName,
+      columnName);
+    return new String[] { (String) result[0], (String) result[1] };
   }
 
 }
