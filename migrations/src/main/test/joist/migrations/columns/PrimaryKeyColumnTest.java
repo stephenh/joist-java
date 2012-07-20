@@ -1,6 +1,7 @@
 package joist.migrations.columns;
 
 import static org.junit.Assert.assertEquals;
+import joist.codegen.Config;
 import joist.domain.orm.Db;
 import joist.migrations.MigrationKeywords;
 
@@ -12,7 +13,7 @@ public class PrimaryKeyColumnTest {
 
   @Before
   public void setupDb() {
-    MigrationKeywords.db = Db.MYSQL;
+    MigrationKeywords.config = new Config("foo", "foo", Db.MYSQL);
   }
 
   @After

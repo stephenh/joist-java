@@ -47,6 +47,7 @@ public class Aliases {
   private static PrimitivesCAlias primitivesC;
   private static UserTypesAFooAlias userTypesAFoo;
   private static ValidationAFooAlias validationAFoo;
+  private static ValuesAAlias valuesA;
 
   public static ChildAlias child() {
     if (child == null) {
@@ -390,6 +391,14 @@ public class Aliases {
       AliasRegistry.register(ValidationAFoo.class, validationAFoo);
     }
     return validationAFoo;
+  }
+
+  public static ValuesAAlias valuesA() {
+    if (valuesA == null) {
+      valuesA = new ValuesAAlias();
+      AliasRegistry.register(ValuesA.class, valuesA);
+    }
+    return valuesA;
   }
 
 }

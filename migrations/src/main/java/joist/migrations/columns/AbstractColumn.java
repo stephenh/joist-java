@@ -14,6 +14,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   private String tableName;
   private boolean nullable = false;
   private boolean unique = false;
+  private String defaultValue;
 
   protected AbstractColumn(String name, String dataType) {
     this.name = name;
@@ -29,6 +30,12 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   @SuppressWarnings("unchecked")
   public T unique() {
     this.unique = true;
+    return (T) this;
+  }
+
+  @SuppressWarnings("unchecked")
+  public T defaultValue(String defaultValue) {
+    this.defaultValue = defaultValue;
     return (T) this;
   }
 
@@ -71,7 +78,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   }
 
   private void addNotNull(List<String> sqls) {
-    if (MigrationKeywords.db.isMySQL()) {
+    if (MigrationKeywords.isMySQL()) {
       // mysql replaces all column metadata so this needs to include the default data as well
       sqls.add(Interpolate.string(
         "ALTER TABLE {} MODIFY {} {} NOT NULL {};",
@@ -79,19 +86,19 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
         Wrap.quotes(this.name),
         this.getDataType(),
         this.hasDefault() ? this.getDefaultExpression() : ""));
-    } else if (MigrationKeywords.db.isPg()) {
+    } else if (MigrationKeywords.isPg()) {
       sqls.add(Interpolate.string(//
         "ALTER TABLE {} ALTER COLUMN {} SET NOT NULL;",
         Wrap.quotes(this.tableName),
         Wrap.quotes(this.name)));
     } else {
-      throw new IllegalStateException("Unhandled db " + MigrationKeywords.db);
+      throw new IllegalStateException("Unhandled db " + MigrationKeywords.config.db);
     }
   }
 
   private void addNull(List<String> sqls) {
     // ...why does MySQL need this again?
-    if (MigrationKeywords.db.isMySQL()) {
+    if (MigrationKeywords.isMySQL()) {
       // mysql replaces all column metadata so this needs to include the default data as well
       sqls.add(Interpolate.string("ALTER TABLE {} MODIFY {} {} NULL {};",//
         Wrap.quotes(this.tableName),
@@ -112,7 +119,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
 
   @Override
   public boolean hasDefault() {
-    return false;
+    return this.defaultValue != null;
   }
 
   protected String getDefaultExpression() {
@@ -120,7 +127,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   }
 
   protected String getDefaultValue() {
-    return null;
+    return this.defaultValue;
   }
 
   public String getDataType() {

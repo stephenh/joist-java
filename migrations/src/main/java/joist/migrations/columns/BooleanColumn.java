@@ -4,46 +4,16 @@ import joist.migrations.MigrationKeywords;
 
 public class BooleanColumn extends AbstractColumn<BooleanColumn> {
 
-  private Boolean defaultValue = null;
-
   public BooleanColumn(String name) {
-    super(name, MigrationKeywords.db.isMySQL() ? "bit" : "boolean");
+    super(name, MigrationKeywords.isMySQL() ? "bit" : "boolean");
   }
 
   public BooleanColumn defaultTrue() {
-    this.defaultValue = Boolean.TRUE;
-    return this;
+    return this.defaultValue(MigrationKeywords.isMySQL() ? "1" : "true");
   }
 
   public BooleanColumn defaultFalse() {
-    this.defaultValue = Boolean.FALSE;
-    return this;
-  }
-
-  public String toSql() {
-    String sql = this.getQuotedName() + " " + (MigrationKeywords.db.isMySQL() ? "bit" : "boolean");
-    if (this.defaultValue != null) {
-      String defaultTrue = MigrationKeywords.db.isMySQL() ? "1" : "true";
-      String defaultFalse = MigrationKeywords.db.isMySQL() ? "0" : "false";
-      sql += " DEFAULT " + (this.defaultValue ? defaultTrue : defaultFalse);
-    }
-    return sql;
-  }
-
-  @Override
-  public boolean hasDefault() {
-    return this.defaultValue != null;
-  }
-
-  @Override
-  protected String getDefaultValue() {
-    if (this.hasDefault()) {
-      String defaultTrue = MigrationKeywords.db.isMySQL() ? "1" : "true";
-      String defaultFalse = MigrationKeywords.db.isMySQL() ? "0" : "false";
-      return (this.defaultValue ? defaultTrue : defaultFalse);
-    } else {
-      return super.getDefaultValue();
-    }
+    return this.defaultValue(MigrationKeywords.isMySQL() ? "0" : "false");
   }
 
 }

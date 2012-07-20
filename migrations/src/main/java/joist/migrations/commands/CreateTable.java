@@ -31,7 +31,7 @@ public class CreateTable {
       sb.line(1, column.toSql() + ",");
     }
     sb.stripLastCharacterOnPreviousLine(); // Remove the last ,
-    if (MigrationKeywords.db.isMySQL()) {
+    if (MigrationKeywords.isMySQL()) {
       sb.line(") engine = InnoDB;");
     } else {
       sb.line(")");

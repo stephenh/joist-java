@@ -43,6 +43,7 @@ import features.domain.PrimitivesB;
 import features.domain.PrimitivesC;
 import features.domain.UserTypesAFoo;
 import features.domain.ValidationAFoo;
+import features.domain.ValuesA;
 
 public class Builders {
 
@@ -716,6 +717,22 @@ public class Builders {
 
   public static ValidationAFooBuilder theValidationAFoo(int id) {
     return new ValidationAFooBuilder(ValidationAFoo.queries.find((long) id));
+  }
+
+  public static ValuesABuilder aValuesA() {
+    return new ValuesABuilder(new ValuesA());
+  }
+
+  public static ValuesABuilder existing(ValuesA valuesA) {
+    return new ValuesABuilder(valuesA);
+  }
+
+  public static ValuesABuilder theValuesA(long id) {
+    return new ValuesABuilder(ValuesA.queries.find(id));
+  }
+
+  public static ValuesABuilder theValuesA(int id) {
+    return new ValuesABuilder(ValuesA.queries.find((long) id));
   }
 
 }
