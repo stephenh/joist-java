@@ -122,10 +122,10 @@ public class MigrationKeywords {
   private static int getNextIdForCode(String tableName) {
     int id = Jdbc.queryForInt(Migrater.getConnection(), "select next_id from code_id where table_name = '{}'", tableName);
     if (id == -1) {
-      Jdbc.update(Migrater.getConnection(), "insert into code_id (table_name, next_id) values ('{}', 2)", tableName);
+      MigrationKeywords.execute("insert into code_id (table_name, next_id) values ('{}', 2)", tableName);
       id = 1;
     } else {
-      Jdbc.update(Migrater.getConnection(), "update code_id set next_id = {} where table_name = '{}'", (id + 1), tableName);
+      MigrationKeywords.execute("update code_id set next_id = {} where table_name = '{}'", (id + 1), tableName);
     }
     return id;
   }
