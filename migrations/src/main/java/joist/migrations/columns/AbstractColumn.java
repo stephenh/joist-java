@@ -14,6 +14,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   private String tableName;
   private boolean nullable = false;
   private boolean unique = false;
+  private String defaultValue;
 
   protected AbstractColumn(String name, String dataType) {
     this.name = name;
@@ -29,6 +30,12 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   @SuppressWarnings("unchecked")
   public T unique() {
     this.unique = true;
+    return (T) this;
+  }
+
+  @SuppressWarnings("unchecked")
+  public T defaultValue(String defaultValue) {
+    this.defaultValue = defaultValue;
     return (T) this;
   }
 
@@ -112,7 +119,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
 
   @Override
   public boolean hasDefault() {
-    return false;
+    return this.defaultValue != null;
   }
 
   protected String getDefaultExpression() {
@@ -120,7 +127,7 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   }
 
   protected String getDefaultValue() {
-    return null;
+    return this.defaultValue;
   }
 
   public String getDataType() {
