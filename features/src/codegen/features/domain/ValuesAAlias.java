@@ -12,6 +12,8 @@ import joist.domain.orm.queries.columns.StringAliasColumn;
 public class ValuesAAlias extends Alias<ValuesA> {
 
   private final List<AliasColumn<ValuesA, ?, ?>> columns = new ArrayList<AliasColumn<ValuesA, ?, ?>>();
+  public final StringAliasColumn<ValuesA> a = new StringAliasColumn<ValuesA>(this, "a", ValuesACodegen.Shims.a);
+  public final StringAliasColumn<ValuesA> b = new StringAliasColumn<ValuesA>(this, "b", ValuesACodegen.Shims.b);
   public final IntAliasColumn<ValuesA> i = new IntAliasColumn<ValuesA>(this, "i", ValuesACodegen.Shims.i);
   public final IdAliasColumn<ValuesA> id = new IdAliasColumn<ValuesA>(this, "id", ValuesACodegen.Shims.id);
   public final IntAliasColumn<ValuesA> j = new IntAliasColumn<ValuesA>(this, "j", ValuesACodegen.Shims.j);
@@ -28,6 +30,8 @@ public class ValuesAAlias extends Alias<ValuesA> {
 
   public ValuesAAlias(String alias, Object noopBaseAlias, boolean addSubClasses) {
     super(ValuesA.class, "values_a", alias);
+    this.columns.add(this.a);
+    this.columns.add(this.b);
     this.columns.add(this.i);
     this.columns.add(this.id);
     this.columns.add(this.j);
