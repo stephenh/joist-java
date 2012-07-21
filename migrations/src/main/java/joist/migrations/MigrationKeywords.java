@@ -286,13 +286,22 @@ public class MigrationKeywords {
   }
 
   private static String[] getColumnTypeAndDefaultValue(String tableName, String columnName) {
+    // The 'column_type' is MySQL-only but gets us varchar(100) instead of just varchar
     Object[] result = Jdbc.queryForRow(
       Migrater.getConnection(),
-      "SELECT data_type, column_default FROM information_schema.columns where table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
+      "SELECT column_type, column_default FROM information_schema.columns where table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
       config.dbAppUserSettings.schemaName,
       tableName,
       columnName);
-    return new String[] { (String) result[0], (String) result[1] };
+    if (result[0] == null) {
+      throw new RuntimeException("Could not find metadata for " + tableName + "." + columnName);
+    }
+    String dataType = (String) result[0];
+    String defaultValue = (String) result[1];
+    if (dataType.startsWith("varchar")) {
+      defaultValue = "'" + defaultValue + "'";
+    }
+    return new String[] { dataType, defaultValue };
   }
 
 }
