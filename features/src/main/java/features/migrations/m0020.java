@@ -12,7 +12,9 @@ public class m0020 extends AbstractMigration {
 
   public void apply() {
     dropNotNull("values_a", "i");
+    dropNotNull("values_a", "a");
     addNotNull("values_a", "j");
+    addNotNull("values_a", "b");
   }
 
 }

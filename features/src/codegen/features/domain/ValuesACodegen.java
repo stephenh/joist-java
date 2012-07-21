@@ -14,6 +14,8 @@ import joist.domain.validation.rules.NotNull;
 public abstract class ValuesACodegen extends AbstractDomainObject {
 
   public static final ValuesAQueries queries;
+  private String a = null;
+  private String b = null;
   private Integer i = null;
   private Long id = null;
   private Integer j = null;
@@ -31,10 +33,41 @@ public abstract class ValuesACodegen extends AbstractDomainObject {
   }
 
   private void addExtraRules() {
+    this.addRule(new MaxLength<ValuesA>(Shims.a, 100));
+    this.addRule(new NotEmpty<ValuesA>(Shims.a));
+    this.addRule(new NotNull<ValuesA>(Shims.b));
+    this.addRule(new MaxLength<ValuesA>(Shims.b, 100));
+    this.addRule(new NotEmpty<ValuesA>(Shims.b));
     this.addRule(new NotNull<ValuesA>(Shims.j));
     this.addRule(new NotNull<ValuesA>(Shims.name));
     this.addRule(new MaxLength<ValuesA>(Shims.name, 100));
     this.addRule(new NotEmpty<ValuesA>(Shims.name));
+  }
+
+  public String getA() {
+    return this.a;
+  }
+
+  public void setA(String a) {
+    this.getChanged().record("a", this.a, a);
+    this.a = a;
+  }
+
+  protected void defaultA(String a) {
+    this.a = a;
+  }
+
+  public String getB() {
+    return this.b;
+  }
+
+  public void setB(String b) {
+    this.getChanged().record("b", this.b, b);
+    this.b = b;
+  }
+
+  protected void defaultB(String b) {
+    this.b = b;
   }
 
   public Integer getI() {
@@ -105,6 +138,28 @@ public abstract class ValuesACodegen extends AbstractDomainObject {
   }
 
   static class Shims {
+    protected static final Shim<ValuesA, String> a = new Shim<ValuesA, String>() {
+      public void set(ValuesA instance, String a) {
+        ((ValuesACodegen) instance).a = a;
+      }
+      public String get(ValuesA instance) {
+        return ((ValuesACodegen) instance).a;
+      }
+      public String getName() {
+        return "a";
+      }
+    };
+    protected static final Shim<ValuesA, String> b = new Shim<ValuesA, String>() {
+      public void set(ValuesA instance, String b) {
+        ((ValuesACodegen) instance).b = b;
+      }
+      public String get(ValuesA instance) {
+        return ((ValuesACodegen) instance).b;
+      }
+      public String getName() {
+        return "b";
+      }
+    };
     protected static final Shim<ValuesA, Integer> i = new Shim<ValuesA, Integer>() {
       public void set(ValuesA instance, Integer i) {
         ((ValuesACodegen) instance).i = i;
@@ -165,6 +220,18 @@ public abstract class ValuesACodegen extends AbstractDomainObject {
   public static class ValuesAChanged extends AbstractChanged {
     public ValuesAChanged(ValuesA instance) {
       super(instance);
+    }
+    public boolean hasA() {
+      return this.contains("a");
+    }
+    public String getOriginalA() {
+      return (java.lang.String) this.getOriginal("a");
+    }
+    public boolean hasB() {
+      return this.contains("b");
+    }
+    public String getOriginalB() {
+      return (java.lang.String) this.getOriginal("b");
     }
     public boolean hasI() {
       return this.contains("i");

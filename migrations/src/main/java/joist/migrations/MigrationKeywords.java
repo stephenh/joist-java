@@ -122,10 +122,10 @@ public class MigrationKeywords {
   private static int getNextIdForCode(String tableName) {
     int id = Jdbc.queryForInt(Migrater.getConnection(), "select next_id from code_id where table_name = '{}'", tableName);
     if (id == -1) {
-      Jdbc.update(Migrater.getConnection(), "insert into code_id (table_name, next_id) values ('{}', 2)", tableName);
+      MigrationKeywords.execute("insert into code_id (table_name, next_id) values ('{}', 2)", tableName);
       id = 1;
     } else {
-      Jdbc.update(Migrater.getConnection(), "update code_id set next_id = {} where table_name = '{}'", (id + 1), tableName);
+      MigrationKeywords.execute("update code_id set next_id = {} where table_name = '{}'", (id + 1), tableName);
     }
     return id;
   }
@@ -286,13 +286,22 @@ public class MigrationKeywords {
   }
 
   private static String[] getColumnTypeAndDefaultValue(String tableName, String columnName) {
+    // The 'column_type' is MySQL-only but gets us varchar(100) instead of just varchar
     Object[] result = Jdbc.queryForRow(
       Migrater.getConnection(),
-      "SELECT data_type, column_default FROM information_schema.columns where table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
+      "SELECT column_type, column_default FROM information_schema.columns where table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
       config.dbAppUserSettings.schemaName,
       tableName,
       columnName);
-    return new String[] { (String) result[0], (String) result[1] };
+    if (result[0] == null) {
+      throw new RuntimeException("Could not find metadata for " + tableName + "." + columnName);
+    }
+    String dataType = (String) result[0];
+    String defaultValue = (String) result[1];
+    if (dataType.startsWith("varchar")) {
+      defaultValue = "'" + defaultValue + "'";
+    }
+    return new String[] { dataType, defaultValue };
   }
 
 }

@@ -17,7 +17,8 @@ public class DropNotNullTest extends AbstractFeaturesTest {
 
   @Test
   public void testDroppedNotNullIsNotRequiredAnyMore() {
-    ValuesABuilder a = aValuesA().name("a").i(null).j(2);
+    // a and i used to be not null
+    ValuesABuilder a = aValuesA().name("a").a(null).b("b").i(null).j(2);
     assertValid(a);
   }
 
@@ -26,12 +27,14 @@ public class DropNotNullTest extends AbstractFeaturesTest {
     Jdbc.update(UoW.getConnection(), "INSERT INTO values_a (name, version) VALUES ('a', 0);");
     this.commitAndReOpen();
     assertThat(theValuesA(1).i(), is(1));
+    assertThat(theValuesA(1).a(), is("a"));
   }
 
   @Test
   public void testAddedNotNullIsNowRequired() {
-    ValuesABuilder a = aValuesA().name("a").i(null).j(null);
-    assertErrors(a, "J is required");
+    // b and j used to be nullable
+    ValuesABuilder a = aValuesA().name("a").a(null).b(null).i(null).j(null);
+    assertErrors(a, "B is required", "J is required");
   }
 
   @Test
@@ -39,5 +42,6 @@ public class DropNotNullTest extends AbstractFeaturesTest {
     Jdbc.update(UoW.getConnection(), "INSERT INTO values_a (name, version) VALUES ('a', 0);");
     this.commitAndReOpen();
     assertThat(theValuesA(1).j(), is(2));
+    assertThat(theValuesA(1).b(), is("b"));
   }
 }

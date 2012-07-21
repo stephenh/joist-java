@@ -15,6 +15,11 @@ public class VarcharColumn extends AbstractColumn<VarcharColumn> {
   }
 
   @Override
+  public VarcharColumn defaultValue(String defaultValue) {
+    return super.defaultValue("'" + defaultValue + "'");
+  }
+
+  @Override
   public String getDataType() {
     return super.getDataType() + "(" + this.length + ")";
   }

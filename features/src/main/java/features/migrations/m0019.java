@@ -14,6 +14,8 @@ public class m0019 extends AbstractMigration {
   public void apply() {
     createEntityTable("values_a",//
       varchar("name"),
+      varchar("a").defaultValue("a"),
+      varchar("b").defaultValue("b").nullable(),
       integer("i").defaultValue(1),
       integer("j").nullable().defaultValue(2));
   }
