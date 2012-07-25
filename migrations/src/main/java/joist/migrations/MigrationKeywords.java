@@ -120,12 +120,9 @@ public class MigrationKeywords {
   }
 
   private static int getNextIdForCode(String tableName) {
-    int id = Jdbc.queryForInt(Migrater.getConnection(), "select next_id from code_id where table_name = '{}'", tableName);
-    if (id == -1) {
-      MigrationKeywords.execute("insert into code_id (table_name, next_id) values ('{}', 2)", tableName);
+    int id = Jdbc.queryForInt(Migrater.getConnection(), "select max(id) + 1 from {}", tableName);
+    if (id <= 0) {
       id = 1;
-    } else {
-      MigrationKeywords.execute("update code_id set next_id = {} where table_name = '{}'", (id + 1), tableName);
     }
     return id;
   }

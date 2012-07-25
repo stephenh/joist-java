@@ -71,19 +71,6 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
   }
 
   @Test
-  public void testSequenceValueTooLow() {
-    Jdbc.update(this.ds, "update code_id set next_id = 2 where table_name = 'code_a_color'");
-    try {
-      new SchemaCheck(this.db, this.schemaName, "features.domain", this.ds).checkCodesMatch();
-      Assert.fail();
-    } catch (RuntimeException re) {
-      Assert.assertEquals("Code code_a_color has a max id of 2 but the last assigned was 1", re.getMessage());
-    } finally {
-      Jdbc.update(this.ds, "update code_id set next_id = 3 where table_name = 'code_a_color'");
-    }
-  }
-
-  @Test
   public void testExtraStructurePasses() {
     new SchemaCheck(this.db, this.schemaName, "features.domain", this.ds).checkStructureMatch(SchemaHash.hashCode);
   }
