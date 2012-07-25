@@ -4,8 +4,8 @@ import joist.domain.Code;
 
 public enum CodeAColor implements Code {
 
-  BLUE(0l, "BLUE", "Blue"),
-  GREEN(1l, "GREEN", "Green");
+  BLUE(1l, "BLUE", "Blue"),
+  GREEN(2l, "GREEN", "Green");
 
   private Long id;
   private String code;

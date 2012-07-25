@@ -121,7 +121,7 @@ public class MigrationKeywords {
 
   private static int getNextIdForCode(String tableName) {
     int id = Jdbc.queryForInt(Migrater.getConnection(), "select max(id) + 1 from {}", tableName);
-    if (id == -1) {
+    if (id <= 0) {
       id = 1;
     }
     return id;

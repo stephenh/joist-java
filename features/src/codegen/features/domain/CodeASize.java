@@ -4,8 +4,8 @@ import joist.domain.Code;
 
 public enum CodeASize implements Code {
 
-  ONE(0l, "ONE", "One"),
-  TWO(1l, "TWO", "Two");
+  ONE(1l, "ONE", "One"),
+  TWO(2l, "TWO", "Two");
 
   private Long id;
   private String code;

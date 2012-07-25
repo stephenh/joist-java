@@ -31,14 +31,14 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
 
   @Test
   public void testJavaCodeIsntInDatabase() {
-    Jdbc.update(this.ds, "delete from code_a_color where id = 1");
+    Jdbc.update(this.ds, "delete from code_a_color where id = 2");
     try {
       new SchemaCheck(this.db, this.schemaName, "features.domain", this.ds).checkCodesMatch();
       Assert.fail();
     } catch (RuntimeException re) {
-      Assert.assertEquals("Code code_a_color 1-GREEN is not in the database", re.getMessage());
+      Assert.assertEquals("Code code_a_color 2-GREEN is not in the database", re.getMessage());
     } finally {
-      Jdbc.update(this.ds, "insert into code_a_color (id, code, name, version) values (1, 'GREEN', 'Green', 0)");
+      Jdbc.update(this.ds, "insert into code_a_color (id, code, name, version) values (2, 'GREEN', 'Green', 0)");
     }
   }
 
@@ -64,7 +64,7 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
       new SchemaCheck(this.db, this.schemaName, "features.domain", this.ds).checkCodesMatch();
       Assert.fail();
     } catch (RuntimeException re) {
-      Assert.assertEquals("Code code_a_color 1-GREEN's id is taken by a different code", re.getMessage());
+      Assert.assertEquals("Code code_a_color 2-GREEN's id is taken by a different code", re.getMessage());
     } finally {
       Jdbc.update(this.ds, "update code_a_color set code = 'GREEN' where code = 'O'");
     }
