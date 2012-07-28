@@ -91,13 +91,6 @@ public class SchemaCheck {
           }
         }
       });
-
-      // Now check the sequence value
-      int lastValue = Jdbc.queryForInt(this.dataSource, "select next_id - 1 from code_id where table_name = '{}'", tableName);
-      if (maxId > lastValue) {
-        String message = Interpolate.string("Code {} has a max id of {} but the last assigned was {}", tableName, maxId, lastValue);
-        throw new RuntimeException(message);
-      }
     }
   }
 
