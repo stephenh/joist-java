@@ -2,7 +2,6 @@ package features.migrations;
 
 import javax.sql.DataSource;
 
-import joist.domain.orm.Db;
 import joist.jdbc.Jdbc;
 import joist.migrations.SchemaCheck;
 
@@ -17,16 +16,14 @@ import features.domain.SchemaHash;
 public class SchemaCheckTest extends AbstractFeaturesTest {
 
   private DataSource ds;
-  private Db db;
   private String schemaName;
 
   @Before
   @Override
   public void setUp() {
     super.setUp();
-    this.db = Registry.getRepository().getDb();
     this.ds = Registry.getDataSource();
-    this.schemaName = this.db.isPg() ? "public" : "features";
+    this.schemaName = db.isPg() ? "public" : "features";
   }
 
   @Test
