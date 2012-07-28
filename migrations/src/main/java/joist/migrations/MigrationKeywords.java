@@ -110,8 +110,8 @@ public class MigrationKeywords {
     }
   }
 
-  public static void addUnique(String tableName, String... columnNames) {
-    String constraintName = tableName + "_" + Join.underscore(columnNames) + "_key";
+  public static void addUniqueConstraint(String tableName, String... columnNames) {
+    String constraintName = tableName + "_" + Join.underscore(columnNames) + "_un";
     MigrationKeywords.execute(//
       "ALTER TABLE {} ADD CONSTRAINT {} UNIQUE ({});",
       Wrap.quotes(tableName),
@@ -283,12 +283,6 @@ public class MigrationKeywords {
 
   public static void dropIndex(String index) {
     MigrationKeywords.execute("DROP INDEX {};", Wrap.quotes(index));
-  }
-
-  public static void createUniqueConstraint(String table, String... columnNames) {
-    String constraintName = Join.underscore(columnNames) + "_un";
-    String constraintList = Join.commaSpace(Wrap.quotes(columnNames));
-    MigrationKeywords.execute("ALTER TABLE {} ADD CONSTRAINT {} UNIQUE ({})", Wrap.quotes(table), constraintName, constraintList);
   }
 
   private static String[] getColumnTypeAndDefaultValue(String tableName, String columnName) {
