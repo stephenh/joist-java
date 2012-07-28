@@ -244,7 +244,14 @@ public class MigrationKeywords {
   }
 
   public static void dropColumn(String table, String column) {
-    MigrationKeywords.execute("ALTER TABLE {} DROP COLUMN {};", Wrap.quotes(table), Wrap.quotes(column));
+    if (config.db.isMySQL()) {
+      // mysql will fail the drop if the column has a foreign key constraint
+      String fkName = findConstraintName(table, column, "FOREIGN KEY");
+      if (fkName != null) {
+        dropConstraint(table, fkName);
+      }
+    }
+    execute("ALTER TABLE {} DROP COLUMN {};", Wrap.quotes(table), Wrap.quotes(column));
   }
 
   public static FillInStrategy constantFillIn(String fragment) {
@@ -259,17 +266,19 @@ public class MigrationKeywords {
   }
 
   public static void dropForeignKeyConstraint(String table, String column) {
-    String sql = "SELECT kcu.constraint_name FROM information_schema.key_column_usage kcu, information_schema.table_constraints tc"
-      + " WHERE kcu.constraint_name = tc.constraint_name"
-      + " AND kcu.table_name = '{}'"
-      + " AND kcu.column_name = '{}'"
-      + " AND tc.constraint_type = '{}'";
-    String constraint = (String) Jdbc.queryForRow(Migrater.getConnection(), sql, table, column, "FOREIGN KEY")[0];
-    MigrationKeywords.dropConstraint(table, constraint);
+    dropConstraint(table, findConstraintName(table, column, "FOREIGN KEY"), "FOREIGN KEY");
+  }
+
+  public static void dropUniqueConstraint(String table, String column) {
+    dropConstraint(table, findConstraintName(table, column, "UNIQUE"), "UNIQUE");
   }
 
   public static void dropConstraint(String table, String constraint) {
-    MigrationKeywords.execute("ALTER TABLE {} DROP CONSTRAINT {};", Wrap.quotes(table), Wrap.quotes(constraint));
+    if (config.db.isMySQL()) {
+      dropConstraint(table, constraint, findConstraintType(table, constraint));
+    } else {
+      dropConstraint(table, constraint, null);
+    }
   }
 
   public static void dropIndex(String index) {
@@ -299,6 +308,41 @@ public class MigrationKeywords {
       defaultValue = "'" + defaultValue + "'";
     }
     return new String[] { dataType, defaultValue };
+  }
+
+  private static void dropConstraint(String table, String constraint, String constraintType) {
+    if (config.db.isMySQL()) {
+      if ("FOREIGN KEY".equals(constraintType)) {
+        execute("ALTER TABLE {} DROP FOREIGN KEY {}", Wrap.quotes(table), Wrap.quotes(constraint));
+      } else if ("UNIQUE".equals(constraintType)) {
+        execute("ALTER TABLE {} DROP INDEX {}", Wrap.quotes(table), Wrap.quotes(constraint));
+      } else {
+        throw new RuntimeException("Unhandled constraint type " + constraintType);
+      }
+    } else if (config.db.isPg()) {
+      execute("ALTER TABLE {} DROP CONSTRAINT {};", Wrap.quotes(table), Wrap.quotes(constraint));
+    } else {
+      throw new RuntimeException("Unsupported db " + config.db);
+    }
+  }
+
+  private static String findConstraintName(String table, String column, String type) {
+    String sql = "SELECT kcu.constraint_name"
+      + " FROM information_schema.key_column_usage kcu,"
+      + "   information_schema.table_constraints tc"
+      + " WHERE kcu.constraint_name = tc.constraint_name"
+      + " AND kcu.table_name = '{}'"
+      + " AND kcu.column_name = '{}'"
+      + " AND tc.constraint_type = '{}'";
+    return (String) Jdbc.queryForRow(Migrater.getConnection(), sql, table, column, type)[0];
+  }
+
+  private static String findConstraintType(String table, String constraintName) {
+    String sql = "SELECT tc.constraint_type"
+      + " FROM information_schema.table_constraints tc"
+      + " WHERE tc.table_name = '{}'"
+      + " AND tc.constraint_name = '{}'";
+    return (String) Jdbc.queryForRow(Migrater.getConnection(), sql, table, constraintName)[0];
   }
 
 }
