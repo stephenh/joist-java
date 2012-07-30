@@ -79,12 +79,13 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   private void addNotNull(List<String> sqls) {
     if (MigrationKeywords.isMySQL()) {
       // mysql replaces all column metadata so this needs to include the default data as well
+      String optionalDefault = this.hasDefault() ? " " + this.getDefaultExpression() : "";
       sqls.add(Interpolate.string(
-        "ALTER TABLE {} MODIFY {} {} NOT NULL {};",
+        "ALTER TABLE {} MODIFY {} {} NOT NULL{};",
         Wrap.quotes(this.tableName),
         Wrap.quotes(this.name),
         this.getDataType(),
-        this.hasDefault() ? this.getDefaultExpression() : ""));
+        optionalDefault));
     } else if (MigrationKeywords.isPg()) {
       sqls.add(Interpolate.string(//
         "ALTER TABLE {} ALTER COLUMN {} SET NOT NULL;",

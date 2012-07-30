@@ -63,7 +63,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
     String optionalCascade = this.owner == ForeignKeyColumn.Owner.IsThem ? " ON DELETE CASCADE" : "";
     String optionalDeferrable = (MigrationKeywords.isPg() ? " DEFERRABLE INITIALLY DEFERRED" : "");
     sqls.add(Interpolate.string(
-      "ALTER TABLE {} ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({}) {} {};",
+      "ALTER TABLE {} ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({}){}{};",
       Wrap.quotes(this.getTableName()),
       constraintName,
       Wrap.quotes(this.getName()),
