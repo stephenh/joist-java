@@ -1,10 +1,14 @@
 package features.domain;
 
+import static features.domain.builders.Builders.aChild;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
+import joist.jdbc.Jdbc;
 
 import org.junit.Test;
+
+import features.domain.builders.ChildBuilder;
 
 public class DeleteTest extends AbstractFeaturesTest {
 
@@ -32,4 +36,14 @@ public class DeleteTest extends AbstractFeaturesTest {
     assertThat(InheritanceAThing.queries.count(), is(0l));
   }
 
+  @Test
+  public void testDeleteViaSqlCacade() {
+    ChildBuilder c = aChild().defaults();
+    long parentId = c.parent().id();
+    this.commitAndReOpen();
+
+    // this ensure the migration added a "ON DELETE CASCADE" to the child.parent_id column
+    Jdbc.update(repo.getDataSource(), "DELETE FROM parent where id = {}", parentId);
+    assertThat(Child.queries.count(), is(0l));
+  }
 }

@@ -54,8 +54,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
     List<String> sqls = super.postInjectCommands();
 
     String constraintName = constraintNamer.name(this.owner);
-    // ...why was this commented out for MySQL?
-    String optionalCascade = (MigrationKeywords.isPg() && this.owner == ForeignKeyColumn.Owner.IsThem) ? " ON DELETE CASCADE" : "";
+    String optionalCascade = this.owner == ForeignKeyColumn.Owner.IsThem ? " ON DELETE CASCADE" : "";
     String optionalDeferrable = (MigrationKeywords.isPg() ? " DEFERRABLE INITIALLY DEFERRED" : "");
     sqls.add(Interpolate.string(
       "ALTER TABLE {} ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({}) {} {};",
