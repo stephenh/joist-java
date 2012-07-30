@@ -2,6 +2,7 @@ package features.migrations;
 
 import javax.sql.DataSource;
 
+import joist.domain.util.ConnectionSettings;
 import joist.jdbc.Jdbc;
 import joist.migrations.SchemaCheck;
 
@@ -72,15 +73,18 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
     new SchemaCheck(db, this.schemaName, "features.domain", this.ds).checkStructureMatch(SchemaHash.hashCode);
   }
 
-  public void brokenTestExtraColumn() {
-    Jdbc.update(this.ds, "alter table code_a_color add column foo int");
+  @Test
+  public void testExtraColumn() {
+    // add a column requires root permissions
+    DataSource saDs = ConnectionSettings.forAppSa(db, "features").getDataSource();
+    Jdbc.update(saDs, "alter table code_a_color add column foo int");
     try {
       new SchemaCheck(db, this.schemaName, "features.domain", this.ds).checkStructureMatch(SchemaHash.hashCode);
       Assert.fail();
     } catch (RuntimeException re) {
       Assert.assertEquals("Database hash did not match the codebase's generated hash", re.getMessage());
     } finally {
-      Jdbc.update(this.ds, "alter table code_a_color drop column foo");
+      Jdbc.update(saDs, "alter table code_a_color drop column foo");
     }
   }
 
