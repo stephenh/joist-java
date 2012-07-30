@@ -65,7 +65,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
       Wrap.quotes(this.otherTableColumn),
       optionalCascade,
       optionalDeferrable));
-    // ...why does MySQL not get indexes?
+    // Foreign keys in MySQL are automatically indexed
     if (MigrationKeywords.isPg()) {
       String indexName = this.getTableName() + "_" + this.getName() + "_idx";
       sqls.add(Interpolate.string(//
