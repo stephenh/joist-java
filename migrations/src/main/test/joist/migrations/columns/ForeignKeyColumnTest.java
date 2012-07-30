@@ -34,8 +34,8 @@ public class ForeignKeyColumnTest {
     fk.setTableName("child");
     assertEquals("\"parent_id\" int unsigned", fk.toSql());
     assertEquals(Join.commaSpace(
-      "ALTER TABLE \"child\" MODIFY \"parent_id\" int unsigned NOT NULL ;",
-      "ALTER TABLE \"child\" ADD CONSTRAINT c_0_isneither_fk FOREIGN KEY (\"parent_id\") REFERENCES \"parent\" (\"id\")  ;"), Join.commaSpace(fk
+      "ALTER TABLE \"child\" MODIFY \"parent_id\" int unsigned NOT NULL;",
+      "ALTER TABLE \"child\" ADD CONSTRAINT c_0_isneither_fk FOREIGN KEY (\"parent_id\") REFERENCES \"parent\" (\"id\");"), Join.commaSpace(fk
       .postInjectCommands()));
   }
 

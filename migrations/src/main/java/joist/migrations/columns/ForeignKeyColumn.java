@@ -1,5 +1,6 @@
 package joist.migrations.columns;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import joist.migrations.MigrationKeywords;
@@ -52,13 +53,17 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
   @Override
   public List<String> postInjectCommands() {
     List<String> sqls = super.postInjectCommands();
+    sqls.addAll(this.constraintCommands());
+    return sqls;
+  }
 
+  public List<String> constraintCommands() {
+    List<String> sqls = new ArrayList<String>();
     String constraintName = constraintNamer.name(this.owner);
-    // ...why was this commented out for MySQL?
-    String optionalCascade = (MigrationKeywords.isPg() && this.owner == ForeignKeyColumn.Owner.IsThem) ? " ON DELETE CASCADE" : "";
+    String optionalCascade = this.owner == ForeignKeyColumn.Owner.IsThem ? " ON DELETE CASCADE" : "";
     String optionalDeferrable = (MigrationKeywords.isPg() ? " DEFERRABLE INITIALLY DEFERRED" : "");
     sqls.add(Interpolate.string(
-      "ALTER TABLE {} ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({}) {} {};",
+      "ALTER TABLE {} ADD CONSTRAINT {} FOREIGN KEY ({}) REFERENCES {} ({}){}{};",
       Wrap.quotes(this.getTableName()),
       constraintName,
       Wrap.quotes(this.getName()),
@@ -66,7 +71,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
       Wrap.quotes(this.otherTableColumn),
       optionalCascade,
       optionalDeferrable));
-    // ...why does MySQL not get indexes?
+    // Foreign keys in MySQL are automatically indexed
     if (MigrationKeywords.isPg()) {
       String indexName = this.getTableName() + "_" + this.getName() + "_idx";
       sqls.add(Interpolate.string(//
@@ -75,7 +80,6 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
         Wrap.quotes(this.getTableName()),
         Wrap.quotes(this.getName())));
     }
-
     return sqls;
   }
 }

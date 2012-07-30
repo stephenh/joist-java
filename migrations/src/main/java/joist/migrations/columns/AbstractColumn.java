@@ -59,12 +59,11 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
     return this.getQuotedName() + " " + this.getDataType() + (this.hasDefault() ? this.getDefaultExpression() : "");
   }
 
+  /** @return any {@code null}/{@code not null}/{@code unique} constraints to apply to the column */
   public List<String> postInjectCommands() {
     List<String> sqls = new ArrayList<String>();
     if (!this.isNullable()) {
       this.addNotNull(sqls);
-    } else {
-      this.addNull(sqls);
     }
     if (this.isUnique()) {
       String constraintName = this.getTableName() + "_" + this.getName() + "_key";
@@ -80,12 +79,13 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
   private void addNotNull(List<String> sqls) {
     if (MigrationKeywords.isMySQL()) {
       // mysql replaces all column metadata so this needs to include the default data as well
+      String optionalDefault = this.hasDefault() ? " " + this.getDefaultExpression() : "";
       sqls.add(Interpolate.string(
-        "ALTER TABLE {} MODIFY {} {} NOT NULL {};",
+        "ALTER TABLE {} MODIFY {} {} NOT NULL{};",
         Wrap.quotes(this.tableName),
         Wrap.quotes(this.name),
         this.getDataType(),
-        this.hasDefault() ? this.getDefaultExpression() : ""));
+        optionalDefault));
     } else if (MigrationKeywords.isPg()) {
       sqls.add(Interpolate.string(//
         "ALTER TABLE {} ALTER COLUMN {} SET NOT NULL;",
@@ -93,18 +93,6 @@ public abstract class AbstractColumn<T extends AbstractColumn<T>> implements Col
         Wrap.quotes(this.name)));
     } else {
       throw new IllegalStateException("Unhandled db " + MigrationKeywords.config.db);
-    }
-  }
-
-  private void addNull(List<String> sqls) {
-    // ...why does MySQL need this again?
-    if (MigrationKeywords.isMySQL()) {
-      // mysql replaces all column metadata so this needs to include the default data as well
-      sqls.add(Interpolate.string("ALTER TABLE {} MODIFY {} {} NULL {};",//
-        Wrap.quotes(this.tableName),
-        Wrap.quotes(this.name),
-        this.getDataType(),
-        (this.hasDefault() ? this.getDefaultExpression() : "")));
     }
   }
 

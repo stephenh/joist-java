@@ -260,7 +260,7 @@ public class MigrationKeywords {
 
   public static void addForeignKeyConstraint(String table, ForeignKeyColumn column) {
     column.setTableName(table);
-    for (String sql : column.postInjectCommands()) {
+    for (String sql : column.constraintCommands()) {
       MigrationKeywords.execute(sql);
     }
   }
