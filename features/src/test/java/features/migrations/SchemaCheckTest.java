@@ -30,7 +30,7 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
   public void testJavaCodeIsntInDatabase() {
     Jdbc.update(this.ds, "delete from code_a_color where id = 2");
     try {
-      new SchemaCheck(this.db, this.schemaName, "features.domain", this.ds).checkCodesMatch();
+      new SchemaCheck(db, this.schemaName, "features.domain", this.ds).checkCodesMatch();
       Assert.fail();
     } catch (RuntimeException re) {
       Assert.assertEquals("Code code_a_color 2-GREEN is not in the database", re.getMessage());
@@ -44,7 +44,7 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
     // Add "Other" to db"
     Jdbc.update(this.ds, "insert into code_a_color (id, code, name, version) values (3, 'O', 'Other', 0)");
     try {
-      new SchemaCheck(this.db, this.schemaName, "features.domain", this.ds).checkCodesMatch();
+      new SchemaCheck(db, this.schemaName, "features.domain", this.ds).checkCodesMatch();
       Assert.fail();
     } catch (RuntimeException re) {
       Assert.assertEquals("Database code code_a_color 3 is not in the codebase", re.getMessage());
@@ -58,7 +58,7 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
     // Change "F" to "O"
     Jdbc.update(this.ds, "update code_a_color set code = 'O' where code = 'GREEN'");
     try {
-      new SchemaCheck(this.db, this.schemaName, "features.domain", this.ds).checkCodesMatch();
+      new SchemaCheck(db, this.schemaName, "features.domain", this.ds).checkCodesMatch();
       Assert.fail();
     } catch (RuntimeException re) {
       Assert.assertEquals("Code code_a_color 2-GREEN's id is taken by a different code", re.getMessage());
@@ -69,13 +69,13 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
 
   @Test
   public void testExtraStructurePasses() {
-    new SchemaCheck(this.db, this.schemaName, "features.domain", this.ds).checkStructureMatch(SchemaHash.hashCode);
+    new SchemaCheck(db, this.schemaName, "features.domain", this.ds).checkStructureMatch(SchemaHash.hashCode);
   }
 
   public void brokenTestExtraColumn() {
     Jdbc.update(this.ds, "alter table code_a_color add column foo int");
     try {
-      new SchemaCheck(this.db, this.schemaName, "features.domain", this.ds).checkStructureMatch(SchemaHash.hashCode);
+      new SchemaCheck(db, this.schemaName, "features.domain", this.ds).checkStructureMatch(SchemaHash.hashCode);
       Assert.fail();
     } catch (RuntimeException re) {
       Assert.assertEquals("Database hash did not match the codebase's generated hash", re.getMessage());
