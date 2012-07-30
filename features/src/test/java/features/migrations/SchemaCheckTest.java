@@ -2,7 +2,6 @@ package features.migrations;
 
 import javax.sql.DataSource;
 
-import joist.domain.orm.Db;
 import joist.jdbc.Jdbc;
 import joist.migrations.SchemaCheck;
 
@@ -17,16 +16,14 @@ import features.domain.SchemaHash;
 public class SchemaCheckTest extends AbstractFeaturesTest {
 
   private DataSource ds;
-  private Db db;
   private String schemaName;
 
   @Before
   @Override
   public void setUp() {
     super.setUp();
-    this.db = Registry.getRepository().getDb();
     this.ds = Registry.getDataSource();
-    this.schemaName = this.db.isPg() ? "public" : "features";
+    this.schemaName = db.isPg() ? "public" : "features";
   }
 
   @Test
@@ -67,19 +64,6 @@ public class SchemaCheckTest extends AbstractFeaturesTest {
       Assert.assertEquals("Code code_a_color 2-GREEN's id is taken by a different code", re.getMessage());
     } finally {
       Jdbc.update(this.ds, "update code_a_color set code = 'GREEN' where code = 'O'");
-    }
-  }
-
-  @Test
-  public void testSequenceValueTooLow() {
-    Jdbc.update(this.ds, "update code_id set next_id = 2 where table_name = 'code_a_color'");
-    try {
-      new SchemaCheck(this.db, this.schemaName, "features.domain", this.ds).checkCodesMatch();
-      Assert.fail();
-    } catch (RuntimeException re) {
-      Assert.assertEquals("Code code_a_color has a max id of 2 but the last assigned was 1", re.getMessage());
-    } finally {
-      Jdbc.update(this.ds, "update code_id set next_id = 3 where table_name = 'code_a_color'");
     }
   }
 
