@@ -1,5 +1,6 @@
 package joist.migrations.columns;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import joist.migrations.MigrationKeywords;
@@ -52,7 +53,12 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
   @Override
   public List<String> postInjectCommands() {
     List<String> sqls = super.postInjectCommands();
+    sqls.addAll(this.constraintCommands());
+    return sqls;
+  }
 
+  public List<String> constraintCommands() {
+    List<String> sqls = new ArrayList<String>();
     String constraintName = constraintNamer.name(this.owner);
     String optionalCascade = this.owner == ForeignKeyColumn.Owner.IsThem ? " ON DELETE CASCADE" : "";
     String optionalDeferrable = (MigrationKeywords.isPg() ? " DEFERRABLE INITIALLY DEFERRED" : "");
@@ -74,7 +80,6 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
         Wrap.quotes(this.getTableName()),
         Wrap.quotes(this.getName())));
     }
-
     return sqls;
   }
 }
