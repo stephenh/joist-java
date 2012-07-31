@@ -51,6 +51,10 @@ public class MigrationKeywords {
     }
   }
 
+  public static void dropTable(String name) {
+    MigrationKeywords.execute("DROP TABLE {}", Wrap.quotes(name));
+  }
+
   public static void createSubclassTable(String parentName, String name, Column... _columns) {
     List<Column> columns = list(_columns);
     columns.add(new PrimaryKeyColumn("id").noSequence());
