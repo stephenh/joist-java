@@ -132,6 +132,7 @@ public class Config {
     this.setJavaType("date", "com.domainlanguage.time.CalendarDate", "joist.domain.orm.queries.columns.CalendarDateAliasColumn");
     this.setJavaType("timestamp without time zone", "com.domainlanguage.time.TimePoint", "joist.domain.orm.queries.columns.TimePointAliasColumn");
     this.setJavaType("timestamp", "com.domainlanguage.time.TimePoint", "joist.domain.orm.queries.columns.TimePointAliasColumn"); // mysql
+    this.setJavaType("datetime", "com.domainlanguage.time.TimePoint", "joist.domain.orm.queries.columns.TimePointAliasColumn"); // mysql
     this.setJavaTypePattern("integer", this.amountSuffix, "com.domainlanguage.money.Money", "joist.domain.orm.queries.columns.MoneyAliasColumn");
     this.setJavaTypePattern("bigint", this.amountSuffix, "com.domainlanguage.money.Money", "joist.domain.orm.queries.columns.MoneyAliasColumn");
     this.setJavaTypePattern("int", this.amountSuffix, "com.domainlanguage.money.Money", "joist.domain.orm.queries.columns.MoneyAliasColumn");
