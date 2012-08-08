@@ -293,8 +293,8 @@ public class MigrationKeywords {
     // The 'column_type' is MySQL-only but gets us varchar(100) instead of just varchar
     Object[] result = Jdbc.queryForRow(
       Migrater.getConnection(),
-      "SELECT column_type, column_default FROM information_schema.columns where table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
-      config.dbAppUserSettings.schemaName,
+      "SELECT column_type, column_default FROM information_schema.columns WHERE table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
+      getSchemaName(),
       tableName,
       columnName);
     if (result[0] == null) {
@@ -329,18 +329,24 @@ public class MigrationKeywords {
       + " FROM information_schema.key_column_usage kcu,"
       + "   information_schema.table_constraints tc"
       + " WHERE kcu.constraint_name = tc.constraint_name"
+      + " AND kcu.table_schema = '{}'"
       + " AND kcu.table_name = '{}'"
       + " AND kcu.column_name = '{}'"
+      + " AND tc.constraint_schema = '{}'"
       + " AND tc.constraint_type = '{}'";
-    return (String) Jdbc.queryForRow(Migrater.getConnection(), sql, table, column, type)[0];
+    return (String) Jdbc.queryForRow(Migrater.getConnection(), sql, getSchemaName(), table, column, getSchemaName(), type)[0];
   }
 
   private static String findConstraintType(String table, String constraintName) {
     String sql = "SELECT tc.constraint_type"
       + " FROM information_schema.table_constraints tc"
-      + " WHERE tc.table_name = '{}'"
+      + " WHERE tc.constraint_schema = '{}'"
+      + " AND tc.table_name = '{}'"
       + " AND tc.constraint_name = '{}'";
-    return (String) Jdbc.queryForRow(Migrater.getConnection(), sql, table, constraintName)[0];
+    return (String) Jdbc.queryForRow(Migrater.getConnection(), sql, getSchemaName(), table, constraintName)[0];
   }
 
+  private static String getSchemaName() {
+    return config.dbAppUserSettings.schemaName;
+  }
 }
