@@ -3,6 +3,7 @@ package joist.domain.orm;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import joist.domain.DomainObject;
 import joist.util.MapToMap;
@@ -11,7 +12,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class IdentityMap {
 
-  public static final int SIZE_LIMIT = 10000;
+  private static final AtomicInteger sizeLimit = new AtomicInteger(10000);
+
+  public static int getSizeLimit() {
+    return sizeLimit.get();
+  }
+
+  public static void setSizeLimit(int sizeLimit) {
+    IdentityMap.sizeLimit.set(sizeLimit);
+  }
 
   private final MapToMap<Class<?>, Long, DomainObject> objects = new MapToMap<Class<?>, Long, DomainObject>();
 
@@ -21,8 +30,8 @@ public class IdentityMap {
     if (this.objects.put(rootType, o.getId(), o) != null) {
       throw new RuntimeException("Domain object conflicts with an existing id " + o);
     }
-    if (this.size() >= SIZE_LIMIT) {
-      throw new IllegalStateException("IdentityMap grew over the " + SIZE_LIMIT + " instance limit");
+    if (this.size() >= getSizeLimit()) {
+      throw new IllegalStateException("IdentityMap grew over the " + getSizeLimit() + " instance limit");
     }
   }
 
