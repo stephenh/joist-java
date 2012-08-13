@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class IdentityMap {
 
+  public static final int SIZE_LIMIT = 10000;
+
   // TODO: Use a weak value so that, once the user does not reference to
   // a domain object any more (and it's been flushed from the validate queue),
   // the GC can delete it? Per Click, having the GC drive app behavior is a bad idea.
@@ -21,6 +23,9 @@ public class IdentityMap {
     log.trace("Storing {}#{} in identity map", rootType, o.getId());
     if (this.objects.put(rootType, o.getId(), o) != null) {
       throw new RuntimeException("Domain object conflicts with an existing id " + o);
+    }
+    if (this.size() >= SIZE_LIMIT) {
+      throw new IllegalStateException("IdentityMap grew over the " + SIZE_LIMIT + " instance limit");
     }
   }
 
