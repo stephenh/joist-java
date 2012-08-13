@@ -1,5 +1,6 @@
 package features.domain;
 
+import static features.domain.builders.Builders.aParent;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -9,11 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joist.domain.ValidationAssert;
+import joist.domain.orm.IdentityMap;
 import joist.domain.uow.UoW;
 import joist.domain.validation.ValidationException;
+import joist.jdbc.Jdbc;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import features.domain.builders.ParentBuilder;
 
 public class ChildTest extends AbstractFeaturesTest {
 
@@ -231,4 +236,25 @@ public class ChildTest extends AbstractFeaturesTest {
     Assert.assertEquals(1, p.getVersion().intValue());
   }
 
+  @Test
+  public void testLoadUsesALimit() {
+    int oldSizeLimit = IdentityMap.getSizeLimit();
+    try {
+      IdentityMap.setSizeLimit(10);
+      ParentBuilder p = aParent().defaults();
+      this.commitAndReOpen();
+      for (int i = 0; i < 10; i++) {
+        Jdbc.update(UoW.getConnection(), "INSERT INTO child (parent_id, name, version) VALUES ({}, {}, 0);", p.id(), i);
+      }
+      this.commitAndReOpen();
+      try {
+        p.childs();
+        fail();
+      } catch (IllegalStateException ise) {
+        assertThat(ise.getMessage(), is("IdentityMap grew over the 10 instance limit"));
+      }
+    } finally {
+      IdentityMap.setSizeLimit(oldSizeLimit);
+    }
+  }
 }

@@ -61,6 +61,7 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
           Select<U> q = Select.from(this.childAlias);
           q.where(this.childForeignKeyToParentColumn.eq(this.parent));
           q.orderBy(this.childAlias.getIdColumn().asc());
+          q.limit(IdentityMap.getSizeLimit());
           this.loaded = q.list();
         } else {
           // preemptively fetch all children for all parents from the db
@@ -112,6 +113,7 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
     Select<U> q = Select.from(this.childAlias);
     q.where(this.childForeignKeyToParentColumn.in(idsToLoad));
     q.orderBy(this.childAlias.getIdColumn().asc());
+    q.limit(IdentityMap.getSizeLimit());
     for (U child : q.list()) {
       Long parentId = this.childForeignKeyToParentColumn.getDomainValue(child);
       byParentId.add(parentId, child);

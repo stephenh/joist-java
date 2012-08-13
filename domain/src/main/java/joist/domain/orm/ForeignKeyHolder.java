@@ -61,6 +61,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
           }
           Select<P> q = Select.from(this.parentAlias);
           q.where(this.parentAlias.getIdColumn().in(parentIds));
+          q.limit(IdentityMap.getSizeLimit());
           q.list(); // will populate the UoW IdentityMap with all fetched parents
           this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
         }
