@@ -17,7 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Jdbc {
 
-  private static final boolean trackStats = Boolean.valueOf(System.getProperty("joist.util.jdbc.trackStats", "false"));
+  public static final String trackStatsKey = "joist.jdbc.trackStats";
+  private static final boolean trackStats = Boolean.valueOf(System.getProperty(trackStatsKey, "false"));
   private static final AtomicInteger queries = new AtomicInteger(0);
   private static final AtomicInteger updates = new AtomicInteger(0);
 

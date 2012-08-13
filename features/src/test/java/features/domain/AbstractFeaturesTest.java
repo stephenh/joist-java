@@ -3,6 +3,7 @@ package features.domain;
 import joist.domain.AbstractDomainObjectsTest;
 import joist.domain.FlushTestDatabase;
 import joist.domain.orm.Db;
+import joist.jdbc.Jdbc;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +13,7 @@ import features.Registry;
 public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
 
   static {
-    System.setProperty("joist.util.jdbc.trackStats", "true");
+    System.setProperty(Jdbc.trackStatsKey, "true");
     System.setProperty("log4j.configuration", "log4j-test.properties");
     Registry.start();
     setRepository(Registry.getRepository());
