@@ -310,7 +310,7 @@ public class Jdbc {
           throw new RuntimeException("Unhandled object " + o);
         }
       } catch (Exception e) {
-        log.warn("Error occurred closing {}", e, o);
+        log.error("Error occurred closing {}", e, o);
       }
     }
   }
