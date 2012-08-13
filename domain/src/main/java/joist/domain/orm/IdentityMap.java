@@ -13,9 +13,6 @@ public class IdentityMap {
 
   public static final int SIZE_LIMIT = 10000;
 
-  // TODO: Use a weak value so that, once the user does not reference to
-  // a domain object any more (and it's been flushed from the validate queue),
-  // the GC can delete it? Per Click, having the GC drive app behavior is a bad idea.
   private final MapToMap<Class<?>, Long, DomainObject> objects = new MapToMap<Class<?>, Long, DomainObject>();
 
   public void store(DomainObject o) {
