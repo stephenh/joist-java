@@ -40,9 +40,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
       if (!UoW.isOpen()) {
         throw new DisconnectedException();
       }
-      // hardcoded to true for now
-      boolean shouldEagerLoad = true;
-      if (!shouldEagerLoad) {
+      if (!EagerLoading.isEnabled()) {
         // will make a query for just this id, only if needed
         this.instance = UoW.load(this.parentClass, this.id);
       } else {

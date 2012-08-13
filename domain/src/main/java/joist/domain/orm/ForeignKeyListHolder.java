@@ -56,9 +56,7 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
         if (!UoW.isOpen()) {
           throw new DisconnectedException();
         }
-        // hardcoded to true for now
-        boolean shouldEagerLoad = true;
-        if (!shouldEagerLoad) {
+        if (!EagerLoading.isEnabled()) {
           // fetch only the children for this parent from the db
           Select<U> q = Select.from(this.childAlias);
           q.where(this.childForeignKeyToParentColumn.eq(this.parent));
