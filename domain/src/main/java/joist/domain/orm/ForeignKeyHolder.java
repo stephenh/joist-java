@@ -72,9 +72,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
 
   public void set(P instance) {
     this.instance = instance;
-    if (instance == null) {
-      this.id = null;
-    }
+    this.id = instance == null ? null : instance.getId();
   }
 
   public Long getId() {
@@ -88,6 +86,9 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
   }
 
   public void setId(Long id) {
+    if (this.instance != null) {
+      throw new IllegalStateException("An instance has already been associated");
+    }
     this.id = id;
   }
 
