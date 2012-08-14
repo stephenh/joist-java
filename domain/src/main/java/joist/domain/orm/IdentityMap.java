@@ -23,6 +23,7 @@ public class IdentityMap {
   }
 
   private final MapToMap<Class<?>, Long, DomainObject> objects = new MapToMap<Class<?>, Long, DomainObject>();
+  private int size;
 
   public void store(DomainObject o) {
     Class<?> rootType = AliasRegistry.getRootClass(o.getClass());
@@ -30,7 +31,7 @@ public class IdentityMap {
     if (this.objects.put(rootType, o.getId(), o) != null) {
       throw new RuntimeException("Domain object conflicts with an existing id " + o);
     }
-    if (this.size() >= getSizeLimit()) {
+    if (++this.size >= getSizeLimit()) {
       throw new IllegalStateException("IdentityMap grew over the " + getSizeLimit() + " instance limit");
     }
   }
@@ -47,7 +48,7 @@ public class IdentityMap {
   }
 
   public int size() {
-    return this.objects.totalSize();
+    return this.size;
   }
 
   public <T> Collection<T> getInstancesOf(Class<T> type) {
