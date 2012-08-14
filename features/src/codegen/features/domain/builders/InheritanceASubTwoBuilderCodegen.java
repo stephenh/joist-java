@@ -62,14 +62,7 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
 
   @Override
   public InheritanceASubTwoBuilder ensureSaved() {
-    if (UoW.isOpen()) {
-      if (get().getChanged().size() == 0) {
-        throw new RuntimeException("instance has not been changed yet");
-      }
-      UoW.flush();
-    } else {
-      throw new RuntimeException("ensureSaved only works if the UoW is open");
-    }
+    doEnsureSaved();
     return (InheritanceASubTwoBuilder) this;
   }
 

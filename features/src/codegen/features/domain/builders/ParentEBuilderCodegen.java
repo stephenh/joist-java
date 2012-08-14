@@ -88,14 +88,7 @@ public abstract class ParentEBuilderCodegen extends AbstractBuilder<ParentE> {
 
   @Override
   public ParentEBuilder ensureSaved() {
-    if (UoW.isOpen()) {
-      if (get().getChanged().size() == 0) {
-        throw new RuntimeException("instance has not been changed yet");
-      }
-      UoW.flush();
-    } else {
-      throw new RuntimeException("ensureSaved only works if the UoW is open");
-    }
+    doEnsureSaved();
     return (ParentEBuilder) this;
   }
 
