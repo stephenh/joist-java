@@ -3,6 +3,7 @@ package joist.domain.orm;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import joist.domain.DomainObject;
 import joist.util.MapToMap;
@@ -11,16 +12,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class IdentityMap {
 
-  // TODO: Use a weak value so that, once the user does not reference to
-  // a domain object any more (and it's been flushed from the validate queue),
-  // the GC can delete it? Per Click, having the GC drive app behavior is a bad idea.
+  private static final AtomicInteger sizeLimit = new AtomicInteger(10000);
+
+  public static int getSizeLimit() {
+    return sizeLimit.get();
+  }
+
+  public static void setSizeLimit(int sizeLimit) {
+    IdentityMap.sizeLimit.set(sizeLimit);
+  }
+
   private final MapToMap<Class<?>, Long, DomainObject> objects = new MapToMap<Class<?>, Long, DomainObject>();
+  private int size;
 
   public void store(DomainObject o) {
     Class<?> rootType = AliasRegistry.getRootClass(o.getClass());
     log.trace("Storing {}#{} in identity map", rootType, o.getId());
     if (this.objects.put(rootType, o.getId(), o) != null) {
       throw new RuntimeException("Domain object conflicts with an existing id " + o);
+    }
+    if (++this.size >= getSizeLimit()) {
+      throw new IllegalStateException("IdentityMap grew over the " + getSizeLimit() + " instance limit");
     }
   }
 
@@ -36,7 +48,7 @@ public class IdentityMap {
   }
 
   public int size() {
-    return this.objects.totalSize();
+    return this.size;
   }
 
   public <T> Collection<T> getInstancesOf(Class<T> type) {

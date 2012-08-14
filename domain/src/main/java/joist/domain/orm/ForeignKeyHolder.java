@@ -40,9 +40,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
       if (!UoW.isOpen()) {
         throw new DisconnectedException();
       }
-      // hardcoded to true for now
-      boolean shouldEagerLoad = true;
-      if (!shouldEagerLoad) {
+      if (!EagerLoading.isEnabled()) {
         // will make a query for just this id, only if needed
         this.instance = UoW.load(this.parentClass, this.id);
       } else {
@@ -63,6 +61,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
           }
           Select<P> q = Select.from(this.parentAlias);
           q.where(this.parentAlias.getIdColumn().in(parentIds));
+          q.limit(IdentityMap.getSizeLimit());
           q.list(); // will populate the UoW IdentityMap with all fetched parents
           this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
         }
@@ -73,9 +72,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
 
   public void set(P instance) {
     this.instance = instance;
-    if (instance == null) {
-      this.id = null;
-    }
+    this.id = instance == null ? null : instance.getId();
   }
 
   public Long getId() {
@@ -89,6 +86,9 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
   }
 
   public void setId(Long id) {
+    if (this.instance != null) {
+      throw new IllegalStateException("An instance has already been associated");
+    }
     this.id = id;
   }
 

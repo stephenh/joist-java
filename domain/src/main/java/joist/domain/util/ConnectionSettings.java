@@ -14,7 +14,7 @@ public class ConnectionSettings {
   public String user;
   public String password;
   public String host;
-  public int maxPoolSize = 3;
+  public int maxPoolSize = 100;
   public int initialPoolSize = 1;
   private DataSource ds;
 

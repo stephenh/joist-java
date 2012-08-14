@@ -8,6 +8,13 @@ public class DummyDomainObject extends AbstractDomainObject {
   private Long id;
   private final DummyChanged changed = new DummyChanged();
 
+  public DummyDomainObject() {
+  }
+
+  public DummyDomainObject(Long id) {
+    this.id = id;
+  }
+
   public DummyChanged getChanged() {
     return this.changed;
   }

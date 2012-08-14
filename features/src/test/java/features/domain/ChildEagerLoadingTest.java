@@ -1,5 +1,6 @@
 package features.domain;
 
+import joist.domain.orm.EagerLoading;
 import joist.jdbc.Jdbc;
 
 import org.junit.Assert;
@@ -40,6 +41,27 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
   }
 
   @Test
+  public void testEagerLoadingWhenDisabled() {
+    boolean wasEnabled = EagerLoading.isEnabled();
+    try {
+      EagerLoading.setEnabled(false);
+
+      Builders.aChild().name("c1").parent(this.p1);
+      Builders.aChild().name("c2").parent(this.p2);
+      this.commitAndReOpen();
+
+      this.p1.get(); // reload each parent
+      this.p2.get();
+      Jdbc.resetStats();
+      this.p1.get().getChilds(); // now reload each set of children
+      this.p2.get().getChilds(); // causes n+1 type behavior
+      Assert.assertEquals(2, Jdbc.numberOfQueries());
+    } finally {
+      EagerLoading.setEnabled(wasEnabled);
+    }
+  }
+
+  @Test
   public void testEagerLoadingIsEnabledUsesOneQueryForAllChildren() {
     Builders.aChild().name("c1").parent(this.p1);
     Builders.aChild().name("c2").parent(this.p2);
@@ -73,12 +95,15 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
     Builders.aChild().name("c2").parent(this.p2);
     this.commitAndReOpen();
 
+    Jdbc.resetStats();
     this.p1.get(); // reload only p1
     this.p1.get().getChilds();
     // now reload p2
     this.p2.get();
     // and ensure we can get its children
     Assert.assertEquals(1, this.p2.childs().size());
+    // even though it took an extra query (p1, c1, p2, c2)
+    Assert.assertEquals(4, Jdbc.numberOfQueries());
   }
 
   @Test
@@ -93,6 +118,26 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
     c1.parent(); // now reload each parent
     c2.parent();
     Assert.assertEquals(1, Jdbc.numberOfQueries());
+  }
+
+  @Test
+  public void testEagerLoadingOfParentsWhenDisabled() {
+    boolean wasEnabled = EagerLoading.isEnabled();
+    try {
+      EagerLoading.setEnabled(false);
+      ChildBuilder c1 = Builders.aChild().name("c1").parent(this.p1);
+      ChildBuilder c2 = Builders.aChild().name("c2").parent(this.p2);
+      this.commitAndReOpen();
+
+      c1.get(); // reload each child
+      c2.get();
+      Jdbc.resetStats();
+      c1.parent(); // now reload each parent
+      c2.parent();
+      Assert.assertEquals(2, Jdbc.numberOfQueries());
+    } finally {
+      EagerLoading.setEnabled(wasEnabled);
+    }
   }
 
   @Test

@@ -65,14 +65,7 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
 
   @Override
   public InheritanceAOwnerBuilder ensureSaved() {
-    if (UoW.isOpen()) {
-      if (get().getChanged().size() == 0) {
-        throw new RuntimeException("instance has not been changed yet");
-      }
-      UoW.flush();
-    } else {
-      throw new RuntimeException("ensureSaved only works if the UoW is open");
-    }
+    doEnsureSaved();
     return (InheritanceAOwnerBuilder) this;
   }
 

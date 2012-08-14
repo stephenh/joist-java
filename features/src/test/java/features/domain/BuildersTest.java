@@ -114,12 +114,12 @@ public class BuildersTest extends AbstractFeaturesTest {
   }
 
   @Test
-  public void testEnsureSavedFailsIfNothingSetYet() {
+  public void testEnsureSavedWorksIfNothingModifiedYet() {
     try {
       aParent().ensureSaved();
       fail();
     } catch (RuntimeException re) {
-      assertThat(re.getMessage(), is("instance has not been changed yet"));
+      assertThat(re.getMessage(), is("New validation errors - Name is required - Parent[null]"));
     }
   }
 
