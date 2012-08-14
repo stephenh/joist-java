@@ -48,4 +48,13 @@ public abstract class AbstractBuilder<T extends DomainObject> {
   /** Ensures the instance has been flushed to the database and an id assigned. */
   public abstract AbstractBuilder<T> ensureSaved();
 
+  protected void doEnsureSaved() {
+    if (UoW.isOpen()) {
+      UoW.enqueue(get());
+      UoW.flush();
+    } else {
+      throw new RuntimeException("ensureSaved only works if the UoW is open");
+    }
+  }
+
 }

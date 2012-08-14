@@ -65,14 +65,7 @@ public class GenerateBuilderCodegenPass implements Pass {
 
   private void ensureSaved(GClass builderCodegen, Entity entity) {
     GMethod m = builderCodegen.getMethod("ensureSaved").returnType(entity.getBuilderClassName()).addAnnotation("@Override");
-    m.body.line("if (UoW.isOpen()) {");
-    m.body.line("_   if (get().getChanged().size() == 0) {");
-    m.body.line("_   _   throw new RuntimeException(\"instance has not been changed yet\");");
-    m.body.line("_   }");
-    m.body.line("_   UoW.flush();");
-    m.body.line("} else {");
-    m.body.line("_   throw new RuntimeException(\"ensureSaved only works if the UoW is open\");");
-    m.body.line("}");
+    m.body.line("doEnsureSaved();");
     m.body.line("return ({}) this;", entity.getBuilderClassName());
     builderCodegen.addImports(UoW.class);
   }
