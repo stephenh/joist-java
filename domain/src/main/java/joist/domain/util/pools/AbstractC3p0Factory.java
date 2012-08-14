@@ -39,6 +39,8 @@ public abstract class AbstractC3p0Factory {
     ds.setInitialPoolSize(this.settings.initialPoolSize);
     ds.setPreferredTestQuery("select 1");
     ds.setTestConnectionOnCheckout(true);
+    ds.setAcquireRetryAttempts(1); // only try once, then fail fast
+    ds.setCheckoutTimeout(5000); // don't block on a full pool, but needs to be large enough for new connection spin up
     return ds;
   }
 
