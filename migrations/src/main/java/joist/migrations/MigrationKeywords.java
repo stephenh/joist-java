@@ -163,6 +163,25 @@ public class MigrationKeywords {
     }
   }
 
+  public static void renameColumn(String tableName, String oldColumnName, String newColumnName) {
+    if (isMySQL()) {
+      // Have to pull the column type/default value from MySQL
+      String[] s = getColumnTypeAndDefaultValue(tableName, oldColumnName);
+      String columnType = s[0];
+      String columnDefault = s[1];
+      boolean notNullable = "NO".equals(s[2]);
+      execute("ALTER TABLE {} CHANGE {} {} {} {} {}", //
+        Wrap.quotes(tableName),
+        Wrap.quotes(oldColumnName),
+        Wrap.quotes(newColumnName),
+        columnType,
+        notNullable ? "NOT NULL" : "",
+        columnDefault == null ? "" : "DEFAULT " + columnDefault);
+    } else {
+      execute("ALTER TABLE {} RENAME COLUMN {} TO {}", Wrap.quotes(tableName), Wrap.quotes(oldColumnName), Wrap.quotes(newColumnName));
+    }
+  }
+
   public static PrimaryKeyColumn primaryKey(String name) {
     return new PrimaryKeyColumn(name);
   }
@@ -291,21 +310,23 @@ public class MigrationKeywords {
 
   private static String[] getColumnTypeAndDefaultValue(String tableName, String columnName) {
     // The 'column_type' is MySQL-only but gets us varchar(100) instead of just varchar
-    Object[] result = Jdbc.queryForRow(
-      Migrater.getConnection(),
-      "SELECT column_type, column_default FROM information_schema.columns WHERE table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
-      getSchemaName(),
-      tableName,
-      columnName);
+    Object[] result = Jdbc
+      .queryForRow(
+        Migrater.getConnection(),
+        "SELECT column_type, column_default, is_nullable FROM information_schema.columns WHERE table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
+        getSchemaName(),
+        tableName,
+        columnName);
     if (result[0] == null) {
       throw new RuntimeException("Could not find metadata for " + tableName + "." + columnName);
     }
     String dataType = (String) result[0];
     String defaultValue = (String) result[1];
-    if (dataType.startsWith("varchar")) {
+    String nullable = (String) result[2];
+    if (dataType.startsWith("varchar") && defaultValue != null) {
       defaultValue = "'" + defaultValue + "'";
     }
-    return new String[] { dataType, defaultValue };
+    return new String[] { dataType, defaultValue, nullable };
   }
 
   private static void dropConstraint(String table, String constraint, String constraintType) {
