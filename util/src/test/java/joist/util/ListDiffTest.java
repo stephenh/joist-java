@@ -32,4 +32,28 @@ public class ListDiffTest {
     assertThat(ListDiff.of(original, updated).removed.size(), is(0));
   }
 
+  @Test
+  public void nullUpdated() {
+    List<Integer> original = asList(1, 2, 3);
+    List<Integer> updated = null;
+    assertThat(ListDiff.of(original, updated).added.size(), is(0));
+    assertThat(ListDiff.of(original, updated).removed.size(), is(3));
+  }
+
+  @Test
+  public void nullOriginal() {
+    List<Integer> original = null;
+    List<Integer> updated = asList(1, 2, 3);
+    assertThat(ListDiff.of(original, updated).added.size(), is(3));
+    assertThat(ListDiff.of(original, updated).removed.size(), is(0));
+  }
+
+  @Test
+  public void nullBoth() {
+    List<Integer> original = null;
+    List<Integer> updated = null;
+    assertThat(ListDiff.of(original, updated).added.size(), is(0));
+    assertThat(ListDiff.of(original, updated).removed.size(), is(0));
+  }
+
 }
