@@ -10,6 +10,11 @@ import joist.domain.orm.queries.Where;
 
 public class StringAliasColumn<T extends DomainObject> extends AliasColumn<T, String, String> {
 
+  /** Converts the database {@code defaultValue} into the field initializer string. */
+  public static String defaultValue(String defaultValue) {
+    return "\"" + defaultValue + "\"";
+  }
+
   public StringAliasColumn(Alias<T> alias, String name, Shim<T, String> shim) {
     super(alias, name, shim);
   }
