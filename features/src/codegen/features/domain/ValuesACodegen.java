@@ -14,11 +14,11 @@ import joist.domain.validation.rules.NotNull;
 public abstract class ValuesACodegen extends AbstractDomainObject {
 
   public static final ValuesAQueries queries;
-  private String a = null;
-  private String b = null;
-  private Integer i = null;
+  private String a = "a";
+  private String b = "b";
+  private Integer i = 1;
   private Long id = null;
-  private Integer j = null;
+  private Integer j = 2;
   private String name = null;
   private Long version = null;
   protected Changed changed;
