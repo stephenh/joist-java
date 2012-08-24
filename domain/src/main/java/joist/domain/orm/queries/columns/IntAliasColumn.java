@@ -12,6 +12,11 @@ import joist.util.Join;
 
 public class IntAliasColumn<T extends DomainObject> extends AliasColumn<T, Integer, Integer> {
 
+  /** Converts the database {@code defaultValue} into the field initializer string. */
+  public static String defaultValue(String defaultValue) {
+    return defaultValue;
+  }
+
   public IntAliasColumn(Alias<T> alias, String name, Shim<T, Integer> shim) {
     super(alias, name, shim);
   }
