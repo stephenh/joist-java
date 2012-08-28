@@ -98,4 +98,21 @@ public class ManyToManyATest extends AbstractFeaturesTest {
     Assert.assertEquals(0, ManyToManyAFooToBar.queries.count());
   }
 
+  @Test
+  public void testAddThenImmediateRemove() {
+    ManyToManyAFoo foo = new ManyToManyAFoo("foo");
+    this.commitAndReOpen();
+
+    foo = this.reload(foo);
+    ManyToManyABar bar = new ManyToManyABar("bar");
+    bar.addManyToManyAFoo(foo);
+    bar.removeManyToManyAFoo(foo);
+    this.commitAndReOpen();
+
+    foo = this.reload(foo);
+    bar = this.reload(bar);
+    Assert.assertEquals(0, foo.getManyToManyABars().size());
+    Assert.assertEquals(0, bar.getManyToManyAFoos().size());
+  }
+
 }

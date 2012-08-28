@@ -73,6 +73,11 @@ public class GenerateDomainCodegenPass implements Pass {
       if (!"version".equals(p.getColumnName())) {
         GMethod setter = domainCodegen.getMethod("set" + p.getCapitalVariableName());
         setter.argument(p.getJavaType(), p.getVariableName());
+        if ("id".equals(p.getColumnName())) {
+          setter.body.line("if (this.{} != null) {", p.getVariableName());
+          setter.body.line("_   throw new IllegalStateException(this + \" id cannot be changed\");");
+          setter.body.line("}");
+        }
         setter.body.line("this.getChanged().record(\"{}\", this.{}, {});", p.getVariableName(), p.getVariableName(), p.getVariableName());
         setter.body.line("this.{} = {};", p.getVariableName(), p.getVariableName());
         if ("id".equals(p.getColumnName())) {
