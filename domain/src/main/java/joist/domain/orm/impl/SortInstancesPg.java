@@ -21,7 +21,9 @@ public class SortInstancesPg {
       }
     }
     for (DomainObject instance : delete) {
-      this.deletes.add(instance.getClass(), instance);
+      if (!instance.isNew()) {
+        this.deletes.add(instance.getClass(), instance);
+      }
     }
   }
 

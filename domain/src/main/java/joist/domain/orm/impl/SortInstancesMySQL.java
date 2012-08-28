@@ -33,7 +33,9 @@ public class SortInstancesMySQL {
       }
     }
     for (DomainObject instance : delete) {
-      this.deletes.add(instance.getClass(), instance);
+      if (!instance.isNew()) {
+        this.deletes.add(instance.getClass(), instance);
+      }
     }
     this.insertsByForeignKey.addAll(this.insertNewIds.keySet());
     // insertsByForeignKey should really be a set, but then we can't sort it
