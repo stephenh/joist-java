@@ -5,16 +5,16 @@ import java.util.List;
 
 public class Wrap {
 
-  public static String quotes(String input) {
-    return "\"" + input + "\"";
-  }
-
   public static String ticks(String input) {
     return "'" + input + "'";
   }
 
   public static String backquotes(String input) {
     return "`" + input + "`";
+  }
+
+  public static String quotes(String input) {
+    return "\"" + input + "\"";
   }
 
   public static List<String> quotes(String... input) {
