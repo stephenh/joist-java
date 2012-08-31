@@ -22,11 +22,21 @@ public class CalendarDateAliasColumn<T extends DomainObject> extends AliasColumn
 
   public Where within(CalendarInterval interval) {
     // should be on/after the start
-    String startOp = interval.includesLowerLimit() ? " >= ?" : " > ?";
-    Where startCond = new Where(this.getQualifiedName() + startOp, this.toJdbcValue(interval.start()));
+    final Where startCond;
+    if (interval.start() == null) {
+      startCond = new Where("1 = 1");
+    } else {
+      String startOp = interval.includesLowerLimit() ? " >= ?" : " > ?";
+      startCond = new Where(this.getQualifiedName() + startOp, this.toJdbcValue(interval.start()));
+    }
     // should be on/before the end
-    String endOp = interval.includesUpperLimit() ? " <= ?" : " < ?";
-    Where endCond = new Where(this.getQualifiedName() + endOp, this.toJdbcValue(interval.end()));
+    final Where endCond;
+    if (interval.end() == null) {
+      endCond = new Where("1 = 1");
+    } else {
+      String endOp = interval.includesUpperLimit() ? " <= ?" : " < ?";
+      endCond = new Where(this.getQualifiedName() + endOp, this.toJdbcValue(interval.end()));
+    }
     return startCond.and(endCond);
   }
 
