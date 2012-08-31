@@ -8,14 +8,26 @@ import java.util.TimeZone;
 import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.Where;
 
 import com.domainlanguage.time.CalendarDate;
+import com.domainlanguage.time.CalendarInterval;
 import com.domainlanguage.time.TimePoint;
 
 public class CalendarDateAliasColumn<T extends DomainObject> extends AliasColumn<T, CalendarDate, Date> {
 
   public CalendarDateAliasColumn(Alias<T> alias, String name, Shim<T, CalendarDate> shim) {
     super(alias, name, shim);
+  }
+
+  public Where within(CalendarInterval interval) {
+    // should be on/after the start
+    String startOp = interval.includesLowerLimit() ? ">=" : ">";
+    Where startCond = new Where(this.getQualifiedName() + " " + startOp + " ?", this.toJdbcValue(interval.start()));
+    // should be on/before the end
+    String endOp = interval.includesUpperLimit() ? "<=" : "<";
+    Where endCond = new Where(this.getQualifiedName() + " " + endOp + " ?", this.toJdbcValue(interval.end()));
+    return startCond.and(endCond);
   }
 
   @Override
