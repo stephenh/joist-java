@@ -9,6 +9,11 @@ import features.domain.PrimitivesAlias;
 
 public class PrimitivesQueries extends PrimitivesQueriesCodegen {
 
+  public List<Primitives> findByIdBetween(Long lower, Long upper) {
+    PrimitivesAlias p = new PrimitivesAlias("p");
+    return Select.from(p).where(p.id.between(lower, upper)).list();
+  }
+
   public Primitives findByFlagValue(boolean value) {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);

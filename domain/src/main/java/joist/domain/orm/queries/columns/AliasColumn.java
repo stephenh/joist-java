@@ -85,6 +85,11 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
     return new Where(this.getQualifiedName() + " >= ?", this.toJdbcValue(value));
   }
 
+  /** @return a where for between {@code lower} and {@code upper}, inclusive. */
+  public Where between(U lower, U upper) {
+    return new Where(this.getQualifiedName() + " BETWEEN ? AND ?", this.toJdbcValue(lower), this.toJdbcValue(upper));
+  }
+
   public SelectItem as(String as) {
     return new SelectItem(this, as);
   }
