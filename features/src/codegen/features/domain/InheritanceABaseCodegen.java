@@ -73,6 +73,9 @@ public abstract class InheritanceABaseCodegen extends AbstractDomainObject {
   }
 
   public void setInheritanceAOwner(InheritanceAOwner inheritanceAOwner) {
+    if (inheritanceAOwner == this.getInheritanceAOwner()) {
+      return;
+    }
     if (this.inheritanceAOwner.get() != null) {
       this.inheritanceAOwner.get().removeInheritanceABaseWithoutPercolation((InheritanceABase) this);
     }

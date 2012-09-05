@@ -1,5 +1,7 @@
 package features.domain;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import joist.domain.ValidationAssert;
 
 import org.junit.Assert;
@@ -90,4 +92,19 @@ public class OneToOneATest extends AbstractFeaturesTest {
     this.commitAndReOpen();
   }
 
+  @Test
+  public void testNoChange() {
+    OneToOneABar bar = new OneToOneABar("bar");
+    OneToOneAFoo foo = new OneToOneAFoo("foo");
+    bar.setOneToOneAFoo(foo);
+    this.commitAndReOpen();
+    foo = this.reload(foo);
+    bar = this.reload(bar);
+    bar.setOneToOneAFoo(foo);
+    assertThat(bar.getChanged().size(), is(0));
+    assertThat(foo.getChanged().size(), is(0));
+    foo.setOneToOneABar(bar);
+    assertThat(bar.getChanged().size(), is(0));
+    assertThat(foo.getChanged().size(), is(0));
+  }
 }
