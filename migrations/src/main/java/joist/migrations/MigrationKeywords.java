@@ -16,6 +16,7 @@ import joist.migrations.columns.Column;
 import joist.migrations.columns.DateColumn;
 import joist.migrations.columns.DatetimeColumn;
 import joist.migrations.columns.ForeignKeyColumn;
+import joist.migrations.columns.ForeignKeyColumn.Owner;
 import joist.migrations.columns.IntColumn;
 import joist.migrations.columns.PrimaryKeyColumn;
 import joist.migrations.columns.SmallIntColumn;
@@ -288,6 +289,12 @@ public class MigrationKeywords {
     }
   }
 
+  public static void changeOwner(String table, String column, Owner owner) {
+    String[] referenced = findReferencedTableAndColumn(table, column);
+    dropForeignKeyConstraint(table, column);
+    addForeignKeyConstraint(table, foreignKey(column, referenced[0], referenced[1]).ownerIs(owner));
+  }
+
   public static void dropForeignKeyConstraint(String table, String column) {
     dropConstraint(table, findConstraintName(table, column, "FOREIGN KEY"), "FOREIGN KEY");
   }
@@ -365,6 +372,32 @@ public class MigrationKeywords {
       + " AND tc.table_name = '{}'"
       + " AND tc.constraint_name = '{}'";
     return (String) Jdbc.queryForRow(Migrater.getConnection(), sql, getSchemaName(), table, constraintName)[0];
+  }
+
+  private static String[] findReferencedTableAndColumn(String table, String column) {
+    final String sql;
+    if (isMySQL()) {
+      sql = "SELECT kcu.referenced_table_name, kcu.referenced_column_name"
+        + " FROM information_schema.key_column_usage kcu,"
+        + "   information_schema.table_constraints tc"
+        + " WHERE kcu.constraint_name = tc.constraint_name"
+        + " AND kcu.table_schema = '{}'"
+        + " AND kcu.table_name = '{}'"
+        + " AND kcu.column_name = '{}'"
+        + " AND tc.constraint_schema = '{}'"
+        + " AND tc.constraint_type = 'FOREIGN KEY'";
+    } else {
+      sql = "SELECT ccu.table_name, ccu.column_name"
+        + " FROM information_schema.key_column_usage kcu,"
+        + "   information_schema.constraint_column_usage ccu"
+        + " WHERE kcu.constraint_name = ccu.constraint_name"
+        + " AND kcu.table_schema = '{}'"
+        + " AND kcu.table_name = '{}'"
+        + " AND kcu.column_name = '{}'"
+        + " AND ccu.constraint_schema = '{}'";
+    }
+    Object[] row = Jdbc.queryForRow(Migrater.getConnection(), sql, getSchemaName(), table, column, getSchemaName());
+    return new String[] { (String) row[0], (String) row[1] };
   }
 
   private static String getSchemaName() {
