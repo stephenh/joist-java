@@ -12,6 +12,10 @@ public class StringAliasColumn<T extends DomainObject> extends AliasColumn<T, St
 
   /** Converts the database {@code defaultValue} into the field initializer string. */
   public static String defaultValue(String defaultValue) {
+    // postgresql returns 'foo'::character varying
+    if (defaultValue.endsWith("::character varying")) {
+      defaultValue = defaultValue.substring(1, defaultValue.length() - "'::character varying".length());
+    }
     return "\"" + defaultValue + "\"";
   }
 
