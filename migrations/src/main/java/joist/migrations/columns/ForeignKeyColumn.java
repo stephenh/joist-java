@@ -14,7 +14,7 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
   private String otherTableColumn;
   private Owner owner;
 
-  enum Owner {
+  public enum Owner {
     IsMe, IsThem, IsNeither
   };
 
@@ -35,19 +35,21 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
     this.owner = Owner.IsNeither;
   }
 
-  public ForeignKeyColumn ownerIsMe() {
-    this.owner = Owner.IsMe;
+  public ForeignKeyColumn ownerIs(Owner owner) {
+    this.owner = owner;
     return this;
+  }
+
+  public ForeignKeyColumn ownerIsMe() {
+    return this.ownerIs(Owner.IsMe);
   }
 
   public ForeignKeyColumn ownerIsThem() {
-    this.owner = Owner.IsThem;
-    return this;
+    return this.ownerIs(Owner.IsThem);
   }
 
   public ForeignKeyColumn ownerIsNeither() {
-    this.owner = Owner.IsNeither;
-    return this;
+    return this.ownerIs(Owner.IsNeither);
   }
 
   @Override
@@ -74,6 +76,9 @@ public class ForeignKeyColumn extends AbstractColumn<ForeignKeyColumn> {
     // Foreign keys in MySQL are automatically indexed
     if (MigrationKeywords.isPg()) {
       String indexName = this.getTableName() + "_" + this.getName() + "_idx";
+      // ideally we could CREATE INDEX IF NOT EXISTS to avoid the perf cost
+      // of a DROP+CREATE, but this is easiest for now
+      sqls.add("DROP INDEX IF EXISTS " + indexName);
       sqls.add(Interpolate.string(//
         "CREATE INDEX {} ON {} USING btree ({});",
         indexName,
