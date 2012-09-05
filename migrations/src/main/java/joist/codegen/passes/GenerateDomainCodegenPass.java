@@ -160,6 +160,9 @@ public class GenerateDomainCodegenPass implements Pass {
       GMethod setter = domainCodegen.getMethod("set{}", mtop.getCapitalVariableName());
       setter.argument(mtop.getJavaType(), mtop.getVariableName());
       if (!mtop.getOneSide().isCodeEntity() && !mtop.getOneToManyProperty().isCollectionSkipped()) {
+        setter.body.line("if ({} == this.get{}()) {", mtop.getVariableName(), mtop.getCapitalVariableName());
+        setter.body.line("_   return;");
+        setter.body.line("}");
         setter.body.line("if (this.{}.get() != null) {", mtop.getVariableName());
         setter.body.line("_   this.{}.get().remove{}WithoutPercolation(({}) this);",//
           mtop.getVariableName(),
@@ -312,7 +315,10 @@ public class GenerateDomainCodegenPass implements Pass {
         GMethod setter = domainCodegen.getMethod("set" + otmp.getCapitalVariableNameSingular());
         setter.argument(otmp.getTargetJavaType(), "n");
         setter.body.line("{} o = this.get{}();", otmp.getTargetJavaType(), otmp.getCapitalVariableNameSingular());
-        setter.body.line("if (o != null) {", otmp.getVariableName());
+        setter.body.line("if (o == n) {");
+        setter.body.line("_   return;");
+        setter.body.line("}");
+        setter.body.line("if (o != null) {");
         setter.body.line("_   o.set{}WithoutPercolation(null);", otmp.getManyToOneProperty().getCapitalVariableName(), entity.getClassName());
         setter.body.line("_   this.remove{}WithoutPercolation(o);", otmp.getCapitalVariableNameSingular());
         setter.body.line("}");
