@@ -57,6 +57,9 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
   }
 
   public void setOwned(ManyToManyBBar owned) {
+    if (owned == this.getOwned()) {
+      return;
+    }
     if (this.owned.get() != null) {
       this.owned.get().removeOwnedManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
     }
@@ -76,6 +79,9 @@ public abstract class ManyToManyBFooToBarCodegen extends AbstractDomainObject {
   }
 
   public void setOwnerManyToManyBFoo(ManyToManyBFoo ownerManyToManyBFoo) {
+    if (ownerManyToManyBFoo == this.getOwnerManyToManyBFoo()) {
+      return;
+    }
     if (this.ownerManyToManyBFoo.get() != null) {
       this.ownerManyToManyBFoo.get().removeOwnerManyToManyBFooToBarWithoutPercolation((ManyToManyBFooToBar) this);
     }

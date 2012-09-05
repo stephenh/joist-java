@@ -74,6 +74,9 @@ public abstract class ParentBChildFooCodegen extends AbstractDomainObject {
   }
 
   public void setParentBParent(ParentBParent parentBParent) {
+    if (parentBParent == this.getParentBParent()) {
+      return;
+    }
     if (this.parentBParent.get() != null) {
       this.parentBParent.get().removeParentBChildFooWithoutPercolation((ParentBChildFoo) this);
     }
