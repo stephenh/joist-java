@@ -58,7 +58,9 @@ public class GenerateQueriesCodegenPass implements Pass {
 
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       if (mtop.isOwnerMe() && !mtop.getOneSide().isCodeEntity()) {
-        delete.body.line("{}.queries.delete(instance.get{}());", mtop.getJavaType(), mtop.getCapitalVariableName());
+        delete.body.line("if (instance.get{}() != null) {", mtop.getCapitalVariableName());
+        delete.body.line("_   {}.queries.delete(instance.get{}());", mtop.getJavaType(), mtop.getCapitalVariableName());
+        delete.body.line("}");
         queriesCodegen.addImports(mtop.getOneSide().getFullClassName());
       }
     }
