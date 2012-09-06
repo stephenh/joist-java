@@ -57,7 +57,7 @@ public class InheritanceBRootAlias extends Alias<InheritanceBRoot> {
   }
 
   public int getOrder() {
-    return 7;
+    return 8;
   }
 
   public <T extends DomainObject> JoinClause<T, InheritanceBRoot> on(ForeignKeyAliasColumn<T, InheritanceBRoot> on) {

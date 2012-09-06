@@ -54,7 +54,7 @@ public class InheritanceAOwnerAlias extends Alias<InheritanceAOwner> {
   }
 
   public int getOrder() {
-    return 2;
+    return 3;
   }
 
 }

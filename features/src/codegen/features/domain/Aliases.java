@@ -5,6 +5,8 @@ import joist.domain.orm.AliasRegistry;
 public class Aliases {
 
   private static ChildAlias child;
+  private static ChildFAlias childF;
+  private static ChildGAlias childG;
   private static CodeADomainObjectAlias codeADomainObject;
   private static GrandChildAlias grandChild;
   private static HistoryEntryAlias historyEntry;
@@ -42,6 +44,8 @@ public class Aliases {
   private static ParentDChildCAlias parentDChildC;
   private static ParentDToChildCAlias parentDToChildC;
   private static ParentEAlias parentE;
+  private static ParentFAlias parentF;
+  private static ParentGAlias parentG;
   private static PrimitivesAlias primitives;
   private static PrimitivesBAlias primitivesB;
   private static PrimitivesCAlias primitivesC;
@@ -56,6 +60,22 @@ public class Aliases {
       AliasRegistry.register(Child.class, child);
     }
     return child;
+  }
+
+  public static ChildFAlias childF() {
+    if (childF == null) {
+      childF = new ChildFAlias();
+      AliasRegistry.register(ChildF.class, childF);
+    }
+    return childF;
+  }
+
+  public static ChildGAlias childG() {
+    if (childG == null) {
+      childG = new ChildGAlias();
+      AliasRegistry.register(ChildG.class, childG);
+    }
+    return childG;
   }
 
   public static CodeADomainObjectAlias codeADomainObject() {
@@ -352,6 +372,22 @@ public class Aliases {
       AliasRegistry.register(ParentE.class, parentE);
     }
     return parentE;
+  }
+
+  public static ParentFAlias parentF() {
+    if (parentF == null) {
+      parentF = new ParentFAlias();
+      AliasRegistry.register(ParentF.class, parentF);
+    }
+    return parentF;
+  }
+
+  public static ParentGAlias parentG() {
+    if (parentG == null) {
+      parentG = new ParentGAlias();
+      AliasRegistry.register(ParentG.class, parentG);
+    }
+    return parentG;
   }
 
   public static PrimitivesAlias primitives() {

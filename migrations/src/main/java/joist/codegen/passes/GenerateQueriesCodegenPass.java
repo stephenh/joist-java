@@ -45,7 +45,9 @@ public class GenerateQueriesCodegenPass implements Pass {
     for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
       if (otmp.isOwnerMe() && !otmp.isManyToMany()) {
         if (otmp.isOneToOne()) {
-          delete.body.line("{}.queries.delete(instance.get{}());", otmp.getTargetJavaType(), otmp.getCapitalVariableNameSingular());
+          delete.body.line("if (instance.get{}() != null) {", otmp.getCapitalVariableNameSingular());
+          delete.body.line("_   {}.queries.delete(instance.get{}());", otmp.getTargetJavaType(), otmp.getCapitalVariableNameSingular());
+          delete.body.line("}");
           queriesCodegen.addImports(otmp.getManySide().getFullClassName());
         } else {
           delete.body.line("for ({} o : Copy.list(instance.get{}())) {", otmp.getTargetJavaType(), otmp.getCapitalVariableName());
@@ -58,7 +60,9 @@ public class GenerateQueriesCodegenPass implements Pass {
 
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       if (mtop.isOwnerMe() && !mtop.getOneSide().isCodeEntity()) {
-        delete.body.line("{}.queries.delete(instance.get{}());", mtop.getJavaType(), mtop.getCapitalVariableName());
+        delete.body.line("if (instance.get{}() != null) {", mtop.getCapitalVariableName());
+        delete.body.line("_   {}.queries.delete(instance.get{}());", mtop.getJavaType(), mtop.getCapitalVariableName());
+        delete.body.line("}");
         queriesCodegen.addImports(mtop.getOneSide().getFullClassName());
       }
     }
