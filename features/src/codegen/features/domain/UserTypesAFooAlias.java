@@ -50,7 +50,7 @@ public class UserTypesAFooAlias extends Alias<UserTypesAFoo> {
   }
 
   public int getOrder() {
-    return 41;
+    return 43;
   }
 
 }

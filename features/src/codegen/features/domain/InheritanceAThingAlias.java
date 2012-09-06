@@ -54,7 +54,7 @@ public class InheritanceAThingAlias extends Alias<InheritanceAThing> {
   }
 
   public int getOrder() {
-    return 4;
+    return 5;
   }
 
 }

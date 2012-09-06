@@ -54,7 +54,7 @@ public class ParentCFooAlias extends Alias<ParentCFoo> {
   }
 
   public int getOrder() {
-    return 30;
+    return 31;
   }
 
 }

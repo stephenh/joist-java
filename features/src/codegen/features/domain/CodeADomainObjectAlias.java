@@ -52,7 +52,7 @@ public class CodeADomainObjectAlias extends Alias<CodeADomainObject> {
   }
 
   public int getOrder() {
-    return 0;
+    return 1;
   }
 
 }
