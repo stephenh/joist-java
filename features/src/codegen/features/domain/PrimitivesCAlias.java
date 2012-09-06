@@ -53,7 +53,7 @@ public class PrimitivesCAlias extends Alias<PrimitivesC> {
   }
 
   public int getOrder() {
-    return 42;
+    return 44;
   }
 
 }
