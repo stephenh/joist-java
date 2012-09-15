@@ -2,6 +2,7 @@ package joist;
 
 import joist.codegen.Codegen;
 import joist.codegen.Config;
+import joist.codegen.Schema;
 import joist.domain.orm.Db;
 import joist.migrations.DatabaseBootstrapper;
 import joist.migrations.Migrater;
@@ -63,7 +64,9 @@ public abstract class AbstractJoistCli {
   }
 
   public void codegen() {
-    new Codegen(this.config).generate();
+    Schema schema = new Schema(this.config);
+    schema.populate();
+    new Codegen(this.config, schema).generate();
   }
 
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import joist.codegen.Codegen;
 import joist.codegen.Config;
 import joist.util.Copy;
 import joist.util.Inflector;
@@ -23,8 +22,8 @@ public class Entity {
   private List<OneToManyProperty> oneToManyProperties = new ArrayList<OneToManyProperty>();
   private List<ManyToManyProperty> manyToManyProperties = new ArrayList<ManyToManyProperty>();
 
-  public Entity(Codegen codegen, String tableName) {
-    this.config = codegen.getConfig();
+  public Entity(Config config, String tableName) {
+    this.config = config;
     this.tableName = tableName;
   }
 

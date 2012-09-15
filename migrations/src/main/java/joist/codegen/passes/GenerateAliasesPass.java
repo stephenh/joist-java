@@ -23,7 +23,7 @@ import joist.util.Interpolate;
 import joist.util.TopologicalSort;
 import joist.util.TopologicalSort.CycleException;
 
-public class GenerateAliasesPass implements Pass {
+public class GenerateAliasesPass implements Pass<Codegen> {
 
   public void pass(Codegen codegen) {
     GClass aliasesClass = codegen.getOutputCodegenDirectory().getClass(codegen.getConfig().getDomainObjectPackage() + ".Aliases");
@@ -36,7 +36,7 @@ public class GenerateAliasesPass implements Pass {
       sorted = new ArrayList<Entity>(); // pg doesn't need fk order
     }
 
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       if (entity.isCodeEntity()) {
         continue;
       }
@@ -216,13 +216,13 @@ public class GenerateAliasesPass implements Pass {
 
   private List<Entity> getEntitiesSortedByForeignKeys(Codegen codegen) {
     TopologicalSort<Entity> ts = new TopologicalSort<Entity>();
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       if (!entity.isCodeEntity()) {
         ts.addNode(entity);
       }
     }
     try {
-      for (Entity entity : codegen.getEntities().values()) {
+      for (Entity entity : codegen.getSchema().getEntities().values()) {
         // subclasses must come after their base class
         if (entity.isSubclass()) {
           ts.addDependency(entity, entity.getBaseEntity());
@@ -241,7 +241,7 @@ public class GenerateAliasesPass implements Pass {
         + " foreign key cycles in your schema. I.e. make one of the columns nullable. Or use PostgreSQL.";
       throw new RuntimeException(message);
     }
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
         if (!mtop.isNotNull() && !mtop.getOneSide().isCodeEntity()) {
           ts.addDependencyIfNoCycle(entity, mtop.getOneSide());

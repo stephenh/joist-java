@@ -9,10 +9,10 @@ import joist.domain.util.Codes;
 import joist.sourcegen.GClass;
 import joist.sourcegen.GMethod;
 
-public class GenerateCodesPass implements Pass {
+public class GenerateCodesPass implements Pass<Codegen> {
 
   public void pass(Codegen codegen) {
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       if (!entity.isCodeEntity()) {
         continue;
       }

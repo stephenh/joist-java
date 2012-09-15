@@ -11,10 +11,10 @@ import joist.sourcegen.GClass;
 import joist.sourcegen.GMethod;
 import joist.util.Copy;
 
-public class GenerateQueriesCodegenPass implements Pass {
+public class GenerateQueriesCodegenPass implements Pass<Codegen> {
 
   public void pass(Codegen codegen) {
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       if (entity.isCodeEntity()) {
         continue;
       }
