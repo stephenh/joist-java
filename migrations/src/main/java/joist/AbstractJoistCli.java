@@ -6,18 +6,21 @@ import joist.domain.orm.Db;
 import joist.migrations.DatabaseBootstrapper;
 import joist.migrations.Migrater;
 import joist.migrations.PermissionFixer;
-import joist.util.Inflector;
 
 public abstract class AbstractJoistCli {
 
   public Config config;
 
   public AbstractJoistCli(String projectName, Db db) {
-    this(projectName, Inflector.underscore(projectName), db);
+    this(new Config(projectName, db));
   }
 
   public AbstractJoistCli(String projectName, String defaultDatabaseName, Db db) {
-    this.config = new Config(projectName, defaultDatabaseName, db);
+    this(new Config(projectName, defaultDatabaseName, db));
+  }
+
+  public AbstractJoistCli(Config config) {
+    this.config = config;
     if (".".equals(this.config.dbAppSaSettings.password)) {
       throw new RuntimeException("You need to set db.sa.password either on the command line or in build.properties.");
     }

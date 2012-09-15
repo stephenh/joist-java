@@ -41,6 +41,7 @@ import joist.domain.util.ConnectionSettings;
 import joist.migrations.columns.PrimaryKeyColumn;
 import joist.sourcegen.GSettings;
 import joist.util.Copy;
+import joist.util.Inflector;
 
 public class Config {
 
@@ -110,6 +111,10 @@ public class Config {
   private final Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
   private final String amountSuffix = ".*amount$";
   private final List<Pass> passes;
+
+  public Config(String projectName, Db db) {
+    this(projectName, Inflector.underscore(projectName), db);
+  }
 
   public Config(String projectName, String defaultDatabaseName, Db db) {
     this.db = db;
