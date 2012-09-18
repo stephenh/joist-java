@@ -1,5 +1,7 @@
 package features.domain;
 
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +115,26 @@ public class ManyToManyATest extends AbstractFeaturesTest {
     bar = this.reload(bar);
     Assert.assertEquals(0, foo.getManyToManyABars().size());
     Assert.assertEquals(0, bar.getManyToManyAFoos().size());
+  }
+
+  @Test
+  public void testListIsUnmodifiable() {
+    ManyToManyAFoo foo = new ManyToManyAFoo("foo");
+    ManyToManyABar bar = new ManyToManyABar("bar");
+    bar.addManyToManyAFoo(foo);
+    this.commitAndReOpen();
+
+    foo = this.reload(foo);
+    try {
+      foo.getManyToManyABars().clear();
+      fail();
+    } catch (UnsupportedOperationException uoe) {
+      // expected
+    }
+    // this.commitAndReOpen();
+    // this is what the user meant
+    // foo = this.reload(foo);
+    // assertThat(foo.getManyToManyABars().size(), is(0));
   }
 
 }

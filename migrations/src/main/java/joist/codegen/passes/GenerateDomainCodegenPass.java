@@ -1,6 +1,7 @@
 package joist.codegen.passes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import joist.codegen.Codegen;
@@ -369,7 +370,8 @@ public class GenerateDomainCodegenPass implements Pass {
         mtmp.getMySideManyToOne().getOneToManyProperty().getCapitalVariableName());
       getter.body.line("_   l.add(o.get{}());", mtmp.getCapitalVariableNameSingular());
       getter.body.line("}");
-      getter.body.line("return l;");
+      getter.body.line("return Collections.unmodifiableList(l);");
+      domainCodegen.addImports(Collections.class);
 
       GMethod setter = domainCodegen.getMethod("set" + mtmp.getCapitalVariableName()).argument(mtmp.getJavaType(), mtmp.getVariableName());
       setter.body.line(
