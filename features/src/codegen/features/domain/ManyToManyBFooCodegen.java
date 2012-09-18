@@ -2,6 +2,7 @@ package features.domain;
 
 import features.domain.queries.ManyToManyBFooQueries;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
@@ -121,7 +122,7 @@ public abstract class ManyToManyBFooCodegen extends AbstractDomainObject {
     for (ManyToManyBFooToBar o : this.getOwnerManyToManyBFooToBars()) {
       l.add(o.getOwned());
     }
-    return l;
+    return Collections.unmodifiableList(l);
   }
 
   public void setOwneds(List<ManyToManyBBar> owneds) {

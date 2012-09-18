@@ -2,6 +2,7 @@ package features.domain;
 
 import features.domain.queries.ParentDChildCQueries;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
@@ -121,7 +122,7 @@ public abstract class ParentDChildCCodegen extends AbstractDomainObject {
     for (ParentDToChildC o : this.getParentDToChildCs()) {
       l.add(o.getParentD());
     }
-    return l;
+    return Collections.unmodifiableList(l);
   }
 
   public void setParentDs(List<ParentD> parentDs) {
