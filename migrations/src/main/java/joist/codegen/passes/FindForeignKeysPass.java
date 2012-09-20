@@ -1,25 +1,25 @@
 package joist.codegen.passes;
 
-import joist.codegen.Codegen;
 import joist.codegen.InformationSchemaColumn;
+import joist.codegen.Schema;
 import joist.codegen.dtos.Entity;
 import joist.codegen.dtos.ManyToOneProperty;
 import joist.codegen.dtos.OneToManyProperty;
 
-public class FindForeignKeysPass implements Pass {
+public class FindForeignKeysPass implements Pass<Schema> {
 
-  public void pass(Codegen codegen) {
-    for (InformationSchemaColumn column : codegen.getColumns()) {
+  public void pass(Schema schema) {
+    for (InformationSchemaColumn column : schema.getColumns()) {
       if (column.foreignKeyTableName == null) {
         continue;
       }
 
-      Entity manySide = codegen.getEntity(column);
+      Entity manySide = schema.getEntity(column);
       if (manySide == null) {
         continue;
       }
 
-      Entity oneSide = codegen.getEntity(column.foreignKeyTableName);
+      Entity oneSide = schema.getEntity(column.foreignKeyTableName);
       if (oneSide == null) {
         throw new RuntimeException("Could not deduce referencedTableName for " + column.name);
       }
@@ -34,7 +34,7 @@ public class FindForeignKeysPass implements Pass {
       ManyToOneProperty mtop = new ManyToOneProperty(manySide, column);
       OneToManyProperty otmp = new OneToManyProperty(oneSide, column);
 
-      if (codegen.getConfig().isPropertySkipped(manySide.getClassName(), mtop.getVariableName())) {
+      if (schema.getConfig().isPropertySkipped(manySide.getClassName(), mtop.getVariableName())) {
         continue;
       }
 

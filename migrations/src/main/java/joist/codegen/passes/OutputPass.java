@@ -2,7 +2,7 @@ package joist.codegen.passes;
 
 import joist.codegen.Codegen;
 
-public class OutputPass implements Pass {
+public class OutputPass implements Pass<Codegen> {
 
   public void pass(Codegen codegen) {
     codegen.getOutputSourceDirectory().output();

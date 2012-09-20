@@ -3,7 +3,6 @@ package joist.codegen.dtos;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import joist.codegen.Codegen;
 import joist.codegen.Config;
 import joist.codegen.InformationSchemaColumn;
 import joist.util.Inflector;
@@ -21,8 +20,8 @@ public class PrimitiveProperty {
   private final String defaultValue;
   private final boolean unique;
 
-  public PrimitiveProperty(Codegen codegen, Entity entity, InformationSchemaColumn column) {
-    this.config = codegen.getConfig();
+  public PrimitiveProperty(Config config, Entity entity, InformationSchemaColumn column) {
+    this.config = config;
     this.entity = entity;
     this.columnName = column.name;
     this.dataType = column.dataType;

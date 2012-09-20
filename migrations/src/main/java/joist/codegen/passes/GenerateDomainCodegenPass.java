@@ -29,10 +29,10 @@ import joist.sourcegen.GMethod;
 import joist.util.Copy;
 import joist.util.ListDiff;
 
-public class GenerateDomainCodegenPass implements Pass {
+public class GenerateDomainCodegenPass implements Pass<Codegen> {
 
   public void pass(Codegen codegen) {
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       if (entity.isCodeEntity()) {
         continue;
       }

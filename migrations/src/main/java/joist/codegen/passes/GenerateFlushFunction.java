@@ -10,7 +10,7 @@ import joist.util.Wrap;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class GenerateFlushFunction implements Pass {
+public class GenerateFlushFunction implements Pass<Codegen> {
 
   private DataSource ds;
 
@@ -32,12 +32,12 @@ public class GenerateFlushFunction implements Pass {
     sql.line("$BODY$");
     sql.line("BEGIN");
     sql.line("SET CONSTRAINTS ALL DEFERRED;");
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       if (entity.isRoot() && !entity.isStableTable()) {
         sql.line("ALTER SEQUENCE {} RESTART WITH 1 INCREMENT BY 1;", Wrap.quotes(entity.getTableName() + "_id_seq"));
       }
     }
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       if (entity.isRoot() && !entity.isStableTable()) {
         sql.line("DELETE FROM {};", Wrap.quotes(entity.getTableName()));
       }
@@ -56,7 +56,7 @@ public class GenerateFlushFunction implements Pass {
     sql.line("CREATE PROCEDURE flush_test_database()");
     sql.line("BEGIN");
     sql.line("SET FOREIGN_KEY_CHECKS=0;");
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       if (!entity.isCodeEntity() && !entity.isStableTable()) {
         sql.line("TRUNCATE TABLE {};", entity.getTableName());
       }
