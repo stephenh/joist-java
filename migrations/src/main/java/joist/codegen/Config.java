@@ -41,6 +41,7 @@ import joist.domain.util.ConnectionSettings;
 import joist.migrations.columns.PrimaryKeyColumn;
 import joist.sourcegen.GSettings;
 import joist.util.Copy;
+import joist.util.Inflector;
 
 public class Config {
 
@@ -109,8 +110,14 @@ public class Config {
   private final List<String> stableTables = new ArrayList<String>();
   private final Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
   private final String amountSuffix = ".*amount$";
-  private final List<Pass> passes;
+  private final List<Pass<Schema>> dataPasses;
+  private final List<Pass<Codegen>> codegenPasses;
 
+  public Config(String projectName, Db db) {
+    this(projectName, Inflector.underscore(projectName), db);
+  }
+
+  @SuppressWarnings("unchecked")
   public Config(String projectName, String defaultDatabaseName, Db db) {
     this.db = db;
 
@@ -150,12 +157,13 @@ public class Config {
     this.setJavaType("varchar", String.class.getName(), StringAliasColumn.class.getName());
     this.setJavaType("tinyint", Short.class.getName(), ShortAliasColumn.class.getName());
 
-    this.passes = Copy.list(
+    this.dataPasses = Copy.list(
       new FindTablesPass(),
       new FindPrimitivePropertiesPass(),
       new FindForeignKeysPass(),
       new FindCodeValuesPass(),
-      new FindManyToManyPropertiesPass(),
+      new FindManyToManyPropertiesPass());
+    this.codegenPasses = Copy.list(
       new GenerateCodesPass(),
       new GenerateDomainClassIfNotExistsPass(),
       new GenerateDomainCodegenPass(),
@@ -170,12 +178,16 @@ public class Config {
       new OutputPass());
   }
 
-  public List<Pass> getPasses() {
-    return this.passes;
+  public List<Pass<Schema>> getDataPasses() {
+    return this.dataPasses;
   }
 
-  public void addPassBeforeOutput(Pass pass) {
-    this.passes.add(this.passes.size() - 2, pass);
+  public List<Pass<Codegen>> getCodegenPasses() {
+    return this.codegenPasses;
+  }
+
+  public void addPassBeforeOutput(Pass<Codegen> pass) {
+    this.getCodegenPasses().add(this.getCodegenPasses().size() - 2, pass);
   }
 
   public void includeHistoryTriggers() {

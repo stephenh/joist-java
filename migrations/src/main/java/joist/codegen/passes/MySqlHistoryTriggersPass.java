@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author larry
  */
 @Slf4j
-public class MySqlHistoryTriggersPass implements Pass {
+public class MySqlHistoryTriggersPass implements Pass<Codegen> {
 
   private final Set<Pattern> skippedTables = new HashSet<Pattern>();
   private final Set<Pattern> skippedColumns = new HashSet<Pattern>();
@@ -41,7 +41,7 @@ public class MySqlHistoryTriggersPass implements Pass {
   public void pass(Codegen codegen) {
     log.info("Updating history triggers");
     this.ds = codegen.getConfig().dbAppSaSettings.getDataSource();
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       // always try to drop the trigger
       this.dropExistingTriggers(codegen, entity.getTableName());
       if (this.shouldCreateTrigger(entity.getTableName())) {
@@ -152,7 +152,7 @@ public class MySqlHistoryTriggersPass implements Pass {
 
   private List<InformationSchemaColumn> columnsForTable(Codegen codegen, String table) {
     List<InformationSchemaColumn> cols = new ArrayList<InformationSchemaColumn>();
-    for (InformationSchemaColumn c : codegen.getColumns()) {
+    for (InformationSchemaColumn c : codegen.getSchema().getColumns()) {
       if (c.tableName.equals(table)) {
         cols.add(c);
       }

@@ -4,10 +4,10 @@ import joist.codegen.Codegen;
 import joist.codegen.dtos.Entity;
 import joist.sourcegen.GClass;
 
-public class GenerateDomainClassIfNotExistsPass implements Pass {
+public class GenerateDomainClassIfNotExistsPass implements Pass<Codegen> {
 
   public void pass(Codegen codegen) {
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       if (entity.isCodeEntity()) {
         continue;
       }

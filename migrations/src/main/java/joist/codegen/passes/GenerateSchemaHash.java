@@ -4,12 +4,12 @@ import joist.codegen.Codegen;
 import joist.sourcegen.GClass;
 import joist.sourcegen.GField;
 
-public class GenerateSchemaHash implements Pass {
+public class GenerateSchemaHash implements Pass<Codegen> {
 
   public void pass(Codegen codegen) {
     GClass schemaHash = codegen.getOutputCodegenDirectory().getClass(codegen.getConfig().getDomainObjectPackage() + ".SchemaHash");
     GField field = schemaHash.getField("hashCode").setPublic().setStatic().setFinal().type("int");
-    field.initialValue("{}", codegen.getSchemaHashCode());
+    field.initialValue("{}", codegen.getSchema().getSchemaHashCode());
   }
 
 }

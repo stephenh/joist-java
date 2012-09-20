@@ -1,6 +1,7 @@
 package features.cli;
 
 import joist.AbstractJoistCli;
+import joist.codegen.Config;
 import joist.domain.orm.Db;
 import joist.sourcegen.GSettings;
 import joist.util.SystemProperties;
@@ -18,16 +19,21 @@ public class JoistCli extends AbstractJoistCli {
   }
 
   public JoistCli() {
-    super("features", db);
-    this.config.outputCodegenDirectory = "src/codegen";
-    this.config.setCollectionSkipped("ParentD", "parentDChildAs");
-    this.config.setCollectionSkipped("ParentD", "parentDToChildCs");
-    this.config.setPropertySkipped("Primitives", "skipped");
-    this.config.setPropertySkipped("Primitives", "parent");
+    super(config());
     GSettings.setDefaultIndentation("  ");
     if (this.config.dbAppSaSettings.db.isMySQL()) {
       this.config.includeHistoryTriggers();
     }
+  }
+
+  public static Config config() {
+    Config config = new Config("features", db);
+    config.outputCodegenDirectory = "src/codegen";
+    config.setCollectionSkipped("ParentD", "parentDChildAs");
+    config.setCollectionSkipped("ParentD", "parentDToChildCs");
+    config.setPropertySkipped("Primitives", "skipped");
+    config.setPropertySkipped("Primitives", "parent");
+    return config;
   }
 
 }
