@@ -257,4 +257,5 @@ public class ChildTest extends AbstractFeaturesTest {
       IdentityMap.setSizeLimit(oldSizeLimit);
     }
   }
+
 }

@@ -55,9 +55,13 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
               parentIds.add(parentId);
             }
           }
-          // substract any ids that are already loaded
+          // subtract any ids that are already loaded
           for (P parent : UoW.getIdentityMap().getInstancesOf(this.parentClass)) {
             parentIds.remove(parent.getId());
+          }
+          // if even our own id was not in the list, that is bad, we're from another UoW
+          if (parentIds.size() == 0) {
+            throw new IllegalStateException("Instance has been disconnected from the UoW");
           }
           Select<P> q = Select.from(this.parentAlias);
           q.where(this.parentAlias.getIdColumn().in(parentIds));
