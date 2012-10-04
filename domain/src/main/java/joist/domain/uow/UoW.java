@@ -42,9 +42,20 @@ public class UoW {
     }
   }
 
+  public static void read(Repository repo, Block block) {
+    try {
+      UoW.open(repo, null);
+      getCurrent().setReadOnly(true);
+      block.go();
+    } finally {
+      UoW.safelyRollbackAndCloseIfNeeded(true);
+    }
+  }
+
   public static <T> T read(Repository repo, BlockWithReturn<T> block) {
     try {
       UoW.open(repo, null);
+      getCurrent().setReadOnly(true);
       return block.go();
     } finally {
       UoW.safelyRollbackAndCloseIfNeeded(true);
@@ -184,6 +195,9 @@ public class UoW {
   public static void enqueue(DomainObject instance) {
     if (UoW.getCurrent().isCreatingSnapshot()) {
       throw new RuntimeException("Cannot modify " + instance + " while creating a snapshot");
+    }
+    if (UoW.getCurrent().isReadOnly()) {
+      throw new RuntimeException("Cannot modify " + instance + " while reading");
     }
     if (AbstractDomainObject.isFromSnapshot(instance)) {
       throw new RuntimeException("Cannot modify " + instance + " as it was loaded from a snapshot");

@@ -3,15 +3,15 @@ package joist.codegen.dtos;
 import java.util.ArrayList;
 import java.util.List;
 
-import joist.codegen.Codegen;
+import joist.codegen.Config;
 
 /** Represents tables that generated as enums but are still foreign keys in the database. */
 public class CodeEntity extends Entity {
 
   private List<CodeValue> codes = new ArrayList<CodeValue>();
 
-  public CodeEntity(Codegen codegen, String tableName) {
-    super(codegen, tableName);
+  public CodeEntity(Config config, String tableName) {
+    super(config, tableName);
   }
 
   @Override

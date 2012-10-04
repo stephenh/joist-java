@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
-import joist.codegen.Codegen;
 import joist.codegen.InformationSchemaColumn;
+import joist.codegen.Schema;
 import joist.codegen.dtos.Entity;
 import joist.jdbc.Jdbc;
 import joist.util.StringBuilderr;
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author larry
  */
 @Slf4j
-public class MySqlHistoryTriggersPass implements Pass {
+public class MySqlHistoryTriggersPass implements Pass<Schema> {
 
   private final Set<Pattern> skippedTables = new HashSet<Pattern>();
   private final Set<Pattern> skippedColumns = new HashSet<Pattern>();
@@ -38,18 +38,18 @@ public class MySqlHistoryTriggersPass implements Pass {
     this.skipTable(historyTableName);
   }
 
-  public void pass(Codegen codegen) {
+  public void pass(Schema schema) {
     log.info("Updating history triggers");
-    this.ds = codegen.getConfig().dbAppSaSettings.getDataSource();
-    for (Entity entity : codegen.getEntities().values()) {
+    this.ds = schema.getConfig().dbAppSaSettings.getDataSource();
+    for (Entity entity : schema.getEntities().values()) {
       // always try to drop the trigger
-      this.dropExistingTriggers(codegen, entity.getTableName());
-      if (this.shouldCreateTrigger(entity.getTableName())) {
+      this.dropExistingTriggers(entity.getTableName());
+      if (!this.shouldSkipTable(entity.getTableName())) {
         if (entity.isRoot()) {
-          this.createInsertTrigger(codegen, entity.getTableName());
-          this.createDeleteTrigger(codegen, entity.getTableName());
+          this.createInsertTrigger(entity.getTableName());
         }
-        this.createUpdateTrigger(codegen, entity.getTableName(), entity.getRootEntity().getTableName());
+        this.createUpdateTrigger(schema, entity.getTableName(), entity.getRootEntity().getTableName());
+        this.createDeleteTrigger(schema, entity.getTableName(), entity.getRootEntity().getTableName());
       }
     }
   }
@@ -64,32 +64,35 @@ public class MySqlHistoryTriggersPass implements Pass {
     this.skippedColumns.add(Pattern.compile(regex));
   }
 
-  private boolean shouldCreateTrigger(String tableName) {
+  private boolean shouldSkipTable(String tableName) {
     for (Pattern pattern : this.skippedTables) {
       if (pattern.matcher(tableName).matches()) {
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
   }
 
-  private boolean shouldCreateTrigger(String tableName, String columnName) {
+  private boolean shouldSkipColumn(String tableName, String columnName) {
+    if ("version".equals(columnName) || "id".equals(columnName)) {
+      return true;
+    }
     String matchAgainst = tableName + "." + columnName;
     for (Pattern pattern : this.skippedColumns) {
       if (pattern.matcher(matchAgainst).matches()) {
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
   }
 
-  private void dropExistingTriggers(Codegen codegen, String table) {
+  private void dropExistingTriggers(String table) {
     Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS {}_history_update", table);
     Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS {}_history_insert", table);
     Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS {}_history_delete", table);
   }
 
-  private void createInsertTrigger(Codegen codegen, String tableName) {
+  private void createInsertTrigger(String tableName) {
     StringBuilderr sql = new StringBuilderr();
     sql.line("CREATE TRIGGER {}_history_insert AFTER INSERT ON {}", tableName, tableName);
     sql.line("FOR EACH ROW");
@@ -102,26 +105,31 @@ public class MySqlHistoryTriggersPass implements Pass {
     Jdbc.update(this.ds, sql.toString());
   }
 
-  private void createDeleteTrigger(Codegen codegen, String tableName) {
+  private void createDeleteTrigger(Schema schema, String tableName, String rootTableName) {
     StringBuilderr sql = new StringBuilderr();
     sql.line("CREATE TRIGGER {}_history_delete AFTER DELETE ON {}", tableName, tableName);
     sql.line("FOR EACH ROW");
     sql.line("BEGIN");
-    sql.line(" INSERT INTO {}", this.historyTableName);
-    sql.line("  (type, root_table_name, primary_key, property_name, old_value, new_value, updater, update_time, version)");
-    sql.line(" VALUES");
-    sql.line("  ('delete', '{}', OLD.id, null, null, null, @updater, now(), 1);", tableName);
+    for (InformationSchemaColumn c : this.columnsForTable(schema, tableName)) {
+      if (this.shouldSkipColumn(tableName, c.name)) {
+        continue;
+      }
+      sql.line(" INSERT INTO {}", this.historyTableName);
+      sql.line("  (type, root_table_name, primary_key, property_name, old_value, new_value, updater, update_time, version)");
+      sql.line(" VALUES");
+      sql.line("  ('delete', '{}', OLD.id, '{}', {}, null, @updater, now(), 1);", rootTableName, c.name, snippet("OLD", c));
+    }
     sql.line("END;");
     Jdbc.update(this.ds, sql.toString());
   }
 
-  private void createUpdateTrigger(Codegen codegen, String tableName, String rootTableName) {
+  private void createUpdateTrigger(Schema schema, String tableName, String rootTableName) {
     StringBuilderr sql = new StringBuilderr();
     sql.line("CREATE TRIGGER {}_history_update AFTER UPDATE ON {}", tableName, tableName);
     sql.line("FOR EACH ROW");
     sql.line("BEGIN");
-    for (InformationSchemaColumn c : this.columnsForTable(codegen, tableName)) {
-      if (c.name.equals("version") || !this.shouldCreateTrigger(tableName, c.name)) {
+    for (InformationSchemaColumn c : this.columnsForTable(schema, tableName)) {
+      if (this.shouldSkipColumn(tableName, c.name)) {
         continue;
       }
       sql.line("IF NOT BINARY NEW.{} <=> BINARY OLD.{} THEN", c.name, c.name);
@@ -150,9 +158,9 @@ public class MySqlHistoryTriggersPass implements Pass {
     }
   }
 
-  private List<InformationSchemaColumn> columnsForTable(Codegen codegen, String table) {
+  private List<InformationSchemaColumn> columnsForTable(Schema schema, String table) {
     List<InformationSchemaColumn> cols = new ArrayList<InformationSchemaColumn>();
-    for (InformationSchemaColumn c : codegen.getColumns()) {
+    for (InformationSchemaColumn c : schema.getColumns()) {
       if (c.tableName.equals(table)) {
         cols.add(c);
       }

@@ -2,22 +2,28 @@ package joist;
 
 import joist.codegen.Codegen;
 import joist.codegen.Config;
+import joist.codegen.Schema;
+import joist.codegen.passes.MySqlHistoryTriggersPass;
 import joist.domain.orm.Db;
 import joist.migrations.DatabaseBootstrapper;
 import joist.migrations.Migrater;
 import joist.migrations.PermissionFixer;
-import joist.util.Inflector;
 
 public abstract class AbstractJoistCli {
 
   public Config config;
+  private Schema schema;
 
   public AbstractJoistCli(String projectName, Db db) {
-    this(projectName, Inflector.underscore(projectName), db);
+    this(new Config(projectName, db));
   }
 
   public AbstractJoistCli(String projectName, String defaultDatabaseName, Db db) {
-    this.config = new Config(projectName, defaultDatabaseName, db);
+    this(new Config(projectName, defaultDatabaseName, db));
+  }
+
+  public AbstractJoistCli(Config config) {
+    this.config = config;
     if (".".equals(this.config.dbAppSaSettings.password)) {
       throw new RuntimeException("You need to set db.sa.password either on the command line or in build.properties.");
     }
@@ -28,6 +34,9 @@ public abstract class AbstractJoistCli {
     this.migrateDatabase();
     this.fixPermissions();
     this.codegen();
+    if (this.config.dbAppSaSettings.db.isMySQL() && this.config.useHistoryTriggers) {
+      this.historyTriggers();
+    }
   }
 
   public void createBackup() {
@@ -45,6 +54,9 @@ public abstract class AbstractJoistCli {
 
   public void migrateDatabase() {
     new Migrater(this.config).migrate();
+    if (this.config.dbAppSaSettings.db.isMySQL() && this.config.useHistoryTriggers) {
+      this.historyTriggers();
+    }
   }
 
   public void fixPermissions() {
@@ -60,7 +72,19 @@ public abstract class AbstractJoistCli {
   }
 
   public void codegen() {
-    new Codegen(this.config).generate();
+    new Codegen(this.config, this.getSchema()).generate();
+  }
+
+  public void historyTriggers() {
+    new MySqlHistoryTriggersPass().pass(this.getSchema());
+  }
+
+  private Schema getSchema() {
+    if (this.schema == null) {
+      this.schema = new Schema(this.config);
+      this.schema.populate();
+    }
+    return this.schema;
   }
 
 }

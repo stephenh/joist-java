@@ -43,6 +43,7 @@ public class UnitOfWork {
   private boolean rolledBack;
   private boolean implicitDeletionOfChildrenEnabled;
   private boolean creatingSnapshot;
+  private boolean readOnly;
 
   public UnitOfWork(final Repository repo, final Connection connection, Updater updater, Snapshot snapshot) {
     this.repo = repo;
@@ -183,6 +184,14 @@ public class UnitOfWork {
 
   void setCreatingSnapshot(boolean snapshotting) {
     this.creatingSnapshot = snapshotting;
+  }
+
+  boolean isReadOnly() {
+    return this.readOnly;
+  }
+
+  void setReadOnly(boolean readOnly) {
+    this.readOnly = readOnly;
   }
 
   private void flush(Set<DomainObject> insertOrUpdate, Set<DomainObject> delete) {

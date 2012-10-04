@@ -2,7 +2,6 @@ package joist.codegen.dtos;
 
 import java.util.List;
 
-import joist.codegen.Codegen;
 import joist.codegen.Config;
 import joist.codegen.InformationSchemaColumn;
 import joist.util.Inflector;
@@ -18,8 +17,8 @@ public class ManyToManyProperty {
   private Entity targetTable;
   private ManyToManyProperty other;
 
-  public ManyToManyProperty(Codegen codegen, Entity joinTable, Entity mySide, Entity otherSide, InformationSchemaColumn column) {
-    this.config = codegen.getConfig();
+  public ManyToManyProperty(Config config, Entity joinTable, Entity mySide, Entity otherSide, InformationSchemaColumn column) {
+    this.config = config;
     this.joinTable = joinTable;
     this.mySide = mySide;
     this.targetTable = otherSide;

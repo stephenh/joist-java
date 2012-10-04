@@ -23,7 +23,6 @@ import joist.codegen.passes.GenerateFlushFunction;
 import joist.codegen.passes.GenerateQueriesCodegenPass;
 import joist.codegen.passes.GenerateQueriesIfNotExistsPass;
 import joist.codegen.passes.GenerateSchemaHash;
-import joist.codegen.passes.MySqlHistoryTriggersPass;
 import joist.codegen.passes.OutputPass;
 import joist.codegen.passes.Pass;
 import joist.domain.AbstractDomainObject;
@@ -41,6 +40,7 @@ import joist.domain.util.ConnectionSettings;
 import joist.migrations.columns.PrimaryKeyColumn;
 import joist.sourcegen.GSettings;
 import joist.util.Copy;
+import joist.util.Inflector;
 
 public class Config {
 
@@ -92,6 +92,8 @@ public class Config {
   /** For MySQL, the host to use when creating/granting user-level permissions. Defaults to '%'. */
   public String userhost = System.getProperty("db.userhost", "%");
 
+  public boolean useHistoryTriggers;
+
   private final Map<String, String> javaTypeByDataType = new HashMap<String, String>();
   private final Map<String, String> javaTypeByColumnName = new HashMap<String, String>();
   private final Map<TypeAndPattern, String> javaTypeByPattern = new HashMap<TypeAndPattern, String>();
@@ -109,8 +111,14 @@ public class Config {
   private final List<String> stableTables = new ArrayList<String>();
   private final Map<String, List<String>> customRulesByJavaType = new HashMap<String, List<String>>();
   private final String amountSuffix = ".*amount$";
-  private final List<Pass> passes;
+  private final List<Pass<Schema>> dataPasses;
+  private final List<Pass<Codegen>> codegenPasses;
 
+  public Config(String projectName, Db db) {
+    this(projectName, Inflector.underscore(projectName), db);
+  }
+
+  @SuppressWarnings("unchecked")
   public Config(String projectName, String defaultDatabaseName, Db db) {
     this.db = db;
 
@@ -120,6 +128,9 @@ public class Config {
     this.dbSystemSettings = ConnectionSettings.forSystemSa(db, defaultDatabaseName);
 
     this.setProjectNameForDefaults(projectName);
+
+    // default history triggers on, but only supported by mysql
+    this.useHistoryTriggers = db.isMySQL();
 
     this.setJavaType("integer", Integer.class.getName(), IntAliasColumn.class.getName());
     this.setJavaType("character", String.class.getName(), StringAliasColumn.class.getName());
@@ -150,12 +161,13 @@ public class Config {
     this.setJavaType("varchar", String.class.getName(), StringAliasColumn.class.getName());
     this.setJavaType("tinyint", Short.class.getName(), ShortAliasColumn.class.getName());
 
-    this.passes = Copy.list(
+    this.dataPasses = Copy.list(
       new FindTablesPass(),
       new FindPrimitivePropertiesPass(),
       new FindForeignKeysPass(),
       new FindCodeValuesPass(),
-      new FindManyToManyPropertiesPass(),
+      new FindManyToManyPropertiesPass());
+    this.codegenPasses = Copy.list(
       new GenerateCodesPass(),
       new GenerateDomainClassIfNotExistsPass(),
       new GenerateDomainCodegenPass(),
@@ -170,16 +182,16 @@ public class Config {
       new OutputPass());
   }
 
-  public List<Pass> getPasses() {
-    return this.passes;
+  public List<Pass<Schema>> getDataPasses() {
+    return this.dataPasses;
   }
 
-  public void addPassBeforeOutput(Pass pass) {
-    this.passes.add(this.passes.size() - 2, pass);
+  public List<Pass<Codegen>> getCodegenPasses() {
+    return this.codegenPasses;
   }
 
-  public void includeHistoryTriggers() {
-    this.addPassBeforeOutput(new MySqlHistoryTriggersPass());
+  public void addPassBeforeOutput(Pass<Codegen> pass) {
+    this.getCodegenPasses().add(this.getCodegenPasses().size() - 2, pass);
   }
 
   public Config doNotUseTimeAndMoney() {

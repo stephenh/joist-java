@@ -21,10 +21,10 @@ import joist.util.MapToList;
 
 import org.apache.commons.lang.StringUtils;
 
-public class GenerateBuilderCodegenPass implements Pass {
+public class GenerateBuilderCodegenPass implements Pass<Codegen> {
 
   public void pass(Codegen codegen) {
-    for (Entity entity : codegen.getEntities().values()) {
+    for (Entity entity : codegen.getSchema().getEntities().values()) {
       if (entity.isCodeEntity()) {
         continue;
       }
