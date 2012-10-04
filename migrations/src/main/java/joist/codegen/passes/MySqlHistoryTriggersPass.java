@@ -44,7 +44,7 @@ public class MySqlHistoryTriggersPass implements Pass<Codegen> {
     for (Entity entity : codegen.getSchema().getEntities().values()) {
       // always try to drop the trigger
       this.dropExistingTriggers(codegen, entity.getTableName());
-      if (this.shouldCreateTrigger(entity.getTableName())) {
+      if (!this.shouldSkipTable(entity.getTableName())) {
         if (entity.isRoot()) {
           this.createInsertTrigger(codegen, entity.getTableName());
           this.createDeleteTrigger(codegen, entity.getTableName());
@@ -64,23 +64,26 @@ public class MySqlHistoryTriggersPass implements Pass<Codegen> {
     this.skippedColumns.add(Pattern.compile(regex));
   }
 
-  private boolean shouldCreateTrigger(String tableName) {
+  private boolean shouldSkipTable(String tableName) {
     for (Pattern pattern : this.skippedTables) {
       if (pattern.matcher(tableName).matches()) {
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
   }
 
-  private boolean shouldCreateTrigger(String tableName, String columnName) {
+  private boolean shouldSkipColumn(String tableName, String columnName) {
+    if ("version".equals(columnName)) {
+      return true;
+    }
     String matchAgainst = tableName + "." + columnName;
     for (Pattern pattern : this.skippedColumns) {
       if (pattern.matcher(matchAgainst).matches()) {
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
   }
 
   private void dropExistingTriggers(Codegen codegen, String table) {
@@ -121,7 +124,7 @@ public class MySqlHistoryTriggersPass implements Pass<Codegen> {
     sql.line("FOR EACH ROW");
     sql.line("BEGIN");
     for (InformationSchemaColumn c : this.columnsForTable(codegen, tableName)) {
-      if (c.name.equals("version") || !this.shouldCreateTrigger(tableName, c.name)) {
+      if (this.shouldSkipColumn(tableName, c.name)) {
         continue;
       }
       sql.line("IF NOT BINARY NEW.{} <=> BINARY OLD.{} THEN", c.name, c.name);
