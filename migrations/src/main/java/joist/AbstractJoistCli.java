@@ -34,7 +34,7 @@ public abstract class AbstractJoistCli {
     this.migrateDatabase();
     this.fixPermissions();
     this.codegen();
-    if (this.config.dbAppSaSettings.db.isMySQL() && this.config.useHistoryTriggers) {
+    if (this.config.useHistoryTriggers) {
       this.historyTriggers();
     }
   }
@@ -54,7 +54,7 @@ public abstract class AbstractJoistCli {
 
   public void migrateDatabase() {
     new Migrater(this.config).migrate();
-    if (this.config.dbAppSaSettings.db.isMySQL() && this.config.useHistoryTriggers) {
+    if (this.config.useHistoryTriggers) {
       this.historyTriggers();
     }
   }
@@ -76,7 +76,11 @@ public abstract class AbstractJoistCli {
   }
 
   public void historyTriggers() {
-    new MySqlHistoryTriggersPass().pass(this.getSchema());
+    if (this.config.db.isMySQL()) {
+      new MySqlHistoryTriggersPass().pass(this.getSchema());
+    } else {
+      throw new IllegalStateException("Currently history triggers are only supported in MySQL");
+    }
   }
 
   protected Schema getSchema() {
