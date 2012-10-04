@@ -3,6 +3,7 @@ package joist;
 import joist.codegen.Codegen;
 import joist.codegen.Config;
 import joist.codegen.Schema;
+import joist.codegen.passes.MySqlHistoryTriggersPass;
 import joist.domain.orm.Db;
 import joist.migrations.DatabaseBootstrapper;
 import joist.migrations.Migrater;
@@ -11,6 +12,7 @@ import joist.migrations.PermissionFixer;
 public abstract class AbstractJoistCli {
 
   public Config config;
+  private Schema schema;
 
   public AbstractJoistCli(String projectName, Db db) {
     this(new Config(projectName, db));
@@ -32,6 +34,9 @@ public abstract class AbstractJoistCli {
     this.migrateDatabase();
     this.fixPermissions();
     this.codegen();
+    if (this.config.dbAppSaSettings.db.isMySQL() && this.config.useHistoryTriggers) {
+      this.historyTriggers();
+    }
   }
 
   public void createBackup() {
@@ -49,6 +54,9 @@ public abstract class AbstractJoistCli {
 
   public void migrateDatabase() {
     new Migrater(this.config).migrate();
+    if (this.config.dbAppSaSettings.db.isMySQL() && this.config.useHistoryTriggers) {
+      this.historyTriggers();
+    }
   }
 
   public void fixPermissions() {
@@ -64,9 +72,19 @@ public abstract class AbstractJoistCli {
   }
 
   public void codegen() {
-    Schema schema = new Schema(this.config);
-    schema.populate();
-    new Codegen(this.config, schema).generate();
+    new Codegen(this.config, this.getSchema()).generate();
+  }
+
+  public void historyTriggers() {
+    new MySqlHistoryTriggersPass().pass(this.getSchema());
+  }
+
+  private Schema getSchema() {
+    if (this.schema == null) {
+      this.schema = new Schema(this.config);
+      this.schema.populate();
+    }
+    return this.schema;
   }
 
 }

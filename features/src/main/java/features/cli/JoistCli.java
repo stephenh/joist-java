@@ -21,9 +21,6 @@ public class JoistCli extends AbstractJoistCli {
   public JoistCli() {
     super(config());
     GSettings.setDefaultIndentation("  ");
-    if (this.config.dbAppSaSettings.db.isMySQL()) {
-      this.config.includeHistoryTriggers();
-    }
   }
 
   public static Config config() {

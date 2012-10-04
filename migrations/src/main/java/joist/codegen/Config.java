@@ -23,7 +23,6 @@ import joist.codegen.passes.GenerateFlushFunction;
 import joist.codegen.passes.GenerateQueriesCodegenPass;
 import joist.codegen.passes.GenerateQueriesIfNotExistsPass;
 import joist.codegen.passes.GenerateSchemaHash;
-import joist.codegen.passes.MySqlHistoryTriggersPass;
 import joist.codegen.passes.OutputPass;
 import joist.codegen.passes.Pass;
 import joist.domain.AbstractDomainObject;
@@ -93,6 +92,8 @@ public class Config {
   /** For MySQL, the host to use when creating/granting user-level permissions. Defaults to '%'. */
   public String userhost = System.getProperty("db.userhost", "%");
 
+  public boolean useHistoryTriggers;
+
   private final Map<String, String> javaTypeByDataType = new HashMap<String, String>();
   private final Map<String, String> javaTypeByColumnName = new HashMap<String, String>();
   private final Map<TypeAndPattern, String> javaTypeByPattern = new HashMap<TypeAndPattern, String>();
@@ -127,6 +128,9 @@ public class Config {
     this.dbSystemSettings = ConnectionSettings.forSystemSa(db, defaultDatabaseName);
 
     this.setProjectNameForDefaults(projectName);
+
+    // default history triggers on, but only supported by mysql
+    this.useHistoryTriggers = db.isMySQL();
 
     this.setJavaType("integer", Integer.class.getName(), IntAliasColumn.class.getName());
     this.setJavaType("character", String.class.getName(), StringAliasColumn.class.getName());
@@ -188,10 +192,6 @@ public class Config {
 
   public void addPassBeforeOutput(Pass<Codegen> pass) {
     this.getCodegenPasses().add(this.getCodegenPasses().size() - 2, pass);
-  }
-
-  public void includeHistoryTriggers() {
-    this.addPassBeforeOutput(new MySqlHistoryTriggersPass());
   }
 
   public Config doNotUseTimeAndMoney() {
