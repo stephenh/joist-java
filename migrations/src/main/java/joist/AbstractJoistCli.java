@@ -79,7 +79,7 @@ public abstract class AbstractJoistCli {
     new MySqlHistoryTriggersPass().pass(this.getSchema());
   }
 
-  private Schema getSchema() {
+  protected Schema getSchema() {
     if (this.schema == null) {
       this.schema = new Schema(this.config);
       this.schema.populate();
