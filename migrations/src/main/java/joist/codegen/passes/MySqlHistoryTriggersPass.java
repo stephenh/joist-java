@@ -47,9 +47,9 @@ public class MySqlHistoryTriggersPass implements Pass<Codegen> {
       if (!this.shouldSkipTable(entity.getTableName())) {
         if (entity.isRoot()) {
           this.createInsertTrigger(codegen, entity.getTableName());
-          this.createDeleteTrigger(codegen, entity.getTableName());
         }
         this.createUpdateTrigger(codegen, entity.getTableName(), entity.getRootEntity().getTableName());
+        this.createDeleteTrigger(codegen, entity.getTableName(), entity.getRootEntity().getTableName());
       }
     }
   }
@@ -74,7 +74,7 @@ public class MySqlHistoryTriggersPass implements Pass<Codegen> {
   }
 
   private boolean shouldSkipColumn(String tableName, String columnName) {
-    if ("version".equals(columnName)) {
+    if ("version".equals(columnName) || "id".equals(columnName)) {
       return true;
     }
     String matchAgainst = tableName + "." + columnName;
@@ -105,15 +105,20 @@ public class MySqlHistoryTriggersPass implements Pass<Codegen> {
     Jdbc.update(this.ds, sql.toString());
   }
 
-  private void createDeleteTrigger(Codegen codegen, String tableName) {
+  private void createDeleteTrigger(Codegen codegen, String tableName, String rootTableName) {
     StringBuilderr sql = new StringBuilderr();
     sql.line("CREATE TRIGGER {}_history_delete AFTER DELETE ON {}", tableName, tableName);
     sql.line("FOR EACH ROW");
     sql.line("BEGIN");
-    sql.line(" INSERT INTO {}", this.historyTableName);
-    sql.line("  (type, root_table_name, primary_key, property_name, old_value, new_value, updater, update_time, version)");
-    sql.line(" VALUES");
-    sql.line("  ('delete', '{}', OLD.id, null, null, null, @updater, now(), 1);", tableName);
+    for (InformationSchemaColumn c : this.columnsForTable(codegen, tableName)) {
+      if (this.shouldSkipColumn(tableName, c.name)) {
+        continue;
+      }
+      sql.line(" INSERT INTO {}", this.historyTableName);
+      sql.line("  (type, root_table_name, primary_key, property_name, old_value, new_value, updater, update_time, version)");
+      sql.line(" VALUES");
+      sql.line("  ('delete', '{}', OLD.id, '{}', {}, null, @updater, now(), 1);", rootTableName, c.name, snippet("OLD", c));
+    }
     sql.line("END;");
     Jdbc.update(this.ds, sql.toString());
   }

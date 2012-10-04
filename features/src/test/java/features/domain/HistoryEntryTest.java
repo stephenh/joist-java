@@ -57,7 +57,8 @@ public class HistoryEntryTest extends AbstractFeaturesTest {
     Primitives.queries.delete(p);
     this.commitAndReOpen();
 
-    assertEntry(2, "delete", 1, "primitives", null, null, null, "testing");
+    assertEntry(2, "delete", 1, "primitives", "flag", "true", null, "testing");
+    assertEntry(3, "delete", 1, "primitives", "name", "n1", null, "testing");
   }
 
   @Test
@@ -105,8 +106,11 @@ public class HistoryEntryTest extends AbstractFeaturesTest {
     InheritanceASubOne.queries.delete(s1);
     this.commitAndReOpen();
 
-    assertThat(HistoryEntry.queries.count(), is(2l));
-    assertEntry(2, "delete", 1, "inheritance_a_base", null, null, null, "testing");
+    assertThat(HistoryEntry.queries.count(), is(5l));
+    assertEntry(2, "delete", 1, "inheritance_a_base", "inheritance_a_thing_id", null, null, "testing");
+    assertEntry(3, "delete", 1, "inheritance_a_base", "one", "ss1", null, "testing");
+    assertEntry(4, "delete", 1, "inheritance_a_base", "inheritance_a_owner_id", null, null, "testing");
+    assertEntry(5, "delete", 1, "inheritance_a_base", "name", "s1", null, "testing");
   }
 
   @Test
