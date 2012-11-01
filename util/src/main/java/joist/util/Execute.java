@@ -40,6 +40,11 @@ public class Execute {
     return this;
   }
 
+  public Execute addAllEnv() {
+    this.env.putAll(System.getenv());
+    return this;
+  }
+
   public Execute arg(String arg) {
     this.commandPlusArgs.add(arg);
     return this;
