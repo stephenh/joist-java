@@ -60,4 +60,10 @@ public class ExecuteTest {
     assertThat(Read.fromFile(out).contains("README.markdown"), is(true));
   }
 
+  @Test
+  public void addAllEnv() {
+    // addAllEnv should pass on the HOME variable
+    String out = new Execute("bash").addEnvPaths().addAllEnv().arg("-c").arg("echo ${HOME}").toBuffer().out;
+    assertThat(out, is(System.getenv("HOME") + "\n"));
+  }
 }
