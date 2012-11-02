@@ -28,10 +28,12 @@ public class Execute {
 
   public Execute(String command) {
     this.commandPlusArgs.add(command);
+    this.applyDefaults();
   }
 
   public Execute(String[] commandPlusArgs) {
     this.commandPlusArgs.addAll(Copy.list(commandPlusArgs));
+    this.applyDefaults();
   }
 
   public Execute addEnvPaths() {
@@ -60,8 +62,18 @@ public class Execute {
     return this;
   }
 
+  public Execute clearEnv() {
+    this.env.clear();
+    return this;
+  }
+
   public Execute path(String possiblePath) {
     this.possiblePaths.add(possiblePath);
+    return this;
+  }
+
+  public Execute clearPath() {
+    this.possiblePaths.clear();
     return this;
   }
 
@@ -148,6 +160,10 @@ public class Execute {
   private String[] getCommandPlusArgsArray() {
     this.commandPlusArgs.add(0, this.resolve(this.commandPlusArgs.remove(0)));
     return Copy.array(String.class, this.commandPlusArgs);
+  }
+
+  private void applyDefaults() {
+    this.addAllEnv().addEnvPaths();
   }
 
   private String resolve(String executable) {
