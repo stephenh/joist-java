@@ -90,4 +90,10 @@ public class ExecuteTest {
     Execute e = new Execute("bash").clearEnv().arg("-c").arg("echo ${HOME}");
     assertThat(e.toBuffer().out, is("\n"));
   }
+
+  @Test
+  public void canTakeAbsolutePath() {
+    Execute e = new Execute("/bin/ls");
+    assertThat(e.toBuffer().exitValue, is(0));
+  }
 }
