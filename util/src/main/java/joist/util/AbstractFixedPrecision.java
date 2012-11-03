@@ -26,9 +26,9 @@ public abstract class AbstractFixedPrecision<T extends AbstractFixedPrecision<T>
   private static final MathContext ZERO_NO_ROUND = new MathContext(0, RoundingMode.UNNECESSARY);
   private static final long serialVersionUID = 1;
   protected final BigDecimal value;
-  private final boolean isSafe;
   private final int persistedScale;
   private final RoundingMode roundingMode;
+  final boolean isSafe;
 
   protected AbstractFixedPrecision(Initializer i, int persistedScale, RoundingMode roundingMode) {
     this.value = i.value;
