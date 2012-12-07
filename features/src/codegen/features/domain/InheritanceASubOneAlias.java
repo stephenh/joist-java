@@ -19,6 +19,7 @@ public class InheritanceASubOneAlias extends Alias<InheritanceASubOne> {
   public final IdAliasColumn<InheritanceABase> id;
   public final StringAliasColumn<InheritanceABase> name;
   public final LongAliasColumn<InheritanceABase> version;
+  public final ForeignKeyAliasColumn<InheritanceABase, InheritanceAOwner> inheritanceAOwner;
 
   public InheritanceASubOneAlias() {
     this("iaso0", null, true);
@@ -36,6 +37,7 @@ public class InheritanceASubOneAlias extends Alias<InheritanceASubOne> {
     this.id = this.baseAlias.id;
     this.name = this.baseAlias.name;
     this.version = this.baseAlias.version;
+    this.inheritanceAOwner = this.baseAlias.inheritanceAOwner;
   }
 
   public List<AliasColumn<InheritanceASubOne, ?, ?>> getColumns() {
