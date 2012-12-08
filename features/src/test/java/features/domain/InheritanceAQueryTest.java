@@ -46,7 +46,7 @@ public class InheritanceAQueryTest {
   }
 
   @Test
-  public void testFindSubOnelsoFindsBase() {
+  public void testFindSubOneAlsoFindsBase() {
     InheritanceASubOneAlias sa = new InheritanceASubOneAlias("sa");
     Select<InheritanceASubOne> q = Select.from(sa);
     q.where(sa.one.eq("one"));
@@ -59,5 +59,21 @@ public class InheritanceAQueryTest {
       " INNER JOIN \"inheritance_a_base\" sa_b ON sa.id = sa_b.id",
       " WHERE sa.one = ?"), q.toSql());
     Assert.assertEquals(Copy.list("one"), q.getWhere().getParameters());
+  }
+
+  @Test
+  public void testFindSubOneWithFilterOnBase() {
+    InheritanceASubOneAlias sa = new InheritanceASubOneAlias("sa");
+    Select<InheritanceASubOne> q = Select.from(sa);
+    q.where(sa.inheritanceAOwner.eq(1L));
+
+    Assert.assertEquals(Join.lines(//
+      "SELECT"//
+        + " sa_b.id, sa_b.name, sa_b.version, sa_b.inheritance_a_owner_id,"
+        + " sa.one, sa.inheritance_a_thing_id",
+      " FROM \"inheritance_a_sub_one\" sa",
+      " INNER JOIN \"inheritance_a_base\" sa_b ON sa.id = sa_b.id",
+      " WHERE sa_b.inheritance_a_owner_id = ?"), q.toSql());
+    Assert.assertEquals(Copy.list(1L), q.getWhere().getParameters());
   }
 }
