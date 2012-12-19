@@ -23,8 +23,8 @@ public class LongAliasColumn<T extends DomainObject> extends AliasColumn<T, Long
   }
 
   @Override
-  public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
-    this.setJdbcValue(instance, rs.getLong(i));
+  public Long toJdbcValue(ResultSet rs, int i) throws SQLException {
+    return rs.getLong(i);
   }
 
 }

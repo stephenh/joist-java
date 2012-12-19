@@ -14,8 +14,8 @@ public class ByteArrayAliasColumn<T extends DomainObject> extends AliasColumn<T,
   }
 
   @Override
-  public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
-    this.setJdbcValue(instance, rs.getBytes(i));
+  public byte[] toJdbcValue(ResultSet rs, int i) throws SQLException {
+    return rs.getBytes(i);
   }
 
 }

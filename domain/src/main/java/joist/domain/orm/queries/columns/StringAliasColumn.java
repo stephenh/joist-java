@@ -28,8 +28,8 @@ public class StringAliasColumn<T extends DomainObject> extends AliasColumn<T, St
   }
 
   @Override
-  public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
-    this.setJdbcValue(instance, rs.getString(i));
+  public String toJdbcValue(ResultSet rs, int i) throws SQLException {
+    return rs.getString(i);
   }
 
 }

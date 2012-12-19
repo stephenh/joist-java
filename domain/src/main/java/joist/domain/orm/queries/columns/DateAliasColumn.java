@@ -15,8 +15,8 @@ public class DateAliasColumn<T extends DomainObject> extends AliasColumn<T, Date
   }
 
   @Override
-  public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
-    this.setJdbcValue(instance, rs.getDate(i));
+  public Date toJdbcValue(ResultSet rs, int i) throws SQLException {
+    return rs.getDate(i);
   }
 
 }
