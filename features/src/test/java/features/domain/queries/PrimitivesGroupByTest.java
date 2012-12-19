@@ -46,7 +46,7 @@ public class PrimitivesGroupByTest extends AbstractFeaturesTest {
   }
 
   @Test
-  public void testHavingByWithTwoResultsAndOneFiltered() {
+  public void testHavingWithTwoResultsAndOneFiltered() {
     new Primitives("p1").flag(true);
     new Primitives("p2").flag(false);
     new Primitives("p3").flag(false);
