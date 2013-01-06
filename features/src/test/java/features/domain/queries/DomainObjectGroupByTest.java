@@ -1,6 +1,8 @@
 package features.domain.queries;
 
 import static features.domain.builders.Builders.aChild;
+import static features.domain.builders.Builders.aChildH;
+import static features.domain.builders.Builders.aParentH;
 
 import java.util.List;
 
@@ -13,7 +15,11 @@ import org.junit.Test;
 import features.domain.AbstractFeaturesTest;
 import features.domain.Child;
 import features.domain.ChildAlias;
+import features.domain.ChildH;
+import features.domain.ChildHAlias;
+import features.domain.ParentHAlias;
 import features.domain.builders.ChildBuilder;
+import features.domain.builders.ParentHBuilder;
 
 public class DomainObjectGroupByTest extends AbstractFeaturesTest {
 
@@ -104,6 +110,50 @@ public class DomainObjectGroupByTest extends AbstractFeaturesTest {
     Assert.assertEquals(1L, l.get(0).sum.intValue());
     Assert.assertEquals(2L, l.get(1).parentId.longValue());
     Assert.assertEquals(5L, l.get(1).sum.intValue());
+  }
+
+  @Test
+  public void testHavingWithColumnCondition() {
+    ParentHBuilder parent1 = aParentH().threshold(100L).defaults();
+    aChildH().with(parent1).quantity(40L).defaults();
+    aChildH().with(parent1).quantity(59L).defaults();
+
+    ParentHBuilder parent2 = aParentH().threshold(100L).defaults();
+    aChildH().with(parent2).quantity(40L).defaults();
+    aChildH().with(parent2).quantity(60L).defaults();
+
+    ParentHBuilder parent3 = aParentH().threshold(100L).defaults();
+    aChildH().with(parent3).quantity(41L).defaults();
+    aChildH().with(parent3).quantity(60L).defaults();
+    this.commitAndReOpen();
+
+    ParentHAlias p = new ParentHAlias("p");
+    ChildHAlias c = new ChildHAlias("c");
+    Select<ChildH> q = Select.from(c);
+    q.join(p.on(c.parent));
+    q.select(p.id.as("parentId"), Aggregate.sum(c.quantity).as("sum"));
+    q.groupBy(p.id, p.threshold);
+    q.orderBy(p.id.asc());
+    q.having(Aggregate.sum(c.quantity).greaterThan(p.threshold));
+    List<ByParent> l = q.list(ByParent.class);
+    Assert.assertEquals(1, l.size()); // now two
+    Assert.assertEquals(3L, l.get(0).parentId.longValue());
+    Assert.assertEquals(101, l.get(0).sum.intValue());
+
+    q.having(Aggregate.sum(c.quantity).lessThan(p.threshold));
+    l = q.list(ByParent.class);
+    Assert.assertEquals(1, l.size()); // now two
+    Assert.assertEquals(1L, l.get(0).parentId.longValue());
+    Assert.assertEquals(99, l.get(0).sum.intValue());
+
+    q.having(Aggregate.sum(c.quantity).greaterThanOrEqual(p.threshold));
+    l = q.list(ByParent.class);
+    Assert.assertEquals(2, l.size()); // now two
+    Assert.assertEquals(2L, l.get(0).parentId.longValue());
+    Assert.assertEquals(100, l.get(0).sum.intValue());
+    Assert.assertEquals(2, l.size()); // now two
+    Assert.assertEquals(3L, l.get(1).parentId.longValue());
+    Assert.assertEquals(101, l.get(1).sum.intValue());
   }
 
   public static class ByParent {

@@ -31,6 +31,22 @@ public abstract class ColumnExpression<U, V> {
     return new Where(this.getQualifiedName() + " > ?", value);
   }
 
+  public Where lessThanOrEqual(AliasColumn<?, U, V> value) {
+    return new Where(this.getQualifiedName() + " <= " + value.getQualifiedName());
+  }
+
+  public Where lessThan(AliasColumn<?, U, V> value) {
+    return new Where(this.getQualifiedName() + " < " + value.getQualifiedName());
+  }
+
+  public Where greaterThanOrEqual(AliasColumn<?, U, V> value) {
+    return new Where(this.getQualifiedName() + " >= " + value.getQualifiedName());
+  }
+
+  public Where greaterThan(AliasColumn<?, U, V> value) {
+    return new Where(this.getQualifiedName() + " > " + value.getQualifiedName());
+  }
+
   /** @return a where for between {@code lower} and {@code upper}, inclusive. */
   public Where between(U lower, U upper) {
     return new Where(this.getQualifiedName() + " BETWEEN ? AND ?", lower, upper);

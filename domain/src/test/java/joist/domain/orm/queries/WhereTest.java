@@ -1,8 +1,8 @@
 package joist.domain.orm.queries;
 
 import joist.util.Join;
-import org.junit.Assert;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class WhereTest {
