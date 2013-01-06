@@ -15,7 +15,7 @@ import joist.domain.orm.queries.Where;
  * @param U the domain property type
  * @param V the jdbc property type
  */
-public abstract class AliasColumn<T extends DomainObject, U, V> {
+public abstract class AliasColumn<T extends DomainObject, U, V> extends ColumnExpression<U, V> {
 
   private final Alias<T> alias;
   private final String name;
@@ -39,7 +39,7 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
     this.shim.set(instance, this.toDomainValue(jdbcValue));
   }
 
-  public abstract void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException;
+  public abstract V toJdbcValue(ResultSet rs, int i) throws SQLException;
 
   public U toDomainValue(V jdbcValue) {
     return (U) jdbcValue;
@@ -67,27 +67,6 @@ public abstract class AliasColumn<T extends DomainObject, U, V> {
 
   public Where isNotNull() {
     return new Where(this.getQualifiedName() + " IS NOT NULL");
-  }
-
-  public Where lessThanOrEqual(U value) {
-    return new Where(this.getQualifiedName() + " <= ?", this.toJdbcValue(value));
-  }
-
-  public Where lessThan(U value) {
-    return new Where(this.getQualifiedName() + " < ?", this.toJdbcValue(value));
-  }
-
-  public Where greaterThan(U value) {
-    return new Where(this.getQualifiedName() + " > ?", this.toJdbcValue(value));
-  }
-
-  public Where greaterThanOrEqual(U value) {
-    return new Where(this.getQualifiedName() + " >= ?", this.toJdbcValue(value));
-  }
-
-  /** @return a where for between {@code lower} and {@code upper}, inclusive. */
-  public Where between(U lower, U upper) {
-    return new Where(this.getQualifiedName() + " BETWEEN ? AND ?", this.toJdbcValue(lower), this.toJdbcValue(upper));
   }
 
   public SelectItem as(String as) {
