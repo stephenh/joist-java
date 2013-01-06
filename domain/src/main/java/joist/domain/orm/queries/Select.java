@@ -163,6 +163,10 @@ public class Select<T extends DomainObject> {
 
   public SelectCountBuilder count = new SelectCountBuilder();
 
+  @Deprecated
+  /**
+   * Use joist.domain.orm.queries.columns.Aggregate.count() instead
+   */
   public class SelectCountBuilder {
     public SelectItem as(String name) {
       return new SelectItem("count(*)", name);

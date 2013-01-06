@@ -13,7 +13,7 @@
 		<dependency org="timeandmoney" name="timeandmoney" rev="0.5.1" conf="compile"/>
 		<dependency org="c3p0" name="c3p0" rev="0.9.1.2" conf="compile"/>
 
-		<dependency org="org.projectlombok" name="lombok" rev="0.10.0-201104011955" conf="provided"/>
+		<dependency org="org.projectlombok" name="lombok" rev="0.10.0" conf="provided"/>
 
 		<dependency org="junit" name="junit" rev="4.10" conf="test"/>
 	</dependencies>
