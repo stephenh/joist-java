@@ -29,7 +29,7 @@ public class MoneyAliasColumn<T extends DomainObject> extends AliasColumn<T, Mon
     if (domainValue == null) {
       return null;
     }
-    return domainValue.breachEncapsulationOfAmount().multiply(new BigDecimal(100)).toBigIntegerExact().longValue();
+    return domainValue.getAmount().multiply(new BigDecimal(100)).toBigIntegerExact().longValue();
   }
 
   @Override
