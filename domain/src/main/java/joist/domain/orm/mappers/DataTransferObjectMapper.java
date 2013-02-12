@@ -7,7 +7,7 @@ import java.util.List;
 
 import joist.domain.DomainObject;
 import joist.domain.orm.queries.SelectItem;
-import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.ColumnExpression;
 import joist.jdbc.RowMapper;
 
 public class DataTransferObjectMapper<T extends DomainObject, R> implements RowMapper {
@@ -36,9 +36,11 @@ public class DataTransferObjectMapper<T extends DomainObject, R> implements RowM
     for (SelectItem item : this.selectItems) {
       try {
         Field field = this.rowType.getField(item.getAs());
-        Object value = rs.getObject(item.getAs());
+        Object value;
         if (item.getColumn() != null) {
-          value = ((AliasColumn<?, Object, Object>) item.getColumn()).toDomainValue(value);
+          value = ((ColumnExpression<?, ?>) item.getColumn()).toJdbcValue(rs, rs.findColumn(item.getAs()));
+        } else {
+          value = rs.getObject(item.getAs());
         }
         field.set(row, value);
       } catch (NoSuchFieldException nsfe) {

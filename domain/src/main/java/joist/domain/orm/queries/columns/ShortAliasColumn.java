@@ -31,8 +31,8 @@ public class ShortAliasColumn<T extends DomainObject> extends AliasColumn<T, Sho
   }
 
   @Override
-  public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
-    this.setJdbcValue(instance, rs.getInt(i));
+  public Integer toJdbcValue(ResultSet rs, int i) throws SQLException {
+    return rs.getInt(i);
   }
 
 }

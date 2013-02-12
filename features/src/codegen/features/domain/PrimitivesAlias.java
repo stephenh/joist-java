@@ -50,7 +50,7 @@ public class PrimitivesAlias extends Alias<Primitives> {
   }
 
   public int getOrder() {
-    return 42;
+    return 44;
   }
 
 }

@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.Child;
 import features.domain.ChildF;
 import features.domain.ChildG;
+import features.domain.ChildH;
 import features.domain.CodeADomainObject;
 import features.domain.GrandChild;
 import features.domain.HistoryEntry;
@@ -42,6 +43,7 @@ import features.domain.ParentDToChildC;
 import features.domain.ParentE;
 import features.domain.ParentF;
 import features.domain.ParentG;
+import features.domain.ParentH;
 import features.domain.Primitives;
 import features.domain.PrimitivesB;
 import features.domain.PrimitivesC;
@@ -98,6 +100,22 @@ public class Builders {
 
   public static ChildGBuilder theChildG(int id) {
     return new ChildGBuilder(ChildG.queries.find((long) id));
+  }
+
+  public static ChildHBuilder aChildH() {
+    return new ChildHBuilder(new ChildH());
+  }
+
+  public static ChildHBuilder existing(ChildH childH) {
+    return new ChildHBuilder(childH);
+  }
+
+  public static ChildHBuilder theChildH(long id) {
+    return new ChildHBuilder(ChildH.queries.find(id));
+  }
+
+  public static ChildHBuilder theChildH(int id) {
+    return new ChildHBuilder(ChildH.queries.find((long) id));
   }
 
   public static CodeADomainObjectBuilder aCodeADomainObject() {
@@ -706,6 +724,22 @@ public class Builders {
 
   public static ParentGBuilder theParentG(int id) {
     return new ParentGBuilder(ParentG.queries.find((long) id));
+  }
+
+  public static ParentHBuilder aParentH() {
+    return new ParentHBuilder(new ParentH());
+  }
+
+  public static ParentHBuilder existing(ParentH parentH) {
+    return new ParentHBuilder(parentH);
+  }
+
+  public static ParentHBuilder theParentH(long id) {
+    return new ParentHBuilder(ParentH.queries.find(id));
+  }
+
+  public static ParentHBuilder theParentH(int id) {
+    return new ParentHBuilder(ParentH.queries.find((long) id));
   }
 
   public static PrimitivesBuilder aPrimitives() {

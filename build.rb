@@ -17,8 +17,9 @@ def package_with_ivy(project)
   project.version = THIS_VERSION
   package_with_sources
 
+  # use ivy4r's pom instead of the default buildr one
+  file 'target/pom.xml' => task('ivy:makepom')
   package(:jar).pom.tap do |pom|
-    pom.enhance [task('ivy:makepom')]
     pom.from 'target/pom.xml'
   end
 end

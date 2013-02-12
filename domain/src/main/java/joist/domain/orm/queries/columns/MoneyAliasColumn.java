@@ -29,12 +29,12 @@ public class MoneyAliasColumn<T extends DomainObject> extends AliasColumn<T, Mon
     if (domainValue == null) {
       return null;
     }
-    return domainValue.breachEncapsulationOfAmount().multiply(new BigDecimal(100)).toBigIntegerExact().longValue();
+    return domainValue.getAmount().multiply(new BigDecimal(100)).toBigIntegerExact().longValue();
   }
 
   @Override
-  public void setJdbcValue(T instance, ResultSet rs, int i) throws SQLException {
-    this.setJdbcValue(instance, rs.getLong(i));
+  public Long toJdbcValue(ResultSet rs, int i) throws SQLException {
+    return rs.getLong(i);
   }
 
 }

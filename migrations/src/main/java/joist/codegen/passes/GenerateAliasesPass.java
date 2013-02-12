@@ -79,6 +79,16 @@ public class GenerateAliasesPass implements Pass<Codegen> {
         this.appendToConstructors(aliasClass, "this.{} = this.baseAlias.{};", p.getVariableName(), p.getVariableName());
       }
 
+      for (ManyToOneProperty p : baseEntity.getManyToOneProperties()) {
+        Class<?> aliasColumnClass = (p.getOneSide().isCodeEntity()) ? CodeAliasColumn.class : ForeignKeyAliasColumn.class;
+        aliasClass.addImports(aliasColumnClass);
+        aliasClass.addImports(p.getOneSide().getFullClassName());
+
+        GField field = aliasClass.getField(p.getVariableName()).setPublic().setFinal();
+        field.type("{}<{}, {}>", aliasColumnClass.getSimpleName(), p.getManySide().getClassName(), p.getJavaType());
+        this.appendToConstructors(aliasClass, "this.{} = this.baseAlias.{};", p.getVariableName(), p.getVariableName());
+      }
+
       aliasClass.addImports(entity.getConfig().getDomainObjectPackage() + "." + baseEntity.getClassName());
       baseEntity = baseEntity.getBaseEntity();
     }

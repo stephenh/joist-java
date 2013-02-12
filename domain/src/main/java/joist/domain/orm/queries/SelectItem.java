@@ -1,20 +1,20 @@
 package joist.domain.orm.queries;
 
-import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.ColumnExpression;
 
 public class SelectItem {
 
   private final String text;
-  private final AliasColumn<?, ?, ?> column;
+  private final ColumnExpression<?, ?> column;
   private final String as;
 
-  public SelectItem(AliasColumn<?, ?, ?> column) {
+  public SelectItem(ColumnExpression<?, ?> column) {
     this.column = column;
     this.text = column.getQualifiedName();
     this.as = null;
   }
 
-  public SelectItem(AliasColumn<?, ?, ?> column, String as) {
+  public SelectItem(ColumnExpression<?, ?> column, String as) {
     this.column = column;
     this.text = column.getQualifiedName() + " as " + as;
     this.as = as;
@@ -26,11 +26,17 @@ public class SelectItem {
     this.as = as;
   }
 
+  protected SelectItem(ColumnExpression<?, ?> column, String text, String as) {
+    this.column = column;
+    this.text = text;
+    this.as = as;
+  }
+
   public String toString() {
     return this.text;
   }
 
-  public AliasColumn<?, ?, ?> getColumn() {
+  public ColumnExpression<?, ?> getColumn() {
     return this.column;
   }
 
