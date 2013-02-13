@@ -16,19 +16,19 @@ public abstract class ColumnExpression<U, V> {
   public abstract String getQualifiedName();
 
   public Where lessThanOrEqual(U value) {
-    return new Where(this.getQualifiedName() + " <= ?", value);
+    return new Where(this.getQualifiedName() + " <= ?", this.toJdbcValue(value));
   }
 
   public Where lessThan(U value) {
-    return new Where(this.getQualifiedName() + " < ?", value);
+    return new Where(this.getQualifiedName() + " < ?", this.toJdbcValue(value));
   }
 
   public Where greaterThanOrEqual(U value) {
-    return new Where(this.getQualifiedName() + " >= ?", value);
+    return new Where(this.getQualifiedName() + " >= ?", this.toJdbcValue(value));
   }
 
   public Where greaterThan(U value) {
-    return new Where(this.getQualifiedName() + " > ?", value);
+    return new Where(this.getQualifiedName() + " > ?", this.toJdbcValue(value));
   }
 
   public Where lessThanOrEqual(AliasColumn<?, U, V> value) {
@@ -49,7 +49,8 @@ public abstract class ColumnExpression<U, V> {
 
   /** @return a where for between {@code lower} and {@code upper}, inclusive. */
   public Where between(U lower, U upper) {
-    return new Where(this.getQualifiedName() + " BETWEEN ? AND ?", lower, upper);
+    return new Where(this.getQualifiedName() + " BETWEEN ? AND ?", this.toJdbcValue(lower), this.toJdbcValue(upper));
   }
 
+  public abstract V toJdbcValue(U domainValue);
 }

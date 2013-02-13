@@ -2,6 +2,7 @@ package features.migrations;
 
 import static joist.migrations.MigrationKeywords.bigint;
 import static joist.migrations.MigrationKeywords.createTable;
+import static joist.migrations.MigrationKeywords.date;
 import static joist.migrations.MigrationKeywords.datetime;
 import static joist.migrations.MigrationKeywords.integer;
 import static joist.migrations.MigrationKeywords.primaryKey;
@@ -20,6 +21,7 @@ public class m0014 extends AbstractMigration {
       varchar("name"),
       bigint("dollar_amount"),
       datetime("timestamp"),
+      date("day"),
       integer("version"));
   }
 
