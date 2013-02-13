@@ -22,5 +22,8 @@ def package_with_ivy(project)
   package(:jar).pom.tap do |pom|
     pom.from 'target/pom.xml'
   end
+
+  # stay on java 1.6 for now
+  compile.using(:javac, :source => '1.6', :target => '1.6')
 end
 
