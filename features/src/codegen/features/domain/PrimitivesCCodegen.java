@@ -1,6 +1,7 @@
 package features.domain;
 
 import com.domainlanguage.money.Money;
+import com.domainlanguage.time.CalendarDate;
 import com.domainlanguage.time.TimePoint;
 import features.domain.queries.PrimitivesCQueries;
 import joist.domain.AbstractChanged;
@@ -16,6 +17,7 @@ import joist.domain.validation.rules.NotNull;
 public abstract class PrimitivesCCodegen extends AbstractDomainObject {
 
   public static final PrimitivesCQueries queries;
+  private CalendarDate day = null;
   private Money dollarAmount = null;
   private Long id = null;
   private String name = null;
@@ -33,11 +35,25 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
   }
 
   private void addExtraRules() {
+    this.addRule(new NotNull<PrimitivesC>(Shims.day));
     this.addRule(new NotNull<PrimitivesC>(Shims.dollarAmount));
     this.addRule(new NotNull<PrimitivesC>(Shims.name));
     this.addRule(new MaxLength<PrimitivesC>(Shims.name, 100));
     this.addRule(new NotEmpty<PrimitivesC>(Shims.name));
     this.addRule(new NotNull<PrimitivesC>(Shims.timestamp));
+  }
+
+  public CalendarDate getDay() {
+    return this.day;
+  }
+
+  public void setDay(CalendarDate day) {
+    this.getChanged().record("day", this.day, day);
+    this.day = day;
+  }
+
+  protected void defaultDay(CalendarDate day) {
+    this.day = day;
   }
 
   public Money getDollarAmount() {
@@ -111,6 +127,17 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
   }
 
   static class Shims {
+    protected static final Shim<PrimitivesC, CalendarDate> day = new Shim<PrimitivesC, CalendarDate>() {
+      public void set(PrimitivesC instance, CalendarDate day) {
+        ((PrimitivesCCodegen) instance).day = day;
+      }
+      public CalendarDate get(PrimitivesC instance) {
+        return ((PrimitivesCCodegen) instance).day;
+      }
+      public String getName() {
+        return "day";
+      }
+    };
     protected static final Shim<PrimitivesC, Money> dollarAmount = new Shim<PrimitivesC, Money>() {
       public void set(PrimitivesC instance, Money dollarAmount) {
         ((PrimitivesCCodegen) instance).dollarAmount = dollarAmount;
@@ -171,6 +198,12 @@ public abstract class PrimitivesCCodegen extends AbstractDomainObject {
   public static class PrimitivesCChanged extends AbstractChanged {
     public PrimitivesCChanged(PrimitivesC instance) {
       super(instance);
+    }
+    public boolean hasDay() {
+      return this.contains("day");
+    }
+    public CalendarDate getOriginalDay() {
+      return (com.domainlanguage.time.CalendarDate) this.getOriginal("day");
     }
     public boolean hasDollarAmount() {
       return this.contains("dollarAmount");
