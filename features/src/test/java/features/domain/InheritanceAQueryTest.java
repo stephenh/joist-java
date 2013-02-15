@@ -33,7 +33,7 @@ public class InheritanceAQueryTest {
     q.where(b.name.eq("b"));
 
     Assert.assertEquals(Join.lines(
-      "SELECT"
+      "SELECT DISTINCT"
         + " b.id, b.name, b.version, b.inheritance_a_owner_id,"
         + " b_0.one, b_0.inheritance_a_thing_id,"
         + " b_1.two, b_1.inheritance_a_thing_id,"
@@ -52,7 +52,7 @@ public class InheritanceAQueryTest {
     q.where(sa.one.eq("one"));
 
     Assert.assertEquals(Join.lines(//
-      "SELECT"//
+      "SELECT DISTINCT"//
         + " sa_b.id, sa_b.name, sa_b.version, sa_b.inheritance_a_owner_id,"
         + " sa.one, sa.inheritance_a_thing_id",
       " FROM \"inheritance_a_sub_one\" sa",
@@ -68,7 +68,7 @@ public class InheritanceAQueryTest {
     q.where(sa.inheritanceAOwner.eq(1L));
 
     Assert.assertEquals(Join.lines(//
-      "SELECT"//
+      "SELECT DISTINCT"//
         + " sa_b.id, sa_b.name, sa_b.version, sa_b.inheritance_a_owner_id,"
         + " sa.one, sa.inheritance_a_thing_id",
       " FROM \"inheritance_a_sub_one\" sa",

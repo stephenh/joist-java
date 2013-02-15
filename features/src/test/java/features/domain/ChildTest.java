@@ -258,4 +258,14 @@ public class ChildTest extends AbstractFeaturesTest {
     }
   }
 
+  @Test
+  public void testQueryThatJoinsWithChildren() {
+    Parent p = new Parent("p");
+    new Child(p, "c1");
+    new Child(p, "c2");
+    this.commitAndReOpen();
+    List<Parent> ps = Parent.queries.findChildrenStartingWith("c");
+    assertThat(ps.size(), is(1));
+  }
+
 }
