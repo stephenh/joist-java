@@ -33,7 +33,7 @@ public class ChildQueryLimitAndOffsetTest {
     q.offset(20);
 
     Assert.assertEquals(Join.lines(
-      "SELECT c.id, c.name, c.version, c.parent_id",
+      "SELECT DISTINCT c.id, c.name, c.version, c.parent_id",
       " FROM \"child\" c",
       " INNER JOIN \"parent\" p ON c.parent_id = p.id",
       " WHERE p.name = ?",

@@ -183,7 +183,14 @@ public class Select<T extends DomainObject> {
 
   public String toSql() {
     StringBuilderr s = new StringBuilderr();
-    s.line("SELECT {}", Join.commaSpace(this.selectItems));
+    // since Select is only ever used to return entities (or ids/DTOS
+    // of entities), we don't want a join to return multiple rows of
+    // the parent entity for each child entity in the join.
+    if (this.joins.size() > 0) {
+      s.line("SELECT DISTINCT {}", Join.commaSpace(this.selectItems));
+    } else {
+      s.line("SELECT {}", Join.commaSpace(this.selectItems));
+    }
     s.line(" FROM {} {}", Wrap.quotes(this.from.getTableName()), this.from.getName());
     for (JoinClause<?, ?> join : this.joins) {
       s.line(" {}", join);

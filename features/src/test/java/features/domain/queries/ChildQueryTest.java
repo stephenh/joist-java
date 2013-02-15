@@ -30,7 +30,7 @@ public class ChildQueryTest {
     q.orderBy(p.name.asc(), c.name.asc());
 
     Assert.assertEquals(Join.lines(
-      "SELECT c.id, c.name, c.version, c.parent_id",
+      "SELECT DISTINCT c.id, c.name, c.version, c.parent_id",
       " FROM \"child\" c",
       " INNER JOIN \"parent\" p ON c.parent_id = p.id",
       " WHERE p.name = ?",
@@ -46,7 +46,7 @@ public class ChildQueryTest {
     Select<Child> q = Select.from(c);
     q.join(p.on(c.parent));
     Assert.assertEquals(Join.lines(//
-      "SELECT c.id, c.name, c.version, c.parent_id",
+      "SELECT DISTINCT c.id, c.name, c.version, c.parent_id",
       " FROM \"child\" c",
       " INNER JOIN \"parent\" p ON c.parent_id = p.id"),//
       q.toSql());
@@ -60,7 +60,7 @@ public class ChildQueryTest {
     Select<Parent> q = Select.from(p);
     q.join(c.parent.on(p));
     Assert.assertEquals(Join.lines(//
-      "SELECT p.id, p.name, p.version",
+      "SELECT DISTINCT p.id, p.name, p.version",
       " FROM \"parent\" p",
       " INNER JOIN \"child\" c ON p.id = c.parent_id"),//
       q.toSql());

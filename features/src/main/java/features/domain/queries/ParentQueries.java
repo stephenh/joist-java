@@ -23,10 +23,16 @@ public class ParentQueries extends ParentQueriesCodegen {
   public List<Parent> findWithoutChildFetch() {
     ParentAlias p = new ParentAlias("p");
     ChildAlias c = new ChildAlias("c");
+    return Select.from(p).join(c.parent.on(p)).list();
+  }
+
+  public List<Parent> findChildrenStartingWith(String name) {
+    ParentAlias p = new ParentAlias("p");
+    ChildAlias c = new ChildAlias("c");
 
     Select<Parent> q = Select.from(p);
     q.join(c.parent.on(p));
-    return Select.from(p).list();
+    q.where(c.name.like(name + "%"));
+    return q.list();
   }
-
 }
