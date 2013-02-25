@@ -13,6 +13,14 @@ public abstract class ColumnExpression<U, V> {
 
   public abstract V toJdbcValue(ResultSet rs, int i) throws SQLException;
 
+  public U toDomainValue(V jdbcValue) {
+    return (U) jdbcValue;
+  }
+
+  public U toDomainValue(ResultSet rs, int i) throws SQLException {
+    return this.toDomainValue(this.toJdbcValue(rs, i));
+  }
+
   public abstract String getQualifiedName();
 
   public Where lessThanOrEqual(U value) {
