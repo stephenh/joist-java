@@ -266,6 +266,7 @@ public class ChildTest extends AbstractFeaturesTest {
     this.commitAndReOpen();
     List<Parent> ps = Parent.queries.findChildrenStartingWith("c");
     assertThat(ps.size(), is(1));
+    assertThat(ps.get(0).getChilds().size(), is(2));
   }
 
 }
