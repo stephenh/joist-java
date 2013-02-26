@@ -11,6 +11,6 @@
 		<dependency org="joist" name="joist-domain" rev="${joist.version}" conf="compile"/>
 		<dependency org="junit" name="junit" rev="4.10" conf="test"/>
 
-		<dependency org="org.projectlombok" name="lombok" rev="0.10.0-201104011955" conf="provided"/>
+		<dependency org="org.projectlombok" name="lombok" rev="0.10.2" conf="provided"/>
 	</dependencies>
 </ivy-module>

@@ -41,10 +41,6 @@ public abstract class AliasColumn<T extends DomainObject, U, V> extends ColumnEx
 
   public abstract V toJdbcValue(ResultSet rs, int i) throws SQLException;
 
-  public U toDomainValue(V jdbcValue) {
-    return (U) jdbcValue;
-  }
-
   public V toJdbcValue(U domainValue) {
     return (V) domainValue;
   }
