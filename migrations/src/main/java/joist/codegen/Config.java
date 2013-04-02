@@ -103,6 +103,7 @@ public class Config {
   private final Map<String, String> getterAccessByTableAndColumn = new HashMap<String, String>();
   private final Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
   private final Map<String, String> builderDefaultsByJavaType = new HashMap<String, String>();
+  private final Map<String, String> oneToManyName = new HashMap<String, String>();
   private final List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
   private final List<String> skipCollections = new ArrayList<String>();
   private final List<String> skipTables = new ArrayList<String>();
@@ -277,6 +278,14 @@ public class Config {
       return this.aliasTypeByDataType.get(dataType);
     }
     throw new RuntimeException("Unmatched data type: " + dataType);
+  }
+
+  public String getOneToManyPropertyName(String tableName, String columnName) {
+    return this.oneToManyName.get(tableName + "." + columnName);
+  }
+
+  public void setOneToManyPropertyName(String tableName, String columnName, String manySidePropertyName) {
+    this.oneToManyName.put(tableName + "." + columnName, manySidePropertyName);
   }
 
   public String getBuildersDefault(String javaType) {

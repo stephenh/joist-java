@@ -1,6 +1,7 @@
 package joist.util;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
@@ -27,7 +28,7 @@ public class ExecuteTest {
     BufferedResult r = e.toBuffer();
     assertThat(r.err.contains("No such file"), is(true));
     assertThat(r.success, is(false));
-    assertThat(r.exitValue, is(2));
+    assertThat(r.exitValue, is(not(0)));
   }
 
   @Test
@@ -43,7 +44,7 @@ public class ExecuteTest {
     Execute e = new Execute("ls").arg("foo");
     Result r = e.toSystemOut();
     assertThat(r.success, is(false));
-    assertThat(r.exitValue, is(2));
+    assertThat(r.exitValue, is(not(0)));
   }
 
   @Test

@@ -56,7 +56,7 @@ public class ValuesAAlias extends Alias<ValuesA> {
   }
 
   public int getOrder() {
-    return 49;
+    return 52;
   }
 
 }

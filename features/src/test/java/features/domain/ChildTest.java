@@ -2,6 +2,7 @@ package features.domain;
 
 import static features.domain.builders.Builders.aParent;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -266,6 +267,17 @@ public class ChildTest extends AbstractFeaturesTest {
     this.commitAndReOpen();
     List<Parent> ps = Parent.queries.findChildrenStartingWith("c");
     assertThat(ps.size(), is(1));
+    assertThat(ps.get(0).getChilds().size(), is(2));
   }
 
+  @Test
+  public void testCustomOneToManyNames() {
+    ParentI p = new ParentI();
+    p.addChildA(new ChildIA());
+    p.setChildB(new ChildIB());
+    this.commitAndReOpen();
+    p = this.reload(p);
+    assertThat(p.getChildAs().size(), is(1));
+    assertThat(p.getChildB(), is(not(nullValue())));
+  }
 }

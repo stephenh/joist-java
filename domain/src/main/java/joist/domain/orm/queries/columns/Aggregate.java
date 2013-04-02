@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import joist.domain.orm.queries.SelectItem;
 
 /**
- * @param IN the jdbc property type for input to the function
- * @param OUT the domain property type for the output of the function
+ * @param DOMAIN the domain property type for the result of the function
+ * @param JDBC the jdbc property type the result of the function
  */
-public abstract class Aggregate<IN, OUT> extends ColumnExpression<IN, OUT> {
+public abstract class Aggregate<DOMAIN, JDBC> extends ColumnExpression<DOMAIN, JDBC> {
 
   private final String function;
   private final String qualifiedName;
@@ -31,12 +31,12 @@ public abstract class Aggregate<IN, OUT> extends ColumnExpression<IN, OUT> {
     return new Count();
   }
 
-  public static <T> Aggregate<Long, Long> count(AliasColumn<?, ?, ?> column) {
+  public static Aggregate<Long, Long> count(AliasColumn<?, ?, ?> column) {
     return new Count(column);
   }
 
-  public static <T> Aggregate<T, T> sum(AliasColumn<?, T, T> column) {
-    return new Sum<T>(column);
+  public static <DOMAIN, JDBC> Aggregate<DOMAIN, JDBC> sum(AliasColumn<?, DOMAIN, JDBC> column) {
+    return new Sum<DOMAIN, JDBC>(column);
   }
 
   @Override
@@ -48,23 +48,28 @@ public abstract class Aggregate<IN, OUT> extends ColumnExpression<IN, OUT> {
     return new SelectItem(this, as);
   }
 
-  private static class Sum<T> extends Aggregate<T, T> {
-    private final AliasColumn<?, T, T> column;
+  private static class Sum<DOMAIN, JDBC> extends Aggregate<DOMAIN, JDBC> {
+    private final AliasColumn<?, DOMAIN, JDBC> column;
 
-    private Sum(AliasColumn<?, T, T> column) {
+    private Sum(AliasColumn<?, DOMAIN, JDBC> column) {
       super("sum", column);
       this.column = column;
     }
 
     @Override
-    public T toJdbcValue(ResultSet rs, int i) throws SQLException {
+    public JDBC toJdbcValue(ResultSet rs, int i) throws SQLException {
       return this.column.toJdbcValue(rs, i);
     }
 
-    @Override
-    public T toJdbcValue(T domainValue) {
-      return domainValue;
+    public DOMAIN toDomainValue(JDBC v) {
+      return this.column.toDomainValue(v);
     }
+
+    @Override
+    public JDBC toJdbcValue(DOMAIN domainValue) {
+      return this.column.toJdbcValue(domainValue);
+    }
+
   }
 
   private static class Count extends Aggregate<Long, Long> {

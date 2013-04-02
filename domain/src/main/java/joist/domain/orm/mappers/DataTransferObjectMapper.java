@@ -7,7 +7,6 @@ import java.util.List;
 
 import joist.domain.DomainObject;
 import joist.domain.orm.queries.SelectItem;
-import joist.domain.orm.queries.columns.ColumnExpression;
 import joist.jdbc.RowMapper;
 
 public class DataTransferObjectMapper<T extends DomainObject, R> implements RowMapper {
@@ -38,7 +37,12 @@ public class DataTransferObjectMapper<T extends DomainObject, R> implements RowM
         Field field = this.rowType.getField(item.getAs());
         Object value;
         if (item.getColumn() != null) {
-          value = ((ColumnExpression<?, ?>) item.getColumn()).toJdbcValue(rs, rs.findColumn(item.getAs()));
+          int column = rs.findColumn(item.getAs());
+          if (rs.getObject(column) == null) {
+            value = null;
+          } else {
+            value = item.getColumn().toDomainValue(rs, column);
+          }
         } else {
           value = rs.getObject(item.getAs());
         }

@@ -38,7 +38,10 @@ public class OneToManyProperty {
 
   public String getCapitalVariableNameSingular() {
     if (this.capitalVariableNameSingular == null) {
-      if (this.getKeyPropertyName().equals(this.oneSide.getClassName())) {
+      String config = this.config.getOneToManyPropertyName(this.getManySide().getTableName(), this.keyColumnName);
+      if (config != null) {
+        this.capitalVariableNameSingular = StringUtils.capitalize(config);
+      } else if (this.getKeyPropertyName().equals(this.oneSide.getClassName())) {
         // Regular many-to-one relationship of only 1 column in the target table pointing to us, so name
         // our side based on the type e.g. child.parent_id, so return "Child" to get "parent.getChilds()"
         this.capitalVariableNameSingular = this.getTargetJavaType();
