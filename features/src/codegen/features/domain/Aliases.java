@@ -8,6 +8,8 @@ public class Aliases {
   private static ChildFAlias childF;
   private static ChildGAlias childG;
   private static ChildHAlias childH;
+  private static ChildIAAlias childIA;
+  private static ChildIBAlias childIB;
   private static CodeADomainObjectAlias codeADomainObject;
   private static GrandChildAlias grandChild;
   private static HistoryEntryAlias historyEntry;
@@ -48,6 +50,7 @@ public class Aliases {
   private static ParentFAlias parentF;
   private static ParentGAlias parentG;
   private static ParentHAlias parentH;
+  private static ParentIAlias parentI;
   private static PrimitivesAlias primitives;
   private static PrimitivesBAlias primitivesB;
   private static PrimitivesCAlias primitivesC;
@@ -86,6 +89,22 @@ public class Aliases {
       AliasRegistry.register(ChildH.class, childH);
     }
     return childH;
+  }
+
+  public static ChildIAAlias childIA() {
+    if (childIA == null) {
+      childIA = new ChildIAAlias();
+      AliasRegistry.register(ChildIA.class, childIA);
+    }
+    return childIA;
+  }
+
+  public static ChildIBAlias childIB() {
+    if (childIB == null) {
+      childIB = new ChildIBAlias();
+      AliasRegistry.register(ChildIB.class, childIB);
+    }
+    return childIB;
   }
 
   public static CodeADomainObjectAlias codeADomainObject() {
@@ -406,6 +425,14 @@ public class Aliases {
       AliasRegistry.register(ParentH.class, parentH);
     }
     return parentH;
+  }
+
+  public static ParentIAlias parentI() {
+    if (parentI == null) {
+      parentI = new ParentIAlias();
+      AliasRegistry.register(ParentI.class, parentI);
+    }
+    return parentI;
   }
 
   public static PrimitivesAlias primitives() {

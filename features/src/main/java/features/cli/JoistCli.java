@@ -30,6 +30,8 @@ public class JoistCli extends AbstractJoistCli {
     config.setCollectionSkipped("ParentD", "parentDToChildCs");
     config.setPropertySkipped("Primitives", "skipped");
     config.setPropertySkipped("Primitives", "parent");
+    config.setOneToManyPropertyName("child_i_a", "parent_id", "childA");
+    config.setOneToManyPropertyName("child_i_b", "parent_id", "childB");
     return config;
   }
 

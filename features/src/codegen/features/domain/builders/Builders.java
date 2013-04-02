@@ -4,6 +4,8 @@ import features.domain.Child;
 import features.domain.ChildF;
 import features.domain.ChildG;
 import features.domain.ChildH;
+import features.domain.ChildIA;
+import features.domain.ChildIB;
 import features.domain.CodeADomainObject;
 import features.domain.GrandChild;
 import features.domain.HistoryEntry;
@@ -44,6 +46,7 @@ import features.domain.ParentE;
 import features.domain.ParentF;
 import features.domain.ParentG;
 import features.domain.ParentH;
+import features.domain.ParentI;
 import features.domain.Primitives;
 import features.domain.PrimitivesB;
 import features.domain.PrimitivesC;
@@ -116,6 +119,38 @@ public class Builders {
 
   public static ChildHBuilder theChildH(int id) {
     return new ChildHBuilder(ChildH.queries.find((long) id));
+  }
+
+  public static ChildIABuilder aChildIA() {
+    return new ChildIABuilder(new ChildIA());
+  }
+
+  public static ChildIABuilder existing(ChildIA childIA) {
+    return new ChildIABuilder(childIA);
+  }
+
+  public static ChildIABuilder theChildIA(long id) {
+    return new ChildIABuilder(ChildIA.queries.find(id));
+  }
+
+  public static ChildIABuilder theChildIA(int id) {
+    return new ChildIABuilder(ChildIA.queries.find((long) id));
+  }
+
+  public static ChildIBBuilder aChildIB() {
+    return new ChildIBBuilder(new ChildIB());
+  }
+
+  public static ChildIBBuilder existing(ChildIB childIB) {
+    return new ChildIBBuilder(childIB);
+  }
+
+  public static ChildIBBuilder theChildIB(long id) {
+    return new ChildIBBuilder(ChildIB.queries.find(id));
+  }
+
+  public static ChildIBBuilder theChildIB(int id) {
+    return new ChildIBBuilder(ChildIB.queries.find((long) id));
   }
 
   public static CodeADomainObjectBuilder aCodeADomainObject() {
@@ -740,6 +775,22 @@ public class Builders {
 
   public static ParentHBuilder theParentH(int id) {
     return new ParentHBuilder(ParentH.queries.find((long) id));
+  }
+
+  public static ParentIBuilder aParentI() {
+    return new ParentIBuilder(new ParentI());
+  }
+
+  public static ParentIBuilder existing(ParentI parentI) {
+    return new ParentIBuilder(parentI);
+  }
+
+  public static ParentIBuilder theParentI(long id) {
+    return new ParentIBuilder(ParentI.queries.find(id));
+  }
+
+  public static ParentIBuilder theParentI(int id) {
+    return new ParentIBuilder(ParentI.queries.find((long) id));
   }
 
   public static PrimitivesBuilder aPrimitives() {
