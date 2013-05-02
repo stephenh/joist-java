@@ -164,6 +164,18 @@ public class MigrationKeywords {
     }
   }
 
+  public static void renameTable(String oldTableName, String newTableName) {
+    if (isMySQL()) {
+      execute("RENAME TABLE {} TO {};", Wrap.quotes(oldTableName), Wrap.quotes(newTableName));
+    } else {
+      execute("ALTER TABLE {} RENAME TO {};", Wrap.quotes(oldTableName), Wrap.quotes(newTableName));
+    }
+    // clean up the old history triggers, as they'll get recreated after the migrations are applied
+    execute("DROP TRIGGER IF EXISTS {}_history_delete;", oldTableName);
+    execute("DROP TRIGGER IF EXISTS {}_history_insert;", oldTableName);
+    execute("DROP TRIGGER IF EXISTS {}_history_update;", oldTableName);
+  }
+
   public static void renameColumn(String tableName, String oldColumnName, String newColumnName) {
     if (isMySQL()) {
       // Have to pull the column type/default value from MySQL
