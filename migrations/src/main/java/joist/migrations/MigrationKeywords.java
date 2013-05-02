@@ -327,6 +327,18 @@ public class MigrationKeywords {
     MigrationKeywords.execute("DROP INDEX {};", Wrap.quotes(index));
   }
 
+  public static FillInStrategy fillIn(String constant) {
+    return new ConstantFillInStrategy("'" + constant + "'");
+  }
+
+  public static FillInStrategy fillIn(int constant) {
+    return new ConstantFillInStrategy(constant);
+  }
+
+  public static FillInStrategy fillIn(long constant) {
+    return new ConstantFillInStrategy(Long.toString(constant));
+  }
+
   private static String[] getColumnTypeAndDefaultValue(String tableName, String columnName) {
     // The 'column_type' is MySQL-only but gets us varchar(100) instead of just varchar
     Object[] result = Jdbc
