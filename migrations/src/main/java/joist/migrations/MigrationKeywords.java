@@ -27,11 +27,13 @@ import joist.migrations.fill.ConstantFillInStrategy;
 import joist.migrations.fill.FillInStrategy;
 import joist.util.Join;
 import joist.util.Wrap;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MigrationKeywords {
 
+  private static final Logger log = LoggerFactory.getLogger(MigrationKeywords.class);
   public static Config config;
 
   public static boolean isMySQL() {

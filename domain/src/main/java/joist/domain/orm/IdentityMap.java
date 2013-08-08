@@ -7,11 +7,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import joist.domain.DomainObject;
 import joist.util.MapToMap;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class IdentityMap {
 
+  private static final Logger log = LoggerFactory.getLogger(IdentityMap.class);
   private static final AtomicInteger sizeLimit = new AtomicInteger(10000);
 
   public static int getSizeLimit() {

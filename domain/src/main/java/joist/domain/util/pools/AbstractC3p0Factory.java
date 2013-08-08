@@ -5,15 +5,18 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import joist.domain.util.ConnectionSettings;
-import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;
 import com.mchange.v2.c3p0.management.ManagementCoordinator;
 import com.mchange.v2.c3p0.management.NullManagementCoordinator;
 
-@Slf4j
 public abstract class AbstractC3p0Factory {
+
+  private static final Logger log = LoggerFactory.getLogger(AbstractC3p0Factory.class);
 
   static {
     // Save 50-100ms because we don't care about JMX/whatever

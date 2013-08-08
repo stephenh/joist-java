@@ -8,11 +8,13 @@ import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import joist.util.Execute;
 import joist.util.Interpolate;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DatabaseBootstrapper {
 
+  private static final Logger log = LoggerFactory.getLogger(DatabaseBootstrapper.class);
   private final Config config;
 
   public DatabaseBootstrapper(Config config) {

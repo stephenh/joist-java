@@ -15,11 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 public class Execute {
 
+  private static final Logger log = LoggerFactory.getLogger(Execute.class);
   private final List<String> commandPlusArgs = new ArrayList<String>();
   private final Map<String, String> env = new HashMap<String, String>();
   private final List<String> possiblePaths = Copy.list(".");
