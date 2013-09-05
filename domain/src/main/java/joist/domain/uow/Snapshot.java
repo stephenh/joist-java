@@ -13,16 +13,18 @@ import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.util.MapToList;
 import joist.util.Reflection;
-import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A snapshot of the data in a {@link UnitOfWork} to seed future {@link UnitOfWork}s without hitting the database.
  * 
  * The class and the data in it is immutable so can safely be shared across threads if needed.
  */
-@Slf4j
 public class Snapshot {
 
+  private static final Logger log = LoggerFactory.getLogger(UoW.class);
   // will be read-only after our initial construction
   private final List<InstanceData<?>> data = new ArrayList<InstanceData<?>>();
   // also read-only after construction

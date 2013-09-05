@@ -5,11 +5,13 @@ import java.sql.SQLException;
 
 import joist.codegen.Config;
 import joist.jdbc.Jdbc;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Migrater {
 
+  private static final Logger log = LoggerFactory.getLogger(Migrater.class);
   private static ThreadLocal<Connection> current = new ThreadLocal<Connection>();
   private final Config config;
   private final SchemaVersionTable schemaInfoTable;

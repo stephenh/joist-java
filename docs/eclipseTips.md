@@ -29,8 +29,3 @@ Static import support is still kind of clunky in Eclipse, e.g. copy/pasting code
 
 Setting `Java > Code Style > Organize Imports > Number of static imports needed for *` to `1` means that `MigrationKeywords.*` will be used as soon as you have a single static import keyword in use and makes the copy/paste experience nicer.
 
-Lombok (http://projectlombok.org/)
------------------------
-Lombok needs to be installed in your eclipse instance. After ivy has downloaded the jars, navigate to IVY_CACHE/org.projectlombox/lombok/jars. Execute:
-java -jar lombok.jar
-This brings up an installer wizard. Select your eclipse installation. This will add the lombok jar to eclipse so that eclipse can compile code with lombok annotations.

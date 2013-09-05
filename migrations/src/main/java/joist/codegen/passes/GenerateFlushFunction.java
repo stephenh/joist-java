@@ -7,11 +7,13 @@ import joist.codegen.dtos.Entity;
 import joist.jdbc.Jdbc;
 import joist.util.StringBuilderr;
 import joist.util.Wrap;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GenerateFlushFunction implements Pass<Codegen> {
 
+  private static final Logger log = LoggerFactory.getLogger(GenerateFlushFunction.class);
   private DataSource ds;
 
   public void pass(Codegen codegen) {

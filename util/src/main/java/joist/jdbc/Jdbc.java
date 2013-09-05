@@ -12,12 +12,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.sql.DataSource;
 
 import joist.util.Interpolate;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Jdbc {
 
   public static final String trackStatsKey = "joist.jdbc.trackStats";
+  private static final Logger log = LoggerFactory.getLogger(Jdbc.class);
   private static final boolean trackStats = Boolean.valueOf(System.getProperty(trackStatsKey, "false"));
   private static final AtomicInteger queries = new AtomicInteger(0);
   private static final AtomicInteger updates = new AtomicInteger(0);

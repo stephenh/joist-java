@@ -13,8 +13,6 @@
 		<dependency org="com.bizo" name="timeandmoney" rev="1.0.0" conf="compile"/>
 		<dependency org="c3p0" name="c3p0" rev="0.9.1.2" conf="compile"/>
 
-		<dependency org="org.projectlombok" name="lombok" rev="0.10.0" conf="provided"/>
-
 		<dependency org="junit" name="junit" rev="4.10" conf="test"/>
 	</dependencies>
 </ivy-module>

@@ -12,11 +12,13 @@ import joist.jdbc.Jdbc;
 import joist.jdbc.RowMapper;
 import joist.util.Copy;
 import joist.util.Wrap;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PermissionFixer {
 
+  private static final Logger log = LoggerFactory.getLogger(PermissionFixer.class);
   private final Config config;
   private final DataSource ds;
 

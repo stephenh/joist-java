@@ -10,11 +10,13 @@ import joist.domain.orm.IdentityMap;
 import joist.domain.orm.Repository;
 import joist.domain.orm.Updater;
 import joist.domain.validation.ValidationException;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class UoW {
 
+  private static final Logger log = LoggerFactory.getLogger(UoW.class);
   private static final ThreadLocal<UnitOfWork> uowForThread = new ThreadLocal<UnitOfWork>();
 
   public static void go(Repository repo, Updater updater, Block block) {

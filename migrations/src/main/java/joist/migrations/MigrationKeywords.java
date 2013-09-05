@@ -27,11 +27,13 @@ import joist.migrations.fill.ConstantFillInStrategy;
 import joist.migrations.fill.FillInStrategy;
 import joist.util.Join;
 import joist.util.Wrap;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MigrationKeywords {
 
+  private static final Logger log = LoggerFactory.getLogger(MigrationKeywords.class);
   public static Config config;
 
   public static boolean isMySQL() {
@@ -162,6 +164,18 @@ public class MigrationKeywords {
     } else {
       execute("ALTER TABLE {} ALTER COLUMN {} SET NOT NULL", Wrap.quotes(tableName), Wrap.quotes(columnName));
     }
+  }
+
+  public static void renameTable(String oldTableName, String newTableName) {
+    if (isMySQL()) {
+      execute("RENAME TABLE {} TO {};", Wrap.quotes(oldTableName), Wrap.quotes(newTableName));
+    } else {
+      execute("ALTER TABLE {} RENAME TO {};", Wrap.quotes(oldTableName), Wrap.quotes(newTableName));
+    }
+    // clean up the old history triggers, as they'll get recreated after the migrations are applied
+    execute("DROP TRIGGER IF EXISTS {}_history_delete;", oldTableName);
+    execute("DROP TRIGGER IF EXISTS {}_history_insert;", oldTableName);
+    execute("DROP TRIGGER IF EXISTS {}_history_update;", oldTableName);
   }
 
   public static void renameColumn(String tableName, String oldColumnName, String newColumnName) {
@@ -313,6 +327,18 @@ public class MigrationKeywords {
 
   public static void dropIndex(String index) {
     MigrationKeywords.execute("DROP INDEX {};", Wrap.quotes(index));
+  }
+
+  public static FillInStrategy fillIn(String constant) {
+    return new ConstantFillInStrategy("'" + constant + "'");
+  }
+
+  public static FillInStrategy fillIn(int constant) {
+    return new ConstantFillInStrategy(constant);
+  }
+
+  public static FillInStrategy fillIn(long constant) {
+    return new ConstantFillInStrategy(Long.toString(constant));
   }
 
   private static String[] getColumnTypeAndDefaultValue(String tableName, String columnName) {

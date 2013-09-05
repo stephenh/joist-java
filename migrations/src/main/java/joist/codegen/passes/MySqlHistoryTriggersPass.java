@@ -13,7 +13,9 @@ import joist.codegen.Schema;
 import joist.codegen.dtos.Entity;
 import joist.jdbc.Jdbc;
 import joist.util.StringBuilderr;
-import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Automatically adds INSERT/UPDATE/DELETE triggers to all entity tables in the schema that log changes
@@ -21,9 +23,9 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * @author larry
  */
-@Slf4j
 public class MySqlHistoryTriggersPass implements Pass<Schema> {
 
+  private static final Logger log = LoggerFactory.getLogger(MySqlHistoryTriggersPass.class);
   private final Set<Pattern> skippedTables = new HashSet<Pattern>();
   private final Set<Pattern> skippedColumns = new HashSet<Pattern>();
   private final String historyTableName;
