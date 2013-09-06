@@ -87,6 +87,10 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
     return Builders.existing(get().getGrandChilds().get(i));
   }
 
+  public GrandChildBuilder newGrandChild() {
+    return Builders.aGrandChild().child((ChildBuilder) this);
+  }
+
   public Child get() {
     return (features.domain.Child) super.get();
   }

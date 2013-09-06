@@ -59,6 +59,10 @@ public abstract class OneToOneBFooBuilderCodegen extends AbstractBuilder<OneToOn
     return Builders.existing(get().getOneToOneBBars().get(i));
   }
 
+  public OneToOneBBarBuilder newOneToOneBBar() {
+    return Builders.aOneToOneBBar().oneToOneBFoo((OneToOneBFooBuilder) this);
+  }
+
   public OneToOneBFoo get() {
     return (features.domain.OneToOneBFoo) super.get();
   }

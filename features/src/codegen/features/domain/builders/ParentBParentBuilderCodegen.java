@@ -60,6 +60,10 @@ public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<Parent
     return Builders.existing(get().getParentBChildBars().get(i));
   }
 
+  public ParentBChildBarBuilder newParentBChildBar() {
+    return Builders.aParentBChildBar().parentBParent((ParentBParentBuilder) this);
+  }
+
   public List<ParentBChildFooBuilder> parentBChildFoos() {
     List<ParentBChildFooBuilder> b = new ArrayList<ParentBChildFooBuilder>();
     for (ParentBChildFoo e : get().getParentBChildFoos()) {
@@ -70,6 +74,10 @@ public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<Parent
 
   public ParentBChildFooBuilder parentBChildFoo(int i) {
     return Builders.existing(get().getParentBChildFoos().get(i));
+  }
+
+  public ParentBChildFooBuilder newParentBChildFoo() {
+    return Builders.aParentBChildFoo().parentBParent((ParentBParentBuilder) this);
   }
 
   public ParentBParent get() {

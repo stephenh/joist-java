@@ -38,6 +38,10 @@ public abstract class ParentIBuilderCodegen extends AbstractBuilder<ParentI> {
     return Builders.existing(get().getChildAs().get(i));
   }
 
+  public ChildIABuilder newChildA() {
+    return Builders.aChildIA().parent((ParentIBuilder) this);
+  }
+
   public ChildIBBuilder childB() {
     if (get().getChildB() == null) {
       return null;

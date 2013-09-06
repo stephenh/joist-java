@@ -59,6 +59,10 @@ public abstract class ParentDBuilderCodegen extends AbstractBuilder<ParentD> {
     return Builders.existing(get().getParentDChildBs().get(i));
   }
 
+  public ParentDChildBBuilder newParentDChildB() {
+    return Builders.aParentDChildB().parentD((ParentDBuilder) this);
+  }
+
   public ParentD get() {
     return (features.domain.ParentD) super.get();
   }
