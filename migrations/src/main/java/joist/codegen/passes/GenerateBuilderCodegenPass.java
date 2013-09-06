@@ -145,15 +145,15 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
           m.returnType("{}Builder", otom.getTargetJavaType());
           m.body.line("return Builders.existing(get().get{}().get(i));", otom.getCapitalVariableName());
         }
-        // newChild() -> ChildBuilder
-        if (!otom.getManySide().isAbstract()) {
-          GMethod m = c.getMethod("new" + otom.getCapitalVariableNameSingular());
-          m.returnType("{}Builder", otom.getTargetJavaType());
-          m.body.line("return Builders.a{}().{}(({}) this);", //
-            otom.getTargetJavaType(),
-            StringUtils.uncapitalize(otom.getManyToOneProperty().getCapitalVariableName()),
-            entity.getBuilderClassName());
-        }
+      }
+      // newChild() -> ChildBuilder
+      if (!otom.getManySide().isAbstract()) {
+        GMethod m = c.getMethod("new" + otom.getCapitalVariableNameSingular());
+        m.returnType("{}Builder", otom.getTargetJavaType());
+        m.body.line("return Builders.a{}().{}(({}) this);", //
+          otom.getTargetJavaType(),
+          StringUtils.uncapitalize(otom.getManyToOneProperty().getCapitalVariableName()),
+          entity.getBuilderClassName());
       }
     }
   }

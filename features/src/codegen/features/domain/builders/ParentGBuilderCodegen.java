@@ -51,11 +51,19 @@ public abstract class ParentGBuilderCodegen extends AbstractBuilder<ParentG> {
     return Builders.existing(get().getParentOneChildG());
   }
 
+  public ChildGBuilder newParentOneChildG() {
+    return Builders.aChildG().parentOne((ParentGBuilder) this);
+  }
+
   public ChildGBuilder parentTwoChildG() {
     if (get().getParentTwoChildG() == null) {
       return null;
     }
     return Builders.existing(get().getParentTwoChildG());
+  }
+
+  public ChildGBuilder newParentTwoChildG() {
+    return Builders.aChildG().parentTwo((ParentGBuilder) this);
   }
 
   public ParentG get() {
