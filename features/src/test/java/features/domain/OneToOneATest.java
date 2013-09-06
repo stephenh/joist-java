@@ -1,11 +1,16 @@
 package features.domain;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import joist.domain.ValidationAssert;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import features.domain.builders.Builders;
+import features.domain.builders.OneToOneABarBuilder;
+import features.domain.builders.OneToOneAFooBuilder;
 
 public class OneToOneATest extends AbstractFeaturesTest {
 
@@ -106,5 +111,13 @@ public class OneToOneATest extends AbstractFeaturesTest {
     foo.setOneToOneABar(bar);
     assertThat(bar.getChanged().size(), is(0));
     assertThat(foo.getChanged().size(), is(0));
+  }
+
+  @Test
+  public void testBuilderMethod() {
+    OneToOneAFooBuilder foo = Builders.aOneToOneAFoo().defaults();
+    assertThat(foo.oneToOneABar(), is(nullValue()));
+    OneToOneABarBuilder bar = foo.newOneToOneABar();
+    assertThat(foo.oneToOneABar(), is(bar));
   }
 }
