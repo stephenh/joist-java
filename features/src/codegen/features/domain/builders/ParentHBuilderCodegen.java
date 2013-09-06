@@ -75,6 +75,10 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
     return Builders.existing(get().getParentChildHs().get(i));
   }
 
+  public ChildHBuilder newParentChildH() {
+    return Builders.aChildH().parent((ParentHBuilder) this);
+  }
+
   public ParentH get() {
     return (features.domain.ParentH) super.get();
   }

@@ -60,6 +60,10 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
     return Builders.existing(get().getInheritanceASubOnes().get(i));
   }
 
+  public InheritanceASubOneBuilder newInheritanceASubOne() {
+    return Builders.aInheritanceASubOne().inheritanceAThing((InheritanceAThingBuilder) this);
+  }
+
   public List<InheritanceASubTwoBuilder> inheritanceASubTwos() {
     List<InheritanceASubTwoBuilder> b = new ArrayList<InheritanceASubTwoBuilder>();
     for (InheritanceASubTwo e : get().getInheritanceASubTwos()) {
@@ -70,6 +74,10 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
 
   public InheritanceASubTwoBuilder inheritanceASubTwo(int i) {
     return Builders.existing(get().getInheritanceASubTwos().get(i));
+  }
+
+  public InheritanceASubTwoBuilder newInheritanceASubTwo() {
+    return Builders.aInheritanceASubTwo().inheritanceAThing((InheritanceAThingBuilder) this);
   }
 
   public InheritanceAThing get() {

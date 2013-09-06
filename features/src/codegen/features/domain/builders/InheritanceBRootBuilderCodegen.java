@@ -59,6 +59,10 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
     return Builders.existing(get().getInheritanceBRootChilds().get(i));
   }
 
+  public InheritanceBRootChildBuilder newInheritanceBRootChild() {
+    return Builders.aInheritanceBRootChild().inheritanceBRoot((InheritanceBRootBuilder) this);
+  }
+
   public InheritanceBRoot get() {
     return (features.domain.InheritanceBRoot) super.get();
   }
