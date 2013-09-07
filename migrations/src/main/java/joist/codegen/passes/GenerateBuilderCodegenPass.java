@@ -110,6 +110,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
         if (p.getVariableName().equals("version") || p.getVariableName().equals("id")) {
           continue;
         }
+        this.addFluentGetter(c, p.getVariableName(), p.getJavaType()); // for scalac bug
         this.addFluentSetter(c, entity, p.getVariableName(), p.getJavaType());
       }
     }
@@ -219,6 +220,12 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     // add covariant return types
     for (Entity base : entity.getBaseEntities()) {
       for (ManyToOneProperty mtop : base.getManyToOneProperties()) {
+        // regular foo() getter, for scalac bug
+        if (mtop.getOneSide().isCodeEntity()) {
+          this.addFluentGetter(c, mtop.getVariableName(), mtop.getJavaType());
+        } else {
+          this.addFluentBuilderGetter(c, mtop.getVariableName(), mtop.getJavaType());
+        }
         // regular foo(value) setter
         this.addFluentSetter(c, entity, mtop.getVariableName(), mtop.getOneSide().getFullClassName());
         // overload with(value) setter
@@ -298,13 +305,13 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
   }
 
   private void addFluentGetter(GClass builderCodegen, String variableName, String javaType) {
-    GMethod m = builderCodegen.getMethod(variableName);
+    GMethod m = builderCodegen.getMethod(variableName + "()");
     m.returnType(javaType);
     m.body.line("return get().get{}();", Inflector.capitalize(variableName));
   }
 
   private void addFluentBuilderGetter(GClass builderCodegen, String variableName, String javaType) {
-    GMethod m = builderCodegen.getMethod(variableName);
+    GMethod m = builderCodegen.getMethod(variableName + "()");
     m.returnType(javaType + "Builder");
     m.body.line("if (get().get{}() == null) {", Inflector.capitalize(variableName));
     m.body.line("_   return null;");
