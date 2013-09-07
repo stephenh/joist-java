@@ -29,6 +29,10 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
     return (InheritanceASubOneBuilder) super.defaults();
   }
 
+  public String name() {
+    return get().getName();
+  }
+
   public InheritanceASubOneBuilder name(String name) {
     get().setName(name);
     return (InheritanceASubOneBuilder) this;
@@ -48,6 +52,13 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
 
   public InheritanceASubOneBuilder inheritanceAThing(InheritanceAThingBuilder inheritanceAThing) {
     return inheritanceAThing(inheritanceAThing == null ? null : inheritanceAThing.get());
+  }
+
+  public InheritanceAOwnerBuilder inheritanceAOwner() {
+    if (get().getInheritanceAOwner() == null) {
+      return null;
+    }
+    return Builders.existing(get().getInheritanceAOwner());
   }
 
   public InheritanceASubOneBuilder inheritanceAOwner(InheritanceAOwner inheritanceAOwner) {
