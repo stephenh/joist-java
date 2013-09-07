@@ -17,7 +17,6 @@ import joist.sourcegen.Argument;
 import joist.sourcegen.GClass;
 import joist.sourcegen.GMethod;
 import joist.util.Inflector;
-import joist.util.MapToList;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -71,12 +70,6 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
   }
 
   private void primitiveProperties(Codegen codegen, GClass c, Entity entity) {
-    // first pass to get the types
-    MapToList<String, String> perType = new MapToList<String, String>();
-    for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
-      perType.get(p.getJavaType()).add(p.getVariableName());
-    }
-    // second pass to output the getters/setters
     for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
       if (p.getVariableName().equals("version")) {
         continue;
@@ -94,7 +87,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
       // regular foo(value) setter
       this.addFluentSetter(c, entity, p.getVariableName(), p.getJavaType());
       // overload with(value) setter
-      if (perType.get(p.getJavaType()).size() == 1) {
+      if (entity.getUniquePropertyTypes().contains(p.getJavaType())) {
         this.addFluentWith(c, entity, p.getVariableName(), p.getJavaType());
       }
       // add to defaults
@@ -159,19 +152,6 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
   }
 
   private void manyToOneProperties(GClass c, Entity entity) {
-    // first pass to get the types so we can add "with(Type)" if there is only 1 property of Type
-    MapToList<String, String> perType = new MapToList<String, String>();
-    // and also whether we have overlapping code names
-    MapToList<String, String> perCodeName = new MapToList<String, String>();
-    for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
-      perType.get(mtop.getJavaType()).add(mtop.getVariableName());
-      if (mtop.getOneSide().isCodeEntity()) {
-        for (CodeValue code : ((CodeEntity) mtop.getOneSide()).getCodes()) {
-          perCodeName.get(code.getEnumName()).add(mtop.getOneSide().getClassName());
-        }
-      }
-    }
-    // second pass to output the getters/setters
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       // regular foo() getter
       if (mtop.getOneSide().isCodeEntity()) {
@@ -183,7 +163,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
       // regular foo(value) setter
       this.addFluentSetter(c, entity, mtop.getVariableName(), mtop.getOneSide().getFullClassName());
       // overload with(value) setter
-      if (perType.get(mtop.getJavaType()).size() == 1) {
+      if (entity.getUniquePropertyTypes().contains(mtop.getJavaType())) {
         this.addFluentWith(c, entity, mtop.getVariableName(), mtop.getOneSide().getFullClassName());
       }
 
@@ -191,7 +171,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
         // regular foo(valueBuilder) setter
         this.addFluentBuilderSetter(c, entity, mtop.getVariableName(), mtop.getOneSide().getBuilderClassName());
         // overload with(valueBuilder) setter
-        if (perType.get(mtop.getJavaType()).size() == 1) {
+        if (entity.getUniquePropertyTypes().contains(mtop.getJavaType())) {
           this.addFluentWith(c, entity, mtop.getVariableName(), mtop.getOneSide().getBuilderClassName());
         }
       }
@@ -211,7 +191,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
       // add codeValue() methods
       if (mtop.getOneSide().isCodeEntity()) {
         for (CodeValue code : ((CodeEntity) mtop.getOneSide()).getCodes()) {
-          if (perCodeName.get(code.getEnumName()).size() == 1) {
+          if (entity.getUniqueCodeNames().contains(code.getEnumName())) {
             {
               // e.g. blue()
               GMethod m = c.getMethod(Inflector.uncapitalize(code.getNameCamelCased()));

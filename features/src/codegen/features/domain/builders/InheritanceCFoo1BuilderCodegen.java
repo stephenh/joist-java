@@ -19,10 +19,6 @@ public abstract class InheritanceCFoo1BuilderCodegen extends InheritanceCBuilder
     return (InheritanceCFoo1Builder) this;
   }
 
-  public InheritanceCFoo1Builder with(String foo) {
-    return foo(foo);
-  }
-
   @Override
   public InheritanceCFoo1Builder defaults() {
     if (foo() == null) {

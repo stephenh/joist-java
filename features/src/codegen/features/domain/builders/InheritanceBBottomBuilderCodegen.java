@@ -19,10 +19,6 @@ public abstract class InheritanceBBottomBuilderCodegen extends InheritanceBMiddl
     return (InheritanceBBottomBuilder) this;
   }
 
-  public InheritanceBBottomBuilder with(String bottomName) {
-    return bottomName(bottomName);
-  }
-
   @Override
   public InheritanceBBottomBuilder defaults() {
     if (bottomName() == null) {

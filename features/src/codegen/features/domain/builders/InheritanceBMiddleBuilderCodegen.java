@@ -19,10 +19,6 @@ public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootB
     return (InheritanceBMiddleBuilder) this;
   }
 
-  public InheritanceBMiddleBuilder with(String middleName) {
-    return middleName(middleName);
-  }
-
   @Override
   public InheritanceBMiddleBuilder defaults() {
     if (middleName() == null) {

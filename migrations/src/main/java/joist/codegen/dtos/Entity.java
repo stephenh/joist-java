@@ -3,10 +3,12 @@ package joist.codegen.dtos;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import joist.codegen.Config;
 import joist.util.Copy;
 import joist.util.Inflector;
+import joist.util.MapToList;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -21,6 +23,8 @@ public class Entity {
   private List<ManyToOneProperty> manyToOneProperties = new ArrayList<ManyToOneProperty>();
   private List<OneToManyProperty> oneToManyProperties = new ArrayList<OneToManyProperty>();
   private List<ManyToManyProperty> manyToManyProperties = new ArrayList<ManyToManyProperty>();
+  private List<String> uniquePropertyTypes;
+  private List<String> uniqueCodeNames;
 
   public Entity(Config config, String tableName) {
     this.config = config;
@@ -190,12 +194,80 @@ public class Entity {
     return ret;
   }
 
+  public List<Entity> getAllEntitiesForRoot() {
+    if (this != this.getRootEntity()) {
+      return this.getRootEntity().getAllEntitiesForRoot();
+    } else {
+      List<Entity> ret = new ArrayList<Entity>();
+      ret.add(this);
+      ret.addAll(this.getSubEntitiesRecursively());
+      return ret;
+    }
+  }
+
+  public List<String> getUniqueCodeNames() {
+    if (this != this.getRootEntity()) {
+      return this.getRootEntity().getUniqueCodeNames();
+    } else if (this.uniqueCodeNames == null) {
+      MapToList<String, String> perCodeName = new MapToList<String, String>();
+      for (Entity entity : this.getAllEntitiesForRoot()) {
+        for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+          if (mtop.getOneSide().isCodeEntity()) {
+            for (CodeValue code : ((CodeEntity) mtop.getOneSide()).getCodes()) {
+              perCodeName.get(code.getEnumName()).add(mtop.getOneSide().getClassName());
+            }
+          }
+        }
+      }
+      this.uniqueCodeNames = listOfKeysWithOnlyOneValue(perCodeName);
+    }
+    return this.uniqueCodeNames;
+  }
+
+  public List<String> getUniquePropertyTypes() {
+    if (this != this.getRootEntity()) {
+      return this.getRootEntity().getUniquePropertyTypes();
+    } else if (this.uniquePropertyTypes == null) {
+      MapToList<String, String> perType = new MapToList<String, String>();
+      for (Entity entity : this.getAllEntitiesForRoot()) {
+        for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
+          perType.get(p.getJavaType()).add(p.getVariableName());
+        }
+        for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+          perType.get(mtop.getJavaType()).add(mtop.getVariableName());
+        }
+      }
+      this.uniquePropertyTypes = listOfKeysWithOnlyOneValue(perType);
+    }
+    return this.uniquePropertyTypes;
+  }
+
+  public List<Entity> getBaseEntities() {
+    List<Entity> ret = new ArrayList<Entity>();
+    Entity base = this.getBaseEntity();
+    while (base != null) {
+      ret.add(base);
+      base = base.getBaseEntity();
+    }
+    return ret;
+  }
+
   public boolean isStableTable() {
     return this.config.isStableTable(this.getTableName());
   }
 
   public String toString() {
     return this.getClassName();
+  }
+
+  private static List<String> listOfKeysWithOnlyOneValue(MapToList<String, String> m) {
+    List<String> ret = new ArrayList<String>();
+    for (Map.Entry<String, List<String>> e : m.entrySet()) {
+      if (e.getValue().size() == 1) {
+        ret.add(e.getKey());
+      }
+    }
+    return ret;
   }
 
 }

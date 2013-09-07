@@ -35,10 +35,6 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
     return (InheritanceBRootBuilder) this;
   }
 
-  public InheritanceBRootBuilder with(String name) {
-    return name(name);
-  }
-
   @Override
   public InheritanceBRootBuilder defaults() {
     if (name() == null) {

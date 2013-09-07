@@ -20,10 +20,6 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
     return (InheritanceASubOneBuilder) this;
   }
 
-  public InheritanceASubOneBuilder with(String one) {
-    return one(one);
-  }
-
   @Override
   public InheritanceASubOneBuilder defaults() {
     if (one() == null) {
@@ -44,16 +40,8 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
     return (InheritanceASubOneBuilder) this;
   }
 
-  public InheritanceASubOneBuilder with(InheritanceAThing inheritanceAThing) {
-    return inheritanceAThing(inheritanceAThing);
-  }
-
   public InheritanceASubOneBuilder inheritanceAThing(InheritanceAThingBuilder inheritanceAThing) {
     return inheritanceAThing(inheritanceAThing.get());
-  }
-
-  public InheritanceASubOneBuilder with(InheritanceAThingBuilder inheritanceAThing) {
-    return inheritanceAThing(inheritanceAThing);
   }
 
   public InheritanceASubOne get() {

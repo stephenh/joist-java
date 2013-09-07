@@ -20,10 +20,6 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
     return (InheritanceASubTwoBuilder) this;
   }
 
-  public InheritanceASubTwoBuilder with(String two) {
-    return two(two);
-  }
-
   @Override
   public InheritanceASubTwoBuilder defaults() {
     if (two() == null) {
@@ -44,16 +40,8 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
     return (InheritanceASubTwoBuilder) this;
   }
 
-  public InheritanceASubTwoBuilder with(InheritanceAThing inheritanceAThing) {
-    return inheritanceAThing(inheritanceAThing);
-  }
-
   public InheritanceASubTwoBuilder inheritanceAThing(InheritanceAThingBuilder inheritanceAThing) {
     return inheritanceAThing(inheritanceAThing.get());
-  }
-
-  public InheritanceASubTwoBuilder with(InheritanceAThingBuilder inheritanceAThing) {
-    return inheritanceAThing(inheritanceAThing);
   }
 
   public InheritanceASubTwo get() {

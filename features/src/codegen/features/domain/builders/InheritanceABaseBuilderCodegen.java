@@ -33,10 +33,6 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
     return (InheritanceABaseBuilder) this;
   }
 
-  public InheritanceABaseBuilder with(String name) {
-    return name(name);
-  }
-
   @Override
   public InheritanceABaseBuilder defaults() {
     if (name() == null) {
