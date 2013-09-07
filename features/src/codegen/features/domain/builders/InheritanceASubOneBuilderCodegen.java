@@ -41,7 +41,7 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
   }
 
   public InheritanceASubOneBuilder inheritanceAThing(InheritanceAThingBuilder inheritanceAThing) {
-    return inheritanceAThing(inheritanceAThing.get());
+    return inheritanceAThing(inheritanceAThing == null ? null : inheritanceAThing.get());
   }
 
   public InheritanceASubOne get() {

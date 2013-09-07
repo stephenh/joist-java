@@ -64,7 +64,7 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
   }
 
   public ParentCBarBuilder firstParent(ParentCFooBuilder firstParent) {
-    return firstParent(firstParent.get());
+    return firstParent(firstParent == null ? null : firstParent.get());
   }
 
   public ParentCFooBuilder secondParent() {
@@ -80,7 +80,7 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
   }
 
   public ParentCBarBuilder secondParent(ParentCFooBuilder secondParent) {
-    return secondParent(secondParent.get());
+    return secondParent(secondParent == null ? null : secondParent.get());
   }
 
   public ParentCBar get() {

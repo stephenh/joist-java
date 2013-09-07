@@ -41,7 +41,7 @@ public abstract class ChildIABuilderCodegen extends AbstractBuilder<ChildIA> {
   }
 
   public ChildIABuilder parent(ParentIBuilder parent) {
-    return parent(parent.get());
+    return parent(parent == null ? null : parent.get());
   }
 
   public ChildIABuilder with(ParentIBuilder parent) {

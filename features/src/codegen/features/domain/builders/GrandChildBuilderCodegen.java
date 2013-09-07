@@ -65,7 +65,7 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
   }
 
   public GrandChildBuilder child(ChildBuilder child) {
-    return child(child.get());
+    return child(child == null ? null : child.get());
   }
 
   public GrandChildBuilder with(ChildBuilder child) {

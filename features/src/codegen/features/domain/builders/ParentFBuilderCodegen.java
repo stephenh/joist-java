@@ -61,7 +61,7 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
   }
 
   public ParentFBuilder childOne(ChildFBuilder childOne) {
-    return childOne(childOne.get());
+    return childOne(childOne == null ? null : childOne.get());
   }
 
   public ChildFBuilder childTwo() {
@@ -77,7 +77,7 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
   }
 
   public ParentFBuilder childTwo(ChildFBuilder childTwo) {
-    return childTwo(childTwo.get());
+    return childTwo(childTwo == null ? null : childTwo.get());
   }
 
   public ParentF get() {

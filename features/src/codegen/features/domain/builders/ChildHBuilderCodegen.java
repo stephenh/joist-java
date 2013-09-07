@@ -81,7 +81,7 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
   }
 
   public ChildHBuilder parent(ParentHBuilder parent) {
-    return parent(parent.get());
+    return parent(parent == null ? null : parent.get());
   }
 
   public ChildHBuilder with(ParentHBuilder parent) {

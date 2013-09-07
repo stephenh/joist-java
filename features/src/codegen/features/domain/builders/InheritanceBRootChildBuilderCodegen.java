@@ -62,7 +62,7 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
   }
 
   public InheritanceBRootChildBuilder inheritanceBRoot(InheritanceBRootBuilder inheritanceBRoot) {
-    return inheritanceBRoot(inheritanceBRoot.get());
+    return inheritanceBRoot(inheritanceBRoot == null ? null : inheritanceBRoot.get());
   }
 
   public InheritanceBRootChildBuilder with(InheritanceBRootBuilder inheritanceBRoot) {
