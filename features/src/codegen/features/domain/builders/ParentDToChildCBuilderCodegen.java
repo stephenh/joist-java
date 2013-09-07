@@ -42,7 +42,7 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
   }
 
   public ParentDToChildCBuilder parentDChildC(ParentDChildCBuilder parentDChildC) {
-    return parentDChildC(parentDChildC.get());
+    return parentDChildC(parentDChildC == null ? null : parentDChildC.get());
   }
 
   public ParentDToChildCBuilder with(ParentDChildCBuilder parentDChildC) {
@@ -77,7 +77,7 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
   }
 
   public ParentDToChildCBuilder parentD(ParentDBuilder parentD) {
-    return parentD(parentD.get());
+    return parentD(parentD == null ? null : parentD.get());
   }
 
   public ParentDToChildCBuilder with(ParentDBuilder parentD) {

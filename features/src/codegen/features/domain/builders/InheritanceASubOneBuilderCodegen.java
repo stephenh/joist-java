@@ -1,5 +1,6 @@
 package features.domain.builders;
 
+import features.domain.InheritanceAOwner;
 import features.domain.InheritanceASubOne;
 import features.domain.InheritanceAThing;
 import joist.domain.uow.UoW;
@@ -20,16 +21,17 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
     return (InheritanceASubOneBuilder) this;
   }
 
-  public InheritanceASubOneBuilder with(String one) {
-    return one(one);
-  }
-
   @Override
   public InheritanceASubOneBuilder defaults() {
     if (one() == null) {
       one("one");
     }
     return (InheritanceASubOneBuilder) super.defaults();
+  }
+
+  public InheritanceASubOneBuilder name(String name) {
+    get().setName(name);
+    return (InheritanceASubOneBuilder) this;
   }
 
   public InheritanceAThingBuilder inheritanceAThing() {
@@ -44,16 +46,25 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
     return (InheritanceASubOneBuilder) this;
   }
 
-  public InheritanceASubOneBuilder with(InheritanceAThing inheritanceAThing) {
-    return inheritanceAThing(inheritanceAThing);
-  }
-
   public InheritanceASubOneBuilder inheritanceAThing(InheritanceAThingBuilder inheritanceAThing) {
-    return inheritanceAThing(inheritanceAThing.get());
+    return inheritanceAThing(inheritanceAThing == null ? null : inheritanceAThing.get());
   }
 
-  public InheritanceASubOneBuilder with(InheritanceAThingBuilder inheritanceAThing) {
-    return inheritanceAThing(inheritanceAThing);
+  public InheritanceASubOneBuilder inheritanceAOwner(InheritanceAOwner inheritanceAOwner) {
+    get().setInheritanceAOwner(inheritanceAOwner);
+    return (InheritanceASubOneBuilder) this;
+  }
+
+  public InheritanceASubOneBuilder with(InheritanceAOwner inheritanceAOwner) {
+    return inheritanceAOwner(inheritanceAOwner);
+  }
+
+  public InheritanceASubOneBuilder inheritanceAOwner(InheritanceAOwnerBuilder inheritanceAOwner) {
+    return inheritanceAOwner(inheritanceAOwner == null ? null : inheritanceAOwner.get());
+  }
+
+  public InheritanceASubOneBuilder with(InheritanceAOwnerBuilder inheritanceAOwner) {
+    return inheritanceAOwner(inheritanceAOwner);
   }
 
   public InheritanceASubOne get() {

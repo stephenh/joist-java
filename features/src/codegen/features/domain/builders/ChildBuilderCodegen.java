@@ -68,7 +68,7 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
   }
 
   public ChildBuilder parent(ParentBuilder parent) {
-    return parent(parent.get());
+    return parent(parent == null ? null : parent.get());
   }
 
   public ChildBuilder with(ParentBuilder parent) {

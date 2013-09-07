@@ -32,10 +32,6 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
     return (InheritanceCBuilder) this;
   }
 
-  public InheritanceCBuilder with(String name) {
-    return name(name);
-  }
-
   @Override
   public InheritanceCBuilder defaults() {
     if (name() == null) {

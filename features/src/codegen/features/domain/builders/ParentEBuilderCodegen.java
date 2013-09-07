@@ -63,7 +63,7 @@ public abstract class ParentEBuilderCodegen extends AbstractBuilder<ParentE> {
   }
 
   public ParentEBuilder parentE(ParentEBuilder parentE) {
-    return parentE(parentE.get());
+    return parentE(parentE == null ? null : parentE.get());
   }
 
   public ParentEBuilder with(ParentEBuilder parentE) {

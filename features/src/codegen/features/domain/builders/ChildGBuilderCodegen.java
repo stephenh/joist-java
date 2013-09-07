@@ -61,7 +61,7 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
   }
 
   public ChildGBuilder parentOne(ParentGBuilder parentOne) {
-    return parentOne(parentOne.get());
+    return parentOne(parentOne == null ? null : parentOne.get());
   }
 
   public ParentGBuilder parentTwo() {
@@ -77,7 +77,7 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
   }
 
   public ChildGBuilder parentTwo(ParentGBuilder parentTwo) {
-    return parentTwo(parentTwo.get());
+    return parentTwo(parentTwo == null ? null : parentTwo.get());
   }
 
   public ChildG get() {

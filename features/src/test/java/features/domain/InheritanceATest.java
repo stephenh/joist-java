@@ -8,7 +8,9 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import features.domain.builders.Builders;
 import features.domain.builders.InheritanceAOwnerBuilder;
+import features.domain.builders.InheritanceASubOneBuilder;
 import features.domain.builders.InheritanceAThingBuilder;
 
 public class InheritanceATest extends AbstractFeaturesTest {
@@ -132,6 +134,19 @@ public class InheritanceATest extends AbstractFeaturesTest {
     Assert.assertEquals("name", a2.getName());
     Assert.assertEquals("two", a2.getTwo());
     Assert.assertEquals(1l, a2.getInheritanceAThing().getId().longValue());
+  }
+
+  @Test
+  public void testBuilder() {
+    // ensure name returns the right type
+    InheritanceASubOneBuilder a = Builders.aInheritanceASubOne().name("foo");
+    Assert.assertEquals("foo", a.name());
+
+    InheritanceASubOneBuilder b = Builders.aInheritanceASubOne().inheritanceAOwner((InheritanceAOwner) null);
+    Assert.assertEquals(null, b.inheritanceAOwner());
+
+    InheritanceASubOneBuilder c = Builders.aInheritanceASubOne().inheritanceAOwner((InheritanceAOwnerBuilder) null);
+    Assert.assertEquals(null, c.inheritanceAOwner());
   }
 
 }

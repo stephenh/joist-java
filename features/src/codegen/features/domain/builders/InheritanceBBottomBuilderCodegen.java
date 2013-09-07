@@ -19,16 +19,22 @@ public abstract class InheritanceBBottomBuilderCodegen extends InheritanceBMiddl
     return (InheritanceBBottomBuilder) this;
   }
 
-  public InheritanceBBottomBuilder with(String bottomName) {
-    return bottomName(bottomName);
-  }
-
   @Override
   public InheritanceBBottomBuilder defaults() {
     if (bottomName() == null) {
       bottomName("bottomName");
     }
     return (InheritanceBBottomBuilder) super.defaults();
+  }
+
+  public InheritanceBBottomBuilder middleName(String middleName) {
+    get().setMiddleName(middleName);
+    return (InheritanceBBottomBuilder) this;
+  }
+
+  public InheritanceBBottomBuilder name(String name) {
+    get().setName(name);
+    return (InheritanceBBottomBuilder) this;
   }
 
   public InheritanceBBottom get() {

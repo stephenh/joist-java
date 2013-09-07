@@ -41,7 +41,7 @@ public abstract class ChildIBBuilderCodegen extends AbstractBuilder<ChildIB> {
   }
 
   public ChildIBBuilder parent(ParentIBuilder parent) {
-    return parent(parent.get());
+    return parent(parent == null ? null : parent.get());
   }
 
   public ChildIBBuilder with(ParentIBuilder parent) {

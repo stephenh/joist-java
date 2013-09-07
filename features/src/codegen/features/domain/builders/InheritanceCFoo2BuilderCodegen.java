@@ -19,16 +19,17 @@ public abstract class InheritanceCFoo2BuilderCodegen extends InheritanceCBuilder
     return (InheritanceCFoo2Builder) this;
   }
 
-  public InheritanceCFoo2Builder with(String foo) {
-    return foo(foo);
-  }
-
   @Override
   public InheritanceCFoo2Builder defaults() {
     if (foo() == null) {
       foo("foo");
     }
     return (InheritanceCFoo2Builder) super.defaults();
+  }
+
+  public InheritanceCFoo2Builder name(String name) {
+    get().setName(name);
+    return (InheritanceCFoo2Builder) this;
   }
 
   public InheritanceCFoo2 get() {

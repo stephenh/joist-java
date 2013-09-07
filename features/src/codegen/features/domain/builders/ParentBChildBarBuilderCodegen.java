@@ -65,7 +65,7 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
   }
 
   public ParentBChildBarBuilder parentBParent(ParentBParentBuilder parentBParent) {
-    return parentBParent(parentBParent.get());
+    return parentBParent(parentBParent == null ? null : parentBParent.get());
   }
 
   public ParentBChildBarBuilder with(ParentBParentBuilder parentBParent) {

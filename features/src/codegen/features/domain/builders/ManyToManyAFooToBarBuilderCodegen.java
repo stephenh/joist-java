@@ -42,7 +42,7 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
   }
 
   public ManyToManyAFooToBarBuilder manyToManyABar(ManyToManyABarBuilder manyToManyABar) {
-    return manyToManyABar(manyToManyABar.get());
+    return manyToManyABar(manyToManyABar == null ? null : manyToManyABar.get());
   }
 
   public ManyToManyAFooToBarBuilder with(ManyToManyABarBuilder manyToManyABar) {
@@ -77,7 +77,7 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
   }
 
   public ManyToManyAFooToBarBuilder manyToManyAFoo(ManyToManyAFooBuilder manyToManyAFoo) {
-    return manyToManyAFoo(manyToManyAFoo.get());
+    return manyToManyAFoo(manyToManyAFoo == null ? null : manyToManyAFoo.get());
   }
 
   public ManyToManyAFooToBarBuilder with(ManyToManyAFooBuilder manyToManyAFoo) {

@@ -65,7 +65,7 @@ public abstract class ParentDChildBBuilderCodegen extends AbstractBuilder<Parent
   }
 
   public ParentDChildBBuilder parentD(ParentDBuilder parentD) {
-    return parentD(parentD.get());
+    return parentD(parentD == null ? null : parentD.get());
   }
 
   public ParentDChildBBuilder with(ParentDBuilder parentD) {
