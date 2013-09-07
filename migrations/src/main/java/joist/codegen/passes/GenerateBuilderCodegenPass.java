@@ -104,6 +104,15 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
         }
       }
     }
+    // add covariant return types
+    for (Entity base : entity.getBaseEntities()) {
+      for (PrimitiveProperty p : base.getPrimitiveProperties()) {
+        if (p.getVariableName().equals("version") || p.getVariableName().equals("id")) {
+          continue;
+        }
+        this.addFluentSetter(c, entity, p.getVariableName(), p.getJavaType());
+      }
+    }
   }
 
   private void oneToManyProperties(GClass c, Entity entity) {
@@ -202,6 +211,34 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
               // e.g. isBlue()
               GMethod m = c.getMethod("is" + code.getNameCamelCased()).returnType("boolean");
               m.body.line("return get().is{}();", code.getNameCamelCased());
+            }
+          }
+        }
+      }
+    }
+    // add covariant return types
+    for (Entity base : entity.getBaseEntities()) {
+      for (ManyToOneProperty mtop : base.getManyToOneProperties()) {
+        // regular foo(value) setter
+        this.addFluentSetter(c, entity, mtop.getVariableName(), mtop.getOneSide().getFullClassName());
+        // overload with(value) setter
+        if (entity.getUniquePropertyTypes().contains(mtop.getJavaType())) {
+          this.addFluentWith(c, entity, mtop.getVariableName(), mtop.getOneSide().getFullClassName());
+        }
+        if (!mtop.getOneSide().isCodeEntity()) {
+          // regular foo(valueBuilder) setter
+          this.addFluentBuilderSetter(c, entity, mtop.getVariableName(), mtop.getOneSide().getBuilderClassName());
+          // overload with(valueBuilder) setter
+          if (entity.getUniquePropertyTypes().contains(mtop.getJavaType())) {
+            this.addFluentWith(c, entity, mtop.getVariableName(), mtop.getOneSide().getBuilderClassName());
+          }
+        } else {
+          for (CodeValue code : ((CodeEntity) mtop.getOneSide()).getCodes()) {
+            if (entity.getUniqueCodeNames().contains(code.getEnumName())) {
+              // e.g. blue()
+              GMethod m = c.getMethod(Inflector.uncapitalize(code.getNameCamelCased()));
+              m.returnType(entity.getBuilderClassName());
+              m.body.line("return {}({}.{});", mtop.getVariableName(), mtop.getOneSide().getClassName(), code.getEnumName());
             }
           }
         }
