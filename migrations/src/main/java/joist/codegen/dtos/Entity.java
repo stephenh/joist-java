@@ -194,23 +194,18 @@ public class Entity {
     return ret;
   }
 
-  public List<Entity> getAllEntitiesForRoot() {
-    if (this != this.getRootEntity()) {
-      return this.getRootEntity().getAllEntitiesForRoot();
-    } else {
-      List<Entity> ret = new ArrayList<Entity>();
-      ret.add(this);
-      ret.addAll(this.getSubEntitiesRecursively());
-      return ret;
-    }
+  public List<Entity> getAllBaseAndSubEntities() {
+    List<Entity> ret = new ArrayList<Entity>();
+    ret.addAll(this.getBaseEntities());
+    ret.add(this);
+    ret.addAll(this.getSubEntitiesRecursively());
+    return ret;
   }
 
   public List<String> getUniqueCodeNames() {
-    if (this != this.getRootEntity()) {
-      return this.getRootEntity().getUniqueCodeNames();
-    } else if (this.uniqueCodeNames == null) {
+    if (this.uniqueCodeNames == null) {
       MapToList<String, String> perCodeName = new MapToList<String, String>();
-      for (Entity entity : this.getAllEntitiesForRoot()) {
+      for (Entity entity : this.getAllBaseAndSubEntities()) {
         for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
           if (mtop.getOneSide().isCodeEntity()) {
             for (CodeValue code : ((CodeEntity) mtop.getOneSide()).getCodes()) {
@@ -225,11 +220,9 @@ public class Entity {
   }
 
   public List<String> getUniquePropertyTypes() {
-    if (this != this.getRootEntity()) {
-      return this.getRootEntity().getUniquePropertyTypes();
-    } else if (this.uniquePropertyTypes == null) {
+    if (this.uniquePropertyTypes == null) {
       MapToList<String, String> perType = new MapToList<String, String>();
-      for (Entity entity : this.getAllEntitiesForRoot()) {
+      for (Entity entity : this.getAllBaseAndSubEntities()) {
         for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
           perType.get(p.getJavaType()).add(p.getVariableName());
         }
