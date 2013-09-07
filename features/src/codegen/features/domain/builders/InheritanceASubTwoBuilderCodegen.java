@@ -29,6 +29,10 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
     return (InheritanceASubTwoBuilder) super.defaults();
   }
 
+  public String name() {
+    return get().getName();
+  }
+
   public InheritanceASubTwoBuilder name(String name) {
     get().setName(name);
     return (InheritanceASubTwoBuilder) this;
@@ -48,6 +52,13 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
 
   public InheritanceASubTwoBuilder inheritanceAThing(InheritanceAThingBuilder inheritanceAThing) {
     return inheritanceAThing(inheritanceAThing == null ? null : inheritanceAThing.get());
+  }
+
+  public InheritanceAOwnerBuilder inheritanceAOwner() {
+    if (get().getInheritanceAOwner() == null) {
+      return null;
+    }
+    return Builders.existing(get().getInheritanceAOwner());
   }
 
   public InheritanceASubTwoBuilder inheritanceAOwner(InheritanceAOwner inheritanceAOwner) {
