@@ -257,7 +257,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
   private void addFluentBuilderSetter(GClass builderCodegen, Entity entity, String variableName, String javaType) {
     GMethod m = builderCodegen.getMethod(variableName, Argument.arg(javaType, variableName));
     m.returnType(entity.getBuilderClassName());
-    m.body.line("return {}({}.get());", variableName, variableName);
+    m.body.line("return {}({} == null ? null : {}.get());", variableName, variableName, variableName);
   }
 
   private void addFluentGetter(GClass builderCodegen, String variableName, String javaType) {
