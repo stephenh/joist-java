@@ -27,6 +27,11 @@ public abstract class InheritanceCFoo1BuilderCodegen extends InheritanceCBuilder
     return (InheritanceCFoo1Builder) super.defaults();
   }
 
+  public InheritanceCFoo1Builder name(String name) {
+    get().setName(name);
+    return (InheritanceCFoo1Builder) this;
+  }
+
   public InheritanceCFoo1 get() {
     return (features.domain.InheritanceCFoo1) super.get();
   }

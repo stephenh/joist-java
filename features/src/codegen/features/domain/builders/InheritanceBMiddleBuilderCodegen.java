@@ -27,6 +27,11 @@ public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootB
     return (InheritanceBMiddleBuilder) super.defaults();
   }
 
+  public InheritanceBMiddleBuilder name(String name) {
+    get().setName(name);
+    return (InheritanceBMiddleBuilder) this;
+  }
+
   public InheritanceBMiddle get() {
     return (features.domain.InheritanceBMiddle) super.get();
   }

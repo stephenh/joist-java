@@ -27,6 +27,16 @@ public abstract class InheritanceBBottomBuilderCodegen extends InheritanceBMiddl
     return (InheritanceBBottomBuilder) super.defaults();
   }
 
+  public InheritanceBBottomBuilder middleName(String middleName) {
+    get().setMiddleName(middleName);
+    return (InheritanceBBottomBuilder) this;
+  }
+
+  public InheritanceBBottomBuilder name(String name) {
+    get().setName(name);
+    return (InheritanceBBottomBuilder) this;
+  }
+
   public InheritanceBBottom get() {
     return (features.domain.InheritanceBBottom) super.get();
   }
