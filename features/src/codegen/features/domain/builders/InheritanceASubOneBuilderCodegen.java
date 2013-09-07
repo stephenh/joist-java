@@ -50,8 +50,16 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
     return (InheritanceASubOneBuilder) this;
   }
 
+  public InheritanceASubOneBuilder with(InheritanceAThing inheritanceAThing) {
+    return inheritanceAThing(inheritanceAThing);
+  }
+
   public InheritanceASubOneBuilder inheritanceAThing(InheritanceAThingBuilder inheritanceAThing) {
     return inheritanceAThing(inheritanceAThing == null ? null : inheritanceAThing.get());
+  }
+
+  public InheritanceASubOneBuilder with(InheritanceAThingBuilder inheritanceAThing) {
+    return inheritanceAThing(inheritanceAThing);
   }
 
   public InheritanceAOwnerBuilder inheritanceAOwner() {
