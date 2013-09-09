@@ -5,6 +5,8 @@ import static features.domain.builders.Builders.aInheritanceAThing;
 
 import java.util.List;
 
+import joist.domain.orm.queries.Select;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -149,4 +151,22 @@ public class InheritanceATest extends AbstractFeaturesTest {
     Assert.assertEquals(null, c.inheritanceAOwner());
   }
 
+  @Test
+  public void testJoinToASubClass() {
+    // when selecting thing, and joining into a child class sub, and wanting to
+    // select based on the sub's parent, the query needs to make sure we inner
+    // join up to the base.
+    InheritanceAThingBuilder thing = Builders.aInheritanceAThing().defaults();
+    Builders.aInheritanceASubOne().name("sub").with(thing).defaults();
+    this.commitAndReOpen();
+
+    InheritanceAThingAlias t = new InheritanceAThingAlias("t");
+    InheritanceASubOneAlias s = new InheritanceASubOneAlias("s");
+    Select<InheritanceAThing> q = Select.from(t);
+    q.join(s.inheritanceAThing.on(t));
+    q.where(s.name.like("s%"));
+    List<InheritanceAThing> things = q.list();
+    Assert.assertEquals(1, things.size());
+    Assert.assertEquals(thing.get(), things.get(0));
+  }
 }

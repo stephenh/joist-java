@@ -76,4 +76,21 @@ public class InheritanceAQueryTest {
       " WHERE sa_b.inheritance_a_owner_id = ?"), q.toSql());
     Assert.assertEquals(Copy.list(1L), q.getWhere().getParameters());
   }
+
+  @Test
+  public void testJoinToASubClass() {
+    InheritanceAThingAlias t = new InheritanceAThingAlias("t");
+    InheritanceASubOneAlias s = new InheritanceASubOneAlias("s");
+    Select<InheritanceAThing> q = Select.from(t);
+    q.join(s.inheritanceAThing.on(t));
+    q.where(s.name.like("s"));
+
+    Assert.assertEquals(Join.lines(//
+      "SELECT DISTINCT t.id, t.name, t.version",
+      " FROM \"inheritance_a_thing\" t",
+      " INNER JOIN \"inheritance_a_sub_one\" s ON t.id = s.inheritance_a_thing_id",
+      " INNER JOIN \"inheritance_a_base\" s_b ON s.id = s_b.id",
+      " WHERE s_b.name like ?"), q.toSql());
+    Assert.assertEquals(Copy.list("s"), q.getWhere().getParameters());
+  }
 }
