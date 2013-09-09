@@ -7,38 +7,51 @@ import joist.util.Join;
 import joist.util.Wrap;
 
 /**
- * Joins new W onto existing T.
+ * Joins a child/many (E) to a parent/one (N).
  *
- * @param T existing domain object
- * @param W new domain object
+ * @param E the child domain object
+ * @param N the parent domain object
  */
 public class JoinClause<E extends DomainObject, N extends DomainObject> {
 
+  private final String type;
   private final String text;
+  private final Alias<?> alias;
 
+  // For adding parent N as E.n_id = N.id, e.g.:
+  // - q.join(n.on(e.n));
+  // - INNER JOIN \"n\" n ON e.n_id = n.id
   public JoinClause(String type, Alias<N> newAlias, ForeignKeyAliasColumn<E, N> on) {
-    this(type, newAlias.getTableName(), newAlias.getName(), on.getQualifiedName(), newAlias.getIdColumn().getQualifiedName());
+    this(newAlias, type, newAlias.getTableName(), newAlias.getName(), on.getQualifiedName(), newAlias.getIdColumn().getQualifiedName());
   }
 
+  // For adding child E as N.id = E.n_id, e.g.:
+  // - INNER JOIN \"e\" e ON n.id = e.n_id
+  // - join(e.n.on(n))
   public JoinClause(String type, Alias<E> newAlias, IdAliasColumn<? super N> existingIdColumn, ForeignKeyAliasColumn<E, N> newForeignKeyColumn) {
-    this(type, newAlias.getTableName(), newAlias.getName(), existingIdColumn.getQualifiedName(), newForeignKeyColumn.getQualifiedName());
-  }
-
-  public JoinClause(String type, Alias<E> newAlias, ForeignKeyAliasColumn<N, E> existingForeignKeyColumn, IdAliasColumn<? super E> newIdColum) {
-    this(type, newAlias.getTableName(), newAlias.getName(), existingForeignKeyColumn.getQualifiedName(), newIdColum.getQualifiedName());
+    this(newAlias, type, newAlias.getTableName(), newAlias.getName(), existingIdColumn.getQualifiedName(), newForeignKeyColumn.getQualifiedName());
   }
 
   /** Wild cards for utility code. */
   public JoinClause(String type, Alias<?> newAlias, IdAliasColumn<?> existingAliasIdColum, IdAliasColumn<?> newAliasIdColumn) {
-    this(type, newAlias.getTableName(), newAlias.getName(), existingAliasIdColum.getQualifiedName(), newAliasIdColumn.getQualifiedName());
+    this(newAlias, type, newAlias.getTableName(), newAlias.getName(), existingAliasIdColum.getQualifiedName(), newAliasIdColumn.getQualifiedName());
   }
 
-  private JoinClause(String type, String tableName, String aliasName, String existingColumn, String newColumn) {
+  private JoinClause(Alias<?> alias, String type, String tableName, String aliasName, String existingColumn, String newColumn) {
     this.text = Join.space(type, Wrap.quotes(tableName), aliasName, "ON", existingColumn, "=", newColumn);
+    this.alias = alias;
+    this.type = type;
+  }
+
+  public String getType() {
+    return this.type;
   }
 
   public String toString() {
     return this.text;
   }
 
+  public Alias<?> getAlias() {
+    return this.alias;
+  }
 }

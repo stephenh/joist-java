@@ -45,8 +45,7 @@ public class Select<T extends DomainObject> {
   }
 
   public Select<T> join(JoinClause<?, ?> join) {
-    this.joins.add(join);
-    return this;
+    return this.join(join, true);
   }
 
   public Select<T> select(SelectItem... selectItems) {
@@ -228,11 +227,25 @@ public class Select<T extends DomainObject> {
   }
 
   @SuppressWarnings("rawtypes")
+  private Select<T> join(JoinClause<?, ?> join, boolean addBaseAliases) {
+    this.joins.add(join);
+    if (join.getAlias() != null && addBaseAliases) {
+      Alias<?> base = join.getAlias().getBaseClassAlias();
+      while (base != null) {
+        IdAliasColumn<?> id = base.getSubClassIdColumn() == null ? base.getIdColumn() : base.getSubClassIdColumn();
+        this.join(new JoinClause(join.getType(), base, join.getAlias().getSubClassIdColumn(), id), false);
+        base = base.getBaseClassAlias();
+      }
+    }
+    return this;
+  }
+
+  @SuppressWarnings("rawtypes")
   private void addOuterJoinsForSubClasses() {
     int i = 0;
     List<String> subClassCases = new ArrayList<String>();
     for (Alias<?> sub : this.from.getSubClassAliases()) {
-      this.join(new JoinClause("LEFT OUTER JOIN", sub, this.from.getIdColumn(), sub.getSubClassIdColumn()));
+      this.join(new JoinClause("LEFT OUTER JOIN", sub, this.from.getIdColumn(), sub.getSubClassIdColumn()), false);
       for (AliasColumn<?, ?, ?> c : sub.getColumns()) {
         this.selectItems.add(new SelectItem(c));
       }
@@ -249,7 +262,7 @@ public class Select<T extends DomainObject> {
     while (base != null) {
       List<SelectItem> selectItems = new ArrayList<SelectItem>();
       IdAliasColumn<?> id = base.getSubClassIdColumn() == null ? base.getIdColumn() : base.getSubClassIdColumn();
-      this.join(new JoinClause("INNER JOIN", base, this.from.getSubClassIdColumn(), id));
+      this.join(new JoinClause("INNER JOIN", base, this.from.getSubClassIdColumn(), id), false);
       for (AliasColumn<?, ?, ?> c : base.getColumns()) {
         selectItems.add(new SelectItem(c));
       }
