@@ -116,6 +116,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     a.setOne("one");
     this.commitAndReOpen();
 
+    a = this.reload(a);
     InheritanceASubOne.queries.delete(a);
     this.commitAndReOpen();
   }
