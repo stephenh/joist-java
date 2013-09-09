@@ -78,7 +78,7 @@ public class InheritanceAQueryTest {
   }
 
   @Test
-  public void testJoinToASubClass() {
+  public void testJoinFromAParentToASubClass() {
     InheritanceAThingAlias t = new InheritanceAThingAlias("t");
     InheritanceASubOneAlias s = new InheritanceASubOneAlias("s");
     Select<InheritanceAThing> q = Select.from(t);
@@ -89,6 +89,23 @@ public class InheritanceAQueryTest {
       "SELECT DISTINCT t.id, t.name, t.version",
       " FROM \"inheritance_a_thing\" t",
       " INNER JOIN \"inheritance_a_sub_one\" s ON t.id = s.inheritance_a_thing_id",
+      " INNER JOIN \"inheritance_a_base\" s_b ON s.id = s_b.id",
+      " WHERE s_b.name like ?"), q.toSql());
+    Assert.assertEquals(Copy.list("s"), q.getWhere().getParameters());
+  }
+
+  @Test
+  public void testJoinFromAChildToASubClass() {
+    InheritanceASubOneChildAlias c = new InheritanceASubOneChildAlias("c");
+    InheritanceASubOneAlias s = new InheritanceASubOneAlias("s");
+    Select<InheritanceASubOneChild> q = Select.from(c);
+    q.join(s.on(c.sub));
+    q.where(s.name.like("s"));
+
+    Assert.assertEquals(Join.lines(//
+      "SELECT DISTINCT c.id, c.name, c.version, c.sub_id",
+      " FROM \"inheritance_a_sub_one_child\" c",
+      " INNER JOIN \"inheritance_a_sub_one\" s ON c.sub_id = s.id",
       " INNER JOIN \"inheritance_a_base\" s_b ON s.id = s_b.id",
       " WHERE s_b.name like ?"), q.toSql());
     Assert.assertEquals(Copy.list("s"), q.getWhere().getParameters());

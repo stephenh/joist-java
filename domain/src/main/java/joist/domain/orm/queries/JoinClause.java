@@ -22,7 +22,13 @@ public class JoinClause<E extends DomainObject, N extends DomainObject> {
   // - q.join(n.on(e.n));
   // - INNER JOIN \"n\" n ON e.n_id = n.id
   public JoinClause(String type, Alias<N> newAlias, ForeignKeyAliasColumn<E, N> on) {
-    this(newAlias, type, newAlias.getTableName(), newAlias.getName(), on.getQualifiedName(), newAlias.getIdColumn().getQualifiedName());
+    this(//
+      newAlias,
+      type,
+      newAlias.getTableName(),
+      newAlias.getName(),
+      on.getQualifiedName(),
+      (newAlias.getSubClassIdColumn() == null ? newAlias.getIdColumn() : newAlias.getSubClassIdColumn()).getQualifiedName());
   }
 
   // For adding child E as N.id = E.n_id, e.g.:

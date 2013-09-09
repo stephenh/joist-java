@@ -16,6 +16,7 @@ public class Aliases {
   private static InheritanceABaseAlias inheritanceABase;
   private static InheritanceAOwnerAlias inheritanceAOwner;
   private static InheritanceASubOneAlias inheritanceASubOne;
+  private static InheritanceASubOneChildAlias inheritanceASubOneChild;
   private static InheritanceASubTwoAlias inheritanceASubTwo;
   private static InheritanceAThingAlias inheritanceAThing;
   private static InheritanceBBottomAlias inheritanceBBottom;
@@ -153,6 +154,14 @@ public class Aliases {
       AliasRegistry.register(InheritanceASubOne.class, inheritanceASubOne);
     }
     return inheritanceASubOne;
+  }
+
+  public static InheritanceASubOneChildAlias inheritanceASubOneChild() {
+    if (inheritanceASubOneChild == null) {
+      inheritanceASubOneChild = new InheritanceASubOneChildAlias();
+      AliasRegistry.register(InheritanceASubOneChild.class, inheritanceASubOneChild);
+    }
+    return inheritanceASubOneChild;
   }
 
   public static InheritanceASubTwoAlias inheritanceASubTwo() {

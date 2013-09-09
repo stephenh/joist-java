@@ -2,7 +2,10 @@ package features.domain.builders;
 
 import features.domain.InheritanceAOwner;
 import features.domain.InheritanceASubOne;
+import features.domain.InheritanceASubOneChild;
 import features.domain.InheritanceAThing;
+import java.util.ArrayList;
+import java.util.List;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -84,6 +87,22 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
 
   public InheritanceASubOneBuilder with(InheritanceAOwnerBuilder inheritanceAOwner) {
     return inheritanceAOwner(inheritanceAOwner);
+  }
+
+  public List<InheritanceASubOneChildBuilder> subInheritanceASubOneChilds() {
+    List<InheritanceASubOneChildBuilder> b = new ArrayList<InheritanceASubOneChildBuilder>();
+    for (InheritanceASubOneChild e : get().getSubInheritanceASubOneChilds()) {
+      b.add(Builders.existing(e));
+    }
+    return b;
+  }
+
+  public InheritanceASubOneChildBuilder subInheritanceASubOneChild(int i) {
+    return Builders.existing(get().getSubInheritanceASubOneChilds().get(i));
+  }
+
+  public InheritanceASubOneChildBuilder newSubInheritanceASubOneChild() {
+    return Builders.aInheritanceASubOneChild().sub((InheritanceASubOneBuilder) this);
   }
 
   public InheritanceASubOne get() {

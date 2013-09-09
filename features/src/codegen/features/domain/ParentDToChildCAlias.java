@@ -49,7 +49,7 @@ public class ParentDToChildCAlias extends Alias<ParentDToChildC> {
   }
 
   public int getOrder() {
-    return 37;
+    return 38;
   }
 
 }

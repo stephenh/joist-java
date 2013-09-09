@@ -13,6 +13,7 @@ import org.junit.Test;
 import features.domain.builders.Builders;
 import features.domain.builders.InheritanceAOwnerBuilder;
 import features.domain.builders.InheritanceASubOneBuilder;
+import features.domain.builders.InheritanceASubOneChildBuilder;
 import features.domain.builders.InheritanceAThingBuilder;
 
 public class InheritanceATest extends AbstractFeaturesTest {
@@ -115,6 +116,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
     a.setOne("one");
     this.commitAndReOpen();
 
+    a = this.reload(a);
     InheritanceASubOne.queries.delete(a);
     this.commitAndReOpen();
   }
@@ -152,7 +154,7 @@ public class InheritanceATest extends AbstractFeaturesTest {
   }
 
   @Test
-  public void testJoinToASubClass() {
+  public void testJoinParentToASubClass() {
     // when selecting thing, and joining into a child class sub, and wanting to
     // select based on the sub's parent, the query needs to make sure we inner
     // join up to the base.
@@ -168,5 +170,21 @@ public class InheritanceATest extends AbstractFeaturesTest {
     List<InheritanceAThing> things = q.list();
     Assert.assertEquals(1, things.size());
     Assert.assertEquals(thing.get(), things.get(0));
+  }
+
+  @Test
+  public void testJoinFromAChildToASubClass() {
+    InheritanceASubOneBuilder parent = Builders.aInheritanceASubOne().name("sub").defaults();
+    InheritanceASubOneChildBuilder child = Builders.aInheritanceASubOneChild().with(parent).defaults();
+    this.commitAndReOpen();
+
+    InheritanceASubOneChildAlias c = new InheritanceASubOneChildAlias("c");
+    InheritanceASubOneAlias s = new InheritanceASubOneAlias("s");
+    Select<InheritanceASubOneChild> q = Select.from(c);
+    q.join(s.on(c.sub));
+    q.where(s.name.like("s%"));
+    List<InheritanceASubOneChild> children = q.list();
+    Assert.assertEquals(1, children.size());
+    Assert.assertEquals(child.get(), children.get(0));
   }
 }

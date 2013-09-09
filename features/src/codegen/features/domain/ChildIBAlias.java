@@ -47,7 +47,7 @@ public class ChildIBAlias extends Alias<ChildIB> {
   }
 
   public int getOrder() {
-    return 46;
+    return 47;
   }
 
 }
