@@ -12,6 +12,7 @@ import features.domain.HistoryEntry;
 import features.domain.InheritanceABase;
 import features.domain.InheritanceAOwner;
 import features.domain.InheritanceASubOne;
+import features.domain.InheritanceASubOneChild;
 import features.domain.InheritanceASubTwo;
 import features.domain.InheritanceAThing;
 import features.domain.InheritanceBBottom;
@@ -243,6 +244,22 @@ public class Builders {
 
   public static InheritanceASubOneBuilder theInheritanceASubOne(int id) {
     return new InheritanceASubOneBuilder(InheritanceASubOne.queries.find((long) id));
+  }
+
+  public static InheritanceASubOneChildBuilder aInheritanceASubOneChild() {
+    return new InheritanceASubOneChildBuilder(new InheritanceASubOneChild());
+  }
+
+  public static InheritanceASubOneChildBuilder existing(InheritanceASubOneChild inheritanceASubOneChild) {
+    return new InheritanceASubOneChildBuilder(inheritanceASubOneChild);
+  }
+
+  public static InheritanceASubOneChildBuilder theInheritanceASubOneChild(long id) {
+    return new InheritanceASubOneChildBuilder(InheritanceASubOneChild.queries.find(id));
+  }
+
+  public static InheritanceASubOneChildBuilder theInheritanceASubOneChild(int id) {
+    return new InheritanceASubOneChildBuilder(InheritanceASubOneChild.queries.find((long) id));
   }
 
   public static InheritanceASubTwoBuilder aInheritanceASubTwo() {

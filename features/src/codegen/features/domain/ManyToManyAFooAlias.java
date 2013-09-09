@@ -50,7 +50,7 @@ public class ManyToManyAFooAlias extends Alias<ManyToManyAFoo> {
   }
 
   public int getOrder() {
-    return 16;
+    return 17;
   }
 
   public <T extends DomainObject> JoinClause<T, ManyToManyAFoo> on(ForeignKeyAliasColumn<T, ManyToManyAFoo> on) {

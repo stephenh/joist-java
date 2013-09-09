@@ -47,7 +47,7 @@ public class ChildIAAlias extends Alias<ChildIA> {
   }
 
   public int getOrder() {
-    return 45;
+    return 46;
   }
 
 }

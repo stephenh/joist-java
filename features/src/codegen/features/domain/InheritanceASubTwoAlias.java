@@ -61,7 +61,7 @@ public class InheritanceASubTwoAlias extends Alias<InheritanceASubTwo> {
   }
 
   public int getOrder() {
-    return 7;
+    return 8;
   }
 
 }
