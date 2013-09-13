@@ -237,16 +237,14 @@ public class GenerateAliasesPass implements Pass<Codegen> {
         if (entity.isSubclass()) {
           ts.addDependency(entity, entity.getBaseEntity());
         }
-        // go up looking at foreign keys in base classes
-        Entity current = entity;
-        while (current != null) {
-          // not-null foreign keys must come before their target table
-          for (ManyToOneProperty mtop : current.getManyToOneProperties()) {
-            if (mtop.isNotNull() && !mtop.getOneSide().isCodeEntity()) {
-              ts.addDependency(entity, mtop.getOneSide());
+        // not-null foreign keys must come before their target table
+        for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+          if (mtop.isNotNull() && !mtop.getOneSide().isCodeEntity()) {
+            // make sure our subclasses are added as dependencies as well
+            for (Entity current : mtop.getOneSide().getAllBaseAndSubEntities()) {
+              ts.addDependency(entity, current);
             }
           }
-          current = current.getBaseEntity();
         }
       }
     } catch (CycleException ce) {
