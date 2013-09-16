@@ -14,6 +14,8 @@ public class GenerateQueriesIfNotExistsPass implements Pass<Codegen> {
       if (!codegen.getOutputSourceDirectory().exists(entity.getFullQueriesClassName())) {
         GClass queries = codegen.getOutputSourceDirectory().getClass(entity.getFullQueriesClassName());
         queries.baseClassName(entity.getFullQueriesCodegenClassName());
+      } else {
+        codegen.getOutputSourceDirectory().markTouched(entity.getFullQueriesClassName());
       }
     }
   }
