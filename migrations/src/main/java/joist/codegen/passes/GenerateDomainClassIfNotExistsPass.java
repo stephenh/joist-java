@@ -14,6 +14,8 @@ public class GenerateDomainClassIfNotExistsPass implements Pass<Codegen> {
       if (!codegen.getOutputSourceDirectory().exists(entity.getFullClassName())) {
         GClass domain = codegen.getOutputSourceDirectory().getClass(entity.getFullClassName());
         domain.baseClassName(entity.getFullCodegenClassName());
+      } else {
+        codegen.getOutputSourceDirectory().markTouched(entity.getFullClassName());
       }
     }
   }

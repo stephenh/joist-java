@@ -71,8 +71,16 @@ public class Config {
   /** Whether the codegen directory will be pruned of un-needed (to us) files. Affects only directories that contained generated classes. */
   public boolean pruneCodegenDirectory = true;
 
-  /** Whether we should remove un-needed files even outside of the directories that immediately contain classes. Assumes joist owns the entire output directory. */
-  public boolean pruneInAllDirectories = false;
+  /**
+   * Whether the source directory will be pruned of un-needed (to us) files.
+   *
+   * E.g. removes the old {@code Child.java} file (and {@code ChildQueries.java} and
+   * {@code ChildBuilder.java}) if the {@code child} table has been deleted.
+   *
+   * Note that {@code Child.java} may have had business logic in, which, if enabled, you'll
+   * have to recover from {@code git diff}.
+   */
+  public boolean pruneSourceDirectory = true;
 
   /** Where to look for migrations to apply. */
   public List<String> packageNamesContainingMigrations = new ArrayList<String>();

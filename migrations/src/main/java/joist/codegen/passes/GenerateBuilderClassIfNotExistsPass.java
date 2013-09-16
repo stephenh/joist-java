@@ -15,6 +15,8 @@ public class GenerateBuilderClassIfNotExistsPass implements Pass<Codegen> {
         GClass builder = codegen.getOutputSourceDirectory().getClass(entity.getFullBuilderClassName());
         builder.baseClassName(entity.getFullBuilderCodegenClassName());
         builder.getConstructor().argument(entity.getFullClassName(), "instance").body.line("super(instance);");
+      } else {
+        codegen.getOutputSourceDirectory().markTouched(entity.getFullBuilderClassName());
       }
     }
   }
