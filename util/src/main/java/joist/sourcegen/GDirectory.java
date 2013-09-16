@@ -81,8 +81,22 @@ public class GDirectory {
     }
   }
 
+  public List<File> getTouched() {
+    return this.touched;
+  }
+
+  /** Mark {@code file} as touched even if we're not going to explicitly output it. */
+  public void markTouched(File file) {
+    this.touched.add(file);
+  }
+
+  /** Mark {@code className} as touched even if we're not going to explicitly output it. */
+  public void markTouched(String fullClassName) {
+    this.markTouched(this.getFile(fullClassName));
+  }
+
   /** @returns only directories that we've output classes into, so that we conceptually "own" */
-  private List<File> getUsedDirectories() {
+  public List<File> getUsedDirectories() {
     List<File> used = Copy.list();
     for (File dir : this.getAllDirectories()) {
       boolean foundTouchedFileInThisDir = false;
@@ -100,7 +114,7 @@ public class GDirectory {
   }
 
   /** @returns all of the directories starting at {@code this.directory}. */
-  private List<File> getAllDirectories() {
+  public List<File> getAllDirectories() {
     List<File> directories = Copy.list();
     List<File> directoriesToCheck = Copy.list(this.directory);
     while (directoriesToCheck.size() > 0) {

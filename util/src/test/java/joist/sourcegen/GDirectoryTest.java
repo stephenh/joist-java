@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.StringWriter;
 
+import joist.util.Copy;
 import joist.util.Join;
 
 import org.junit.Assert;
@@ -33,6 +34,17 @@ public class GDirectoryTest {
     Assert.assertEquals(
       Join.lines("package org.exigencecorp;", "", "public class Foo {", "", "    public void foo() {", "        int i = 0;", "    }", "", "}", ""),
       this.read(this.foo));
+  }
+
+  @Test
+  public void testMarkTouched() {
+    GDirectory bin = new GDirectory("./bin");
+    bin.markTouched("org.exigencecorp.Foo");
+    Assert.assertEquals(Copy.list(new File("./bin/org/exigencecorp/Foo.java")), bin.getTouched());
+    Assert.assertEquals(Copy.list(new File("./bin/org/exigencecorp")), bin.getUsedDirectories());
+    Assert.assertEquals(Copy.list(//
+      new File("./bin/org"),
+      new File("./bin/org/exigencecorp")), bin.getAllDirectories());
   }
 
   private String read(File file) throws Exception {
