@@ -31,4 +31,7 @@ public interface DomainObject {
   String toTextString();
 
   boolean wasUpdateDerivedValuesCalled();
+
+  void resetWasUpdateDerivedValuesCalled();
+
 }

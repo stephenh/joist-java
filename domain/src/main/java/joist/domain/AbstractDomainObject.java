@@ -67,7 +67,13 @@ public abstract class AbstractDomainObject implements DomainObject {
   }
 
   // should really only be visible to Validator
+  @Override
   public boolean wasUpdateDerivedValuesCalled() {
     return this.wasUpdateDerivedValuesCalled;
+  }
+
+  @Override
+  public void resetWasUpdateDerivedValuesCalled() {
+    this.wasUpdateDerivedValuesCalled = false;
   }
 }

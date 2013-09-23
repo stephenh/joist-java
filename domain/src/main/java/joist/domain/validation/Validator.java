@@ -45,6 +45,7 @@ public class Validator {
   public void resetQueueAndChangedProperties() {
     for (DomainObject ado : this.queue) {
       ado.getChanged().clear();
+      ado.resetWasUpdateDerivedValuesCalled();
     }
     this.queue.clear();
     this.dequeue.clear();
