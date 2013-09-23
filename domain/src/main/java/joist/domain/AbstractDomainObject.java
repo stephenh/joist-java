@@ -21,6 +21,7 @@ public abstract class AbstractDomainObject implements DomainObject {
 
   private final List<Rule<?>> validationRules = new ArrayList<Rule<?>>();
   private boolean isFromSnapshot;
+  private boolean wasUpdateDerivedValuesCalled = false;
 
   public final List<ValidationError> validate() {
     ValidationErrors errors = new ValidationErrors();
@@ -62,6 +63,17 @@ public abstract class AbstractDomainObject implements DomainObject {
   }
 
   public void updateDerivedValues() {
+    this.wasUpdateDerivedValuesCalled = true;
   }
 
+  // should really only be visible to Validator
+  @Override
+  public boolean wasUpdateDerivedValuesCalled() {
+    return this.wasUpdateDerivedValuesCalled;
+  }
+
+  @Override
+  public void resetWasUpdateDerivedValuesCalled() {
+    this.wasUpdateDerivedValuesCalled = false;
+  }
 }
