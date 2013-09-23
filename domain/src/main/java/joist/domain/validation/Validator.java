@@ -31,6 +31,9 @@ public class Validator {
     List<ValidationError> errors = new ArrayList<ValidationError>();
     for (DomainObject ado : this.queue) {
       errors.addAll(ado.validate());
+      if (!ado.wasUpdateDerivedValuesCalled()) {
+        throw new IllegalStateException(ado + " updateDerivedValues forgot to call super.updateDerivedValues");
+      }
     }
 
     // If we have errors, don't continue
