@@ -173,9 +173,7 @@ public class MigrationKeywords {
       execute("ALTER TABLE {} RENAME TO {};", Wrap.quotes(oldTableName), Wrap.quotes(newTableName));
     }
     // clean up the old history triggers, as they'll get recreated after the migrations are applied
-    execute("DROP TRIGGER IF EXISTS {}_history_delete;", oldTableName);
-    execute("DROP TRIGGER IF EXISTS {}_history_insert;", oldTableName);
-    execute("DROP TRIGGER IF EXISTS {}_history_update;", oldTableName);
+    dropHistoryTriggers(oldTableName);
   }
 
   public static void renameColumn(String tableName, String oldColumnName, String newColumnName) {
@@ -195,6 +193,29 @@ public class MigrationKeywords {
     } else {
       execute("ALTER TABLE {} RENAME COLUMN {} TO {}", Wrap.quotes(tableName), Wrap.quotes(oldColumnName), Wrap.quotes(newColumnName));
     }
+    // if another migration does an insert on the table, the old history trigger will fail
+    dropHistoryTriggers(tableName);
+  }
+
+  /**
+   * Removes the history triggers for {@code tableName}, if they exist. 
+   *
+   * Currently Joist does not delete/re-create the history triggers until after
+   * all migrations have applied.
+   * 
+   * This means if one migration changes the schema in a way that breaks the
+   * history triggers, and then another migration tries to INSERT/UPDATE/DELETE
+   * a table that has broken history triggers, the 2nd migration will fail.
+   *
+   * We could conceivably fix the history trigger directly after doing an add
+   * column, remove column, etc., but it would take some work to do, and it
+   * seems like the data manipulation done in the 2nd migration is probably
+   * not super critical log.
+   */
+  public static void dropHistoryTriggers(String tableName) {
+    execute("DROP TRIGGER IF EXISTS {}_history_delete;", tableName);
+    execute("DROP TRIGGER IF EXISTS {}_history_insert;", tableName);
+    execute("DROP TRIGGER IF EXISTS {}_history_update;", tableName);
   }
 
   public static PrimaryKeyColumn primaryKey(String name) {
@@ -290,6 +311,8 @@ public class MigrationKeywords {
       }
     }
     execute("ALTER TABLE {} DROP COLUMN {};", Wrap.quotes(table), Wrap.quotes(column));
+    // if another migration does an insert on the table, the old history trigger will fail
+    dropHistoryTriggers(table);
   }
 
   public static FillInStrategy constantFillIn(String fragment) {
