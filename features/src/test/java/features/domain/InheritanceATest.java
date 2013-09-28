@@ -187,4 +187,14 @@ public class InheritanceATest extends AbstractFeaturesTest {
     Assert.assertEquals(1, children.size());
     Assert.assertEquals(child.get(), children.get(0));
   }
+
+  @Test
+  public void testCount() {
+    Assert.assertEquals(0, InheritanceABase.queries.count());
+
+    Builders.aInheritanceASubOne().defaults();
+    this.commitAndReOpen();
+
+    Assert.assertEquals(1, InheritanceABase.queries.count());
+  }
 }
