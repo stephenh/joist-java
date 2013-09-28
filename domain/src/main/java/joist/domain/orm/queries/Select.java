@@ -136,7 +136,7 @@ public class Select<T extends DomainObject> {
   public long count() {
     // Make a copy countQuery so we can discard any select items and order bys and not mess up this query
     Select<T> countQuery = Select.from(this.from);
-    countQuery.joins.addAll(this.joins);
+    countQuery.joins.addAll(this.joins.subList(countQuery.joins.size(), this.joins.size()));
     countQuery.where = this.where;
     countQuery.offset = this.offset;
     countQuery.limit = this.limit;
