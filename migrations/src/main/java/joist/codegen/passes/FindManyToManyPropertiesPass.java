@@ -10,11 +10,14 @@ public class FindManyToManyPropertiesPass implements Pass<Schema> {
 
   public void pass(Schema schema) {
     for (InformationSchemaColumn column : schema.getColumns()) {
-      if (column.foreignKeyConstraintName == null || !schema.isManyToManyTable(column)) {
+      if (column.foreignKeyConstraintName == null || !schema.isManyToManyTable(column) || schema.getConfig().isTableSkipped(column.tableName)) {
         continue;
       }
 
       Entity joinTable = schema.getEntity(column.tableName);
+      if (joinTable == null) {
+        throw new IllegalStateException("Could not find entity for join table " + column.tableName);
+      }
 
       for (ManyToOneProperty mtop : joinTable.getManyToOneProperties()) {
         mtop.getOneToManyProperty().setManyToMany(true);
