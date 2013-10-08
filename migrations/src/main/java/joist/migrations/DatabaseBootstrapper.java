@@ -8,6 +8,7 @@ import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import joist.util.Execute;
 import joist.util.Interpolate;
+import joist.util.Write;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,15 +85,16 @@ public class DatabaseBootstrapper {
 
     Jdbc.update(systemDs, "set global sql_mode = 'ANSI';", username, password);
 
-    if (new File(this.config.databaseBackupPath).exists()) {
-      log.info("Restoring {}", this.config.databaseBackupPath);
+    String backupRestorationPath = this.getBackupRestorationPath();
+    if (backupRestorationPath != null) {
+      log.info("Restoring {}", backupRestorationPath);
       new Execute("mysql")
         .addEnvPaths()
         .arg("--user=" + this.config.dbSystemSettings.user)
         .arg("--host=" + this.config.dbSystemSettings.host)
         .arg("--password=" + this.config.dbSystemSettings.password)
         .arg(databaseName)
-        .arg("--execute=source " + this.config.databaseBackupPath)
+        .arg("--execute=source " + backupRestorationPath)
         .toSystemOut()
         .systemExitIfFailed();
     }
@@ -154,8 +156,9 @@ public class DatabaseBootstrapper {
     log.info("Creating {}", username);
     Jdbc.update(systemDs, "create user {} password '{}';", username, password);
 
-    if (new File(this.config.databaseBackupPath).exists()) {
-      log.info("Restoring {}", this.config.databaseBackupPath);
+    String backupRestorationPath = this.getBackupRestorationPath();
+    if (backupRestorationPath != null) {
+      log.info("Restoring {}", backupRestorationPath);
       new Execute("pg_restore")
         .addEnvPaths()
         .arg("--host")
@@ -167,7 +170,7 @@ public class DatabaseBootstrapper {
         // TODO Support an option for binary, and do --schema-only/--data-only
         .arg("--format=t")
         .arg("--disable-triggers")
-        .arg(this.config.databaseBackupPath)
+        .arg(backupRestorationPath)
         .toSystemOut()
         .systemExitIfFailed();
     } else {
@@ -177,6 +180,16 @@ public class DatabaseBootstrapper {
         log.info("Creating plpgsql");
         Jdbc.update(appSaDs, "create language plpgsql;");
       }
+    }
+  }
+
+  private String getBackupRestorationPath() {
+    if (this.config.databaseBackupPath != null && new File(this.config.databaseBackupPath).exists()) {
+      return this.config.databaseBackupPath;
+    } else if (this.config.databaseBackupResourceLocation != null) {
+      return Write.classpathResourceToTempFile(this.config.databaseBackupResourceLocation).getAbsolutePath();
+    } else {
+      return null;
     }
   }
 

@@ -68,6 +68,9 @@ public class Config {
   /** The path for the database backup. */
   public String databaseBackupPath;
 
+  /** The classpath for database backups (for running migrations from a jar). */
+  public String databaseBackupResourceLocation;
+
   /** Whether the codegen directory will be pruned of un-needed (to us) files. Affects only directories that contained generated classes. */
   public boolean pruneCodegenDirectory = true;
 
