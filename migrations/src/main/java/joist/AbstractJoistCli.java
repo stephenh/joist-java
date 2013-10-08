@@ -3,6 +3,7 @@ package joist;
 import joist.codegen.Codegen;
 import joist.codegen.Config;
 import joist.codegen.Schema;
+import joist.codegen.passes.GenerateFlushFunction;
 import joist.codegen.passes.MySqlHistoryTriggersPass;
 import joist.domain.orm.Db;
 import joist.migrations.DatabaseBootstrapper;
@@ -73,6 +74,11 @@ public abstract class AbstractJoistCli {
 
   public void codegen() {
     new Codegen(this.config, this.getSchema()).generate();
+  }
+
+  public void generateFlushFunction() {
+    Codegen codegen = new Codegen(this.config, this.getSchema());
+    new GenerateFlushFunction().pass(codegen);
   }
 
   public void historyTriggers() {
