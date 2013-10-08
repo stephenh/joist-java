@@ -9,7 +9,14 @@ import java.io.InputStream;
 public class Read {
 
   public static String fromClasspath(String path) {
-    return Read.fromInputStream(Read.class.getResourceAsStream(path));
+    try {
+      InputStream in = Read.class.getResourceAsStream(path);
+      String content = Read.fromInputStream(in);
+      in.close();
+      return content;
+    } catch (IOException e) {
+      throw new RuntimeException(e); // for in.close(), which shouldn't happen
+    }
   }
 
   public static String fromFile(String path) {
