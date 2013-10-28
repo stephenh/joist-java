@@ -72,6 +72,7 @@ public class UoW {
       UoW.commitUnlessRolledBack();
       committed = true;
     } catch (Exception e) {
+      UoW.safelyRollbackAndCloseIfNeeded(committed);
       block.stopped(e);
     } finally {
       UoW.safelyRollbackAndCloseIfNeeded(committed);
@@ -87,6 +88,7 @@ public class UoW {
       committed = true;
       return value;
     } catch (Exception e) {
+      UoW.safelyRollbackAndCloseIfNeeded(committed);
       return block.stopped(e);
     } finally {
       UoW.safelyRollbackAndCloseIfNeeded(committed);
