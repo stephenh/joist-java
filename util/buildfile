@@ -4,5 +4,6 @@ require '../build.rb'
 define 'joist-util' do
   package_with_ivy project
   ivy.compile_conf(['default', 'provided']).test_conf('test')
+  test.resources.from("src/test/java")
 end
 
