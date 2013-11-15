@@ -55,6 +55,7 @@ public class GDirectoryTest {
     while (-1 != (n = reader.read(buffer))) {
       writer.write(buffer, 0, n);
     }
+    reader.close();
     return writer.toString();
   }
 
