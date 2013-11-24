@@ -157,4 +157,14 @@ public class BuildersTest extends AbstractFeaturesTest {
     assertThat(Parent.queries.count(), is(0L));
   }
 
+  @Test
+  public void testDeleteAll() {
+    aParent().defaults();
+    aParent().defaults();
+    this.commitAndReOpen();
+    ParentBuilder.deleteAll();
+    this.commitAndReOpen();
+    assertThat(Parent.queries.count(), is(0L));
+  }
+
 }
