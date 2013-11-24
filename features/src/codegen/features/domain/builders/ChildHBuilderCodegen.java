@@ -98,4 +98,9 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
     return (ChildHBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    ChildH.queries.delete(get());
+  }
+
 }

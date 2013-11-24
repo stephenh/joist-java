@@ -82,4 +82,9 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
     return (InheritanceASubOneChildBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    InheritanceASubOneChild.queries.delete(get());
+  }
+
 }

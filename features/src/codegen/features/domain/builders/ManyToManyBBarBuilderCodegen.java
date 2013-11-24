@@ -89,4 +89,9 @@ public abstract class ManyToManyBBarBuilderCodegen extends AbstractBuilder<ManyT
     return (ManyToManyBBarBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    ManyToManyBBar.queries.delete(get());
+  }
+
 }

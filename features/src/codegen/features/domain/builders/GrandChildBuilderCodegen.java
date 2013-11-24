@@ -82,4 +82,9 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
     return (GrandChildBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    GrandChild.queries.delete(get());
+  }
+
 }

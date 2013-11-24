@@ -69,4 +69,9 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
     return (InheritanceBRootBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    InheritanceBRoot.queries.delete(get());
+  }
+
 }

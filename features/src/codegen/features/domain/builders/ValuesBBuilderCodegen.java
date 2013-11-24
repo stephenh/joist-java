@@ -68,4 +68,9 @@ public abstract class ValuesBBuilderCodegen extends AbstractBuilder<ValuesB> {
     return (ValuesBBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    ValuesB.queries.delete(get());
+  }
+
 }

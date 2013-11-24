@@ -82,4 +82,9 @@ public abstract class ParentDChildABuilderCodegen extends AbstractBuilder<Parent
     return (ParentDChildABuilder) this;
   }
 
+  @Override
+  public void delete() {
+    ParentDChildA.queries.delete(get());
+  }
+
 }

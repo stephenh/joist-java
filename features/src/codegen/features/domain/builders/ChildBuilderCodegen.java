@@ -101,4 +101,9 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
     return (ChildBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    Child.queries.delete(get());
+  }
+
 }

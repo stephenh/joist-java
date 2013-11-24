@@ -73,4 +73,9 @@ public abstract class OneToOneBFooBuilderCodegen extends AbstractBuilder<OneToOn
     return (OneToOneBFooBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    OneToOneBFoo.queries.delete(get());
+  }
+
 }

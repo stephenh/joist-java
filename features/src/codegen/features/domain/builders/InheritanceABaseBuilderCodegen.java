@@ -75,4 +75,9 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
     return (InheritanceABaseBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    InheritanceABase.queries.delete(get());
+  }
+
 }

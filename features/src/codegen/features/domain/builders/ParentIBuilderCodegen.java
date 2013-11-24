@@ -64,6 +64,11 @@ public abstract class ParentIBuilderCodegen extends AbstractBuilder<ParentI> {
   }
 
   @Override
+  public void delete() {
+    ParentI.queries.delete(get());
+  }
+
+  @Override
   public ParentIBuilder defaults() {
     return (ParentIBuilder) super.defaults();
   }

@@ -131,4 +131,9 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
     return (HistoryEntryBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    HistoryEntry.queries.delete(get());
+  }
+
 }

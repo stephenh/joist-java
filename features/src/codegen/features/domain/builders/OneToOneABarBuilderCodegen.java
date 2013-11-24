@@ -82,4 +82,9 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
     return (OneToOneABarBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    OneToOneABar.queries.delete(get());
+  }
+
 }

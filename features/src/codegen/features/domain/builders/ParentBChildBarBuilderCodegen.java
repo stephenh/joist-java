@@ -82,4 +82,9 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
     return (ParentBChildBarBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    ParentBChildBar.queries.delete(get());
+  }
+
 }

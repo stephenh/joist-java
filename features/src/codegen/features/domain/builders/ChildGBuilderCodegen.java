@@ -90,4 +90,9 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
     return (ChildGBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    ChildG.queries.delete(get());
+  }
+
 }

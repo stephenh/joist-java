@@ -90,4 +90,9 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
     return (InheritanceAThingBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    InheritanceAThing.queries.delete(get());
+  }
+
 }

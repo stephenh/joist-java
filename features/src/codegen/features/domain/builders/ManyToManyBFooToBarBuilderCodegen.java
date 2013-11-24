@@ -94,4 +94,9 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
     return (ManyToManyBFooToBarBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    ManyToManyBFooToBar.queries.delete(get());
+  }
+
 }

@@ -94,4 +94,9 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
     return (ParentDToChildCBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    ParentDToChildC.queries.delete(get());
+  }
+
 }

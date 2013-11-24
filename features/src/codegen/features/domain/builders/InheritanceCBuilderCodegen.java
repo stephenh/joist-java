@@ -50,4 +50,9 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
     return (InheritanceCBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    InheritanceC.queries.delete(get());
+  }
+
 }
