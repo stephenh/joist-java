@@ -106,4 +106,11 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
     Child.queries.delete(get());
   }
 
+  public static void deleteAll() {
+    List<Long> ids = Child.queries.findAllIds();
+    for (Long id : ids) {
+      Child.queries.delete(Child.queries.find(id));
+    }
+  }
+
 }

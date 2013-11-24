@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.ParentCBar;
 import features.domain.ParentCFoo;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -96,6 +97,13 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
   @Override
   public void delete() {
     ParentCBar.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ParentCBar.queries.findAllIds();
+    for (Long id : ids) {
+      ParentCBar.queries.delete(ParentCBar.queries.find(id));
+    }
   }
 
 }

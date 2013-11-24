@@ -94,4 +94,11 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
     ParentCFoo.queries.delete(get());
   }
 
+  public static void deleteAll() {
+    List<Long> ids = ParentCFoo.queries.findAllIds();
+    for (Long id : ids) {
+      ParentCFoo.queries.delete(ParentCFoo.queries.find(id));
+    }
+  }
+
 }

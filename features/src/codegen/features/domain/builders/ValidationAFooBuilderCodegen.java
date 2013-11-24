@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.ValidationAFoo;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -57,6 +58,13 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
   @Override
   public void delete() {
     ValidationAFoo.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ValidationAFoo.queries.findAllIds();
+    for (Long id : ids) {
+      ValidationAFoo.queries.delete(ValidationAFoo.queries.find(id));
+    }
   }
 
 }

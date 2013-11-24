@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.Child;
 import features.domain.GrandChild;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -85,6 +86,13 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
   @Override
   public void delete() {
     GrandChild.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = GrandChild.queries.findAllIds();
+    for (Long id : ids) {
+      GrandChild.queries.delete(GrandChild.queries.find(id));
+    }
   }
 
 }

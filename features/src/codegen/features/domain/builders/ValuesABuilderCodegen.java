@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.ValuesA;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -95,6 +96,13 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
   @Override
   public void delete() {
     ValuesA.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ValuesA.queries.findAllIds();
+    for (Long id : ids) {
+      ValuesA.queries.delete(ValuesA.queries.find(id));
+    }
   }
 
 }

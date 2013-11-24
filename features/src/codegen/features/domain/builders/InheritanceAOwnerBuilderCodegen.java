@@ -74,4 +74,11 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
     InheritanceAOwner.queries.delete(get());
   }
 
+  public static void deleteAll() {
+    List<Long> ids = InheritanceAOwner.queries.findAllIds();
+    for (Long id : ids) {
+      InheritanceAOwner.queries.delete(InheritanceAOwner.queries.find(id));
+    }
+  }
+
 }

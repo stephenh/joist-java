@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import com.domainlanguage.time.CalendarDate;
 import features.domain.UserTypesAFoo;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -74,6 +75,13 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
   @Override
   public void delete() {
     UserTypesAFoo.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = UserTypesAFoo.queries.findAllIds();
+    for (Long id : ids) {
+      UserTypesAFoo.queries.delete(UserTypesAFoo.queries.find(id));
+    }
   }
 
 }

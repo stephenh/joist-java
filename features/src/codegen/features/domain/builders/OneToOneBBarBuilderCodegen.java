@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.OneToOneBBar;
 import features.domain.OneToOneBFoo;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -85,6 +86,13 @@ public abstract class OneToOneBBarBuilderCodegen extends AbstractBuilder<OneToOn
   @Override
   public void delete() {
     OneToOneBBar.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = OneToOneBBar.queries.findAllIds();
+    for (Long id : ids) {
+      OneToOneBBar.queries.delete(OneToOneBBar.queries.find(id));
+    }
   }
 
 }

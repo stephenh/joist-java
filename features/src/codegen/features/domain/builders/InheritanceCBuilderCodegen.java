@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.InheritanceC;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -53,6 +54,13 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
   @Override
   public void delete() {
     InheritanceC.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = InheritanceC.queries.findAllIds();
+    for (Long id : ids) {
+      InheritanceC.queries.delete(InheritanceC.queries.find(id));
+    }
   }
 
 }

@@ -94,4 +94,11 @@ public abstract class ManyToManyBBarBuilderCodegen extends AbstractBuilder<ManyT
     ManyToManyBBar.queries.delete(get());
   }
 
+  public static void deleteAll() {
+    List<Long> ids = ManyToManyBBar.queries.findAllIds();
+    for (Long id : ids) {
+      ManyToManyBBar.queries.delete(ManyToManyBBar.queries.find(id));
+    }
+  }
+
 }

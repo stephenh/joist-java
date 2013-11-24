@@ -94,4 +94,11 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
     ParentH.queries.delete(get());
   }
 
+  public static void deleteAll() {
+    List<Long> ids = ParentH.queries.findAllIds();
+    for (Long id : ids) {
+      ParentH.queries.delete(ParentH.queries.find(id));
+    }
+  }
+
 }
