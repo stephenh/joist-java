@@ -48,9 +48,12 @@ public abstract class AbstractBuilder<T extends DomainObject> {
   /** Ensures the instance has been flushed to the database and an id assigned. */
   public abstract AbstractBuilder<T> ensureSaved();
 
+  /** Deletes the instance if it's already been flushed to the database. */
+  public abstract void delete();
+
   protected void doEnsureSaved() {
     if (UoW.isOpen()) {
-      UoW.enqueue(get());
+      UoW.enqueue(this.get());
       UoW.flush();
     } else {
       throw new RuntimeException("ensureSaved only works if the UoW is open");
