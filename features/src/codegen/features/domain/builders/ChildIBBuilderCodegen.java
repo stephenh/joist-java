@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.ChildIB;
 import features.domain.ParentI;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -64,6 +65,18 @@ public abstract class ChildIBBuilderCodegen extends AbstractBuilder<ChildIB> {
   public ChildIBBuilder ensureSaved() {
     doEnsureSaved();
     return (ChildIBBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    ChildIB.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ChildIB.queries.findAllIds();
+    for (Long id : ids) {
+      ChildIB.queries.delete(ChildIB.queries.find(id));
+    }
   }
 
 }

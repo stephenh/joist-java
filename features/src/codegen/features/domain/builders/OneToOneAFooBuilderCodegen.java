@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.OneToOneAFoo;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -63,6 +64,18 @@ public abstract class OneToOneAFooBuilderCodegen extends AbstractBuilder<OneToOn
   public OneToOneAFooBuilder ensureSaved() {
     doEnsureSaved();
     return (OneToOneAFooBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    OneToOneAFoo.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = OneToOneAFoo.queries.findAllIds();
+    for (Long id : ids) {
+      OneToOneAFoo.queries.delete(OneToOneAFoo.queries.find(id));
+    }
   }
 
 }

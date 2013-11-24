@@ -137,7 +137,34 @@ public class BuildersTest extends AbstractFeaturesTest {
   @Test
   public void testEnsureSaved() {
     ParentBuilder p = aParent().defaults().ensureSaved();
-    assertThat(p.get().getId(), is(1l));
+    assertThat(p.get().getId(), is(1L));
+  }
+
+  @Test
+  public void testDeleteANewObject() {
+    ParentBuilder p = aParent().defaults();
+    p.delete();
+    this.commitAndReOpen();
+    assertThat(Parent.queries.count(), is(0L));
+  }
+
+  @Test
+  public void testDeleteAnExistingObject() {
+    ParentBuilder p = aParent().defaults();
+    this.commitAndReOpen();
+    p.delete();
+    this.commitAndReOpen();
+    assertThat(Parent.queries.count(), is(0L));
+  }
+
+  @Test
+  public void testDeleteAll() {
+    aParent().defaults();
+    aParent().defaults();
+    this.commitAndReOpen();
+    ParentBuilder.deleteAll();
+    this.commitAndReOpen();
+    assertThat(Parent.queries.count(), is(0L));
   }
 
 }

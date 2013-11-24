@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import com.domainlanguage.time.TimePoint;
 import features.domain.HistoryEntry;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -129,6 +130,18 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
   public HistoryEntryBuilder ensureSaved() {
     doEnsureSaved();
     return (HistoryEntryBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    HistoryEntry.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = HistoryEntry.queries.findAllIds();
+    for (Long id : ids) {
+      HistoryEntry.queries.delete(HistoryEntry.queries.find(id));
+    }
   }
 
 }

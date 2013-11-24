@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.InheritanceABase;
 import features.domain.InheritanceAOwner;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -73,6 +74,18 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
   public InheritanceABaseBuilder ensureSaved() {
     doEnsureSaved();
     return (InheritanceABaseBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    InheritanceABase.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = InheritanceABase.queries.findAllIds();
+    for (Long id : ids) {
+      InheritanceABase.queries.delete(InheritanceABase.queries.find(id));
+    }
   }
 
 }

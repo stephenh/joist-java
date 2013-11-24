@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.ChildIA;
 import features.domain.ParentI;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -64,6 +65,18 @@ public abstract class ChildIABuilderCodegen extends AbstractBuilder<ChildIA> {
   public ChildIABuilder ensureSaved() {
     doEnsureSaved();
     return (ChildIABuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    ChildIA.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ChildIA.queries.findAllIds();
+    for (Long id : ids) {
+      ChildIA.queries.delete(ChildIA.queries.find(id));
+    }
   }
 
 }

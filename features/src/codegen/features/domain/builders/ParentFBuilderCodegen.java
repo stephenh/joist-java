@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.ChildF;
 import features.domain.ParentF;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -88,6 +89,18 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
   public ParentFBuilder ensureSaved() {
     doEnsureSaved();
     return (ParentFBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    ParentF.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ParentF.queries.findAllIds();
+    for (Long id : ids) {
+      ParentF.queries.delete(ParentF.queries.find(id));
+    }
   }
 
 }

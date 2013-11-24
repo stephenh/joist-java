@@ -90,4 +90,16 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
     return (InheritanceAThingBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    InheritanceAThing.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = InheritanceAThing.queries.findAllIds();
+    for (Long id : ids) {
+      InheritanceAThing.queries.delete(InheritanceAThing.queries.find(id));
+    }
+  }
+
 }

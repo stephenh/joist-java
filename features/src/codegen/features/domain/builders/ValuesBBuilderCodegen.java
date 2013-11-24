@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import com.domainlanguage.time.TimePoint;
 import features.domain.ValuesB;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -66,6 +67,18 @@ public abstract class ValuesBBuilderCodegen extends AbstractBuilder<ValuesB> {
   public ValuesBBuilder ensureSaved() {
     doEnsureSaved();
     return (ValuesBBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    ValuesB.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ValuesB.queries.findAllIds();
+    for (Long id : ids) {
+      ValuesB.queries.delete(ValuesB.queries.find(id));
+    }
   }
 
 }

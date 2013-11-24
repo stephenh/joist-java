@@ -89,4 +89,16 @@ public abstract class ManyToManyAFooBuilderCodegen extends AbstractBuilder<ManyT
     return (ManyToManyAFooBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    ManyToManyAFoo.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ManyToManyAFoo.queries.findAllIds();
+    for (Long id : ids) {
+      ManyToManyAFoo.queries.delete(ManyToManyAFoo.queries.find(id));
+    }
+  }
+
 }

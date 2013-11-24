@@ -89,4 +89,16 @@ public abstract class ChildFBuilderCodegen extends AbstractBuilder<ChildF> {
     return (ChildFBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    ChildF.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ChildF.queries.findAllIds();
+    for (Long id : ids) {
+      ChildF.queries.delete(ChildF.queries.find(id));
+    }
+  }
+
 }

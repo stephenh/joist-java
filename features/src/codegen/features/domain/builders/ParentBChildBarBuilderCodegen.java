@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.ParentBChildBar;
 import features.domain.ParentBParent;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -80,6 +81,18 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
   public ParentBChildBarBuilder ensureSaved() {
     doEnsureSaved();
     return (ParentBChildBarBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    ParentBChildBar.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ParentBChildBar.queries.findAllIds();
+    for (Long id : ids) {
+      ParentBChildBar.queries.delete(ParentBChildBar.queries.find(id));
+    }
   }
 
 }

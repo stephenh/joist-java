@@ -4,6 +4,7 @@ import com.domainlanguage.money.Money;
 import com.domainlanguage.time.CalendarDate;
 import com.domainlanguage.time.TimePoint;
 import features.domain.PrimitivesC;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -103,6 +104,18 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
   public PrimitivesCBuilder ensureSaved() {
     doEnsureSaved();
     return (PrimitivesCBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    PrimitivesC.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = PrimitivesC.queries.findAllIds();
+    for (Long id : ids) {
+      PrimitivesC.queries.delete(PrimitivesC.queries.find(id));
+    }
   }
 
 }

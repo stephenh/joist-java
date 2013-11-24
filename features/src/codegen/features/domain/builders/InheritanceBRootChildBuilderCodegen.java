@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.InheritanceBRoot;
 import features.domain.InheritanceBRootChild;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -77,6 +78,18 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
   public InheritanceBRootChildBuilder ensureSaved() {
     doEnsureSaved();
     return (InheritanceBRootChildBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    InheritanceBRootChild.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = InheritanceBRootChild.queries.findAllIds();
+    for (Long id : ids) {
+      InheritanceBRootChild.queries.delete(InheritanceBRootChild.queries.find(id));
+    }
   }
 
 }

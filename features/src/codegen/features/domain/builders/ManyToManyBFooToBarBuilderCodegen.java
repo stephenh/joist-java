@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.ManyToManyBBar;
 import features.domain.ManyToManyBFoo;
 import features.domain.ManyToManyBFooToBar;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -92,6 +93,18 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
   public ManyToManyBFooToBarBuilder ensureSaved() {
     doEnsureSaved();
     return (ManyToManyBFooToBarBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    ManyToManyBFooToBar.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ManyToManyBFooToBar.queries.findAllIds();
+    for (Long id : ids) {
+      ManyToManyBFooToBar.queries.delete(ManyToManyBFooToBar.queries.find(id));
+    }
   }
 
 }

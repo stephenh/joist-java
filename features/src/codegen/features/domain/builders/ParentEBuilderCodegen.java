@@ -96,4 +96,16 @@ public abstract class ParentEBuilderCodegen extends AbstractBuilder<ParentE> {
     return (ParentEBuilder) this;
   }
 
+  @Override
+  public void delete() {
+    ParentE.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = ParentE.queries.findAllIds();
+    for (Long id : ids) {
+      ParentE.queries.delete(ParentE.queries.find(id));
+    }
+  }
+
 }

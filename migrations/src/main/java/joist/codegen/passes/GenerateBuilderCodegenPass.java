@@ -45,6 +45,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
       this.manyToManyProperties(builderCodegen, entity);
       this.overrideGet(builderCodegen, entity);
       this.ensureSaved(builderCodegen, entity);
+      this.delete(builderCodegen, entity);
 
       GMethod defaults = builderCodegen.getMethod("defaults");
       defaults.addAnnotation("@Override");
@@ -67,6 +68,21 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     m.body.line("doEnsureSaved();");
     m.body.line("return ({}) this;", entity.getBuilderClassName());
     builderCodegen.addImports(UoW.class);
+  }
+
+  private void delete(GClass builderCodegen, Entity entity) {
+    if (entity.isSubclass()) {
+      return;
+    }
+    GMethod delete = builderCodegen.getMethod("delete").addAnnotation("@Override");
+    delete.body.line("{}.queries.delete(get());", entity.getClassName());
+
+    GMethod deleteAll = builderCodegen.getMethod("deleteAll").setStatic();
+    deleteAll.body.line("List<Long> ids = {}.queries.findAllIds();", entity.getClassName());
+    deleteAll.body.line("for (Long id : ids) {");
+    deleteAll.body.line("  {}.queries.delete({}.queries.find(id));", entity.getClassName(), entity.getClassName());
+    deleteAll.body.line("}");
+    builderCodegen.addImports(List.class);
   }
 
   private void primitiveProperties(Codegen codegen, GClass c, Entity entity) {

@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.CodeAColor;
 import features.domain.CodeADomainObject;
 import features.domain.CodeASize;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -118,6 +119,18 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
   public CodeADomainObjectBuilder ensureSaved() {
     doEnsureSaved();
     return (CodeADomainObjectBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    CodeADomainObject.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = CodeADomainObject.queries.findAllIds();
+    for (Long id : ids) {
+      CodeADomainObject.queries.delete(CodeADomainObject.queries.find(id));
+    }
   }
 
 }

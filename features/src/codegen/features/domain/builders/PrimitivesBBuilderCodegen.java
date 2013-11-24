@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.PrimitivesB;
+import java.util.List;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.uow.UoW;
 
@@ -141,6 +142,18 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
   public PrimitivesBBuilder ensureSaved() {
     doEnsureSaved();
     return (PrimitivesBBuilder) this;
+  }
+
+  @Override
+  public void delete() {
+    PrimitivesB.queries.delete(get());
+  }
+
+  public static void deleteAll() {
+    List<Long> ids = PrimitivesB.queries.findAllIds();
+    for (Long id : ids) {
+      PrimitivesB.queries.delete(PrimitivesB.queries.find(id));
+    }
   }
 
 }
