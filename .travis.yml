@@ -5,5 +5,6 @@ jdk:
   - oraclejdk7
 script: "./all.sh install"
 install:
-  - sudo gem install buildr
+  - gem install bundler
+  - bundle install
 script: buildr clean package
