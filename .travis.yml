@@ -3,8 +3,8 @@ jdk:
   - openjdk6
   - openjdk7
   - oraclejdk7
-script: "./all.sh install"
 install:
   - gem install bundler
   - bundle install
+script: "./all.sh install"
 script: buildr clean package
