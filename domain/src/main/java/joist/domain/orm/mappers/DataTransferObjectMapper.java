@@ -48,7 +48,9 @@ public class DataTransferObjectMapper<T extends DomainObject, R> implements RowM
         }
         field.set(row, value);
       } catch (NoSuchFieldException nsfe) {
+        throw new RuntimeException(nsfe);
       } catch (IllegalAccessException iae) {
+        throw new RuntimeException(iae);
       }
     }
 
