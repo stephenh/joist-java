@@ -100,10 +100,6 @@ public class OneToManyProperty {
     return this.constraintName.contains("_isme"); // Since we're incoming, "me" means them
   }
 
-  public boolean getNoTicking() {
-    return this.config.isDoNotIncrementParentsOpLock(this.oneSide.getClassName(), this.getVariableName());
-  }
-
   public boolean isCollectionSkipped() {
     return this.config.isCollectionSkipped(this.oneSide.getClassName(), this.getVariableName());
   }

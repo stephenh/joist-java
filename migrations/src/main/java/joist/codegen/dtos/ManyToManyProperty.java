@@ -86,10 +86,6 @@ public class ManyToManyProperty {
     throw new RuntimeException("No OneToMany found for " + this.myKeyColumnName);
   }
 
-  public boolean getNoTicking() {
-    return this.config.isDoNotIncrementParentsOpLock(this.mySide.getClassName(), this.getVariableName());
-  }
-
   public Entity getJoinTable() {
     return this.joinTable;
   }

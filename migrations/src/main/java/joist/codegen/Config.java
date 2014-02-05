@@ -115,7 +115,6 @@ public class Config {
   private final Map<String, String> setterAccessByTableAndColumn = new HashMap<String, String>();
   private final Map<String, String> builderDefaultsByJavaType = new HashMap<String, String>();
   private final Map<String, String> oneToManyName = new HashMap<String, String>();
-  private final List<String> doNotIncrementParentsOpLock = new ArrayList<String>();
   private final List<String> skipCollections = new ArrayList<String>();
   private final List<String> skipTables = new ArrayList<String>();
   private final List<String> skipProperties = new ArrayList<String>();
@@ -367,18 +366,6 @@ public class Config {
 
   public boolean isStableTable(String tableName) {
     return this.stableTables.contains(tableName);
-  }
-
-  public void setDoNotIncrementParentsOpLock(String objectName, String variableName) {
-    this.doNotIncrementParentsOpLock.add(objectName + "." + variableName);
-  }
-
-  public void setDoNotIncrementParentsOpLock(String objectName) {
-    this.doNotIncrementParentsOpLock.add(objectName);
-  }
-
-  public boolean isDoNotIncrementParentsOpLock(String objectName, String variableName) {
-    return this.doNotIncrementParentsOpLock.contains(objectName) || this.doNotIncrementParentsOpLock.contains(objectName + "." + variableName);
   }
 
   public void addPackageForMigrations(String packageName) {
