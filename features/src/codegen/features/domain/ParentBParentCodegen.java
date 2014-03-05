@@ -24,6 +24,7 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
   private Long version = null;
   private final ForeignKeyListHolder<ParentBParent, ParentBChildBar> parentBChildBars = new ForeignKeyListHolder<ParentBParent, ParentBChildBar>((ParentBParent) this, Aliases.parentBChildBar(), Aliases.parentBChildBar().parentBParent, new ParentBChildBarsListDelegate());
   private final ForeignKeyListHolder<ParentBParent, ParentBChildFoo> parentBChildFoos = new ForeignKeyListHolder<ParentBParent, ParentBChildFoo>((ParentBParent) this, Aliases.parentBChildFoo(), Aliases.parentBChildFoo().parentBParent, new ParentBChildFoosListDelegate());
+  private final ForeignKeyListHolder<ParentBParent, ParentBChildZaz> parentBChildZazs = new ForeignKeyListHolder<ParentBParent, ParentBChildZaz>((ParentBParent) this, Aliases.parentBChildZaz(), Aliases.parentBChildZaz().parentBParent, new ParentBChildZazsListDelegate());
   protected Changed changed;
 
   static {
@@ -153,6 +154,46 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
     this.parentBChildFoos.remove(o);
   }
 
+  public List<ParentBChildZaz> getParentBChildZazs() {
+    return this.parentBChildZazs.get();
+  }
+
+  public void setParentBChildZazs(List<ParentBChildZaz> parentBChildZazs) {
+    ListDiff<ParentBChildZaz> diff = ListDiff.of(this.getParentBChildZazs(), parentBChildZazs);
+    for (ParentBChildZaz o : diff.removed) {
+      this.removeParentBChildZaz(o);
+    }
+    for (ParentBChildZaz o : diff.added) {
+      this.addParentBChildZaz(o);
+    }
+  }
+
+  public void addParentBChildZaz(ParentBChildZaz o) {
+    if (o.getParentBParent() == this) {
+      return;
+    }
+    o.setParentBParentWithoutPercolation((ParentBParent) this);
+    this.addParentBChildZazWithoutPercolation(o);
+  }
+
+  public void removeParentBChildZaz(ParentBChildZaz o) {
+    if (o.getParentBParent() != this) {
+      return;
+    }
+    o.setParentBParentWithoutPercolation(null);
+    this.removeParentBChildZazWithoutPercolation(o);
+  }
+
+  protected void addParentBChildZazWithoutPercolation(ParentBChildZaz o) {
+    this.getChanged().record("parentBChildZazs");
+    this.parentBChildZazs.add(o);
+  }
+
+  protected void removeParentBChildZazWithoutPercolation(ParentBChildZaz o) {
+    this.getChanged().record("parentBChildZazs");
+    this.parentBChildZazs.remove(o);
+  }
+
   public ParentBParentChanged getChanged() {
     if (this.changed == null) {
       this.changed = new ParentBParentChanged((ParentBParent) this);
@@ -168,6 +209,9 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
     for (ParentBChildFoo o : Copy.list(this.getParentBChildFoos())) {
       removeParentBChildFoo(o);
+    }
+    for (ParentBChildZaz o : Copy.list(this.getParentBChildZazs())) {
+      removeParentBChildZaz(o);
     }
   }
 
@@ -225,6 +269,15 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
   }
 
+  private class ParentBChildZazsListDelegate implements ListProxy.Delegate<ParentBChildZaz> {
+    public void doAdd(ParentBChildZaz e) {
+      addParentBChildZaz(e);
+    }
+    public void doRemove(ParentBChildZaz e) {
+      removeParentBChildZaz(e);
+    }
+  }
+
   public static class ParentBParentChanged extends AbstractChanged {
     public ParentBParentChanged(ParentBParent instance) {
       super(instance);
@@ -252,6 +305,9 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
     }
     public boolean hasParentBChildFoos() {
       return this.contains("parentBChildFoos");
+    }
+    public boolean hasParentBChildZazs() {
+      return this.contains("parentBChildZazs");
     }
   }
 

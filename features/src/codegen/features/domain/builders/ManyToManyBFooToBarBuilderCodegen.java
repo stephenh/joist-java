@@ -5,6 +5,7 @@ import features.domain.ManyToManyBFoo;
 import features.domain.ManyToManyBFooToBar;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -12,6 +13,32 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
 
   public ManyToManyBFooToBarBuilderCodegen(ManyToManyBFooToBar instance) {
     super(instance);
+  }
+
+  @Override
+  public ManyToManyBFooToBarBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      DefaultsContext.get().rememberIfSet(owned());
+      DefaultsContext.get().rememberIfSet(ownerManyToManyBFoo());
+      if (owned() == null) {
+        owned(DefaultsContext.get().getIfAvailable(ManyToManyBBar.class));
+        if (owned() == null) {
+          owned(Builders.aManyToManyBBar().defaults());
+          DefaultsContext.get().rememberIfSet(owned());
+        }
+      }
+      if (ownerManyToManyBFoo() == null) {
+        ownerManyToManyBFoo(DefaultsContext.get().getIfAvailable(ManyToManyBFoo.class));
+        if (ownerManyToManyBFoo() == null) {
+          ownerManyToManyBFoo(Builders.aManyToManyBFoo().defaults());
+          DefaultsContext.get().rememberIfSet(ownerManyToManyBFoo());
+        }
+      }
+      return (ManyToManyBFooToBarBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -48,17 +75,6 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
 
   public ManyToManyBFooToBarBuilder with(ManyToManyBBarBuilder owned) {
     return owned(owned);
-  }
-
-  @Override
-  public ManyToManyBFooToBarBuilder defaults() {
-    if (owned() == null) {
-      owned(Builders.aManyToManyBBar().defaults());
-    }
-    if (ownerManyToManyBFoo() == null) {
-      ownerManyToManyBFoo(Builders.aManyToManyBFoo().defaults());
-    }
-    return (ManyToManyBFooToBarBuilder) super.defaults();
   }
 
   public ManyToManyBFooBuilder ownerManyToManyBFoo() {

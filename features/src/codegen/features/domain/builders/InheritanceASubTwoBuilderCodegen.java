@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.InheritanceAOwner;
 import features.domain.InheritanceASubTwo;
 import features.domain.InheritanceAThing;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -12,6 +13,20 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
     super(instance);
   }
 
+  @Override
+  public InheritanceASubTwoBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (two() == null) {
+        two("two");
+      }
+      DefaultsContext.get().rememberIfSet(inheritanceAThing());
+      return (InheritanceASubTwoBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
+  }
+
   public String two() {
     return get().getTwo();
   }
@@ -19,14 +34,6 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
   public InheritanceASubTwoBuilder two(String two) {
     get().setTwo(two);
     return (InheritanceASubTwoBuilder) this;
-  }
-
-  @Override
-  public InheritanceASubTwoBuilder defaults() {
-    if (two() == null) {
-      two("two");
-    }
-    return (InheritanceASubTwoBuilder) super.defaults();
   }
 
   public String name() {

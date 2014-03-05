@@ -4,6 +4,7 @@ import features.domain.ChildG;
 import features.domain.ParentG;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,28 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
 
   public ChildGBuilderCodegen(ChildG instance) {
     super(instance);
+  }
+
+  @Override
+  public ChildGBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      DefaultsContext.get().rememberIfSet(parentOne());
+      DefaultsContext.get().rememberIfSet(parentTwo());
+      if (parentOne() == null) {
+        parentOne(DefaultsContext.get().getIfAvailable(ParentG.class));
+        if (parentOne() == null) {
+          parentOne(Builders.aParentG().defaults());
+          DefaultsContext.get().rememberIfSet(parentOne());
+        }
+      }
+      return (ChildGBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -36,17 +59,6 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
 
   public ChildGBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ChildGBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (parentOne() == null) {
-      parentOne(Builders.aParentG().defaults());
-    }
-    return (ChildGBuilder) super.defaults();
   }
 
   public ParentGBuilder parentOne() {

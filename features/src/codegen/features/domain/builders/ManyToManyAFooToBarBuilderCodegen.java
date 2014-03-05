@@ -5,6 +5,7 @@ import features.domain.ManyToManyAFoo;
 import features.domain.ManyToManyAFooToBar;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -12,6 +13,32 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
 
   public ManyToManyAFooToBarBuilderCodegen(ManyToManyAFooToBar instance) {
     super(instance);
+  }
+
+  @Override
+  public ManyToManyAFooToBarBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      DefaultsContext.get().rememberIfSet(manyToManyABar());
+      DefaultsContext.get().rememberIfSet(manyToManyAFoo());
+      if (manyToManyABar() == null) {
+        manyToManyABar(DefaultsContext.get().getIfAvailable(ManyToManyABar.class));
+        if (manyToManyABar() == null) {
+          manyToManyABar(Builders.aManyToManyABar().defaults());
+          DefaultsContext.get().rememberIfSet(manyToManyABar());
+        }
+      }
+      if (manyToManyAFoo() == null) {
+        manyToManyAFoo(DefaultsContext.get().getIfAvailable(ManyToManyAFoo.class));
+        if (manyToManyAFoo() == null) {
+          manyToManyAFoo(Builders.aManyToManyAFoo().defaults());
+          DefaultsContext.get().rememberIfSet(manyToManyAFoo());
+        }
+      }
+      return (ManyToManyAFooToBarBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -48,17 +75,6 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
 
   public ManyToManyAFooToBarBuilder with(ManyToManyABarBuilder manyToManyABar) {
     return manyToManyABar(manyToManyABar);
-  }
-
-  @Override
-  public ManyToManyAFooToBarBuilder defaults() {
-    if (manyToManyABar() == null) {
-      manyToManyABar(Builders.aManyToManyABar().defaults());
-    }
-    if (manyToManyAFoo() == null) {
-      manyToManyAFoo(Builders.aManyToManyAFoo().defaults());
-    }
-    return (ManyToManyAFooToBarBuilder) super.defaults();
   }
 
   public ManyToManyAFooBuilder manyToManyAFoo() {

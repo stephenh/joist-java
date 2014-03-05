@@ -4,6 +4,7 @@ import features.domain.Child;
 import features.domain.GrandChild;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,27 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
 
   public GrandChildBuilderCodegen(GrandChild instance) {
     super(instance);
+  }
+
+  @Override
+  public GrandChildBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      DefaultsContext.get().rememberIfSet(child());
+      if (child() == null) {
+        child(DefaultsContext.get().getIfAvailable(Child.class));
+        if (child() == null) {
+          child(Builders.aChild().defaults());
+          DefaultsContext.get().rememberIfSet(child());
+        }
+      }
+      return (GrandChildBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -36,17 +58,6 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
 
   public GrandChildBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public GrandChildBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (child() == null) {
-      child(Builders.aChild().defaults());
-    }
-    return (GrandChildBuilder) super.defaults();
   }
 
   public ChildBuilder child() {

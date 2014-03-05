@@ -5,6 +5,7 @@ import features.domain.InheritanceBRootChild;
 import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -12,6 +13,19 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
 
   public InheritanceBRootBuilderCodegen(InheritanceBRoot instance) {
     super(instance);
+  }
+
+  @Override
+  public InheritanceBRootBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      return (InheritanceBRootBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -33,14 +47,6 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
   public InheritanceBRootBuilder name(String name) {
     get().setName(name);
     return (InheritanceBRootBuilder) this;
-  }
-
-  @Override
-  public InheritanceBRootBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (InheritanceBRootBuilder) super.defaults();
   }
 
   public List<InheritanceBRootChildBuilder> inheritanceBRootChilds() {

@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.InheritanceC;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -10,6 +11,19 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
 
   public InheritanceCBuilderCodegen(InheritanceC instance) {
     super(instance);
+  }
+
+  @Override
+  public InheritanceCBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      return (InheritanceCBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -31,14 +45,6 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
   public InheritanceCBuilder name(String name) {
     get().setName(name);
     return (InheritanceCBuilder) this;
-  }
-
-  @Override
-  public InheritanceCBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (InheritanceCBuilder) super.defaults();
   }
 
   public InheritanceC get() {

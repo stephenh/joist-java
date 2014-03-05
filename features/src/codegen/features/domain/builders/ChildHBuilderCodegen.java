@@ -4,6 +4,7 @@ import features.domain.ChildH;
 import features.domain.ParentH;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,30 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
 
   public ChildHBuilderCodegen(ChildH instance) {
     super(instance);
+  }
+
+  @Override
+  public ChildHBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      if (quantity() == null) {
+        quantity(0l);
+      }
+      DefaultsContext.get().rememberIfSet(parent());
+      if (parent() == null) {
+        parent(DefaultsContext.get().getIfAvailable(ParentH.class));
+        if (parent() == null) {
+          parent(Builders.aParentH().defaults());
+          DefaultsContext.get().rememberIfSet(parent());
+        }
+      }
+      return (ChildHBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -36,20 +61,6 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
 
   public ChildHBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ChildHBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (quantity() == null) {
-      quantity(0l);
-    }
-    if (parent() == null) {
-      parent(Builders.aParentH().defaults());
-    }
-    return (ChildHBuilder) super.defaults();
   }
 
   public Long quantity() {

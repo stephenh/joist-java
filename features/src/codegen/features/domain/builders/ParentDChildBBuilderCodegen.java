@@ -4,6 +4,7 @@ import features.domain.ParentD;
 import features.domain.ParentDChildB;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,27 @@ public abstract class ParentDChildBBuilderCodegen extends AbstractBuilder<Parent
 
   public ParentDChildBBuilderCodegen(ParentDChildB instance) {
     super(instance);
+  }
+
+  @Override
+  public ParentDChildBBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      DefaultsContext.get().rememberIfSet(parentD());
+      if (parentD() == null) {
+        parentD(DefaultsContext.get().getIfAvailable(ParentD.class));
+        if (parentD() == null) {
+          parentD(Builders.aParentD().defaults());
+          DefaultsContext.get().rememberIfSet(parentD());
+        }
+      }
+      return (ParentDChildBBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -36,17 +58,6 @@ public abstract class ParentDChildBBuilderCodegen extends AbstractBuilder<Parent
 
   public ParentDChildBBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ParentDChildBBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (parentD() == null) {
-      parentD(Builders.aParentD().defaults());
-    }
-    return (ParentDChildBBuilder) super.defaults();
   }
 
   public ParentDBuilder parentD() {

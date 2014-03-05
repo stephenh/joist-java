@@ -5,6 +5,7 @@ import features.domain.CodeADomainObject;
 import features.domain.CodeASize;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -12,6 +13,25 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
 
   public CodeADomainObjectBuilderCodegen(CodeADomainObject instance) {
     super(instance);
+  }
+
+  @Override
+  public CodeADomainObjectBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      if (codeAColor() == null) {
+        codeAColor(CodeAColor.BLUE);
+      }
+      if (codeASize() == null) {
+        codeASize(CodeASize.ONE);
+      }
+      return (CodeADomainObjectBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -37,20 +57,6 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
 
   public CodeADomainObjectBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public CodeADomainObjectBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (codeAColor() == null) {
-      codeAColor(CodeAColor.BLUE);
-    }
-    if (codeASize() == null) {
-      codeASize(CodeASize.ONE);
-    }
-    return (CodeADomainObjectBuilder) super.defaults();
   }
 
   public CodeAColor codeAColor() {

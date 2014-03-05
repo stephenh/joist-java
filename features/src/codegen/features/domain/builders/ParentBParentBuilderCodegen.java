@@ -2,10 +2,12 @@ package features.domain.builders;
 
 import features.domain.ParentBChildBar;
 import features.domain.ParentBChildFoo;
+import features.domain.ParentBChildZaz;
 import features.domain.ParentBParent;
 import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -13,6 +15,19 @@ public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<Parent
 
   public ParentBParentBuilderCodegen(ParentBParent instance) {
     super(instance);
+  }
+
+  @Override
+  public ParentBParentBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      return (ParentBParentBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -38,14 +53,6 @@ public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<Parent
 
   public ParentBParentBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ParentBParentBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (ParentBParentBuilder) super.defaults();
   }
 
   public List<ParentBChildBarBuilder> parentBChildBars() {
@@ -78,6 +85,22 @@ public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<Parent
 
   public ParentBChildFooBuilder newParentBChildFoo() {
     return Builders.aParentBChildFoo().parentBParent((ParentBParentBuilder) this);
+  }
+
+  public List<ParentBChildZazBuilder> parentBChildZazs() {
+    List<ParentBChildZazBuilder> b = new ArrayList<ParentBChildZazBuilder>();
+    for (ParentBChildZaz e : get().getParentBChildZazs()) {
+      b.add(Builders.existing(e));
+    }
+    return b;
+  }
+
+  public ParentBChildZazBuilder parentBChildZaz(int i) {
+    return Builders.existing(get().getParentBChildZazs().get(i));
+  }
+
+  public ParentBChildZazBuilder newParentBChildZaz() {
+    return Builders.aParentBChildZaz().parentBParent((ParentBParentBuilder) this);
   }
 
   public ParentBParent get() {

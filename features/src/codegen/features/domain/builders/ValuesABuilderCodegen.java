@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.ValuesA;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -10,6 +11,25 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
 
   public ValuesABuilderCodegen(ValuesA instance) {
     super(instance);
+  }
+
+  @Override
+  public ValuesABuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (b() == null) {
+        b("b");
+      }
+      if (j() == null) {
+        j(0);
+      }
+      if (name() == null) {
+        name("name");
+      }
+      return (ValuesABuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public String a() {
@@ -28,20 +48,6 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
   public ValuesABuilder b(String b) {
     get().setB(b);
     return (ValuesABuilder) this;
-  }
-
-  @Override
-  public ValuesABuilder defaults() {
-    if (b() == null) {
-      b("b");
-    }
-    if (j() == null) {
-      j(0);
-    }
-    if (name() == null) {
-      name("name");
-    }
-    return (ValuesABuilder) super.defaults();
   }
 
   public Integer i() {

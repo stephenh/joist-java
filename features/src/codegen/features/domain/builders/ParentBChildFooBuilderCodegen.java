@@ -4,6 +4,7 @@ import features.domain.ParentBChildFoo;
 import features.domain.ParentBParent;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,27 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentBChildFooBuilderCodegen(ParentBChildFoo instance) {
     super(instance);
+  }
+
+  @Override
+  public ParentBChildFooBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      DefaultsContext.get().rememberIfSet(parentBParent());
+      if (parentBParent() == null) {
+        parentBParent(DefaultsContext.get().getIfAvailable(ParentBParent.class));
+        if (parentBParent() == null) {
+          parentBParent(Builders.aParentBParent().defaults());
+          DefaultsContext.get().rememberIfSet(parentBParent());
+        }
+      }
+      return (ParentBChildFooBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -36,17 +58,6 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentBChildFooBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ParentBChildFooBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (parentBParent() == null) {
-      parentBParent(Builders.aParentBParent().defaults());
-    }
-    return (ParentBChildFooBuilder) super.defaults();
   }
 
   public ParentBParentBuilder parentBParent() {

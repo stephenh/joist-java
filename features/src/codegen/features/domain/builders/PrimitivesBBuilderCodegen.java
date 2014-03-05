@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.PrimitivesB;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -10,6 +11,31 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
 
   public PrimitivesBBuilderCodegen(PrimitivesB instance) {
     super(instance);
+  }
+
+  @Override
+  public PrimitivesBBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (big2() == null) {
+        big2(0l);
+      }
+      if (bool2() == null) {
+        bool2(false);
+      }
+      if (boolWithDefaultTrue() == null) {
+        boolWithDefaultTrue(false);
+      }
+      if (int2() == null) {
+        int2(0);
+      }
+      if (small2() == null) {
+        small2((short) 0);
+      }
+      return (PrimitivesBBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long big1() {
@@ -28,26 +54,6 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
   public PrimitivesBBuilder big2(Long big2) {
     get().setBig2(big2);
     return (PrimitivesBBuilder) this;
-  }
-
-  @Override
-  public PrimitivesBBuilder defaults() {
-    if (big2() == null) {
-      big2(0l);
-    }
-    if (bool2() == null) {
-      bool2(false);
-    }
-    if (boolWithDefaultTrue() == null) {
-      boolWithDefaultTrue(false);
-    }
-    if (int2() == null) {
-      int2(0);
-    }
-    if (small2() == null) {
-      small2((short) 0);
-    }
-    return (PrimitivesBBuilder) super.defaults();
   }
 
   public Boolean bool1() {

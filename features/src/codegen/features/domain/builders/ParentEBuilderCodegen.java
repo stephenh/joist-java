@@ -4,6 +4,7 @@ import features.domain.ParentE;
 import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,20 @@ public abstract class ParentEBuilderCodegen extends AbstractBuilder<ParentE> {
 
   public ParentEBuilderCodegen(ParentE instance) {
     super(instance);
+  }
+
+  @Override
+  public ParentEBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      DefaultsContext.get().rememberIfSet(parentE());
+      return (ParentEBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -36,14 +51,6 @@ public abstract class ParentEBuilderCodegen extends AbstractBuilder<ParentE> {
 
   public ParentEBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ParentEBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (ParentEBuilder) super.defaults();
   }
 
   public ParentEBuilder parentE() {

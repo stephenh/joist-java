@@ -52,7 +52,7 @@ public class ChildHAlias extends Alias<ChildH> {
   }
 
   public int getOrder() {
-    return 44;
+    return 45;
   }
 
 }

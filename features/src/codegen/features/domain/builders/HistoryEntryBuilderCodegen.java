@@ -4,6 +4,7 @@ import com.domainlanguage.time.TimePoint;
 import features.domain.HistoryEntry;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,28 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
 
   public HistoryEntryBuilderCodegen(HistoryEntry instance) {
     super(instance);
+  }
+
+  @Override
+  public HistoryEntryBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (primaryKey() == null) {
+        primaryKey(0);
+      }
+      if (rootTableName() == null) {
+        rootTableName("rootTableName");
+      }
+      if (type() == null) {
+        type("type");
+      }
+      if (updateTime() == null) {
+        updateTime(TimePoint.from(0));
+      }
+      return (HistoryEntryBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -54,23 +77,6 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
 
   public HistoryEntryBuilder with(Integer primaryKey) {
     return primaryKey(primaryKey);
-  }
-
-  @Override
-  public HistoryEntryBuilder defaults() {
-    if (primaryKey() == null) {
-      primaryKey(0);
-    }
-    if (rootTableName() == null) {
-      rootTableName("rootTableName");
-    }
-    if (type() == null) {
-      type("type");
-    }
-    if (updateTime() == null) {
-      updateTime(TimePoint.from(0));
-    }
-    return (HistoryEntryBuilder) super.defaults();
   }
 
   public String propertyName() {

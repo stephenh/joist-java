@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.ParentG;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -10,6 +11,19 @@ public abstract class ParentGBuilderCodegen extends AbstractBuilder<ParentG> {
 
   public ParentGBuilderCodegen(ParentG instance) {
     super(instance);
+  }
+
+  @Override
+  public ParentGBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      return (ParentGBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -35,14 +49,6 @@ public abstract class ParentGBuilderCodegen extends AbstractBuilder<ParentG> {
 
   public ParentGBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ParentGBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (ParentGBuilder) super.defaults();
   }
 
   public ChildGBuilder parentOneChildG() {

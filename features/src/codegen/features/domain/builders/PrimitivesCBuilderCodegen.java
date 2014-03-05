@@ -6,6 +6,7 @@ import com.domainlanguage.time.TimePoint;
 import features.domain.PrimitivesC;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -13,6 +14,28 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
 
   public PrimitivesCBuilderCodegen(PrimitivesC instance) {
     super(instance);
+  }
+
+  @Override
+  public PrimitivesCBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (day() == null) {
+        day(CalendarDate.from(1970, 1, 1));
+      }
+      if (dollarAmount() == null) {
+        dollarAmount(Money.dollars(0));
+      }
+      if (name() == null) {
+        name("name");
+      }
+      if (timestamp() == null) {
+        timestamp(TimePoint.from(0));
+      }
+      return (PrimitivesCBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public CalendarDate day() {
@@ -26,23 +49,6 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
 
   public PrimitivesCBuilder with(CalendarDate day) {
     return day(day);
-  }
-
-  @Override
-  public PrimitivesCBuilder defaults() {
-    if (day() == null) {
-      day(CalendarDate.from(1970, 1, 1));
-    }
-    if (dollarAmount() == null) {
-      dollarAmount(Money.dollars(0));
-    }
-    if (name() == null) {
-      name("name");
-    }
-    if (timestamp() == null) {
-      timestamp(TimePoint.from(0));
-    }
-    return (PrimitivesCBuilder) super.defaults();
   }
 
   public Money dollarAmount() {
