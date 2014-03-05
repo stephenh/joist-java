@@ -12,6 +12,7 @@ import joist.codegen.dtos.ManyToOneProperty;
 import joist.codegen.dtos.OneToManyProperty;
 import joist.codegen.dtos.PrimitiveProperty;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 import joist.sourcegen.Argument;
 import joist.sourcegen.GClass;
@@ -38,6 +39,13 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
       }
       builderCodegen.addAnnotation("@SuppressWarnings(\"all\")");
 
+      GMethod defaults = builderCodegen.getMethod("defaults");
+      defaults.addAnnotation("@Override");
+      defaults.returnType(entity.getBuilderClassName());
+      defaults.body.line("try {");
+      defaults.body.line("_   DefaultsContext.push();");
+      builderCodegen.addImports(DefaultsContext.class);
+
       this.constructor(builderCodegen, entity);
       this.primitiveProperties(codegen, builderCodegen, entity);
       this.manyToOneProperties(builderCodegen, entity);
@@ -47,10 +55,10 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
       this.ensureSaved(builderCodegen, entity);
       this.delete(builderCodegen, entity);
 
-      GMethod defaults = builderCodegen.getMethod("defaults");
-      defaults.addAnnotation("@Override");
-      defaults.returnType(entity.getBuilderClassName());
-      defaults.body.line("return ({}) super.defaults();", entity.getBuilderClassName());
+      defaults.body.line("_   return ({}) super.defaults();", entity.getBuilderClassName());
+      defaults.body.line("} finally {");
+      defaults.body.line("_   DefaultsContext.pop();");
+      defaults.body.line("}");
     }
   }
 
@@ -178,6 +186,14 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
   }
 
   private void manyToOneProperties(GClass c, Entity entity) {
+    // add an up-front pass to get already-set properties into DefaultsContext
+    for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
+      if (!mtop.getOneSide().isCodeEntity()) {
+        GMethod defaults = c.getMethod("defaults");
+        defaults.body.line("_   DefaultsContext.get().rememberIfSet({}());", mtop.getVariableName());
+      }
+    }
+    // now add the regular getters/setters/etc.
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       // regular foo() getter
       if (mtop.getOneSide().isCodeEntity()) {
@@ -210,7 +226,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
           this.addToDefaults(c, mtop.getVariableName(), defaultValue);
         } else if (!mtop.getOneSide().isAbstract()) {
           String defaultValue = "Builders.a" + mtop.getOneSide().getClassName() + "().defaults()";
-          this.addToDefaults(c, mtop.getVariableName(), defaultValue);
+          this.addToDefaultsWithContextLookup(c, mtop, defaultValue);
         }
       }
 
@@ -354,9 +370,21 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
 
   private void addToDefaults(GClass c, String variableName, String defaultValue) {
     GMethod defaults = c.getMethod("defaults");
-    defaults.body.line("if ({}() == null) {", variableName);
-    defaults.body.line("_   {}({});", variableName, defaultValue);
-    defaults.body.line("}");
+    defaults.body.line("_   if ({}() == null) {", variableName);
+    defaults.body.line("_   _   {}({});", variableName, defaultValue);
+    defaults.body.line("_   }");
+  }
+
+  private void addToDefaultsWithContextLookup(GClass c, ManyToOneProperty mtop, String defaultValue) {
+    String variableName = mtop.getVariableName();
+    GMethod defaults = c.getMethod("defaults");
+    defaults.body.line("_   if ({}() == null) {", variableName);
+    defaults.body.line("_   _   {}(DefaultsContext.get().getIfAvailable({}.class));", variableName, mtop.getOneSide().getClassName());
+    defaults.body.line("_   _   if ({}() == null) {", variableName);
+    defaults.body.line("_   _   _   {}({});", variableName, defaultValue);
+    defaults.body.line("_   _   _   DefaultsContext.get().rememberIfSet({}());", variableName);
+    defaults.body.line("_   _   }");
+    defaults.body.line("_   }");
   }
 
 }
