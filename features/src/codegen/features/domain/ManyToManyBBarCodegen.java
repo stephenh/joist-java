@@ -24,7 +24,7 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
   private Long id = null;
   private String name = null;
   private Long version = null;
-  private final ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar> ownedManyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar>((ManyToManyBBar) this, Aliases.manyToManyBFooToBar(), Aliases.manyToManyBFooToBar().owned, new OwnedManyToManyBFooToBarsListDelegate());
+  private final ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar> manyToManyBFooToBars = new ForeignKeyListHolder<ManyToManyBBar, ManyToManyBFooToBar>((ManyToManyBBar) this, Aliases.manyToManyBFooToBar(), Aliases.manyToManyBFooToBar().owned, new ManyToManyBFooToBarsListDelegate());
   protected Changed changed;
 
   static {
@@ -74,52 +74,52 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
     return this.version;
   }
 
-  private List<ManyToManyBFooToBar> getOwnedManyToManyBFooToBars() {
-    return this.ownedManyToManyBFooToBars.get();
+  private List<ManyToManyBFooToBar> getManyToManyBFooToBars() {
+    return this.manyToManyBFooToBars.get();
   }
 
-  private void setOwnedManyToManyBFooToBars(List<ManyToManyBFooToBar> ownedManyToManyBFooToBars) {
-    ListDiff<ManyToManyBFooToBar> diff = ListDiff.of(this.getOwnedManyToManyBFooToBars(), ownedManyToManyBFooToBars);
+  private void setManyToManyBFooToBars(List<ManyToManyBFooToBar> manyToManyBFooToBars) {
+    ListDiff<ManyToManyBFooToBar> diff = ListDiff.of(this.getManyToManyBFooToBars(), manyToManyBFooToBars);
     for (ManyToManyBFooToBar o : diff.removed) {
-      this.removeOwnedManyToManyBFooToBar(o);
+      this.removeManyToManyBFooToBar(o);
     }
     for (ManyToManyBFooToBar o : diff.added) {
-      this.addOwnedManyToManyBFooToBar(o);
+      this.addManyToManyBFooToBar(o);
     }
   }
 
-  private void addOwnedManyToManyBFooToBar(ManyToManyBFooToBar o) {
+  private void addManyToManyBFooToBar(ManyToManyBFooToBar o) {
     if (o.getOwned() == this) {
       return;
     }
     o.setOwnedWithoutPercolation((ManyToManyBBar) this);
-    this.addOwnedManyToManyBFooToBarWithoutPercolation(o);
+    this.addManyToManyBFooToBarWithoutPercolation(o);
   }
 
-  private void removeOwnedManyToManyBFooToBar(ManyToManyBFooToBar o) {
+  private void removeManyToManyBFooToBar(ManyToManyBFooToBar o) {
     if (o.getOwned() != this) {
       return;
     }
     o.setOwnedWithoutPercolation(null);
-    this.removeOwnedManyToManyBFooToBarWithoutPercolation(o);
+    this.removeManyToManyBFooToBarWithoutPercolation(o);
     if (UoW.isOpen()) {
       ManyToManyBFooToBar.queries.delete(o);
     }
   }
 
-  protected void addOwnedManyToManyBFooToBarWithoutPercolation(ManyToManyBFooToBar o) {
-    this.getChanged().record("ownedManyToManyBFooToBars");
-    this.ownedManyToManyBFooToBars.add(o);
+  protected void addManyToManyBFooToBarWithoutPercolation(ManyToManyBFooToBar o) {
+    this.getChanged().record("manyToManyBFooToBars");
+    this.manyToManyBFooToBars.add(o);
   }
 
-  protected void removeOwnedManyToManyBFooToBarWithoutPercolation(ManyToManyBFooToBar o) {
-    this.getChanged().record("ownedManyToManyBFooToBars");
-    this.ownedManyToManyBFooToBars.remove(o);
+  protected void removeManyToManyBFooToBarWithoutPercolation(ManyToManyBFooToBar o) {
+    this.getChanged().record("manyToManyBFooToBars");
+    this.manyToManyBFooToBars.remove(o);
   }
 
   public List<ManyToManyBFoo> getOwnerManyToManyBFoos() {
     List<ManyToManyBFoo> l = new ArrayList<ManyToManyBFoo>();
-    for (ManyToManyBFooToBar o : this.getOwnedManyToManyBFooToBars()) {
+    for (ManyToManyBFooToBar o : this.getManyToManyBFooToBars()) {
       l.add(o.getOwnerManyToManyBFoo());
     }
     return Collections.unmodifiableList(l);
@@ -142,7 +142,7 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
   }
 
   public void removeOwnerManyToManyBFoo(ManyToManyBFoo o) {
-    for (ManyToManyBFooToBar a : Copy.list(this.getOwnedManyToManyBFooToBars())) {
+    for (ManyToManyBFooToBar a : Copy.list(this.getManyToManyBFooToBars())) {
       if (a.getOwnerManyToManyBFoo().equals(o)) {
         a.setOwnerManyToManyBFoo(null);
         a.setOwned(null);
@@ -163,8 +163,8 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
   @Override
   public void clearAssociations() {
     super.clearAssociations();
-    for (ManyToManyBFooToBar o : Copy.list(this.getOwnedManyToManyBFooToBars())) {
-      removeOwnedManyToManyBFooToBar(o);
+    for (ManyToManyBFooToBar o : Copy.list(this.getManyToManyBFooToBars())) {
+      removeManyToManyBFooToBar(o);
     }
   }
 
@@ -204,12 +204,12 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
     };
   }
 
-  private class OwnedManyToManyBFooToBarsListDelegate implements ListProxy.Delegate<ManyToManyBFooToBar> {
+  private class ManyToManyBFooToBarsListDelegate implements ListProxy.Delegate<ManyToManyBFooToBar> {
     public void doAdd(ManyToManyBFooToBar e) {
-      addOwnedManyToManyBFooToBar(e);
+      addManyToManyBFooToBar(e);
     }
     public void doRemove(ManyToManyBFooToBar e) {
-      removeOwnedManyToManyBFooToBar(e);
+      removeManyToManyBFooToBar(e);
     }
   }
 
@@ -235,8 +235,8 @@ public abstract class ManyToManyBBarCodegen extends AbstractDomainObject {
     public Long getOriginalVersion() {
       return (Long) this.getOriginal("version");
     }
-    public boolean hasOwnedManyToManyBFooToBars() {
-      return this.contains("ownedManyToManyBFooToBars");
+    public boolean hasManyToManyBFooToBars() {
+      return this.contains("manyToManyBFooToBars");
     }
   }
 

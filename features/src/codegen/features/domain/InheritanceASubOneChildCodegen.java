@@ -78,11 +78,11 @@ public abstract class InheritanceASubOneChildCodegen extends AbstractDomainObjec
       return;
     }
     if (this.sub.get() != null) {
-      this.sub.get().removeSubInheritanceASubOneChildWithoutPercolation((InheritanceASubOneChild) this);
+      this.sub.get().removeInheritanceASubOneChildWithoutPercolation((InheritanceASubOneChild) this);
     }
     this.setSubWithoutPercolation(sub);
     if (this.sub.get() != null) {
-      this.sub.get().addSubInheritanceASubOneChildWithoutPercolation((InheritanceASubOneChild) this);
+      this.sub.get().addInheritanceASubOneChildWithoutPercolation((InheritanceASubOneChild) this);
     }
   }
 

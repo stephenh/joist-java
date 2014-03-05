@@ -18,7 +18,7 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
   public static final InheritanceASubOneQueries queries;
   private String one = null;
   private final ForeignKeyHolder<InheritanceASubOne, InheritanceAThing> inheritanceAThing = new ForeignKeyHolder<InheritanceASubOne, InheritanceAThing>(InheritanceASubOne.class, InheritanceAThing.class, Aliases.inheritanceAThing(), Aliases.inheritanceASubOne().inheritanceAThing);
-  private final ForeignKeyListHolder<InheritanceASubOne, InheritanceASubOneChild> subInheritanceASubOneChilds = new ForeignKeyListHolder<InheritanceASubOne, InheritanceASubOneChild>((InheritanceASubOne) this, Aliases.inheritanceASubOneChild(), Aliases.inheritanceASubOneChild().sub, new SubInheritanceASubOneChildsListDelegate());
+  private final ForeignKeyListHolder<InheritanceASubOne, InheritanceASubOneChild> inheritanceASubOneChilds = new ForeignKeyListHolder<InheritanceASubOne, InheritanceASubOneChild>((InheritanceASubOne) this, Aliases.inheritanceASubOneChild(), Aliases.inheritanceASubOneChild().sub, new InheritanceASubOneChildsListDelegate());
 
   static {
     Aliases.inheritanceASubOne();
@@ -70,44 +70,44 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
     this.inheritanceAThing.set(inheritanceAThing);
   }
 
-  public List<InheritanceASubOneChild> getSubInheritanceASubOneChilds() {
-    return this.subInheritanceASubOneChilds.get();
+  public List<InheritanceASubOneChild> getInheritanceASubOneChilds() {
+    return this.inheritanceASubOneChilds.get();
   }
 
-  public void setSubInheritanceASubOneChilds(List<InheritanceASubOneChild> subInheritanceASubOneChilds) {
-    ListDiff<InheritanceASubOneChild> diff = ListDiff.of(this.getSubInheritanceASubOneChilds(), subInheritanceASubOneChilds);
+  public void setInheritanceASubOneChilds(List<InheritanceASubOneChild> inheritanceASubOneChilds) {
+    ListDiff<InheritanceASubOneChild> diff = ListDiff.of(this.getInheritanceASubOneChilds(), inheritanceASubOneChilds);
     for (InheritanceASubOneChild o : diff.removed) {
-      this.removeSubInheritanceASubOneChild(o);
+      this.removeInheritanceASubOneChild(o);
     }
     for (InheritanceASubOneChild o : diff.added) {
-      this.addSubInheritanceASubOneChild(o);
+      this.addInheritanceASubOneChild(o);
     }
   }
 
-  public void addSubInheritanceASubOneChild(InheritanceASubOneChild o) {
+  public void addInheritanceASubOneChild(InheritanceASubOneChild o) {
     if (o.getSub() == this) {
       return;
     }
     o.setSubWithoutPercolation((InheritanceASubOne) this);
-    this.addSubInheritanceASubOneChildWithoutPercolation(o);
+    this.addInheritanceASubOneChildWithoutPercolation(o);
   }
 
-  public void removeSubInheritanceASubOneChild(InheritanceASubOneChild o) {
+  public void removeInheritanceASubOneChild(InheritanceASubOneChild o) {
     if (o.getSub() != this) {
       return;
     }
     o.setSubWithoutPercolation(null);
-    this.removeSubInheritanceASubOneChildWithoutPercolation(o);
+    this.removeInheritanceASubOneChildWithoutPercolation(o);
   }
 
-  protected void addSubInheritanceASubOneChildWithoutPercolation(InheritanceASubOneChild o) {
-    this.getChanged().record("subInheritanceASubOneChilds");
-    this.subInheritanceASubOneChilds.add(o);
+  protected void addInheritanceASubOneChildWithoutPercolation(InheritanceASubOneChild o) {
+    this.getChanged().record("inheritanceASubOneChilds");
+    this.inheritanceASubOneChilds.add(o);
   }
 
-  protected void removeSubInheritanceASubOneChildWithoutPercolation(InheritanceASubOneChild o) {
-    this.getChanged().record("subInheritanceASubOneChilds");
-    this.subInheritanceASubOneChilds.remove(o);
+  protected void removeInheritanceASubOneChildWithoutPercolation(InheritanceASubOneChild o) {
+    this.getChanged().record("inheritanceASubOneChilds");
+    this.inheritanceASubOneChilds.remove(o);
   }
 
   public InheritanceASubOneChanged getChanged() {
@@ -121,8 +121,8 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
   public void clearAssociations() {
     super.clearAssociations();
     this.setInheritanceAThing(null);
-    for (InheritanceASubOneChild o : Copy.list(this.getSubInheritanceASubOneChilds())) {
-      removeSubInheritanceASubOneChild(o);
+    for (InheritanceASubOneChild o : Copy.list(this.getInheritanceASubOneChilds())) {
+      removeInheritanceASubOneChild(o);
     }
   }
 
@@ -151,12 +151,12 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
     };
   }
 
-  private class SubInheritanceASubOneChildsListDelegate implements ListProxy.Delegate<InheritanceASubOneChild> {
+  private class InheritanceASubOneChildsListDelegate implements ListProxy.Delegate<InheritanceASubOneChild> {
     public void doAdd(InheritanceASubOneChild e) {
-      addSubInheritanceASubOneChild(e);
+      addInheritanceASubOneChild(e);
     }
     public void doRemove(InheritanceASubOneChild e) {
-      removeSubInheritanceASubOneChild(e);
+      removeInheritanceASubOneChild(e);
     }
   }
 
@@ -176,8 +176,8 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
     public InheritanceAThing getOriginalInheritanceAThing() {
       return (InheritanceAThing) this.getOriginal("inheritanceAThing");
     }
-    public boolean hasSubInheritanceASubOneChilds() {
-      return this.contains("subInheritanceASubOneChilds");
+    public boolean hasInheritanceASubOneChilds() {
+      return this.contains("inheritanceASubOneChilds");
     }
   }
 

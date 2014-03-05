@@ -93,11 +93,11 @@ public abstract class ChildHCodegen extends AbstractDomainObject {
       return;
     }
     if (this.parent.get() != null) {
-      this.parent.get().removeParentChildHWithoutPercolation((ChildH) this);
+      this.parent.get().removeChildHWithoutPercolation((ChildH) this);
     }
     this.setParentWithoutPercolation(parent);
     if (this.parent.get() != null) {
-      this.parent.get().addParentChildHWithoutPercolation((ChildH) this);
+      this.parent.get().addChildHWithoutPercolation((ChildH) this);
     }
   }
 

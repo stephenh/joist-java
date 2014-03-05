@@ -63,19 +63,19 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
     return threshold(threshold);
   }
 
-  public List<ChildHBuilder> parentChildHs() {
+  public List<ChildHBuilder> childHs() {
     List<ChildHBuilder> b = new ArrayList<ChildHBuilder>();
-    for (ChildH e : get().getParentChildHs()) {
+    for (ChildH e : get().getChildHs()) {
       b.add(Builders.existing(e));
     }
     return b;
   }
 
-  public ChildHBuilder parentChildH(int i) {
-    return Builders.existing(get().getParentChildHs().get(i));
+  public ChildHBuilder childH(int i) {
+    return Builders.existing(get().getChildHs().get(i));
   }
 
-  public ChildHBuilder newParentChildH() {
+  public ChildHBuilder newChildH() {
     return Builders.aChildH().parent((ParentHBuilder) this);
   }
 

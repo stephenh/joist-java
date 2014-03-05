@@ -1,8 +1,6 @@
 package starter.migrations;
 
 import static joist.migrations.MigrationKeywords.*;
-import static joist.migrations.MigrationKeywords.execute;
-import static joist.migrations.MigrationKeywords.integer;
 import joist.migrations.AbstractMigration;
 
 public class m0000 extends AbstractMigration {

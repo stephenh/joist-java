@@ -23,7 +23,7 @@ public abstract class ParentHCodegen extends AbstractDomainObject {
   private String name = null;
   private Long threshold = null;
   private Long version = null;
-  private final ForeignKeyListHolder<ParentH, ChildH> parentChildHs = new ForeignKeyListHolder<ParentH, ChildH>((ParentH) this, Aliases.childH(), Aliases.childH().parent, new ParentChildHsListDelegate());
+  private final ForeignKeyListHolder<ParentH, ChildH> childHs = new ForeignKeyListHolder<ParentH, ChildH>((ParentH) this, Aliases.childH(), Aliases.childH().parent, new ChildHsListDelegate());
   protected Changed changed;
 
   static {
@@ -87,47 +87,47 @@ public abstract class ParentHCodegen extends AbstractDomainObject {
     return this.version;
   }
 
-  public List<ChildH> getParentChildHs() {
-    return this.parentChildHs.get();
+  public List<ChildH> getChildHs() {
+    return this.childHs.get();
   }
 
-  public void setParentChildHs(List<ChildH> parentChildHs) {
-    ListDiff<ChildH> diff = ListDiff.of(this.getParentChildHs(), parentChildHs);
+  public void setChildHs(List<ChildH> childHs) {
+    ListDiff<ChildH> diff = ListDiff.of(this.getChildHs(), childHs);
     for (ChildH o : diff.removed) {
-      this.removeParentChildH(o);
+      this.removeChildH(o);
     }
     for (ChildH o : diff.added) {
-      this.addParentChildH(o);
+      this.addChildH(o);
     }
   }
 
-  public void addParentChildH(ChildH o) {
+  public void addChildH(ChildH o) {
     if (o.getParent() == this) {
       return;
     }
     o.setParentWithoutPercolation((ParentH) this);
-    this.addParentChildHWithoutPercolation(o);
+    this.addChildHWithoutPercolation(o);
   }
 
-  public void removeParentChildH(ChildH o) {
+  public void removeChildH(ChildH o) {
     if (o.getParent() != this) {
       return;
     }
     o.setParentWithoutPercolation(null);
-    this.removeParentChildHWithoutPercolation(o);
+    this.removeChildHWithoutPercolation(o);
     if (UoW.isOpen() && UoW.isImplicitDeletionOfChildrenEnabled()) {
       ChildH.queries.delete(o);
     }
   }
 
-  protected void addParentChildHWithoutPercolation(ChildH o) {
-    this.getChanged().record("parentChildHs");
-    this.parentChildHs.add(o);
+  protected void addChildHWithoutPercolation(ChildH o) {
+    this.getChanged().record("childHs");
+    this.childHs.add(o);
   }
 
-  protected void removeParentChildHWithoutPercolation(ChildH o) {
-    this.getChanged().record("parentChildHs");
-    this.parentChildHs.remove(o);
+  protected void removeChildHWithoutPercolation(ChildH o) {
+    this.getChanged().record("childHs");
+    this.childHs.remove(o);
   }
 
   public ParentHChanged getChanged() {
@@ -140,8 +140,8 @@ public abstract class ParentHCodegen extends AbstractDomainObject {
   @Override
   public void clearAssociations() {
     super.clearAssociations();
-    for (ChildH o : Copy.list(this.getParentChildHs())) {
-      removeParentChildH(o);
+    for (ChildH o : Copy.list(this.getChildHs())) {
+      removeChildH(o);
     }
   }
 
@@ -192,12 +192,12 @@ public abstract class ParentHCodegen extends AbstractDomainObject {
     };
   }
 
-  private class ParentChildHsListDelegate implements ListProxy.Delegate<ChildH> {
+  private class ChildHsListDelegate implements ListProxy.Delegate<ChildH> {
     public void doAdd(ChildH e) {
-      addParentChildH(e);
+      addChildH(e);
     }
     public void doRemove(ChildH e) {
-      removeParentChildH(e);
+      removeChildH(e);
     }
   }
 
@@ -229,8 +229,8 @@ public abstract class ParentHCodegen extends AbstractDomainObject {
     public Long getOriginalVersion() {
       return (Long) this.getOriginal("version");
     }
-    public boolean hasParentChildHs() {
-      return this.contains("parentChildHs");
+    public boolean hasChildHs() {
+      return this.contains("childHs");
     }
   }
 
