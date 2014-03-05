@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.OneToOneAFoo;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -10,6 +11,19 @@ public abstract class OneToOneAFooBuilderCodegen extends AbstractBuilder<OneToOn
 
   public OneToOneAFooBuilderCodegen(OneToOneAFoo instance) {
     super(instance);
+  }
+
+  @Override
+  public OneToOneAFooBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      return (OneToOneAFooBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -35,14 +49,6 @@ public abstract class OneToOneAFooBuilderCodegen extends AbstractBuilder<OneToOn
 
   public OneToOneAFooBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public OneToOneAFooBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (OneToOneAFooBuilder) super.defaults();
   }
 
   public OneToOneABarBuilder oneToOneABar() {

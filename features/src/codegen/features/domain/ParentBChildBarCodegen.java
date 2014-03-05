@@ -1,15 +1,20 @@
 package features.domain;
 
 import features.domain.queries.ParentBChildBarQueries;
+import java.util.List;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
 import joist.domain.orm.ForeignKeyHolder;
+import joist.domain.orm.ForeignKeyListHolder;
 import joist.domain.uow.UoW;
+import joist.domain.util.ListProxy;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotEmpty;
 import joist.domain.validation.rules.NotNull;
+import joist.util.Copy;
+import joist.util.ListDiff;
 
 @SuppressWarnings("all")
 public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
@@ -19,6 +24,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
   private String name = null;
   private Long version = null;
   private final ForeignKeyHolder<ParentBChildBar, ParentBParent> parentBParent = new ForeignKeyHolder<ParentBChildBar, ParentBParent>(ParentBChildBar.class, ParentBParent.class, Aliases.parentBParent(), Aliases.parentBChildBar().parentBParent);
+  private final ForeignKeyListHolder<ParentBChildBar, ParentBChildZaz> parentBChildZazs = new ForeignKeyListHolder<ParentBChildBar, ParentBChildZaz>((ParentBChildBar) this, Aliases.parentBChildZaz(), Aliases.parentBChildZaz().parentBChildBar, new ParentBChildZazsListDelegate());
   protected Changed changed;
 
   static {
@@ -91,6 +97,46 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     this.parentBParent.set(parentBParent);
   }
 
+  public List<ParentBChildZaz> getParentBChildZazs() {
+    return this.parentBChildZazs.get();
+  }
+
+  public void setParentBChildZazs(List<ParentBChildZaz> parentBChildZazs) {
+    ListDiff<ParentBChildZaz> diff = ListDiff.of(this.getParentBChildZazs(), parentBChildZazs);
+    for (ParentBChildZaz o : diff.removed) {
+      this.removeParentBChildZaz(o);
+    }
+    for (ParentBChildZaz o : diff.added) {
+      this.addParentBChildZaz(o);
+    }
+  }
+
+  public void addParentBChildZaz(ParentBChildZaz o) {
+    if (o.getParentBChildBar() == this) {
+      return;
+    }
+    o.setParentBChildBarWithoutPercolation((ParentBChildBar) this);
+    this.addParentBChildZazWithoutPercolation(o);
+  }
+
+  public void removeParentBChildZaz(ParentBChildZaz o) {
+    if (o.getParentBChildBar() != this) {
+      return;
+    }
+    o.setParentBChildBarWithoutPercolation(null);
+    this.removeParentBChildZazWithoutPercolation(o);
+  }
+
+  protected void addParentBChildZazWithoutPercolation(ParentBChildZaz o) {
+    this.getChanged().record("parentBChildZazs");
+    this.parentBChildZazs.add(o);
+  }
+
+  protected void removeParentBChildZazWithoutPercolation(ParentBChildZaz o) {
+    this.getChanged().record("parentBChildZazs");
+    this.parentBChildZazs.remove(o);
+  }
+
   public ParentBChildBarChanged getChanged() {
     if (this.changed == null) {
       this.changed = new ParentBChildBarChanged((ParentBChildBar) this);
@@ -102,6 +148,9 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
   public void clearAssociations() {
     super.clearAssociations();
     this.setParentBParent(null);
+    for (ParentBChildZaz o : Copy.list(this.getParentBChildZazs())) {
+      removeParentBChildZaz(o);
+    }
   }
 
   static class Shims {
@@ -151,6 +200,15 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     };
   }
 
+  private class ParentBChildZazsListDelegate implements ListProxy.Delegate<ParentBChildZaz> {
+    public void doAdd(ParentBChildZaz e) {
+      addParentBChildZaz(e);
+    }
+    public void doRemove(ParentBChildZaz e) {
+      removeParentBChildZaz(e);
+    }
+  }
+
   public static class ParentBChildBarChanged extends AbstractChanged {
     public ParentBChildBarChanged(ParentBChildBar instance) {
       super(instance);
@@ -178,6 +236,9 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     }
     public ParentBParent getOriginalParentBParent() {
       return (ParentBParent) this.getOriginal("parentBParent");
+    }
+    public boolean hasParentBChildZazs() {
+      return this.contains("parentBChildZazs");
     }
   }
 

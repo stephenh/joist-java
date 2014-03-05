@@ -5,6 +5,7 @@ import features.domain.ParentH;
 import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -12,6 +13,22 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
 
   public ParentHBuilderCodegen(ParentH instance) {
     super(instance);
+  }
+
+  @Override
+  public ParentHBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      if (threshold() == null) {
+        threshold(0l);
+      }
+      return (ParentHBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -37,17 +54,6 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
 
   public ParentHBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ParentHBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (threshold() == null) {
-      threshold(0l);
-    }
-    return (ParentHBuilder) super.defaults();
   }
 
   public Long threshold() {

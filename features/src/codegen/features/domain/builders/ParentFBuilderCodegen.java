@@ -4,6 +4,7 @@ import features.domain.ChildF;
 import features.domain.ParentF;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,28 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
 
   public ParentFBuilderCodegen(ParentF instance) {
     super(instance);
+  }
+
+  @Override
+  public ParentFBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      DefaultsContext.get().rememberIfSet(childOne());
+      DefaultsContext.get().rememberIfSet(childTwo());
+      if (childOne() == null) {
+        childOne(DefaultsContext.get().getIfAvailable(ChildF.class));
+        if (childOne() == null) {
+          childOne(Builders.aChildF().defaults());
+          DefaultsContext.get().rememberIfSet(childOne());
+        }
+      }
+      return (ParentFBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -36,17 +59,6 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
 
   public ParentFBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ParentFBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (childOne() == null) {
-      childOne(Builders.aChildF().defaults());
-    }
-    return (ParentFBuilder) super.defaults();
   }
 
   public ChildFBuilder childOne() {

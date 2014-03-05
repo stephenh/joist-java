@@ -5,6 +5,7 @@ import features.domain.ParentCFoo;
 import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -12,6 +13,19 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
 
   public ParentCFooBuilderCodegen(ParentCFoo instance) {
     super(instance);
+  }
+
+  @Override
+  public ParentCFooBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      return (ParentCFooBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -37,14 +51,6 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
 
   public ParentCFooBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ParentCFooBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (ParentCFooBuilder) super.defaults();
   }
 
   public List<ParentCBarBuilder> firstParentParentCBars() {

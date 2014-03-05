@@ -6,6 +6,7 @@ import features.domain.InheritanceASubOneChild;
 import features.domain.InheritanceAThing;
 import java.util.ArrayList;
 import java.util.List;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -15,6 +16,20 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
     super(instance);
   }
 
+  @Override
+  public InheritanceASubOneBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (one() == null) {
+        one("one");
+      }
+      DefaultsContext.get().rememberIfSet(inheritanceAThing());
+      return (InheritanceASubOneBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
+  }
+
   public String one() {
     return get().getOne();
   }
@@ -22,14 +37,6 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
   public InheritanceASubOneBuilder one(String one) {
     get().setOne(one);
     return (InheritanceASubOneBuilder) this;
-  }
-
-  @Override
-  public InheritanceASubOneBuilder defaults() {
-    if (one() == null) {
-      one("one");
-    }
-    return (InheritanceASubOneBuilder) super.defaults();
   }
 
   public String name() {

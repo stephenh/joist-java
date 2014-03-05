@@ -4,6 +4,7 @@ import features.domain.InheritanceASubOne;
 import features.domain.InheritanceASubOneChild;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,27 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
 
   public InheritanceASubOneChildBuilderCodegen(InheritanceASubOneChild instance) {
     super(instance);
+  }
+
+  @Override
+  public InheritanceASubOneChildBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      DefaultsContext.get().rememberIfSet(sub());
+      if (sub() == null) {
+        sub(DefaultsContext.get().getIfAvailable(InheritanceASubOne.class));
+        if (sub() == null) {
+          sub(Builders.aInheritanceASubOne().defaults());
+          DefaultsContext.get().rememberIfSet(sub());
+        }
+      }
+      return (InheritanceASubOneChildBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -36,17 +58,6 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
 
   public InheritanceASubOneChildBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public InheritanceASubOneChildBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (sub() == null) {
-      sub(Builders.aInheritanceASubOne().defaults());
-    }
-    return (InheritanceASubOneChildBuilder) super.defaults();
   }
 
   public InheritanceASubOneBuilder sub() {

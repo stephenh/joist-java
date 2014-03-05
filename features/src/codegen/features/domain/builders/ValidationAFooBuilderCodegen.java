@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.ValidationAFoo;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -10,6 +11,19 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
 
   public ValidationAFooBuilderCodegen(ValidationAFoo instance) {
     super(instance);
+  }
+
+  @Override
+  public ValidationAFooBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      return (ValidationAFooBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -35,14 +49,6 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
 
   public ValidationAFooBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ValidationAFooBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (ValidationAFooBuilder) super.defaults();
   }
 
   public ValidationAFoo get() {

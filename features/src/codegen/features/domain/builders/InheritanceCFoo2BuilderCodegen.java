@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.InheritanceCFoo2;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -10,6 +11,19 @@ public abstract class InheritanceCFoo2BuilderCodegen extends InheritanceCBuilder
     super(instance);
   }
 
+  @Override
+  public InheritanceCFoo2Builder defaults() {
+    try {
+      DefaultsContext.push();
+      if (foo() == null) {
+        foo("foo");
+      }
+      return (InheritanceCFoo2Builder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
+  }
+
   public String foo() {
     return get().getFoo();
   }
@@ -17,14 +31,6 @@ public abstract class InheritanceCFoo2BuilderCodegen extends InheritanceCBuilder
   public InheritanceCFoo2Builder foo(String foo) {
     get().setFoo(foo);
     return (InheritanceCFoo2Builder) this;
-  }
-
-  @Override
-  public InheritanceCFoo2Builder defaults() {
-    if (foo() == null) {
-      foo("foo");
-    }
-    return (InheritanceCFoo2Builder) super.defaults();
   }
 
   public String name() {

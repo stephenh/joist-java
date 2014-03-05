@@ -35,6 +35,7 @@ import features.domain.OneToOneBFoo;
 import features.domain.Parent;
 import features.domain.ParentBChildBar;
 import features.domain.ParentBChildFoo;
+import features.domain.ParentBChildZaz;
 import features.domain.ParentBParent;
 import features.domain.ParentCBar;
 import features.domain.ParentCFoo;
@@ -600,6 +601,22 @@ public class Builders {
 
   public static ParentBChildFooBuilder theParentBChildFoo(int id) {
     return new ParentBChildFooBuilder(ParentBChildFoo.queries.find((long) id));
+  }
+
+  public static ParentBChildZazBuilder aParentBChildZaz() {
+    return new ParentBChildZazBuilder(new ParentBChildZaz());
+  }
+
+  public static ParentBChildZazBuilder existing(ParentBChildZaz parentBChildZaz) {
+    return new ParentBChildZazBuilder(parentBChildZaz);
+  }
+
+  public static ParentBChildZazBuilder theParentBChildZaz(long id) {
+    return new ParentBChildZazBuilder(ParentBChildZaz.queries.find(id));
+  }
+
+  public static ParentBChildZazBuilder theParentBChildZaz(int id) {
+    return new ParentBChildZazBuilder(ParentBChildZaz.queries.find((long) id));
   }
 
   public static ParentBParentBuilder aParentBParent() {

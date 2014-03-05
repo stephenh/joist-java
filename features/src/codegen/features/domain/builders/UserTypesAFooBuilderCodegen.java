@@ -4,6 +4,7 @@ import com.domainlanguage.time.CalendarDate;
 import features.domain.UserTypesAFoo;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,22 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
 
   public UserTypesAFooBuilderCodegen(UserTypesAFoo instance) {
     super(instance);
+  }
+
+  @Override
+  public UserTypesAFooBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (created() == null) {
+        created(CalendarDate.from(1970, 1, 1));
+      }
+      if (name() == null) {
+        name("name");
+      }
+      return (UserTypesAFooBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public CalendarDate created() {
@@ -24,17 +41,6 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
 
   public UserTypesAFooBuilder with(CalendarDate created) {
     return created(created);
-  }
-
-  @Override
-  public UserTypesAFooBuilder defaults() {
-    if (created() == null) {
-      created(CalendarDate.from(1970, 1, 1));
-    }
-    if (name() == null) {
-      name("name");
-    }
-    return (UserTypesAFooBuilder) super.defaults();
   }
 
   public Long id() {

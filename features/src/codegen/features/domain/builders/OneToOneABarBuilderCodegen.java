@@ -4,6 +4,7 @@ import features.domain.OneToOneABar;
 import features.domain.OneToOneAFoo;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,27 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
 
   public OneToOneABarBuilderCodegen(OneToOneABar instance) {
     super(instance);
+  }
+
+  @Override
+  public OneToOneABarBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      DefaultsContext.get().rememberIfSet(oneToOneAFoo());
+      if (oneToOneAFoo() == null) {
+        oneToOneAFoo(DefaultsContext.get().getIfAvailable(OneToOneAFoo.class));
+        if (oneToOneAFoo() == null) {
+          oneToOneAFoo(Builders.aOneToOneAFoo().defaults());
+          DefaultsContext.get().rememberIfSet(oneToOneAFoo());
+        }
+      }
+      return (OneToOneABarBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -36,17 +58,6 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
 
   public OneToOneABarBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public OneToOneABarBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (oneToOneAFoo() == null) {
-      oneToOneAFoo(Builders.aOneToOneAFoo().defaults());
-    }
-    return (OneToOneABarBuilder) super.defaults();
   }
 
   public OneToOneAFooBuilder oneToOneAFoo() {

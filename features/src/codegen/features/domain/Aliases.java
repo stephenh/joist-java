@@ -39,6 +39,7 @@ public class Aliases {
   private static ParentAlias parent;
   private static ParentBChildBarAlias parentBChildBar;
   private static ParentBChildFooAlias parentBChildFoo;
+  private static ParentBChildZazAlias parentBChildZaz;
   private static ParentBParentAlias parentBParent;
   private static ParentCBarAlias parentCBar;
   private static ParentCFooAlias parentCFoo;
@@ -338,6 +339,14 @@ public class Aliases {
       AliasRegistry.register(ParentBChildFoo.class, parentBChildFoo);
     }
     return parentBChildFoo;
+  }
+
+  public static ParentBChildZazAlias parentBChildZaz() {
+    if (parentBChildZaz == null) {
+      parentBChildZaz = new ParentBChildZazAlias();
+      AliasRegistry.register(ParentBChildZaz.class, parentBChildZaz);
+    }
+    return parentBChildZaz;
   }
 
   public static ParentBParentAlias parentBParent() {

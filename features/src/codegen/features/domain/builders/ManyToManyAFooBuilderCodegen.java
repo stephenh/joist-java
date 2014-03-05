@@ -5,6 +5,7 @@ import features.domain.ManyToManyAFoo;
 import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -12,6 +13,19 @@ public abstract class ManyToManyAFooBuilderCodegen extends AbstractBuilder<ManyT
 
   public ManyToManyAFooBuilderCodegen(ManyToManyAFoo instance) {
     super(instance);
+  }
+
+  @Override
+  public ManyToManyAFooBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      return (ManyToManyAFooBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -37,14 +51,6 @@ public abstract class ManyToManyAFooBuilderCodegen extends AbstractBuilder<ManyT
 
   public ManyToManyAFooBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ManyToManyAFooBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (ManyToManyAFooBuilder) super.defaults();
   }
 
   public List<ManyToManyABarBuilder> manyToManyABars() {

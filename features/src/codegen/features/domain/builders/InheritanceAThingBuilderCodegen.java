@@ -6,6 +6,7 @@ import features.domain.InheritanceAThing;
 import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -13,6 +14,19 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
 
   public InheritanceAThingBuilderCodegen(InheritanceAThing instance) {
     super(instance);
+  }
+
+  @Override
+  public InheritanceAThingBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      return (InheritanceAThingBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -38,14 +52,6 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
 
   public InheritanceAThingBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public InheritanceAThingBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (InheritanceAThingBuilder) super.defaults();
   }
 
   public List<InheritanceASubOneBuilder> inheritanceASubOnes() {

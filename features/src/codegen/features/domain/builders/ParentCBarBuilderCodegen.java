@@ -4,6 +4,7 @@ import features.domain.ParentCBar;
 import features.domain.ParentCFoo;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,35 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
 
   public ParentCBarBuilderCodegen(ParentCBar instance) {
     super(instance);
+  }
+
+  @Override
+  public ParentCBarBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      DefaultsContext.get().rememberIfSet(firstParent());
+      DefaultsContext.get().rememberIfSet(secondParent());
+      if (firstParent() == null) {
+        firstParent(DefaultsContext.get().getIfAvailable(ParentCFoo.class));
+        if (firstParent() == null) {
+          firstParent(Builders.aParentCFoo().defaults());
+          DefaultsContext.get().rememberIfSet(firstParent());
+        }
+      }
+      if (secondParent() == null) {
+        secondParent(DefaultsContext.get().getIfAvailable(ParentCFoo.class));
+        if (secondParent() == null) {
+          secondParent(Builders.aParentCFoo().defaults());
+          DefaultsContext.get().rememberIfSet(secondParent());
+        }
+      }
+      return (ParentCBarBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -36,20 +66,6 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
 
   public ParentCBarBuilder with(String name) {
     return name(name);
-  }
-
-  @Override
-  public ParentCBarBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (firstParent() == null) {
-      firstParent(Builders.aParentCFoo().defaults());
-    }
-    if (secondParent() == null) {
-      secondParent(Builders.aParentCFoo().defaults());
-    }
-    return (ParentCBarBuilder) super.defaults();
   }
 
   public ParentCFooBuilder firstParent() {

@@ -4,6 +4,7 @@ import features.domain.InheritanceABase;
 import features.domain.InheritanceAOwner;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +12,20 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
 
   public InheritanceABaseBuilderCodegen(InheritanceABase instance) {
     super(instance);
+  }
+
+  @Override
+  public InheritanceABaseBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      DefaultsContext.get().rememberIfSet(inheritanceAOwner());
+      return (InheritanceABaseBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -32,14 +47,6 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
   public InheritanceABaseBuilder name(String name) {
     get().setName(name);
     return (InheritanceABaseBuilder) this;
-  }
-
-  @Override
-  public InheritanceABaseBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    return (InheritanceABaseBuilder) super.defaults();
   }
 
   public InheritanceAOwnerBuilder inheritanceAOwner() {

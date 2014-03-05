@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.InheritanceBMiddle;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -10,6 +11,19 @@ public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootB
     super(instance);
   }
 
+  @Override
+  public InheritanceBMiddleBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (middleName() == null) {
+        middleName("middleName");
+      }
+      return (InheritanceBMiddleBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
+  }
+
   public String middleName() {
     return get().getMiddleName();
   }
@@ -17,14 +31,6 @@ public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootB
   public InheritanceBMiddleBuilder middleName(String middleName) {
     get().setMiddleName(middleName);
     return (InheritanceBMiddleBuilder) this;
-  }
-
-  @Override
-  public InheritanceBMiddleBuilder defaults() {
-    if (middleName() == null) {
-      middleName("middleName");
-    }
-    return (InheritanceBMiddleBuilder) super.defaults();
   }
 
   public String name() {

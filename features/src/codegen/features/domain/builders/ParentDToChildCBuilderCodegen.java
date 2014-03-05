@@ -5,6 +5,7 @@ import features.domain.ParentDChildC;
 import features.domain.ParentDToChildC;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -12,6 +13,32 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentDToChildCBuilderCodegen(ParentDToChildC instance) {
     super(instance);
+  }
+
+  @Override
+  public ParentDToChildCBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      DefaultsContext.get().rememberIfSet(parentDChildC());
+      DefaultsContext.get().rememberIfSet(parentD());
+      if (parentDChildC() == null) {
+        parentDChildC(DefaultsContext.get().getIfAvailable(ParentDChildC.class));
+        if (parentDChildC() == null) {
+          parentDChildC(Builders.aParentDChildC().defaults());
+          DefaultsContext.get().rememberIfSet(parentDChildC());
+        }
+      }
+      if (parentD() == null) {
+        parentD(DefaultsContext.get().getIfAvailable(ParentD.class));
+        if (parentD() == null) {
+          parentD(Builders.aParentD().defaults());
+          DefaultsContext.get().rememberIfSet(parentD());
+        }
+      }
+      return (ParentDToChildCBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -48,17 +75,6 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentDToChildCBuilder with(ParentDChildCBuilder parentDChildC) {
     return parentDChildC(parentDChildC);
-  }
-
-  @Override
-  public ParentDToChildCBuilder defaults() {
-    if (parentDChildC() == null) {
-      parentDChildC(Builders.aParentDChildC().defaults());
-    }
-    if (parentD() == null) {
-      parentD(Builders.aParentD().defaults());
-    }
-    return (ParentDToChildCBuilder) super.defaults();
   }
 
   public ParentDBuilder parentD() {

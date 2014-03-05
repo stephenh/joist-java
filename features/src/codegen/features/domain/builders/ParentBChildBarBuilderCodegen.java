@@ -1,9 +1,12 @@
 package features.domain.builders;
 
 import features.domain.ParentBChildBar;
+import features.domain.ParentBChildZaz;
 import features.domain.ParentBParent;
+import java.util.ArrayList;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
+import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
 @SuppressWarnings("all")
@@ -11,6 +14,27 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentBChildBarBuilderCodegen(ParentBChildBar instance) {
     super(instance);
+  }
+
+  @Override
+  public ParentBChildBarBuilder defaults() {
+    try {
+      DefaultsContext.push();
+      if (name() == null) {
+        name("name");
+      }
+      DefaultsContext.get().rememberIfSet(parentBParent());
+      if (parentBParent() == null) {
+        parentBParent(DefaultsContext.get().getIfAvailable(ParentBParent.class));
+        if (parentBParent() == null) {
+          parentBParent(Builders.aParentBParent().defaults());
+          DefaultsContext.get().rememberIfSet(parentBParent());
+        }
+      }
+      return (ParentBChildBarBuilder) super.defaults();
+    } finally {
+      DefaultsContext.pop();
+    }
   }
 
   public Long id() {
@@ -38,17 +62,6 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
     return name(name);
   }
 
-  @Override
-  public ParentBChildBarBuilder defaults() {
-    if (name() == null) {
-      name("name");
-    }
-    if (parentBParent() == null) {
-      parentBParent(Builders.aParentBParent().defaults());
-    }
-    return (ParentBChildBarBuilder) super.defaults();
-  }
-
   public ParentBParentBuilder parentBParent() {
     if (get().getParentBParent() == null) {
       return null;
@@ -71,6 +84,22 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentBChildBarBuilder with(ParentBParentBuilder parentBParent) {
     return parentBParent(parentBParent);
+  }
+
+  public List<ParentBChildZazBuilder> parentBChildZazs() {
+    List<ParentBChildZazBuilder> b = new ArrayList<ParentBChildZazBuilder>();
+    for (ParentBChildZaz e : get().getParentBChildZazs()) {
+      b.add(Builders.existing(e));
+    }
+    return b;
+  }
+
+  public ParentBChildZazBuilder parentBChildZaz(int i) {
+    return Builders.existing(get().getParentBChildZazs().get(i));
+  }
+
+  public ParentBChildZazBuilder newParentBChildZaz() {
+    return Builders.aParentBChildZaz().parentBChildBar((ParentBChildBarBuilder) this);
   }
 
   public ParentBChildBar get() {
