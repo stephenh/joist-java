@@ -89,19 +89,19 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
     return inheritanceAOwner(inheritanceAOwner);
   }
 
-  public List<InheritanceASubOneChildBuilder> subInheritanceASubOneChilds() {
+  public List<InheritanceASubOneChildBuilder> inheritanceASubOneChilds() {
     List<InheritanceASubOneChildBuilder> b = new ArrayList<InheritanceASubOneChildBuilder>();
-    for (InheritanceASubOneChild e : get().getSubInheritanceASubOneChilds()) {
+    for (InheritanceASubOneChild e : get().getInheritanceASubOneChilds()) {
       b.add(Builders.existing(e));
     }
     return b;
   }
 
-  public InheritanceASubOneChildBuilder subInheritanceASubOneChild(int i) {
-    return Builders.existing(get().getSubInheritanceASubOneChilds().get(i));
+  public InheritanceASubOneChildBuilder inheritanceASubOneChild(int i) {
+    return Builders.existing(get().getInheritanceASubOneChilds().get(i));
   }
 
-  public InheritanceASubOneChildBuilder newSubInheritanceASubOneChild() {
+  public InheritanceASubOneChildBuilder newInheritanceASubOneChild() {
     return Builders.aInheritanceASubOneChild().sub((InheritanceASubOneBuilder) this);
   }
 

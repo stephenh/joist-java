@@ -12,7 +12,7 @@ abstract class ParentHQueriesCodegen extends AbstractQueries<ParentH> {
   }
 
   public void delete(ParentH instance) {
-    for (ChildH o : Copy.list(instance.getParentChildHs())) {
+    for (ChildH o : Copy.list(instance.getChildHs())) {
       ChildH.queries.delete(o);
     }
     super.delete(instance);
