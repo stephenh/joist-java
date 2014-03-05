@@ -48,8 +48,18 @@ public class OneToManyProperty {
       } else {
         // Boundary case of the target table's column is not "parent_id", e.g. it's
         // "child.first_parent_id" or even just "child.first_id". So, on the parent
-        // size, first drop "parent_id" before suffix Child, to get "parent.getFirstChilds()"
-        this.capitalVariableNameSingular = this.getKeyPropertyName().replace(this.getOneSide().getClassName(), "") + this.getTargetJavaType();
+        // side, first drop "parent_id" before suffix Child, to get "parent.getFirstChilds()"
+        int numberOfColumsInChildPointingToThisParent = 0;
+        for (ManyToOneProperty mtop : this.getManySide().getManyToOneProperties()) {
+          if (mtop.getOneSide().equals(this.oneSide)) {
+            numberOfColumsInChildPointingToThisParent++;
+          }
+        }
+        if (numberOfColumsInChildPointingToThisParent == 1) {
+          this.capitalVariableNameSingular = this.getTargetJavaType();
+        } else {
+          this.capitalVariableNameSingular = this.getKeyPropertyName().replace(this.getOneSide().getClassName(), "") + this.getTargetJavaType();
+        }
       }
     }
     return this.capitalVariableNameSingular;
