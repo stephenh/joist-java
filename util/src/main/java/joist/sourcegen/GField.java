@@ -77,7 +77,7 @@ public class GField {
   }
 
   public GClass initialAnonymousClass() {
-    GClass gc = new GClass(this.typeClassName).setAnonymous();
+    GClass gc = new GClass(this.gclass.getDirectory(), this.typeClassName).setAnonymous();
     this.initialAnonymousClass = gc;
     return gc;
   }
