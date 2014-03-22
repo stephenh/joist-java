@@ -221,6 +221,11 @@ public class GClass {
     if (this.isAnonymous) {
       sb.line("new {}() {", this.name.simpleNameWithGenerics);
     } else {
+      // need to calc this before outputing the imports
+      if (this.baseClassName != null) {
+        this.stripAndImportPackageIfPossible(this.baseClassName);
+      }
+
       if (this.imports.size() > 0) {
         for (String importClassName : this.imports) {
           sb.line("import {};", importClassName);
