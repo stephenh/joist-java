@@ -26,8 +26,9 @@ public class MapToList<K, V> extends LinkedHashMap<K, List<V>> {
     this.get(key).add(value);
   }
 
-  public void remove(Object key, V value) {
-    this.get(key).remove(value);
+  @Override
+  public boolean remove(Object key, Object value) {
+    return this.get(key).remove(value);
   }
 
 }
