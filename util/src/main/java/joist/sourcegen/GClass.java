@@ -25,6 +25,7 @@ public class GClass {
   private static final Pattern classNameWithoutGenerics = Pattern.compile("(([a-z][a-zA-Z0-9_]*\\.)*)([A-Z][a-zA-Z0-9_]+)");
 
   public final StringBuilderr staticInitializer = new StringBuilderr();
+  private final GDirectory directory;
   private final ParsedName name;
   private final List<GField> fields = new ArrayList<GField>();
   private final List<GMethod> methods = new ArrayList<GMethod>();
@@ -44,8 +45,18 @@ public class GClass {
   private String baseClassName = null;
   private GClass outerClass;
 
-  public GClass(String fullClassName) {
+  // VisibleForTesting
+  GClass(String fullClassName) {
+    this(null, fullClassName);
+  }
+
+  public GClass(GDirectory directory, String fullClassName) {
+    this.directory = directory;
     this.name = ParsedName.parse(fullClassName);
+  }
+
+  public GDirectory getDirectory() {
+    return this.directory;
   }
 
   public GClass setEnum() {
@@ -83,7 +94,7 @@ public class GClass {
         return gc;
       }
     }
-    GClass gc = new GClass(name);
+    GClass gc = new GClass(this.directory, name);
     gc.isInnerClass = true;
     gc.isStaticInnerClass = true;
     gc.outerClass = this;
@@ -210,6 +221,11 @@ public class GClass {
     if (this.isAnonymous) {
       sb.line("new {}() {", this.name.simpleNameWithGenerics);
     } else {
+      // need to calc this before outputing the imports
+      if (this.baseClassName != null) {
+        this.stripAndImportPackageIfPossible(this.baseClassName);
+      }
+
       if (this.imports.size() > 0) {
         for (String importClassName : this.imports) {
           sb.line("import {};", importClassName);
@@ -238,7 +254,7 @@ public class GClass {
       sb.append(this.name.simpleNameWithGenerics);
       sb.append(" ");
       if (this.baseClassName != null) {
-        sb.append("extends {} ", this.baseClassName);
+        sb.append("extends {} ", this.stripAndImportPackageIfPossible(this.baseClassName));
       }
       if (this.implementsInterfaces.size() > 0) {
         sb.append("implements {} ", Join.commaSpace(this.implementsInterfaces));
@@ -356,7 +372,12 @@ public class GClass {
   }
 
   public GClass baseClassName(String baseClassName, Object... args) {
-    this.baseClassName = this.stripAndImportPackageIfPossible(Interpolate.string(baseClassName, args));
+    String _baseClassName = Interpolate.string(baseClassName, args);
+    if (!_baseClassName.contains(".")) {
+      this.baseClassName = this.getPackageName() + "." + _baseClassName;
+    } else {
+      this.baseClassName = _baseClassName;
+    }
     return this;
   }
 
@@ -437,7 +458,7 @@ public class GClass {
   }
 
   public GClass addEquals() {
-    return this.addEquals((Collection<String>) null);
+    return this.addEquals(this.getFieldNames());
   }
 
   public GClass addEquals(String... fieldNames) {
@@ -455,7 +476,8 @@ public class GClass {
     } else {
       equals.body.line("_   final {} o = ({}) other;", this.name.simpleNameWithGenerics, this.name.simpleNameWithGenerics);
       equals.body.line("_   return true"); // leave open
-      for (GField field : filter(this.fields, fieldNames)) {
+      for (String fieldName : fieldNames) {
+        GField field = this.findField(fieldName);
         if (Primitives.isPrimitive(field.getTypeClassName())) {
           equals.body.line("_   _   && o.{} == this.{}", field.getName(), field.getName());
         } else if (field.getTypeClassName().endsWith("[]")) {
@@ -478,7 +500,7 @@ public class GClass {
   }
 
   public GClass addHashCode() {
-    return this.addHashCode((Collection<String>) null);
+    return this.addHashCode(this.getFieldNames());
   }
 
   public GClass addHashCode(String... fieldNames) {
@@ -489,7 +511,8 @@ public class GClass {
     GMethod hashCode = this.getMethod("hashCode").returnType("int").addAnnotation("@Override");
     hashCode.body.line("int hashCode = 23;");
     hashCode.body.line("hashCode = (hashCode * 37) + getClass().hashCode();");
-    for (GField field : filter(this.fields, fieldNames)) {
+    for (String fieldName : fieldNames) {
+      GField field = this.findField(fieldName);
       String prefix = "hashCode = (hashCode * 37) + ";
       if (Primitives.isPrimitive(field.getTypeClassName())) {
         hashCode.body.line(prefix + "new {}({}).hashCode();", Primitives.getWrapper(field.getTypeClassName()), field.getName());
@@ -504,7 +527,7 @@ public class GClass {
   }
 
   public GClass addToString() {
-    return this.addToString((Collection<String>) null);
+    return this.addToString(this.getFieldNames());
   }
 
   public GClass addToString(String... fieldNames) {
@@ -515,14 +538,14 @@ public class GClass {
     GMethod tos = this.getMethod("toString").returnType("String").addAnnotation("@Override");
     tos.body.line("return \"{}[\"", this.getSimpleName());
     int i = 0;
-    List<GField> filtered = filter(this.fields, fieldNames);
-    for (GField field : filtered) {
+    for (String fieldName : fieldNames) {
+      GField field = this.findField(fieldName);
       if (field.getTypeClassName().endsWith("[]")) {
         tos.body.line("_   + java.util.Arrays.toString({})", field.getName());
       } else {
         tos.body.line("_   + {}", field.getName());
       }
-      if (++i < filtered.size()) {
+      if (++i < fieldNames.size()) {
         tos.body.line("_    + \", \"");
       }
     }
@@ -530,16 +553,33 @@ public class GClass {
     return this;
   }
 
-  private static List<GField> filter(List<GField> fields, Collection<String> names) {
-    if (names == null) {
-      return fields;
-    }
-    List<GField> filtered = new ArrayList<GField>();
-    for (GField field : fields) {
-      if (names.contains(field.getName())) {
-        filtered.add(field);
+  private GField findField(String name) {
+    for (GField field : this.fields) {
+      if (field.getName().equals(name)) {
+        return field;
       }
     }
-    return filtered;
+    if (this.directory != null) {
+      String currentBaseName = this.baseClassName;
+      while (currentBaseName != null) {
+        GClass currentBase = this.directory.getClass(currentBaseName);
+        for (GField field : currentBase.fields) {
+          if (field.getName().equals(name)) {
+            return field;
+          }
+        }
+        currentBaseName = currentBase.baseClassName;
+      }
+    }
+    throw new IllegalArgumentException("Could not find field " + name);
   }
+
+  private List<String> getFieldNames() {
+    List<String> fieldNames = new ArrayList<String>();
+    for (GField field : this.fields) {
+      fieldNames.add(field.getName());
+    }
+    return fieldNames;
+  }
+
 }

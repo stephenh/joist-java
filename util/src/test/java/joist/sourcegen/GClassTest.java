@@ -446,4 +446,37 @@ public class GClassTest {
       "}",
       ""), gc.toCode());
   }
+
+  @Test
+  public void testToStringWithBaseClass() {
+    GDirectory d = new GDirectory("./");
+
+    GClass base = d.getClass("p.Base");
+    base.getField("a").type("String");
+
+    GClass foo = d.getClass("p.Foo");
+    foo.baseClassName("Base");
+    foo.getField("b").type("String");
+    // have to pass both a and b for now
+    foo.addToString("a", "b");
+
+    Assert.assertEquals(Join.lines(
+      "package p;",
+      "",
+      "public class Foo extends Base {",
+      "",
+      "    private String b;",
+      "",
+      "    @Override",
+      "    public String toString() {",
+      "        return \"Foo[\"",
+      "            + a",
+      "            + \", \"",
+      "            + b",
+      "            + \"]\";",
+      "    }",
+      "",
+      "}",
+      ""), foo.toCode());
+  }
 }

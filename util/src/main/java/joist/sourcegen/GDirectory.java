@@ -30,7 +30,7 @@ public class GDirectory {
         return gc;
       }
     }
-    GClass gc = new GClass(fullClassName);
+    GClass gc = new GClass(this, fullClassName);
     this.classes.add(gc);
     return gc;
   }
