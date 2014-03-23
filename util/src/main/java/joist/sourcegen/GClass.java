@@ -45,8 +45,8 @@ public class GClass {
   private String baseClassName = null;
   private GClass outerClass;
 
-  // VisibleForTesting
-  GClass(String fullClassName) {
+  // this overload is purposefully kept for backwards compatibility
+  public GClass(String fullClassName) {
     this(null, fullClassName);
   }
 
@@ -221,11 +221,6 @@ public class GClass {
     if (this.isAnonymous) {
       sb.line("new {}() {", this.name.simpleNameWithGenerics);
     } else {
-      // need to calc this before outputing the imports
-      if (this.baseClassName != null) {
-        this.stripAndImportPackageIfPossible(this.baseClassName);
-      }
-
       if (this.imports.size() > 0) {
         for (String importClassName : this.imports) {
           sb.line("import {};", importClassName);
@@ -372,12 +367,7 @@ public class GClass {
   }
 
   public GClass baseClassName(String baseClassName, Object... args) {
-    String _baseClassName = Interpolate.string(baseClassName, args);
-    if (!_baseClassName.contains(".")) {
-      this.baseClassName = this.getPackageName() + "." + _baseClassName;
-    } else {
-      this.baseClassName = _baseClassName;
-    }
+    this.baseClassName = this.stripAndImportPackageIfPossible(Interpolate.string(baseClassName, args));
     return this;
   }
 
@@ -561,6 +551,9 @@ public class GClass {
     }
     if (this.directory != null) {
       String currentBaseName = this.baseClassName;
+      if (!currentBaseName.contains(".")) {
+        currentBaseName = this.getPackageName() + "." + currentBaseName;
+      }
       while (currentBaseName != null) {
         GClass currentBase = this.directory.getClass(currentBaseName);
         for (GField field : currentBase.fields) {
