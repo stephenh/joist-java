@@ -45,8 +45,8 @@ public class GClass {
   private String baseClassName = null;
   private GClass outerClass;
 
-  // VisibleForTesting
-  GClass(String fullClassName) {
+  // this overload is purposefully kept for backwards compatibility
+  public GClass(String fullClassName) {
     this(null, fullClassName);
   }
 
