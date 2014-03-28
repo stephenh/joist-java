@@ -31,7 +31,7 @@ public class RollbackTest extends AbstractFeaturesTest {
     }
     // and the name didn't change
     this.commitAndReOpen();
-    assertThat(p.name(), is("name"));
+    assertThat(p.name(), is("parent"));
   }
 
   @Test
@@ -52,7 +52,7 @@ public class RollbackTest extends AbstractFeaturesTest {
     }
     // and the name didn't change
     this.commitAndReOpen();
-    assertThat(p.name(), is("name"));
+    assertThat(p.name(), is("parent"));
   }
 
   @Test
@@ -71,7 +71,7 @@ public class RollbackTest extends AbstractFeaturesTest {
     });
     UoW.open(repo, null);
     // and the name didn't change
-    assertThat(p.name(), is("name"));
+    assertThat(p.name(), is("parent"));
   }
 
 }

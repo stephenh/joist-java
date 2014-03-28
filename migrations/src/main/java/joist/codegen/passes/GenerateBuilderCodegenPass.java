@@ -124,7 +124,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
         }
         // user types may not have configured defaults
         if (defaultValue != null) {
-          this.addToDefaults(c, p.getVariableName(), defaultValue);
+          this.addToDefaults(c, p.getVariableName(), p.getJavaType(), defaultValue);
         }
       }
     }
@@ -223,7 +223,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
         if (mtop.getOneSide().isCodeEntity()) {
           CodeEntity ce = (CodeEntity) mtop.getOneSide();
           String defaultValue = ce.getClassName() + "." + ce.getCodes().get(0).getEnumName();
-          this.addToDefaults(c, mtop.getVariableName(), defaultValue);
+          this.addToDefaults(c, mtop.getVariableName(), mtop.getJavaType(), defaultValue);
         } else if (!mtop.getOneSide().isAbstract()) {
           String defaultValue = "Builders.a" + mtop.getOneSide().getClassName() + "().defaults()";
           this.addToDefaultsWithContextLookup(c, mtop, defaultValue);
@@ -368,23 +368,33 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     m.body.line("return ({}) this;", entity.getBuilderClassName());
   }
 
-  private void addToDefaults(GClass c, String variableName, String defaultValue) {
+  private void addToDefaults(GClass c, String variableName, String type, String defaultValue) {
+    String defaultMethodName = "default" + StringUtils.capitalize(variableName);
+
     GMethod defaults = c.getMethod("defaults");
     defaults.body.line("_   if ({}() == null) {", variableName);
-    defaults.body.line("_   _   {}({});", variableName, defaultValue);
+    defaults.body.line("_   _   {}({}());", variableName, defaultMethodName);
     defaults.body.line("_   }");
+
+    GMethod thisDefault = c.getMethod(defaultMethodName);
+    thisDefault.setProtected().returnType(type).body.line("return {};", defaultValue);
   }
 
   private void addToDefaultsWithContextLookup(GClass c, ManyToOneProperty mtop, String defaultValue) {
     String variableName = mtop.getVariableName();
+    String defaultMethodName = "default" + StringUtils.capitalize(variableName);
+
     GMethod defaults = c.getMethod("defaults");
     defaults.body.line("_   if ({}() == null) {", variableName);
     defaults.body.line("_   _   {}(c.getIfAvailable({}.class));", variableName, mtop.getOneSide().getClassName());
     defaults.body.line("_   _   if ({}() == null) {", variableName);
-    defaults.body.line("_   _   _   {}({});", variableName, defaultValue);
+    defaults.body.line("_   _   _   {}({}());", variableName, defaultMethodName);
     defaults.body.line("_   _   _   c.rememberIfSet({}());", variableName);
     defaults.body.line("_   _   }");
     defaults.body.line("_   }");
+
+    GMethod thisDefault = c.getMethod(defaultMethodName);
+    thisDefault.setProtected().returnType(mtop.getJavaType() + "Builder").body.line("return {};", defaultValue);
   }
 
 }

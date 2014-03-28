@@ -8,4 +8,9 @@ public class ParentBuilder extends ParentBuilderCodegen {
     super(instance);
   }
 
+  @Override
+  public String defaultName() {
+    return "parent";
+  }
+
 }
