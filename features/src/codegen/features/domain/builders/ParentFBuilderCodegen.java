@@ -19,14 +19,14 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       c.rememberIfSet(childOne());
       c.rememberIfSet(childTwo());
       if (childOne() == null) {
         childOne(c.getIfAvailable(ChildF.class));
         if (childOne() == null) {
-          childOne(Builders.aChildF().defaults());
+          childOne(defaultChildOne());
           c.rememberIfSet(childOne());
         }
       }
@@ -61,6 +61,10 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public ChildFBuilder childOne() {
     if (get().getChildOne() == null) {
       return null;
@@ -75,6 +79,10 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
 
   public ParentFBuilder childOne(ChildFBuilder childOne) {
     return childOne(childOne == null ? null : childOne.get());
+  }
+
+  protected ChildFBuilder defaultChildOne() {
+    return Builders.aChildF().defaults();
   }
 
   public ChildFBuilder childTwo() {

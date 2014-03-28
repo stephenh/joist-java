@@ -24,14 +24,14 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
       if (manyToManyABar() == null) {
         manyToManyABar(c.getIfAvailable(ManyToManyABar.class));
         if (manyToManyABar() == null) {
-          manyToManyABar(Builders.aManyToManyABar().defaults());
+          manyToManyABar(defaultManyToManyABar());
           c.rememberIfSet(manyToManyABar());
         }
       }
       if (manyToManyAFoo() == null) {
         manyToManyAFoo(c.getIfAvailable(ManyToManyAFoo.class));
         if (manyToManyAFoo() == null) {
-          manyToManyAFoo(Builders.aManyToManyAFoo().defaults());
+          manyToManyAFoo(defaultManyToManyAFoo());
           c.rememberIfSet(manyToManyAFoo());
         }
       }
@@ -77,6 +77,10 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
     return manyToManyABar(manyToManyABar);
   }
 
+  protected ManyToManyABarBuilder defaultManyToManyABar() {
+    return Builders.aManyToManyABar().defaults();
+  }
+
   public ManyToManyAFooBuilder manyToManyAFoo() {
     if (get().getManyToManyAFoo() == null) {
       return null;
@@ -99,6 +103,10 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
 
   public ManyToManyAFooToBarBuilder with(ManyToManyAFooBuilder manyToManyAFoo) {
     return manyToManyAFoo(manyToManyAFoo);
+  }
+
+  protected ManyToManyAFooBuilder defaultManyToManyAFoo() {
+    return Builders.aManyToManyAFoo().defaults();
   }
 
   public ManyToManyAFooToBar get() {

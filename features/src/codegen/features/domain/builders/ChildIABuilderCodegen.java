@@ -22,7 +22,7 @@ public abstract class ChildIABuilderCodegen extends AbstractBuilder<ChildIA> {
       if (parent() == null) {
         parent(c.getIfAvailable(ParentI.class));
         if (parent() == null) {
-          parent(Builders.aParentI().defaults());
+          parent(defaultParent());
           c.rememberIfSet(parent());
         }
       }
@@ -66,6 +66,10 @@ public abstract class ChildIABuilderCodegen extends AbstractBuilder<ChildIA> {
 
   public ChildIABuilder with(ParentIBuilder parent) {
     return parent(parent);
+  }
+
+  protected ParentIBuilder defaultParent() {
+    return Builders.aParentI().defaults();
   }
 
   public ChildIA get() {

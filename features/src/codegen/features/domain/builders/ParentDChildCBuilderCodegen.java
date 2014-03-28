@@ -20,7 +20,7 @@ public abstract class ParentDChildCBuilderCodegen extends AbstractBuilder<Parent
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (ParentDChildCBuilder) super.defaults();
     } finally {
@@ -51,6 +51,10 @@ public abstract class ParentDChildCBuilderCodegen extends AbstractBuilder<Parent
 
   public ParentDChildCBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<ParentDBuilder> parentDs() {

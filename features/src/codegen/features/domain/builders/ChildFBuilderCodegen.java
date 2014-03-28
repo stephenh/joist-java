@@ -20,7 +20,7 @@ public abstract class ChildFBuilderCodegen extends AbstractBuilder<ChildF> {
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (ChildFBuilder) super.defaults();
     } finally {
@@ -51,6 +51,10 @@ public abstract class ChildFBuilderCodegen extends AbstractBuilder<ChildF> {
 
   public ChildFBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<ParentFBuilder> childOneParentFs() {

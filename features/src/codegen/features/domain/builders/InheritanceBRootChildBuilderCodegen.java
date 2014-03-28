@@ -19,7 +19,7 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       c.rememberIfSet(inheritanceBRoot());
       return (InheritanceBRootChildBuilder) super.defaults();
@@ -51,6 +51,10 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
 
   public InheritanceBRootChildBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public InheritanceBRootBuilder inheritanceBRoot() {

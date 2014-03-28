@@ -16,7 +16,7 @@ public abstract class InheritanceCFoo1BuilderCodegen extends InheritanceCBuilder
     try {
       DefaultsContext c = DefaultsContext.push();
       if (foo() == null) {
-        foo("foo");
+        foo(defaultFoo());
       }
       return (InheritanceCFoo1Builder) super.defaults();
     } finally {
@@ -31,6 +31,10 @@ public abstract class InheritanceCFoo1BuilderCodegen extends InheritanceCBuilder
   public InheritanceCFoo1Builder foo(String foo) {
     get().setFoo(foo);
     return (InheritanceCFoo1Builder) this;
+  }
+
+  protected String defaultFoo() {
+    return "foo";
   }
 
   public String name() {

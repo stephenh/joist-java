@@ -20,7 +20,7 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (InheritanceBRootBuilder) super.defaults();
     } finally {
@@ -47,6 +47,10 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
   public InheritanceBRootBuilder name(String name) {
     get().setName(name);
     return (InheritanceBRootBuilder) this;
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<InheritanceBRootChildBuilder> inheritanceBRootChilds() {

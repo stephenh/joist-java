@@ -19,7 +19,7 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       c.rememberIfSet(inheritanceAOwner());
       return (InheritanceABaseBuilder) super.defaults();
@@ -47,6 +47,10 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
   public InheritanceABaseBuilder name(String name) {
     get().setName(name);
     return (InheritanceABaseBuilder) this;
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public InheritanceAOwnerBuilder inheritanceAOwner() {

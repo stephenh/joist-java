@@ -18,7 +18,7 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (ValidationAFooBuilder) super.defaults();
     } finally {
@@ -49,6 +49,10 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
 
   public ValidationAFooBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public ValidationAFoo get() {

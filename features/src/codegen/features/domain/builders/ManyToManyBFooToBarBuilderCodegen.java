@@ -24,14 +24,14 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
       if (owned() == null) {
         owned(c.getIfAvailable(ManyToManyBBar.class));
         if (owned() == null) {
-          owned(Builders.aManyToManyBBar().defaults());
+          owned(defaultOwned());
           c.rememberIfSet(owned());
         }
       }
       if (ownerManyToManyBFoo() == null) {
         ownerManyToManyBFoo(c.getIfAvailable(ManyToManyBFoo.class));
         if (ownerManyToManyBFoo() == null) {
-          ownerManyToManyBFoo(Builders.aManyToManyBFoo().defaults());
+          ownerManyToManyBFoo(defaultOwnerManyToManyBFoo());
           c.rememberIfSet(ownerManyToManyBFoo());
         }
       }
@@ -77,6 +77,10 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
     return owned(owned);
   }
 
+  protected ManyToManyBBarBuilder defaultOwned() {
+    return Builders.aManyToManyBBar().defaults();
+  }
+
   public ManyToManyBFooBuilder ownerManyToManyBFoo() {
     if (get().getOwnerManyToManyBFoo() == null) {
       return null;
@@ -99,6 +103,10 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
 
   public ManyToManyBFooToBarBuilder with(ManyToManyBFooBuilder ownerManyToManyBFoo) {
     return ownerManyToManyBFoo(ownerManyToManyBFoo);
+  }
+
+  protected ManyToManyBFooBuilder defaultOwnerManyToManyBFoo() {
+    return Builders.aManyToManyBFoo().defaults();
   }
 
   public ManyToManyBFooToBar get() {

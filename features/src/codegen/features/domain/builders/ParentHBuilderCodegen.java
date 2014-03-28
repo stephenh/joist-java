@@ -20,10 +20,10 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       if (threshold() == null) {
-        threshold(0l);
+        threshold(defaultThreshold());
       }
       return (ParentHBuilder) super.defaults();
     } finally {
@@ -56,6 +56,10 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public Long threshold() {
     return get().getThreshold();
   }
@@ -67,6 +71,10 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
 
   public ParentHBuilder with(Long threshold) {
     return threshold(threshold);
+  }
+
+  protected Long defaultThreshold() {
+    return 0l;
   }
 
   public List<ChildHBuilder> childHs() {

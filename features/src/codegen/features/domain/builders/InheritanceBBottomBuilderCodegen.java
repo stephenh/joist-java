@@ -16,7 +16,7 @@ public abstract class InheritanceBBottomBuilderCodegen extends InheritanceBMiddl
     try {
       DefaultsContext c = DefaultsContext.push();
       if (bottomName() == null) {
-        bottomName("bottomName");
+        bottomName(defaultBottomName());
       }
       return (InheritanceBBottomBuilder) super.defaults();
     } finally {
@@ -31,6 +31,10 @@ public abstract class InheritanceBBottomBuilderCodegen extends InheritanceBMiddl
   public InheritanceBBottomBuilder bottomName(String bottomName) {
     get().setBottomName(bottomName);
     return (InheritanceBBottomBuilder) this;
+  }
+
+  protected String defaultBottomName() {
+    return "bottomName";
   }
 
   public String middleName() {

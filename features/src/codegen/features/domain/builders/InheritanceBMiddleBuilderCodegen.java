@@ -16,7 +16,7 @@ public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootB
     try {
       DefaultsContext c = DefaultsContext.push();
       if (middleName() == null) {
-        middleName("middleName");
+        middleName(defaultMiddleName());
       }
       return (InheritanceBMiddleBuilder) super.defaults();
     } finally {
@@ -31,6 +31,10 @@ public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootB
   public InheritanceBMiddleBuilder middleName(String middleName) {
     get().setMiddleName(middleName);
     return (InheritanceBMiddleBuilder) this;
+  }
+
+  protected String defaultMiddleName() {
+    return "middleName";
   }
 
   public String name() {

@@ -19,7 +19,7 @@ public abstract class ValuesBBuilderCodegen extends AbstractBuilder<ValuesB> {
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (ValuesBBuilder) super.defaults();
     } finally {
@@ -50,6 +50,10 @@ public abstract class ValuesBBuilderCodegen extends AbstractBuilder<ValuesB> {
 
   public ValuesBBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public TimePoint start() {

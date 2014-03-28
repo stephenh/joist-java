@@ -20,7 +20,7 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (InheritanceAOwnerBuilder) super.defaults();
     } finally {
@@ -51,6 +51,10 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
 
   public InheritanceAOwnerBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<InheritanceABaseBuilder> inheritanceABases() {

@@ -19,13 +19,13 @@ public abstract class ParentDChildABuilderCodegen extends AbstractBuilder<Parent
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       c.rememberIfSet(parentD());
       if (parentD() == null) {
         parentD(c.getIfAvailable(ParentD.class));
         if (parentD() == null) {
-          parentD(Builders.aParentD().defaults());
+          parentD(defaultParentD());
           c.rememberIfSet(parentD());
         }
       }
@@ -60,6 +60,10 @@ public abstract class ParentDChildABuilderCodegen extends AbstractBuilder<Parent
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public ParentDBuilder parentD() {
     if (get().getParentD() == null) {
       return null;
@@ -82,6 +86,10 @@ public abstract class ParentDChildABuilderCodegen extends AbstractBuilder<Parent
 
   public ParentDChildABuilder with(ParentDBuilder parentD) {
     return parentD(parentD);
+  }
+
+  protected ParentDBuilder defaultParentD() {
+    return Builders.aParentD().defaults();
   }
 
   public ParentDChildA get() {

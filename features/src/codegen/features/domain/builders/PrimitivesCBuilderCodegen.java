@@ -21,16 +21,16 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
     try {
       DefaultsContext c = DefaultsContext.push();
       if (day() == null) {
-        day(CalendarDate.from(1970, 1, 1));
+        day(defaultDay());
       }
       if (dollarAmount() == null) {
-        dollarAmount(Money.dollars(0));
+        dollarAmount(defaultDollarAmount());
       }
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       if (timestamp() == null) {
-        timestamp(TimePoint.from(0));
+        timestamp(defaultTimestamp());
       }
       return (PrimitivesCBuilder) super.defaults();
     } finally {
@@ -51,6 +51,10 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
     return day(day);
   }
 
+  protected CalendarDate defaultDay() {
+    return CalendarDate.from(1970, 1, 1);
+  }
+
   public Money dollarAmount() {
     return get().getDollarAmount();
   }
@@ -62,6 +66,10 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
 
   public PrimitivesCBuilder with(Money dollarAmount) {
     return dollarAmount(dollarAmount);
+  }
+
+  protected Money defaultDollarAmount() {
+    return Money.dollars(0);
   }
 
   public Long id() {
@@ -89,6 +97,10 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public TimePoint timestamp() {
     return get().getTimestamp();
   }
@@ -100,6 +112,10 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
 
   public PrimitivesCBuilder with(TimePoint timestamp) {
     return timestamp(timestamp);
+  }
+
+  protected TimePoint defaultTimestamp() {
+    return TimePoint.from(0);
   }
 
   public PrimitivesC get() {

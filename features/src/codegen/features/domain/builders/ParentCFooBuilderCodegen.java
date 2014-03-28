@@ -20,7 +20,7 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (ParentCFooBuilder) super.defaults();
     } finally {
@@ -51,6 +51,10 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
 
   public ParentCFooBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<ParentCBarBuilder> firstParentParentCBars() {

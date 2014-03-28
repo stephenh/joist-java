@@ -22,7 +22,7 @@ public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<Parent
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (ParentBParentBuilder) super.defaults();
     } finally {
@@ -53,6 +53,10 @@ public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<Parent
 
   public ParentBParentBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<ParentBChildBarBuilder> parentBChildBars() {

@@ -18,7 +18,7 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (InheritanceCBuilder) super.defaults();
     } finally {
@@ -45,6 +45,10 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
   public InheritanceCBuilder name(String name) {
     get().setName(name);
     return (InheritanceCBuilder) this;
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public InheritanceC get() {

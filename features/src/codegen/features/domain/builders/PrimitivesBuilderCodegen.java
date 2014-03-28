@@ -18,10 +18,10 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
     try {
       DefaultsContext c = DefaultsContext.push();
       if (flag() == null) {
-        flag(false);
+        flag(defaultFlag());
       }
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (PrimitivesBuilder) super.defaults();
     } finally {
@@ -40,6 +40,10 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
 
   public PrimitivesBuilder with(Boolean flag) {
     return flag(flag);
+  }
+
+  protected Boolean defaultFlag() {
+    return false;
   }
 
   public Long id() {
@@ -65,6 +69,10 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
 
   public PrimitivesBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public Primitives get() {

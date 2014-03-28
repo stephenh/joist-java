@@ -19,13 +19,13 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       c.rememberIfSet(child());
       if (child() == null) {
         child(c.getIfAvailable(Child.class));
         if (child() == null) {
-          child(Builders.aChild().defaults());
+          child(defaultChild());
           c.rememberIfSet(child());
         }
       }
@@ -60,6 +60,10 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public ChildBuilder child() {
     if (get().getChild() == null) {
       return null;
@@ -82,6 +86,10 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
 
   public GrandChildBuilder with(ChildBuilder child) {
     return child(child);
+  }
+
+  protected ChildBuilder defaultChild() {
+    return Builders.aChild().defaults();
   }
 
   public GrandChild get() {

@@ -19,7 +19,7 @@ public abstract class ParentEBuilderCodegen extends AbstractBuilder<ParentE> {
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       c.rememberIfSet(parentE());
       return (ParentEBuilder) super.defaults();
@@ -51,6 +51,10 @@ public abstract class ParentEBuilderCodegen extends AbstractBuilder<ParentE> {
 
   public ParentEBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public ParentEBuilder parentE() {

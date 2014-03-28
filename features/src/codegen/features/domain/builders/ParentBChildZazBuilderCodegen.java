@@ -20,21 +20,21 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       c.rememberIfSet(parentBChildBar());
       c.rememberIfSet(parentBParent());
       if (parentBChildBar() == null) {
         parentBChildBar(c.getIfAvailable(ParentBChildBar.class));
         if (parentBChildBar() == null) {
-          parentBChildBar(Builders.aParentBChildBar().defaults());
+          parentBChildBar(defaultParentBChildBar());
           c.rememberIfSet(parentBChildBar());
         }
       }
       if (parentBParent() == null) {
         parentBParent(c.getIfAvailable(ParentBParent.class));
         if (parentBParent() == null) {
-          parentBParent(Builders.aParentBParent().defaults());
+          parentBParent(defaultParentBParent());
           c.rememberIfSet(parentBParent());
         }
       }
@@ -69,6 +69,10 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public ParentBChildBarBuilder parentBChildBar() {
     if (get().getParentBChildBar() == null) {
       return null;
@@ -93,6 +97,10 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
     return parentBChildBar(parentBChildBar);
   }
 
+  protected ParentBChildBarBuilder defaultParentBChildBar() {
+    return Builders.aParentBChildBar().defaults();
+  }
+
   public ParentBParentBuilder parentBParent() {
     if (get().getParentBParent() == null) {
       return null;
@@ -115,6 +123,10 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentBChildZazBuilder with(ParentBParentBuilder parentBParent) {
     return parentBParent(parentBParent);
+  }
+
+  protected ParentBParentBuilder defaultParentBParent() {
+    return Builders.aParentBParent().defaults();
   }
 
   public ParentBChildZaz get() {

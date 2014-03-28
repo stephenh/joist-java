@@ -21,13 +21,13 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       c.rememberIfSet(parentBParent());
       if (parentBParent() == null) {
         parentBParent(c.getIfAvailable(ParentBParent.class));
         if (parentBParent() == null) {
-          parentBParent(Builders.aParentBParent().defaults());
+          parentBParent(defaultParentBParent());
           c.rememberIfSet(parentBParent());
         }
       }
@@ -62,6 +62,10 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public ParentBParentBuilder parentBParent() {
     if (get().getParentBParent() == null) {
       return null;
@@ -84,6 +88,10 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentBChildBarBuilder with(ParentBParentBuilder parentBParent) {
     return parentBParent(parentBParent);
+  }
+
+  protected ParentBParentBuilder defaultParentBParent() {
+    return Builders.aParentBParent().defaults();
   }
 
   public List<ParentBChildZazBuilder> parentBChildZazs() {

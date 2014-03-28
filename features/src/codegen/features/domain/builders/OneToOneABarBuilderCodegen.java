@@ -19,13 +19,13 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       c.rememberIfSet(oneToOneAFoo());
       if (oneToOneAFoo() == null) {
         oneToOneAFoo(c.getIfAvailable(OneToOneAFoo.class));
         if (oneToOneAFoo() == null) {
-          oneToOneAFoo(Builders.aOneToOneAFoo().defaults());
+          oneToOneAFoo(defaultOneToOneAFoo());
           c.rememberIfSet(oneToOneAFoo());
         }
       }
@@ -60,6 +60,10 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public OneToOneAFooBuilder oneToOneAFoo() {
     if (get().getOneToOneAFoo() == null) {
       return null;
@@ -82,6 +86,10 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
 
   public OneToOneABarBuilder with(OneToOneAFooBuilder oneToOneAFoo) {
     return oneToOneAFoo(oneToOneAFoo);
+  }
+
+  protected OneToOneAFooBuilder defaultOneToOneAFoo() {
+    return Builders.aOneToOneAFoo().defaults();
   }
 
   public OneToOneABar get() {

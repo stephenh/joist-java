@@ -20,7 +20,7 @@ public abstract class ManyToManyABarBuilderCodegen extends AbstractBuilder<ManyT
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (ManyToManyABarBuilder) super.defaults();
     } finally {
@@ -51,6 +51,10 @@ public abstract class ManyToManyABarBuilderCodegen extends AbstractBuilder<ManyT
 
   public ManyToManyABarBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<ManyToManyAFooBuilder> manyToManyAFoos() {

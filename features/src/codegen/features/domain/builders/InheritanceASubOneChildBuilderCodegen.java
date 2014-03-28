@@ -19,13 +19,13 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       c.rememberIfSet(sub());
       if (sub() == null) {
         sub(c.getIfAvailable(InheritanceASubOne.class));
         if (sub() == null) {
-          sub(Builders.aInheritanceASubOne().defaults());
+          sub(defaultSub());
           c.rememberIfSet(sub());
         }
       }
@@ -60,6 +60,10 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public InheritanceASubOneBuilder sub() {
     if (get().getSub() == null) {
       return null;
@@ -82,6 +86,10 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
 
   public InheritanceASubOneChildBuilder with(InheritanceASubOneBuilder sub) {
     return sub(sub);
+  }
+
+  protected InheritanceASubOneBuilder defaultSub() {
+    return Builders.aInheritanceASubOne().defaults();
   }
 
   public InheritanceASubOneChild get() {

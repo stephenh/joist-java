@@ -19,10 +19,10 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
     try {
       DefaultsContext c = DefaultsContext.push();
       if (created() == null) {
-        created(CalendarDate.from(1970, 1, 1));
+        created(defaultCreated());
       }
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (UserTypesAFooBuilder) super.defaults();
     } finally {
@@ -41,6 +41,10 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
 
   public UserTypesAFooBuilder with(CalendarDate created) {
     return created(created);
+  }
+
+  protected CalendarDate defaultCreated() {
+    return CalendarDate.from(1970, 1, 1);
   }
 
   public Long id() {
@@ -66,6 +70,10 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
 
   public UserTypesAFooBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public UserTypesAFoo get() {

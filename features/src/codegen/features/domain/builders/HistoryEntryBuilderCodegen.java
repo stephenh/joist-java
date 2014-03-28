@@ -19,16 +19,16 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
     try {
       DefaultsContext c = DefaultsContext.push();
       if (primaryKey() == null) {
-        primaryKey(0);
+        primaryKey(defaultPrimaryKey());
       }
       if (rootTableName() == null) {
-        rootTableName("rootTableName");
+        rootTableName(defaultRootTableName());
       }
       if (type() == null) {
-        type("type");
+        type(defaultType());
       }
       if (updateTime() == null) {
-        updateTime(TimePoint.from(0));
+        updateTime(defaultUpdateTime());
       }
       return (HistoryEntryBuilder) super.defaults();
     } finally {
@@ -79,6 +79,10 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
     return primaryKey(primaryKey);
   }
 
+  protected Integer defaultPrimaryKey() {
+    return 0;
+  }
+
   public String propertyName() {
     return get().getPropertyName();
   }
@@ -97,6 +101,10 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
     return (HistoryEntryBuilder) this;
   }
 
+  protected String defaultRootTableName() {
+    return "rootTableName";
+  }
+
   public String type() {
     return get().getType();
   }
@@ -104,6 +112,10 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
   public HistoryEntryBuilder type(String type) {
     get().setType(type);
     return (HistoryEntryBuilder) this;
+  }
+
+  protected String defaultType() {
+    return "type";
   }
 
   public TimePoint updateTime() {
@@ -117,6 +129,10 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
 
   public HistoryEntryBuilder with(TimePoint updateTime) {
     return updateTime(updateTime);
+  }
+
+  protected TimePoint defaultUpdateTime() {
+    return TimePoint.from(0);
   }
 
   public String updater() {

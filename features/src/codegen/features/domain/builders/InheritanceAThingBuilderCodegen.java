@@ -21,7 +21,7 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
     try {
       DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
-        name("name");
+        name(defaultName());
       }
       return (InheritanceAThingBuilder) super.defaults();
     } finally {
@@ -52,6 +52,10 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
 
   public InheritanceAThingBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<InheritanceASubOneBuilder> inheritanceASubOnes() {

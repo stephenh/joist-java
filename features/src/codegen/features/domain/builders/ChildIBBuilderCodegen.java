@@ -22,7 +22,7 @@ public abstract class ChildIBBuilderCodegen extends AbstractBuilder<ChildIB> {
       if (parent() == null) {
         parent(c.getIfAvailable(ParentI.class));
         if (parent() == null) {
-          parent(Builders.aParentI().defaults());
+          parent(defaultParent());
           c.rememberIfSet(parent());
         }
       }
@@ -66,6 +66,10 @@ public abstract class ChildIBBuilderCodegen extends AbstractBuilder<ChildIB> {
 
   public ChildIBBuilder with(ParentIBuilder parent) {
     return parent(parent);
+  }
+
+  protected ParentIBuilder defaultParent() {
+    return Builders.aParentI().defaults();
   }
 
   public ChildIB get() {
