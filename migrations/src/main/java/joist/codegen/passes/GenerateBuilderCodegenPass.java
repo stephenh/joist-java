@@ -39,26 +39,25 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
       }
       builderCodegen.addAnnotation("@SuppressWarnings(\"all\")");
 
-      GMethod defaults = builderCodegen.getMethod("defaults");
-      defaults.addAnnotation("@Override");
-      defaults.returnType(entity.getBuilderClassName());
-      defaults.body.line("try {");
-      defaults.body.line("_   DefaultsContext c = DefaultsContext.push();");
-      builderCodegen.addImports(DefaultsContext.class);
+      // this defaults() is just for the cast
+      GMethod defaults2 = builderCodegen.getMethod("defaults");
+      defaults2.addAnnotation("@Override");
+      defaults2.body.line("return ({}) super.defaults();", entity.getBuilderClassName());
+      defaults2.returnType(entity.getBuilderClassName());
+
+      // this defaults is to actually fill in
+      GMethod defaults = builderCodegen.getMethod("defaults", Argument.arg(DefaultsContext.class, "c"));
+      defaults.addAnnotation("@Override").setProtected();
+      defaults.body.line("super.defaults(c);");
 
       this.constructor(builderCodegen, entity);
-      this.primitiveProperties(codegen, builderCodegen, entity);
-      this.manyToOneProperties(builderCodegen, entity);
+      this.primitiveProperties(codegen, builderCodegen, entity, defaults);
+      this.manyToOneProperties(builderCodegen, entity, defaults);
       this.oneToManyProperties(builderCodegen, entity);
       this.manyToManyProperties(builderCodegen, entity);
       this.overrideGet(builderCodegen, entity);
       this.ensureSaved(builderCodegen, entity);
       this.delete(builderCodegen, entity);
-
-      defaults.body.line("_   return ({}) super.defaults();", entity.getBuilderClassName());
-      defaults.body.line("} finally {");
-      defaults.body.line("_   DefaultsContext.pop();");
-      defaults.body.line("}");
     }
   }
 
@@ -93,7 +92,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     builderCodegen.addImports(List.class);
   }
 
-  private void primitiveProperties(Codegen codegen, GClass c, Entity entity) {
+  private void primitiveProperties(Codegen codegen, GClass c, Entity entity, GMethod defaults) {
     for (PrimitiveProperty p : entity.getPrimitiveProperties()) {
       if (p.getVariableName().equals("version")) {
         continue;
@@ -124,7 +123,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
         }
         // user types may not have configured defaults
         if (defaultValue != null) {
-          this.addToDefaults(c, p.getVariableName(), p.getJavaType(), defaultValue);
+          this.addToDefaults(c, defaults, p.getVariableName(), p.getJavaType(), defaultValue);
         }
       }
     }
@@ -185,12 +184,11 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     }
   }
 
-  private void manyToOneProperties(GClass c, Entity entity) {
+  private void manyToOneProperties(GClass c, Entity entity, GMethod defaults) {
     // add an up-front pass to get already-set properties into DefaultsContext
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       if (!mtop.getOneSide().isCodeEntity()) {
-        GMethod defaults = c.getMethod("defaults");
-        defaults.body.line("_   c.rememberIfSet({}());", mtop.getVariableName());
+        defaults.body.line("c.rememberIfSet({}());", mtop.getVariableName());
       }
     }
     // now add the regular getters/setters/etc.
@@ -223,10 +221,10 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
         if (mtop.getOneSide().isCodeEntity()) {
           CodeEntity ce = (CodeEntity) mtop.getOneSide();
           String defaultValue = ce.getClassName() + "." + ce.getCodes().get(0).getEnumName();
-          this.addToDefaults(c, mtop.getVariableName(), mtop.getJavaType(), defaultValue);
+          this.addToDefaults(c, defaults, mtop.getVariableName(), mtop.getJavaType(), defaultValue);
         } else if (!mtop.getOneSide().isAbstract()) {
           String defaultValue = "Builders.a" + mtop.getOneSide().getClassName() + "().defaults()";
-          this.addToDefaultsWithContextLookup(c, mtop, defaultValue);
+          this.addToDefaultsWithContextLookup(c, defaults, mtop, defaultValue);
         }
       }
 
@@ -368,30 +366,28 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     m.body.line("return ({}) this;", entity.getBuilderClassName());
   }
 
-  private void addToDefaults(GClass c, String variableName, String type, String defaultValue) {
+  private void addToDefaults(GClass c, GMethod defaults, String variableName, String type, String defaultValue) {
     String defaultMethodName = "default" + StringUtils.capitalize(variableName);
 
-    GMethod defaults = c.getMethod("defaults");
-    defaults.body.line("_   if ({}() == null) {", variableName);
-    defaults.body.line("_   _   {}({}());", variableName, defaultMethodName);
-    defaults.body.line("_   }");
+    defaults.body.line("if ({}() == null) {", variableName);
+    defaults.body.line("_   {}({}());", variableName, defaultMethodName);
+    defaults.body.line("}");
 
     GMethod thisDefault = c.getMethod(defaultMethodName);
     thisDefault.setProtected().returnType(type).body.line("return {};", defaultValue);
   }
 
-  private void addToDefaultsWithContextLookup(GClass c, ManyToOneProperty mtop, String defaultValue) {
+  private void addToDefaultsWithContextLookup(GClass c, GMethod defaults, ManyToOneProperty mtop, String defaultValue) {
     String variableName = mtop.getVariableName();
     String defaultMethodName = "default" + StringUtils.capitalize(variableName);
 
-    GMethod defaults = c.getMethod("defaults");
+    defaults.body.line("if ({}() == null) {", variableName);
+    defaults.body.line("_   {}(c.getIfAvailable({}.class));", variableName, mtop.getOneSide().getClassName());
     defaults.body.line("_   if ({}() == null) {", variableName);
-    defaults.body.line("_   _   {}(c.getIfAvailable({}.class));", variableName, mtop.getOneSide().getClassName());
-    defaults.body.line("_   _   if ({}() == null) {", variableName);
-    defaults.body.line("_   _   _   {}({}());", variableName, defaultMethodName);
-    defaults.body.line("_   _   _   c.rememberIfSet({}());", variableName);
-    defaults.body.line("_   _   }");
+    defaults.body.line("_   _   {}({}());", variableName, defaultMethodName);
+    defaults.body.line("_   _   c.rememberIfSet({}());", variableName);
     defaults.body.line("_   }");
+    defaults.body.line("}");
 
     GMethod thisDefault = c.getMethod(defaultMethodName);
     thisDefault.setProtected().returnType(mtop.getJavaType() + "Builder").body.line("return {};", defaultValue);
