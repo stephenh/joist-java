@@ -16,22 +16,22 @@ public abstract class ParentDChildBBuilderCodegen extends AbstractBuilder<Parent
 
   @Override
   public ParentDChildBBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      c.rememberIfSet(parentD());
+    return (ParentDChildBBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(parentD());
+    if (parentD() == null) {
+      parentD(c.getIfAvailable(ParentD.class));
       if (parentD() == null) {
-        parentD(c.getIfAvailable(ParentD.class));
-        if (parentD() == null) {
-          parentD(defaultParentD());
-          c.rememberIfSet(parentD());
-        }
+        parentD(defaultParentD());
+        c.rememberIfSet(parentD());
       }
-      return (ParentDChildBBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 

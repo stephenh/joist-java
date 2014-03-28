@@ -16,14 +16,14 @@ public abstract class ValuesBBuilderCodegen extends AbstractBuilder<ValuesB> {
 
   @Override
   public ValuesBBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      return (ValuesBBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ValuesBBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 

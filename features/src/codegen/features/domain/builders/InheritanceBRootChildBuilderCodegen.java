@@ -16,16 +16,16 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
 
   @Override
   public InheritanceBRootChildBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      c.rememberIfSet(inheritanceBRoot());
-      return (InheritanceBRootChildBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceBRootChildBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
+    c.rememberIfSet(inheritanceBRoot());
   }
 
   public Long id() {

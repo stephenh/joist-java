@@ -15,26 +15,26 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
 
   @Override
   public PrimitivesBBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (big2() == null) {
-        big2(defaultBig2());
-      }
-      if (bool2() == null) {
-        bool2(defaultBool2());
-      }
-      if (boolWithDefaultTrue() == null) {
-        boolWithDefaultTrue(defaultBoolWithDefaultTrue());
-      }
-      if (int2() == null) {
-        int2(defaultInt2());
-      }
-      if (small2() == null) {
-        small2(defaultSmall2());
-      }
-      return (PrimitivesBBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (PrimitivesBBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (big2() == null) {
+      big2(defaultBig2());
+    }
+    if (bool2() == null) {
+      bool2(defaultBool2());
+    }
+    if (boolWithDefaultTrue() == null) {
+      boolWithDefaultTrue(defaultBoolWithDefaultTrue());
+    }
+    if (int2() == null) {
+      int2(defaultInt2());
+    }
+    if (small2() == null) {
+      small2(defaultSmall2());
     }
   }
 

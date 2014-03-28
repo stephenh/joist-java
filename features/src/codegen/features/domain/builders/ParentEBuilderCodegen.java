@@ -16,16 +16,16 @@ public abstract class ParentEBuilderCodegen extends AbstractBuilder<ParentE> {
 
   @Override
   public ParentEBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      c.rememberIfSet(parentE());
-      return (ParentEBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ParentEBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
+    c.rememberIfSet(parentE());
   }
 
   public Long id() {

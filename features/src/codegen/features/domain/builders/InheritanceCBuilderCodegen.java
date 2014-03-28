@@ -15,14 +15,14 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
 
   @Override
   public InheritanceCBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      return (InheritanceCBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceCBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 

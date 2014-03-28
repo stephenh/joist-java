@@ -16,30 +16,30 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
 
   @Override
   public ParentCBarBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      c.rememberIfSet(firstParent());
-      c.rememberIfSet(secondParent());
+    return (ParentCBarBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(firstParent());
+    c.rememberIfSet(secondParent());
+    if (firstParent() == null) {
+      firstParent(c.getIfAvailable(ParentCFoo.class));
       if (firstParent() == null) {
-        firstParent(c.getIfAvailable(ParentCFoo.class));
-        if (firstParent() == null) {
-          firstParent(defaultFirstParent());
-          c.rememberIfSet(firstParent());
-        }
+        firstParent(defaultFirstParent());
+        c.rememberIfSet(firstParent());
       }
+    }
+    if (secondParent() == null) {
+      secondParent(c.getIfAvailable(ParentCFoo.class));
       if (secondParent() == null) {
-        secondParent(c.getIfAvailable(ParentCFoo.class));
-        if (secondParent() == null) {
-          secondParent(defaultSecondParent());
-          c.rememberIfSet(secondParent());
-        }
+        secondParent(defaultSecondParent());
+        c.rememberIfSet(secondParent());
       }
-      return (ParentCBarBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 

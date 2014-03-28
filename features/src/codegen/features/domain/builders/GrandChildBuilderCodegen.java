@@ -16,22 +16,22 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
 
   @Override
   public GrandChildBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      c.rememberIfSet(child());
+    return (GrandChildBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(child());
+    if (child() == null) {
+      child(c.getIfAvailable(Child.class));
       if (child() == null) {
-        child(c.getIfAvailable(Child.class));
-        if (child() == null) {
-          child(defaultChild());
-          c.rememberIfSet(child());
-        }
+        child(defaultChild());
+        c.rememberIfSet(child());
       }
-      return (GrandChildBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 

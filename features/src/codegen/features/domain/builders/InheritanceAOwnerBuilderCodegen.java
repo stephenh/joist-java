@@ -17,14 +17,14 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
 
   @Override
   public InheritanceAOwnerBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      return (InheritanceAOwnerBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceAOwnerBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 

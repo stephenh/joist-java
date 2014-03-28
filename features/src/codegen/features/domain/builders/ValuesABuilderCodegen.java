@@ -15,20 +15,20 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
 
   @Override
   public ValuesABuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (b() == null) {
-        b(defaultB());
-      }
-      if (j() == null) {
-        j(defaultJ());
-      }
-      if (name() == null) {
-        name(defaultName());
-      }
-      return (ValuesABuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ValuesABuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (b() == null) {
+      b(defaultB());
+    }
+    if (j() == null) {
+      j(defaultJ());
+    }
+    if (name() == null) {
+      name(defaultName());
     }
   }
 

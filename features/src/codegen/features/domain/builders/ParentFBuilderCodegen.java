@@ -16,23 +16,23 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
 
   @Override
   public ParentFBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      c.rememberIfSet(childOne());
-      c.rememberIfSet(childTwo());
+    return (ParentFBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(childOne());
+    c.rememberIfSet(childTwo());
+    if (childOne() == null) {
+      childOne(c.getIfAvailable(ChildF.class));
       if (childOne() == null) {
-        childOne(c.getIfAvailable(ChildF.class));
-        if (childOne() == null) {
-          childOne(defaultChildOne());
-          c.rememberIfSet(childOne());
-        }
+        childOne(defaultChildOne());
+        c.rememberIfSet(childOne());
       }
-      return (ParentFBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 

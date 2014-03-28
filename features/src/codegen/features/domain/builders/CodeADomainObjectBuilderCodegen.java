@@ -17,20 +17,20 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
 
   @Override
   public CodeADomainObjectBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      if (codeAColor() == null) {
-        codeAColor(defaultCodeAColor());
-      }
-      if (codeASize() == null) {
-        codeASize(defaultCodeASize());
-      }
-      return (CodeADomainObjectBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (CodeADomainObjectBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    if (codeAColor() == null) {
+      codeAColor(defaultCodeAColor());
+    }
+    if (codeASize() == null) {
+      codeASize(defaultCodeASize());
     }
   }
 

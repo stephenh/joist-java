@@ -15,17 +15,17 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
 
   @Override
   public PrimitivesBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (flag() == null) {
-        flag(defaultFlag());
-      }
-      if (name() == null) {
-        name(defaultName());
-      }
-      return (PrimitivesBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (PrimitivesBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (flag() == null) {
+      flag(defaultFlag());
+    }
+    if (name() == null) {
+      name(defaultName());
     }
   }
 

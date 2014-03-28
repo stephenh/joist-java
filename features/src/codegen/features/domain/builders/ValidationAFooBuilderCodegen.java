@@ -15,14 +15,14 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
 
   @Override
   public ValidationAFooBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      return (ValidationAFooBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ValidationAFooBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 

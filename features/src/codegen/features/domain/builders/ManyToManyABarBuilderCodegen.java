@@ -17,14 +17,14 @@ public abstract class ManyToManyABarBuilderCodegen extends AbstractBuilder<ManyT
 
   @Override
   public ManyToManyABarBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      return (ManyToManyABarBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ManyToManyABarBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 

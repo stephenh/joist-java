@@ -17,30 +17,30 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
 
   @Override
   public ParentBChildZazBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      c.rememberIfSet(parentBChildBar());
-      c.rememberIfSet(parentBParent());
+    return (ParentBChildZazBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(parentBChildBar());
+    c.rememberIfSet(parentBParent());
+    if (parentBChildBar() == null) {
+      parentBChildBar(c.getIfAvailable(ParentBChildBar.class));
       if (parentBChildBar() == null) {
-        parentBChildBar(c.getIfAvailable(ParentBChildBar.class));
-        if (parentBChildBar() == null) {
-          parentBChildBar(defaultParentBChildBar());
-          c.rememberIfSet(parentBChildBar());
-        }
+        parentBChildBar(defaultParentBChildBar());
+        c.rememberIfSet(parentBChildBar());
       }
+    }
+    if (parentBParent() == null) {
+      parentBParent(c.getIfAvailable(ParentBParent.class));
       if (parentBParent() == null) {
-        parentBParent(c.getIfAvailable(ParentBParent.class));
-        if (parentBParent() == null) {
-          parentBParent(defaultParentBParent());
-          c.rememberIfSet(parentBParent());
-        }
+        parentBParent(defaultParentBParent());
+        c.rememberIfSet(parentBParent());
       }
-      return (ParentBChildZazBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 

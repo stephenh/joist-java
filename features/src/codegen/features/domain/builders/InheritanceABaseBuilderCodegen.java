@@ -16,16 +16,16 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
 
   @Override
   public InheritanceABaseBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      c.rememberIfSet(inheritanceAOwner());
-      return (InheritanceABaseBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceABaseBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
+    c.rememberIfSet(inheritanceAOwner());
   }
 
   public Long id() {

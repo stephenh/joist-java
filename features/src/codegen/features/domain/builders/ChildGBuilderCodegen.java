@@ -16,23 +16,23 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
 
   @Override
   public ChildGBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      c.rememberIfSet(parentOne());
-      c.rememberIfSet(parentTwo());
+    return (ChildGBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(parentOne());
+    c.rememberIfSet(parentTwo());
+    if (parentOne() == null) {
+      parentOne(c.getIfAvailable(ParentG.class));
       if (parentOne() == null) {
-        parentOne(c.getIfAvailable(ParentG.class));
-        if (parentOne() == null) {
-          parentOne(defaultParentOne());
-          c.rememberIfSet(parentOne());
-        }
+        parentOne(defaultParentOne());
+        c.rememberIfSet(parentOne());
       }
-      return (ChildGBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 

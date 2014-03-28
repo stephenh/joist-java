@@ -16,25 +16,25 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
 
   @Override
   public ChildHBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      if (quantity() == null) {
-        quantity(defaultQuantity());
-      }
-      c.rememberIfSet(parent());
+    return (ChildHBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    if (quantity() == null) {
+      quantity(defaultQuantity());
+    }
+    c.rememberIfSet(parent());
+    if (parent() == null) {
+      parent(c.getIfAvailable(ParentH.class));
       if (parent() == null) {
-        parent(c.getIfAvailable(ParentH.class));
-        if (parent() == null) {
-          parent(defaultParent());
-          c.rememberIfSet(parent());
-        }
+        parent(defaultParent());
+        c.rememberIfSet(parent());
       }
-      return (ChildHBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 

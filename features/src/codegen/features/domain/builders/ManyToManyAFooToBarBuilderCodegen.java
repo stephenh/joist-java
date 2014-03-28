@@ -17,27 +17,27 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
 
   @Override
   public ManyToManyAFooToBarBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      c.rememberIfSet(manyToManyABar());
-      c.rememberIfSet(manyToManyAFoo());
+    return (ManyToManyAFooToBarBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    c.rememberIfSet(manyToManyABar());
+    c.rememberIfSet(manyToManyAFoo());
+    if (manyToManyABar() == null) {
+      manyToManyABar(c.getIfAvailable(ManyToManyABar.class));
       if (manyToManyABar() == null) {
-        manyToManyABar(c.getIfAvailable(ManyToManyABar.class));
-        if (manyToManyABar() == null) {
-          manyToManyABar(defaultManyToManyABar());
-          c.rememberIfSet(manyToManyABar());
-        }
+        manyToManyABar(defaultManyToManyABar());
+        c.rememberIfSet(manyToManyABar());
       }
+    }
+    if (manyToManyAFoo() == null) {
+      manyToManyAFoo(c.getIfAvailable(ManyToManyAFoo.class));
       if (manyToManyAFoo() == null) {
-        manyToManyAFoo(c.getIfAvailable(ManyToManyAFoo.class));
-        if (manyToManyAFoo() == null) {
-          manyToManyAFoo(defaultManyToManyAFoo());
-          c.rememberIfSet(manyToManyAFoo());
-        }
+        manyToManyAFoo(defaultManyToManyAFoo());
+        c.rememberIfSet(manyToManyAFoo());
       }
-      return (ManyToManyAFooToBarBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 

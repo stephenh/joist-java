@@ -16,23 +16,23 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
 
   @Override
   public HistoryEntryBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (primaryKey() == null) {
-        primaryKey(defaultPrimaryKey());
-      }
-      if (rootTableName() == null) {
-        rootTableName(defaultRootTableName());
-      }
-      if (type() == null) {
-        type(defaultType());
-      }
-      if (updateTime() == null) {
-        updateTime(defaultUpdateTime());
-      }
-      return (HistoryEntryBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (HistoryEntryBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (primaryKey() == null) {
+      primaryKey(defaultPrimaryKey());
+    }
+    if (rootTableName() == null) {
+      rootTableName(defaultRootTableName());
+    }
+    if (type() == null) {
+      type(defaultType());
+    }
+    if (updateTime() == null) {
+      updateTime(defaultUpdateTime());
     }
   }
 

@@ -16,22 +16,22 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
 
   @Override
   public InheritanceASubOneChildBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      c.rememberIfSet(sub());
+    return (InheritanceASubOneChildBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(sub());
+    if (sub() == null) {
+      sub(c.getIfAvailable(InheritanceASubOne.class));
       if (sub() == null) {
-        sub(c.getIfAvailable(InheritanceASubOne.class));
-        if (sub() == null) {
-          sub(defaultSub());
-          c.rememberIfSet(sub());
-        }
+        sub(defaultSub());
+        c.rememberIfSet(sub());
       }
-      return (InheritanceASubOneChildBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 

@@ -16,17 +16,17 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
 
   @Override
   public UserTypesAFooBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (created() == null) {
-        created(defaultCreated());
-      }
-      if (name() == null) {
-        name(defaultName());
-      }
-      return (UserTypesAFooBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (UserTypesAFooBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (created() == null) {
+      created(defaultCreated());
+    }
+    if (name() == null) {
+      name(defaultName());
     }
   }
 

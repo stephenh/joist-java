@@ -18,22 +18,22 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
 
   @Override
   public ParentBChildBarBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      c.rememberIfSet(parentBParent());
+    return (ParentBChildBarBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(parentBParent());
+    if (parentBParent() == null) {
+      parentBParent(c.getIfAvailable(ParentBParent.class));
       if (parentBParent() == null) {
-        parentBParent(c.getIfAvailable(ParentBParent.class));
-        if (parentBParent() == null) {
-          parentBParent(defaultParentBParent());
-          c.rememberIfSet(parentBParent());
-        }
+        parentBParent(defaultParentBParent());
+        c.rememberIfSet(parentBParent());
       }
-      return (ParentBChildBarBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 

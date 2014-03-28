@@ -17,17 +17,17 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
 
   @Override
   public ParentHBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      if (threshold() == null) {
-        threshold(defaultThreshold());
-      }
-      return (ParentHBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ParentHBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    if (threshold() == null) {
+      threshold(defaultThreshold());
     }
   }
 

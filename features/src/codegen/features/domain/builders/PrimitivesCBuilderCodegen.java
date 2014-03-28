@@ -18,23 +18,23 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
 
   @Override
   public PrimitivesCBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (day() == null) {
-        day(defaultDay());
-      }
-      if (dollarAmount() == null) {
-        dollarAmount(defaultDollarAmount());
-      }
-      if (name() == null) {
-        name(defaultName());
-      }
-      if (timestamp() == null) {
-        timestamp(defaultTimestamp());
-      }
-      return (PrimitivesCBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (PrimitivesCBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (day() == null) {
+      day(defaultDay());
+    }
+    if (dollarAmount() == null) {
+      dollarAmount(defaultDollarAmount());
+    }
+    if (name() == null) {
+      name(defaultName());
+    }
+    if (timestamp() == null) {
+      timestamp(defaultTimestamp());
     }
   }
 

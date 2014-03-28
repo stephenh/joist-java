@@ -17,14 +17,14 @@ public abstract class ParentBuilderCodegen extends AbstractBuilder<Parent> {
 
   @Override
   public ParentBuilder defaults() {
-    try {
-      DefaultsContext c = DefaultsContext.push();
-      if (name() == null) {
-        name(defaultName());
-      }
-      return (ParentBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ParentBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
