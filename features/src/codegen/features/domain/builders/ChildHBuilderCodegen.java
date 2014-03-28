@@ -17,19 +17,19 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
   @Override
   public ChildHBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }
       if (quantity() == null) {
         quantity(0l);
       }
-      DefaultsContext.get().rememberIfSet(parent());
+      c.rememberIfSet(parent());
       if (parent() == null) {
-        parent(DefaultsContext.get().getIfAvailable(ParentH.class));
+        parent(c.getIfAvailable(ParentH.class));
         if (parent() == null) {
           parent(Builders.aParentH().defaults());
-          DefaultsContext.get().rememberIfSet(parent());
+          c.rememberIfSet(parent());
         }
       }
       return (ChildHBuilder) super.defaults();

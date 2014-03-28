@@ -18,21 +18,21 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
   @Override
   public ParentDToChildCBuilder defaults() {
     try {
-      DefaultsContext.push();
-      DefaultsContext.get().rememberIfSet(parentDChildC());
-      DefaultsContext.get().rememberIfSet(parentD());
+      DefaultsContext c = DefaultsContext.push();
+      c.rememberIfSet(parentDChildC());
+      c.rememberIfSet(parentD());
       if (parentDChildC() == null) {
-        parentDChildC(DefaultsContext.get().getIfAvailable(ParentDChildC.class));
+        parentDChildC(c.getIfAvailable(ParentDChildC.class));
         if (parentDChildC() == null) {
           parentDChildC(Builders.aParentDChildC().defaults());
-          DefaultsContext.get().rememberIfSet(parentDChildC());
+          c.rememberIfSet(parentDChildC());
         }
       }
       if (parentD() == null) {
-        parentD(DefaultsContext.get().getIfAvailable(ParentD.class));
+        parentD(c.getIfAvailable(ParentD.class));
         if (parentD() == null) {
           parentD(Builders.aParentD().defaults());
-          DefaultsContext.get().rememberIfSet(parentD());
+          c.rememberIfSet(parentD());
         }
       }
       return (ParentDToChildCBuilder) super.defaults();

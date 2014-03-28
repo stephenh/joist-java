@@ -17,17 +17,17 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
   @Override
   public ParentFBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }
-      DefaultsContext.get().rememberIfSet(childOne());
-      DefaultsContext.get().rememberIfSet(childTwo());
+      c.rememberIfSet(childOne());
+      c.rememberIfSet(childTwo());
       if (childOne() == null) {
-        childOne(DefaultsContext.get().getIfAvailable(ChildF.class));
+        childOne(c.getIfAvailable(ChildF.class));
         if (childOne() == null) {
           childOne(Builders.aChildF().defaults());
-          DefaultsContext.get().rememberIfSet(childOne());
+          c.rememberIfSet(childOne());
         }
       }
       return (ParentFBuilder) super.defaults();

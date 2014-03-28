@@ -17,16 +17,16 @@ public abstract class OneToOneBBarBuilderCodegen extends AbstractBuilder<OneToOn
   @Override
   public OneToOneBBarBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }
-      DefaultsContext.get().rememberIfSet(oneToOneBFoo());
+      c.rememberIfSet(oneToOneBFoo());
       if (oneToOneBFoo() == null) {
-        oneToOneBFoo(DefaultsContext.get().getIfAvailable(OneToOneBFoo.class));
+        oneToOneBFoo(c.getIfAvailable(OneToOneBFoo.class));
         if (oneToOneBFoo() == null) {
           oneToOneBFoo(Builders.aOneToOneBFoo().defaults());
-          DefaultsContext.get().rememberIfSet(oneToOneBFoo());
+          c.rememberIfSet(oneToOneBFoo());
         }
       }
       return (OneToOneBBarBuilder) super.defaults();

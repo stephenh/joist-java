@@ -18,7 +18,7 @@ public abstract class ManyToManyBFooBuilderCodegen extends AbstractBuilder<ManyT
   @Override
   public ManyToManyBFooBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

@@ -14,7 +14,7 @@ public abstract class InheritanceBBottomBuilderCodegen extends InheritanceBMiddl
   @Override
   public InheritanceBBottomBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (bottomName() == null) {
         bottomName("bottomName");
       }

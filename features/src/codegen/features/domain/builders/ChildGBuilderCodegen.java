@@ -17,17 +17,17 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
   @Override
   public ChildGBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }
-      DefaultsContext.get().rememberIfSet(parentOne());
-      DefaultsContext.get().rememberIfSet(parentTwo());
+      c.rememberIfSet(parentOne());
+      c.rememberIfSet(parentTwo());
       if (parentOne() == null) {
-        parentOne(DefaultsContext.get().getIfAvailable(ParentG.class));
+        parentOne(c.getIfAvailable(ParentG.class));
         if (parentOne() == null) {
           parentOne(Builders.aParentG().defaults());
-          DefaultsContext.get().rememberIfSet(parentOne());
+          c.rememberIfSet(parentOne());
         }
       }
       return (ChildGBuilder) super.defaults();

@@ -17,7 +17,7 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
   @Override
   public HistoryEntryBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (primaryKey() == null) {
         primaryKey(0);
       }

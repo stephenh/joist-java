@@ -17,13 +17,13 @@ public abstract class ChildIBBuilderCodegen extends AbstractBuilder<ChildIB> {
   @Override
   public ChildIBBuilder defaults() {
     try {
-      DefaultsContext.push();
-      DefaultsContext.get().rememberIfSet(parent());
+      DefaultsContext c = DefaultsContext.push();
+      c.rememberIfSet(parent());
       if (parent() == null) {
-        parent(DefaultsContext.get().getIfAvailable(ParentI.class));
+        parent(c.getIfAvailable(ParentI.class));
         if (parent() == null) {
           parent(Builders.aParentI().defaults());
-          DefaultsContext.get().rememberIfSet(parent());
+          c.rememberIfSet(parent());
         }
       }
       return (ChildIBBuilder) super.defaults();

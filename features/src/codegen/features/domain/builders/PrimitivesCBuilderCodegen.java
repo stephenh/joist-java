@@ -19,7 +19,7 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
   @Override
   public PrimitivesCBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (day() == null) {
         day(CalendarDate.from(1970, 1, 1));
       }

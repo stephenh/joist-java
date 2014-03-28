@@ -17,11 +17,11 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
   @Override
   public InheritanceABaseBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }
-      DefaultsContext.get().rememberIfSet(inheritanceAOwner());
+      c.rememberIfSet(inheritanceAOwner());
       return (InheritanceABaseBuilder) super.defaults();
     } finally {
       DefaultsContext.pop();

@@ -19,11 +19,11 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
   @Override
   public InheritanceASubOneBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (one() == null) {
         one("one");
       }
-      DefaultsContext.get().rememberIfSet(inheritanceAThing());
+      c.rememberIfSet(inheritanceAThing());
       return (InheritanceASubOneBuilder) super.defaults();
     } finally {
       DefaultsContext.pop();

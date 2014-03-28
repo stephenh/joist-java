@@ -19,7 +19,7 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
   @Override
   public InheritanceAThingBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

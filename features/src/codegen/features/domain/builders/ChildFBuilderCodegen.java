@@ -18,7 +18,7 @@ public abstract class ChildFBuilderCodegen extends AbstractBuilder<ChildF> {
   @Override
   public ChildFBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

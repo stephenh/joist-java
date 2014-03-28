@@ -18,7 +18,7 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
   @Override
   public ParentHBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

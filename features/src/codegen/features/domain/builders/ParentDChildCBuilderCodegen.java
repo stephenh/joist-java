@@ -18,7 +18,7 @@ public abstract class ParentDChildCBuilderCodegen extends AbstractBuilder<Parent
   @Override
   public ParentDChildCBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

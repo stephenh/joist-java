@@ -16,11 +16,11 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
   @Override
   public InheritanceASubTwoBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (two() == null) {
         two("two");
       }
-      DefaultsContext.get().rememberIfSet(inheritanceAThing());
+      c.rememberIfSet(inheritanceAThing());
       return (InheritanceASubTwoBuilder) super.defaults();
     } finally {
       DefaultsContext.pop();

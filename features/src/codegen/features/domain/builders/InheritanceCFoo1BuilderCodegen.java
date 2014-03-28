@@ -14,7 +14,7 @@ public abstract class InheritanceCFoo1BuilderCodegen extends InheritanceCBuilder
   @Override
   public InheritanceCFoo1Builder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (foo() == null) {
         foo("foo");
       }

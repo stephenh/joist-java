@@ -18,7 +18,7 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
   @Override
   public InheritanceAOwnerBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

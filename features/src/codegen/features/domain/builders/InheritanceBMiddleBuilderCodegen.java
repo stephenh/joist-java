@@ -14,7 +14,7 @@ public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootB
   @Override
   public InheritanceBMiddleBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (middleName() == null) {
         middleName("middleName");
       }

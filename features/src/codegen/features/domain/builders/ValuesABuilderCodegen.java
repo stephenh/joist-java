@@ -16,7 +16,7 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
   @Override
   public ValuesABuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (b() == null) {
         b("b");
       }

@@ -18,7 +18,7 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
   @Override
   public ParentCFooBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

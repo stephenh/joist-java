@@ -18,7 +18,7 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
   @Override
   public InheritanceBRootBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

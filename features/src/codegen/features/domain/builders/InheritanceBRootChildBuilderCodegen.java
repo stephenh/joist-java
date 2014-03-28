@@ -17,11 +17,11 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
   @Override
   public InheritanceBRootChildBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }
-      DefaultsContext.get().rememberIfSet(inheritanceBRoot());
+      c.rememberIfSet(inheritanceBRoot());
       return (InheritanceBRootChildBuilder) super.defaults();
     } finally {
       DefaultsContext.pop();

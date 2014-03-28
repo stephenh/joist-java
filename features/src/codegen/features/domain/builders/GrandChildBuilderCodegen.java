@@ -17,16 +17,16 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
   @Override
   public GrandChildBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }
-      DefaultsContext.get().rememberIfSet(child());
+      c.rememberIfSet(child());
       if (child() == null) {
-        child(DefaultsContext.get().getIfAvailable(Child.class));
+        child(c.getIfAvailable(Child.class));
         if (child() == null) {
           child(Builders.aChild().defaults());
-          DefaultsContext.get().rememberIfSet(child());
+          c.rememberIfSet(child());
         }
       }
       return (GrandChildBuilder) super.defaults();

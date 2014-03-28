@@ -18,21 +18,21 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
   @Override
   public ManyToManyBFooToBarBuilder defaults() {
     try {
-      DefaultsContext.push();
-      DefaultsContext.get().rememberIfSet(owned());
-      DefaultsContext.get().rememberIfSet(ownerManyToManyBFoo());
+      DefaultsContext c = DefaultsContext.push();
+      c.rememberIfSet(owned());
+      c.rememberIfSet(ownerManyToManyBFoo());
       if (owned() == null) {
-        owned(DefaultsContext.get().getIfAvailable(ManyToManyBBar.class));
+        owned(c.getIfAvailable(ManyToManyBBar.class));
         if (owned() == null) {
           owned(Builders.aManyToManyBBar().defaults());
-          DefaultsContext.get().rememberIfSet(owned());
+          c.rememberIfSet(owned());
         }
       }
       if (ownerManyToManyBFoo() == null) {
-        ownerManyToManyBFoo(DefaultsContext.get().getIfAvailable(ManyToManyBFoo.class));
+        ownerManyToManyBFoo(c.getIfAvailable(ManyToManyBFoo.class));
         if (ownerManyToManyBFoo() == null) {
           ownerManyToManyBFoo(Builders.aManyToManyBFoo().defaults());
-          DefaultsContext.get().rememberIfSet(ownerManyToManyBFoo());
+          c.rememberIfSet(ownerManyToManyBFoo());
         }
       }
       return (ManyToManyBFooToBarBuilder) super.defaults();

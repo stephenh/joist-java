@@ -17,16 +17,16 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
   @Override
   public ParentBChildFooBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }
-      DefaultsContext.get().rememberIfSet(parentBParent());
+      c.rememberIfSet(parentBParent());
       if (parentBParent() == null) {
-        parentBParent(DefaultsContext.get().getIfAvailable(ParentBParent.class));
+        parentBParent(c.getIfAvailable(ParentBParent.class));
         if (parentBParent() == null) {
           parentBParent(Builders.aParentBParent().defaults());
-          DefaultsContext.get().rememberIfSet(parentBParent());
+          c.rememberIfSet(parentBParent());
         }
       }
       return (ParentBChildFooBuilder) super.defaults();

@@ -16,7 +16,7 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
   @Override
   public ValidationAFooBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

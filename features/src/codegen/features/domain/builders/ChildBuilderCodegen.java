@@ -19,16 +19,16 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
   @Override
   public ChildBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }
-      DefaultsContext.get().rememberIfSet(parent());
+      c.rememberIfSet(parent());
       if (parent() == null) {
-        parent(DefaultsContext.get().getIfAvailable(Parent.class));
+        parent(c.getIfAvailable(Parent.class));
         if (parent() == null) {
           parent(Builders.aParent().defaults());
-          DefaultsContext.get().rememberIfSet(parent());
+          c.rememberIfSet(parent());
         }
       }
       return (ChildBuilder) super.defaults();

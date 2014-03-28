@@ -16,7 +16,7 @@ public abstract class OneToOneAFooBuilderCodegen extends AbstractBuilder<OneToOn
   @Override
   public OneToOneAFooBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

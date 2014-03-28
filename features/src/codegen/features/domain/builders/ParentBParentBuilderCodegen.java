@@ -20,7 +20,7 @@ public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<Parent
   @Override
   public ParentBParentBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

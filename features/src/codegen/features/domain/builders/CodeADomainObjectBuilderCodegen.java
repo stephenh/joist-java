@@ -18,7 +18,7 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
   @Override
   public CodeADomainObjectBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }

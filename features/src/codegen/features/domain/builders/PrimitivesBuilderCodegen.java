@@ -16,7 +16,7 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
   @Override
   public PrimitivesBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (flag() == null) {
         flag(false);
       }

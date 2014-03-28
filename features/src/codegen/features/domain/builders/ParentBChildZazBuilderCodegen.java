@@ -18,24 +18,24 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
   @Override
   public ParentBChildZazBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }
-      DefaultsContext.get().rememberIfSet(parentBChildBar());
-      DefaultsContext.get().rememberIfSet(parentBParent());
+      c.rememberIfSet(parentBChildBar());
+      c.rememberIfSet(parentBParent());
       if (parentBChildBar() == null) {
-        parentBChildBar(DefaultsContext.get().getIfAvailable(ParentBChildBar.class));
+        parentBChildBar(c.getIfAvailable(ParentBChildBar.class));
         if (parentBChildBar() == null) {
           parentBChildBar(Builders.aParentBChildBar().defaults());
-          DefaultsContext.get().rememberIfSet(parentBChildBar());
+          c.rememberIfSet(parentBChildBar());
         }
       }
       if (parentBParent() == null) {
-        parentBParent(DefaultsContext.get().getIfAvailable(ParentBParent.class));
+        parentBParent(c.getIfAvailable(ParentBParent.class));
         if (parentBParent() == null) {
           parentBParent(Builders.aParentBParent().defaults());
-          DefaultsContext.get().rememberIfSet(parentBParent());
+          c.rememberIfSet(parentBParent());
         }
       }
       return (ParentBChildZazBuilder) super.defaults();

@@ -17,7 +17,7 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
   @Override
   public UserTypesAFooBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (created() == null) {
         created(CalendarDate.from(1970, 1, 1));
       }

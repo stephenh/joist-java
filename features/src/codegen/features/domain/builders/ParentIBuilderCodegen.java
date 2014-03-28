@@ -18,7 +18,7 @@ public abstract class ParentIBuilderCodegen extends AbstractBuilder<ParentI> {
   @Override
   public ParentIBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       return (ParentIBuilder) super.defaults();
     } finally {
       DefaultsContext.pop();

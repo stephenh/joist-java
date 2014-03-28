@@ -17,24 +17,24 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
   @Override
   public ParentCBarBuilder defaults() {
     try {
-      DefaultsContext.push();
+      DefaultsContext c = DefaultsContext.push();
       if (name() == null) {
         name("name");
       }
-      DefaultsContext.get().rememberIfSet(firstParent());
-      DefaultsContext.get().rememberIfSet(secondParent());
+      c.rememberIfSet(firstParent());
+      c.rememberIfSet(secondParent());
       if (firstParent() == null) {
-        firstParent(DefaultsContext.get().getIfAvailable(ParentCFoo.class));
+        firstParent(c.getIfAvailable(ParentCFoo.class));
         if (firstParent() == null) {
           firstParent(Builders.aParentCFoo().defaults());
-          DefaultsContext.get().rememberIfSet(firstParent());
+          c.rememberIfSet(firstParent());
         }
       }
       if (secondParent() == null) {
-        secondParent(DefaultsContext.get().getIfAvailable(ParentCFoo.class));
+        secondParent(c.getIfAvailable(ParentCFoo.class));
         if (secondParent() == null) {
           secondParent(Builders.aParentCFoo().defaults());
-          DefaultsContext.get().rememberIfSet(secondParent());
+          c.rememberIfSet(secondParent());
         }
       }
       return (ParentCBarBuilder) super.defaults();
