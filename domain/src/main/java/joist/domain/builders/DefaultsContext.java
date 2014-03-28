@@ -33,13 +33,17 @@ public class DefaultsContext {
       c = new DefaultsContext();
       currentContext.set(c);
     }
-    c.doPush();
+    c.level++;
     return c;
   }
 
   /** Called when a .defaults call ends. */
-  public static void pop() {
-    currentContext.get().doPop();
+  public void pop() {
+    this.level--;
+    if (this.level == 0) {
+      // we're leaving the original .defaults() call, so forget this state
+      currentContext.set(null);
+    }
   }
 
   /** Remembers a potentially-set value, e.g. if the user had already set one before calling .defaults(). */
@@ -55,15 +59,4 @@ public class DefaultsContext {
     return (T) this.defaults.get(type);
   }
 
-  private void doPush() {
-    this.level++;
-  }
-
-  private void doPop() {
-    this.level--;
-    if (this.level == 0) {
-      // we're leaving the original .defaults() call, so forget this state
-      currentContext.set(null);
-    }
-  }
 }
