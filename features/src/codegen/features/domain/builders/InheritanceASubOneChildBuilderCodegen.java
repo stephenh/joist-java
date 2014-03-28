@@ -16,22 +16,22 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
 
   @Override
   public InheritanceASubOneChildBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      DefaultsContext.get().rememberIfSet(sub());
+    return (InheritanceASubOneChildBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(sub());
+    if (sub() == null) {
+      sub(c.getIfAvailable(InheritanceASubOne.class));
       if (sub() == null) {
-        sub(DefaultsContext.get().getIfAvailable(InheritanceASubOne.class));
-        if (sub() == null) {
-          sub(Builders.aInheritanceASubOne().defaults());
-          DefaultsContext.get().rememberIfSet(sub());
-        }
+        sub(defaultSub());
+        c.rememberIfSet(sub());
       }
-      return (InheritanceASubOneChildBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -60,6 +60,10 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public InheritanceASubOneBuilder sub() {
     if (get().getSub() == null) {
       return null;
@@ -82,6 +86,10 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
 
   public InheritanceASubOneChildBuilder with(InheritanceASubOneBuilder sub) {
     return sub(sub);
+  }
+
+  protected InheritanceASubOneBuilder defaultSub() {
+    return Builders.aInheritanceASubOne().defaults();
   }
 
   public InheritanceASubOneChild get() {

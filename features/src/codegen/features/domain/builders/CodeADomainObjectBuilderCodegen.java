@@ -17,20 +17,20 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
 
   @Override
   public CodeADomainObjectBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      if (codeAColor() == null) {
-        codeAColor(CodeAColor.BLUE);
-      }
-      if (codeASize() == null) {
-        codeASize(CodeASize.ONE);
-      }
-      return (CodeADomainObjectBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (CodeADomainObjectBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    if (codeAColor() == null) {
+      codeAColor(defaultCodeAColor());
+    }
+    if (codeASize() == null) {
+      codeASize(defaultCodeASize());
     }
   }
 
@@ -59,6 +59,10 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public CodeAColor codeAColor() {
     return get().getCodeAColor();
   }
@@ -70,6 +74,10 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
 
   public CodeADomainObjectBuilder with(CodeAColor codeAColor) {
     return codeAColor(codeAColor);
+  }
+
+  protected CodeAColor defaultCodeAColor() {
+    return CodeAColor.BLUE;
   }
 
   public CodeADomainObjectBuilder blue() {
@@ -99,6 +107,10 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
 
   public CodeADomainObjectBuilder with(CodeASize codeASize) {
     return codeASize(codeASize);
+  }
+
+  protected CodeASize defaultCodeASize() {
+    return CodeASize.ONE;
   }
 
   public CodeADomainObjectBuilder one() {

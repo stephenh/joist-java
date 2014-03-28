@@ -17,27 +17,27 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
 
   @Override
   public ParentDToChildCBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      DefaultsContext.get().rememberIfSet(parentDChildC());
-      DefaultsContext.get().rememberIfSet(parentD());
+    return (ParentDToChildCBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    c.rememberIfSet(parentDChildC());
+    c.rememberIfSet(parentD());
+    if (parentDChildC() == null) {
+      parentDChildC(c.getIfAvailable(ParentDChildC.class));
       if (parentDChildC() == null) {
-        parentDChildC(DefaultsContext.get().getIfAvailable(ParentDChildC.class));
-        if (parentDChildC() == null) {
-          parentDChildC(Builders.aParentDChildC().defaults());
-          DefaultsContext.get().rememberIfSet(parentDChildC());
-        }
+        parentDChildC(defaultParentDChildC());
+        c.rememberIfSet(parentDChildC());
       }
+    }
+    if (parentD() == null) {
+      parentD(c.getIfAvailable(ParentD.class));
       if (parentD() == null) {
-        parentD(DefaultsContext.get().getIfAvailable(ParentD.class));
-        if (parentD() == null) {
-          parentD(Builders.aParentD().defaults());
-          DefaultsContext.get().rememberIfSet(parentD());
-        }
+        parentD(defaultParentD());
+        c.rememberIfSet(parentD());
       }
-      return (ParentDToChildCBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -77,6 +77,10 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
     return parentDChildC(parentDChildC);
   }
 
+  protected ParentDChildCBuilder defaultParentDChildC() {
+    return Builders.aParentDChildC().defaults();
+  }
+
   public ParentDBuilder parentD() {
     if (get().getParentD() == null) {
       return null;
@@ -99,6 +103,10 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentDToChildCBuilder with(ParentDBuilder parentD) {
     return parentD(parentD);
+  }
+
+  protected ParentDBuilder defaultParentD() {
+    return Builders.aParentD().defaults();
   }
 
   public ParentDToChildC get() {

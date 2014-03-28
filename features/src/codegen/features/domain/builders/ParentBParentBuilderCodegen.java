@@ -19,14 +19,14 @@ public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<Parent
 
   @Override
   public ParentBParentBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      return (ParentBParentBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ParentBParentBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
@@ -53,6 +53,10 @@ public abstract class ParentBParentBuilderCodegen extends AbstractBuilder<Parent
 
   public ParentBParentBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<ParentBChildBarBuilder> parentBChildBars() {

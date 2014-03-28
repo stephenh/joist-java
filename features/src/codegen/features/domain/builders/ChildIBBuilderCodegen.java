@@ -16,19 +16,19 @@ public abstract class ChildIBBuilderCodegen extends AbstractBuilder<ChildIB> {
 
   @Override
   public ChildIBBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      DefaultsContext.get().rememberIfSet(parent());
+    return (ChildIBBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    c.rememberIfSet(parent());
+    if (parent() == null) {
+      parent(c.getIfAvailable(ParentI.class));
       if (parent() == null) {
-        parent(DefaultsContext.get().getIfAvailable(ParentI.class));
-        if (parent() == null) {
-          parent(Builders.aParentI().defaults());
-          DefaultsContext.get().rememberIfSet(parent());
-        }
+        parent(defaultParent());
+        c.rememberIfSet(parent());
       }
-      return (ChildIBBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -66,6 +66,10 @@ public abstract class ChildIBBuilderCodegen extends AbstractBuilder<ChildIB> {
 
   public ChildIBBuilder with(ParentIBuilder parent) {
     return parent(parent);
+  }
+
+  protected ParentIBuilder defaultParent() {
+    return Builders.aParentI().defaults();
   }
 
   public ChildIB get() {

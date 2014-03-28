@@ -13,14 +13,14 @@ public abstract class InheritanceCFoo1BuilderCodegen extends InheritanceCBuilder
 
   @Override
   public InheritanceCFoo1Builder defaults() {
-    try {
-      DefaultsContext.push();
-      if (foo() == null) {
-        foo("foo");
-      }
-      return (InheritanceCFoo1Builder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceCFoo1Builder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (foo() == null) {
+      foo(defaultFoo());
     }
   }
 
@@ -31,6 +31,10 @@ public abstract class InheritanceCFoo1BuilderCodegen extends InheritanceCBuilder
   public InheritanceCFoo1Builder foo(String foo) {
     get().setFoo(foo);
     return (InheritanceCFoo1Builder) this;
+  }
+
+  protected String defaultFoo() {
+    return "foo";
   }
 
   public String name() {

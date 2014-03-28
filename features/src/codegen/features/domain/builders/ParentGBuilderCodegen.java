@@ -15,14 +15,14 @@ public abstract class ParentGBuilderCodegen extends AbstractBuilder<ParentG> {
 
   @Override
   public ParentGBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      return (ParentGBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ParentGBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
@@ -49,6 +49,10 @@ public abstract class ParentGBuilderCodegen extends AbstractBuilder<ParentG> {
 
   public ParentGBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public ChildGBuilder parentOneChildG() {

@@ -16,23 +16,23 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
 
   @Override
   public ChildGBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      DefaultsContext.get().rememberIfSet(parentOne());
-      DefaultsContext.get().rememberIfSet(parentTwo());
+    return (ChildGBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(parentOne());
+    c.rememberIfSet(parentTwo());
+    if (parentOne() == null) {
+      parentOne(c.getIfAvailable(ParentG.class));
       if (parentOne() == null) {
-        parentOne(DefaultsContext.get().getIfAvailable(ParentG.class));
-        if (parentOne() == null) {
-          parentOne(Builders.aParentG().defaults());
-          DefaultsContext.get().rememberIfSet(parentOne());
-        }
+        parentOne(defaultParentOne());
+        c.rememberIfSet(parentOne());
       }
-      return (ChildGBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -61,6 +61,10 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public ParentGBuilder parentOne() {
     if (get().getParentOne() == null) {
       return null;
@@ -75,6 +79,10 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
 
   public ChildGBuilder parentOne(ParentGBuilder parentOne) {
     return parentOne(parentOne == null ? null : parentOne.get());
+  }
+
+  protected ParentGBuilder defaultParentOne() {
+    return Builders.aParentG().defaults();
   }
 
   public ParentGBuilder parentTwo() {

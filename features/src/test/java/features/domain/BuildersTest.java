@@ -61,6 +61,12 @@ public class BuildersTest extends AbstractFeaturesTest {
   }
 
   @Test
+  public void testOverrideDefaults() {
+    ParentBuilder p = aParent().defaults();
+    assertThat(p.name(), is("parent"));
+  }
+
+  @Test
   public void testDefaultsForCodes() {
     CodeADomainObject o = new CodeADomainObject();
     // the cstr sets one code, not the other
@@ -77,7 +83,7 @@ public class BuildersTest extends AbstractFeaturesTest {
     ChildBuilder c = aChild().defaults();
     assertThat(c.name(), is("foo")); // er, side-effect of parents call
     assertThat(c.parent(), is(not(nullValue())));
-    assertThat(c.parent().name(), is("name"));
+    assertThat(c.parent().name(), is("parent"));
   }
 
   @Test

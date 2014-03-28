@@ -16,22 +16,22 @@ public abstract class ParentDChildBBuilderCodegen extends AbstractBuilder<Parent
 
   @Override
   public ParentDChildBBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      DefaultsContext.get().rememberIfSet(parentD());
+    return (ParentDChildBBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(parentD());
+    if (parentD() == null) {
+      parentD(c.getIfAvailable(ParentD.class));
       if (parentD() == null) {
-        parentD(DefaultsContext.get().getIfAvailable(ParentD.class));
-        if (parentD() == null) {
-          parentD(Builders.aParentD().defaults());
-          DefaultsContext.get().rememberIfSet(parentD());
-        }
+        parentD(defaultParentD());
+        c.rememberIfSet(parentD());
       }
-      return (ParentDChildBBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -60,6 +60,10 @@ public abstract class ParentDChildBBuilderCodegen extends AbstractBuilder<Parent
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public ParentDBuilder parentD() {
     if (get().getParentD() == null) {
       return null;
@@ -82,6 +86,10 @@ public abstract class ParentDChildBBuilderCodegen extends AbstractBuilder<Parent
 
   public ParentDChildBBuilder with(ParentDBuilder parentD) {
     return parentD(parentD);
+  }
+
+  protected ParentDBuilder defaultParentD() {
+    return Builders.aParentD().defaults();
   }
 
   public ParentDChildB get() {

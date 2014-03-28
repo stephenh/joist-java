@@ -17,14 +17,14 @@ public abstract class ChildFBuilderCodegen extends AbstractBuilder<ChildF> {
 
   @Override
   public ChildFBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      return (ChildFBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ChildFBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
@@ -51,6 +51,10 @@ public abstract class ChildFBuilderCodegen extends AbstractBuilder<ChildF> {
 
   public ChildFBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<ParentFBuilder> childOneParentFs() {

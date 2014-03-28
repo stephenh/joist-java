@@ -17,14 +17,14 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
 
   @Override
   public InheritanceAOwnerBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      return (InheritanceAOwnerBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceAOwnerBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
@@ -51,6 +51,10 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
 
   public InheritanceAOwnerBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<InheritanceABaseBuilder> inheritanceABases() {

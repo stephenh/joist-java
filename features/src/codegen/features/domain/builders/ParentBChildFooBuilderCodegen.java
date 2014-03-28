@@ -16,22 +16,22 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
 
   @Override
   public ParentBChildFooBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      DefaultsContext.get().rememberIfSet(parentBParent());
+    return (ParentBChildFooBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(parentBParent());
+    if (parentBParent() == null) {
+      parentBParent(c.getIfAvailable(ParentBParent.class));
       if (parentBParent() == null) {
-        parentBParent(DefaultsContext.get().getIfAvailable(ParentBParent.class));
-        if (parentBParent() == null) {
-          parentBParent(Builders.aParentBParent().defaults());
-          DefaultsContext.get().rememberIfSet(parentBParent());
-        }
+        parentBParent(defaultParentBParent());
+        c.rememberIfSet(parentBParent());
       }
-      return (ParentBChildFooBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -60,6 +60,10 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public ParentBParentBuilder parentBParent() {
     if (get().getParentBParent() == null) {
       return null;
@@ -82,6 +86,10 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentBChildFooBuilder with(ParentBParentBuilder parentBParent) {
     return parentBParent(parentBParent);
+  }
+
+  protected ParentBParentBuilder defaultParentBParent() {
+    return Builders.aParentBParent().defaults();
   }
 
   public ParentBChildFoo get() {

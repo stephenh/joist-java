@@ -42,7 +42,16 @@ public abstract class AbstractBuilder<T extends DomainObject> {
 
   /** Sets required defaults, for subclasses to override. */
   public AbstractBuilder<T> defaults() {
+    DefaultsContext c = DefaultsContext.push();
+    try {
+      this.defaults(c);
+    } finally {
+      c.pop();
+    }
     return this;
+  }
+
+  protected void defaults(DefaultsContext c) {
   }
 
   /** Ensures the instance has been flushed to the database and an id assigned. */

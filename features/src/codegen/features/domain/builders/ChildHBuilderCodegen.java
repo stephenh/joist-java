@@ -16,25 +16,25 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
 
   @Override
   public ChildHBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      if (quantity() == null) {
-        quantity(0l);
-      }
-      DefaultsContext.get().rememberIfSet(parent());
+    return (ChildHBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    if (quantity() == null) {
+      quantity(defaultQuantity());
+    }
+    c.rememberIfSet(parent());
+    if (parent() == null) {
+      parent(c.getIfAvailable(ParentH.class));
       if (parent() == null) {
-        parent(DefaultsContext.get().getIfAvailable(ParentH.class));
-        if (parent() == null) {
-          parent(Builders.aParentH().defaults());
-          DefaultsContext.get().rememberIfSet(parent());
-        }
+        parent(defaultParent());
+        c.rememberIfSet(parent());
       }
-      return (ChildHBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -63,6 +63,10 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public Long quantity() {
     return get().getQuantity();
   }
@@ -74,6 +78,10 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
 
   public ChildHBuilder with(Long quantity) {
     return quantity(quantity);
+  }
+
+  protected Long defaultQuantity() {
+    return 0l;
   }
 
   public ParentHBuilder parent() {
@@ -98,6 +106,10 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
 
   public ChildHBuilder with(ParentHBuilder parent) {
     return parent(parent);
+  }
+
+  protected ParentHBuilder defaultParent() {
+    return Builders.aParentH().defaults();
   }
 
   public ChildH get() {

@@ -17,14 +17,14 @@ public abstract class OneToOneBFooBuilderCodegen extends AbstractBuilder<OneToOn
 
   @Override
   public OneToOneBFooBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      return (OneToOneBFooBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (OneToOneBFooBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
@@ -51,6 +51,10 @@ public abstract class OneToOneBFooBuilderCodegen extends AbstractBuilder<OneToOn
 
   public OneToOneBFooBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<OneToOneBBarBuilder> oneToOneBBars() {

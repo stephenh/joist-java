@@ -17,27 +17,27 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
 
   @Override
   public ManyToManyAFooToBarBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      DefaultsContext.get().rememberIfSet(manyToManyABar());
-      DefaultsContext.get().rememberIfSet(manyToManyAFoo());
+    return (ManyToManyAFooToBarBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    c.rememberIfSet(manyToManyABar());
+    c.rememberIfSet(manyToManyAFoo());
+    if (manyToManyABar() == null) {
+      manyToManyABar(c.getIfAvailable(ManyToManyABar.class));
       if (manyToManyABar() == null) {
-        manyToManyABar(DefaultsContext.get().getIfAvailable(ManyToManyABar.class));
-        if (manyToManyABar() == null) {
-          manyToManyABar(Builders.aManyToManyABar().defaults());
-          DefaultsContext.get().rememberIfSet(manyToManyABar());
-        }
+        manyToManyABar(defaultManyToManyABar());
+        c.rememberIfSet(manyToManyABar());
       }
+    }
+    if (manyToManyAFoo() == null) {
+      manyToManyAFoo(c.getIfAvailable(ManyToManyAFoo.class));
       if (manyToManyAFoo() == null) {
-        manyToManyAFoo(DefaultsContext.get().getIfAvailable(ManyToManyAFoo.class));
-        if (manyToManyAFoo() == null) {
-          manyToManyAFoo(Builders.aManyToManyAFoo().defaults());
-          DefaultsContext.get().rememberIfSet(manyToManyAFoo());
-        }
+        manyToManyAFoo(defaultManyToManyAFoo());
+        c.rememberIfSet(manyToManyAFoo());
       }
-      return (ManyToManyAFooToBarBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -77,6 +77,10 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
     return manyToManyABar(manyToManyABar);
   }
 
+  protected ManyToManyABarBuilder defaultManyToManyABar() {
+    return Builders.aManyToManyABar().defaults();
+  }
+
   public ManyToManyAFooBuilder manyToManyAFoo() {
     if (get().getManyToManyAFoo() == null) {
       return null;
@@ -99,6 +103,10 @@ public abstract class ManyToManyAFooToBarBuilderCodegen extends AbstractBuilder<
 
   public ManyToManyAFooToBarBuilder with(ManyToManyAFooBuilder manyToManyAFoo) {
     return manyToManyAFoo(manyToManyAFoo);
+  }
+
+  protected ManyToManyAFooBuilder defaultManyToManyAFoo() {
+    return Builders.aManyToManyAFoo().defaults();
   }
 
   public ManyToManyAFooToBar get() {

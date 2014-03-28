@@ -16,14 +16,14 @@ public abstract class ValuesBBuilderCodegen extends AbstractBuilder<ValuesB> {
 
   @Override
   public ValuesBBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      return (ValuesBBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ValuesBBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
@@ -50,6 +50,10 @@ public abstract class ValuesBBuilderCodegen extends AbstractBuilder<ValuesB> {
 
   public ValuesBBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public TimePoint start() {

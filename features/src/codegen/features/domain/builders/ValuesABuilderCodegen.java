@@ -15,20 +15,20 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
 
   @Override
   public ValuesABuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (b() == null) {
-        b("b");
-      }
-      if (j() == null) {
-        j(0);
-      }
-      if (name() == null) {
-        name("name");
-      }
-      return (ValuesABuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ValuesABuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (b() == null) {
+      b(defaultB());
+    }
+    if (j() == null) {
+      j(defaultJ());
+    }
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
@@ -48,6 +48,10 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
   public ValuesABuilder b(String b) {
     get().setB(b);
     return (ValuesABuilder) this;
+  }
+
+  protected String defaultB() {
+    return "b";
   }
 
   public Integer i() {
@@ -80,6 +84,10 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
     return (ValuesABuilder) this;
   }
 
+  protected Integer defaultJ() {
+    return 0;
+  }
+
   public String name() {
     return get().getName();
   }
@@ -87,6 +95,10 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
   public ValuesABuilder name(String name) {
     get().setName(name);
     return (ValuesABuilder) this;
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public ValuesA get() {

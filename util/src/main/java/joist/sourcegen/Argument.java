@@ -8,6 +8,10 @@ public class Argument {
   public final String type;
   public final String name;
 
+  public static Argument arg(Class<?> type, String name) {
+    return new Argument(type.getName(), name);
+  }
+
   public static Argument arg(String type, String name) {
     return new Argument(type, name);
   }

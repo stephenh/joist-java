@@ -15,16 +15,16 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
 
   @Override
   public InheritanceASubTwoBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (two() == null) {
-        two("two");
-      }
-      DefaultsContext.get().rememberIfSet(inheritanceAThing());
-      return (InheritanceASubTwoBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceASubTwoBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (two() == null) {
+      two(defaultTwo());
     }
+    c.rememberIfSet(inheritanceAThing());
   }
 
   public String two() {
@@ -34,6 +34,10 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
   public InheritanceASubTwoBuilder two(String two) {
     get().setTwo(two);
     return (InheritanceASubTwoBuilder) this;
+  }
+
+  protected String defaultTwo() {
+    return "two";
   }
 
   public String name() {

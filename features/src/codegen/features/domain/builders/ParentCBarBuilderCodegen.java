@@ -16,30 +16,30 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
 
   @Override
   public ParentCBarBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      DefaultsContext.get().rememberIfSet(firstParent());
-      DefaultsContext.get().rememberIfSet(secondParent());
+    return (ParentCBarBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(firstParent());
+    c.rememberIfSet(secondParent());
+    if (firstParent() == null) {
+      firstParent(c.getIfAvailable(ParentCFoo.class));
       if (firstParent() == null) {
-        firstParent(DefaultsContext.get().getIfAvailable(ParentCFoo.class));
-        if (firstParent() == null) {
-          firstParent(Builders.aParentCFoo().defaults());
-          DefaultsContext.get().rememberIfSet(firstParent());
-        }
+        firstParent(defaultFirstParent());
+        c.rememberIfSet(firstParent());
       }
+    }
+    if (secondParent() == null) {
+      secondParent(c.getIfAvailable(ParentCFoo.class));
       if (secondParent() == null) {
-        secondParent(DefaultsContext.get().getIfAvailable(ParentCFoo.class));
-        if (secondParent() == null) {
-          secondParent(Builders.aParentCFoo().defaults());
-          DefaultsContext.get().rememberIfSet(secondParent());
-        }
+        secondParent(defaultSecondParent());
+        c.rememberIfSet(secondParent());
       }
-      return (ParentCBarBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -68,6 +68,10 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public ParentCFooBuilder firstParent() {
     if (get().getFirstParent() == null) {
       return null;
@@ -84,6 +88,10 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
     return firstParent(firstParent == null ? null : firstParent.get());
   }
 
+  protected ParentCFooBuilder defaultFirstParent() {
+    return Builders.aParentCFoo().defaults();
+  }
+
   public ParentCFooBuilder secondParent() {
     if (get().getSecondParent() == null) {
       return null;
@@ -98,6 +106,10 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
 
   public ParentCBarBuilder secondParent(ParentCFooBuilder secondParent) {
     return secondParent(secondParent == null ? null : secondParent.get());
+  }
+
+  protected ParentCFooBuilder defaultSecondParent() {
+    return Builders.aParentCFoo().defaults();
   }
 
   public ParentCBar get() {

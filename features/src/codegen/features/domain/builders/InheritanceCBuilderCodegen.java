@@ -15,14 +15,14 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
 
   @Override
   public InheritanceCBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      return (InheritanceCBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceCBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
@@ -45,6 +45,10 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
   public InheritanceCBuilder name(String name) {
     get().setName(name);
     return (InheritanceCBuilder) this;
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public InheritanceC get() {

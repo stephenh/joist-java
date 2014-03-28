@@ -16,16 +16,16 @@ public abstract class ParentEBuilderCodegen extends AbstractBuilder<ParentE> {
 
   @Override
   public ParentEBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      DefaultsContext.get().rememberIfSet(parentE());
-      return (ParentEBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ParentEBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
+    c.rememberIfSet(parentE());
   }
 
   public Long id() {
@@ -51,6 +51,10 @@ public abstract class ParentEBuilderCodegen extends AbstractBuilder<ParentE> {
 
   public ParentEBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public ParentEBuilder parentE() {

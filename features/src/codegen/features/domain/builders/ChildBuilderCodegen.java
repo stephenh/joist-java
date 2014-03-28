@@ -18,22 +18,22 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
 
   @Override
   public ChildBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      DefaultsContext.get().rememberIfSet(parent());
+    return (ChildBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(parent());
+    if (parent() == null) {
+      parent(c.getIfAvailable(Parent.class));
       if (parent() == null) {
-        parent(DefaultsContext.get().getIfAvailable(Parent.class));
-        if (parent() == null) {
-          parent(Builders.aParent().defaults());
-          DefaultsContext.get().rememberIfSet(parent());
-        }
+        parent(defaultParent());
+        c.rememberIfSet(parent());
       }
-      return (ChildBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -62,6 +62,10 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public ParentBuilder parent() {
     if (get().getParent() == null) {
       return null;
@@ -84,6 +88,10 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
 
   public ChildBuilder with(ParentBuilder parent) {
     return parent(parent);
+  }
+
+  protected ParentBuilder defaultParent() {
+    return Builders.aParent().defaults();
   }
 
   public List<GrandChildBuilder> grandChilds() {

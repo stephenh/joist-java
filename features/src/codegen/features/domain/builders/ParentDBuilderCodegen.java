@@ -17,14 +17,14 @@ public abstract class ParentDBuilderCodegen extends AbstractBuilder<ParentD> {
 
   @Override
   public ParentDBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      return (ParentDBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (ParentDBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
@@ -51,6 +51,10 @@ public abstract class ParentDBuilderCodegen extends AbstractBuilder<ParentD> {
 
   public ParentDBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<ParentDChildBBuilder> parentDChildBs() {

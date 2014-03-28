@@ -18,14 +18,14 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
 
   @Override
   public InheritanceAThingBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      return (InheritanceAThingBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceAThingBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
@@ -52,6 +52,10 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
 
   public InheritanceAThingBuilder with(String name) {
     return name(name);
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<InheritanceASubOneBuilder> inheritanceASubOnes() {

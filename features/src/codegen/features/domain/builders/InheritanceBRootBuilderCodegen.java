@@ -17,14 +17,14 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
 
   @Override
   public InheritanceBRootBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      return (InheritanceBRootBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceBRootBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
   }
 
@@ -47,6 +47,10 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
   public InheritanceBRootBuilder name(String name) {
     get().setName(name);
     return (InheritanceBRootBuilder) this;
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public List<InheritanceBRootChildBuilder> inheritanceBRootChilds() {

@@ -18,16 +18,16 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
 
   @Override
   public InheritanceASubOneBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (one() == null) {
-        one("one");
-      }
-      DefaultsContext.get().rememberIfSet(inheritanceAThing());
-      return (InheritanceASubOneBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceASubOneBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (one() == null) {
+      one(defaultOne());
     }
+    c.rememberIfSet(inheritanceAThing());
   }
 
   public String one() {
@@ -37,6 +37,10 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
   public InheritanceASubOneBuilder one(String one) {
     get().setOne(one);
     return (InheritanceASubOneBuilder) this;
+  }
+
+  protected String defaultOne() {
+    return "one";
   }
 
   public String name() {

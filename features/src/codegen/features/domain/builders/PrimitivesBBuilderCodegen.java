@@ -15,26 +15,26 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
 
   @Override
   public PrimitivesBBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (big2() == null) {
-        big2(0l);
-      }
-      if (bool2() == null) {
-        bool2(false);
-      }
-      if (boolWithDefaultTrue() == null) {
-        boolWithDefaultTrue(false);
-      }
-      if (int2() == null) {
-        int2(0);
-      }
-      if (small2() == null) {
-        small2((short) 0);
-      }
-      return (PrimitivesBBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (PrimitivesBBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (big2() == null) {
+      big2(defaultBig2());
+    }
+    if (bool2() == null) {
+      bool2(defaultBool2());
+    }
+    if (boolWithDefaultTrue() == null) {
+      boolWithDefaultTrue(defaultBoolWithDefaultTrue());
+    }
+    if (int2() == null) {
+      int2(defaultInt2());
+    }
+    if (small2() == null) {
+      small2(defaultSmall2());
     }
   }
 
@@ -56,6 +56,10 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
     return (PrimitivesBBuilder) this;
   }
 
+  protected Long defaultBig2() {
+    return 0l;
+  }
+
   public Boolean bool1() {
     return get().getBool1();
   }
@@ -74,6 +78,10 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
     return (PrimitivesBBuilder) this;
   }
 
+  protected Boolean defaultBool2() {
+    return false;
+  }
+
   public Boolean boolNullableWithDefaultFalse() {
     return get().getBoolNullableWithDefaultFalse();
   }
@@ -90,6 +98,10 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
   public PrimitivesBBuilder boolWithDefaultTrue(Boolean boolWithDefaultTrue) {
     get().setBoolWithDefaultTrue(boolWithDefaultTrue);
     return (PrimitivesBBuilder) this;
+  }
+
+  protected Boolean defaultBoolWithDefaultTrue() {
+    return false;
   }
 
   public Long id() {
@@ -122,6 +134,10 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
     return (PrimitivesBBuilder) this;
   }
 
+  protected Integer defaultInt2() {
+    return 0;
+  }
+
   public Short small1() {
     return get().getSmall1();
   }
@@ -138,6 +154,10 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
   public PrimitivesBBuilder small2(Short small2) {
     get().setSmall2(small2);
     return (PrimitivesBBuilder) this;
+  }
+
+  protected Short defaultSmall2() {
+    return (short) 0;
   }
 
   public PrimitivesB get() {

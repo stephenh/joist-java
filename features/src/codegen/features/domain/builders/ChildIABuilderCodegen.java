@@ -16,19 +16,19 @@ public abstract class ChildIABuilderCodegen extends AbstractBuilder<ChildIA> {
 
   @Override
   public ChildIABuilder defaults() {
-    try {
-      DefaultsContext.push();
-      DefaultsContext.get().rememberIfSet(parent());
+    return (ChildIABuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    c.rememberIfSet(parent());
+    if (parent() == null) {
+      parent(c.getIfAvailable(ParentI.class));
       if (parent() == null) {
-        parent(DefaultsContext.get().getIfAvailable(ParentI.class));
-        if (parent() == null) {
-          parent(Builders.aParentI().defaults());
-          DefaultsContext.get().rememberIfSet(parent());
-        }
+        parent(defaultParent());
+        c.rememberIfSet(parent());
       }
-      return (ChildIABuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -66,6 +66,10 @@ public abstract class ChildIABuilderCodegen extends AbstractBuilder<ChildIA> {
 
   public ChildIABuilder with(ParentIBuilder parent) {
     return parent(parent);
+  }
+
+  protected ParentIBuilder defaultParent() {
+    return Builders.aParentI().defaults();
   }
 
   public ChildIA get() {

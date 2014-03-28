@@ -16,16 +16,16 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
 
   @Override
   public InheritanceABaseBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      DefaultsContext.get().rememberIfSet(inheritanceAOwner());
-      return (InheritanceABaseBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
+    return (InheritanceABaseBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
     }
+    c.rememberIfSet(inheritanceAOwner());
   }
 
   public Long id() {
@@ -47,6 +47,10 @@ public abstract class InheritanceABaseBuilderCodegen extends AbstractBuilder<Inh
   public InheritanceABaseBuilder name(String name) {
     get().setName(name);
     return (InheritanceABaseBuilder) this;
+  }
+
+  protected String defaultName() {
+    return "name";
   }
 
   public InheritanceAOwnerBuilder inheritanceAOwner() {

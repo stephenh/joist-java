@@ -17,30 +17,30 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
 
   @Override
   public ParentBChildZazBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      if (name() == null) {
-        name("name");
-      }
-      DefaultsContext.get().rememberIfSet(parentBChildBar());
-      DefaultsContext.get().rememberIfSet(parentBParent());
+    return (ParentBChildZazBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
+    if (name() == null) {
+      name(defaultName());
+    }
+    c.rememberIfSet(parentBChildBar());
+    c.rememberIfSet(parentBParent());
+    if (parentBChildBar() == null) {
+      parentBChildBar(c.getIfAvailable(ParentBChildBar.class));
       if (parentBChildBar() == null) {
-        parentBChildBar(DefaultsContext.get().getIfAvailable(ParentBChildBar.class));
-        if (parentBChildBar() == null) {
-          parentBChildBar(Builders.aParentBChildBar().defaults());
-          DefaultsContext.get().rememberIfSet(parentBChildBar());
-        }
+        parentBChildBar(defaultParentBChildBar());
+        c.rememberIfSet(parentBChildBar());
       }
+    }
+    if (parentBParent() == null) {
+      parentBParent(c.getIfAvailable(ParentBParent.class));
       if (parentBParent() == null) {
-        parentBParent(DefaultsContext.get().getIfAvailable(ParentBParent.class));
-        if (parentBParent() == null) {
-          parentBParent(Builders.aParentBParent().defaults());
-          DefaultsContext.get().rememberIfSet(parentBParent());
-        }
+        parentBParent(defaultParentBParent());
+        c.rememberIfSet(parentBParent());
       }
-      return (ParentBChildZazBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
     }
   }
 
@@ -69,6 +69,10 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
     return name(name);
   }
 
+  protected String defaultName() {
+    return "name";
+  }
+
   public ParentBChildBarBuilder parentBChildBar() {
     if (get().getParentBChildBar() == null) {
       return null;
@@ -93,6 +97,10 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
     return parentBChildBar(parentBChildBar);
   }
 
+  protected ParentBChildBarBuilder defaultParentBChildBar() {
+    return Builders.aParentBChildBar().defaults();
+  }
+
   public ParentBParentBuilder parentBParent() {
     if (get().getParentBParent() == null) {
       return null;
@@ -115,6 +123,10 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentBChildZazBuilder with(ParentBParentBuilder parentBParent) {
     return parentBParent(parentBParent);
+  }
+
+  protected ParentBParentBuilder defaultParentBParent() {
+    return Builders.aParentBParent().defaults();
   }
 
   public ParentBChildZaz get() {

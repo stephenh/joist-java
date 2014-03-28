@@ -17,12 +17,12 @@ public abstract class ParentIBuilderCodegen extends AbstractBuilder<ParentI> {
 
   @Override
   public ParentIBuilder defaults() {
-    try {
-      DefaultsContext.push();
-      return (ParentIBuilder) super.defaults();
-    } finally {
-      DefaultsContext.pop();
-    }
+    return (ParentIBuilder) super.defaults();
+  }
+
+  @Override
+  protected void defaults(DefaultsContext c) {
+    super.defaults(c);
   }
 
   public Long id() {
