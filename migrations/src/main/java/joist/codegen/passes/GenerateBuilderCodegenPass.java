@@ -43,7 +43,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
       defaults.addAnnotation("@Override");
       defaults.returnType(entity.getBuilderClassName());
       defaults.body.line("try {");
-      defaults.body.line("_   DefaultsContext.push();");
+      defaults.body.line("_   DefaultsContext c = DefaultsContext.push();");
       builderCodegen.addImports(DefaultsContext.class);
 
       this.constructor(builderCodegen, entity);
@@ -190,7 +190,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       if (!mtop.getOneSide().isCodeEntity()) {
         GMethod defaults = c.getMethod("defaults");
-        defaults.body.line("_   DefaultsContext.get().rememberIfSet({}());", mtop.getVariableName());
+        defaults.body.line("_   c.rememberIfSet({}());", mtop.getVariableName());
       }
     }
     // now add the regular getters/setters/etc.
@@ -379,10 +379,10 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     String variableName = mtop.getVariableName();
     GMethod defaults = c.getMethod("defaults");
     defaults.body.line("_   if ({}() == null) {", variableName);
-    defaults.body.line("_   _   {}(DefaultsContext.get().getIfAvailable({}.class));", variableName, mtop.getOneSide().getClassName());
+    defaults.body.line("_   _   {}(c.getIfAvailable({}.class));", variableName, mtop.getOneSide().getClassName());
     defaults.body.line("_   _   if ({}() == null) {", variableName);
     defaults.body.line("_   _   _   {}({});", variableName, defaultValue);
-    defaults.body.line("_   _   _   DefaultsContext.get().rememberIfSet({}());", variableName);
+    defaults.body.line("_   _   _   c.rememberIfSet({}());", variableName);
     defaults.body.line("_   _   }");
     defaults.body.line("_   }");
   }
