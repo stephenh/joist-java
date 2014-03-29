@@ -109,6 +109,15 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
     }
   }
 
+  public void set(List<U> instances) {
+    // We assume codegen classes are only calling this after they've done
+    // a get(), so it's fine to clear/reset loaded to match the order
+    // they are expecting. (Which, yes, will not be respected on the next
+    // reload, but that is at least somewhat of a known surprise.)
+    this.loaded.clear();
+    this.loaded.addAll(instances);
+  }
+
   private void eagerlyLoad(MapToList<Long, U> byParentId, Collection<Long> idsToLoad) {
     Select<U> q = Select.from(this.childAlias);
     q.where(this.childForeignKeyToParentColumn.in(idsToLoad));
