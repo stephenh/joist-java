@@ -60,6 +60,12 @@ public abstract class AbstractBuilder<T extends DomainObject> {
   /** Deletes the instance if it's already been flushed to the database. */
   public abstract void delete();
 
+  /** Stores {@code other} for providing non-direct defaults. */
+  public AbstractBuilder<T> use(AbstractBuilder<?> builder) {
+    DefaultsContext.use(builder);
+    return this;
+  }
+
   protected void doEnsureSaved() {
     if (UoW.isOpen()) {
       UoW.enqueue(this.get());

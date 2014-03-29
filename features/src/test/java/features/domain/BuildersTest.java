@@ -2,6 +2,7 @@ package features.domain;
 
 import static features.domain.builders.Builders.aChild;
 import static features.domain.builders.Builders.aCodeADomainObject;
+import static features.domain.builders.Builders.aGrandChild;
 import static features.domain.builders.Builders.aManyToManyABar;
 import static features.domain.builders.Builders.aManyToManyAFoo;
 import static features.domain.builders.Builders.aParent;
@@ -19,6 +20,7 @@ import org.junit.Test;
 
 import features.domain.builders.ChildBuilder;
 import features.domain.builders.CodeADomainObjectBuilder;
+import features.domain.builders.GrandChildBuilder;
 import features.domain.builders.ManyToManyAFooBuilder;
 import features.domain.builders.ParentBuilder;
 import features.domain.builders.PrimitivesBuilder;
@@ -173,4 +175,13 @@ public class BuildersTest extends AbstractFeaturesTest {
     assertThat(Parent.queries.count(), is(0L));
   }
 
+  @Test
+  public void testUse() {
+    // we have a parent
+    ParentBuilder p = aParent().defaults();
+    // and now want to make a grandchild
+    GrandChildBuilder g = aGrandChild().use(p).defaults();
+    // use passed the parent along for child's default
+    assertThat(g.child().parent(), is(p));
+  }
 }

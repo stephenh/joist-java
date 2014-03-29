@@ -26,14 +26,24 @@ public class DefaultsContext {
   /** The current default for a given type. */
   private Map<Class<?>, Object> defaults = new HashMap<Class<?>, Object>();
 
+  /** Called to pre-queue a potential default before we actually start the .defaults() logic. */
+  public static void use(AbstractBuilder<? extends DomainObject> builder) {
+    get().rememberIfSet(builder);
+  }
+
   /** Called when a .defaults call begins. */
   public static DefaultsContext push() {
+    DefaultsContext c = get();
+    c.level++;
+    return c;
+  }
+
+  private static DefaultsContext get() {
     DefaultsContext c = currentContext.get();
     if (c == null) {
       c = new DefaultsContext();
       currentContext.set(c);
     }
-    c.level++;
     return c;
   }
 
