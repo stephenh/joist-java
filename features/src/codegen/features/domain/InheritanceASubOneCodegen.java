@@ -82,6 +82,7 @@ public abstract class InheritanceASubOneCodegen extends InheritanceABase {
     for (InheritanceASubOneChild o : diff.added) {
       this.addInheritanceASubOneChild(o);
     }
+    this.inheritanceASubOneChilds.set(inheritanceASubOneChilds);
   }
 
   public void addInheritanceASubOneChild(InheritanceASubOneChild o) {

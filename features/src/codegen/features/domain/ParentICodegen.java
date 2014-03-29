@@ -65,6 +65,7 @@ public abstract class ParentICodegen extends AbstractDomainObject {
     for (ChildIA o : diff.added) {
       this.addChildA(o);
     }
+    this.childAs.set(childAs);
   }
 
   public void addChildA(ChildIA o) {

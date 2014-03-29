@@ -84,6 +84,7 @@ public abstract class InheritanceAOwnerCodegen extends AbstractDomainObject {
     for (InheritanceABase o : diff.added) {
       this.addInheritanceABase(o);
     }
+    this.inheritanceABases.set(inheritanceABases);
   }
 
   public void addInheritanceABase(InheritanceABase o) {

@@ -85,6 +85,7 @@ public abstract class ChildFCodegen extends AbstractDomainObject {
     for (ParentF o : diff.added) {
       this.addChildOneParentF(o);
     }
+    this.childOneParentFs.set(childOneParentFs);
   }
 
   public void addChildOneParentF(ParentF o) {
@@ -125,6 +126,7 @@ public abstract class ChildFCodegen extends AbstractDomainObject {
     for (ParentF o : diff.added) {
       this.addChildTwoParentF(o);
     }
+    this.childTwoParentFs.set(childTwoParentFs);
   }
 
   public void addChildTwoParentF(ParentF o) {

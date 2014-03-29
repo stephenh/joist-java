@@ -86,6 +86,7 @@ public abstract class ManyToManyABarCodegen extends AbstractDomainObject {
     for (ManyToManyAFooToBar o : diff.added) {
       this.addManyToManyAFooToBar(o);
     }
+    this.manyToManyAFooToBars.set(manyToManyAFooToBars);
   }
 
   private void addManyToManyAFooToBar(ManyToManyAFooToBar o) {

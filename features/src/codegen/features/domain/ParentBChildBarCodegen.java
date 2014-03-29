@@ -109,6 +109,7 @@ public abstract class ParentBChildBarCodegen extends AbstractDomainObject {
     for (ParentBChildZaz o : diff.added) {
       this.addParentBChildZaz(o);
     }
+    this.parentBChildZazs.set(parentBChildZazs);
   }
 
   public void addParentBChildZaz(ParentBChildZaz o) {

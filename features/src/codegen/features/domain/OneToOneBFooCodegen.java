@@ -84,6 +84,7 @@ public abstract class OneToOneBFooCodegen extends AbstractDomainObject {
     for (OneToOneBBar o : diff.added) {
       this.addOneToOneBBar(o);
     }
+    this.oneToOneBBars.set(oneToOneBBars);
   }
 
   public void addOneToOneBBar(OneToOneBBar o) {
