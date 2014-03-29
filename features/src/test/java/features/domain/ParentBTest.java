@@ -35,7 +35,6 @@ public class ParentBTest extends AbstractFeaturesTest {
     ParentBChildZazBuilder z = Builders.aParentBChildZaz().defaults();
     this.commitAndReOpen();
     Assert.assertEquals(z.parentBParent(), z.parentBChildBar().parentBParent());
-
   }
 
   @Test
