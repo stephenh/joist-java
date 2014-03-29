@@ -123,6 +123,11 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
   }
 
   @Override
+  public ChildHBuilder use(AbstractBuilder<?> builder) {
+    return (ChildHBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ChildH.queries.delete(get());
   }

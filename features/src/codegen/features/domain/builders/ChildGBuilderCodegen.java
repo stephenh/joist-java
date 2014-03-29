@@ -112,6 +112,11 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
   }
 
   @Override
+  public ChildGBuilder use(AbstractBuilder<?> builder) {
+    return (ChildGBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ChildG.queries.delete(get());
   }

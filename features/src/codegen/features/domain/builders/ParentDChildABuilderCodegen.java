@@ -103,6 +103,11 @@ public abstract class ParentDChildABuilderCodegen extends AbstractBuilder<Parent
   }
 
   @Override
+  public ParentDChildABuilder use(AbstractBuilder<?> builder) {
+    return (ParentDChildABuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ParentDChildA.queries.delete(get());
   }

@@ -57,6 +57,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
       this.manyToManyProperties(builderCodegen, entity);
       this.overrideGet(builderCodegen, entity);
       this.ensureSaved(builderCodegen, entity);
+      this.use(builderCodegen, entity);
       this.delete(builderCodegen, entity);
     }
   }
@@ -75,6 +76,13 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     m.body.line("doEnsureSaved();");
     m.body.line("return ({}) this;", entity.getBuilderClassName());
     builderCodegen.addImports(UoW.class);
+  }
+
+  private void use(GClass builderCodegen, Entity entity) {
+    GMethod m = builderCodegen.getMethod("use", Argument.arg("AbstractBuilder<?>", "builder"));
+    m.returnType(entity.getBuilderClassName()).addAnnotation("@Override");
+    m.body.line("return ({}) super.use(builder);", entity.getBuilderClassName());
+    builderCodegen.addImports(AbstractBuilder.class);
   }
 
   private void delete(GClass builderCodegen, Entity entity) {

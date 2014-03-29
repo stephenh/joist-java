@@ -103,6 +103,11 @@ public abstract class GrandChildBuilderCodegen extends AbstractBuilder<GrandChil
   }
 
   @Override
+  public GrandChildBuilder use(AbstractBuilder<?> builder) {
+    return (GrandChildBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     GrandChild.queries.delete(get());
   }

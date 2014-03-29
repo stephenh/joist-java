@@ -140,6 +140,11 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
   }
 
   @Override
+  public ParentBChildZazBuilder use(AbstractBuilder<?> builder) {
+    return (ParentBChildZazBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ParentBChildZaz.queries.delete(get());
   }

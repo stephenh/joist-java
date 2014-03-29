@@ -108,6 +108,7 @@ public abstract class ParentECodegen extends AbstractDomainObject {
     for (ParentE o : diff.added) {
       this.addParentE(o);
     }
+    this.parentEs.set(parentEs);
   }
 
   public void addParentE(ParentE o) {

@@ -120,6 +120,11 @@ public abstract class ParentDToChildCBuilderCodegen extends AbstractBuilder<Pare
   }
 
   @Override
+  public ParentDToChildCBuilder use(AbstractBuilder<?> builder) {
+    return (ParentDToChildCBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ParentDToChildC.queries.delete(get());
   }

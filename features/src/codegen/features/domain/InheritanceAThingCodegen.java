@@ -85,6 +85,7 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
     for (InheritanceASubOne o : diff.added) {
       this.addInheritanceASubOne(o);
     }
+    this.inheritanceASubOnes.set(inheritanceASubOnes);
   }
 
   public void addInheritanceASubOne(InheritanceASubOne o) {
@@ -125,6 +126,7 @@ public abstract class InheritanceAThingCodegen extends AbstractDomainObject {
     for (InheritanceASubTwo o : diff.added) {
       this.addInheritanceASubTwo(o);
     }
+    this.inheritanceASubTwos.set(inheritanceASubTwos);
   }
 
   public void addInheritanceASubTwo(InheritanceASubTwo o) {

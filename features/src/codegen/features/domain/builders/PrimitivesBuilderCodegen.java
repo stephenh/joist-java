@@ -86,6 +86,11 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
   }
 
   @Override
+  public PrimitivesBuilder use(AbstractBuilder<?> builder) {
+    return (PrimitivesBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     Primitives.queries.delete(get());
   }

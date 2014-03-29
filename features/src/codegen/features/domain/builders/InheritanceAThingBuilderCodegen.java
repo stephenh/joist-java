@@ -101,6 +101,11 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
   }
 
   @Override
+  public InheritanceAThingBuilder use(AbstractBuilder<?> builder) {
+    return (InheritanceAThingBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     InheritanceAThing.queries.delete(get());
   }

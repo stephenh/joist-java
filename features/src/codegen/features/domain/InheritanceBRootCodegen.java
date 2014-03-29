@@ -84,6 +84,7 @@ public abstract class InheritanceBRootCodegen extends AbstractDomainObject {
     for (InheritanceBRootChild o : diff.added) {
       this.addInheritanceBRootChild(o);
     }
+    this.inheritanceBRootChilds.set(inheritanceBRootChilds);
   }
 
   public void addInheritanceBRootChild(InheritanceBRootChild o) {

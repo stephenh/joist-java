@@ -100,6 +100,11 @@ public abstract class ChildFBuilderCodegen extends AbstractBuilder<ChildF> {
   }
 
   @Override
+  public ChildFBuilder use(AbstractBuilder<?> builder) {
+    return (ChildFBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ChildF.queries.delete(get());
   }

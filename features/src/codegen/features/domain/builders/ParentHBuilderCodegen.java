@@ -104,6 +104,11 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
   }
 
   @Override
+  public ParentHBuilder use(AbstractBuilder<?> builder) {
+    return (ParentHBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ParentH.queries.delete(get());
   }

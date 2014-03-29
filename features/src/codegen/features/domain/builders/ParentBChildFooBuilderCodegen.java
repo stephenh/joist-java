@@ -103,6 +103,11 @@ public abstract class ParentBChildFooBuilderCodegen extends AbstractBuilder<Pare
   }
 
   @Override
+  public ParentBChildFooBuilder use(AbstractBuilder<?> builder) {
+    return (ParentBChildFooBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ParentBChildFoo.queries.delete(get());
   }

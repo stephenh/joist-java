@@ -85,6 +85,7 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
     for (ParentCBar o : diff.added) {
       this.addFirstParentParentCBar(o);
     }
+    this.firstParentParentCBars.set(firstParentParentCBars);
   }
 
   public void addFirstParentParentCBar(ParentCBar o) {
@@ -125,6 +126,7 @@ public abstract class ParentCFooCodegen extends AbstractDomainObject {
     for (ParentCBar o : diff.added) {
       this.addSecondParentParentCBar(o);
     }
+    this.secondParentParentCBars.set(secondParentParentCBars);
   }
 
   public void addSecondParentParentCBar(ParentCBar o) {

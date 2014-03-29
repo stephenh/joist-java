@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.InheritanceAOwner;
 import features.domain.InheritanceASubTwo;
 import features.domain.InheritanceAThing;
+import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
@@ -105,6 +106,11 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
   public InheritanceASubTwoBuilder ensureSaved() {
     doEnsureSaved();
     return (InheritanceASubTwoBuilder) this;
+  }
+
+  @Override
+  public InheritanceASubTwoBuilder use(AbstractBuilder<?> builder) {
+    return (InheritanceASubTwoBuilder) super.use(builder);
   }
 
 }

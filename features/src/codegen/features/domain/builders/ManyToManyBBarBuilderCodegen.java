@@ -100,6 +100,11 @@ public abstract class ManyToManyBBarBuilderCodegen extends AbstractBuilder<ManyT
   }
 
   @Override
+  public ManyToManyBBarBuilder use(AbstractBuilder<?> builder) {
+    return (ManyToManyBBarBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ManyToManyBBar.queries.delete(get());
   }

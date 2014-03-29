@@ -80,6 +80,11 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
   }
 
   @Override
+  public InheritanceAOwnerBuilder use(AbstractBuilder<?> builder) {
+    return (InheritanceAOwnerBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     InheritanceAOwner.queries.delete(get());
   }

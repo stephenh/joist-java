@@ -86,6 +86,7 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
     for (ParentBChildBar o : diff.added) {
       this.addParentBChildBar(o);
     }
+    this.parentBChildBars.set(parentBChildBars);
   }
 
   public void addParentBChildBar(ParentBChildBar o) {
@@ -126,6 +127,7 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
     for (ParentBChildFoo o : diff.added) {
       this.addParentBChildFoo(o);
     }
+    this.parentBChildFoos.set(parentBChildFoos);
   }
 
   public void addParentBChildFoo(ParentBChildFoo o) {
@@ -166,6 +168,7 @@ public abstract class ParentBParentCodegen extends AbstractDomainObject {
     for (ParentBChildZaz o : diff.added) {
       this.addParentBChildZaz(o);
     }
+    this.parentBChildZazs.set(parentBChildZazs);
   }
 
   public void addParentBChildZaz(ParentBChildZaz o) {

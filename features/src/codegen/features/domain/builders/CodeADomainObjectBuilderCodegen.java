@@ -140,6 +140,11 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
   }
 
   @Override
+  public CodeADomainObjectBuilder use(AbstractBuilder<?> builder) {
+    return (CodeADomainObjectBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     CodeADomainObject.queries.delete(get());
   }

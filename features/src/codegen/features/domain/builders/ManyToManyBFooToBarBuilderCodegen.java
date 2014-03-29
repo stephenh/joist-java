@@ -120,6 +120,11 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
   }
 
   @Override
+  public ManyToManyBFooToBarBuilder use(AbstractBuilder<?> builder) {
+    return (ManyToManyBFooToBarBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ManyToManyBFooToBar.queries.delete(get());
   }

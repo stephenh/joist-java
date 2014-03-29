@@ -123,6 +123,11 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
   }
 
   @Override
+  public ParentCBarBuilder use(AbstractBuilder<?> builder) {
+    return (ParentCBarBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ParentCBar.queries.delete(get());
   }

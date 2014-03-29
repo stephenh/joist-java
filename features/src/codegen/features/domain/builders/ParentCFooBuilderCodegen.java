@@ -100,6 +100,11 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
   }
 
   @Override
+  public ParentCFooBuilder use(AbstractBuilder<?> builder) {
+    return (ParentCFooBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ParentCFoo.queries.delete(get());
   }

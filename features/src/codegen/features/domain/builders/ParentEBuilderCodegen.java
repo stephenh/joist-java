@@ -108,6 +108,11 @@ public abstract class ParentEBuilderCodegen extends AbstractBuilder<ParentE> {
   }
 
   @Override
+  public ParentEBuilder use(AbstractBuilder<?> builder) {
+    return (ParentEBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ParentE.queries.delete(get());
   }

@@ -121,6 +121,11 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
   }
 
   @Override
+  public ParentBChildBarBuilder use(AbstractBuilder<?> builder) {
+    return (ParentBChildBarBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ParentBChildBar.queries.delete(get());
   }

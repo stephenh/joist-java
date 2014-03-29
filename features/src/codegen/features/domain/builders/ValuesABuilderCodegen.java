@@ -112,6 +112,11 @@ public abstract class ValuesABuilderCodegen extends AbstractBuilder<ValuesA> {
   }
 
   @Override
+  public ValuesABuilder use(AbstractBuilder<?> builder) {
+    return (ValuesABuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ValuesA.queries.delete(get());
   }

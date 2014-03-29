@@ -83,6 +83,11 @@ public abstract class ChildIBBuilderCodegen extends AbstractBuilder<ChildIB> {
   }
 
   @Override
+  public ChildIBBuilder use(AbstractBuilder<?> builder) {
+    return (ChildIBBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ChildIB.queries.delete(get());
   }

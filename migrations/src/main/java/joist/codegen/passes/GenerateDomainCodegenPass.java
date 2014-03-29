@@ -271,6 +271,7 @@ public class GenerateDomainCodegenPass implements Pass<Codegen> {
         setter.body.line("for ({} o : diff.added) {", otmp.getTargetJavaType());
         setter.body.line("_   this.add{}(o);", otmp.getCapitalVariableNameSingular());
         setter.body.line("}");
+        setter.body.line("this.{}.set({});", otmp.getVariableName(), otmp.getVariableName());
 
         GMethod adder = domainCodegen.getMethod("add{}", otmp.getCapitalVariableNameSingular());
         adder.argument(otmp.getTargetJavaType(), "o");

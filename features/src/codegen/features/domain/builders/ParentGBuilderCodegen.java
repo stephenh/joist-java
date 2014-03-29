@@ -88,6 +88,11 @@ public abstract class ParentGBuilderCodegen extends AbstractBuilder<ParentG> {
   }
 
   @Override
+  public ParentGBuilder use(AbstractBuilder<?> builder) {
+    return (ParentGBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ParentG.queries.delete(get());
   }

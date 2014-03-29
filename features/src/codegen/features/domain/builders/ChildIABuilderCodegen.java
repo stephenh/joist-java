@@ -83,6 +83,11 @@ public abstract class ChildIABuilderCodegen extends AbstractBuilder<ChildIA> {
   }
 
   @Override
+  public ChildIABuilder use(AbstractBuilder<?> builder) {
+    return (ChildIABuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ChildIA.queries.delete(get());
   }

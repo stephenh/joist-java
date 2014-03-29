@@ -100,6 +100,11 @@ public abstract class ManyToManyBFooBuilderCodegen extends AbstractBuilder<ManyT
   }
 
   @Override
+  public ManyToManyBFooBuilder use(AbstractBuilder<?> builder) {
+    return (ManyToManyBFooBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ManyToManyBFoo.queries.delete(get());
   }

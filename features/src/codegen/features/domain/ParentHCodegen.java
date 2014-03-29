@@ -99,6 +99,7 @@ public abstract class ParentHCodegen extends AbstractDomainObject {
     for (ChildH o : diff.added) {
       this.addChildH(o);
     }
+    this.childHs.set(childHs);
   }
 
   public void addChildH(ChildH o) {

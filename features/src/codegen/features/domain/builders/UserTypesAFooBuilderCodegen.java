@@ -87,6 +87,11 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
   }
 
   @Override
+  public UserTypesAFooBuilder use(AbstractBuilder<?> builder) {
+    return (UserTypesAFooBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     UserTypesAFoo.queries.delete(get());
   }

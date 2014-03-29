@@ -109,6 +109,7 @@ public abstract class ChildCodegen extends AbstractDomainObject {
     for (GrandChild o : diff.added) {
       this.addGrandChild(o);
     }
+    this.grandChilds.set(grandChilds);
   }
 
   public void addGrandChild(GrandChild o) {

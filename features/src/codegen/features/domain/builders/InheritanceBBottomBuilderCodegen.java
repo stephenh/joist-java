@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.InheritanceBBottom;
+import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
 
@@ -63,6 +64,11 @@ public abstract class InheritanceBBottomBuilderCodegen extends InheritanceBMiddl
   public InheritanceBBottomBuilder ensureSaved() {
     doEnsureSaved();
     return (InheritanceBBottomBuilder) this;
+  }
+
+  @Override
+  public InheritanceBBottomBuilder use(AbstractBuilder<?> builder) {
+    return (InheritanceBBottomBuilder) super.use(builder);
   }
 
 }

@@ -103,6 +103,11 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
   }
 
   @Override
+  public InheritanceASubOneChildBuilder use(AbstractBuilder<?> builder) {
+    return (InheritanceASubOneChildBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     InheritanceASubOneChild.queries.delete(get());
   }

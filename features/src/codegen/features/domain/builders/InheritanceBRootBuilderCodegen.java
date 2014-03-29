@@ -80,6 +80,11 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
   }
 
   @Override
+  public InheritanceBRootBuilder use(AbstractBuilder<?> builder) {
+    return (InheritanceBRootBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     InheritanceBRoot.queries.delete(get());
   }

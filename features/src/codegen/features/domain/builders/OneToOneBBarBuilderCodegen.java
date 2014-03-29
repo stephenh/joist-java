@@ -103,6 +103,11 @@ public abstract class OneToOneBBarBuilderCodegen extends AbstractBuilder<OneToOn
   }
 
   @Override
+  public OneToOneBBarBuilder use(AbstractBuilder<?> builder) {
+    return (OneToOneBBarBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     OneToOneBBar.queries.delete(get());
   }

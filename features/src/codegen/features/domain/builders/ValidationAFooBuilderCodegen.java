@@ -66,6 +66,11 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
   }
 
   @Override
+  public ValidationAFooBuilder use(AbstractBuilder<?> builder) {
+    return (ValidationAFooBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ValidationAFoo.queries.delete(get());
   }

@@ -112,6 +112,11 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
   }
 
   @Override
+  public ParentFBuilder use(AbstractBuilder<?> builder) {
+    return (ParentFBuilder) super.use(builder);
+  }
+
+  @Override
   public void delete() {
     ParentF.queries.delete(get());
   }
