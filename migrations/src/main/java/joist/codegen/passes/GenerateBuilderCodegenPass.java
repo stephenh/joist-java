@@ -11,7 +11,6 @@ import joist.codegen.dtos.ManyToManyProperty;
 import joist.codegen.dtos.ManyToOneProperty;
 import joist.codegen.dtos.OneToManyProperty;
 import joist.codegen.dtos.PrimitiveProperty;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -80,10 +79,10 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
   }
 
   private void use(GClass builderCodegen, Entity entity) {
-    GMethod m = builderCodegen.getMethod("use", Argument.arg("AbstractBuilder<? extends DomainObject>", "builder"));
+    GMethod m = builderCodegen.getMethod("use", Argument.arg("AbstractBuilder<?>", "builder"));
     m.returnType(entity.getBuilderClassName()).addAnnotation("@Override");
     m.body.line("return ({}) super.use(builder);", entity.getBuilderClassName());
-    builderCodegen.addImports(AbstractBuilder.class, DomainObject.class);
+    builderCodegen.addImports(AbstractBuilder.class);
   }
 
   private void delete(GClass builderCodegen, Entity entity) {
