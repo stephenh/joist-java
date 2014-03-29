@@ -1,7 +1,6 @@
 package features.domain.builders;
 
 import features.domain.InheritanceBMiddle;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -59,7 +58,7 @@ public abstract class InheritanceBMiddleBuilderCodegen extends InheritanceBRootB
   }
 
   @Override
-  public InheritanceBMiddleBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public InheritanceBMiddleBuilder use(AbstractBuilder<?> builder) {
     return (InheritanceBMiddleBuilder) super.use(builder);
   }
 

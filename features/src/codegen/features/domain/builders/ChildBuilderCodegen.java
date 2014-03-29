@@ -5,7 +5,6 @@ import features.domain.GrandChild;
 import features.domain.Parent;
 import java.util.ArrayList;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -122,7 +121,7 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
   }
 
   @Override
-  public ChildBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public ChildBuilder use(AbstractBuilder<?> builder) {
     return (ChildBuilder) super.use(builder);
   }
 

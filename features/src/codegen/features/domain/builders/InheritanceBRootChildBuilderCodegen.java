@@ -3,7 +3,6 @@ package features.domain.builders;
 import features.domain.InheritanceBRoot;
 import features.domain.InheritanceBRootChild;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -93,7 +92,7 @@ public abstract class InheritanceBRootChildBuilderCodegen extends AbstractBuilde
   }
 
   @Override
-  public InheritanceBRootChildBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public InheritanceBRootChildBuilder use(AbstractBuilder<?> builder) {
     return (InheritanceBRootChildBuilder) super.use(builder);
   }
 

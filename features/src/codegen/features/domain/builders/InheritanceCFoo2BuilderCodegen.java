@@ -1,7 +1,6 @@
 package features.domain.builders;
 
 import features.domain.InheritanceCFoo2;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -59,7 +58,7 @@ public abstract class InheritanceCFoo2BuilderCodegen extends InheritanceCBuilder
   }
 
   @Override
-  public InheritanceCFoo2Builder use(AbstractBuilder<? extends DomainObject> builder) {
+  public InheritanceCFoo2Builder use(AbstractBuilder<?> builder) {
     return (InheritanceCFoo2Builder) super.use(builder);
   }
 

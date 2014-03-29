@@ -3,7 +3,6 @@ package features.domain.builders;
 import features.domain.InheritanceAOwner;
 import features.domain.InheritanceASubTwo;
 import features.domain.InheritanceAThing;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -110,7 +109,7 @@ public abstract class InheritanceASubTwoBuilderCodegen extends InheritanceABaseB
   }
 
   @Override
-  public InheritanceASubTwoBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public InheritanceASubTwoBuilder use(AbstractBuilder<?> builder) {
     return (InheritanceASubTwoBuilder) super.use(builder);
   }
 

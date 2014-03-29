@@ -2,7 +2,6 @@ package features.domain.builders;
 
 import features.domain.OneToOneAFoo;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -78,7 +77,7 @@ public abstract class OneToOneAFooBuilderCodegen extends AbstractBuilder<OneToOn
   }
 
   @Override
-  public OneToOneAFooBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public OneToOneAFooBuilder use(AbstractBuilder<?> builder) {
     return (OneToOneAFooBuilder) super.use(builder);
   }
 

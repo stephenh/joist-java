@@ -3,7 +3,6 @@ package features.domain.builders;
 import features.domain.ChildF;
 import features.domain.ParentF;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -113,7 +112,7 @@ public abstract class ParentFBuilderCodegen extends AbstractBuilder<ParentF> {
   }
 
   @Override
-  public ParentFBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public ParentFBuilder use(AbstractBuilder<?> builder) {
     return (ParentFBuilder) super.use(builder);
   }
 

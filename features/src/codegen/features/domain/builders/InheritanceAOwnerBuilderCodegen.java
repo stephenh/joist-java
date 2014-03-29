@@ -4,7 +4,6 @@ import features.domain.InheritanceABase;
 import features.domain.InheritanceAOwner;
 import java.util.ArrayList;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -81,7 +80,7 @@ public abstract class InheritanceAOwnerBuilderCodegen extends AbstractBuilder<In
   }
 
   @Override
-  public InheritanceAOwnerBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public InheritanceAOwnerBuilder use(AbstractBuilder<?> builder) {
     return (InheritanceAOwnerBuilder) super.use(builder);
   }
 

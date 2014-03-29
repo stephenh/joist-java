@@ -4,7 +4,6 @@ import features.domain.ManyToManyBBar;
 import features.domain.ManyToManyBFoo;
 import features.domain.ManyToManyBFooToBar;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -121,7 +120,7 @@ public abstract class ManyToManyBFooToBarBuilderCodegen extends AbstractBuilder<
   }
 
   @Override
-  public ManyToManyBFooToBarBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public ManyToManyBFooToBarBuilder use(AbstractBuilder<?> builder) {
     return (ManyToManyBFooToBarBuilder) super.use(builder);
   }
 

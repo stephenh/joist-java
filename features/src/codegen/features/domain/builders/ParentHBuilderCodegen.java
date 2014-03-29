@@ -4,7 +4,6 @@ import features.domain.ChildH;
 import features.domain.ParentH;
 import java.util.ArrayList;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -105,7 +104,7 @@ public abstract class ParentHBuilderCodegen extends AbstractBuilder<ParentH> {
   }
 
   @Override
-  public ParentHBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public ParentHBuilder use(AbstractBuilder<?> builder) {
     return (ParentHBuilder) super.use(builder);
   }
 

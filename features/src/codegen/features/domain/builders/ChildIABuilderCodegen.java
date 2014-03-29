@@ -3,7 +3,6 @@ package features.domain.builders;
 import features.domain.ChildIA;
 import features.domain.ParentI;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -84,7 +83,7 @@ public abstract class ChildIABuilderCodegen extends AbstractBuilder<ChildIA> {
   }
 
   @Override
-  public ChildIABuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public ChildIABuilder use(AbstractBuilder<?> builder) {
     return (ChildIABuilder) super.use(builder);
   }
 

@@ -2,7 +2,6 @@ package features.domain.builders;
 
 import features.domain.ValidationAFoo;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -67,7 +66,7 @@ public abstract class ValidationAFooBuilderCodegen extends AbstractBuilder<Valid
   }
 
   @Override
-  public ValidationAFooBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public ValidationAFooBuilder use(AbstractBuilder<?> builder) {
     return (ValidationAFooBuilder) super.use(builder);
   }
 

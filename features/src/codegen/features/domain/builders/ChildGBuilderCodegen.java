@@ -3,7 +3,6 @@ package features.domain.builders;
 import features.domain.ChildG;
 import features.domain.ParentG;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -113,7 +112,7 @@ public abstract class ChildGBuilderCodegen extends AbstractBuilder<ChildG> {
   }
 
   @Override
-  public ChildGBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public ChildGBuilder use(AbstractBuilder<?> builder) {
     return (ChildGBuilder) super.use(builder);
   }
 

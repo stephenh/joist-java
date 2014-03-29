@@ -2,7 +2,6 @@ package features.domain.builders;
 
 import features.domain.InheritanceC;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -63,7 +62,7 @@ public abstract class InheritanceCBuilderCodegen extends AbstractBuilder<Inherit
   }
 
   @Override
-  public InheritanceCBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public InheritanceCBuilder use(AbstractBuilder<?> builder) {
     return (InheritanceCBuilder) super.use(builder);
   }
 

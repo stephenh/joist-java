@@ -6,7 +6,6 @@ import features.domain.InheritanceASubOneChild;
 import features.domain.InheritanceAThing;
 import java.util.ArrayList;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -129,7 +128,7 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
   }
 
   @Override
-  public InheritanceASubOneBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public InheritanceASubOneBuilder use(AbstractBuilder<?> builder) {
     return (InheritanceASubOneBuilder) super.use(builder);
   }
 

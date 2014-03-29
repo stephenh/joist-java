@@ -3,7 +3,6 @@ package features.domain.builders;
 import features.domain.OneToOneABar;
 import features.domain.OneToOneAFoo;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -104,7 +103,7 @@ public abstract class OneToOneABarBuilderCodegen extends AbstractBuilder<OneToOn
   }
 
   @Override
-  public OneToOneABarBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public OneToOneABarBuilder use(AbstractBuilder<?> builder) {
     return (OneToOneABarBuilder) super.use(builder);
   }
 

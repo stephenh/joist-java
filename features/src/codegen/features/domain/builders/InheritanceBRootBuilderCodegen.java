@@ -4,7 +4,6 @@ import features.domain.InheritanceBRoot;
 import features.domain.InheritanceBRootChild;
 import java.util.ArrayList;
 import java.util.List;
-import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -81,7 +80,7 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
   }
 
   @Override
-  public InheritanceBRootBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+  public InheritanceBRootBuilder use(AbstractBuilder<?> builder) {
     return (InheritanceBRootBuilder) super.use(builder);
   }
 
