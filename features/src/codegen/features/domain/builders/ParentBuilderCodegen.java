@@ -4,6 +4,7 @@ import features.domain.Child;
 import features.domain.Parent;
 import java.util.ArrayList;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -81,6 +82,11 @@ public abstract class ParentBuilderCodegen extends AbstractBuilder<Parent> {
   public ParentBuilder ensureSaved() {
     doEnsureSaved();
     return (ParentBuilder) this;
+  }
+
+  @Override
+  public ParentBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (ParentBuilder) super.use(builder);
   }
 
   @Override

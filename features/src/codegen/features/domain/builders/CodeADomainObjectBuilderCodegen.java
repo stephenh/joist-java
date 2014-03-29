@@ -4,6 +4,7 @@ import features.domain.CodeAColor;
 import features.domain.CodeADomainObject;
 import features.domain.CodeASize;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -137,6 +138,11 @@ public abstract class CodeADomainObjectBuilderCodegen extends AbstractBuilder<Co
   public CodeADomainObjectBuilder ensureSaved() {
     doEnsureSaved();
     return (CodeADomainObjectBuilder) this;
+  }
+
+  @Override
+  public CodeADomainObjectBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (CodeADomainObjectBuilder) super.use(builder);
   }
 
   @Override

@@ -2,6 +2,7 @@ package features.domain.builders;
 
 import features.domain.PrimitivesB;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -168,6 +169,11 @@ public abstract class PrimitivesBBuilderCodegen extends AbstractBuilder<Primitiv
   public PrimitivesBBuilder ensureSaved() {
     doEnsureSaved();
     return (PrimitivesBBuilder) this;
+  }
+
+  @Override
+  public PrimitivesBBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (PrimitivesBBuilder) super.use(builder);
   }
 
   @Override

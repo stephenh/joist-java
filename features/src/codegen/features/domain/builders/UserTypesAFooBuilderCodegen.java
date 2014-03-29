@@ -3,6 +3,7 @@ package features.domain.builders;
 import com.domainlanguage.time.CalendarDate;
 import features.domain.UserTypesAFoo;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -84,6 +85,11 @@ public abstract class UserTypesAFooBuilderCodegen extends AbstractBuilder<UserTy
   public UserTypesAFooBuilder ensureSaved() {
     doEnsureSaved();
     return (UserTypesAFooBuilder) this;
+  }
+
+  @Override
+  public UserTypesAFooBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (UserTypesAFooBuilder) super.use(builder);
   }
 
   @Override

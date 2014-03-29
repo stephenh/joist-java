@@ -3,6 +3,7 @@ package features.domain.builders;
 import com.domainlanguage.time.TimePoint;
 import features.domain.HistoryEntry;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -152,6 +153,11 @@ public abstract class HistoryEntryBuilderCodegen extends AbstractBuilder<History
   public HistoryEntryBuilder ensureSaved() {
     doEnsureSaved();
     return (HistoryEntryBuilder) this;
+  }
+
+  @Override
+  public HistoryEntryBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (HistoryEntryBuilder) super.use(builder);
   }
 
   @Override

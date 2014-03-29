@@ -3,6 +3,7 @@ package features.domain.builders;
 import com.domainlanguage.time.TimePoint;
 import features.domain.ValuesB;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -77,6 +78,11 @@ public abstract class ValuesBBuilderCodegen extends AbstractBuilder<ValuesB> {
   public ValuesBBuilder ensureSaved() {
     doEnsureSaved();
     return (ValuesBBuilder) this;
+  }
+
+  @Override
+  public ValuesBBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (ValuesBBuilder) super.use(builder);
   }
 
   @Override

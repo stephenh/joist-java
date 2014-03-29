@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.ParentCBar;
 import features.domain.ParentCFoo;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -120,6 +121,11 @@ public abstract class ParentCBarBuilderCodegen extends AbstractBuilder<ParentCBa
   public ParentCBarBuilder ensureSaved() {
     doEnsureSaved();
     return (ParentCBarBuilder) this;
+  }
+
+  @Override
+  public ParentCBarBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (ParentCBarBuilder) super.use(builder);
   }
 
   @Override

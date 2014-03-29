@@ -4,6 +4,7 @@ import features.domain.ParentBChildBar;
 import features.domain.ParentBChildZaz;
 import features.domain.ParentBParent;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -137,6 +138,11 @@ public abstract class ParentBChildZazBuilderCodegen extends AbstractBuilder<Pare
   public ParentBChildZazBuilder ensureSaved() {
     doEnsureSaved();
     return (ParentBChildZazBuilder) this;
+  }
+
+  @Override
+  public ParentBChildZazBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (ParentBChildZazBuilder) super.use(builder);
   }
 
   @Override

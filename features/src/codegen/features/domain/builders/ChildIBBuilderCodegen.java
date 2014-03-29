@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.ChildIB;
 import features.domain.ParentI;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -80,6 +81,11 @@ public abstract class ChildIBBuilderCodegen extends AbstractBuilder<ChildIB> {
   public ChildIBBuilder ensureSaved() {
     doEnsureSaved();
     return (ChildIBBuilder) this;
+  }
+
+  @Override
+  public ChildIBBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (ChildIBBuilder) super.use(builder);
   }
 
   @Override

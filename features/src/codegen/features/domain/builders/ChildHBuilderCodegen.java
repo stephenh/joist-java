@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.ChildH;
 import features.domain.ParentH;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -120,6 +121,11 @@ public abstract class ChildHBuilderCodegen extends AbstractBuilder<ChildH> {
   public ChildHBuilder ensureSaved() {
     doEnsureSaved();
     return (ChildHBuilder) this;
+  }
+
+  @Override
+  public ChildHBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (ChildHBuilder) super.use(builder);
   }
 
   @Override

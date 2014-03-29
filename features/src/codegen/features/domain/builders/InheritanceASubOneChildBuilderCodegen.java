@@ -3,6 +3,7 @@ package features.domain.builders;
 import features.domain.InheritanceASubOne;
 import features.domain.InheritanceASubOneChild;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -100,6 +101,11 @@ public abstract class InheritanceASubOneChildBuilderCodegen extends AbstractBuil
   public InheritanceASubOneChildBuilder ensureSaved() {
     doEnsureSaved();
     return (InheritanceASubOneChildBuilder) this;
+  }
+
+  @Override
+  public InheritanceASubOneChildBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (InheritanceASubOneChildBuilder) super.use(builder);
   }
 
   @Override

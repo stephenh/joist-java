@@ -5,6 +5,7 @@ import com.domainlanguage.time.CalendarDate;
 import com.domainlanguage.time.TimePoint;
 import features.domain.PrimitivesC;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -126,6 +127,11 @@ public abstract class PrimitivesCBuilderCodegen extends AbstractBuilder<Primitiv
   public PrimitivesCBuilder ensureSaved() {
     doEnsureSaved();
     return (PrimitivesCBuilder) this;
+  }
+
+  @Override
+  public PrimitivesCBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (PrimitivesCBuilder) super.use(builder);
   }
 
   @Override

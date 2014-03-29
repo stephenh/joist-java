@@ -4,6 +4,7 @@ import features.domain.ParentCBar;
 import features.domain.ParentCFoo;
 import java.util.ArrayList;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.builders.AbstractBuilder;
 import joist.domain.builders.DefaultsContext;
 import joist.domain.uow.UoW;
@@ -97,6 +98,11 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
   public ParentCFooBuilder ensureSaved() {
     doEnsureSaved();
     return (ParentCFooBuilder) this;
+  }
+
+  @Override
+  public ParentCFooBuilder use(AbstractBuilder<? extends DomainObject> builder) {
+    return (ParentCFooBuilder) super.use(builder);
   }
 
   @Override
