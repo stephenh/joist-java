@@ -3,8 +3,8 @@ package joist.domain.util;
 import javax.sql.DataSource;
 
 import joist.domain.orm.Db;
-import joist.domain.util.pools.MySqlC3p0Factory;
-import joist.domain.util.pools.Pgc3p0Factory;
+import joist.domain.util.pools.C3p0DataSourceFactory;
+import joist.domain.util.pools.DataSourceFactory;
 
 public class ConnectionSettings {
 
@@ -16,11 +16,12 @@ public class ConnectionSettings {
   public String host;
   public int maxPoolSize = 100;
   public int initialPoolSize = 1;
+  public DataSourceFactory factory = new C3p0DataSourceFactory();
   private DataSource ds;
 
   public DataSource getDataSource() {
     if (this.ds == null) {
-      this.ds = (this.db.isPg() ? new Pgc3p0Factory(this) : new MySqlC3p0Factory(this)).create();
+      this.ds = this.factory.create(this);
     }
     return this.ds;
   }

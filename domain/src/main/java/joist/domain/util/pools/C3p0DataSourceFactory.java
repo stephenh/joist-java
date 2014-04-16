@@ -14,9 +14,9 @@ import com.mchange.v2.c3p0.DataSources;
 import com.mchange.v2.c3p0.management.ManagementCoordinator;
 import com.mchange.v2.c3p0.management.NullManagementCoordinator;
 
-public abstract class AbstractC3p0Factory {
+public class C3p0DataSourceFactory implements DataSourceFactory {
 
-  private static final Logger log = LoggerFactory.getLogger(AbstractC3p0Factory.class);
+  private static final Logger log = LoggerFactory.getLogger(C3p0DataSourceFactory.class);
 
   static {
     // Save 50-100ms because we don't care about JMX/whatever
@@ -25,21 +25,15 @@ public abstract class AbstractC3p0Factory {
     System.setProperty("com.mchange.v2.c3p0.VMID", "NONE");
   }
 
-  protected final ConnectionSettings settings;
-  private final String type;
-
-  public AbstractC3p0Factory(ConnectionSettings settings, String type) {
-    this.settings = settings;
-    this.type = type;
-  }
-
-  public ComboPooledDataSource create() {
+  @Override
+  public ComboPooledDataSource create(ConnectionSettings settings) {
+    String type = settings.db.isPg() ? "postgresql" : "mysql";
     ComboPooledDataSource ds = new ComboPooledDataSource();
-    ds.setJdbcUrl("jdbc:" + this.type + "://" + this.settings.host + "/" + this.settings.databaseName);
-    ds.setUser(this.settings.user);
-    ds.setPassword(this.settings.password);
-    ds.setMaxPoolSize(this.settings.maxPoolSize);
-    ds.setInitialPoolSize(this.settings.initialPoolSize);
+    ds.setJdbcUrl("jdbc:" + type + "://" + settings.host + "/" + settings.databaseName);
+    ds.setUser(settings.user);
+    ds.setPassword(settings.password);
+    ds.setMaxPoolSize(settings.maxPoolSize);
+    ds.setInitialPoolSize(settings.initialPoolSize);
     ds.setPreferredTestQuery("select 1");
     ds.setTestConnectionOnCheckout(true);
     ds.setAcquireRetryAttempts(1); // only try once, then fail fast

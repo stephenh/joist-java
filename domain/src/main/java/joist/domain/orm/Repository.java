@@ -8,9 +8,6 @@ import javax.sql.DataSource;
 import joist.domain.uow.Snapshot;
 import joist.domain.uow.UnitOfWork;
 import joist.domain.util.ConnectionSettings;
-import joist.domain.util.pools.MySqlC3p0Factory;
-import joist.domain.util.pools.Pgc3p0Factory;
-import joist.util.Reflection;
 
 /** An app-wide instance for the application's db + datasource. */
 public class Repository {
@@ -19,16 +16,11 @@ public class Repository {
   private final DataSource datasource;
 
   public Repository(Db db, String projectName) {
-    this.db = db;
-    final ConnectionSettings cs = ConnectionSettings.forApp(db, projectName);
-    if (db.isPg()) {
-      this.datasource = new Pgc3p0Factory(cs).create();
-      Reflection.forName("org.postgresql.Driver");
-    } else if (db.isMySQL()) {
-      this.datasource = new MySqlC3p0Factory(cs).create();
-    } else {
-      throw new IllegalStateException("Unhandled db " + db);
-    }
+    this(ConnectionSettings.forApp(db, projectName));
+  }
+
+  public Repository(ConnectionSettings settings) {
+    this(settings.db, settings.getDataSource());
   }
 
   public Repository(Db db, DataSource datasource) {
