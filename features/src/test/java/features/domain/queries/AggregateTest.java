@@ -15,8 +15,12 @@ public class AggregateTest {
   @Test
   public void testSelectSum() {
     PrimitivesAlias p = new PrimitivesAlias("p");
-    Select<Primitives> q = Select.from(p).select(Aggregate.sum(p.id).as("sumOfIds"));
-    Assert.assertEquals("SELECT sum(p.id) as sumOfIds\n FROM \"primitives\" p", q.toSql());
+    Select<Primitives> q = Select.from(p).select(//
+      Aggregate.sum(p.id).as("sum"),
+      Aggregate.min(p.id).as("min"),
+      Aggregate.max(p.id).as("max"),
+      Aggregate.average(p.id).as("avg"));
+    Assert.assertEquals("SELECT sum(p.id) as sum, min(p.id) as min, max(p.id) as max, avg(p.id) as avg\n FROM \"primitives\" p", q.toSql());
     Assert.assertEquals(Copy.list(), q.getParameters());
   }
 
