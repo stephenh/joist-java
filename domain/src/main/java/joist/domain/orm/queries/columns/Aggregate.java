@@ -35,8 +35,20 @@ public abstract class Aggregate<DOMAIN, JDBC> extends ColumnExpression<DOMAIN, J
     return new Count(column);
   }
 
+  public static <DOMAIN, JDBC> Aggregate<DOMAIN, JDBC> average(AliasColumn<?, DOMAIN, JDBC> column) {
+    return new GenericAggregate<DOMAIN, JDBC>("avg", column);
+  }
+
+  public static <DOMAIN, JDBC> Aggregate<DOMAIN, JDBC> min(AliasColumn<?, DOMAIN, JDBC> column) {
+    return new GenericAggregate<DOMAIN, JDBC>("min", column);
+  }
+
+  public static <DOMAIN, JDBC> Aggregate<DOMAIN, JDBC> max(AliasColumn<?, DOMAIN, JDBC> column) {
+    return new GenericAggregate<DOMAIN, JDBC>("max", column);
+  }
+
   public static <DOMAIN, JDBC> Aggregate<DOMAIN, JDBC> sum(AliasColumn<?, DOMAIN, JDBC> column) {
-    return new Sum<DOMAIN, JDBC>(column);
+    return new GenericAggregate<DOMAIN, JDBC>("sum", column);
   }
 
   @Override
@@ -48,11 +60,11 @@ public abstract class Aggregate<DOMAIN, JDBC> extends ColumnExpression<DOMAIN, J
     return new SelectItem(this, as);
   }
 
-  private static class Sum<DOMAIN, JDBC> extends Aggregate<DOMAIN, JDBC> {
+  private static class GenericAggregate<DOMAIN, JDBC> extends Aggregate<DOMAIN, JDBC> {
     private final AliasColumn<?, DOMAIN, JDBC> column;
 
-    private Sum(AliasColumn<?, DOMAIN, JDBC> column) {
-      super("sum", column);
+    private GenericAggregate(String keyword, AliasColumn<?, DOMAIN, JDBC> column) {
+      super(keyword, column);
       this.column = column;
     }
 
