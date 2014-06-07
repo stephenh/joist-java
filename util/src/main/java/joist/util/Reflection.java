@@ -86,4 +86,13 @@ public class Reflection {
     }
   }
 
+  public static Field getField(Class<?> c, String fieldName) {
+    try {
+      return c.getField(fieldName);
+    } catch (NoSuchFieldException e) {
+      throw new RuntimeException(e);
+    } catch (SecurityException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }
