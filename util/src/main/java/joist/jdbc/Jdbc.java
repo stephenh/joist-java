@@ -1,5 +1,7 @@
 package joist.jdbc;
 
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.sql.DataSource;
 
 import joist.util.Interpolate;
+import joist.util.Reflection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -169,7 +172,7 @@ public class Jdbc {
     }
   }
 
-  public static void query(DataSource ds, String sql, List<Object> parameters, RowMapper rse) {
+  public static void query(DataSource ds, String sql, List<? extends Object> parameters, RowMapper rse) {
     Connection connection = null;
     try {
       connection = ds.getConnection();
@@ -181,7 +184,7 @@ public class Jdbc {
     }
   }
 
-  public static void query(Connection connection, String sql, List<Object> parameters, RowMapper rse) {
+  public static void query(Connection connection, String sql, List<? extends Object> parameters, RowMapper rse) {
     PreparedStatement s = null;
     ResultSet rs = null;
     try {
@@ -200,6 +203,42 @@ public class Jdbc {
       throw new JdbcException(se);
     } finally {
       Jdbc.closeSafely(rs, s);
+    }
+  }
+
+  public static <T> List<T> query(Connection connection, String sql, final Class<T> type) {
+    ReflectionRowMapper<T> mapper = new ReflectionRowMapper<T>(type);
+    Jdbc.query(connection, sql, mapper);
+    return mapper.results;
+  }
+
+  public static <T> List<T> query(DataSource ds, String sql, final Class<T> type) {
+    Connection connection = null;
+    try {
+      connection = ds.getConnection();
+      return Jdbc.query(connection, sql, type);
+    } catch (SQLException se) {
+      throw new JdbcException(se);
+    } finally {
+      Jdbc.closeSafely(connection);
+    }
+  }
+
+  public static <T> List<T> query(Connection connection, String sql, List<? extends Object> parameters, final Class<T> type) {
+    ReflectionRowMapper<T> mapper = new ReflectionRowMapper<T>(type);
+    Jdbc.query(connection, sql, parameters, mapper);
+    return mapper.results;
+  }
+
+  public static <T> List<T> query(DataSource ds, String sql, List<? extends Object> parameters, final Class<T> type) {
+    Connection connection = null;
+    try {
+      connection = ds.getConnection();
+      return Jdbc.query(connection, sql, parameters, type);
+    } catch (SQLException se) {
+      throw new JdbcException(se);
+    } finally {
+      Jdbc.closeSafely(connection);
     }
   }
 
@@ -327,6 +366,53 @@ public class Jdbc {
   private static void tickUpdatesIfTracking() {
     if (trackStats) {
       updates.incrementAndGet();
+    }
+  }
+
+  private static final class ReflectionRowMapper<T> implements RowMapper {
+    private final List<T> results = new ArrayList<T>();
+    private final List<Field> fields = new ArrayList<Field>();
+    private final Class<T> type;
+    private boolean hadLoadedFields = false;
+
+    private ReflectionRowMapper(Class<T> type) {
+      this.type = type;
+    }
+
+    public void mapRow(ResultSet rs) throws SQLException {
+      T instance = Reflection.newInstance(this.type);
+      // only look up the Fields once
+      if (!this.hadLoadedFields) {
+        for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+          this.fields.add(Reflection.getField(this.type, rs.getMetaData().getColumnLabel(i)));
+        }
+        this.hadLoadedFields = true;
+      }
+      // now we can do the actual set
+      for (int i = 0; i < this.fields.size(); i++) {
+        Reflection.set(this.fields.get(i), instance, getValueBasedOnType(rs, i, this.fields.get(i).getType()));
+      }
+      this.results.add(instance);
+    }
+
+    private static Object getValueBasedOnType(ResultSet rs, int i, Class<?> type) throws SQLException {
+      final Object value;
+      if (type.equals(Long.class)) {
+        value = rs.getLong(i + 1);
+      } else if (type.equals(Integer.class)) {
+        value = rs.getInt(i + 1);
+      } else if (type.equals(Boolean.class)) {
+        value = rs.getBoolean(i + 1);
+      } else if (type.equals(BigDecimal.class)) {
+        value = rs.getBigDecimal(i + 1);
+      } else if (type.equals(String.class)) {
+        value = rs.getString(i + 1);
+      } else if (type.equals(Byte.class)) {
+        value = rs.getByte(i + 1);
+      } else {
+        value = rs.getObject(i + 1);
+      }
+      return value;
     }
   }
 
