@@ -149,10 +149,40 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
 
   private void oneToManyProperties(GClass c, Entity entity) {
     for (OneToManyProperty otom : entity.getOneToManyProperties()) {
-      if (otom.isCollectionSkipped() || otom.isManyToMany()) {
+      if (otom.isManyToMany()) {
         continue;
       }
-      if (otom.isOneToOne()) {
+      // newChild() -> ChildBuilder
+      if (!otom.getManySide().isAbstract()) {
+        GMethod m = c.getMethod("new" + otom.getCapitalVariableNameSingular());
+        m.returnType("{}Builder", otom.getTargetJavaType());
+        m.body.line("return Builders.a{}().{}(({}) this);", //
+          otom.getTargetJavaType(),
+          StringUtils.uncapitalize(otom.getManyToOneProperty().getCapitalVariableName()),
+          entity.getBuilderClassName());
+      }
+      if (otom.isCollectionSkipped()) {
+        // add a special childs() -> List<ChildBuilder> that uses the find ids query
+        {
+          GMethod m = c.getMethod(otom.getVariableName());
+          m.returnType("List<{}Builder>", otom.getTargetJavaType());
+          m.body.line("UoW.flush();");
+          m.body.line("List<{}Builder> b = new ArrayList<{}Builder>();", otom.getTargetJavaType(), otom.getTargetJavaType());
+          // otom.getTargetJavaType(),
+          m.body.line("for (Long id : {}.queries.find{}Ids(get())) {", entity.getClassName(), otom.getCapitalVariableName());
+          m.body.line("_   b.add(Builders.the{}(id));", otom.getManySide().getClassName());
+          m.body.line("}");
+          m.body.line("return b;");
+          c.addImports(UoW.class, List.class, ArrayList.class);
+          c.addImports(otom.getManySide().getFullClassName());
+        }
+        // child(i) -> ChildBuilder
+        {
+          GMethod m = c.getMethod(StringUtils.uncapitalize(otom.getCapitalVariableNameSingular()), Argument.arg("int", "i"));
+          m.returnType("{}Builder", otom.getTargetJavaType());
+          m.body.line("return {}().get(i);", otom.getVariableName());
+        }
+      } else if (otom.isOneToOne()) {
         // child() -> ChildBuilder
         GMethod m = c.getMethod(otom.getVariableNameSingular());
         m.returnType("{}Builder", otom.getTargetJavaType());
@@ -179,15 +209,6 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
           m.returnType("{}Builder", otom.getTargetJavaType());
           m.body.line("return Builders.existing(get().get{}().get(i));", otom.getCapitalVariableName());
         }
-      }
-      // newChild() -> ChildBuilder
-      if (!otom.getManySide().isAbstract()) {
-        GMethod m = c.getMethod("new" + otom.getCapitalVariableNameSingular());
-        m.returnType("{}Builder", otom.getTargetJavaType());
-        m.body.line("return Builders.a{}().{}(({}) this);", //
-          otom.getTargetJavaType(),
-          StringUtils.uncapitalize(otom.getManyToOneProperty().getCapitalVariableName()),
-          entity.getBuilderClassName());
       }
     }
   }

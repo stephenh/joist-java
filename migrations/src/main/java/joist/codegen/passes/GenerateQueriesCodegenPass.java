@@ -25,6 +25,7 @@ public class GenerateQueriesCodegenPass implements Pass<Codegen> {
       this.addDelete(entity, queriesCodegen);
       this.addFindByForUniquePrimitives(entity, queriesCodegen);
       this.addFindByForCodes(entity, queriesCodegen);
+      this.addFindIdForSkippedCollections(entity, queriesCodegen);
     }
   }
 
@@ -124,4 +125,24 @@ public class GenerateQueriesCodegenPass implements Pass<Codegen> {
     }
   }
 
+  private void addFindIdForSkippedCollections(Entity entity, GClass queriesCodegen) {
+    for (OneToManyProperty otmp : entity.getOneToManyProperties()) {
+      if (otmp.isCollectionSkipped()) {
+        GMethod findIds = queriesCodegen.getMethod(
+          "find" + otmp.getCapitalVariableName() + "Ids",
+          Argument.arg(entity.getClassName(), entity.getVariableName()));
+        findIds.returnType("java.util.List<Long>");
+        Entity manySide = otmp.getManySide();
+        findIds.body.line("{} {} = new {}();", manySide.getAliasName(), manySide.getAliasAlias(), manySide.getAliasName());
+        findIds.body.line(
+          "return Select.from({}).where({}.{}.eq({})).listIds();",
+          manySide.getAliasAlias(),
+          manySide.getAliasAlias(),
+          entity.getVariableName(),
+          entity.getVariableName());
+        queriesCodegen.addImports(Select.class);
+        queriesCodegen.addImports(manySide.getFullAliasClassName());
+      }
+    }
+  }
 }
