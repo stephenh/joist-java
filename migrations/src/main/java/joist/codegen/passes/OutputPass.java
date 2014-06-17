@@ -13,6 +13,11 @@ public class OutputPass implements Pass<Codegen> {
   private static final Logger log = LoggerFactory.getLogger(OutputPass.class);
 
   public void pass(Codegen codegen) {
+    // sanity check the config
+    for (String badSkipped : codegen.getConfig().getBadSkippedCollections()) {
+      throw new IllegalStateException("BAD CONFIGURATION: Collection marked 'setCollectionSkipped' was not available " + badSkipped);
+    }
+
     codegen.getOutputSourceDirectory().output();
     codegen.getOutputCodegenDirectory().output();
     if (codegen.getConfig().pruneCodegenDirectory) {

@@ -57,6 +57,10 @@ public abstract class ChildFBuilderCodegen extends AbstractBuilder<ChildF> {
     return "name";
   }
 
+  public ParentFBuilder newChildOneParentF() {
+    return Builders.aParentF().childOne((ChildFBuilder) this);
+  }
+
   public List<ParentFBuilder> childOneParentFs() {
     List<ParentFBuilder> b = new ArrayList<ParentFBuilder>();
     for (ParentF e : get().getChildOneParentFs()) {
@@ -69,8 +73,8 @@ public abstract class ChildFBuilderCodegen extends AbstractBuilder<ChildF> {
     return Builders.existing(get().getChildOneParentFs().get(i));
   }
 
-  public ParentFBuilder newChildOneParentF() {
-    return Builders.aParentF().childOne((ChildFBuilder) this);
+  public ParentFBuilder newChildTwoParentF() {
+    return Builders.aParentF().childTwo((ChildFBuilder) this);
   }
 
   public List<ParentFBuilder> childTwoParentFs() {
@@ -83,10 +87,6 @@ public abstract class ChildFBuilderCodegen extends AbstractBuilder<ChildF> {
 
   public ParentFBuilder childTwoParentF(int i) {
     return Builders.existing(get().getChildTwoParentFs().get(i));
-  }
-
-  public ParentFBuilder newChildTwoParentF() {
-    return Builders.aParentF().childTwo((ChildFBuilder) this);
   }
 
   public ChildF get() {

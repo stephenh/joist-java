@@ -55,6 +55,10 @@ public abstract class ParentGBuilderCodegen extends AbstractBuilder<ParentG> {
     return "name";
   }
 
+  public ChildGBuilder newParentOneChildG() {
+    return Builders.aChildG().parentOne((ParentGBuilder) this);
+  }
+
   public ChildGBuilder parentOneChildG() {
     if (get().getParentOneChildG() == null) {
       return null;
@@ -62,8 +66,8 @@ public abstract class ParentGBuilderCodegen extends AbstractBuilder<ParentG> {
     return Builders.existing(get().getParentOneChildG());
   }
 
-  public ChildGBuilder newParentOneChildG() {
-    return Builders.aChildG().parentOne((ParentGBuilder) this);
+  public ChildGBuilder newParentTwoChildG() {
+    return Builders.aChildG().parentTwo((ParentGBuilder) this);
   }
 
   public ChildGBuilder parentTwoChildG() {
@@ -71,10 +75,6 @@ public abstract class ParentGBuilderCodegen extends AbstractBuilder<ParentG> {
       return null;
     }
     return Builders.existing(get().getParentTwoChildG());
-  }
-
-  public ChildGBuilder newParentTwoChildG() {
-    return Builders.aChildG().parentTwo((ParentGBuilder) this);
   }
 
   public ParentG get() {

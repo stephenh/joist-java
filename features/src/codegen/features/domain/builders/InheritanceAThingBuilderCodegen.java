@@ -58,6 +58,10 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
     return "name";
   }
 
+  public InheritanceASubOneBuilder newInheritanceASubOne() {
+    return Builders.aInheritanceASubOne().inheritanceAThing((InheritanceAThingBuilder) this);
+  }
+
   public List<InheritanceASubOneBuilder> inheritanceASubOnes() {
     List<InheritanceASubOneBuilder> b = new ArrayList<InheritanceASubOneBuilder>();
     for (InheritanceASubOne e : get().getInheritanceASubOnes()) {
@@ -70,8 +74,8 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
     return Builders.existing(get().getInheritanceASubOnes().get(i));
   }
 
-  public InheritanceASubOneBuilder newInheritanceASubOne() {
-    return Builders.aInheritanceASubOne().inheritanceAThing((InheritanceAThingBuilder) this);
+  public InheritanceASubTwoBuilder newInheritanceASubTwo() {
+    return Builders.aInheritanceASubTwo().inheritanceAThing((InheritanceAThingBuilder) this);
   }
 
   public List<InheritanceASubTwoBuilder> inheritanceASubTwos() {
@@ -84,10 +88,6 @@ public abstract class InheritanceAThingBuilderCodegen extends AbstractBuilder<In
 
   public InheritanceASubTwoBuilder inheritanceASubTwo(int i) {
     return Builders.existing(get().getInheritanceASubTwos().get(i));
-  }
-
-  public InheritanceASubTwoBuilder newInheritanceASubTwo() {
-    return Builders.aInheritanceASubTwo().inheritanceAThing((InheritanceAThingBuilder) this);
   }
 
   public InheritanceAThing get() {

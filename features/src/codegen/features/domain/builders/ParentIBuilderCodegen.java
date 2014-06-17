@@ -37,6 +37,10 @@ public abstract class ParentIBuilderCodegen extends AbstractBuilder<ParentI> {
     return (ParentIBuilder) this;
   }
 
+  public ChildIABuilder newChildA() {
+    return Builders.aChildIA().parent((ParentIBuilder) this);
+  }
+
   public List<ChildIABuilder> childAs() {
     List<ChildIABuilder> b = new ArrayList<ChildIABuilder>();
     for (ChildIA e : get().getChildAs()) {
@@ -49,8 +53,8 @@ public abstract class ParentIBuilderCodegen extends AbstractBuilder<ParentI> {
     return Builders.existing(get().getChildAs().get(i));
   }
 
-  public ChildIABuilder newChildA() {
-    return Builders.aChildIA().parent((ParentIBuilder) this);
+  public ChildIBBuilder newChildB() {
+    return Builders.aChildIB().parent((ParentIBuilder) this);
   }
 
   public ChildIBBuilder childB() {
@@ -58,10 +62,6 @@ public abstract class ParentIBuilderCodegen extends AbstractBuilder<ParentI> {
       return null;
     }
     return Builders.existing(get().getChildB());
-  }
-
-  public ChildIBBuilder newChildB() {
-    return Builders.aChildIB().parent((ParentIBuilder) this);
   }
 
   public ParentI get() {

@@ -55,15 +55,15 @@ public abstract class OneToOneAFooBuilderCodegen extends AbstractBuilder<OneToOn
     return "name";
   }
 
+  public OneToOneABarBuilder newOneToOneABar() {
+    return Builders.aOneToOneABar().oneToOneAFoo((OneToOneAFooBuilder) this);
+  }
+
   public OneToOneABarBuilder oneToOneABar() {
     if (get().getOneToOneABar() == null) {
       return null;
     }
     return Builders.existing(get().getOneToOneABar());
-  }
-
-  public OneToOneABarBuilder newOneToOneABar() {
-    return Builders.aOneToOneABar().oneToOneAFoo((OneToOneAFooBuilder) this);
   }
 
   public OneToOneAFoo get() {

@@ -116,6 +116,7 @@ public class Config {
   private final Map<String, String> builderDefaultsByJavaType = new HashMap<String, String>();
   private final Map<String, String> oneToManyName = new HashMap<String, String>();
   private final List<String> skipCollections = new ArrayList<String>();
+  private final List<String> skipCollectionsChecked = new ArrayList<String>();
   private final List<String> skipTables = new ArrayList<String>();
   private final List<String> skipProperties = new ArrayList<String>();
   private final List<String> notAbstractEvenThoughSubclassed = new ArrayList<String>();
@@ -341,7 +342,14 @@ public class Config {
   }
 
   public boolean isCollectionSkipped(String objectName, String variableName) {
+    this.skipCollectionsChecked.add(objectName + "." + variableName);
     return this.skipCollections.contains(objectName + "." + variableName);
+  }
+
+  public List<String> getBadSkippedCollections() {
+    List<String> copy = new ArrayList<String>(this.skipCollections);
+    copy.removeAll(this.skipCollectionsChecked);
+    return copy;
   }
 
   public void setPropertySkipped(String objectName, String variableName) {

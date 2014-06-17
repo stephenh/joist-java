@@ -94,6 +94,10 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
     return Builders.aParent().defaults();
   }
 
+  public GrandChildBuilder newGrandChild() {
+    return Builders.aGrandChild().child((ChildBuilder) this);
+  }
+
   public List<GrandChildBuilder> grandChilds() {
     List<GrandChildBuilder> b = new ArrayList<GrandChildBuilder>();
     for (GrandChild e : get().getGrandChilds()) {
@@ -104,10 +108,6 @@ public abstract class ChildBuilderCodegen extends AbstractBuilder<Child> {
 
   public GrandChildBuilder grandChild(int i) {
     return Builders.existing(get().getGrandChilds().get(i));
-  }
-
-  public GrandChildBuilder newGrandChild() {
-    return Builders.aGrandChild().child((ChildBuilder) this);
   }
 
   public Child get() {

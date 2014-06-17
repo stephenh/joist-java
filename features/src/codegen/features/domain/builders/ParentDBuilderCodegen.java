@@ -1,6 +1,7 @@
 package features.domain.builders;
 
 import features.domain.ParentD;
+import features.domain.ParentDChildA;
 import features.domain.ParentDChildB;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,27 @@ public abstract class ParentDBuilderCodegen extends AbstractBuilder<ParentD> {
     return "name";
   }
 
+  public ParentDChildABuilder newParentDChildA() {
+    return Builders.aParentDChildA().parentD((ParentDBuilder) this);
+  }
+
+  public List<ParentDChildABuilder> parentDChildAs() {
+    UoW.flush();
+    List<ParentDChildABuilder> b = new ArrayList<ParentDChildABuilder>();
+    for (Long id : ParentD.queries.findParentDChildAsIds(get())) {
+      b.add(Builders.theParentDChildA(id));
+    }
+    return b;
+  }
+
+  public ParentDChildABuilder parentDChildA(int i) {
+    return parentDChildAs().get(i);
+  }
+
+  public ParentDChildBBuilder newParentDChildB() {
+    return Builders.aParentDChildB().parentD((ParentDBuilder) this);
+  }
+
   public List<ParentDChildBBuilder> parentDChildBs() {
     List<ParentDChildBBuilder> b = new ArrayList<ParentDChildBBuilder>();
     for (ParentDChildB e : get().getParentDChildBs()) {
@@ -67,10 +89,6 @@ public abstract class ParentDBuilderCodegen extends AbstractBuilder<ParentD> {
 
   public ParentDChildBBuilder parentDChildB(int i) {
     return Builders.existing(get().getParentDChildBs().get(i));
-  }
-
-  public ParentDChildBBuilder newParentDChildB() {
-    return Builders.aParentDChildB().parentD((ParentDBuilder) this);
   }
 
   public ParentD get() {
