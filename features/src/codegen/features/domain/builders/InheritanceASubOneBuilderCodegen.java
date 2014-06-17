@@ -101,6 +101,10 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
     return inheritanceAOwner(inheritanceAOwner);
   }
 
+  public InheritanceASubOneChildBuilder newInheritanceASubOneChild() {
+    return Builders.aInheritanceASubOneChild().sub((InheritanceASubOneBuilder) this);
+  }
+
   public List<InheritanceASubOneChildBuilder> inheritanceASubOneChilds() {
     List<InheritanceASubOneChildBuilder> b = new ArrayList<InheritanceASubOneChildBuilder>();
     for (InheritanceASubOneChild e : get().getInheritanceASubOneChilds()) {
@@ -111,10 +115,6 @@ public abstract class InheritanceASubOneBuilderCodegen extends InheritanceABaseB
 
   public InheritanceASubOneChildBuilder inheritanceASubOneChild(int i) {
     return Builders.existing(get().getInheritanceASubOneChilds().get(i));
-  }
-
-  public InheritanceASubOneChildBuilder newInheritanceASubOneChild() {
-    return Builders.aInheritanceASubOneChild().sub((InheritanceASubOneBuilder) this);
   }
 
   public InheritanceASubOne get() {

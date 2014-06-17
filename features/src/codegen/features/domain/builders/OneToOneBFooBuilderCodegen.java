@@ -57,6 +57,10 @@ public abstract class OneToOneBFooBuilderCodegen extends AbstractBuilder<OneToOn
     return "name";
   }
 
+  public OneToOneBBarBuilder newOneToOneBBar() {
+    return Builders.aOneToOneBBar().oneToOneBFoo((OneToOneBFooBuilder) this);
+  }
+
   public List<OneToOneBBarBuilder> oneToOneBBars() {
     List<OneToOneBBarBuilder> b = new ArrayList<OneToOneBBarBuilder>();
     for (OneToOneBBar e : get().getOneToOneBBars()) {
@@ -67,10 +71,6 @@ public abstract class OneToOneBFooBuilderCodegen extends AbstractBuilder<OneToOn
 
   public OneToOneBBarBuilder oneToOneBBar(int i) {
     return Builders.existing(get().getOneToOneBBars().get(i));
-  }
-
-  public OneToOneBBarBuilder newOneToOneBBar() {
-    return Builders.aOneToOneBBar().oneToOneBFoo((OneToOneBFooBuilder) this);
   }
 
   public OneToOneBFoo get() {

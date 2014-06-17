@@ -57,6 +57,10 @@ public abstract class ParentBuilderCodegen extends AbstractBuilder<Parent> {
     return "name";
   }
 
+  public ChildBuilder newChild() {
+    return Builders.aChild().parent((ParentBuilder) this);
+  }
+
   public List<ChildBuilder> childs() {
     List<ChildBuilder> b = new ArrayList<ChildBuilder>();
     for (Child e : get().getChilds()) {
@@ -67,10 +71,6 @@ public abstract class ParentBuilderCodegen extends AbstractBuilder<Parent> {
 
   public ChildBuilder child(int i) {
     return Builders.existing(get().getChilds().get(i));
-  }
-
-  public ChildBuilder newChild() {
-    return Builders.aChild().parent((ParentBuilder) this);
   }
 
   public Parent get() {

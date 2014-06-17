@@ -53,6 +53,10 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
     return "name";
   }
 
+  public InheritanceBRootChildBuilder newInheritanceBRootChild() {
+    return Builders.aInheritanceBRootChild().inheritanceBRoot((InheritanceBRootBuilder) this);
+  }
+
   public List<InheritanceBRootChildBuilder> inheritanceBRootChilds() {
     List<InheritanceBRootChildBuilder> b = new ArrayList<InheritanceBRootChildBuilder>();
     for (InheritanceBRootChild e : get().getInheritanceBRootChilds()) {
@@ -63,10 +67,6 @@ public abstract class InheritanceBRootBuilderCodegen extends AbstractBuilder<Inh
 
   public InheritanceBRootChildBuilder inheritanceBRootChild(int i) {
     return Builders.existing(get().getInheritanceBRootChilds().get(i));
-  }
-
-  public InheritanceBRootChildBuilder newInheritanceBRootChild() {
-    return Builders.aInheritanceBRootChild().inheritanceBRoot((InheritanceBRootBuilder) this);
   }
 
   public InheritanceBRoot get() {

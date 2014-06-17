@@ -57,6 +57,10 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
     return "name";
   }
 
+  public ParentCBarBuilder newFirstParentParentCBar() {
+    return Builders.aParentCBar().firstParent((ParentCFooBuilder) this);
+  }
+
   public List<ParentCBarBuilder> firstParentParentCBars() {
     List<ParentCBarBuilder> b = new ArrayList<ParentCBarBuilder>();
     for (ParentCBar e : get().getFirstParentParentCBars()) {
@@ -69,8 +73,8 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
     return Builders.existing(get().getFirstParentParentCBars().get(i));
   }
 
-  public ParentCBarBuilder newFirstParentParentCBar() {
-    return Builders.aParentCBar().firstParent((ParentCFooBuilder) this);
+  public ParentCBarBuilder newSecondParentParentCBar() {
+    return Builders.aParentCBar().secondParent((ParentCFooBuilder) this);
   }
 
   public List<ParentCBarBuilder> secondParentParentCBars() {
@@ -83,10 +87,6 @@ public abstract class ParentCFooBuilderCodegen extends AbstractBuilder<ParentCFo
 
   public ParentCBarBuilder secondParentParentCBar(int i) {
     return Builders.existing(get().getSecondParentParentCBars().get(i));
-  }
-
-  public ParentCBarBuilder newSecondParentParentCBar() {
-    return Builders.aParentCBar().secondParent((ParentCFooBuilder) this);
   }
 
   public ParentCFoo get() {

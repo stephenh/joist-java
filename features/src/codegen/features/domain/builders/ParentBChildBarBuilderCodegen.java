@@ -94,6 +94,10 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
     return Builders.aParentBParent().defaults();
   }
 
+  public ParentBChildZazBuilder newParentBChildZaz() {
+    return Builders.aParentBChildZaz().parentBChildBar((ParentBChildBarBuilder) this);
+  }
+
   public List<ParentBChildZazBuilder> parentBChildZazs() {
     List<ParentBChildZazBuilder> b = new ArrayList<ParentBChildZazBuilder>();
     for (ParentBChildZaz e : get().getParentBChildZazs()) {
@@ -104,10 +108,6 @@ public abstract class ParentBChildBarBuilderCodegen extends AbstractBuilder<Pare
 
   public ParentBChildZazBuilder parentBChildZaz(int i) {
     return Builders.existing(get().getParentBChildZazs().get(i));
-  }
-
-  public ParentBChildZazBuilder newParentBChildZaz() {
-    return Builders.aParentBChildZaz().parentBChildBar((ParentBChildBarBuilder) this);
   }
 
   public ParentBChildBar get() {
