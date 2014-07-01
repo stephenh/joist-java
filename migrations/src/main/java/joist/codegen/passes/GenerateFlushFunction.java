@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import joist.codegen.Codegen;
 import joist.codegen.dtos.Entity;
 import joist.jdbc.Jdbc;
+import joist.util.Interpolate;
 import joist.util.StringBuilderr;
 import joist.util.Wrap;
 
@@ -68,7 +69,7 @@ public class GenerateFlushFunction implements Pass<Codegen> {
     sql.line("END");
     Jdbc.update(this.ds, "DROP PROCEDURE IF EXISTS flush_test_database;");
     Jdbc.update(this.ds, sql.toString());
-    Jdbc.update(this.ds, "GRANT ALL ON PROCEDURE flush_test_database TO {}@'%'", codegen.getConfig().dbAppUserSettings.user);
+    Jdbc.update(this.ds, Interpolate.string("GRANT ALL ON PROCEDURE flush_test_database TO {}@'%'", codegen.getConfig().dbAppUserSettings.user));
   }
 
 }

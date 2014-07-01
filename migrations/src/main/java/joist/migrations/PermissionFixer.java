@@ -11,6 +11,7 @@ import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import joist.jdbc.RowMapper;
 import joist.util.Copy;
+import joist.util.Interpolate;
 import joist.util.Wrap;
 
 import org.slf4j.Logger;
@@ -30,14 +31,14 @@ public class PermissionFixer {
   public void setOwnerOfAllTablesTo(String role) {
     log.info("Setting owner of all tables to {}", role);
     for (String tableName : this.getTableNames()) {
-      Jdbc.update(this.ds, "ALTER TABLE {} OWNER TO {};", Wrap.quotes(tableName), role);
+      Jdbc.update(this.ds, Interpolate.string("ALTER TABLE {} OWNER TO {};", Wrap.quotes(tableName), role));
     }
   }
 
   public void setOwnerOfAllSequencesTo(String role) {
     log.info("Setting owner of all sequences to {}", role);
     for (String sequenceName : this.getSequenceNames()) {
-      Jdbc.update(this.ds, "ALTER TABLE \"{}\" OWNER TO {};", sequenceName, role);
+      Jdbc.update(this.ds, Interpolate.string("ALTER TABLE {} OWNER TO {};", Wrap.quotes(sequenceName), role));
     }
   }
 
@@ -46,12 +47,12 @@ public class PermissionFixer {
       String userhost = this.config.userhost;
       log.info("Granting ALL on all tables to '{}'@'{}'", role, userhost);
       for (String tableName : this.getTableNames()) {
-        Jdbc.update(this.ds, "GRANT ALL ON TABLE {} TO '{}'@'{}'", Wrap.quotes(tableName), role, userhost);
+        Jdbc.update(this.ds, Interpolate.string("GRANT ALL ON TABLE {} TO '{}'@'{}'", Wrap.quotes(tableName), role, userhost));
       }
     } else {
       log.info("Granting ALL on all tables to {}", role);
       for (String tableName : this.getTableNames()) {
-        Jdbc.update(this.ds, "GRANT ALL ON TABLE {} TO {}", Wrap.quotes(tableName), role);
+        Jdbc.update(this.ds, Interpolate.string("GRANT ALL ON TABLE {} TO {}", Wrap.quotes(tableName), role));
       }
     }
   }
@@ -59,7 +60,7 @@ public class PermissionFixer {
   public void grantAllOnAllSequencesTo(String role) {
     log.info("Granting ALL on all sequences to {}", role);
     for (String sequenceName : this.getSequenceNames()) {
-      Jdbc.update(this.ds, "GRANT ALL ON TABLE {} TO {};", Wrap.quotes(sequenceName), role);
+      Jdbc.update(this.ds, Interpolate.string("GRANT ALL ON TABLE {} TO {};", Wrap.quotes(sequenceName), role));
     }
   }
 

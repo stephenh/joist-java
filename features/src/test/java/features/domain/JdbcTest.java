@@ -23,6 +23,13 @@ public class JdbcTest extends AbstractFeaturesTest {
     assertEquals(2, dtos.get(1).id.intValue());
   }
 
+  @Test
+  public void testNoSqlInjection() {
+    Jdbc.queryForInt(UoW.getConnection(), "SELECT COUNT(*) FROM parent WHERE name = ?", "'foo'");
+    Jdbc.queryForRow(UoW.getConnection(), "SELECT COUNT(*) FROM parent WHERE name = ?", "'foo'");
+    Jdbc.update(UoW.getConnection(), "UPDATE parent SET name = null WHERE name = ?", "'foo'");
+  }
+
   public static class PrimitiveDto {
     public Integer id;
     public Boolean flag;

@@ -46,7 +46,7 @@ public class DeleteTest extends AbstractFeaturesTest {
     this.commitAndReOpen();
 
     // this ensure the migration added a "ON DELETE CASCADE" to the child.parent_id column
-    Jdbc.update(repo.getDataSource(), "DELETE FROM parent where id = {}", parentId);
+    Jdbc.update(repo.getDataSource(), "DELETE FROM parent where id = ?", parentId);
     assertThat(Child.queries.count(), is(0l));
   }
 

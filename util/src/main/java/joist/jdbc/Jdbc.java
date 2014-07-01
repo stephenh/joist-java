@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.sql.DataSource;
 
-import joist.util.Interpolate;
 import joist.util.Reflection;
 
 import org.slf4j.Logger;
@@ -48,14 +47,16 @@ public class Jdbc {
 
   public static int queryForInt(Connection connection, String sql, Object... args) {
     int value = -1;
-    Statement stmt = null;
+    PreparedStatement stmt = null;
     ResultSet rs = null;
     try {
-      sql = Interpolate.string(sql, args);
       log.trace("sql = {}", sql);
       tickQueriesIfTracking();
-      stmt = connection.createStatement();
-      rs = stmt.executeQuery(sql);
+      stmt = connection.prepareStatement(sql);
+      for (int i = 1; i <= args.length; i++) {
+        stmt.setObject(i, args[i - 1]);
+      }
+      rs = stmt.executeQuery();
       if (rs.next()) {
         value = rs.getInt(1);
       }
@@ -80,14 +81,16 @@ public class Jdbc {
   }
 
   public static Object[] queryForRow(Connection connection, String sql, Object... args) {
-    Statement stmt = null;
+    PreparedStatement stmt = null;
     ResultSet rs = null;
     try {
-      sql = Interpolate.string(sql, args);
       log.trace("sql = {}", sql);
       tickQueriesIfTracking();
-      stmt = connection.createStatement();
-      rs = stmt.executeQuery(sql);
+      stmt = connection.prepareStatement(sql);
+      for (int i = 1; i <= args.length; i++) {
+        stmt.setObject(i, args[i - 1]);
+      }
+      rs = stmt.executeQuery();
       int count = rs.getMetaData().getColumnCount();
       Object[] objects = new Object[count];
       if (rs.next()) {
@@ -116,13 +119,15 @@ public class Jdbc {
   }
 
   public static int update(Connection connection, String sql, Object... args) {
-    Statement stmt = null;
+    PreparedStatement stmt = null;
     try {
-      sql = Interpolate.string(sql, args);
       log.trace("sql = {}", sql);
       tickUpdatesIfTracking();
-      stmt = connection.createStatement();
-      return stmt.executeUpdate(sql);
+      stmt = connection.prepareStatement(sql);
+      for (int i = 1; i <= args.length; i++) {
+        stmt.setObject(i, args[i - 1]);
+      }
+      return stmt.executeUpdate();
     } catch (SQLException se) {
       throw new JdbcException(se);
     } finally {

@@ -8,6 +8,7 @@ import joist.codegen.Config;
 import joist.jdbc.Jdbc;
 import joist.util.Execute;
 import joist.util.Interpolate;
+import joist.util.Wrap;
 import joist.util.Write;
 
 import org.slf4j.Logger;
@@ -64,26 +65,26 @@ public class DatabaseBootstrapper {
       throw new RuntimeException(Interpolate.string(message, username, userhost));
     }
 
-    int i = Jdbc.queryForInt(systemDs, "select count(*) from information_schema.schemata where schema_name = '{}'", databaseName);
+    int i = Jdbc.queryForInt(systemDs, "select count(*) from information_schema.schemata where schema_name = ?", databaseName);
     if (i != 0) {
       log.info("Dropping {}", databaseName);
-      Jdbc.update(systemDs, "drop database {};", databaseName);
+      Jdbc.update(systemDs, "drop database " + databaseName);
     }
 
-    int j = Jdbc.queryForInt(systemDs, "select count(*) from mysql.user where user = '{}' and host = '{}'", username, userhost);
+    int j = Jdbc.queryForInt(systemDs, "select count(*) from mysql.user where user = ? and host = ?", username, userhost);
     if (j != 0) {
       log.info("Dropping '{}'@'{}'", username, userhost);
-      Jdbc.update(systemDs, "revoke all privileges, grant option from '{}'@'{}'", username, userhost);
-      Jdbc.update(systemDs, "drop user '{}'@'{}'", username, userhost);
+      Jdbc.update(systemDs, Interpolate.string("revoke all privileges, grant option from '{}'@'{}'", username, userhost));
+      Jdbc.update(systemDs, Interpolate.string("drop user '{}'@'{}'", username, userhost));
     }
 
     log.info("Creating {}", databaseName);
-    Jdbc.update(systemDs, "create database {};", databaseName);
+    Jdbc.update(systemDs, "create database " + databaseName);
 
     log.info("Creating '{}'@'{}'", username, userhost);
-    Jdbc.update(systemDs, "create user '{}'@'{}' identified by '{}';", username, userhost, password);
+    Jdbc.update(systemDs, Interpolate.string("create user '{}'@'{}' identified by '{}';", username, userhost, password));
 
-    Jdbc.update(systemDs, "set global sql_mode = 'ANSI';", username, password);
+    Jdbc.update(systemDs, "set global sql_mode = 'ANSI';");
 
     String backupRestorationPath = this.getBackupRestorationPath();
     if (backupRestorationPath != null) {
@@ -138,23 +139,23 @@ public class DatabaseBootstrapper {
     String password = this.config.dbAppUserSettings.password;
 
     DataSource systemDs = this.config.dbSystemSettings.getDataSource();
-    int i = Jdbc.queryForInt(systemDs, "select count(*) from pg_catalog.pg_database where datname = '{}'", databaseName);
+    int i = Jdbc.queryForInt(systemDs, "select count(*) from pg_catalog.pg_database where datname = ?", databaseName);
     if (i != 0) {
       log.info("Dropping {}", databaseName);
-      Jdbc.update(systemDs, "drop database {};", databaseName);
+      Jdbc.update(systemDs, "drop database " + databaseName);
     }
 
-    int j = Jdbc.queryForInt(systemDs, "select count(*) from pg_catalog.pg_user where usename = '{}'", username);
+    int j = Jdbc.queryForInt(systemDs, "select count(*) from pg_catalog.pg_user where usename = ?", username);
     if (j != 0) {
       log.info("Dropping {}", username);
-      Jdbc.update(systemDs, "drop user {};", username);
+      Jdbc.update(systemDs, "drop user " + username);
     }
 
     log.info("Creating {}", databaseName);
-    Jdbc.update(systemDs, "create database {} template template0;", databaseName);
+    Jdbc.update(systemDs, "create database " + databaseName + " template template0;");
 
     log.info("Creating {}", username);
-    Jdbc.update(systemDs, "create user {} password '{}';", username, password);
+    Jdbc.update(systemDs, "create user " + username + " password " + Wrap.ticks(password));
 
     String backupRestorationPath = this.getBackupRestorationPath();
     if (backupRestorationPath != null) {

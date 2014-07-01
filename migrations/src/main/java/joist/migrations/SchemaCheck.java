@@ -50,8 +50,7 @@ public class SchemaCheck {
         // Try an exact match first
         int exactMatch = Jdbc.queryForInt(//
           this.dataSource,
-          "select count(*) from {} where id = {} and code = '{}'",//
-          Wrap.quotes(tableName),
+          "select count(*) from " + Wrap.quotes(tableName) + " where id = ? and code = ?",//
           code.getId(),
           code.getCode());
         if (exactMatch == 1) {
@@ -61,8 +60,7 @@ public class SchemaCheck {
         // Next see if we're getting id collision
         int idMatch = Jdbc.queryForInt(//
           this.dataSource,
-          "select count(*) from {} where id = {}",
-          Wrap.quotes(tableName),
+          "select count(*) from " + Wrap.quotes(tableName) + " where id = ?",
           code.getId());
         if (idMatch == 0) {
           String message = Interpolate.string("Code {} {}-{} is not in the database", tableName, code.getId(), code.getCode());
