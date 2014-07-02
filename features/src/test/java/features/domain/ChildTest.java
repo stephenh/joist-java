@@ -245,7 +245,7 @@ public class ChildTest extends AbstractFeaturesTest {
       ParentBuilder p = aParent().defaults();
       this.commitAndReOpen();
       for (int i = 0; i < 10; i++) {
-        Jdbc.update(UoW.getConnection(), "INSERT INTO child (parent_id, name, version) VALUES ({}, {}, 0);", p.id(), i);
+        Jdbc.update(UoW.getConnection(), "INSERT INTO child (parent_id, name, version) VALUES (?, ?, 0);", p.id(), i);
       }
       this.commitAndReOpen();
       try {

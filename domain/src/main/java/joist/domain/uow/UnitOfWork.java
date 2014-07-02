@@ -112,7 +112,7 @@ public class UnitOfWork {
         Jdbc.update(this.connection, "set @updater=null");
       }
     } else {
-      Jdbc.update(this.connection, "set @updater='{}'", updater.getUpdaterId());
+      Jdbc.update(this.connection, "set @updater=?", updater.getUpdaterId());
     }
     this.updater = updater;
   }

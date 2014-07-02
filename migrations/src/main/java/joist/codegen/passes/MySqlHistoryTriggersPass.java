@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Automatically adds INSERT/UPDATE/DELETE triggers to all entity tables in the schema that log changes
  * to an {@code history_entry} table.
- * 
+ *
  * @author larry
  */
 public class MySqlHistoryTriggersPass implements Pass<Schema> {
@@ -89,9 +89,9 @@ public class MySqlHistoryTriggersPass implements Pass<Schema> {
   }
 
   private void dropExistingTriggers(String table) {
-    Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS {}_history_update", table);
-    Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS {}_history_insert", table);
-    Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS {}_history_delete", table);
+    Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS " + table + "_history_update");
+    Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS " + table + "_history_insert");
+    Jdbc.update(this.ds, "DROP TRIGGER IF EXISTS " + table + "_history_delete");
   }
 
   private void createInsertTrigger(String tableName) {

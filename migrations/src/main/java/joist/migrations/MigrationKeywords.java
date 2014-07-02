@@ -25,6 +25,7 @@ import joist.migrations.columns.VarcharColumn;
 import joist.migrations.commands.CreateTable;
 import joist.migrations.fill.ConstantFillInStrategy;
 import joist.migrations.fill.FillInStrategy;
+import joist.util.Interpolate;
 import joist.util.Join;
 import joist.util.Wrap;
 
@@ -55,7 +56,7 @@ public class MigrationKeywords {
   }
 
   public static void dropTable(String name) {
-    MigrationKeywords.execute("DROP TABLE {}", Wrap.quotes(name));
+    MigrationKeywords.execute("DROP TABLE " + Wrap.quotes(name));
   }
 
   public static void createSubclassTable(String parentName, String name, Column... _columns) {
@@ -99,12 +100,20 @@ public class MigrationKeywords {
   }
 
   public static void alterColumnType(String tableName, String columName, String type) {
-    MigrationKeywords.execute("ALTER TABLE {} ALTER COLUMN {} TYPE {}", Wrap.quotes(tableName), Wrap.quotes(columName), type);
+    MigrationKeywords.execute(Interpolate.string("ALTER TABLE {} ALTER COLUMN {} TYPE {}", //
+      Wrap.quotes(tableName),
+      Wrap.quotes(columName),
+      type));
   }
 
   public static void addCode(String tableName, String code, String description) {
     int id = MigrationKeywords.getNextIdForCode(tableName);
-    MigrationKeywords.execute("INSERT INTO {} (id, code, name, version) VALUES ({}, '{}', '{}', 0)", tableName, id, code, description);
+    MigrationKeywords.execute(Interpolate.string(
+      "INSERT INTO {} (id, code, name, version) VALUES ({}, '{}', '{}', 0)",
+      tableName,
+      id,
+      code,
+      description));
   }
 
   public static void addCodes(String tableName, String... codePlusDescriptions) {
@@ -119,15 +128,15 @@ public class MigrationKeywords {
 
   public static void addUniqueConstraint(String tableName, String... columnNames) {
     String constraintName = tableName + "_" + Join.underscore(columnNames) + "_un";
-    MigrationKeywords.execute(//
+    MigrationKeywords.execute(Interpolate.string(//
       "ALTER TABLE {} ADD CONSTRAINT {} UNIQUE ({});",
       Wrap.quotes(tableName),
       Wrap.quotes(constraintName),
-      Join.commaSpace(Wrap.quotes(columnNames)));
+      Join.commaSpace(Wrap.quotes(columnNames))));
   }
 
   private static int getNextIdForCode(String tableName) {
-    int id = Jdbc.queryForInt(Migrater.getConnection(), "select max(id) + 1 from {}", tableName);
+    int id = Jdbc.queryForInt(Migrater.getConnection(), "SELECT MAX(id) + 1 FROM " + Wrap.quotes(tableName));
     if (id <= 0) {
       id = 1;
     }
@@ -136,41 +145,45 @@ public class MigrationKeywords {
 
   public static void dropNotNull(String tableName, String columnName) {
     if (isMySQL()) {
-      // Have to pull the column type/default value from MySQL 
+      // Have to pull the column type/default value from MySQL
       String[] s = getColumnTypeAndDefaultValue(tableName, columnName);
       String columnType = s[0];
       String columnDefault = s[1];
-      execute("ALTER TABLE {} MODIFY {} {} {}",//
+      execute(Interpolate.string("ALTER TABLE {} MODIFY {} {} {}",//
         Wrap.quotes(tableName),
         Wrap.quotes(columnName),
         columnType,
-        columnDefault == null ? "" : "DEFAULT " + columnDefault);
+        columnDefault == null ? "" : "DEFAULT " + columnDefault));
     } else {
-      execute("ALTER TABLE {} ALTER COLUMN {} DROP NOT NULL", Wrap.quotes(tableName), Wrap.quotes(columnName));
+      execute(Interpolate.string("ALTER TABLE {} ALTER COLUMN {} DROP NOT NULL",//
+        Wrap.quotes(tableName),
+        Wrap.quotes(columnName)));
     }
   }
 
   public static void addNotNull(String tableName, String columnName) {
     if (isMySQL()) {
-      // Have to pull the column type/default value from MySQL 
+      // Have to pull the column type/default value from MySQL
       String[] s = getColumnTypeAndDefaultValue(tableName, columnName);
       String columnType = s[0];
       String columnDefault = s[1];
-      execute("ALTER TABLE {} MODIFY {} {} NOT NULL {}", //
+      execute(Interpolate.string("ALTER TABLE {} MODIFY {} {} NOT NULL {}", //
         Wrap.quotes(tableName),
         Wrap.quotes(columnName),
         columnType,
-        columnDefault == null ? "" : "DEFAULT " + columnDefault);
+        columnDefault == null ? "" : "DEFAULT " + columnDefault));
     } else {
-      execute("ALTER TABLE {} ALTER COLUMN {} SET NOT NULL", Wrap.quotes(tableName), Wrap.quotes(columnName));
+      execute(Interpolate.string("ALTER TABLE {} ALTER COLUMN {} SET NOT NULL",//
+        Wrap.quotes(tableName),
+        Wrap.quotes(columnName)));
     }
   }
 
   public static void renameTable(String oldTableName, String newTableName) {
     if (isMySQL()) {
-      execute("RENAME TABLE {} TO {};", Wrap.quotes(oldTableName), Wrap.quotes(newTableName));
+      execute(Interpolate.string("RENAME TABLE {} TO {};", Wrap.quotes(oldTableName), Wrap.quotes(newTableName)));
     } else {
-      execute("ALTER TABLE {} RENAME TO {};", Wrap.quotes(oldTableName), Wrap.quotes(newTableName));
+      execute(Interpolate.string("ALTER TABLE {} RENAME TO {};", Wrap.quotes(oldTableName), Wrap.quotes(newTableName)));
     }
     // clean up the old history triggers, as they'll get recreated after the migrations are applied
     dropHistoryTriggers(oldTableName);
@@ -183,26 +196,29 @@ public class MigrationKeywords {
       String columnType = s[0];
       String columnDefault = s[1];
       boolean notNullable = "NO".equals(s[2]);
-      execute("ALTER TABLE {} CHANGE {} {} {} {} {}", //
+      execute(Interpolate.string("ALTER TABLE {} CHANGE {} {} {} {} {}", //
         Wrap.quotes(tableName),
         Wrap.quotes(oldColumnName),
         Wrap.quotes(newColumnName),
         columnType,
         notNullable ? "NOT NULL" : "",
-        columnDefault == null ? "" : "DEFAULT " + columnDefault);
+        columnDefault == null ? "" : "DEFAULT " + columnDefault));
     } else {
-      execute("ALTER TABLE {} RENAME COLUMN {} TO {}", Wrap.quotes(tableName), Wrap.quotes(oldColumnName), Wrap.quotes(newColumnName));
+      execute(Interpolate.string("ALTER TABLE {} RENAME COLUMN {} TO {}",//
+        Wrap.quotes(tableName),
+        Wrap.quotes(oldColumnName),
+        Wrap.quotes(newColumnName)));
     }
     // if another migration does an insert on the table, the old history trigger will fail
     dropHistoryTriggers(tableName);
   }
 
   /**
-   * Removes the history triggers for {@code tableName}, if they exist. 
+   * Removes the history triggers for {@code tableName}, if they exist.
    *
    * Currently Joist does not delete/re-create the history triggers until after
    * all migrations have applied.
-   * 
+   *
    * This means if one migration changes the schema in a way that breaks the
    * history triggers, and then another migration tries to INSERT/UPDATE/DELETE
    * a table that has broken history triggers, the 2nd migration will fail.
@@ -213,9 +229,15 @@ public class MigrationKeywords {
    * not super critical log.
    */
   public static void dropHistoryTriggers(String tableName) {
-    execute("DROP TRIGGER IF EXISTS {}_history_delete;", tableName);
-    execute("DROP TRIGGER IF EXISTS {}_history_insert;", tableName);
-    execute("DROP TRIGGER IF EXISTS {}_history_update;", tableName);
+    if (isMySQL()) {
+      execute("DROP TRIGGER IF EXISTS " + tableName + "_history_delete");
+      execute("DROP TRIGGER IF EXISTS " + tableName + "_history_insert");
+      execute("DROP TRIGGER IF EXISTS " + tableName + "_history_update");
+    } else {
+      execute("DROP TRIGGER IF EXISTS " + tableName + "_history_delete ON " + tableName);
+      execute("DROP TRIGGER IF EXISTS " + tableName + "_history_insert ON " + tableName);
+      execute("DROP TRIGGER IF EXISTS " + tableName + "_history_update ON " + tableName);
+    }
   }
 
   public static PrimaryKeyColumn primaryKey(String name) {
@@ -283,10 +305,10 @@ public class MigrationKeywords {
   public static void addColumn(String table, Column column, FillInStrategy fill) {
     column.setTableName(table);
     if (!column.isNullable() && !column.hasDefault() && fill == null) {
-      log.warn("Adding non-null/no-default column {}.{} will fail if rows already exist", table, column.getName());
+      log.warn(Interpolate.string("Adding non-null/no-default column {}.{} will fail if rows already exist", table, column.getName()));
     }
     // column
-    MigrationKeywords.execute("ALTER TABLE {} ADD COLUMN {}", Wrap.quotes(table), column.toSql());
+    MigrationKeywords.execute("ALTER TABLE " + Wrap.quotes(table) + " ADD COLUMN " + column.toSql());
     // fill
     if (fill != null) {
       try {
@@ -310,7 +332,7 @@ public class MigrationKeywords {
         dropConstraint(table, fkName);
       }
     }
-    execute("ALTER TABLE {} DROP COLUMN {};", Wrap.quotes(table), Wrap.quotes(column));
+    execute(Interpolate.string("ALTER TABLE {} DROP COLUMN {};", Wrap.quotes(table), Wrap.quotes(column)));
     // if another migration does an insert on the table, the old history trigger will fail
     dropHistoryTriggers(table);
   }
@@ -349,7 +371,7 @@ public class MigrationKeywords {
   }
 
   public static void dropIndex(String index) {
-    MigrationKeywords.execute("DROP INDEX {};", Wrap.quotes(index));
+    MigrationKeywords.execute("DROP INDEX " + Wrap.quotes(index));
   }
 
   public static FillInStrategy fillIn(String constant) {
@@ -369,7 +391,7 @@ public class MigrationKeywords {
     Object[] result = Jdbc
       .queryForRow(
         Migrater.getConnection(),
-        "SELECT column_type, column_default, is_nullable FROM information_schema.columns WHERE table_schema = '{}' AND table_name = '{}' AND column_name = '{}'",
+        "SELECT column_type, column_default, is_nullable FROM information_schema.columns WHERE table_schema = ? AND table_name = ? AND column_name = ?",
         getSchemaName(),
         tableName,
         columnName);
@@ -388,14 +410,14 @@ public class MigrationKeywords {
   private static void dropConstraint(String table, String constraint, String constraintType) {
     if (config.db.isMySQL()) {
       if ("FOREIGN KEY".equals(constraintType)) {
-        execute("ALTER TABLE {} DROP FOREIGN KEY {}", Wrap.quotes(table), Wrap.quotes(constraint));
+        execute(Interpolate.string("ALTER TABLE {} DROP FOREIGN KEY {}", Wrap.quotes(table), Wrap.quotes(constraint)));
       } else if ("UNIQUE".equals(constraintType)) {
-        execute("ALTER TABLE {} DROP INDEX {}", Wrap.quotes(table), Wrap.quotes(constraint));
+        execute(Interpolate.string("ALTER TABLE {} DROP INDEX {}", Wrap.quotes(table), Wrap.quotes(constraint)));
       } else {
         throw new RuntimeException("Unhandled constraint type " + constraintType);
       }
     } else if (config.db.isPg()) {
-      execute("ALTER TABLE {} DROP CONSTRAINT {};", Wrap.quotes(table), Wrap.quotes(constraint));
+      execute(Interpolate.string("ALTER TABLE {} DROP CONSTRAINT {};", Wrap.quotes(table), Wrap.quotes(constraint)));
     } else {
       throw new RuntimeException("Unsupported db " + config.db);
     }
@@ -406,20 +428,20 @@ public class MigrationKeywords {
       + " FROM information_schema.key_column_usage kcu,"
       + "   information_schema.table_constraints tc"
       + " WHERE kcu.constraint_name = tc.constraint_name"
-      + " AND kcu.table_schema = '{}'"
-      + " AND kcu.table_name = '{}'"
-      + " AND kcu.column_name = '{}'"
-      + " AND tc.constraint_schema = '{}'"
-      + " AND tc.constraint_type = '{}'";
+      + " AND kcu.table_schema = ?"
+      + " AND kcu.table_name = ?"
+      + " AND kcu.column_name = ?"
+      + " AND tc.constraint_schema = ?"
+      + " AND tc.constraint_type = ?";
     return (String) Jdbc.queryForRow(Migrater.getConnection(), sql, getSchemaName(), table, column, getSchemaName(), type)[0];
   }
 
   private static String findConstraintType(String table, String constraintName) {
     String sql = "SELECT tc.constraint_type"
       + " FROM information_schema.table_constraints tc"
-      + " WHERE tc.constraint_schema = '{}'"
-      + " AND tc.table_name = '{}'"
-      + " AND tc.constraint_name = '{}'";
+      + " WHERE tc.constraint_schema = ?"
+      + " AND tc.table_name = ?"
+      + " AND tc.constraint_name = ?";
     return (String) Jdbc.queryForRow(Migrater.getConnection(), sql, getSchemaName(), table, constraintName)[0];
   }
 
@@ -430,20 +452,20 @@ public class MigrationKeywords {
         + " FROM information_schema.key_column_usage kcu,"
         + "   information_schema.table_constraints tc"
         + " WHERE kcu.constraint_name = tc.constraint_name"
-        + " AND kcu.table_schema = '{}'"
-        + " AND kcu.table_name = '{}'"
-        + " AND kcu.column_name = '{}'"
-        + " AND tc.constraint_schema = '{}'"
+        + " AND kcu.table_schema = ?"
+        + " AND kcu.table_name = ?"
+        + " AND kcu.column_name = ?"
+        + " AND tc.constraint_schema = ?"
         + " AND tc.constraint_type = 'FOREIGN KEY'";
     } else {
       sql = "SELECT ccu.table_name, ccu.column_name"
         + " FROM information_schema.key_column_usage kcu,"
         + "   information_schema.constraint_column_usage ccu"
         + " WHERE kcu.constraint_name = ccu.constraint_name"
-        + " AND kcu.table_schema = '{}'"
-        + " AND kcu.table_name = '{}'"
-        + " AND kcu.column_name = '{}'"
-        + " AND ccu.constraint_schema = '{}'";
+        + " AND kcu.table_schema = ?"
+        + " AND kcu.table_name = ?"
+        + " AND kcu.column_name = ?"
+        + " AND ccu.constraint_schema = ?";
     }
     Object[] row = Jdbc.queryForRow(Migrater.getConnection(), sql, getSchemaName(), table, column, getSchemaName());
     return new String[] { (String) row[0], (String) row[1] };

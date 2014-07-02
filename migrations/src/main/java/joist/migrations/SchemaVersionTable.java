@@ -53,13 +53,13 @@ public class SchemaVersionTable {
 
   /** @param conn the auto-commit=false connection for the current update. */
   public void updateVersionNumber(Connection conn, int nextVersion) throws SQLException {
-    Jdbc.update(conn, "UPDATE schema_version SET version = {}", nextVersion);
+    Jdbc.update(conn, "UPDATE schema_version SET version = ?", nextVersion);
   }
 
   private boolean isAround() {
     return Jdbc.queryForInt(
       this.ds,
-      "select count(*) from information_schema.tables where table_name = 'schema_version' and table_schema = '{}'",
+      "select count(*) from information_schema.tables where table_name = 'schema_version' and table_schema = ?",
       this.schemaName) > 0;
   }
 }
