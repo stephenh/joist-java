@@ -25,6 +25,7 @@ public class JdbcTest extends AbstractFeaturesTest {
 
   @Test
   public void testNoSqlInjection() {
+    // previously these would fail with syntax exceptions on the ticks
     Jdbc.queryForInt(UoW.getConnection(), "SELECT COUNT(*) FROM parent WHERE name = ?", "'foo'");
     Jdbc.queryForRow(UoW.getConnection(), "SELECT COUNT(*) FROM parent WHERE name = ?", "'foo'");
     Jdbc.update(UoW.getConnection(), "UPDATE parent SET name = null WHERE name = ?", "'foo'");
