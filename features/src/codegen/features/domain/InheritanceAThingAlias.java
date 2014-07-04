@@ -37,6 +37,10 @@ public class InheritanceAThingAlias extends Alias<InheritanceAThing> {
     return new JoinClause<T, InheritanceAThing>("INNER JOIN", this, on);
   }
 
+  public <T extends DomainObject> JoinClause<T, InheritanceAThing> leftOn(ForeignKeyAliasColumn<T, InheritanceAThing> on) {
+    return new JoinClause<T, InheritanceAThing>("LEFT OUTER JOIN", this, on);
+  }
+
   public List<AliasColumn<InheritanceAThing, ?, ?>> getColumns() {
     return this.columns;
   }

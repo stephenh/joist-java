@@ -57,4 +57,8 @@ public class ManyToManyBBarAlias extends Alias<ManyToManyBBar> {
     return new JoinClause<T, ManyToManyBBar>("INNER JOIN", this, on);
   }
 
+  public <T extends DomainObject> JoinClause<T, ManyToManyBBar> leftOn(ForeignKeyAliasColumn<T, ManyToManyBBar> on) {
+    return new JoinClause<T, ManyToManyBBar>("LEFT OUTER JOIN", this, on);
+  }
+
 }

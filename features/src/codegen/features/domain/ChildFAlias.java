@@ -57,4 +57,8 @@ public class ChildFAlias extends Alias<ChildF> {
     return new JoinClause<T, ChildF>("INNER JOIN", this, on);
   }
 
+  public <T extends DomainObject> JoinClause<T, ChildF> leftOn(ForeignKeyAliasColumn<T, ChildF> on) {
+    return new JoinClause<T, ChildF>("LEFT OUTER JOIN", this, on);
+  }
+
 }

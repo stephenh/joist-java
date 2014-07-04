@@ -70,4 +70,8 @@ public class InheritanceASubOneAlias extends Alias<InheritanceASubOne> {
     return new JoinClause<T, InheritanceASubOne>("INNER JOIN", this, on);
   }
 
+  public <T extends DomainObject> JoinClause<T, InheritanceASubOne> leftOn(ForeignKeyAliasColumn<T, InheritanceASubOne> on) {
+    return new JoinClause<T, InheritanceASubOne>("LEFT OUTER JOIN", this, on);
+  }
+
 }
