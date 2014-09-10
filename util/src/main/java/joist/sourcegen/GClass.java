@@ -362,6 +362,14 @@ public class GClass {
     return this.baseClassName;
   }
 
+  public String getBaseQualifiedClassName() {
+    String fqcn = this.baseClassName;
+    if (fqcn != null && !fqcn.contains(".")) {
+      fqcn = this.getPackageName() + "." + fqcn;
+    }
+    return fqcn;
+  }
+
   public GClass baseClass(Class<?> type) {
     return this.baseClassName(type.getName());
   }
@@ -550,10 +558,7 @@ public class GClass {
       }
     }
     if (this.directory != null) {
-      String currentBaseName = this.baseClassName;
-      if (!currentBaseName.contains(".")) {
-        currentBaseName = this.getPackageName() + "." + currentBaseName;
-      }
+      String currentBaseName = this.getBaseQualifiedClassName();
       while (currentBaseName != null) {
         GClass currentBase = this.directory.getClass(currentBaseName);
         for (GField field : currentBase.fields) {
@@ -561,7 +566,7 @@ public class GClass {
             return field;
           }
         }
-        currentBaseName = currentBase.baseClassName;
+        currentBaseName = currentBase.getBaseQualifiedClassName();
       }
     }
     throw new IllegalArgumentException("Could not find field " + name);
