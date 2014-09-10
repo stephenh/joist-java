@@ -59,4 +59,8 @@ public class ParentBChildBarAlias extends Alias<ParentBChildBar> {
     return new JoinClause<T, ParentBChildBar>("INNER JOIN", this, on);
   }
 
+  public <T extends DomainObject> JoinClause<T, ParentBChildBar> leftOn(ForeignKeyAliasColumn<T, ParentBChildBar> on) {
+    return new JoinClause<T, ParentBChildBar>("LEFT OUTER JOIN", this, on);
+  }
+
 }

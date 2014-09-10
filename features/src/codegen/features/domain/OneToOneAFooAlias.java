@@ -37,6 +37,10 @@ public class OneToOneAFooAlias extends Alias<OneToOneAFoo> {
     return new JoinClause<T, OneToOneAFoo>("INNER JOIN", this, on);
   }
 
+  public <T extends DomainObject> JoinClause<T, OneToOneAFoo> leftOn(ForeignKeyAliasColumn<T, OneToOneAFoo> on) {
+    return new JoinClause<T, OneToOneAFoo>("LEFT OUTER JOIN", this, on);
+  }
+
   public List<AliasColumn<OneToOneAFoo, ?, ?>> getColumns() {
     return this.columns;
   }

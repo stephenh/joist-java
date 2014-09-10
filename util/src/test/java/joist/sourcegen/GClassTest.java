@@ -479,4 +479,44 @@ public class GClassTest {
       "}",
       ""), foo.toCode());
   }
+
+  @Test
+  public void testToStringWithGrandparentClass() {
+    GDirectory d = new GDirectory("./");
+
+    GClass grand = d.getClass("p.Grand");
+    grand.getField("a").type("String");
+
+    GClass parent = d.getClass("p.Parent");
+    parent.baseClassName("Grand");
+    parent.getField("b").type("String");
+
+    GClass child = d.getClass("p.Child");
+    child.baseClassName("Parent");
+    child.getField("c").type("String");
+
+    // have to pass both a and b for now
+    child.addToString("a", "b", "c");
+
+    Assert.assertEquals(Join.lines(
+      "package p;",
+      "",
+      "public class Child extends Parent {",
+      "",
+      "    private String c;",
+      "",
+      "    @Override",
+      "    public String toString() {",
+      "        return \"Child[\"",
+      "            + a",
+      "            + \", \"",
+      "            + b",
+      "            + \", \"",
+      "            + c",
+      "            + \"]\";",
+      "    }",
+      "",
+      "}",
+      ""), child.toCode());
+  }
 }

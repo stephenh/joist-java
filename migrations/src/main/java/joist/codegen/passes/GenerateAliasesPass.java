@@ -16,6 +16,7 @@ import joist.domain.orm.queries.columns.CodeAliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
 import joist.domain.orm.queries.columns.LongAliasColumn;
+import joist.sourcegen.Argument;
 import joist.sourcegen.GClass;
 import joist.sourcegen.GField;
 import joist.sourcegen.GMethod;
@@ -201,12 +202,18 @@ public class GenerateAliasesPass implements Pass<Codegen> {
 
       if (!p.getOneSide().isCodeEntity()) {
         GClass otherAliasClass = codegen.getOutputCodegenDirectory().getClass(p.getOneSide().getFullAliasClassName());
-        if (!otherAliasClass.hasMethod("on")) {
-          GMethod on = otherAliasClass.getMethod("on");
+        GMethod on = otherAliasClass.getMethod("on", Argument.arg("ForeignKeyAliasColumn<T, " + p.getJavaType() + ">", "on"));
+        if (on.body.toString().isEmpty()) {
           on.typeParameters("T extends DomainObject");
-          on.argument("ForeignKeyAliasColumn<T, " + p.getJavaType() + ">", "on");
           on.returnType("JoinClause<T, {}>", p.getJavaType());
           on.body.line("return new JoinClause<T, {}>(\"INNER JOIN\", this, on);", p.getJavaType());
+          otherAliasClass.addImports(ForeignKeyAliasColumn.class, JoinClause.class, DomainObject.class);
+        }
+        GMethod leftOn = otherAliasClass.getMethod("leftOn", Argument.arg("ForeignKeyAliasColumn<T, " + p.getJavaType() + ">", "on"));
+        if (leftOn.body.toString().isEmpty()) {
+          leftOn.typeParameters("T extends DomainObject");
+          leftOn.returnType("JoinClause<T, {}>", p.getJavaType());
+          leftOn.body.line("return new JoinClause<T, {}>(\"LEFT OUTER JOIN\", this, on);", p.getJavaType());
           otherAliasClass.addImports(ForeignKeyAliasColumn.class, JoinClause.class, DomainObject.class);
         }
       }
