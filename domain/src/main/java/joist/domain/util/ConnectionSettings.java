@@ -16,6 +16,7 @@ public class ConnectionSettings {
   public String host;
   public int maxPoolSize = 100;
   public int initialPoolSize = 1;
+  public int timeoutInSeconds = 5;
   public DataSourceFactory factory = new C3p0DataSourceFactory();
   private DataSource ds;
 

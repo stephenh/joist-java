@@ -11,7 +11,7 @@
 		<dependency org="joist" name="joist-util" rev="${joist.version}" conf="compile"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.4" conf="compile"/>
 		<dependency org="com.bizo" name="timeandmoney" rev="1.0.0" conf="compile"/>
-		<dependency org="c3p0" name="c3p0" rev="0.9.1.2" conf="compile"/>
+		<dependency org="com.mchange" name="c3p0" rev="0.9.5-pre8" conf="compile"/>
 
 		<dependency org="junit" name="junit" rev="4.10" conf="test"/>
 	</dependencies>
