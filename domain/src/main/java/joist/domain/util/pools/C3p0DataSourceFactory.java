@@ -27,17 +27,27 @@ public class C3p0DataSourceFactory implements DataSourceFactory {
 
   @Override
   public ComboPooledDataSource create(ConnectionSettings settings) {
-    String type = settings.db.isPg() ? "postgresql" : "mysql";
     ComboPooledDataSource ds = new ComboPooledDataSource();
-    ds.setJdbcUrl("jdbc:" + type + "://" + settings.host + "/" + settings.databaseName);
+    String settingsSuffix = "?";
+    if (settings.db.isPg()) {
+      settingsSuffix += "loginTimeout=" + settings.timeoutInSeconds + "&socketTimeout=" + settings.timeoutInSeconds;
+    } else if (settings.db.isMySQL()) {
+      settingsSuffix += "connectTimeout=" + (settings.timeoutInSeconds * 1000) + "&socketTimeout=" + (settings.timeoutInSeconds * 1000);
+      // convertToNull == don't blow up on '0000-00-00 00:00:00' timestamp values
+      settingsSuffix += "&zeroDateTimeBehavior=convertToNull";
+    }
+    String type = settings.db.isPg() ? "postgresql" : "mysql";
+    ds.setJdbcUrl("jdbc:" + type + "://" + settings.host + "/" + settings.databaseName + settingsSuffix);
     ds.setUser(settings.user);
     ds.setPassword(settings.password);
     ds.setMaxPoolSize(settings.maxPoolSize);
     ds.setInitialPoolSize(settings.initialPoolSize);
     ds.setPreferredTestQuery("select 1");
     ds.setTestConnectionOnCheckout(true);
-    ds.setAcquireRetryAttempts(1); // only try once, then fail fast
-    ds.setCheckoutTimeout(5000); // don't block on a full pool, but needs to be large enough for new connection spin up
+    // only try once, then fail fast
+    ds.setAcquireRetryAttempts(1);
+    // don't block on a full pool, but needs to be large enough for new connection spin up
+    ds.setCheckoutTimeout((settings.timeoutInSeconds + 1) * 1000);
     return ds;
   }
 
