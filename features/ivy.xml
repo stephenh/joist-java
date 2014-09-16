@@ -12,7 +12,7 @@
 		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.1" conf="compile"/>
 
 		<dependency org="joist" name="joist-domain-testing" rev="${joist.version}" conf="test"/>
-		<dependency org="postgresql" name="postgresql" rev="8.4-701.jdbc4" conf="test"/>
-		<dependency org="mysql" name="mysql-connector-java" rev="5.1.13" conf="test"/>
+		<dependency org="org.postgresql" name="postgresql" rev="9.3-1102-jdbc41" conf="test"/>
+		<dependency org="mysql" name="mysql-connector-java" rev="5.1.32" conf="test"/>
 	</dependencies>
 </ivy-module>
