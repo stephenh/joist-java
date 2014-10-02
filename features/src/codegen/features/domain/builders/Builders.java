@@ -204,6 +204,12 @@ public class Builders {
   }
 
   public static InheritanceABaseBuilder existing(InheritanceABase inheritanceABase) {
+    if (inheritanceABase instanceof InheritanceASubTwo) {
+      return new InheritanceASubTwoBuilder((InheritanceASubTwo) inheritanceABase);
+    }
+    if (inheritanceABase instanceof InheritanceASubOne) {
+      return new InheritanceASubOneBuilder((InheritanceASubOne) inheritanceABase);
+    }
     return new InheritanceABaseBuilder(inheritanceABase);
   }
 
@@ -312,6 +318,9 @@ public class Builders {
   }
 
   public static InheritanceBMiddleBuilder existing(InheritanceBMiddle inheritanceBMiddle) {
+    if (inheritanceBMiddle instanceof InheritanceBBottom) {
+      return new InheritanceBBottomBuilder((InheritanceBBottom) inheritanceBMiddle);
+    }
     return new InheritanceBMiddleBuilder(inheritanceBMiddle);
   }
 
@@ -324,6 +333,12 @@ public class Builders {
   }
 
   public static InheritanceBRootBuilder existing(InheritanceBRoot inheritanceBRoot) {
+    if (inheritanceBRoot instanceof InheritanceBBottom) {
+      return new InheritanceBBottomBuilder((InheritanceBBottom) inheritanceBRoot);
+    }
+    if (inheritanceBRoot instanceof InheritanceBMiddle) {
+      return new InheritanceBMiddleBuilder((InheritanceBMiddle) inheritanceBRoot);
+    }
     return new InheritanceBRootBuilder(inheritanceBRoot);
   }
 
@@ -352,6 +367,12 @@ public class Builders {
   }
 
   public static InheritanceCBuilder existing(InheritanceC inheritanceC) {
+    if (inheritanceC instanceof InheritanceCFoo2) {
+      return new InheritanceCFoo2Builder((InheritanceCFoo2) inheritanceC);
+    }
+    if (inheritanceC instanceof InheritanceCFoo1) {
+      return new InheritanceCFoo1Builder((InheritanceCFoo1) inheritanceC);
+    }
     return new InheritanceCBuilder(inheritanceC);
   }
 
