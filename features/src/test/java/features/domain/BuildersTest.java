@@ -3,11 +3,13 @@ package features.domain;
 import static features.domain.builders.Builders.aChild;
 import static features.domain.builders.Builders.aCodeADomainObject;
 import static features.domain.builders.Builders.aGrandChild;
+import static features.domain.builders.Builders.aInheritanceASubOne;
 import static features.domain.builders.Builders.aManyToManyABar;
 import static features.domain.builders.Builders.aManyToManyAFoo;
 import static features.domain.builders.Builders.aParent;
 import static features.domain.builders.Builders.aPrimitives;
 import static features.domain.builders.Builders.existing;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -18,9 +20,12 @@ import joist.domain.uow.UoW;
 import org.junit.Assert;
 import org.junit.Test;
 
+import features.domain.builders.Builders;
 import features.domain.builders.ChildBuilder;
 import features.domain.builders.CodeADomainObjectBuilder;
 import features.domain.builders.GrandChildBuilder;
+import features.domain.builders.InheritanceABaseBuilder;
+import features.domain.builders.InheritanceASubOneBuilder;
 import features.domain.builders.ManyToManyAFooBuilder;
 import features.domain.builders.ParentBuilder;
 import features.domain.builders.PrimitivesBuilder;
@@ -183,5 +188,15 @@ public class BuildersTest extends AbstractFeaturesTest {
     GrandChildBuilder g = aGrandChild().use(p).defaults();
     // use passed the parent along for child's default
     assertThat(g.child().parent(), is(p));
+  }
+
+  @Test
+  public void testExistingWithSubClasses() {
+    InheritanceASubOneBuilder one = aInheritanceASubOne().defaults();
+    this.commitAndReOpen();
+
+    InheritanceABase base = one.get();
+    InheritanceABaseBuilder baseBuilder = Builders.existing(base);
+    assertThat(baseBuilder, is(instanceOf(InheritanceASubOneBuilder.class)));
   }
 }
