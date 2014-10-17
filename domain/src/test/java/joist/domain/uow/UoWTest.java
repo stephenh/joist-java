@@ -5,11 +5,13 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
 import joist.domain.orm.Db;
+import joist.domain.orm.NamedUpdater;
 import joist.domain.orm.Repository;
 
 import org.junit.Test;
@@ -28,7 +30,7 @@ public class UoWTest {
     assertThat(UoW.isOpen(), is(true));
     // when connection.close becomes faulty
     Mockito.doThrow(new RuntimeException("foo")).when(conn).close();
-    // and we try to close, it fail fail
+    // and we try to close, it will fail
     try {
       UoW.close();
       fail();
@@ -38,6 +40,32 @@ public class UoWTest {
     // and we actually let go of the UoW thread local
     assertThat(UoW.isOpen(), is(false));
     Mockito.verify(conn).close();
+  }
+
+  @Test
+  public void testUoWCloseHandlesDbFailuresInUpdaterSetNull() throws Exception {
+    // given an initially-fine connection
+    DataSource ds = Mockito.mock(DataSource.class);
+    Connection conn = Mockito.mock(Connection.class);
+    PreparedStatement ps = Mockito.mock(PreparedStatement.class);
+    Mockito.doReturn(conn).when(ds).getConnection();
+    Mockito.doReturn(ps).when(conn).prepareStatement(Mockito.anyString());
+    // we can UoW.open
+    UoW.open(new Repository(Db.MYSQL, ds), new NamedUpdater("foo"));
+    assertThat(UoW.isOpen(), is(true));
+    // when connection.close becomes faulty
+    Mockito.doThrow(new RuntimeException("foo")).when(conn).prepareStatement(Mockito.anyString());
+    // and we try to close, it will fail
+    try {
+      UoW.close();
+      fail();
+    } catch (RuntimeException re) {
+      assertThat(re.getMessage(), is("foo"));
+    }
+    // and we actually let go of the UoW thread local
+    assertThat(UoW.isOpen(), is(false));
+    Mockito.verify(conn).close();
+    Mockito.verify(conn, Mockito.atLeast(2)).prepareStatement(Mockito.anyString());
   }
 
   @Test

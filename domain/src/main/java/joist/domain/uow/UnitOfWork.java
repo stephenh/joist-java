@@ -62,9 +62,14 @@ public class UnitOfWork {
       // clear the user variable so it doesn't leak into other connections
       // (which it will since our connection is pooled)
       this.setUpdater(null);
-      this.connection.close();
-    } catch (SQLException se) {
-      throw new RuntimeException(se);
+    } finally {
+      // we close the connection in a finally in case the setUpdater
+      // call fails, we still want to call .close()
+      try {
+        this.connection.close();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 
