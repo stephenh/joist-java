@@ -140,8 +140,10 @@ public class UoW {
    * Closes the current {@link UnitOfWork} and database connection, without any flush or txn commit/rollback.
    */
   public static void close() {
-    UoW.getCurrent().close();
+    UnitOfWork current = UoW.getCurrent();
+    // unset our ThreadLocal first, in case .close() fails
     UoW.uowForThread.set(null);
+    current.close();
   }
 
   /**

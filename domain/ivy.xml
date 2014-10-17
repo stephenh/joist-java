@@ -14,5 +14,6 @@
 		<dependency org="com.mchange" name="c3p0" rev="0.9.5-pre8" conf="compile"/>
 
 		<dependency org="junit" name="junit" rev="4.10" conf="test"/>
+		<dependency org="org.mockito" name="mockito-all" rev="1.10.8" conf="test"/>
 	</dependencies>
 </ivy-module>

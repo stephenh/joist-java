@@ -342,24 +342,58 @@ public class Jdbc {
     return current;
   }
 
-  public static void closeSafely(Object... objects) {
-    for (Object o : objects) {
-      try {
-        if (o instanceof ResultSet) {
-          ((ResultSet) o).close();
-        } else if (o instanceof Statement) {
-          ((Statement) o).close();
-        } else if (o instanceof PreparedStatement) {
-          ((PreparedStatement) o).close();
-        } else if (o instanceof Connection) {
-          ((Connection) o).close();
-        } else if (o != null) {
-          throw new RuntimeException("Unhandled object " + o);
-        }
-      } catch (Exception e) {
-        log.error("Error occurred closing {}", e, o);
-      }
+  public static void closeSafely(Connection conn) {
+    try {
+      conn.close();
+    } catch (Exception e) {
+      log.error("Error occurred closing " + conn, e);
     }
+  }
+
+  public static void closeSafely(PreparedStatement ps) {
+    try {
+      ps.close();
+    } catch (Exception e) {
+      log.error("Error occurred closing " + ps, e);
+    }
+  }
+
+  public static void closeSafely(Statement stmt) {
+    try {
+      stmt.close();
+    } catch (Exception e) {
+      log.error("Error occurred closing " + stmt, e);
+    }
+  }
+
+  public static void closeSafely(ResultSet rs) {
+    try {
+      rs.close();
+    } catch (Exception e) {
+      log.error("Error occurred closing " + rs, e);
+    }
+  }
+
+  public static void closeSafely(ResultSet rs, PreparedStatement ps) {
+    closeSafely(rs);
+    closeSafely(ps);
+  }
+
+  public static void closeSafely(ResultSet rs, Statement stmt) {
+    closeSafely(rs);
+    closeSafely(stmt);
+  }
+
+  public static void closeSafely(ResultSet rs, PreparedStatement ps, Connection conn) {
+    closeSafely(rs);
+    closeSafely(ps);
+    closeSafely(conn);
+  }
+
+  public static void closeSafely(ResultSet rs, Statement stmt, Connection conn) {
+    closeSafely(rs);
+    closeSafely(stmt);
+    closeSafely(conn);
   }
 
   private static void tickQueriesIfTracking() {

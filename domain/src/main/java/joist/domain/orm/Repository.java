@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import joist.domain.uow.Snapshot;
 import joist.domain.uow.UnitOfWork;
 import joist.domain.util.ConnectionSettings;
+import joist.jdbc.Jdbc;
 
 /** An app-wide instance for the application's db + datasource. */
 public class Repository {
@@ -34,12 +35,21 @@ public class Repository {
    * Caller is responsible for calling commit/close on the returned instance.
    */
   public UnitOfWork open(Updater updater, Snapshot snapshot) {
+    Connection connection = null;
     try {
-      Connection connection = this.datasource.getConnection();
+      connection = this.datasource.getConnection();
       connection.setAutoCommit(false);
       return new UnitOfWork(this, connection, updater, snapshot);
     } catch (SQLException se) {
+      // be paranoid and, if setAutoCommit/new UnitOfWork blew up, immediately
+      // close our connection because without a valid UnitOfWork instance, the
+      // UoW methods won't know about our connection
+      Jdbc.closeSafely(connection);
       throw new RuntimeException(se);
+    } catch (RuntimeException re) {
+      // same but don't wrap the exception
+      Jdbc.closeSafely(connection);
+      throw re;
     }
   }
 
