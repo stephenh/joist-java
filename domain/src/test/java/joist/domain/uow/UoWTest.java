@@ -37,6 +37,7 @@ public class UoWTest {
     }
     // and we actually let go of the UoW thread local
     assertThat(UoW.isOpen(), is(false));
+    Mockito.verify(conn).close();
   }
 
   @Test
@@ -56,6 +57,7 @@ public class UoWTest {
     // which is fine as long as we let go of the UoW
     assertThat(UoW.isOpen(), is(false));
     Mockito.verify(conn).setAutoCommit(false);
+    Mockito.verify(conn).close();
   }
 
   @Test
