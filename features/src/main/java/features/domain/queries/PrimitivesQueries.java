@@ -43,12 +43,20 @@ public class PrimitivesQueries extends PrimitivesQueriesCodegen {
     u.execute();
   }
 
+  public List<String> findNamesOnly() {
+    PrimitivesAlias p = new PrimitivesAlias("p");
+    Select<Primitives> q = Select.from(p);
+    q.select(p.name.as("name"));
+    q.orderBy(p.name.asc());
+    return q.listValues(String.class);
+  }
+
   public String findNameOnly(int id) {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
     q.select(p.name.as("name"));
     q.where(p.id.eq(id));
-    return q.unique(String.class);
+    return q.uniqueValueOrNull(String.class);
   }
 
   public List<NameAndFlag> findNameAndFlagOnly() {
