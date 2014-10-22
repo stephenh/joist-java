@@ -1,9 +1,13 @@
 package features.domain;
 
+import static features.domain.builders.Builders.aPrimitivesC;
+
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.domainlanguage.time.CalendarDate;
 
 import features.domain.queries.PrimitivesQueries.NameAndFlag;
 
@@ -30,6 +34,25 @@ public class PrimitivesAggregatesTest extends AbstractFeaturesTest {
     new Primitives("testNameOnly");
     this.commitAndReOpen();
     Assert.assertEquals("testNameOnly", Primitives.queries.findNameOnly(1));
+  }
+
+  @Test
+  public void testNamesOnly() {
+    new Primitives("testNamesOnly1");
+    new Primitives("testNamesOnly2");
+    this.commitAndReOpen();
+    List<String> names = Primitives.queries.findNamesOnly();
+    Assert.assertEquals("testNamesOnly1", names.get(0));
+    Assert.assertEquals("testNamesOnly2", names.get(1));
+  }
+
+  @Test
+  public void testUserTypeOnly() {
+    CalendarDate jan1 = CalendarDate.date(2000, 1, 1);
+    aPrimitivesC().day(jan1).defaults();
+    this.commitAndReOpen();
+    List<CalendarDate> days = PrimitivesC.queries.findDatesOnly();
+    Assert.assertEquals(jan1, days.get(0));
   }
 
   @Test
