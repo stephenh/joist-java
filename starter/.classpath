@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/migrations/java"/>
+	<classpathentry kind="src" path="src/migrations/resources"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry exported="true" kind="src" path="/joist-domain"/>
 	<classpathentry exported="true" kind="src" path="/joist-domain-testing"/>
