@@ -10,7 +10,7 @@ Building
 
 From the command line:
 
-    ./all.sh install
+    gradle install
 
 Note that `install` is required to, like multi-project Maven setups, install the jars from upstream projects into your local Ivy repository for the downstream projects to fetch.
 

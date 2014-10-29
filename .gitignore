@@ -1,7 +1,9 @@
-bin
+/.gradle
+bin/
 *.log*
 build*.properties
+build/
 newproject
 docs.zip
-target
-reports
+target/
+reports/

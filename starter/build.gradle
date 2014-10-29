@@ -1,0 +1,31 @@
+
+dependencies {
+  compile project(':domain')
+  compile project(':migrations')
+  compile 'org.slf4j:slf4j-log4j12:1.6.1'
+
+  testCompile project(':domain-testing')
+  testCompile 'org.postgresql:postgresql:9.3-1102-jdbc41'
+  testCompile 'mysql:mysql-connector-java:5.1.32'
+}
+
+sourceSets {
+  main {
+    java {
+      srcDir 'src/codegen'
+      srcDir 'src/migrations'
+    }
+  }
+}
+
+task cycle(type: JavaExec) {
+  // shouldn't really be compileClasspath, but works for now...
+  classpath sourceSets.test.compileClasspath
+  // We should have a separate src/migrations directory other
+  // wise this only compiles with src/main/java, and because
+  // we've checked in the previous codegen output.
+  main = 'starter.cli.Cli'
+  args 'JoistCli.cycle'
+}
+
+
