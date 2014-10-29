@@ -25,7 +25,7 @@ public class JoistCli extends AbstractJoistCli {
 
   public static Config config() {
     Config config = new Config("features", db);
-    config.outputCodegenDirectory = "src/codegen";
+    config.outputCodegenDirectory = "src/codegen/java";
     config.setCollectionSkipped("ParentD", "parentDChildAs");
     config.setCollectionSkipped("ParentD", "parentDToChildCs");
     config.setPropertySkipped("Primitives", "skipped");

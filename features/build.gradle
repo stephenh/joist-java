@@ -4,7 +4,7 @@ sourceSets {
   migrations
   main {
     java {
-      srcDir 'src/codegen'
+      srcDir 'src/codegen/java'
     }
   }
 }
