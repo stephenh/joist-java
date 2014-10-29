@@ -5,5 +5,5 @@
 	<classpathentry exported="true" kind="src" path="/joist-util"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.springsource.ide.eclipse.gradle.classpathcontainer"/>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="output" path="build/eclipse"/>
 </classpath>

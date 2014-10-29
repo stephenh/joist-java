@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="**/.svn/|**/CVS/" kind="src" path="src/main/java"/>
-	<classpathentry excluding="**/.svn/|**/CVS/" kind="src" output="target/test/classes" path="src/test/java"/>
+	<classpathentry excluding="**/.svn/|**/CVS/" kind="src" path="src/test/java"/>
 	<classpathentry exported="true" kind="src" path="/joist-util"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.springsource.ide.eclipse.gradle.classpathcontainer"/>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="output" path="build/eclipse"/>
 </classpath>
