@@ -12,8 +12,8 @@ dependencies {
 sourceSets {
   main {
     java {
-      srcDir 'src/codegen'
-      srcDir 'src/migrations'
+      srcDir 'src/codegen/java'
+      srcDir 'src/migrations/java'
     }
   }
 }
