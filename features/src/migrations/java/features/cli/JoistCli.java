@@ -8,6 +8,7 @@ import joist.util.SystemProperties;
 
 public class JoistCli extends AbstractJoistCli {
 
+  /** Should match {@link features.Registry#db} for testing. */
   public static final Db db = Db.MYSQL;
 
   static {
