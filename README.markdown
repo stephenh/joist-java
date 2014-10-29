@@ -8,6 +8,8 @@ See [joist.ws](http://joist.ws) for more information.
 Building
 ========
 
+For Eclipse, the current `.classpath`/`.project` files assumed you've installed the [Gradle STS plugin](https://github.com/spring-projects/eclipse-integration-gradle/).
+
 From the command line:
 
     gradle install
