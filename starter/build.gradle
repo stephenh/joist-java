@@ -28,5 +28,6 @@ task cycle(type: JavaExec) {
   args 'JoistCli.cycle'
 }
 cycle.dependsOn(migrationsClasses)
+compileJava.dependsOn(cycle)
 
 
