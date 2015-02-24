@@ -65,6 +65,8 @@ public class Migrater {
 
       Migration migration = this.migrationClasses.get(nextVersion);
       log.info("Applying {}: {}", migration.getClass().getSimpleName(), migration.toString());
+      // Set the updater in case any history triggers are listening
+      Jdbc.update(connection, "set @updater=?", migration.getClass().getSimpleName());
       migration.apply();
 
       // Tick to the current version number
@@ -77,6 +79,11 @@ public class Migrater {
     } catch (SQLException se) {
       throw new RuntimeException(se);
     } finally {
+      try {
+        Jdbc.update(connection, "set @updater=null");
+      } catch (Exception e) {
+        log.warn("Ignoring exception in finally", e);
+      }
       Jdbc.closeSafely(connection);
     }
   }
