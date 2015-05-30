@@ -22,14 +22,6 @@ public class DataTransferObjectMapper<T extends DomainObject, R> implements RowM
   }
 
   public void mapRow(ResultSet rs) throws SQLException {
-    if (rs.getMetaData().getColumnCount() == 1) {
-      Object value = rs.getObject(1);
-      if (this.rowType.isAssignableFrom(value.getClass())) {
-        this.results.add((R) value);
-        return;
-      }
-    }
-
     R row = this.newInstance();
 
     for (SelectItem item : this.selectItems) {

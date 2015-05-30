@@ -1,0 +1,11 @@
+
+dependencies {
+  compile project(':util')
+  compile 'commons-lang:commons-lang:2.4'
+  compile 'com.bizo:timeandmoney:1.0.0'
+  compile 'com.mchange:c3p0:0.9.5-pre8'
+
+  testCompile 'junit:junit:4.10'
+  testCompile 'org.mockito:mockito-all:1.10.8'
+}
+

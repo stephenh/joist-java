@@ -8,9 +8,11 @@ See [joist.ws](http://joist.ws) for more information.
 Building
 ========
 
+For Eclipse, the current `.classpath`/`.project` files assumed you've installed the [Gradle STS plugin](https://github.com/spring-projects/eclipse-integration-gradle/).
+
 From the command line:
 
-    ./all.sh install
+    gradle install
 
 Note that `install` is required to, like multi-project Maven setups, install the jars from upstream projects into your local Ivy repository for the downstream projects to fetch.
 

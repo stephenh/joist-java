@@ -1,8 +1,0 @@
-
-require '../build.rb'
-
-define 'joist-migrations' do
-  package_with_ivy project
-  ivy.compile_conf(['default','provided'])
-end
-

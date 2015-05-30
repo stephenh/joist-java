@@ -248,11 +248,20 @@ public class GClass {
       }
       sb.append(this.name.simpleNameWithGenerics);
       sb.append(" ");
-      if (this.baseClassName != null) {
-        sb.append("extends {} ", this.stripAndImportPackageIfPossible(this.baseClassName));
-      }
-      if (this.implementsInterfaces.size() > 0) {
-        sb.append("implements {} ", Join.commaSpace(this.implementsInterfaces));
+      if (!this.isInterface) {
+        if (this.baseClassName != null) {
+          sb.append("extends {} ", this.stripAndImportPackageIfPossible(this.baseClassName));
+        }
+        if (this.implementsInterfaces.size() > 0) {
+          sb.append("implements {} ", Join.commaSpace(this.implementsInterfaces));
+        }
+      } else {
+        List<String> interfaces = Copy.list();
+        if (this.baseClassName != null) {
+          interfaces.add(this.baseClassName);
+        }
+        interfaces.addAll(this.implementsInterfaces);
+        sb.append("extends {} ", Join.commaSpace(interfaces));
       }
       sb.line("{");
     }

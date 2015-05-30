@@ -9,6 +9,7 @@ import joist.domain.exceptions.TooManyException;
 import joist.domain.orm.mappers.DataTransferObjectMapper;
 import joist.domain.orm.mappers.DomainObjectMapper;
 import joist.domain.orm.mappers.IdsMapper;
+import joist.domain.orm.mappers.ValuesMapper;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
 import joist.domain.uow.UoW;
@@ -107,6 +108,19 @@ public class Select<T extends DomainObject> {
     return results;
   }
 
+  public <R> List<R> listValues(Class<R> valueType) {
+    final List<R> results = new ArrayList<R>();
+    if (this.selectItems.size() != 1) {
+      throw new IllegalStateException("listValues expects to only query a single column");
+    }
+    Jdbc.query(//
+      UoW.getConnection(),
+      this.toSql(),
+      this.getParameters(),
+      new ValuesMapper<R>(this.selectItems.get(0), results));
+    return results;
+  }
+
   public <R> R unique(Class<R> rowType) {
     R result = this.uniqueOrNull(rowType);
     if (result == null) {
@@ -117,6 +131,16 @@ public class Select<T extends DomainObject> {
 
   public <R> R uniqueOrNull(Class<R> rowType) {
     List<R> results = this.list(rowType);
+    if (results.size() == 0) {
+      return null;
+    } else if (results.size() > 1) {
+      throw new TooManyException(rowType, results);
+    }
+    return results.get(0);
+  }
+
+  public <R> R uniqueValueOrNull(Class<R> rowType) {
+    List<R> results = this.listValues(rowType);
     if (results.size() == 0) {
       return null;
     } else if (results.size() > 1) {

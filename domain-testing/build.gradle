@@ -1,0 +1,7 @@
+
+dependencies {
+  compile project(':domain')
+  compile project(':util')
+  compile 'junit:junit:4.10'
+}
+

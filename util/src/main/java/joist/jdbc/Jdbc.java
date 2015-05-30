@@ -344,7 +344,9 @@ public class Jdbc {
 
   public static void closeSafely(Connection conn) {
     try {
-      conn.close();
+      if (conn != null) {
+        conn.close();
+      }
     } catch (Exception e) {
       log.error("Error occurred closing " + conn, e);
     }
@@ -352,7 +354,9 @@ public class Jdbc {
 
   public static void closeSafely(PreparedStatement ps) {
     try {
-      ps.close();
+      if (ps != null) {
+        ps.close();
+      }
     } catch (Exception e) {
       log.error("Error occurred closing " + ps, e);
     }
@@ -360,7 +364,9 @@ public class Jdbc {
 
   public static void closeSafely(Statement stmt) {
     try {
-      stmt.close();
+      if (stmt != null) {
+        stmt.close();
+      }
     } catch (Exception e) {
       log.error("Error occurred closing " + stmt, e);
     }
@@ -368,7 +374,9 @@ public class Jdbc {
 
   public static void closeSafely(ResultSet rs) {
     try {
-      rs.close();
+      if (rs != null) {
+        rs.close();
+      }
     } catch (Exception e) {
       log.error("Error occurred closing " + rs, e);
     }

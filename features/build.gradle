@@ -1,0 +1,42 @@
+
+
+sourceSets {
+  migrations
+  main {
+    java {
+      srcDir 'src/codegen/java'
+    }
+  }
+}
+
+dependencies {
+  compile project(':domain')
+  compile 'org.slf4j:slf4j-log4j12:1.6.1'
+
+  testCompile project(':domain-testing')
+  testCompile 'org.postgresql:postgresql:9.3-1102-jdbc41'
+  testCompile 'mysql:mysql-connector-java:5.1.32'
+
+  migrationsCompile project(':migrations')
+  migrationsCompile 'org.slf4j:slf4j-log4j12:1.6.1'
+  migrationsCompile 'org.postgresql:postgresql:9.3-1102-jdbc41'
+  migrationsCompile 'mysql:mysql-connector-java:5.1.32'
+}
+
+task cycle(type: JavaExec) {
+  classpath sourceSets.migrations.runtimeClasspath
+  // We should have a separate src/migrations directory other
+  // wise this only compiles with src/main/java, and because
+  // we've checked in the previous codegen output.
+  main = 'features.cli.Cli'
+  args 'JoistCli.cycle'
+}
+cycle.dependsOn(migrationsClasses)
+compileJava.dependsOn(cycle)
+
+eclipse {
+  classpath {
+     plusConfigurations += [ configurations.migrationsCompile ]
+  }
+}
+

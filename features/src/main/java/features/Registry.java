@@ -5,10 +5,11 @@ import javax.sql.DataSource;
 import joist.domain.orm.Db;
 import joist.domain.orm.Repository;
 import joist.util.SystemProperties;
-import features.cli.JoistCli;
 
 public class Registry {
 
+  /** Should match {@link features.cli.JoistCli#db} for testing. */
+  private static final Db db = Db.MYSQL;
   private final static Registry instance = new Registry();
   private final Repository repository;
 
@@ -24,8 +25,7 @@ public class Registry {
   }
 
   private Registry() {
-    // usually app code can't access JoistCli, but having a single db flag is nice
-    if (JoistCli.db.isMySQL()) {
+    if (Registry.db.isMySQL()) {
       SystemProperties.loadFromFileIfExists("./build.properties");
       this.repository = new Repository(Db.MYSQL, "features");
     } else {

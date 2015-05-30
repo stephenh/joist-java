@@ -14,7 +14,7 @@ public class OutputPass implements Pass<Codegen> {
 
   public void pass(Codegen codegen) {
     // sanity check the config
-    for (String badSkipped : codegen.getConfig().getBadSkippedCollections()) {
+    for (String badSkipped : codegen.getConfig().getStaleSkippedCollections()) {
       throw new IllegalStateException("BAD CONFIGURATION: Collection marked 'setCollectionSkipped' was not available " + badSkipped);
     }
 
