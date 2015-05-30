@@ -1,3 +1,4 @@
 #org.springsource.ide.eclipse.gradle.core.preferences.GradleProjectPreferences
-#Tue Oct 28 21:17:54 CDT 2014
+#Sat May 30 15:03:09 CDT 2015
+build.family.org.gradle.tooling.model.eclipse.HierarchicalEclipseProject=;domain;domain-testing;features;migrations;starter;util;
 org.springsource.ide.eclipse.gradle.rootprojectloc=
