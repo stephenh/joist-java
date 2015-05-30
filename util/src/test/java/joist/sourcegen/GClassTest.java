@@ -192,6 +192,17 @@ public class GClassTest {
   }
 
   @Test
+  public void testInterfaceThatIsEmpty() {
+    GClass gc = new GClass("foo.Foo").setInterface();
+    Assert.assertEquals(Join.lines("package foo;",//
+      "",
+      "public interface Foo {",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
+  @Test
   public void testAnnotated() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.addAnnotation("@SuppressWarnings");

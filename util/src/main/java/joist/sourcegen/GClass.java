@@ -261,7 +261,9 @@ public class GClass {
           interfaces.add(this.baseClassName);
         }
         interfaces.addAll(this.implementsInterfaces);
-        sb.append("extends {} ", Join.commaSpace(interfaces));
+        if (!interfaces.isEmpty()) {
+          sb.append("extends {} ", Join.commaSpace(interfaces));
+        }
       }
       sb.line("{");
     }
