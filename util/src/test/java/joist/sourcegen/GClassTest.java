@@ -179,6 +179,19 @@ public class GClassTest {
   }
 
   @Test
+  public void testInterfacesExtendsTwoInterfaces() {
+    GClass gc = new GClass("foo.Foo").setInterface();
+    gc.baseClassName("Base1");
+    gc.implementsInterface("Base2");
+    Assert.assertEquals(Join.lines("package foo;",//
+      "",
+      "public interface Foo extends Base1, Base2 {",
+      "",
+      "}",
+      ""), gc.toCode());
+  }
+
+  @Test
   public void testAnnotated() {
     GClass gc = new GClass("foo.bar.Foo");
     gc.addAnnotation("@SuppressWarnings");
