@@ -49,13 +49,13 @@ public class ExecuteTest {
 
   @Test
   public void toFileOut() {
-    File out = new File("target/out.txt");
+    File out = new File("build/out.txt");
     // make sure we don't assert against stale results
     if (out.exists()) {
       out.delete();
     }
     Execute e = new Execute("ls");
-    Result r = e.toFile("target/out.txt");
+    Result r = e.toFile("build/out.txt");
     assertThat(r.success, is(true));
     assertThat(r.exitValue, is(0));
     assertThat(Read.fromFile(out).contains("README.markdown"), is(true));
