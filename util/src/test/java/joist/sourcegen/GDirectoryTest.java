@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class GDirectoryTest {
 
-  private File foo = new File("./bin/org/exigencecorp/Foo.java");
+  private File foo = new File("./build/org/exigencecorp/Foo.java");
 
   @Before
   public void setUp() {
@@ -26,7 +26,7 @@ public class GDirectoryTest {
   public void testOutput() throws Exception {
     Assert.assertFalse(this.foo.exists());
 
-    GDirectory bin = new GDirectory("./bin");
+    GDirectory bin = new GDirectory("./build");
     GClass gc = bin.getClass("org.exigencecorp.Foo");
     gc.getMethod("foo").setBody("int i = 0;");
     bin.output();
