@@ -47,7 +47,12 @@ public class PermissionFixer {
       String userhost = this.config.userhost;
       log.info("Granting ALL on all tables to '{}'@'{}'", role, userhost);
       for (String tableName : this.getTableNames()) {
-        Jdbc.update(this.ds, Interpolate.string("GRANT ALL ON TABLE {} TO '{}'@'{}'", Wrap.quotes(tableName), role, userhost));
+        Jdbc.update(this.ds, Interpolate.string(
+          "GRANT ALL ON TABLE {}.{} TO '{}'@'{}'",
+          this.config.dbAppUserSettings.schemaName,
+          Wrap.quotes(tableName),
+          role,
+          userhost));
       }
     } else {
       log.info("Granting ALL on all tables to {}", role);
