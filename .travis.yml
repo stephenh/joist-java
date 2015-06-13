@@ -1,0 +1,10 @@
+language: java
+sudo: false
+env:
+  global:
+  - secure: geb4AbjI6MxYGQ0/JIQ3gmfTbgwAunS4sIPHYg/Ap0JdATJ2ZOtPgOLwCxE2DzwMRLqAOsVCoOdEaDjBqx5PW2ull3N/v75Nq39fVAFa+JMqU1H4IoF68TKOwEJ98VryfqAHSnp6/5KFOE8DjXNQ/AqTqyFLJ1FSkHrdmE7ulck=
+  - secure: bjxJnjs5uXxAi5wGwI5eWflEBMEo3RSKVj0rnElRWYQFjERl2Wz0E3aGfc/XE7SI1jmjWj4BvkjuIVhA6rybiEZa9P9ioGfuAYBUxFD+B1knxq+NLWEjU9GbhwSL/VkteH3ShaRBw/lHTyPN58rhy+a/9iF8W0VLLU5b/x+UhXo=
+after_success:
+- test -n "$TRAVIS_TAG" && ssh-keyscan -H repo.joist.ws >> ~/.ssh/known_hosts && ./gradlew uploadArchives
+jdk:
+- oraclejdk8
