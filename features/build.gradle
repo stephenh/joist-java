@@ -13,7 +13,7 @@ dependencies {
   compile project(':domain')
   compile 'org.slf4j:slf4j-log4j12:1.6.1'
 
-  testCompile project(':domain-testing')
+  testCompile project(':domain-testing'), project(':migrations')
   testCompile 'org.postgresql:postgresql:9.3-1102-jdbc41'
   testCompile 'mysql:mysql-connector-java:5.1.32'
 
