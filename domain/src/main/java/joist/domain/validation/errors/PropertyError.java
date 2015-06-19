@@ -20,6 +20,10 @@ public class PropertyError implements ValidationError {
     return this.instance;
   }
 
+  public String getProperty() {
+    return this.property;
+  }
+
   public String getMessage() {
     return Inflector.humanize(this.property) + " " + this.message;
   }
@@ -28,4 +32,8 @@ public class PropertyError implements ValidationError {
     return this.getMessage() + " - " + this.instance;
   }
 
+  /** @return return only the message, without the humanized property as a prefix. */
+  public String getMessageItself() {
+    return this.message;
+  }
 }
