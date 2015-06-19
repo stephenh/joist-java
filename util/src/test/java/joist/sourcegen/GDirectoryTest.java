@@ -49,7 +49,8 @@ public class GDirectoryTest {
   @Test
   public void testMarkTouched() {
     GDirectory bin = new GDirectory(this.directory);
-    bin.markTouched("org.exigencecorp.Foo");
+    bin.getClass("org.exigencecorp.Foo");
+    bin.output();
     Assert.assertEquals(Copy.list(new File(this.directory + "/org/exigencecorp/Foo.java")), bin.getTouched());
     Assert.assertEquals(Copy.list(new File(this.directory + "/org/exigencecorp")), bin.getUsedDirectories());
     Assert.assertEquals(Copy.list(//
