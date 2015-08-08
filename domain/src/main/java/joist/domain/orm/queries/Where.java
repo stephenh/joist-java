@@ -25,6 +25,14 @@ public class Where {
     return w;
   }
 
+  public static Where and(Where... wheres) {
+    return Where.make("AND", Type.AND, wheres);
+  }
+
+  public static Where or(Where... wheres) {
+    return Where.make("OR", Type.OR, wheres);
+  }
+
   private static Where make(String operator, Type newType, Where w1, Where w2) {
     boolean bothSimple = w1.type == Type.SIMPLE && w2.type == Type.SIMPLE;
     boolean moreSimple = w1.type == newType && w2.type == Type.SIMPLE;
@@ -49,6 +57,41 @@ public class Where {
     w.type = newType;
     w.parameters.addAll(w1.getParameters());
     w.parameters.addAll(w2.parameters);
+    return w;
+  }
+
+  private static Where make(String operator, Type newType, Where... wheres) {
+    int numberOfSimples = 0;
+    for (Where where : wheres) {
+      if (where.type == Type.SIMPLE) {
+        numberOfSimples++;
+      }
+    }
+
+    boolean allSimple = numberOfSimples == wheres.length;
+    Where first = wheres[0];
+    Where[] others = new Where[wheres.length - 1];
+    System.arraycopy(wheres, 1, others, 0, wheres.length - 1);
+
+    Where w = new Where();
+    if (allSimple) {
+      w.clauses.addNoIndent(first.clauses);
+      for (Where other : others) {
+        w.clauses.add(operator + " " + other.getSql());
+      }
+    } else {
+      w.clauses.add("(");
+      w.clauses.add(first.clauses);
+      for (Where other : others) {
+        w.clauses.add(") " + operator + " (");
+        w.clauses.add(other.clauses);
+      }
+      w.clauses.add(")");
+    }
+    w.type = newType;
+    for (Where where : wheres) {
+      w.parameters.addAll(where.getParameters());
+    }
     return w;
   }
 
@@ -77,7 +120,6 @@ public class Where {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     this.clauses.append(sb);
-    sb.deleteCharAt(0); // first space
     sb.deleteCharAt(sb.length() - 1); // last new line
     return sb.toString();
   }
