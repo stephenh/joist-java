@@ -14,7 +14,7 @@ public class Clauses {
   }
 
   public void add(String c) {
-    this.clauses.add(new Clause(c, 1));
+    this.clauses.add(new Clause(c, 0));
   }
 
   public void add(Clauses other) {
