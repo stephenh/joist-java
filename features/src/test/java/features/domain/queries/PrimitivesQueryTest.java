@@ -49,7 +49,7 @@ public class PrimitivesQueryTest extends AbstractFeaturesTest {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
     q.where(p.id.lessThan(10l).and(p.id.greaterThan(1l)));
-    Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM \"primitives\" p\n WHERE p.id < ?\n AND p.id > ?", q.toSql());
+    Assert.assertEquals("SELECT p.flag, p.id, p.name, p.version\n FROM \"primitives\" p\n WHERE p.id < ?\nAND p.id > ?", q.toSql());
     Assert.assertEquals(Copy.list(10l, 1l), q.getParameters());
   }
 
