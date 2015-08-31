@@ -10,16 +10,16 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
+import org.junit.Test;
+
+import features.domain.builders.ParentBuilder;
+import features.domain.queries.ParentQueries.ParentDto;
 import joist.domain.ValidationAssert;
 import joist.domain.orm.IdentityMap;
 import joist.domain.uow.UoW;
 import joist.domain.validation.ValidationException;
 import joist.jdbc.Jdbc;
-
-import org.junit.Assert;
-import org.junit.Test;
-
-import features.domain.builders.ParentBuilder;
 
 public class ChildTest extends AbstractFeaturesTest {
 
@@ -268,6 +268,20 @@ public class ChildTest extends AbstractFeaturesTest {
     List<Parent> ps = Parent.queries.findChildrenStartingWith("c");
     assertThat(ps.size(), is(1));
     assertThat(ps.get(0).getChilds().size(), is(2));
+  }
+
+  @Test
+  public void testQueryThatLeftJoinsWithChildren() {
+    Parent p1 = new Parent("p1");
+    new Child(p1, "c1");
+    new Parent("p2");
+    this.commitAndReOpen();
+    List<ParentDto> dtos = Parent.queries.findNumberOfChildren();
+    assertThat(dtos.size(), is(2));
+    assertThat(dtos.get(0).name, is("p1"));
+    assertThat(dtos.get(0).numberOfChildren, is(1L));
+    assertThat(dtos.get(1).name, is("p2"));
+    assertThat(dtos.get(1).numberOfChildren, is(0L));
   }
 
   @Test
