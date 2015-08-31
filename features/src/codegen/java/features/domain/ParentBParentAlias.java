@@ -33,14 +33,6 @@ public class ParentBParentAlias extends Alias<ParentBParent> {
     this.columns.add(this.version);
   }
 
-  public <T extends DomainObject> JoinClause<T, ParentBParent> on(ForeignKeyAliasColumn<T, ParentBParent> on) {
-    return new JoinClause<T, ParentBParent>("INNER JOIN", this, on);
-  }
-
-  public <T extends DomainObject> JoinClause<T, ParentBParent> leftOn(ForeignKeyAliasColumn<T, ParentBParent> on) {
-    return new JoinClause<T, ParentBParent>("LEFT OUTER JOIN", this, on);
-  }
-
   public List<AliasColumn<ParentBParent, ?, ?>> getColumns() {
     return this.columns;
   }
@@ -59,6 +51,14 @@ public class ParentBParentAlias extends Alias<ParentBParent> {
 
   public int getOrder() {
     return 29;
+  }
+
+  public <T extends DomainObject> JoinClause<T, ParentBParent> on(ForeignKeyAliasColumn<T, ParentBParent> on) {
+    return new JoinClause<T, ParentBParent>("INNER JOIN", this, on);
+  }
+
+  public <T extends DomainObject> JoinClause<T, ParentBParent> leftOn(ForeignKeyAliasColumn<T, ParentBParent> on) {
+    return new JoinClause<T, ParentBParent>("LEFT OUTER JOIN", this, on);
   }
 
 }

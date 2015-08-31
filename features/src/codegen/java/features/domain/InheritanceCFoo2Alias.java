@@ -2,8 +2,11 @@ package features.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.JoinClause;
 import joist.domain.orm.queries.columns.AliasColumn;
+import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
 import joist.domain.orm.queries.columns.LongAliasColumn;
 import joist.domain.orm.queries.columns.StringAliasColumn;
@@ -57,6 +60,14 @@ public class InheritanceCFoo2Alias extends Alias<InheritanceCFoo2> {
 
   public int getOrder() {
     return 15;
+  }
+
+  public <T extends DomainObject> JoinClause<T, InheritanceCFoo2> on(ForeignKeyAliasColumn<T, InheritanceCFoo2> on) {
+    return new JoinClause<T, InheritanceCFoo2>("INNER JOIN", this, on);
+  }
+
+  public <T extends DomainObject> JoinClause<T, InheritanceCFoo2> leftOn(ForeignKeyAliasColumn<T, InheritanceCFoo2> on) {
+    return new JoinClause<T, InheritanceCFoo2>("LEFT OUTER JOIN", this, on);
   }
 
 }

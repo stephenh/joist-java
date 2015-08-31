@@ -2,7 +2,9 @@ package features.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.JoinClause;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
@@ -50,6 +52,14 @@ public class ManyToManyBFooToBarAlias extends Alias<ManyToManyBFooToBar> {
 
   public int getOrder() {
     return 21;
+  }
+
+  public <T extends DomainObject> JoinClause<T, ManyToManyBFooToBar> on(ForeignKeyAliasColumn<T, ManyToManyBFooToBar> on) {
+    return new JoinClause<T, ManyToManyBFooToBar>("INNER JOIN", this, on);
+  }
+
+  public <T extends DomainObject> JoinClause<T, ManyToManyBFooToBar> leftOn(ForeignKeyAliasColumn<T, ManyToManyBFooToBar> on) {
+    return new JoinClause<T, ManyToManyBFooToBar>("LEFT OUTER JOIN", this, on);
   }
 
 }
