@@ -55,6 +55,7 @@ public class GenerateAliasesPass implements Pass<Codegen> {
       this.addInheritedColumns(aliasClass, entity);
 
       this.addOrderMethod(aliasClass, sorted.indexOf(entity));
+      this.addJoinOnMethods(aliasClass, entity);
 
       this.addAliasesField(aliasesClass, entity);
     }
@@ -201,21 +202,6 @@ public class GenerateAliasesPass implements Pass<Codegen> {
         p.getVariableName());
 
       if (!p.getOneSide().isCodeEntity()) {
-        GClass otherAliasClass = codegen.getOutputCodegenDirectory().getClass(p.getOneSide().getFullAliasClassName());
-        GMethod on = otherAliasClass.getMethod("on", Argument.arg("ForeignKeyAliasColumn<T, " + p.getJavaType() + ">", "on"));
-        if (on.body.toString().isEmpty()) {
-          on.typeParameters("T extends DomainObject");
-          on.returnType("JoinClause<T, {}>", p.getJavaType());
-          on.body.line("return new JoinClause<T, {}>(\"INNER JOIN\", this, on);", p.getJavaType());
-          otherAliasClass.addImports(ForeignKeyAliasColumn.class, JoinClause.class, DomainObject.class);
-        }
-        GMethod leftOn = otherAliasClass.getMethod("leftOn", Argument.arg("ForeignKeyAliasColumn<T, " + p.getJavaType() + ">", "on"));
-        if (leftOn.body.toString().isEmpty()) {
-          leftOn.typeParameters("T extends DomainObject");
-          leftOn.returnType("JoinClause<T, {}>", p.getJavaType());
-          leftOn.body.line("return new JoinClause<T, {}>(\"LEFT OUTER JOIN\", this, on);", p.getJavaType());
-          otherAliasClass.addImports(ForeignKeyAliasColumn.class, JoinClause.class, DomainObject.class);
-        }
       }
 
       this.appendToConstructors(aliasClass, "this.columns.add(this.{});", p.getVariableName());
@@ -274,6 +260,22 @@ public class GenerateAliasesPass implements Pass<Codegen> {
   private void addOrderMethod(GClass aliasClass, int index) {
     GMethod order = aliasClass.getMethod("getOrder").returnType(int.class);
     order.body.line("return {};", index);
+  }
+
+  private void addJoinOnMethods(GClass aliasClass, Entity entity) {
+    String javaType = entity.getClassName();
+
+    GMethod on = aliasClass.getMethod("on", Argument.arg("ForeignKeyAliasColumn<T, " + javaType + ">", "on"));
+    on.typeParameters("T extends DomainObject");
+    on.returnType("JoinClause<T, {}>", javaType);
+    on.body.line("return new JoinClause<T, {}>(\"INNER JOIN\", this, on);", javaType);
+
+    aliasClass.addImports(ForeignKeyAliasColumn.class, JoinClause.class, DomainObject.class);
+    GMethod leftOn = aliasClass.getMethod("leftOn", Argument.arg("ForeignKeyAliasColumn<T, " + javaType + ">", "on"));
+    leftOn.typeParameters("T extends DomainObject");
+    leftOn.returnType("JoinClause<T, {}>", javaType);
+    leftOn.body.line("return new JoinClause<T, {}>(\"LEFT OUTER JOIN\", this, on);", javaType);
+    aliasClass.addImports(ForeignKeyAliasColumn.class, JoinClause.class, DomainObject.class);
   }
 
   private void addAliasesField(GClass aliasesClass, Entity entity) {

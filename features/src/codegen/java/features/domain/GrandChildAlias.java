@@ -2,7 +2,9 @@ package features.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import joist.domain.DomainObject;
 import joist.domain.orm.queries.Alias;
+import joist.domain.orm.queries.JoinClause;
 import joist.domain.orm.queries.columns.AliasColumn;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.orm.queries.columns.IdAliasColumn;
@@ -51,6 +53,14 @@ public class GrandChildAlias extends Alias<GrandChild> {
 
   public int getOrder() {
     return 28;
+  }
+
+  public <T extends DomainObject> JoinClause<T, GrandChild> on(ForeignKeyAliasColumn<T, GrandChild> on) {
+    return new JoinClause<T, GrandChild>("INNER JOIN", this, on);
+  }
+
+  public <T extends DomainObject> JoinClause<T, GrandChild> leftOn(ForeignKeyAliasColumn<T, GrandChild> on) {
+    return new JoinClause<T, GrandChild>("LEFT OUTER JOIN", this, on);
   }
 
 }

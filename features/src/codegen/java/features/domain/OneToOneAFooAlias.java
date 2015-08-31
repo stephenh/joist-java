@@ -33,14 +33,6 @@ public class OneToOneAFooAlias extends Alias<OneToOneAFoo> {
     this.columns.add(this.version);
   }
 
-  public <T extends DomainObject> JoinClause<T, OneToOneAFoo> on(ForeignKeyAliasColumn<T, OneToOneAFoo> on) {
-    return new JoinClause<T, OneToOneAFoo>("INNER JOIN", this, on);
-  }
-
-  public <T extends DomainObject> JoinClause<T, OneToOneAFoo> leftOn(ForeignKeyAliasColumn<T, OneToOneAFoo> on) {
-    return new JoinClause<T, OneToOneAFoo>("LEFT OUTER JOIN", this, on);
-  }
-
   public List<AliasColumn<OneToOneAFoo, ?, ?>> getColumns() {
     return this.columns;
   }
@@ -59,6 +51,14 @@ public class OneToOneAFooAlias extends Alias<OneToOneAFoo> {
 
   public int getOrder() {
     return 22;
+  }
+
+  public <T extends DomainObject> JoinClause<T, OneToOneAFoo> on(ForeignKeyAliasColumn<T, OneToOneAFoo> on) {
+    return new JoinClause<T, OneToOneAFoo>("INNER JOIN", this, on);
+  }
+
+  public <T extends DomainObject> JoinClause<T, OneToOneAFoo> leftOn(ForeignKeyAliasColumn<T, OneToOneAFoo> on) {
+    return new JoinClause<T, OneToOneAFoo>("LEFT OUTER JOIN", this, on);
   }
 
 }

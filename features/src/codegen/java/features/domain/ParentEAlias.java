@@ -51,16 +51,16 @@ public class ParentEAlias extends Alias<ParentE> {
     return null;
   }
 
+  public int getOrder() {
+    return 40;
+  }
+
   public <T extends DomainObject> JoinClause<T, ParentE> on(ForeignKeyAliasColumn<T, ParentE> on) {
     return new JoinClause<T, ParentE>("INNER JOIN", this, on);
   }
 
   public <T extends DomainObject> JoinClause<T, ParentE> leftOn(ForeignKeyAliasColumn<T, ParentE> on) {
     return new JoinClause<T, ParentE>("LEFT OUTER JOIN", this, on);
-  }
-
-  public int getOrder() {
-    return 40;
   }
 
 }
