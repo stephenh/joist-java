@@ -37,6 +37,10 @@ public class ForeignKeyAliasColumn<T extends DomainObject, W extends DomainObjec
     return new JoinClause<T, W>("INNER JOIN", this.getAlias(), on.getIdColumn(), this);
   }
 
+  public JoinClause<T, W> leftOn(Alias<W> on) {
+    return new JoinClause<T, W>("LEFT JOIN", this.getAlias(), on.getIdColumn(), this);
+  }
+
   @Override
   public Long toJdbcValue(ResultSet rs, int i) throws SQLException {
     return rs.getLong(i);
