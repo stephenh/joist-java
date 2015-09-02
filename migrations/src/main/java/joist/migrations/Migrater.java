@@ -2,12 +2,16 @@ package joist.migrations;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 
-import joist.codegen.Config;
-import joist.jdbc.Jdbc;
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import joist.codegen.Config;
+import joist.jdbc.Jdbc;
+import joist.jdbc.JdbcException;
 
 public class Migrater {
 
@@ -34,58 +38,55 @@ public class Migrater {
       throw new RuntimeException("schema_info was already locked");
     }
     try {
-      boolean tryNextMigration = true;
-      while (tryNextMigration) {
-        tryNextMigration = this.performNextMigrationIfAvailable();
-      }
+      DataSource ds = this.config.dbAppSaSettings.getDataSource();
+      this.applyNormalMigrations(ds);
+      this.applyBranchMigrations(ds);
       this.schemaInfoTable.vacuumIfAppropriate();
     } finally {
       this.schemaInfoTable.unlock();
     }
   }
 
-  /** Starts a auto-commit=false connection/transaction for each migration. */
-  private boolean performNextMigrationIfAvailable() {
-    Connection connection = null;
-    try {
-      connection = this.config.dbAppSaSettings.getDataSource().getConnection();
-      connection.setAutoCommit(false);
-
-      int nextVersion = this.schemaInfoTable.nextVersionNumber(connection);
-      if (!this.migrationClasses.hasMigration(nextVersion)) {
-        return false;
+  private void applyNormalMigrations(DataSource ds) {
+    while (true) {
+      int nextVersion = Jdbc.inTransaction(ds, c -> this.schemaInfoTable.nextVersionNumber(c));
+      Optional<Migration> migration = this.migrationClasses.get("m", nextVersion);
+      if (migration.isPresent()) {
+        this.apply(ds, migration.get(), Optional.of(nextVersion));
+      } else {
+        break;
       }
+    }
+  }
 
+  private void applyBranchMigrations(DataSource ds) {
+    int i = 0; // branch migrations always start from zero
+    while (true) {
+      Optional<Migration> migration = this.migrationClasses.get("b", i);
+      if (migration.isPresent()) {
+        this.apply(ds, migration.get(), Optional.empty());
+      } else {
+        break;
+      }
+    }
+  }
+
+  private void apply(DataSource ds, Migration migration, Optional<Integer> version) {
+    Jdbc.inTransaction(ds, connection -> {
       Migrater.current.set(connection);
-
-      // TODO I forget what this is for...
-      // if (this.config.getInitialConnectionSetupCommand() != null) {
-      //  Jdbc.update(connection, this.config.getInitialConnectionSetupCommand());
-      // }
-
-      Migration migration = this.migrationClasses.get(nextVersion);
       log.info("Applying {}: {}", migration.getClass().getSimpleName(), migration.toString());
       // Set the updater in case any history triggers are listening
       Jdbc.update(connection, "set @updater=?", migration.getClass().getSimpleName());
-      migration.apply();
-
-      // Tick to the current version number
-      this.schemaInfoTable.updateVersionNumber(connection, nextVersion);
-
-      connection.commit();
-      return true;
-    } catch (ClassNotFoundException cnfe) {
-      throw new RuntimeException(cnfe);
-    } catch (SQLException se) {
-      throw new RuntimeException(se);
-    } finally {
       try {
-        Jdbc.update(connection, "set @updater=null");
-      } catch (Exception e) {
-        log.warn("Ignoring exception in finally", e);
+        migration.apply();
+      } catch (SQLException se) {
+        throw new JdbcException(se);
       }
-      Jdbc.closeSafely(connection);
-    }
+      // Tick to the current version number
+      version.ifPresent(v -> this.schemaInfoTable.updateVersionNumber(connection, v));
+      Jdbc.update(connection, "set @updater=null");
+      return null;
+    });
   }
 
 }
