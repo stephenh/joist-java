@@ -40,7 +40,9 @@ public class Migrater {
     try {
       DataSource ds = this.config.dbAppSaSettings.getDataSource();
       this.applyNormalMigrations(ds);
-      this.applyBranchMigrations(ds);
+      if (this.config.allowBranchMigrations) {
+        this.applyBranchMigrations(ds);
+      }
       this.schemaInfoTable.vacuumIfAppropriate();
     } finally {
       this.schemaInfoTable.unlock();
@@ -48,11 +50,12 @@ public class Migrater {
   }
 
   private void applyNormalMigrations(DataSource ds) {
+    int version = Jdbc.inTransaction(ds, c -> this.schemaInfoTable.nextVersionNumber(c));
     while (true) {
-      int nextVersion = Jdbc.inTransaction(ds, c -> this.schemaInfoTable.nextVersionNumber(c));
-      Optional<Migration> migration = this.migrationClasses.get("m", nextVersion);
+      Optional<Migration> migration = this.migrationClasses.get("m", version);
       if (migration.isPresent()) {
-        this.apply(ds, migration.get(), Optional.of(nextVersion));
+        this.apply(ds, migration.get(), Optional.of(version));
+        version++;
       } else {
         break;
       }
@@ -60,11 +63,12 @@ public class Migrater {
   }
 
   private void applyBranchMigrations(DataSource ds) {
-    int i = 0; // branch migrations always start from zero
+    int version = 0; // branch migrations always start from zero
     while (true) {
-      Optional<Migration> migration = this.migrationClasses.get("b", i);
+      Optional<Migration> migration = this.migrationClasses.get("b", version);
       if (migration.isPresent()) {
         this.apply(ds, migration.get(), Optional.empty());
+        version++;
       } else {
         break;
       }
