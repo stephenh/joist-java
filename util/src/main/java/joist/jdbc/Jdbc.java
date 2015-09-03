@@ -10,13 +10,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
 import javax.sql.DataSource;
 
-import joist.util.Reflection;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import joist.util.Reflection;
 
 public class Jdbc {
 
@@ -402,6 +403,21 @@ public class Jdbc {
     closeSafely(rs);
     closeSafely(stmt);
     closeSafely(conn);
+  }
+
+  public static <T> T inTransaction(DataSource ds, Function<Connection, T> function) {
+    Connection connection = null;
+    try {
+      connection = ds.getConnection();
+      connection.setAutoCommit(false);
+      T result = function.apply(connection);
+      connection.commit();
+      return result;
+    } catch (SQLException se) {
+      throw new RuntimeException(se);
+    } finally {
+      Jdbc.closeSafely(connection);
+    }
   }
 
   private static void tickQueriesIfTracking() {

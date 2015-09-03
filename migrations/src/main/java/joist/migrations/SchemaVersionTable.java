@@ -1,7 +1,6 @@
 package joist.migrations;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
@@ -44,7 +43,7 @@ public class SchemaVersionTable {
   }
 
   /** @param conn the auto-commit=false connection for the current update. */
-  public int nextVersionNumber(Connection conn) throws SQLException {
+  public int nextVersionNumber(Connection conn) {
     if (!this.isAround()) {
       return 0;
     }
@@ -52,7 +51,7 @@ public class SchemaVersionTable {
   }
 
   /** @param conn the auto-commit=false connection for the current update. */
-  public void updateVersionNumber(Connection conn, int nextVersion) throws SQLException {
+  public void updateVersionNumber(Connection conn, int nextVersion) {
     Jdbc.update(conn, "UPDATE schema_version SET version = ?", nextVersion);
   }
 

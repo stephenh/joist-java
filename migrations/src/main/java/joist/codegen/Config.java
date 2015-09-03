@@ -105,6 +105,14 @@ public class Config {
 
   public boolean useHistoryTriggers;
 
+  /**
+   * Whether we'll scan for "b00X" migrations after applying the main/master migrations.
+   *
+   * This is helpful for giving branches their own temporary namespace to avoid renumbering
+   * migrations after every merge from master.
+   */
+  public boolean allowBranchMigrations = false;
+
   private final Map<String, String> javaTypeByDataType = new HashMap<String, String>();
   private final Map<String, String> javaTypeByColumnName = new HashMap<String, String>();
   private final Map<TypeAndPattern, String> javaTypeByPattern = new HashMap<TypeAndPattern, String>();
