@@ -241,6 +241,11 @@ public class Select<T extends DomainObject> {
 
   public List<Object> getParameters() {
     List<Object> params = new ArrayList<Object>();
+    for (JoinClause<?, ?> join : this.joins) {
+      if (join.getAdditionalJoinCriterion() != null) {
+        params.addAll(join.getAdditionalJoinCriterion().getParameters());
+      }
+    }
     if (this.getWhere() != null) {
       params.addAll(this.getWhere().getParameters());
     }

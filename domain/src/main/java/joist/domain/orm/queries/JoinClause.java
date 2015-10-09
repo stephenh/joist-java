@@ -15,8 +15,9 @@ import joist.util.Wrap;
 public class JoinClause<E extends DomainObject, N extends DomainObject> {
 
   private final String type;
-  private final String text;
+  private String text;
   private final Alias<?> alias;
+  private Where additionalJoinCriterion;
 
   // For adding parent N as E.n_id = N.id, e.g.:
   // - q.join(n.on(e.n));
@@ -43,6 +44,12 @@ public class JoinClause<E extends DomainObject, N extends DomainObject> {
     this(newAlias, type, newAlias.getTableName(), newAlias.getName(), existingAliasIdColum.getQualifiedName(), newAliasIdColumn.getQualifiedName());
   }
 
+  public JoinClause<E, N> and(Where additionalJoinCriterion) {
+    this.additionalJoinCriterion = additionalJoinCriterion;
+    this.text += " AND " + additionalJoinCriterion.getSql();
+    return this;
+  }
+
   private JoinClause(Alias<?> alias, String type, String tableName, String aliasName, String existingColumn, String newColumn) {
     this.text = Join.space(type, Wrap.quotes(tableName), aliasName, "ON", existingColumn, "=", newColumn);
     this.alias = alias;
@@ -59,5 +66,9 @@ public class JoinClause<E extends DomainObject, N extends DomainObject> {
 
   public Alias<?> getAlias() {
     return this.alias;
+  }
+
+  public Where getAdditionalJoinCriterion() {
+    return this.additionalJoinCriterion;
   }
 }
