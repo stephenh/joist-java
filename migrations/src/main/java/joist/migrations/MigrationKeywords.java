@@ -126,6 +126,10 @@ public class MigrationKeywords {
     }
   }
 
+  public static void removeCode(String tableName, String code) {
+    MigrationKeywords.execute(Interpolate.string("DELETE FROM {} WHERE code = '{}'", tableName, code));
+  }
+
   public static void addUniqueConstraint(String tableName, String... columnNames) {
     String constraintName = tableName + "_" + Join.underscore(columnNames) + "_un";
     MigrationKeywords.execute(Interpolate.string(//

@@ -5,6 +5,8 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import joist.domain.orm.queries.Select;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -137,4 +139,23 @@ public class ManyToManyATest extends AbstractFeaturesTest {
     // assertThat(foo.getManyToManyABars().size(), is(0));
   }
 
+  @Test
+  public void testJoinWithMultipleCriteria() {
+    ManyToManyAFoo foo = new ManyToManyAFoo("foo1");
+    ManyToManyAFoo foo2 = new ManyToManyAFoo("foo2");
+    ManyToManyABar bar = new ManyToManyABar("bar");
+    bar.addManyToManyAFoo(foo);
+    this.commitAndReOpen();
+
+    ManyToManyAFooAlias mtmaf = new ManyToManyAFooAlias("mtmaf");
+    ManyToManyAFooToBarAlias mtmaftb = new ManyToManyAFooToBarAlias("mtmaftb");
+
+    List<ManyToManyAFoo> foos = Select
+      .from(mtmaf)
+      .join(mtmaftb.manyToManyAFoo.leftOn(mtmaf).and(mtmaftb.manyToManyABar.eq(bar)))
+      .where(mtmaftb.manyToManyABar.isNull())
+      .list();
+    Assert.assertEquals(foos.size(), 1);
+    Assert.assertEquals(foos.get(0).getId(), foo2.getId());
+  }
 }

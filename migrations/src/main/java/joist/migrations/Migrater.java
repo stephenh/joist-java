@@ -40,9 +40,7 @@ public class Migrater {
     try {
       DataSource ds = this.config.dbAppSaSettings.getDataSource();
       this.applyNormalMigrations(ds);
-      if (this.config.allowBranchMigrations) {
-        this.applyBranchMigrations(ds);
-      }
+      this.applyBranchMigrationsIfAllowed(ds);
       this.schemaInfoTable.vacuumIfAppropriate();
     } finally {
       this.schemaInfoTable.unlock();
@@ -58,6 +56,17 @@ public class Migrater {
         version++;
       } else {
         break;
+      }
+    }
+  }
+
+  private void applyBranchMigrationsIfAllowed(DataSource ds) {
+    if (this.config.allowBranchMigrations) {
+      this.applyBranchMigrations(ds);
+    } else {
+      Optional<Migration> b0 = this.migrationClasses.get("b", 0);
+      if (b0.isPresent()) {
+        throw new IllegalStateException("Found branch migration " + b0.get().getClass() + " but allowBranchMigrations=false");
       }
     }
   }
