@@ -5,16 +5,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.TimeZone;
 
+import com.domainlanguage.time.CalendarDate;
+import com.domainlanguage.time.CalendarInterval;
+import com.domainlanguage.time.TimePoint;
+
 import joist.domain.DomainObject;
 import joist.domain.Shim;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Where;
 
-import com.domainlanguage.time.CalendarDate;
-import com.domainlanguage.time.CalendarInterval;
-import com.domainlanguage.time.TimePoint;
-
 public class CalendarDateAliasColumn<T extends DomainObject> extends AliasColumn<T, CalendarDate, Date> {
+
+  private static volatile TimeZone timeZone = TimeZone.getDefault();
+
+  /**
+   * Allows changing the time zone used to read/write days from the database.
+   *
+   * This is a global setting, so should be called in the application's initialization code.
+   */
+  public static void setTimeZone(TimeZone timeZone) {
+    CalendarDateAliasColumn.timeZone = timeZone;
+  }
 
   public CalendarDateAliasColumn(Alias<T> alias, String name, Shim<T, CalendarDate> shim) {
     super(alias, name, shim);
@@ -45,7 +56,7 @@ public class CalendarDateAliasColumn<T extends DomainObject> extends AliasColumn
     if (jdbcValue == null) {
       return null;
     }
-    return CalendarDate.from(TimePoint.from(jdbcValue), TimeZone.getDefault());
+    return CalendarDate.from(TimePoint.from(jdbcValue), timeZone);
   }
 
   @Override
@@ -53,7 +64,7 @@ public class CalendarDateAliasColumn<T extends DomainObject> extends AliasColumn
     if (domainValue == null) {
       return null;
     }
-    return new Date(domainValue.startAsTimePoint(TimeZone.getDefault()).asJavaUtilDate().getTime());
+    return new Date(domainValue.startAsTimePoint(timeZone).asJavaUtilDate().getTime());
   }
 
   @Override
