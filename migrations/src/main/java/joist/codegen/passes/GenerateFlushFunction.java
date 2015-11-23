@@ -2,15 +2,15 @@ package joist.codegen.passes;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import joist.codegen.Codegen;
 import joist.codegen.dtos.Entity;
 import joist.jdbc.Jdbc;
 import joist.util.Interpolate;
 import joist.util.StringBuilderr;
 import joist.util.Wrap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GenerateFlushFunction implements Pass<Codegen> {
 
@@ -60,8 +60,19 @@ public class GenerateFlushFunction implements Pass<Codegen> {
     sql.line("BEGIN");
     sql.line("SET FOREIGN_KEY_CHECKS=0;");
     for (Entity entity : codegen.getSchema().getEntities().values()) {
-      if (!entity.isCodeEntity() && !entity.isStableTable()) {
-        sql.line("TRUNCATE TABLE {};", entity.getTableName());
+      // mysql 5.6's TRUNCATE causes significant slow downs, so only conditionally
+      // issue the truncate. This changed a single method in feature test from
+      // take 3+ seconds to 0.1 seconds. See: https://bugs.mysql.com/bug.php?id=68184
+      if (!entity.isCodeEntity() && !entity.isStableTable() && entity.isRoot()) {
+        sql.line(
+          "SET @c = (SELECT `AUTO_INCREMENT` FROM information_schema.tables WHERE table_schema = '{}' AND table_name = '{}');",
+          codegen.getConfig().dbAppUserSettings.schemaName,
+          entity.getTableName());
+        sql.line("IF @c > 1 THEN ");
+        for (Entity e : entity.getAllBaseAndSubEntities()) {
+          sql.line("TRUNCATE TABLE {};", e.getTableName());
+        }
+        sql.line("END IF;");
       }
     }
     sql.line("SET FOREIGN_KEY_CHECKS=1;");
