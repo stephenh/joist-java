@@ -3,8 +3,8 @@ package joist.domain.util;
 import javax.sql.DataSource;
 
 import joist.domain.orm.Db;
-import joist.domain.util.pools.C3p0DataSourceFactory;
 import joist.domain.util.pools.DataSourceFactory;
+import joist.domain.util.pools.HikariDataSourceFactory;
 
 public class ConnectionSettings {
 
@@ -17,7 +17,7 @@ public class ConnectionSettings {
   public int maxPoolSize = 100;
   public int initialPoolSize = 1;
   public int timeoutInSeconds = 5;
-  public DataSourceFactory factory = new C3p0DataSourceFactory();
+  public DataSourceFactory factory = new HikariDataSourceFactory();
   private DataSource ds;
 
   public DataSource getDataSource() {

@@ -4,8 +4,6 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import joist.domain.util.ConnectionSettings;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +12,14 @@ import com.mchange.v2.c3p0.DataSources;
 import com.mchange.v2.c3p0.management.ManagementCoordinator;
 import com.mchange.v2.c3p0.management.NullManagementCoordinator;
 
+import joist.domain.util.ConnectionSettings;
+
+/**
+ * Creates C3P0-backed connection pools.
+ *
+ * Prefer the HikariDataSourceFactory instead.
+ */
+@Deprecated()
 public class C3p0DataSourceFactory implements DataSourceFactory {
 
   private static final Logger log = LoggerFactory.getLogger(C3p0DataSourceFactory.class);
