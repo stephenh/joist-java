@@ -88,8 +88,10 @@ public class Migrater {
     Jdbc.inTransaction(ds, connection -> {
       Migrater.current.set(connection);
       log.info("Applying {}: {}", migration.getClass().getSimpleName(), migration.toString());
-      // Set the updater in case any history triggers are listening
-      Jdbc.update(connection, "set @updater=?", migration.getClass().getSimpleName());
+      if (this.config.db.isMySQL()) {
+        // Set the updater in case any history triggers are listening
+        Jdbc.update(connection, "set @updater=?", migration.getClass().getSimpleName());
+      }
       try {
         migration.apply();
       } catch (SQLException se) {
@@ -97,7 +99,9 @@ public class Migrater {
       }
       // Tick to the current version number
       version.ifPresent(v -> this.schemaInfoTable.updateVersionNumber(connection, v));
-      Jdbc.update(connection, "set @updater=null");
+      if (this.config.db.isMySQL()) {
+        Jdbc.update(connection, "set @updater=null");
+      }
       return null;
     });
   }
