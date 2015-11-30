@@ -21,7 +21,7 @@ public class HikariDataSourceFactory implements DataSourceFactory {
     } else if (settings.db.isMySQL()) {
       this.addMySQLOptions(settings, config);
     }
-    this.addCustomOptions(config);
+    this.addCustomOptions(settings, config);
     return new HikariDataSource(config);
   }
 
@@ -46,9 +46,13 @@ public class HikariDataSourceFactory implements DataSourceFactory {
     config.addDataSourceProperty("connectTimeout", (settings.timeoutInSeconds * 1000));
     config.addDataSourceProperty("socketTimeout", (settings.timeoutInSeconds * 1000));
     config.addDataSourceProperty("zeroDateTimeBehavior", "convertToNull");
+    // https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration
+    config.addDataSourceProperty("prepStmtCacheSize", 500);
+    config.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
+    config.addDataSourceProperty("cachePrepStmts", true);
   }
 
-  protected void addCustomOptions(HikariConfig config) {
+  protected void addCustomOptions(ConnectionSettings settings, HikariConfig config) {
   }
 
   public void destroy(DataSource dataSource) {
