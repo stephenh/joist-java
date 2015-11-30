@@ -47,6 +47,7 @@ public class ParentQueries extends ParentQueriesCodegen {
       new SelectItem("COUNT(" + c.id.getQualifiedName() + ")", "numberOfChildren"));
     q.join(c.parent.leftOn(p));
     q.groupBy(p.name);
+    q.orderBy(p.name.asc());
     return q.list(ParentDto.class);
   }
 
