@@ -1,5 +1,7 @@
 package joist.domain;
 
+import java.util.Map;
+
 public interface Changed {
 
   void clear();
@@ -14,4 +16,5 @@ public interface Changed {
 
   void record(String collectionProperty);
 
+  Map<String, Object> getMap();
 }
