@@ -239,9 +239,9 @@ public class ChildTest extends AbstractFeaturesTest {
 
   @Test
   public void testLoadUsesALimit() {
-    int oldSizeLimit = IdentityMap.getSizeLimit();
+    int oldSizeLimit = IdentityMap.getDefaultSizeLimit();
     try {
-      IdentityMap.setSizeLimit(10);
+      IdentityMap.setDefaultSizeLimit(10);
       ParentBuilder p = aParent().defaults();
       this.commitAndReOpen();
       for (int i = 0; i < 10; i++) {
@@ -255,7 +255,7 @@ public class ChildTest extends AbstractFeaturesTest {
         assertThat(ise.getMessage(), is("IdentityMap grew over the 10 instance limit"));
       }
     } finally {
-      IdentityMap.setSizeLimit(oldSizeLimit);
+      IdentityMap.setDefaultSizeLimit(oldSizeLimit);
     }
   }
 

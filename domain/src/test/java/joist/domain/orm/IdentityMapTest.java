@@ -10,9 +10,9 @@ public class IdentityMapTest {
 
   @Test
   public void failsAfterLimitIsHit() {
-    int oldSizeLimit = IdentityMap.getSizeLimit();
+    int oldSizeLimit = IdentityMap.getDefaultSizeLimit();
     try {
-      IdentityMap.setSizeLimit(10);
+      IdentityMap.setDefaultSizeLimit(10);
       IdentityMap m = new IdentityMap();
       for (int i = 1; i < 10; i++) {
         m.store(new DummyDomainObject((long) i));
@@ -24,7 +24,7 @@ public class IdentityMapTest {
         assertThat(ise.getMessage(), is("IdentityMap grew over the 10 instance limit"));
       }
     } finally {
-      IdentityMap.setSizeLimit(oldSizeLimit);
+      IdentityMap.setDefaultSizeLimit(oldSizeLimit);
     }
   }
 
