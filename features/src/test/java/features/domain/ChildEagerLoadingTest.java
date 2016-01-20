@@ -1,8 +1,5 @@
 package features.domain;
 
-import joist.domain.orm.EagerLoading;
-import joist.jdbc.Jdbc;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +7,9 @@ import org.junit.Test;
 import features.domain.builders.Builders;
 import features.domain.builders.ChildBuilder;
 import features.domain.builders.ParentBuilder;
+import joist.domain.orm.EagerLoading;
+import joist.domain.uow.UoW;
+import joist.jdbc.Jdbc;
 
 public class ChildEagerLoadingTest extends AbstractFeaturesTest {
 
@@ -59,6 +59,21 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
     } finally {
       EagerLoading.setEnabled(wasEnabled);
     }
+  }
+
+  @Test
+  public void testEagerLoadingWhenDisabledForJustOneInstance() {
+    Builders.aChild().name("c1").parent(this.p1);
+    Builders.aChild().name("c2").parent(this.p2);
+    this.commitAndReOpen();
+
+    this.p1.get(); // reload each parent
+    this.p2.get();
+    Jdbc.resetStats();
+    UoW.getEagerCache().doNotEagerlyLoadFor(this.p2.get());
+    this.p1.get().getChilds(); // now reload each set of children
+    this.p2.get().getChilds(); // causes n+1 type behavior
+    Assert.assertEquals(2, Jdbc.numberOfQueries());
   }
 
   @Test

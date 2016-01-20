@@ -1,7 +1,9 @@
 package joist.domain.orm;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import joist.domain.DomainObject;
@@ -25,6 +27,7 @@ public class EagerCache {
 
   // TODO needs to private again...
   public final Map<ForeignKeyAliasColumn<?, ?>, MapToList<Long, DomainObject>> cache = new HashMap<ForeignKeyAliasColumn<?, ?>, MapToList<Long, DomainObject>>();
+  private List<DomainObject> instancesToNotEagerlyLoad = new ArrayList<DomainObject>();
 
   @SuppressWarnings("unchecked")
   public <U extends DomainObject> MapToList<Long, U> get(ForeignKeyAliasColumn<U, ?> ac) {
@@ -43,7 +46,15 @@ public class EagerCache {
     Collection<Long> alreadyFetchedIds = byParentId.keySet();
     FluentList<Long> allParentIds = Copy.list(UoW.getIdentityMap().getIdsOf(parent.getClass()));
     Collection<Long> idsToLoad = allParentIds.without(alreadyFetchedIds);
+    for (DomainObject instance : this.instancesToNotEagerlyLoad) {
+      if (instance != parent) {
+        idsToLoad.remove(instance.getId());
+      }
+    }
     return idsToLoad;
   }
 
+  public void doNotEagerlyLoadFor(DomainObject instance) {
+    this.instancesToNotEagerlyLoad.add(instance);
+  }
 }
