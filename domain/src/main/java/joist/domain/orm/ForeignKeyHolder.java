@@ -3,6 +3,8 @@ package joist.domain.orm;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
+import org.apache.commons.lang.ObjectUtils;
+
 import joist.domain.DomainObject;
 import joist.domain.exceptions.DisconnectedException;
 import joist.domain.orm.queries.Alias;
@@ -10,8 +12,6 @@ import joist.domain.orm.queries.Select;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.uow.UoW;
 import joist.util.Default;
-
-import org.apache.commons.lang.ObjectUtils;
 
 /**
  * A value holder that will lazy load the foreign key.
@@ -65,7 +65,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
           }
           Select<P> q = Select.from(this.parentAlias);
           q.where(this.parentAlias.getIdColumn().in(parentIds));
-          q.limit(IdentityMap.getSizeLimit());
+          q.limit(UoW.getIdentityMap().getCurrentSizeLimit());
           q.list(); // will populate the UoW IdentityMap with all fetched parents
           this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
         }

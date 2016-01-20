@@ -5,23 +5,36 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import joist.domain.DomainObject;
-import joist.util.MapToMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import joist.domain.DomainObject;
+import joist.util.MapToMap;
 
 public class IdentityMap {
 
   private static final Logger log = LoggerFactory.getLogger(IdentityMap.class);
-  private static final AtomicInteger sizeLimit = new AtomicInteger(10000);
+  private static final AtomicInteger defaultSizeLimit = new AtomicInteger(10000);
+  private int sizeLimit = defaultSizeLimit.get();
 
-  public static int getSizeLimit() {
-    return sizeLimit.get();
+  public static int getDefaultSizeLimit() {
+    return defaultSizeLimit.get();
   }
 
+  public static void setDefaultSizeLimit(int sizeLimit) {
+    IdentityMap.defaultSizeLimit.set(sizeLimit);
+  }
+
+  /** Use {@link IdentityMap#getDefaultSizeLimit()} instead. */
+  @Deprecated
+  public static int getSizeLimit() {
+    return defaultSizeLimit.get();
+  }
+
+  /** Use {@link IdentityMap#setDefaultSizeLimit(int)} instead. */
+  @Deprecated
   public static void setSizeLimit(int sizeLimit) {
-    IdentityMap.sizeLimit.set(sizeLimit);
+    IdentityMap.defaultSizeLimit.set(sizeLimit);
   }
 
   private final MapToMap<Class<?>, Long, DomainObject> objects = new MapToMap<Class<?>, Long, DomainObject>();
@@ -33,8 +46,8 @@ public class IdentityMap {
     if (this.objects.put(rootType, o.getId(), o) != null) {
       throw new RuntimeException("Domain object conflicts with an existing id " + o);
     }
-    if (++this.size >= getSizeLimit()) {
-      throw new IllegalStateException("IdentityMap grew over the " + getSizeLimit() + " instance limit");
+    if (++this.size >= this.sizeLimit) {
+      throw new IllegalStateException("IdentityMap grew over the " + this.sizeLimit + " instance limit");
     }
   }
 
@@ -77,6 +90,15 @@ public class IdentityMap {
   // only for Snapshot for now
   public MapToMap<Class<?>, Long, DomainObject> getObjects() {
     return this.objects;
+  }
+
+  // named getCurrentSizeLimit because getSizeLimit already exists
+  public int getCurrentSizeLimit() {
+    return this.sizeLimit;
+  }
+
+  public void setCurrentSizeLimit(int sizeLimit) {
+    this.sizeLimit = sizeLimit;
   }
 
 }

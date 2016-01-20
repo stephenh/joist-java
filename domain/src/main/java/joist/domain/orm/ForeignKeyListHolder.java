@@ -12,7 +12,6 @@ import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.uow.UoW;
 import joist.domain.util.ListProxy;
 import joist.util.Copy;
-import joist.util.FluentList;
 import joist.util.MapToList;
 
 /**
@@ -61,16 +60,13 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
           Select<U> q = Select.from(this.childAlias);
           q.where(this.childForeignKeyToParentColumn.eq(this.parent));
           q.orderBy(this.childAlias.getIdColumn().asc());
-          q.limit(IdentityMap.getSizeLimit());
+          q.limit(UoW.getIdentityMap().getCurrentSizeLimit());
           this.loaded = q.list();
         } else {
           // preemptively fetch all children for all parents from the db
           MapToList<Long, U> byParentId = UoW.getEagerCache().get(this.childForeignKeyToParentColumn);
           if (!byParentId.containsKey(this.parent.getId())) {
-            // some (or potentially none yet) children were fetched, but our parent wasn't in the UoW at the time
-            Collection<Long> alreadyFetchedIds = byParentId.keySet();
-            FluentList<Long> allParentIds = Copy.list(UoW.getIdentityMap().getIdsOf(this.parent.getClass()));
-            Collection<Long> idsToLoad = allParentIds.without(alreadyFetchedIds);
+            Collection<Long> idsToLoad = UoW.getEagerCache().getIdsToLoad(this.parent, this.childForeignKeyToParentColumn);
             if (!idsToLoad.contains(this.parent.getId())) {
               throw new IllegalStateException("Instance has been disconnected from the UoW: " + this.parent);
             }
@@ -122,7 +118,7 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
     Select<U> q = Select.from(this.childAlias);
     q.where(this.childForeignKeyToParentColumn.in(idsToLoad));
     q.orderBy(this.childAlias.getIdColumn().asc());
-    q.limit(IdentityMap.getSizeLimit());
+    q.limit(UoW.getIdentityMap().getCurrentSizeLimit());
     for (U child : q.list()) {
       Long parentId = this.childForeignKeyToParentColumn.getDomainValue(child);
       byParentId.add(parentId, child);
