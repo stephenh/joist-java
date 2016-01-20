@@ -1,10 +1,14 @@
 package joist.domain.orm;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import joist.domain.DomainObject;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
+import joist.domain.uow.UoW;
+import joist.util.Copy;
+import joist.util.FluentList;
 import joist.util.MapToList;
 
 /**
@@ -22,6 +26,7 @@ public class EagerCache {
   // TODO needs to private again...
   public final Map<ForeignKeyAliasColumn<?, ?>, MapToList<Long, DomainObject>> cache = new HashMap<ForeignKeyAliasColumn<?, ?>, MapToList<Long, DomainObject>>();
 
+  @SuppressWarnings("unchecked")
   public <U extends DomainObject> MapToList<Long, U> get(ForeignKeyAliasColumn<U, ?> ac) {
     MapToList<Long, U> map = (MapToList<Long, U>) this.cache.get(ac);
     if (map == null) {
@@ -30,6 +35,15 @@ public class EagerCache {
       this.cache.put(ac, (MapToList<Long, DomainObject>) map);
     }
     return map;
+  }
+
+  public <T extends DomainObject, U extends DomainObject> Collection<Long> getIdsToLoad(T parent, ForeignKeyAliasColumn<U, ?> ac) {
+    MapToList<Long, U> byParentId = this.get(ac);
+    // some (or potentially none yet) children were fetched, but our parent wasn't in the UoW at the time
+    Collection<Long> alreadyFetchedIds = byParentId.keySet();
+    FluentList<Long> allParentIds = Copy.list(UoW.getIdentityMap().getIdsOf(parent.getClass()));
+    Collection<Long> idsToLoad = allParentIds.without(alreadyFetchedIds);
+    return idsToLoad;
   }
 
 }

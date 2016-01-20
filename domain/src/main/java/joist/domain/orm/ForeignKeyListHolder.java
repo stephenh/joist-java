@@ -12,7 +12,6 @@ import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.uow.UoW;
 import joist.domain.util.ListProxy;
 import joist.util.Copy;
-import joist.util.FluentList;
 import joist.util.MapToList;
 
 /**
@@ -67,10 +66,7 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
           // preemptively fetch all children for all parents from the db
           MapToList<Long, U> byParentId = UoW.getEagerCache().get(this.childForeignKeyToParentColumn);
           if (!byParentId.containsKey(this.parent.getId())) {
-            // some (or potentially none yet) children were fetched, but our parent wasn't in the UoW at the time
-            Collection<Long> alreadyFetchedIds = byParentId.keySet();
-            FluentList<Long> allParentIds = Copy.list(UoW.getIdentityMap().getIdsOf(this.parent.getClass()));
-            Collection<Long> idsToLoad = allParentIds.without(alreadyFetchedIds);
+            Collection<Long> idsToLoad = UoW.getEagerCache().getIdsToLoad(this.parent, this.childForeignKeyToParentColumn);
             if (!idsToLoad.contains(this.parent.getId())) {
               throw new IllegalStateException("Instance has been disconnected from the UoW: " + this.parent);
             }
