@@ -64,7 +64,8 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
   @Test
   public void testEagerLoadingWhenDisabledForJustOneInstance() {
     Builders.aChild().name("c1").parent(this.p1);
-    Builders.aChild().name("c2").parent(this.p2);
+    ChildBuilder c2 = Builders.aChild().name("c2").parent(this.p2);
+    Builders.aGrandChild().name("g3").child(c2).defaults();
     this.commitAndReOpen();
 
     this.p1.get(); // reload each parent
@@ -74,6 +75,7 @@ public class ChildEagerLoadingTest extends AbstractFeaturesTest {
     this.p1.get().getChilds(); // now reload each set of children
     this.p2.get().getChilds(); // causes n+1 type behavior
     Assert.assertEquals(2, Jdbc.numberOfQueries());
+    Assert.assertEquals(1, c2.grandChilds().size()); // other collections still work
   }
 
   @Test
