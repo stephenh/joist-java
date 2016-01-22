@@ -2,15 +2,16 @@ package joist.domain.uow;
 
 import java.sql.Connection;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import joist.domain.AbstractDomainObject;
 import joist.domain.DomainObject;
 import joist.domain.orm.*;
 import joist.domain.validation.ValidationException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class UoW {
 
@@ -221,6 +222,10 @@ public class UoW {
 
   public static <T extends DomainObject> List<T> load(Class<T> type, Collection<Long> ids) {
     return UoW.getCurrent().load(type, ids);
+  }
+
+  public static <T extends DomainObject> Iterator<List<T>> batches(Class<T> domainType, Integer batchSize) {
+    return UoW.getCurrent().batches(domainType, batchSize);
   }
 
   /** Changes the updater for the current UoW. */

@@ -2,11 +2,8 @@ package joist.domain.uow;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import joist.domain.DomainObject;
 import joist.domain.exceptions.NotFoundException;
@@ -150,6 +147,33 @@ public class UnitOfWork {
     } catch (NotFoundException nfe) {
       throw new NotFoundException(type, ids);
     }
+  }
+
+  <T extends DomainObject> Iterator<List<T>> batches(Class<T> type, Integer batchSize) {
+    Alias<T> a = AliasRegistry.get(type);
+    UnitOfWork uow = this;
+    Iterator<List<T>> it = new Iterator<List<T>>() {
+
+      private Integer offset = 0;
+      private int total = (int) Select.from(a).count();
+
+      @Override
+      public boolean hasNext() {
+        return this.offset < this.total;
+      }
+
+      @Override
+      public List<T> next() {
+        uow.flush();
+        uow.identityMap.enableBatchMode();
+        List<Long> ids = Select.from(a).limit(batchSize).offset(this.offset).listIds();
+        this.offset += batchSize;
+        List<T> nextItems = uow.load(type, ids);
+        uow.identityMap.disableBatchMode();
+        return nextItems;
+      }
+    };
+    return it;
   }
 
   void delete(DomainObject instance) {

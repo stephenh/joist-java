@@ -1,5 +1,6 @@
 package features.domain;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Assert;
@@ -125,4 +126,21 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     Assert.assertTrue(objs.contains(p1));
     Assert.assertTrue(objs.contains(p2));
   }
+
+  @Test
+  public void testFindInBatches() {
+    new Primitives("foo1");
+    new Primitives("foo2");
+    this.commitAndReOpen();
+    Integer batchSize = 1;
+    Iterator<List<Primitives>> batches = Primitives.queries.findAllInBatches(batchSize);
+    Assert.assertTrue(batches.hasNext());
+    List<Primitives> batch1 = batches.next();
+    Assert.assertTrue(batch1.size() <= batchSize);
+    Assert.assertTrue(batches.hasNext());
+    List<Primitives> batch2 = batches.next();
+    Assert.assertTrue(batch2.size() <= batchSize);
+    Assert.assertFalse(batches.hasNext());
+  }
+
 }
