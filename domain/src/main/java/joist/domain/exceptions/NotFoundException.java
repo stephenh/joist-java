@@ -16,7 +16,7 @@ public class NotFoundException extends DomainObjectsException {
   }
 
   public NotFoundException(Class<?> type, Collection<Long> ids) {
-    super(type.getSimpleName() + "id in (" + String.join(", ", (String[]) ids.stream().map(id -> String.valueOf(id)).toArray()) + ") not found");
+    super(type.getSimpleName() + " id in (" + String.join(", ", (String[]) ids.stream().map(id -> String.valueOf(id)).toArray()) + ") not found");
   }
 
 }

@@ -130,18 +130,23 @@ public class UnitOfWork {
   }
 
   <T extends DomainObject> List<T> load(Class<T> type, Collection<Long> ids) {
-    boolean containsAllIds = this.identityMap.getIdsOf(type).containsAll(ids);
-    if (containsAllIds) {
-      List<T> loaded = new ArrayList<T>();
-      for (Long id : ids) {
-        loaded.add((T) this.identityMap.findOrNull(type, id));
+    List<Long> missingIds = new ArrayList<Long>();
+    List<T> loaded = new ArrayList<T>();
+    for (Long id : ids) {
+      T obj = (T) this.identityMap.findOrNull(type, id);
+      if (obj == null) {
+        missingIds.add(id);
+      } else {
+        loaded.add(obj);
       }
-      return loaded;
     }
 
     Alias<T> a = AliasRegistry.get(type);
     try {
-      return Select.from(a).where(a.getIdColumn().in(ids)).list();
+      if (!missingIds.isEmpty()) {
+        loaded.addAll(Select.from(a).where(a.getIdColumn().in(missingIds)).list());
+      }
+      return loaded;
     } catch (NotFoundException nfe) {
       throw new NotFoundException(type, ids);
     }
