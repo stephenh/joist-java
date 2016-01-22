@@ -1,14 +1,12 @@
 package joist.domain.uow;
 
 import java.sql.Connection;
+import java.util.Collection;
+import java.util.List;
 
 import joist.domain.AbstractDomainObject;
 import joist.domain.DomainObject;
-import joist.domain.orm.Db;
-import joist.domain.orm.EagerCache;
-import joist.domain.orm.IdentityMap;
-import joist.domain.orm.Repository;
-import joist.domain.orm.Updater;
+import joist.domain.orm.*;
 import joist.domain.validation.ValidationException;
 
 import org.slf4j.Logger;
@@ -219,6 +217,10 @@ public class UoW {
   /** @return the instance of <code>type</code> for <code>id</code>, checking the identity map */
   public static <T extends DomainObject> T load(Class<T> type, Long id) {
     return UoW.getCurrent().load(type, id);
+  }
+
+  public static <T extends DomainObject> List<T> load(Class<T> type, Collection<Long> ids) {
+    return UoW.getCurrent().load(type, ids);
   }
 
   /** Changes the updater for the current UoW. */

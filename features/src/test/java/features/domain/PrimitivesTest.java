@@ -112,4 +112,17 @@ public class PrimitivesTest extends AbstractFeaturesTest {
     this.commitAndReOpen();
     Assert.assertEquals(2l, Primitives.queries.count());
   }
+
+  @Test
+  public void testFindIds() {
+    new Primitives("foo1");
+    new Primitives("foo2");
+    this.commitAndReOpen();
+    Primitives p1 = Primitives.queries.find(1);
+    Primitives p2 = Primitives.queries.find(1);
+    List<Primitives> objs = Primitives.queries.find(p1.getId(), p2.getId());
+    Assert.assertEquals(2, objs.size());
+    Assert.assertTrue(objs.contains(p1));
+    Assert.assertTrue(objs.contains(p2));
+  }
 }

@@ -2,24 +2,16 @@ package joist.domain.uow;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import joist.domain.DomainObject;
 import joist.domain.exceptions.NotFoundException;
-import joist.domain.orm.AliasRegistry;
-import joist.domain.orm.Db;
-import joist.domain.orm.EagerCache;
-import joist.domain.orm.IdentityMap;
-import joist.domain.orm.Repository;
-import joist.domain.orm.Updater;
-import joist.domain.orm.impl.InstanceDeleter;
-import joist.domain.orm.impl.InstanceInserter;
-import joist.domain.orm.impl.InstanceUpdater;
-import joist.domain.orm.impl.SequenceIdAssigner;
-import joist.domain.orm.impl.SortInstancesMySQL;
-import joist.domain.orm.impl.SortInstancesPg;
+import joist.domain.orm.*;
+import joist.domain.orm.impl.*;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Select;
 import joist.domain.validation.Validator;
@@ -134,6 +126,24 @@ public class UnitOfWork {
     } catch (NotFoundException nfe) {
       // throw a more specific NotFoundException
       throw new NotFoundException(type, id);
+    }
+  }
+
+  <T extends DomainObject> List<T> load(Class<T> type, Collection<Long> ids) {
+    boolean containsAllIds = this.identityMap.getIdsOf(type).containsAll(ids);
+    if (containsAllIds) {
+      List<T> loaded = new ArrayList<T>();
+      for (Long id : ids) {
+        loaded.add((T) this.identityMap.findOrNull(type, id));
+      }
+      return loaded;
+    }
+
+    Alias<T> a = AliasRegistry.get(type);
+    try {
+      return Select.from(a).where(a.getIdColumn().in(ids)).list();
+    } catch (NotFoundException nfe) {
+      throw new NotFoundException(type, ids);
     }
   }
 
