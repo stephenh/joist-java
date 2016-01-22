@@ -150,6 +150,10 @@ public class UnitOfWork {
   }
 
   <T extends DomainObject> Iterator<List<T>> batches(Class<T> type, Integer batchSize) {
+    if (batchSize > this.identityMap.getCurrentSizeLimit()) {
+      throw new IllegalArgumentException(
+        "Batch size: " + batchSize + " cannot be larger than current size limit: " + this.identityMap.getCurrentSizeLimit());
+    }
     Alias<T> a = AliasRegistry.get(type);
     UnitOfWork uow = this;
     Iterator<List<T>> it = new Iterator<List<T>>() {
