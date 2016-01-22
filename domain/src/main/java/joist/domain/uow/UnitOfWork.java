@@ -171,7 +171,12 @@ public class UnitOfWork {
         uow.flush();
         uow.identityMap.enableBatchMode();
         List<Long> ids = Select.from(a).limit(batchSize).offset(this.offset).listIds();
-        this.offset += batchSize;
+        int remaining = this.total - this.offset;
+        if (remaining < batchSize && remaining > 0) {
+          this.offset += remaining;
+        } else {
+          this.offset += batchSize;
+        }
         List<T> nextItems = uow.load(type, ids);
         uow.identityMap.disableBatchMode();
         return nextItems;
