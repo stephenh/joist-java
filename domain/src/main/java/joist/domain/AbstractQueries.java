@@ -1,5 +1,7 @@
 package joist.domain;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import joist.domain.orm.AliasRegistry;
@@ -27,6 +29,16 @@ public abstract class AbstractQueries<T extends DomainObject> {
   public T find(Long id) {
     // Use load as it hits the IdentityMap and could avoid an unneeded query
     return UoW.load(this.domainType, id);
+  }
+
+  public List<T> find(Long... ids) {
+    // Use load as it hits the IdentityMap and could avoid an unneeded query
+    return UoW.load(this.domainType, Arrays.asList(ids));
+  }
+
+  public List<T> find(Collection<Long> ids) {
+    // Use load as it hits the IdentityMap and could avoid an unneeded query
+    return UoW.load(this.domainType, ids);
   }
 
   public long count() {

@@ -1,5 +1,7 @@
 package joist.domain.exceptions;
 
+import java.util.Collection;
+
 /** Exception denoting a domain object was not found. */
 public class NotFoundException extends DomainObjectsException {
 
@@ -11,6 +13,10 @@ public class NotFoundException extends DomainObjectsException {
 
   public NotFoundException(Class<?> type, long id) {
     super(type.getSimpleName() + "#" + id + " not found");
+  }
+
+  public NotFoundException(Class<?> type, Collection<Long> ids) {
+    super(type.getSimpleName() + " id in (" + String.join(", ", (String[]) ids.stream().map(id -> String.valueOf(id)).toArray()) + ") not found");
   }
 
 }
