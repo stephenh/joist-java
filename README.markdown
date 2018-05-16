@@ -1,22 +1,36 @@
 
-Joist is a ORM based on code generation.
+Joist is an ORM based on code generation.
 
-The goal is to provide Rails-like "empty domain objects" in an ORM that is simple, pleasant to use, and, if needed, scales nicely to really large schemas.
+The goal is to provide Rails-like "empty domain objects" in an ORM that is simple, pleasant to use, and scales nicely to really large schemas.
 
 See [joist.ws](http://joist.ws) for more information.
 
-Building
-========
+Build against MySQL
+===================
 
-For Eclipse, the current `.classpath`/`.project` files assumed you've installed the [Gradle STS plugin](https://github.com/spring-projects/eclipse-integration-gradle/).
+The Joist test suite requires running tests against a local database; to use MySQL for this:
 
-From the command line:
+* Edit `features/build.properties` (which is not checked in) and set your local MySQL password
 
-    gradle install
+* Run `./gradlew install`
 
-Note that `install` is required to, like multi-project Maven setups, install the jars from upstream projects into your local Ivy repository for the downstream projects to fetch.
+Build against Postgres
+======================
 
-Note: The tests for the features project will fail until you create a local database schema by running the `FeaturesCycle.launch` target in Eclipse. (There is not currently a Buildr target to do this.)
+The Joist test suite requires running tests against a local database; to use Postgres for this:
+
+* Edit `features/build-pg.properties` (which is not checked in) and set your local `postgres` user/admin password
+
+  On a clean Ubuntu, Postgres's admin user/password is configured by:
+
+  * `sudo -u postgres psql postgres` and then `\password postgres` to set your local admin password
+  * In `postgresql.conf` ensure `listen_addresses` is set
+
+* Edit `features/.../Registry.java` and change the `db` field to `Db.PG`
+* Edit `features/.../JoistCli.java` and change the `db` field to `Db.PG`
+* Run `./gradlew install`
+
+Note that because of Postgres's ability to defer FK constraints, the `features/.../codegen` output will all change as the MySQL version is currently checked-in.
 
 Todo
 ====
