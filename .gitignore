@@ -4,3 +4,6 @@ build*.properties
 build/
 newproject
 docs.zip
+.classpath
+.project
+/*/bin/
