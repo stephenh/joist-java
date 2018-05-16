@@ -42,7 +42,7 @@ public class HikariDataSourceFactory implements DataSourceFactory {
   }
 
   protected void addMySQLOptions(ConnectionSettings settings, HikariConfig config) {
-    config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+    config.setDataSourceClassName("com.mysql.cj.jdbc.MysqlDataSource");
     config.addDataSourceProperty("connectTimeout", (settings.timeoutInSeconds * 1000));
     config.addDataSourceProperty("socketTimeout", (settings.timeoutInSeconds * 1000));
     config.addDataSourceProperty("zeroDateTimeBehavior", "convertToNull");
