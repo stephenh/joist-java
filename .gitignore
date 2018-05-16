@@ -7,3 +7,4 @@ docs.zip
 .classpath
 .project
 /*/bin/
+org.eclipse.buildship.core.prefs
