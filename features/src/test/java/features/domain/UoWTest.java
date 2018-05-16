@@ -1,13 +1,14 @@
 package features.domain;
 
-import joist.domain.uow.BlockWithReturnAndSafety;
-import joist.domain.uow.BlockWithSafety;
-import joist.domain.uow.UoW;
-import junit.framework.Assert;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import features.domain.builders.Builders;
+import joist.domain.uow.BlockWithReturnAndSafety;
+import joist.domain.uow.BlockWithSafety;
+import joist.domain.uow.UoW;
 
 public class UoWTest extends AbstractFeaturesTest {
 
@@ -24,7 +25,7 @@ public class UoWTest extends AbstractFeaturesTest {
       }
     });
     UoW.open(repo, null);
-    Assert.assertEquals(0L, Parent.queries.count());
+    assertEquals(0L, Parent.queries.count());
   }
 
   @Test
