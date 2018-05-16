@@ -6,9 +6,6 @@ import static features.domain.builders.Builders.aParentH;
 
 import java.util.List;
 
-import joist.domain.orm.queries.Select;
-import joist.domain.orm.queries.columns.Aggregate;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,6 +17,8 @@ import features.domain.ChildHAlias;
 import features.domain.ParentHAlias;
 import features.domain.builders.ChildBuilder;
 import features.domain.builders.ParentHBuilder;
+import joist.domain.orm.queries.Select;
+import joist.domain.orm.queries.columns.Aggregate;
 
 public class DomainObjectGroupByTest extends AbstractFeaturesTest {
 
@@ -48,6 +47,7 @@ public class DomainObjectGroupByTest extends AbstractFeaturesTest {
     Select<Child> q = Select.from(c);
     q.select(c.parent.as("parentId"));
     q.groupBy(c.parent);
+    q.orderBy(c.parent.asc());
     List<ByParent> l = q.list(ByParent.class);
 
     Assert.assertEquals(2, l.size()); // now two
