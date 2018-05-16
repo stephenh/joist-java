@@ -142,14 +142,14 @@ public class ListProxyTest {
   public void testIndexOf() {
     this.p.addChild(this.c);
     assertEquals(0, this.p.getChilds().indexOf(this.c));
-    assertEquals(-1, this.p.getChilds().indexOf(this.p));
+    assertEquals(-1, this.p.getChilds().indexOf(this.c2));
   }
 
   @Test
   public void testLastIndexOf() {
     this.p.addChild(this.c);
     assertEquals(0, this.p.getChilds().lastIndexOf(this.c));
-    assertEquals(-1, this.p.getChilds().lastIndexOf(this.p));
+    assertEquals(-1, this.p.getChilds().lastIndexOf(this.c2));
   }
 
 }
