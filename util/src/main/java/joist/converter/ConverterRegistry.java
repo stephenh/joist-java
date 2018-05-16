@@ -11,7 +11,7 @@ import joist.util.TestCounter;
 public class ConverterRegistry {
 
   protected static final TestCounter probes = new TestCounter();
-  private final ConcurrentMap<ConverterKey, ConverterStub> converters = new ConcurrentHashMap<ConverterKey, ConverterStub>();
+  private final ConcurrentMap<ConverterKey, ConverterStub<?>> converters = new ConcurrentHashMap<ConverterKey, ConverterStub<?>>();
 
   public static ConverterRegistry newRegistryWithDefaultConverters() {
     ConverterRegistry r = new ConverterRegistry();
@@ -36,12 +36,13 @@ public class ConverterRegistry {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public <T> T convert(Object value, Class<T> toType) {
     Class<?> valueClass = (value == null) ? Void.class : value.getClass();
     ConverterKey key = new ConverterKey(valueClass, toType);
-    ConverterStub stub = this.converters.get(key);
+    ConverterStub<T> stub = (ConverterStub<T>) this.converters.get(key);
     if (stub != null) {
-      return (T) stub.convert(value, toType);
+      return stub.convert(value, toType);
     }
 
     // Do we even need to convert?
@@ -54,11 +55,11 @@ public class ConverterRegistry {
     for (Class<?> to : this.getSuperclassesAndInterfaces(toType)) {
       for (Class<?> from : this.getSuperclassesAndInterfaces(valueClass)) {
         ConverterKey probeKey = new ConverterKey(from, to);
-        ConverterStub probeStub = this.converters.get(probeKey);
+        ConverterStub<T> probeStub = (ConverterStub<T>) this.converters.get(probeKey);
         if (probeStub != null) {
           // This was a probed find, so cache this value
           this.converters.put(key, probeStub);
-          return (T) probeStub.convert(value, toType);
+          return probeStub.convert(value, toType);
         }
       }
     }
@@ -97,36 +98,38 @@ public class ConverterRegistry {
     }
   }
 
-  private interface ConverterStub {
-    abstract Object convert(Object value, Class<?> toType);
+  private interface ConverterStub<T> {
+    abstract T convert(Object value, Class<T> toType);
   }
 
-  private static class ConverterStubOne<T, U> implements ConverterStub {
+  private static class ConverterStubOne<T, U> implements ConverterStub<U> {
     private Converter<T, U> converter;
 
     public ConverterStubOne(Converter<T, U> converter) {
       this.converter = converter;
     }
 
-    public Object convert(Object value, Class<?> toType) {
-      return this.converter.convertOneToTwo((T) value, (Class<? extends U>) toType);
+    @SuppressWarnings("unchecked")
+    public U convert(Object value, Class<U> toType) {
+      return this.converter.convertOneToTwo((T) value, toType);
     }
   }
 
-  private static class ConverterStubTwo<T, U> implements ConverterStub {
+  private static class ConverterStubTwo<T, U> implements ConverterStub<T> {
     private Converter<T, U> converter;
 
     public ConverterStubTwo(Converter<T, U> converter) {
       this.converter = converter;
     }
 
-    public Object convert(Object value, Class<?> toType) {
-      return this.converter.convertTwoToOne((U) value, (Class<? extends T>) toType);
+    @SuppressWarnings("unchecked")
+    public T convert(Object value, Class<T> toType) {
+      return this.converter.convertTwoToOne((U) value, toType);
     }
   }
 
-  private static class NoopConverterStub implements ConverterStub {
-    public Object convert(Object value, Class<?> toType) {
+  private static class NoopConverterStub implements ConverterStub<Object> {
+    public Object convert(Object value, Class<Object> toType) {
       return value;
     }
   }
