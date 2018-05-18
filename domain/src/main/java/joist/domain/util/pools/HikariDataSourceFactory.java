@@ -45,7 +45,11 @@ public class HikariDataSourceFactory implements DataSourceFactory {
     config.setDataSourceClassName("com.mysql.cj.jdbc.MysqlDataSource");
     config.addDataSourceProperty("connectTimeout", (settings.timeoutInSeconds * 1000));
     config.addDataSourceProperty("socketTimeout", (settings.timeoutInSeconds * 1000));
-    config.addDataSourceProperty("zeroDateTimeBehavior", "convertToNull");
+    config.addDataSourceProperty("zeroDateTimeBehavior", "CONVERT_TO_NULL");
+    // Default time zone values like CDT disappoint the MySQL jdbc driver, so opt-in to UTC
+    config.addDataSourceProperty("serverTimezone", "UTC");
+    // Silence SSL warning. This should probably be based on the host name? Not sure.
+    config.addDataSourceProperty("useSSL", "false");
     // https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration
     config.addDataSourceProperty("prepStmtCacheSize", 500);
     config.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);

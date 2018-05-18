@@ -12,6 +12,8 @@ The Joist test suite requires running tests against a local database; to use MyS
 
 * Edit `features/build.properties` (which is not checked in) and set your local MySQL password
 
+  On a clean ~18.04 Ubuntu, see [this SO answer](https://stackoverflow.com/questions/33991228/what-is-the-default-root-pasword-for-mysql-5-7/50305285#50305285) to set your local `root` password.
+
 * Run `./gradlew install`
 
 Build against Postgres

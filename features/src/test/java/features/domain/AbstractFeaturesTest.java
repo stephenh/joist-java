@@ -1,14 +1,16 @@
 package features.domain;
 
-import joist.domain.AbstractDomainObjectsTest;
-import joist.domain.FlushTestDatabase;
-import joist.domain.orm.Db;
-import joist.jdbc.Jdbc;
+import java.util.TimeZone;
 
 import org.junit.After;
 import org.junit.Before;
 
 import features.Registry;
+import joist.domain.AbstractDomainObjectsTest;
+import joist.domain.FlushTestDatabase;
+import joist.domain.orm.Db;
+import joist.domain.orm.queries.columns.CalendarDateAliasColumn;
+import joist.jdbc.Jdbc;
 
 public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
 
@@ -17,6 +19,10 @@ public abstract class AbstractFeaturesTest extends AbstractDomainObjectsTest {
     System.setProperty("log4j.configuration", "log4j-test.properties");
     Registry.start();
     setRepository(Registry.getRepository());
+    // Our MySQL settings tell MySQL to always use UTC
+    if (Registry.getRepository().getDb() == Db.MYSQL) {
+      CalendarDateAliasColumn.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
   }
 
   protected static final Db db = Registry.getRepository().getDb();
