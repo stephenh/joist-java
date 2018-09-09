@@ -18,6 +18,7 @@ public class PrimitivesAlias extends Alias<Primitives> {
   public final BooleanAliasColumn<Primitives> flag = new BooleanAliasColumn<Primitives>(this, "flag", PrimitivesCodegen.Shims.flag);
   public final IdAliasColumn<Primitives> id = new IdAliasColumn<Primitives>(this, "id", PrimitivesCodegen.Shims.id);
   public final StringAliasColumn<Primitives> name = new StringAliasColumn<Primitives>(this, "name", PrimitivesCodegen.Shims.name);
+  public final StringAliasColumn<Primitives> skipped = new StringAliasColumn<Primitives>(this, "skipped", PrimitivesCodegen.Shims.skipped);
   public final LongAliasColumn<Primitives> version = new LongAliasColumn<Primitives>(this, "version", PrimitivesCodegen.Shims.version);
 
   public PrimitivesAlias() {
@@ -33,6 +34,7 @@ public class PrimitivesAlias extends Alias<Primitives> {
     this.columns.add(this.flag);
     this.columns.add(this.id);
     this.columns.add(this.name);
+    this.columns.add(this.skipped);
     this.columns.add(this.version);
   }
 
@@ -53,7 +55,7 @@ public class PrimitivesAlias extends Alias<Primitives> {
   }
 
   public int getOrder() {
-    return 49;
+    return -1;
   }
 
   public <T extends DomainObject> JoinClause<T, Primitives> on(ForeignKeyAliasColumn<T, Primitives> on) {

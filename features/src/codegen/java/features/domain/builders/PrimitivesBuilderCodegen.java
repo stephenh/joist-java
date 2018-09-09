@@ -67,12 +67,17 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
     return (PrimitivesBuilder) this;
   }
 
-  public PrimitivesBuilder with(String name) {
-    return name(name);
-  }
-
   protected String defaultName() {
     return "name";
+  }
+
+  public String skipped() {
+    return get().getSkipped();
+  }
+
+  public PrimitivesBuilder skipped(String skipped) {
+    get().setSkipped(skipped);
+    return (PrimitivesBuilder) this;
   }
 
   public Primitives get() {
@@ -93,13 +98,6 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
   @Override
   public void delete() {
     Primitives.queries.delete(get());
-  }
-
-  public static void deleteAll() {
-    List<Long> ids = Primitives.queries.findAllIds();
-    for (Long id : ids) {
-      Primitives.queries.delete(Primitives.queries.find(id));
-    }
   }
 
 }

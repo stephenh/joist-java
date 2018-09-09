@@ -17,6 +17,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
   private Boolean flag = null;
   private Long id = null;
   private String name = null;
+  private String skipped = null;
   private Long version = null;
   protected Changed changed;
 
@@ -34,6 +35,8 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
     this.addRule(new NotNull<Primitives>(Shims.name));
     this.addRule(new MaxLength<Primitives>(Shims.name, 100));
     this.addRule(new NotEmpty<Primitives>(Shims.name));
+    this.addRule(new MaxLength<Primitives>(Shims.skipped, 100));
+    this.addRule(new NotEmpty<Primitives>(Shims.skipped));
   }
 
   public Boolean getFlag() {
@@ -75,6 +78,19 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
 
   protected void defaultName(String name) {
     this.name = name;
+  }
+
+  public String getSkipped() {
+    return this.skipped;
+  }
+
+  public void setSkipped(String skipped) {
+    this.getChanged().record("skipped", this.skipped, skipped);
+    this.skipped = skipped;
+  }
+
+  protected void defaultSkipped(String skipped) {
+    this.skipped = skipped;
   }
 
   public Long getVersion() {
@@ -127,6 +143,17 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
         return "name";
       }
     };
+    protected static final Shim<Primitives, String> skipped = new Shim<Primitives, String>() {
+      public void set(Primitives instance, String skipped) {
+        ((PrimitivesCodegen) instance).skipped = skipped;
+      }
+      public String get(Primitives instance) {
+        return ((PrimitivesCodegen) instance).skipped;
+      }
+      public String getName() {
+        return "skipped";
+      }
+    };
     protected static final Shim<Primitives, Long> version = new Shim<Primitives, Long>() {
       public void set(Primitives instance, Long version) {
         ((PrimitivesCodegen) instance).version = version;
@@ -161,6 +188,12 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
     }
     public String getOriginalName() {
       return (java.lang.String) this.getOriginal("name");
+    }
+    public boolean hasSkipped() {
+      return this.contains("skipped");
+    }
+    public String getOriginalSkipped() {
+      return (java.lang.String) this.getOriginal("skipped");
     }
     public boolean hasVersion() {
       return this.contains("version");

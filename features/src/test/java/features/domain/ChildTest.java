@@ -75,7 +75,7 @@ public class ChildTest extends AbstractFeaturesTest {
 
     c = this.reload(c);
     p = this.reload(p);
-    Assert.assertTrue(p == c.getParent());
+    Assert.assertTrue(p == c.getParent().get());
   }
 
   @Test
