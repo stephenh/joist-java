@@ -1,10 +1,12 @@
 package features.domain;
 
+import com.linkedin.parseq.Task;
 import features.domain.queries.PrimitivesQueries;
 import joist.domain.AbstractChanged;
 import joist.domain.AbstractDomainObject;
 import joist.domain.Changed;
 import joist.domain.Shim;
+import joist.domain.orm.ForeignKeyHolder;
 import joist.domain.uow.UoW;
 import joist.domain.validation.rules.MaxLength;
 import joist.domain.validation.rules.NotEmpty;
@@ -19,6 +21,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
   private String name = null;
   private String skipped = null;
   private Long version = null;
+  private final ForeignKeyHolder<Primitives, Parent> parent = new ForeignKeyHolder<Primitives, Parent>(Primitives.class, Parent.class, Aliases.parent(), Aliases.primitives().parent);
   protected Changed changed;
 
   static {
@@ -97,6 +100,28 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
     return this.version;
   }
 
+  public Task<Parent> getParent() {
+    return this.parent.get();
+  }
+
+  public void setParent(Parent parent) {
+    if (parent == this.getParent()) {
+      return;
+    }
+    if (this.parent.get() != null) {
+      this.parent.get().removePrimitivesWithoutPercolation((Primitives) this);
+    }
+    this.setParentWithoutPercolation(parent);
+    if (this.parent.get() != null) {
+      this.parent.get().addPrimitivesWithoutPercolation((Primitives) this);
+    }
+  }
+
+  protected void setParentWithoutPercolation(Parent parent) {
+    this.getChanged().record("parent", this.parent.get(), parent);
+    this.parent.set(parent);
+  }
+
   public PrimitivesChanged getChanged() {
     if (this.changed == null) {
       this.changed = new PrimitivesChanged((Primitives) this);
@@ -107,6 +132,7 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
   @Override
   public void clearAssociations() {
     super.clearAssociations();
+    this.setParent(null);
   }
 
   static class Shims {
@@ -165,6 +191,17 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
         return "version";
       }
     };
+    protected static final Shim<Primitives, Long> parentId = new Shim<Primitives, Long>() {
+      public void set(Primitives instance, Long parentId) {
+        ((PrimitivesCodegen) instance).parent.setId(parentId);
+      }
+      public Long get(Primitives instance) {
+        return ((PrimitivesCodegen) instance).parent.getId();
+      }
+      public String getName() {
+        return "parent";
+      }
+    };
   }
 
   public static class PrimitivesChanged extends AbstractChanged {
@@ -200,6 +237,12 @@ public abstract class PrimitivesCodegen extends AbstractDomainObject {
     }
     public Long getOriginalVersion() {
       return (Long) this.getOriginal("version");
+    }
+    public boolean hasParent() {
+      return this.contains("parent");
+    }
+    public Parent getOriginalParent() {
+      return (Parent) this.getOriginal("parent");
     }
   }
 

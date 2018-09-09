@@ -20,6 +20,7 @@ public class PrimitivesAlias extends Alias<Primitives> {
   public final StringAliasColumn<Primitives> name = new StringAliasColumn<Primitives>(this, "name", PrimitivesCodegen.Shims.name);
   public final StringAliasColumn<Primitives> skipped = new StringAliasColumn<Primitives>(this, "skipped", PrimitivesCodegen.Shims.skipped);
   public final LongAliasColumn<Primitives> version = new LongAliasColumn<Primitives>(this, "version", PrimitivesCodegen.Shims.version);
+  public final ForeignKeyAliasColumn<Primitives, Parent> parent = new ForeignKeyAliasColumn<Primitives, Parent>(this, "parent_id", PrimitivesCodegen.Shims.parentId);
 
   public PrimitivesAlias() {
     this("p0", null, true);
@@ -36,6 +37,7 @@ public class PrimitivesAlias extends Alias<Primitives> {
     this.columns.add(this.name);
     this.columns.add(this.skipped);
     this.columns.add(this.version);
+    this.columns.add(this.parent);
   }
 
   public List<AliasColumn<Primitives, ?, ?>> getColumns() {

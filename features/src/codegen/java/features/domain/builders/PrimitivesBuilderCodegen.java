@@ -1,5 +1,6 @@
 package features.domain.builders;
 
+import features.domain.Parent;
 import features.domain.Primitives;
 import java.util.List;
 import joist.domain.builders.AbstractBuilder;
@@ -27,6 +28,7 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
     if (name() == null) {
       name(defaultName());
     }
+    c.rememberIfSet(parent());
   }
 
   public Boolean flag() {
@@ -78,6 +80,30 @@ public abstract class PrimitivesBuilderCodegen extends AbstractBuilder<Primitive
   public PrimitivesBuilder skipped(String skipped) {
     get().setSkipped(skipped);
     return (PrimitivesBuilder) this;
+  }
+
+  public ParentBuilder parent() {
+    if (get().getParent() == null) {
+      return null;
+    }
+    return Builders.existing(get().getParent().get());
+  }
+
+  public PrimitivesBuilder parent(Parent parent) {
+    get().setParent(parent);
+    return (PrimitivesBuilder) this;
+  }
+
+  public PrimitivesBuilder with(Parent parent) {
+    return parent(parent);
+  }
+
+  public PrimitivesBuilder parent(ParentBuilder parent) {
+    return parent(parent == null ? null : parent.get());
+  }
+
+  public PrimitivesBuilder with(ParentBuilder parent) {
+    return parent(parent);
   }
 
   public Primitives get() {

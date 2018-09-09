@@ -1,7 +1,9 @@
 package features.domain.queries;
 
 import java.util.List;
+import java.util.Objects;
 
+import com.linkedin.parseq.Task;
 import joist.domain.orm.queries.Select;
 import joist.domain.orm.queries.Update;
 import features.domain.Primitives;
@@ -21,26 +23,26 @@ public class PrimitivesQueries extends PrimitivesQueriesCodegen {
     return q.unique();
   }
 
-  public List<Long> findIdsWithNameLike(String name) {
+  public Task<List<Long>> findIdsWithNameLike(String name) {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
     q.where(p.name.like(name));
     return q.listIds();
   }
 
-  public long countWhereFlagIs(boolean flag) {
+  public Task<Long> countWhereFlagIs(boolean flag) {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Select<Primitives> q = Select.from(p);
     q.where(p.flag.eq(flag));
     return q.count();
   }
 
-  public void setFlag(List<Long> ids, boolean value) {
+  public Task<?> setFlag(List<Long> ids, boolean value) {
     PrimitivesAlias p = new PrimitivesAlias("p");
     Update<Primitives> u = Update.into(p);
     u.set(p.flag.to(true));
     u.where(p.id.in(ids));
-    u.execute();
+    return u.execute();
   }
 
   public List<String> findNamesOnly() {
