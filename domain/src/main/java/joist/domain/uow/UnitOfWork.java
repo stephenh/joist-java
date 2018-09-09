@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.linkedin.parseq.Task;
 import joist.domain.DomainObject;
 import joist.domain.exceptions.NotFoundException;
 import joist.domain.orm.*;
@@ -114,39 +115,46 @@ public class UnitOfWork {
     this.updater = updater;
   }
 
-  <T extends DomainObject> T load(Class<T> type, Long id) {
-    T loaded = (T) this.identityMap.findOrNull(type, id);
+  synchronized <T extends DomainObject> Task<T> load(Class<T> type, Long id) {
+    Task<T> loaded = (Task<T>) this.identityMap.findOrNull(type, id);
     if (loaded != null) {
       return loaded;
     }
-
     Alias<T> a = AliasRegistry.get(type);
-    try {
-      return Select.from(a).where(a.getIdColumn().eq(id)).unique();
-    } catch (NotFoundException nfe) {
-      // throw a more specific NotFoundException
-      throw new NotFoundException(type, id);
-    }
+    return Select.from(a).where(a.getIdColumn().eq(id)).unique().recover(t -> {
+      if (t instanceof NotFoundException) {
+        // throw a more specific NotFoundException
+        throw new NotFoundException(type, id);
+      } else {
+        throw (Exception) t;
+      }
+    });
   }
 
-  <T extends DomainObject> List<T> load(Class<T> type, Collection<Long> ids) {
+  <T extends DomainObject> Task<List<T>> load(Class<T> type, Collection<Long> ids) {
     List<Long> missingIds = new ArrayList<Long>();
-    List<T> loaded = new ArrayList<T>();
+    List<Task<T>> loaded = new ArrayList<>();
     for (Long id : ids) {
-      T obj = (T) this.identityMap.findOrNull(type, id);
+      Task<T> obj = (Task<T>) this.identityMap.findOrNull(type, id);
       if (obj == null) {
         missingIds.add(id);
       } else {
         loaded.add(obj);
       }
     }
-
     Alias<T> a = AliasRegistry.get(type);
     try {
-      if (!missingIds.isEmpty()) {
-        loaded.addAll(Select.from(a).where(a.getIdColumn().in(missingIds)).list());
+      Task<List<T>> loadedTask = Task.par(loaded);
+      if (missingIds.isEmpty()) {
+        return loadedTask;
       }
-      return loaded;
+      Task<List<T>> loadMissing = Select.from(a).where(a.getIdColumn().in(missingIds)).list();
+      return loadMissing.flatMap(l1 -> {
+        return loadedTask.map(l2 -> {
+          l2.addAll(l1);
+          return l2;
+        });
+      });
     } catch (NotFoundException nfe) {
       throw new NotFoundException(type, ids);
     }

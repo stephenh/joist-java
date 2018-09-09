@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.linkedin.parseq.Task;
 import joist.domain.AbstractDomainObject;
 import joist.domain.DomainObject;
 import joist.domain.orm.AliasRegistry;
@@ -32,10 +33,11 @@ public class Snapshot {
 
   Snapshot(UnitOfWork uow) {
     // copy the identity map
-    for (Map.Entry<Class<?>, Map<Long, DomainObject>> e : uow.getIdentityMap().getObjects().entrySet()) {
-      for (DomainObject instance : e.getValue().values()) {
-        this.data.add(toJdbcValues(instance));
-      }
+    for (Map.Entry<Class<?>, Map<Long, Task<DomainObject>>> e : uow.getIdentityMap().getObjects().entrySet()) {
+      // TODO fix or delete
+      // for (DomainObject instance : e.getValue().values()) {
+      //  this.data.add(toJdbcValues(instance));
+      // }
     }
     // copy the eager cache (we assume it is on; it is hard-coded right now) to cache collections
     for (Map.Entry<ForeignKeyAliasColumn<?, ?>, MapToList<Long, DomainObject>> e : uow.getEagerCache().cache.entrySet()) {

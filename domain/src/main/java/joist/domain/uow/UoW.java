@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.Collection;
 import java.util.List;
 
+import com.linkedin.parseq.Task;
 import joist.domain.AbstractDomainObject;
 import joist.domain.DomainObject;
 import joist.domain.orm.*;
@@ -215,11 +216,11 @@ public class UoW {
   }
 
   /** @return the instance of <code>type</code> for <code>id</code>, checking the identity map */
-  public static <T extends DomainObject> T load(Class<T> type, Long id) {
+  public static <T extends DomainObject> Task<T> load(Class<T> type, Long id) {
     return UoW.getCurrent().load(type, id);
   }
 
-  public static <T extends DomainObject> List<T> load(Class<T> type, Collection<Long> ids) {
+  public static <T extends DomainObject> Task<List<T>> load(Class<T> type, Collection<Long> ids) {
     return UoW.getCurrent().load(type, ids);
   }
 

@@ -155,7 +155,7 @@ public class GenerateDomainCodegenPass implements Pass<Codegen> {
       }
 
       GMethod getter = domainCodegen.getMethod("get" + mtop.getCapitalVariableName());
-      getter.returnType(mtop.getJavaType());
+      getter.returnType("com.linkedin.parseq.Task<{}>", mtop.getJavaType());
       getter.body.line("return this.{}.get();", mtop.getVariableName());
 
       GMethod setter = domainCodegen.getMethod("set{}", mtop.getCapitalVariableName());

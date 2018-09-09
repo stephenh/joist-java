@@ -92,11 +92,11 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     GMethod delete = builderCodegen.getMethod("delete").addAnnotation("@Override");
     delete.body.line("{}.queries.delete(get());", entity.getClassName());
 
-    GMethod deleteAll = builderCodegen.getMethod("deleteAll").setStatic();
-    deleteAll.body.line("List<Long> ids = {}.queries.findAllIds();", entity.getClassName());
-    deleteAll.body.line("for (Long id : ids) {");
-    deleteAll.body.line("  {}.queries.delete({}.queries.find(id));", entity.getClassName(), entity.getClassName());
-    deleteAll.body.line("}");
+    // GMethod deleteAll = builderCodegen.getMethod("deleteAll").setStatic();
+    // deleteAll.body.line("List<Long> ids = {}.queries.findAllIds();", entity.getClassName());
+    // deleteAll.body.line("for (Long id : ids) {");
+    // deleteAll.body.line("  {}.queries.delete({}.queries.find(id));", entity.getClassName(), entity.getClassName());
+    // deleteAll.body.line("}");
     builderCodegen.addImports(List.class);
   }
 
@@ -189,7 +189,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
         m.body.line("if (get().get{}() == null) {", otom.getCapitalVariableNameSingular());
         m.body.line("_   return null;");
         m.body.line("}");
-        m.body.line("return Builders.existing(get().get{}());", otom.getCapitalVariableNameSingular());
+        m.body.line("return Builders.existing(get().get{}().get());", otom.getCapitalVariableNameSingular());
       } else {
         // childs() -> List<ChildBuilder>
         {
@@ -224,7 +224,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     for (ManyToOneProperty mtop : entity.getManyToOneProperties()) {
       // regular foo() getter
       if (mtop.getOneSide().isCodeEntity()) {
-        this.addFluentGetter(c, mtop.getVariableName(), mtop.getJavaType());
+        this.addFluentGetter(c, mtop.getVariableName(), "com.linkedin.parseq.Task<" + mtop.getJavaType() + ">");
       } else {
         this.addFluentBuilderGetter(c, mtop.getVariableName(), mtop.getJavaType());
       }
@@ -375,7 +375,7 @@ public class GenerateBuilderCodegenPass implements Pass<Codegen> {
     m.body.line("if (get().get{}() == null) {", Inflector.capitalize(variableName));
     m.body.line("_   return null;");
     m.body.line("}");
-    m.body.line("return Builders.existing(get().get{}());", Inflector.capitalize(variableName));
+    m.body.line("return Builders.existing(get().get{}().get());", Inflector.capitalize(variableName));
   }
 
   private void addFluentSetter(GClass builderCodegen, Entity entity, ManyToManyProperty mtmp, boolean isForBuilder, String methodName) {

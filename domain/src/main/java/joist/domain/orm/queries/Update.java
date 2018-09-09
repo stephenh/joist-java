@@ -3,6 +3,7 @@ package joist.domain.orm.queries;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.linkedin.parseq.Task;
 import joist.domain.DomainObject;
 import joist.domain.uow.UoW;
 import joist.jdbc.Jdbc;
@@ -32,8 +33,8 @@ public class Update<T extends DomainObject> {
     this.where = where;
   }
 
-  public int execute() {
-    return Jdbc.update(UoW.getConnection(), this.toSql(), this.getParameters());
+  public Task<Integer> execute() {
+    return Task.value(Jdbc.update(UoW.getConnection(), this.toSql(), this.getParameters()));
   }
 
   public String toSql() {

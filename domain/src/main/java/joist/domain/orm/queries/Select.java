@@ -3,6 +3,7 @@ package joist.domain.orm.queries;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.linkedin.parseq.Task;
 import joist.domain.DomainObject;
 import joist.domain.exceptions.NotFoundException;
 import joist.domain.exceptions.TooManyException;
@@ -23,12 +24,12 @@ import joist.util.Wrap;
 public class Select<T extends DomainObject> {
 
   public static <T extends DomainObject> Select<T> from(Alias<T> alias) {
-    return new Select<T>(alias);
+    return new Select<>(alias);
   }
 
   private final Alias<T> from;
-  private final List<JoinClause<?, ?>> joins = new ArrayList<JoinClause<?, ?>>();
-  private final List<SelectItem> selectItems = new ArrayList<SelectItem>();
+  private final List<JoinClause<?, ?>> joins = new ArrayList<>();
+  private final List<SelectItem> selectItems = new ArrayList<>();
   private Where where = null;
   private Where having = null;
   private Order[] orderBy = null;
@@ -80,7 +81,7 @@ public class Select<T extends DomainObject> {
     return this;
   }
 
-  public List<T> list() {
+  public Task<List<T>> list() {
     return this.list(this.from.getDomainClass());
   }
 
@@ -88,15 +89,15 @@ public class Select<T extends DomainObject> {
     return new PagedList<T>(this);
   }
 
-  public T unique() {
+  public Task<T> unique() {
     return this.unique(this.from.getDomainClass());
   }
 
-  public T uniqueOrNull() {
+  public Task<T> uniqueOrNull() {
     return this.uniqueOrNull(this.from.getDomainClass());
   }
 
-  public <R> List<R> list(Class<R> rowType) {
+  public <R> Task<List<R>> list(Class<R> rowType) {
     final List<R> results = new ArrayList<R>();
     RowMapper mapper = null;
     if (this.isLoadingDomainObjects(rowType)) {
@@ -105,10 +106,10 @@ public class Select<T extends DomainObject> {
       mapper = new DataTransferObjectMapper<T, R>(this.selectItems, rowType, results);
     }
     Jdbc.query(UoW.getConnection(), this.toSql(), this.getParameters(), mapper);
-    return results;
+    return Task.value(results);
   }
 
-  public <R> List<R> listValues(Class<R> valueType) {
+  public <R> Task<List<R>> listValues(Class<R> valueType) {
     final List<R> results = new ArrayList<R>();
     if (this.selectItems.size() != 1) {
       throw new IllegalStateException("listValues expects to only query a single column");
@@ -118,46 +119,49 @@ public class Select<T extends DomainObject> {
       this.toSql(),
       this.getParameters(),
       new ValuesMapper<R>(this.selectItems.get(0), results));
-    return results;
+    return Task.value(results);
   }
 
-  public <R> R unique(Class<R> rowType) {
-    R result = this.uniqueOrNull(rowType);
-    if (result == null) {
-      throw new NotFoundException(rowType);
-    }
-    return result;
+  public <R> Task<R> unique(Class<R> rowType) {
+    return this.uniqueOrNull(rowType).map(r -> {
+      if (r == null) {
+        throw new NotFoundException(rowType);
+      }
+      return r;
+    });
   }
 
-  public <R> R uniqueOrNull(Class<R> rowType) {
-    List<R> results = this.list(rowType);
-    if (results.size() == 0) {
-      return null;
-    } else if (results.size() > 1) {
-      throw new TooManyException(rowType, results);
-    }
-    return results.get(0);
+  public <R> Task<R> uniqueOrNull(Class<R> rowType) {
+    return this.list(rowType).map(results -> {
+      if (results.size() == 0) {
+        return null;
+      } else if (results.size() > 1) {
+        throw new TooManyException(rowType, results);
+      }
+      return results.get(0);
+    });
   }
 
-  public <R> R uniqueValueOrNull(Class<R> rowType) {
-    List<R> results = this.listValues(rowType);
-    if (results.size() == 0) {
-      return null;
-    } else if (results.size() > 1) {
-      throw new TooManyException(rowType, results);
-    }
-    return results.get(0);
+  public <R> Task<R> uniqueValueOrNull(Class<R> rowType) {
+    return this.listValues(rowType).map(results -> {
+      if (results.size() == 0) {
+        return null;
+      } else if (results.size() > 1) {
+        throw new TooManyException(rowType, results);
+      }
+      return results.get(0);
+    });
   }
 
-  public List<Long> listIds() {
-    List<Long> ids = new ArrayList<Long>();
+  public Task<List<Long>> listIds() {
+    List<Long> ids = new ArrayList<>();
     this.select(this.from.getIdColumn().as("id"));
     this.orderBy(this.from.getIdColumn().asc()); // determinism
     Jdbc.query(UoW.getConnection(), this.toSql(), this.getParameters(), new IdsMapper<T>(this.from, ids));
-    return ids;
+    return Task.value(ids);
   }
 
-  public long count() {
+  public Task<Long> count() {
     // Make a copy countQuery so we can discard any select items and order bys and not mess up this query
     Select<T> countQuery = Select.from(this.from);
     countQuery.joins.addAll(this.joins.subList(countQuery.joins.size(), this.joins.size()));
@@ -165,7 +169,7 @@ public class Select<T extends DomainObject> {
     countQuery.offset = this.offset;
     countQuery.limit = this.limit;
     countQuery.select(new SelectItem("count(distinct " + this.from.getIdColumn().getQualifiedName() + ")", "count"));
-    return countQuery.unique(Count.class).count;
+    return countQuery.unique(Count.class).map(c -> c.count);
   }
 
   public static class Count {
@@ -262,7 +266,7 @@ public class Select<T extends DomainObject> {
       Alias<?> base = join.getAlias().getBaseClassAlias();
       while (base != null) {
         IdAliasColumn<?> id = base.getSubClassIdColumn() == null ? base.getIdColumn() : base.getSubClassIdColumn();
-        this.join(new JoinClause(join.getType(), base, join.getAlias().getSubClassIdColumn(), id), false);
+        this.join(new JoinClause<>(join.getType(), base, join.getAlias().getSubClassIdColumn(), id), false);
         base = base.getBaseClassAlias();
       }
     }
@@ -274,7 +278,7 @@ public class Select<T extends DomainObject> {
     int i = 0;
     List<String> subClassCases = new ArrayList<String>();
     for (Alias<?> sub : this.from.getSubClassAliases()) {
-      this.join(new JoinClause("LEFT OUTER JOIN", sub, this.from.getIdColumn(), sub.getSubClassIdColumn()), false);
+      this.join(new JoinClause<>("LEFT OUTER JOIN", sub, this.from.getIdColumn(), sub.getSubClassIdColumn()), false);
       for (AliasColumn<?, ?, ?> c : sub.getColumns()) {
         this.selectItems.add(new SelectItem(c));
       }
@@ -289,9 +293,9 @@ public class Select<T extends DomainObject> {
   private void addInnerJoinsForBaseClasses() {
     Alias<?> base = this.from.getBaseClassAlias();
     while (base != null) {
-      List<SelectItem> selectItems = new ArrayList<SelectItem>();
+      List<SelectItem> selectItems = new ArrayList<>();
       IdAliasColumn<?> id = base.getSubClassIdColumn() == null ? base.getIdColumn() : base.getSubClassIdColumn();
-      this.join(new JoinClause("INNER JOIN", base, this.from.getSubClassIdColumn(), id), false);
+      this.join(new JoinClause<>("INNER JOIN", base, this.from.getSubClassIdColumn(), id), false);
       for (AliasColumn<?, ?, ?> c : base.getColumns()) {
         selectItems.add(new SelectItem(c));
       }

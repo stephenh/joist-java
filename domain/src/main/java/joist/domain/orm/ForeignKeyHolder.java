@@ -1,10 +1,6 @@
 package joist.domain.orm;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-
-import org.apache.commons.lang.ObjectUtils;
-
+import com.linkedin.parseq.Task;
 import joist.domain.DomainObject;
 import joist.domain.exceptions.DisconnectedException;
 import joist.domain.orm.queries.Alias;
@@ -12,6 +8,10 @@ import joist.domain.orm.queries.Select;
 import joist.domain.orm.queries.columns.ForeignKeyAliasColumn;
 import joist.domain.uow.UoW;
 import joist.util.Default;
+import org.apache.commons.lang.ObjectUtils;
+
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 /**
  * A value holder that will lazy load the foreign key.
@@ -26,7 +26,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
   private final Class<P> parentClass;
   private final Alias<P> parentAlias;
   private Long id;
-  private P instance;
+  private Task<P> instance;
 
   public ForeignKeyHolder(Class<C> childClass, Class<P> domainClass, Alias<P> domainAlias, ForeignKeyAliasColumn<C, P> childColumn) {
     this.childClass = childClass;
@@ -35,7 +35,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
     this.parentAlias = domainAlias;
   }
 
-  public P get() {
+  public Task<P> get() {
     if (this.instance == null && this.id != null) {
       if (!UoW.isOpen()) {
         throw new DisconnectedException();
@@ -45,10 +45,10 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
         this.instance = UoW.load(this.parentClass, this.id);
       } else {
         // see if the parent is loaded, but don't make a query while doing so (like UoW.load does)
-        this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
+        this.instance = (Task<P>) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
         if (this.instance == null) {
           // get the parent ids of all currently-loaded child classes
-          Collection<Long> parentIds = new LinkedHashSet<Long>();
+          Collection<Long> parentIds = new LinkedHashSet<>();
           for (C child : UoW.getIdentityMap().getInstancesOf(this.childClass)) {
             Long parentId = this.childColumn.getJdbcValue(child);
             if (parentId != null) {
@@ -67,7 +67,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
           q.where(this.parentAlias.getIdColumn().in(parentIds));
           q.limit(UoW.getIdentityMap().getCurrentSizeLimit());
           q.list(); // will populate the UoW IdentityMap with all fetched parents
-          this.instance = (P) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
+          this.instance = (Task<P>) UoW.getIdentityMap().findOrNull(this.parentClass, this.id);
         }
       }
     }
@@ -75,7 +75,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
   }
 
   public void set(P instance) {
-    this.instance = instance;
+    this.instance = Task.value(instance);
     this.id = instance == null ? null : instance.getId();
   }
 
@@ -84,7 +84,7 @@ public class ForeignKeyHolder<C extends DomainObject, P extends DomainObject> {
       // Return -1 as the dummy value that we have a value, but do not
       // know its id yet. So far this is only for the NotNull rule so
       // it can still use the xxxId shim
-      return Default.value(this.instance.getId(), -1l);
+      return Default.value(this.instance.getId(), -1L);
     }
     return this.id;
   }

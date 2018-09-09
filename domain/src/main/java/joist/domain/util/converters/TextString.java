@@ -36,8 +36,8 @@ public class TextString {
   private static final ConverterRegistry textConverterRegistry = ConverterRegistry.newRegistryWithDefaultConverters();
 
   static {
-    TextString.textConverterRegistry.addConverter(new DomainObjectToTextStringConverter());
-    TextString.textConverterRegistry.addConverter(new CodeToTextStringConverter());
+    // TextString.textConverterRegistry.addConverter(new DomainObjectToTextStringConverter());
+    // TextString.textConverterRegistry.addConverter(new CodeToTextStringConverter());
   }
 
   public static void addConverter(Converter<?, ?> c) {

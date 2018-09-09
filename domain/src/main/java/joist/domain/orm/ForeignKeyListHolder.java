@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.linkedin.parseq.Task;
 import joist.domain.DomainObject;
 import joist.domain.exceptions.DisconnectedException;
 import joist.domain.orm.queries.Alias;
@@ -46,7 +47,7 @@ public class ForeignKeyListHolder<T extends DomainObject, U extends DomainObject
     this.listDelegate = listDelegate;
   }
 
-  public List<U> get() {
+  public Task<List<U>> get() {
     if (this.loaded == null) {
       if (this.parent.isNew() || UnitTesting.isEnabled()) {
         // parent is brand new, so don't bother hitting the database

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import com.linkedin.parseq.Task;
 import joist.domain.orm.AliasRegistry;
 import joist.domain.orm.queries.Alias;
 import joist.domain.orm.queries.Select;
@@ -22,30 +23,30 @@ public abstract class AbstractQueries<T extends DomainObject> {
     }
   }
 
-  public T find(Integer id) {
+  public Task<T> find(Integer id) {
     return this.find(id == null ? ((Long) null) : new Long(id.longValue()));
   }
 
-  public T find(Long id) {
+  public Task<T> find(Long id) {
     // Use load as it hits the IdentityMap and could avoid an unneeded query
     return UoW.load(this.domainType, id);
   }
 
-  public List<T> find(Long... ids) {
+  public Task<List<T>> find(Long... ids) {
     // Use load as it hits the IdentityMap and could avoid an unneeded query
     return UoW.load(this.domainType, Arrays.asList(ids));
   }
 
-  public List<T> find(Collection<Long> ids) {
+  public Task<List<T>> find(Collection<Long> ids) {
     // Use load as it hits the IdentityMap and could avoid an unneeded query
     return UoW.load(this.domainType, ids);
   }
 
-  public long count() {
+  public Task<Long> count() {
     return Select.from(this.aliasType).count();
   }
 
-  public List<Long> findAllIds() {
+  public Task<List<Long>> findAllIds() {
     return Select.from(this.aliasType).listIds();
   }
 

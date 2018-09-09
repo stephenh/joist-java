@@ -54,7 +54,7 @@ public class GenerateBuildersClassPass implements Pass<Codegen> {
       getMethod("the" + entity.getClassName(), Argument.arg("int", "id"))
       .returnType(entity.getBuilderClassName())
       .setStatic();
-    m.body.line("return new {}({}.queries.find((long) id));", entity.getBuilderClassName(), entity.getClassName());
+    m.body.line("return new {}({}.queries.find((long) id).get());", entity.getBuilderClassName(), entity.getClassName());
   }
 
   private void theMethodWithLong(GClass builders, Entity entity) {
@@ -62,7 +62,7 @@ public class GenerateBuildersClassPass implements Pass<Codegen> {
       .getMethod("the" + entity.getClassName(), Argument.arg("long", "id"))
       .returnType(entity.getBuilderClassName())
       .setStatic();
-    m.body.line("return new {}({}.queries.find(id));", entity.getBuilderClassName(), entity.getClassName());
+    m.body.line("return new {}({}.queries.find(id).get());", entity.getBuilderClassName(), entity.getClassName());
   }
 
 }

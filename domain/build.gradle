@@ -1,6 +1,7 @@
 
 dependencies {
   compile project(':util')
+  compile 'com.linkedin.parseq:parseq:2.6.35'
   compile 'commons-lang:commons-lang:2.6'
   compile 'com.bizo:timeandmoney:1.0.0'
   compile 'com.mchange:c3p0:0.9.5.2'

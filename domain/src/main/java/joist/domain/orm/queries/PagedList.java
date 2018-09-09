@@ -19,7 +19,7 @@ public class PagedList<T extends DomainObject> implements List<T> {
 
   public int size() {
     if (this.cachedCount == null) {
-      this.cachedCount = (int) this.query.count();
+      this.cachedCount = 0; // (int) this.query.count();
     }
     return this.cachedCount;
   }
