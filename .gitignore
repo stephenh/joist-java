@@ -8,3 +8,5 @@ docs.zip
 .project
 /*/bin/
 org.eclipse.buildship.core.prefs
+/*/out/
+/.idea/
