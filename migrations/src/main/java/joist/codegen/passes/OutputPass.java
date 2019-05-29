@@ -1,12 +1,13 @@
 package joist.codegen.passes;
 
 import java.io.File;
-
-import joist.codegen.Codegen;
-import joist.util.Read;
+import java.nio.charset.Charset;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import joist.codegen.Codegen;
+import joist.util.Read;
 
 public class OutputPass implements Pass<Codegen> {
 
@@ -27,7 +28,7 @@ public class OutputPass implements Pass<Codegen> {
       for (File directory : codegen.getOutputSourceDirectory().getUsedDirectories()) {
         for (File file : directory.listFiles()) {
           if (file.isFile() && !codegen.getOutputSourceDirectory().getTouched().contains(file)) {
-            String contents = Read.fromFile(file);
+            String contents = Read.fromFile(file, Charset.defaultCharset());
             String className = file.getName().replaceAll("\\.[a-zA-Z]+", "");
             String codegenName = className + "Codegen";
             if (contents.contains(className + " extends " + codegenName)) {

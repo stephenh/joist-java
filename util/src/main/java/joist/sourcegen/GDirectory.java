@@ -1,16 +1,17 @@
 package joist.sourcegen;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import joist.util.Copy;
 import joist.util.Interpolate;
 import joist.util.Read;
 import joist.util.Write;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GDirectory {
 
@@ -18,9 +19,15 @@ public class GDirectory {
   private final File directory;
   private final List<GClass> classes = new ArrayList<GClass>();
   private final List<File> touched = new ArrayList<File>();
+  private final Charset charset;
 
   public GDirectory(String directory) {
+    this(directory, Charset.defaultCharset());
+  }
+
+  public GDirectory(String directory, Charset charset) {
     this.directory = new File(directory);
+    this.charset = charset;
   }
 
   public GClass getClass(String _fullClassName, Object... args) {
@@ -45,7 +52,7 @@ public class GDirectory {
 
       File file = this.getFile(gc);
       if (file.exists()) {
-        String existingCode = Read.fromFile(file);
+        String existingCode = Read.fromFile(file, this.charset);
         if (newCode.equals(existingCode)) {
           this.touched.add(file);
           continue;
@@ -54,7 +61,7 @@ public class GDirectory {
 
       file.getParentFile().mkdirs();
       log.info("Saving {}", file);
-      Write.toFile(file, newCode);
+      Write.toFile(file, newCode, this.charset);
       this.touched.add(file);
     }
   }
