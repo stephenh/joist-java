@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 public class Write {
 
@@ -22,15 +23,15 @@ public class Write {
     }
   }
 
-  public static void toFile(String path, String content) {
-    Write.toFile(new File(path), content);
+  public static void toFile(String path, String content, Charset charset) {
+    Write.toFile(new File(path), content, charset);
   }
 
-  public static void toFile(File file, String content) {
+  public static void toFile(File file, String content, Charset charset) {
     file.getParentFile().mkdirs();
     try {
       OutputStream out = new FileOutputStream(file);
-      out.write(content.getBytes());
+      out.write(content.getBytes(charset));
       out.flush();
       out.close();
     } catch (IOException io) {

@@ -5,11 +5,12 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
+import java.nio.charset.Charset;
+
+import org.junit.Test;
 
 import joist.util.Execute.BufferedResult;
 import joist.util.Execute.Result;
-
-import org.junit.Test;
 
 public class ExecuteTest {
 
@@ -58,7 +59,7 @@ public class ExecuteTest {
     Result r = e.toFile("build/out.txt");
     assertThat(r.success, is(true));
     assertThat(r.exitValue, is(0));
-    assertThat(Read.fromFile(out).contains("README.markdown"), is(true));
+    assertThat(Read.fromFile(out, Charset.defaultCharset()).contains("README.markdown"), is(true));
   }
 
   @Test
