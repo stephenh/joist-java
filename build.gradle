@@ -43,19 +43,6 @@ subprojects {
       plusConfigurations += [ configurations.provided ]
     }
   }
-
-  dependencies {
-    deployerJars 'org.apache.maven.wagon:wagon-ssh:2.6'
-  }
-
-  uploadArchives {
-    repositories.mavenDeployer {
-      configuration = configurations.deployerJars
-      repository(url: 'scp://repo.joist.ws/var/www/joist.repo') {
-        authentication(userName: System.env.REPO_USERNAME, password: System.env.REPO_PASSWORD)
-      }
-    }
-  }
 }
 
 task wrapper(type: Wrapper) {
