@@ -1,4 +1,6 @@
 
+<img src="https://api.travis-ci.org/stephenh/joist.svg?branch=master" />
+
 Joist is an ORM based on code generation.
 
 The goal is to provide Rails-like "empty domain objects" in an ORM that is simple, pleasant to use, and scales nicely to really large schemas.
