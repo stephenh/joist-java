@@ -13,5 +13,5 @@ before_install:
 after_success:
 - test -n "$TRAVIS_TAG" && ssh-keyscan -H repo.joist.ws >> ~/.ssh/known_hosts && ./gradlew uploadArchives
 jdk:
-- oraclejdk8
+- openjdk8
 

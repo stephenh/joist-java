@@ -5,6 +5,18 @@ The goal is to provide Rails-like "empty domain objects" in an ORM that is simpl
 
 See [joist.ws](http://joist.ws) for more information.
 
+Status
+======
+
+This project had been used in production for ~4-5 years, but that system is now shutdown and so Joist is maintenance mode.
+
+I assert it is still basically a best-in-class ORM in the Java ecosystem, for it's specific codegen-/convention-driven workflow, but it could use some updating for modern Java idioms if anyone wants to pick it up.
+
+Artifacts
+=========
+
+The artifacts are available in [Jitpack](https://jitpack.io/#stephenh/joist), i.e. with artifact names of `com.github.stephenh.joist:joist-util:1.14.0`.
+
 Build against MySQL
 ===================
 
