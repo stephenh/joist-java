@@ -26,7 +26,7 @@ subprojects {
 
   repositories {
     mavenCentral()
-    maven { url 'http://repo.joist.ws' }
+    maven { url 'https://jitpack.io' }
     jcenter()
   }
 

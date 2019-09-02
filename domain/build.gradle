@@ -2,7 +2,7 @@
 dependencies {
   compile project(':util')
   compile 'commons-lang:commons-lang:2.6'
-  compile 'com.bizo:timeandmoney:1.0.0'
+  compile 'com.github.stephenh:timeandmoney:1.0.0'
   compile 'com.mchange:c3p0:0.9.5.2'
   compile 'com.zaxxer:HikariCP:3.1.0'
 
