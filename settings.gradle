@@ -2,7 +2,11 @@
 include 'util'
 include 'domain'
 include 'domain-testing'
-include 'migrations'
-include 'features'
+
+// Jitpack doesn't support db tests, but we run those in travis
+if (System.env.JITPACK != 'true') {
+  include 'migrations'
+  include 'features'
+}
 // include 'starter'
 
