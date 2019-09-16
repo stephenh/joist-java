@@ -37,8 +37,11 @@ public class IdentityMap {
     IdentityMap.defaultSizeLimit.set(sizeLimit);
   }
 
-  private final MapToMap<Class<?>, Long, DomainObject> objects = new MapToMap<Class<?>, Long, DomainObject>();
+  private MapToMap<Class<?>, Long, DomainObject> objects = new MapToMap<Class<?>, Long, DomainObject>();
   private int size;
+  private boolean batchMode = false;
+  private final MapToMap<Class<?>, Long, DomainObject> batchObjects = new MapToMap<Class<?>, Long, DomainObject>();
+  private MapToMap<Class<?>, Long, DomainObject> cachedMainObjects = null;
 
   public void store(DomainObject o) {
     Class<?> rootType = AliasRegistry.getRootClass(o.getClass());
@@ -54,6 +57,10 @@ public class IdentityMap {
   public Object findOrNull(Class<?> type, Long id) {
     Class<?> rootType = AliasRegistry.getRootClass(type);
     Object o = this.objects.get(rootType, id);
+    if (o == null && this.batchMode) {
+      // try the cache
+      o = this.cachedMainObjects.get(rootType, id);
+    }
     if (o != null) {
       log.trace("Found {}#{} in identity map", rootType, id);
       return o;
@@ -99,6 +106,25 @@ public class IdentityMap {
 
   public void setCurrentSizeLimit(int sizeLimit) {
     this.sizeLimit = sizeLimit;
+  }
+
+  public void enableBatchMode() {
+    if (this.batchMode) {
+      return;
+    }
+    this.batchMode = true;
+    this.cachedMainObjects = this.objects;
+    this.objects = this.batchObjects;
+  }
+
+  public void disableBatchMode() {
+    if (!this.batchMode) {
+      return;
+    }
+    this.batchMode = false;
+    this.objects = this.cachedMainObjects;
+    this.cachedMainObjects = null;
+    this.batchObjects.clear();
   }
 
 }
