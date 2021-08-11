@@ -16,3 +16,6 @@ jdk:
   - openjdk8
 services:
   - mysql
+
+git:
+  depth: 1
